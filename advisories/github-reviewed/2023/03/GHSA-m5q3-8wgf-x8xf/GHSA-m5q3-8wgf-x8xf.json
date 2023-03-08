@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-m5q3-8wgf-x8xf",
+  "modified": "2023-03-08T17:13:05Z",
+  "published": "2023-03-08T17:13:05Z",
+  "aliases": [
+    "CVE-2023-27481"
+  ],
+  "summary": "Directus vulnerable to extraction of password hashes through export querying",
+  "details": "### Impact\n\nUsers with read access to the `password` field in `directus_users` can extract the argon2 password hashes by brute forcing the export functionality combined with a `_starts_with` filter. This allows the user to enumerate the password hashes.\n\n### Patches\n\nThe problem has been patched by preventing any hashed/concealed field to be filtered against with the `_starts_with` or other string operator.\n\n### Workarounds\n\nEnsuring that no user has `read` access to the `password` field in `directus_users` is sufficient to prevent this vulnerability. \n\n\n### For more information\nIf you have any questions or comments about this advisory:\n* Open a Discussion in [directus/directus](https://github.com/directus/directus/discussions/new)\n* Email us at [security@directus.io](mailto:security@directus.io)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "directus"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "9.16.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/directus/directus/security/advisories/GHSA-m5q3-8wgf-x8xf"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-27481"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/directus/directus/pull/14829"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/directus/directus/pull/15010"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/directus/directus"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-08T17:13:05Z",
+    "nvd_published_at": "2023-03-07T19:15:00Z"
+  }
+}
