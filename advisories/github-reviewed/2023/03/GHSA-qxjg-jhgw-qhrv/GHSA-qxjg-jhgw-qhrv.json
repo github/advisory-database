@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qxjg-jhgw-qhrv",
+  "modified": "2023-03-08T17:18:33Z",
+  "published": "2023-03-08T17:18:33Z",
+  "aliases": [
+    "CVE-2023-27479"
+  ],
+  "summary": "org.xwiki.platform:xwiki-platform-panels-ui vulnerable to Eval Injection",
+  "details": "### Impact\nAny user with view rights can execute arbitrary Groovy, Python or Velocity code in XWiki leading to full access to the XWiki installation. The root cause is improper escaping of UIX parameters\n\nA proof of concept exploit is to log in, add an `XWiki.UIExtensionClass` xobject to the user profile page, with an Extension Parameters content of:\n\n```\norder=100\nlabel={{/html}} {{async async=\"true\" cached=\"false\" context=\"doc.reference\"}}{{groovy}}println(\"Hello \" + \"from groovy!\"){{/groovy}}{{/async}}\nicon=icon:pencil\ntarget=XWiki.username\n```\n\nThen, navigating to `PanelsCode.ApplicationsPanelConfigurationSheet` (i.e., `<xwiki-host>/xwiki/bin/view/PanelsCode/ApplicationsPanelConfigurationSheet` where `<xwiki-host>` is the URL of your XWiki installation) should not execute the Groovy script. If it does, you will see `Hello from groovy!` displayed on the screen.\n\n### Patches\nThe vulnerability has been patched in XWiki 13.10.11, 14.4.7 and 14.10-rc-1\n\n### Workarounds\nThe issue can be fixed by editing the `PanelsCode.ApplicationsPanelConfigurationSheet` wiki page and making the same modifications  as shown in the [patch](https://github.com/xwiki/xwiki-platform/commit/6de5442f3c91c3634a66c7b458d5b142e1c2a2dc) for this issue.\n\n### References\n* https://github.com/xwiki/xwiki-platform/commit/6de5442f3c91c3634a66c7b458d5b142e1c2a2dc\n* https://jira.xwiki.org/browse/XWIKI-20294\n\n### For more information\nIf you have any questions or comments about this advisory:\n*    Open an issue in [Jira XWiki.org](https://jira.xwiki.org/)\n*    Email us at [Security Mailing List](mailto:security@xwiki.org)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-panels-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.3-milestone-2"
+            },
+            {
+              "fixed": "13.10.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-panels-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.0"
+            },
+            {
+              "fixed": "14.4.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-panels-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.5"
+            },
+            {
+              "fixed": "14.10-rc-1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-qxjg-jhgw-qhrv"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-27479"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/6de5442f3c91c3634a66c7b458d5b142e1c2a2dc"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20294"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-08T17:18:33Z",
+    "nvd_published_at": "2023-03-07T19:15:00Z"
+  }
+}
