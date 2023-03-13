@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vhm8-wwrf-3gcw",
+  "modified": "2023-03-13T20:52:11Z",
+  "published": "2023-03-13T20:52:11Z",
+  "aliases": [
+    "CVE-2023-27577"
+  ],
+  "summary": "Path Traversal Vulnerability in `LESS` Parser allows reading of sensitive server files",
+  "details": "### Impact\nIf an admin account has already been compromised by an attacker, the `LESS` parser can be exploited to read sensitive files on the server through the use of path traversal techniques.\n\nAn attacker can achieve this by providing an absolute path to a sensitive file in the custom `LESS` setting, which the `LESS` parser will then read. For example, an attacker could use the following code to read the contents of the `/etc/passwd` file:\n\n```less\n@import (inline) '/etc/passwd';\n\n.test {\n  content: data-uri('/etc/passwd');\n}\n```\n\n### Patches\nThe vulnerability has been addressed in version `1.7`. Users should upgrade to this version to mitigate the vulnerability.\n\n### Workarounds\nUsers can mitigate the vulnerability by ensuring that their admin accounts are secured with strong passwords and other best practices for account security. Additionally, users can limit the exposure of sensitive files on the server by implementing appropriate file permissions and access controls.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:N/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "flarum/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.7.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/flarum/framework/security/advisories/GHSA-vhm8-wwrf-3gcw"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-27577"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/flarum/framework/commit/1761660c98ea5a3e9665fb8e6041d1f2ee62a444"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/flarum/flarum-core"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/flarum/flarum-core/releases/tag/v1.7.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-13T20:52:11Z",
+    "nvd_published_at": "2023-03-10T21:15:00Z"
+  }
+}
