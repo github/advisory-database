@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7r7x-4c4q-c4qf",
+  "modified": "2023-03-13T20:52:50Z",
+  "published": "2023-03-13T20:52:50Z",
+  "aliases": [
+    "CVE-2023-27490"
+  ],
+  "summary": "Missing proper state, nonce and PKCE checks for OAuth authentication",
+  "details": "### Impact\n`next-auth` applications using OAuth provider versions before `v4.20.1` are affected.\n\nA bad actor who can spy on the victim's network or able to social engineer the victim to click a manipulated login link could intercept and tamper with the authorization URL to **log in as the victim**, bypassing the CSRF protection.\n\nAs an example, an attack can happen in the following scenario. \n\n> TL;DR: The attacker steals the victim's authenticated callback by intercepting and tampering with the authorization URL created by `next-auth`.\n\n1. The victim attempts to log in to the `next-auth` site. For example https://next-auth-example.vercel.app/\n2. `next-auth` sets the `checks` cookies according to how the OAuth provider is configured. In this case, `state` and `pkce` are set by default for the Google Provider.\n<img width=\"1971\" alt=\"Screen Shot 2023-03-03 at 09 54 26\" src=\"https://user-images.githubusercontent.com/31528554/222619750-a2062bb8-99eb-4985-a75c-d75acd3da67e.png\">\n\n3. The attacker intercepts the returned authorization URL, strips away the OAuth check (nonce, state, pkce), and returns the URL _without_ the check to the victim's browser. For example:\nFrom \n```https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?client_id=client_id&scope=openid%20email%20profile&response_type=code&redirect_uri=https%3A%2F%2Fnext-auth-example.vercel.app%2Fapi%2Fauth%2Fcallback%2Fgoogle&state=state&code_challenge=code_challenge&code_challenge_method=S256&service=lso&o2v=2&flowName=GeneralOAuthFlow```\nto\n```https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?client_id=client_id&scope=openid%20email%20profile&response_type=code&redirect_uri=https%3A%2F%2Fnext-auth-example.vercel.app%2Fapi%2Fauth%2Fcallback%2Fgoogle&service=lso&o2v=2&flowName=GeneralOAuthFlow```.\nNotice the parameters `state`, `code_challenge` and `code_verifier` are removed from the victim's address bar.\n\n4. The victim attempts to log in using their OAuth account.\n\n5. The Authorization Server logs the victim in and calls back to the `next-auth` `api/auth/callback/:providerId`endpoint. \n5.1. The attacker intercepts and logs this callback URL for later use.\n5.2. `next-auth` checks the callback call from OAuth Authorization Server (doesn't have checks) and compares the checks with the cookies set (has checks) at step 2. This check will fail, resulting in the victim isn't logged in. However, at this step, the Authorization Server has already accepted the victim's request to log in and generated/sent a `code` in the URL.\n6. The attacker now has an authorization URL with the `code` that the AS will exchange for valid `access_token`/`id_token` and can log in as the victim automatically. They can open a new browser window and paste in the URL logged at step 5.1 and log in as the victim.\n\n\n### Patches\nWe patched the vulnerability in `next-auth` `v4.20.1` \nTo upgrade, run one of the following:\n```\nnpm i next-auth@latest\n```\n```\nyarn add next-auth@latest\n```\n```\npnpm add next-auth@latest\n```\n\n### Workarounds\n\nUpgrading to `latest` is the recommended way to fix this issue. However, using [Advanced Initialization](https://next-auth.js.org/configuration/initialization#advanced-initialization), developers can manually check the [callback request](https://next-auth.js.org/getting-started/rest-api#getpost-apiauthcallbackprovider) for `state`, `pkce`, and `nonce` against the provider configuration, and abort the sign-in process if there is a mismatch. Check out the [source code](https://github.com/nextauthjs/next-auth/blob/v4/packages/next-auth/src/core/lib/oauth/checks.ts) for help.\n\n### References\n- [CSRF](https://www.rfc-editor.org/rfc/rfc6749#section-10.12)\n- [PKCE vs nonce](https://danielfett.de/2020/05/16/pkce-vs-nonce-equivalent-or-not/)\n- [OAuth provider options](https://next-auth.js.org/configuration/providers/oauth)\n- [`checks` provider config](https://authjs.dev/reference/core/providers#checks)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "next-auth"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.20.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/nextauthjs/next-auth/security/advisories/GHSA-7r7x-4c4q-c4qf"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-27490"
+    },
+    {
+      "type": "WEB",
+      "url": "https://authjs.dev/reference/core/providers#checks"
+    },
+    {
+      "type": "WEB",
+      "url": "https://danielfett.de/2020/05/16/pkce-vs-nonce-equivalent-or-not/"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/nextauthjs/next-auth"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nextauthjs/next-auth/compare/next-auth@4.20.0...next-auth@4.20.1#diff-cf9257195d0cb6a835ae4ff1fc73fe2cac0bab847efb0832c1f551209a972b47R55"
+    },
+    {
+      "type": "WEB",
+      "url": "https://next-auth.js.org/configuration/initialization#advanced-initialization"
+    },
+    {
+      "type": "WEB",
+      "url": "https://next-auth.js.org/configuration/providers/oauth"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.rfc-editor.org/rfc/rfc6749#section-10.12"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-13T20:52:50Z",
+    "nvd_published_at": "2023-03-09T21:15:00Z"
+  }
+}
