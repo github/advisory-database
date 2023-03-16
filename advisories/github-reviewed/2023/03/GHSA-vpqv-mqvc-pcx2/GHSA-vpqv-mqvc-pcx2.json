@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vpqv-mqvc-pcx2",
+  "modified": "2023-03-16T18:35:11Z",
+  "published": "2023-03-16T18:35:11Z",
+  "aliases": [
+    "CVE-2014-4920"
+  ],
+  "summary": "Reflective Cross-site Scripting Vulnerability in twitter-bootstrap-rails",
+  "details": "The twitter-bootstrap-rails Gem for Rails contains a flaw that enables a\nreflected cross-site scripting (XSS) attack. This flaw exists because the\nbootstrap_flash helper method does not validate input when handling flash\nmessages before returning it to users. This may allow a context-dependent\nattacker to create a specially crafted request that would execute arbitrary\nscript code in a user's browser session within the trust relationship between\ntheir browser and the server.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "twitter-bootstrap-rails"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.2.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/twitter-bootstrap-rails/CVE-2014-4920.yml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://nvisium.com/blog/2014/03/28/reflected-xss-vulnerability-in-twitter"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-16T18:35:11Z",
+    "nvd_published_at": null
+  }
+}
