@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vf7q-g2pv-jxvx",
+  "modified": "2023-03-22T21:40:51Z",
+  "published": "2023-03-22T21:23:16Z",
+  "aliases": [
+    "CVE-2023-28438"
+  ],
+  "summary": "Pimcore vulnerable to improper quoting of filters in Custom Reports",
+  "details": "### Impact\nSince a user with 'report' permission can already write arbitrary SQL queries and given the fact that this endpoint is using the GET method (no CSRF protection), an attacker can inject an arbitrary query by manipulating a user to click on a link.\n\nThe impact of this path traversal and arbitrary extension is limited (creation of arbitrary files and\nappending data to existing files) but when combined with the SQL Injection, the exported data can be controlled and a webshell can be uploaded. Attackers can use that to execute arbitrary PHP code on the server with the permissions of the webserver.\n\n### Patches\nUpdate to version 10.5.19 or apply these patch manually https://github.com/pimcore/pimcore/commit/d1abadb181c88ebaa4bce1916f9077469d4ea2bc.patch\nhttps://github.com/pimcore/pimcore/commit/7f788fa44bc18bc1c9182c25e26b770a1d30b62f.patch\n\n### Workarounds\nApply patches manually:\nhttps://github.com/pimcore/pimcore/commit/d1abadb181c88ebaa4bce1916f9077469d4ea2bc.patch\nhttps://github.com/pimcore/pimcore/commit/7f788fa44bc18bc1c9182c25e26b770a1d30b62f.patch\n\n### References\n#14526\n#14498",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "pimcore/pimcore"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "10.5.19"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/pimcore/security/advisories/GHSA-vf7q-g2pv-jxvx"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-28438"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/pimcore/pull/14526"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/pimcore/commit/d1abadb181c88ebaa4bce1916f9077469d4ea2bc.patch"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pimcore/pimcore"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-89"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-22T21:23:16Z",
+    "nvd_published_at": "2023-03-22T21:15:00Z"
+  }
+}
