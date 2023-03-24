@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9qwg-crg9-m2vc",
+  "modified": "2023-03-24T22:01:29Z",
+  "published": "2023-03-24T22:01:29Z",
+  "aliases": [
+
+  ],
+  "summary": "`openssl` `SubjectAlternativeName` and `ExtendedKeyUsage::other` allow arbitrary file read",
+  "details": "`SubjectAlternativeName` and `ExtendedKeyUsage` arguments were parsed using the OpenSSL function `X509V3_EXT_nconf`. This function parses all input using an OpenSSL mini-language which can perform arbitrary file reads.\n\nThanks to David Benjamin (Google) for reporting this issue.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "openssl"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.9.7"
+            },
+            {
+              "fixed": "0.10.48"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/sfackler/rust-openssl/pull/1854"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/sfackler/rust-openssl"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2023-0023.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-24T22:01:29Z",
+    "nvd_published_at": null
+  }
+}
