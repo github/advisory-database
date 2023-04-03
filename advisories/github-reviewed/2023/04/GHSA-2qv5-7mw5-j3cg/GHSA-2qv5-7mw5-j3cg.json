@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2qv5-7mw5-j3cg",
+  "modified": "2023-04-03T22:53:18Z",
+  "published": "2023-04-03T22:53:18Z",
+  "aliases": [
+
+  ],
+  "summary": "spin-rs initialisation failure in `Once::try_call_once` can lead to undefined behaviour for other initialisers",
+  "details": "`Once::try_call_once` is unsound if invoked more than once concurrently and any call fails to initialise successfully.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "spin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.9.3"
+            },
+            {
+              "fixed": "0.9.8"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/mvdnes/spin-rs/issues/148"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mvdnes/spin-rs"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2023-0031.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-03T22:53:18Z",
+    "nvd_published_at": null
+  }
+}
