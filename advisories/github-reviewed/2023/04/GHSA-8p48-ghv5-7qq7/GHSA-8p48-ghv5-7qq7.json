@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8p48-ghv5-7qq7",
+  "modified": "2023-04-06T15:05:59Z",
+  "published": "2023-04-05T18:30:18Z",
+  "aliases": [
+    "CVE-2023-1756"
+  ],
+  "summary": "thorsten/phpmyfaq vulnerable to stored cross-site scripting (XSS) via HTML export",
+  "details": "thorsten/phpmyfaq prior to 3.1.12 is vulnerable to stored cross-site scripting (XSS) because it fails to sanitize user input in the FAQ site while generating an HTML Export. This has been fixed in 3.1.12.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "thorsten/phpmyfaq"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.1.12"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-1756"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/thorsten/phpmyfaq/commit/ca75f4688a8b0f14d5d0697b9f4b6ea66088f726"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/thorsten/phpMyFAQ"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.dev/bounties/e495b443-b328-42f5-aed5-d68b929b4cb9"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-06T15:05:59Z",
+    "nvd_published_at": "2023-04-05T16:15:00Z"
+  }
+}
