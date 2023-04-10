@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h9h3-jx58-6hqq",
+  "modified": "2023-04-10T16:39:20Z",
+  "published": "2023-04-02T21:30:17Z",
+  "aliases": [
+    "CVE-2023-28679"
+  ],
+  "summary": "Jenkins Mashup Portlets Plugin vulnerable to stored cross-site scripting",
+  "details": "Jenkins Mashup Portlets Plugin 1.1.2 and earlier provides the \"Generic JS Portlet\" feature that lets a user populate a portlet using a custom JavaScript expression.\n\nThis results in a stored cross-site scripting (XSS) vulnerability exploitable by authenticated attackers with Overall/Read permission.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "javagh.jenkins:mashup-portlets-plugin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.1.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-28679"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-03-21/#SECURITY-2813"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-10T16:39:20Z",
+    "nvd_published_at": "2023-04-02T21:15:00Z"
+  }
+}
