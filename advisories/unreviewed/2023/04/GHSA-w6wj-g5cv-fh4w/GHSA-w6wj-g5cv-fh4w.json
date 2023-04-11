@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w6wj-g5cv-fh4w",
+  "modified": "2023-04-11T00:30:24Z",
+  "published": "2023-04-11T00:30:24Z",
+  "aliases": [
+    "CVE-2023-1668"
+  ],
+  "details": "A flaw was found in openvswitch (OVS). When processing an IP packet with protocol 0, OVS will install the datapath flow without the action modifying the IP header. This issue results (for both kernel and userspace datapath) in installing a datapath flow matching all IP protocols (nw_proto is wildcarded) for this flow, but with an incorrect action, possibly causing incorrect handling of other IP packets with a != 0 IP protocol that matches this dp flow.",
+  "severity": [
+
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-1668"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2137666"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.openwall.com/lists/oss-security/2023/04/06/1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": null,
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2023-04-10T22:15:00Z"
+  }
+}
