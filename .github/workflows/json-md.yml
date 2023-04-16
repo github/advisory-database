@@ -1,0 +1,40 @@
+name: Sync CVEs to GitHub
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync_cves:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+
+      - name: Convert CVEs to Markdown
+        run: |
+          mkdir -p md
+          for f in cves/*.json; do
+            md_file="md/$(basename "$f" .json).md"
+            python convert.py "$f" > "$md_file"
+          done
+
+      - name: Push to GitHub
+        uses: EndBug/add-and-commit@v7.0.0
+        with:
+          directory: md
+          branch: main
+          message: "Sync CVEs to GitHub"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
