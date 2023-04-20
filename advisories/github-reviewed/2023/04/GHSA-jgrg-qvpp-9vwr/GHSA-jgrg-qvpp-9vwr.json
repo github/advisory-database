@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jgrg-qvpp-9vwr",
+  "modified": "2023-04-20T22:25:02Z",
+  "published": "2023-04-20T22:25:02Z",
+  "aliases": [
+    "CVE-2023-29527"
+  ],
+  "summary": "XWiki Platform vulnerable to code injection from account through AWM view sheet",
+  "details": "### Impact\nSteps to reproduce:\n\n1. As a user without script or programming right, edit your user profile (or any other document) with the wiki editor and add the content `{{groovy}}println(\"Hello \" + \"from Groovy!\"){{/groovy}}`\n1. Edit the document with the object editor and add an object of type AppWithinMinutes.LiveTableClass (no values need to be set, just save)\n1. View the document\n\n### Patches\n\nThe vulnerability has been patched in XWiki 15.0-rc-1 and 14.10.3.\n\n### Workarounds\n\nThere is no known workaround.\n\n### References\n\nhttps://jira.xwiki.org/browse/XWIKI-20423\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n* Open an issue in [Jira XWiki.org](https://jira.xwiki.org/)\n* Email us at [Security Mailing List](mailto:security@xwiki.org)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-appwithinminutes-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.4.4"
+            },
+            {
+              "fixed": "14.10.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-jgrg-qvpp-9vwr"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-29527"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20423"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-20T22:25:02Z",
+    "nvd_published_at": null
+  }
+}
