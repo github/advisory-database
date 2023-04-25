@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-7hj9-rv74-5g92",
-  "modified": "2023-04-14T21:35:06Z",
+  "modified": "2023-04-25T21:00:36Z",
   "published": "2023-04-11T20:59:22Z",
   "aliases": [
     "CVE-2023-29013"
@@ -9,7 +9,10 @@
   "summary": "Traefik HTTP header parsing could cause a denial of service ",
   "details": "### Impact\n\nThere is a vulnerability in [Go when parsing the HTTP headers](https://groups.google.com/g/golang-announce/c/Xdv6JL9ENs8/m/OV40vnafAwAJ), which impacts Traefik.\nHTTP header parsing could allocate substantially more memory than required to hold the parsed headers. This behavior could be exploited to cause a denial of service.\n\n### References\n\n- [CVE-2023-24534](https://www.cve.org/CVERecord?id=CVE-2023-24534)\n\n### Patches\n- https://github.com/traefik/traefik/releases/tag/v2.9.10\n- https://github.com/traefik/traefik/releases/tag/v2.10.0-rc2\n\n### Workarounds\n\nNo workaround.\n\n### For more information\n\nIf you have any questions or comments about this advisory, please [open an issue](https://github.com/traefik/traefik/issues).\n",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
   ],
   "affected": [
     {
