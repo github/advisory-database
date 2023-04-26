@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4pp4-6fgx-j56f",
+  "modified": "2023-04-26T09:30:17Z",
+  "published": "2023-04-26T09:30:17Z",
+  "aliases": [
+    "CVE-2023-2273"
+  ],
+  "details": "Rapid7 Insight Agent token handler versions 3.2.6 and below, suffer from a Directory Traversal vulnerability whereby unsanitized input from a CLI argument flows into io.ioutil.WriteFile, where it is used as a path. This can result in a Path Traversal vulnerability and allow an attacker to write arbitrary files. This issue is remediated in version 3.3.0 via safe guards that reject inputs that attempt to do path traversal.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-2273"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.rapid7.com/release-notes/insightagent/20230425/"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": null,
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": null
+  }
+}
