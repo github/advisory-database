@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-ch3r-j5x3-6q2m",
+  "modified": "2023-04-20T14:37:53Z",
+  "published": "2023-04-20T14:37:53Z",
+  "aliases": [
+    "CVE-2023-30547"
+  ],
+  "summary": "vm2 Sandbox Escape vulnerability",
+  "details": "There exists a vulnerability in exception sanitization of vm2 for versions up to 3.9.16, allowing attackers to raise an unsanitized host exception inside `handleException()` which can be used to escape the sandbox and run arbitrary code in host context.\n\n### Impact\nA threat actor can bypass the sandbox protections to gain remote code execution rights on the host running the sandbox.\n\n### Patches\nThis vulnerability was patched in the release of version `3.9.17` of `vm2`.\n\n### Workarounds\nNone.\n\n### References\nPoC - https://gist.github.com/leesh3288/381b230b04936dd4d74aaf90cc8bb244\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n\n- Open an issue in [VM2](https://github.com/patriksimek/vm2)\n\nThanks to [Xion](https://twitter.com/0x10n) (SeungHyun Lee) of [KAIST Hacking Lab](https://kaist-hacking.github.io/) for disclosing this vulnerability.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "vm2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.9.17"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/patriksimek/vm2/security/advisories/GHSA-ch3r-j5x3-6q2m"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-30547"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/patriksimek/vm2/commit/4b22e87b102d97d45d112a0931dba1aef7eea049"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/patriksimek/vm2/commit/f3db4dee4d76b19869df05ba7880d638a880edd5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gist.github.com/leesh3288/381b230b04936dd4d74aaf90cc8bb244"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/patriksimek/vm2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/patriksimek/vm2/releases/tag/3.9.17"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-20T14:37:53Z",
+    "nvd_published_at": null
+  }
+}

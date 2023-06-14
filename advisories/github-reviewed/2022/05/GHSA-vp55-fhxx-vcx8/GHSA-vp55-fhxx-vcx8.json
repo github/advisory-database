@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vp55-fhxx-vcx8",
+  "modified": "2023-05-16T17:57:47Z",
+  "published": "2022-05-24T17:26:39Z",
+  "aliases": [
+    "CVE-2020-15777"
+  ],
+  "summary": "Maven Extension plugin for Gradle Enterprise vulnerable to Deserialization of Untrusted Data",
+  "details": "An issue was discovered in the Maven Extension plugin before 1.6 for Gradle Enterprise. It is vulnerable to, in the worst case, Remote Code Execution, and in the general case, local privilege escalation. Internally, the plugin uses a socket connection to send serialized Java objects that are deserialized by a Java standard library ObjectInputStream. This ObjectInputStream was not restricted to a list of trusted classes, thus allowing an attacker to send a malicious deserialization gadget chain to achieve code execution. The socket was not bound exclusively to localhost. The port this socket is assigned to is randomly selected by the JVM and is not intentionally exposed to the public (either by design or documentation).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.gradle:gradle-enterprise-maven-extension"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-15777"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.gradle.com/enterprise/maven-extension/#1_6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.gradle.com/enterprise/maven-extension/#release_history"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.gradle.com/advisory/CVE-2020-15777"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-502"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-16T17:57:47Z",
+    "nvd_published_at": "2020-08-25T22:15:00Z"
+  }
+}

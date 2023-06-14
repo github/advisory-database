@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mhpj-7m7h-8p6x",
+  "modified": "2023-05-11T20:29:01Z",
+  "published": "2023-05-11T20:29:01Z",
+  "aliases": [
+    "CVE-2023-2616"
+  ],
+  "summary": "Pimcore Cross-site Scripting (XSS) in Static Routes name field",
+  "details": "### Impact\nThis vulnerability has the potential to steal a user's cookie and gain unauthorized access to that user's account through the stolen cookie or redirect users to other malicious sites.\n\n\n### Patches\nUpdate to version 10.5.21 or apply this patch manually:\nhttps://github.com/pimcore/pimcore/commit/07a2c95be524c7e20105cef58c5767d4ebb06091.patch\n\n### Workarounds\nApply patches manually:\nhttps://github.com/pimcore/pimcore/commit/07a2c95be524c7e20105cef58c5767d4ebb06091.patch\n\n### References\nhttps://huntr.dev/bounties/564cb512-2bcc-4458-8c20-88110ab45801/\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:R/S:C/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "pimcore/pimcore"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "10.5.21"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/pimcore/security/advisories/GHSA-mhpj-7m7h-8p6x"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-2616"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/pimcore/commit/07a2c95be524c7e20105cef58c5767d4ebb06091"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pimcore/pimcore"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.dev/bounties/564cb512-2bcc-4458-8c20-88110ab45801"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-11T20:29:01Z",
+    "nvd_published_at": null
+  }
+}
