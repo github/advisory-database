@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fwcf-753v-fgcj",
+  "modified": "2023-04-24T22:44:12Z",
+  "published": "2023-04-24T22:44:12Z",
+  "aliases": [
+    "CVE-2023-30613"
+  ],
+  "summary": "Unrestricted file upload in kiwi TCMS",
+  "details": "### Impact\nKiwi TCMS allows users to upload attachments to test plans, test cases, etc. In earlier versions there is no control over what kinds of files can be uploaded. Thus a malicious actor may upload an `.exe` file or a file containing embedded JavaScript and trick others into clicking on these files causing vulnerable browsers to execute malicious code on another computer or attempting XSS attacks.\n\nStored XSS attacks via file uploads have been fixed in earlier versions of Kiwi TCMS, see [GHSA-2wcr-87wf-cf9j](https://github.com/kiwitcms/Kiwi/security/advisories/GHSA-2wcr-87wf-cf9j). This advisory deals with prohibiting users to upload potentially compromised files in the first place.\n\n\n### Patches\nKiwi TCMS v12.2 comes with functionality that allows administrators to configure additional upload validator functions which give them more control over what file types are accepted for upload. By default `.exe` are denied. Other files containing the `<script>` tag, regardless of their type are also denied b/c they are a path to XSS attacks.\n\n\n\n### Workarounds\nUpgrade to version 12.2 or later.\n\n### References\nOriginally reported by [Ahmed Rabeaa Mosaa](https://huntr.dev/bounties/c30d3503-600d-4d00-9571-98826a51f12c).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:R/S:C/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "kiwitcms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "12.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/kiwitcms/Kiwi/security/advisories/GHSA-fwcf-753v-fgcj"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-30613"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/kiwitcms/Kiwi"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.dev/bounties/c30d3503-600d-4d00-9571-98826a51f12c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://kiwitcms.org/blog/kiwi-tcms-team/2023/04/23/kiwi-tcms-122/"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-434"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-24T22:44:12Z",
+    "nvd_published_at": null
+  }
+}

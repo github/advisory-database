@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-42r6-p4px-qvv6",
+  "modified": "2023-06-12T20:30:27Z",
+  "published": "2023-06-12T20:30:27Z",
+  "aliases": [
+    "CVE-2018-17107"
+  ],
+  "summary": "tgstation-server cached user logins in legacy server",
+  "details": "Please note this advisory is for a historical preexisting issue in the legacy server from 2018. It has long since been triaged. It is being moved here for visibility. The text below is copied from the original issue #690\n\n# You can login to the server with any username/password combination if someone else is logged in\n\nAn explanation of the bug: Back in 3.2.1.0, in order to accommodate running the Control Panel using Mono some hooks were added to the WCF communication layer. Detailed in this commit: https://github.com/tgstation/tgstation-server/commit/2894ea03d708c7f16bab47ba5020c2ad4c3d5554#diff-0ba090ea7073a3a304dfdbdfc512f733 \n\nThe bug was in this line: https://github.com/tgstation/tgstation-server/commit/2894ea03d708c7f16bab47ba5020c2ad4c3d5554#diff-0ba090ea7073a3a304dfdbdfc512f733R48\nauthPolicy is passed in by the framework but the documentation for what the parameter is is virtually non-existent: https://docs.microsoft.com/en-us/dotnet/api/system.servicemodel.serviceauthenticationmanager.authenticate?view=netframework-4.7.2#System_ServiceModel_ServiceAuthenticationManager_Authenticate_System_Collections_ObjectModel_ReadOnlyCollection_System_IdentityModel_Policy_IAuthorizationPolicy__System_Uri_System_ServiceModel_Channels_Message__\n\nTurns out it is a cache of what the previously returned policy was, as Floyd thankfully found out for us. The security patch fixes the issue by creating a new empty list as the return value when password authentication fails as opposed to using the authPolicy parameter.\n\nIf you're wondering why this line: https://github.com/tgstation/tgstation-server/commit/2894ea03d708c7f16bab47ba5020c2ad4c3d5554#diff-0ba090ea7073a3a304dfdbdfc512f733R42 didn't prevent the issue. It only invalidated the actual Windows login session, but in the eyes of the server the user was still valid since we just passed that closed handle as a return result. Had access to static files been attempted with a bad login, the request would end up erroring due to trying to impersonate using a closed user token handle.\n\nThis has been fixed in 1812a9c6793c8516c138a105ccfb2108164f0eff and versions 3.2.5.0+\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "TGServiceInterface"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.2.1.0"
+            },
+            {
+              "fixed": "3.2.5.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.2.4.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/tgstation/tgstation-server/security/advisories/GHSA-42r6-p4px-qvv6"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-17107"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tgstation/tgstation-server/commit/1812a9c6793c8516c138a105ccfb2108164f0eff"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tgstation/tgstation-server/commit/2894ea03d708c7f16bab47ba5020c2ad4c3d5554#diff-0ba090ea7073a3a304dfdbdfc512f733"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.microsoft.com/en-us/dotnet/api/system.servicemodel.serviceauthenticationmanager.authenticate?view=netframework-4.7.2#System_ServiceModel_ServiceAuthenticationManager_Authenticate_System_Collections_ObjectModel_ReadOnlyCollection_System_IdentityModel_Policy_IAuthorizationPolicy__System_Uri_System_ServiceModel_Channels_Message__"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/tgstation/tgstation-server"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tgstation/tgstation-server/blob/tgstation-server-v3.2.5.0/TGS.Interface/TGS.Interface.nuspec"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.nuget.org/packages/TGServiceInterface"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-12T20:30:27Z",
+    "nvd_published_at": null
+  }
+}

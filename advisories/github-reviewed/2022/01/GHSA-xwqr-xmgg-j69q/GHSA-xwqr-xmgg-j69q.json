@@ -1,13 +1,13 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-xwqr-xmgg-j69q",
-  "modified": "2022-02-08T19:45:10Z",
+  "modified": "2023-04-26T22:14:09Z",
   "published": "2022-01-28T22:59:28Z",
   "aliases": [
     "CVE-2021-46102"
   ],
   "summary": "Integer overflow in solana_rbpf",
-  "details": "From version 0.2.14 to 0.2.16 for Solana rBPF, function \"relocate\" in the file src/elf.rs has an integer overflow bug because the sym.st_value is read directly from ELF file without checking. If the sym.st_value is rather large, an integer overflow is triggered while calculating the variable \"addr\" via \"addr = (sym.st_value + refd_pa) as u64\";",
+  "details": "From version 0.2.14 to 0.2.16 for Solana rBPF, function \"relocate\" in the file src/elf.rs has an integer overflow bug because the sym.st_value is read directly from ELF file without checking. If the sym.st_value is rather large, an integer overflow is triggered while calculating the variable \"addr\" via `addr = (sym.st_value + refd_pa) as u64`",
   "severity": [
     {
       "type": "CVSS_V3",

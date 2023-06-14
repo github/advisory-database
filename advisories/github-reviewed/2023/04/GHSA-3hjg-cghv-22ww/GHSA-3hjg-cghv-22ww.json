@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3hjg-cghv-22ww",
+  "modified": "2023-04-28T19:57:45Z",
+  "published": "2023-04-20T22:04:49Z",
+  "aliases": [
+    "CVE-2023-29519"
+  ],
+  "summary": "org.xwiki.platform:xwiki-platform-attachment-ui vulnerable to Code Injection",
+  "details": "### Impact\nA registered user can perform remote code execution leading to privilege escalation by injecting the proper code in the \"property\" field of an attachment selector, as a gadget of their own dashboard. Note that the vulnerability does not impact comments of a wiki.\n\n### Patches\nThe vulnerability has been patched in XWiki 13.10.11, 14.4.8, 14.10.2, 15.0-rc-1.\n\n### Workarounds\nThe problem can be worked around by applying following changes directly in XWiki.AttachmentSelector page: https://github.com/xwiki/xwiki-platform/commit/5e8725b4272cd3e5be09d3ca84273be2da6869c1.\n\n### References\n\n* https://jira.xwiki.org/browse/XWIKI-20364\n* https://github.com/xwiki/xwiki-platform/commit/5e8725b4272cd3e5be09d3ca84273be2da6869c1\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n* Open an issue in [Jira XWiki.org](https://jira.xwiki.org/)\n* Email us at [Security Mailing List](mailto:security@xwiki.org)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-attachment-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0-rc-1"
+            },
+            {
+              "fixed": "13.10.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-attachment-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.0-rc-1"
+            },
+            {
+              "fixed": "14.4.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-attachment-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.5"
+            },
+            {
+              "fixed": "14.10.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-3hjg-cghv-22ww"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-29519"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/5e8725b4272cd3e5be09d3ca84273be2da6869c1"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20364"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-20T22:04:49Z",
+    "nvd_published_at": null
+  }
+}

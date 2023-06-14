@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w9mr-28mw-j8hg",
+  "modified": "2023-04-27T15:52:24Z",
+  "published": "2023-04-26T19:44:00Z",
+  "aliases": [
+
+  ],
+  "summary": "Hop-by-hop abuse to malform header mutator",
+  "details": "### Impact\n\nDownstream services relying on the presence of headers set by the `header` mutator could be exploited. A client can drop the header set by the `header` mutator by including that header's name in the `Connection` header. Example minimal config:\n\n```yaml\n- id: 'example'\n  upstream:\n    url: 'https://example.com'\n  match:\n    url: 'http://127.0.0.1:4455/'\n    methods:\n      - GET\n  authenticators:\n    - handler: anonymous\n  authorizer:\n    handler: allow\n  mutators:\n    - handler: header\n      config:\n        headers:\n          X-Subject: {{ .Subject }}\n```\n\n```\ncurl -H \"Connection: close,x-subject\" http://127.0.0.1:4455/\n```\n\nThe `X-Subject` header will not arrive at the downstream server. It is completely dropped. In case the downstream server handles such a request in an unexpected way, an attacker can exploit this, assuming they know or guess the internal header name.\n\n### Patches\n\nc5cc7f736dc84185034be4356057d1c7a656d797\n\n### Workarounds\n\nThe downstream server should handle the case that an expected header is not set by responding with an appropriate error.\n\n### References\n\nSee background info in https://github.com/golang/go/issues/50580",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/ory/oathkeeper"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.40.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ory/oathkeeper/security/advisories/GHSA-w9mr-28mw-j8hg"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ory/oathkeeper"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-26T19:44:00Z",
+    "nvd_published_at": null
+  }
+}
