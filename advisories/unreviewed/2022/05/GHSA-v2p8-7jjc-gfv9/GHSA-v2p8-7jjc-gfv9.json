@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v2p8-7jjc-gfv9",
+  "modified": "2022-05-13T01:01:52Z",
+  "published": "2022-05-13T01:01:52Z",
+  "aliases": [
+    "CVE-2018-3955"
+  ],
+  "details": "An exploitable operating system command injection exists in the Linksys ESeries line of routers (Linksys E1200 Firmware Version 2.0.09 and Linksys E2500 Firmware Version 3.0.04). Specially crafted entries to network configuration information can cause execution of arbitrary system commands, resulting in full control of the device. An attacker can send an authenticated HTTP request to trigger this vulnerability. Data entered into the 'Domain Name' input field through the web portal is submitted to apply.cgi as the value to the 'wan_domain' POST parameter. The wan_domain data goes through the nvram_set process described above. When the 'preinit' binary receives the SIGHUP signal it enters a code path that calls a function named 'set_host_domain_name' from its libshared.so shared object.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-3955"
+    },
+    {
+      "type": "WEB",
+      "url": "https://talosintelligence.com/vulnerability_reports/TALOS-2018-0625"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-78"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2018-10-17T02:29:00Z"
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-65v8-6pvw-jwvq",
+  "modified": "2023-04-19T17:11:40Z",
+  "published": "2023-04-11T12:30:26Z",
+  "aliases": [
+    "CVE-2023-1975"
+  ],
+  "summary": "Answer vulnerable to Insertion of Sensitive Information Into Sent Data",
+  "details": "answerdev/answer is an open-source knowledge-based community software. Answer prior to 1.0.8 does not strip EXIF geolocation data from user-uploaded logos. As a result, anyone can get sensitive information like a user's device ID, geolocation, system information, system version, etc.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/answerdev/answer"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.0.8"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-1975"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/answerdev/answer/commit/ac3f2f047ee00b4edaea7530e570ab67ff87cd6a"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/answerdev/answer"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.dev/bounties/829cab7a-4ed7-465c-aa96-29f4f73dbfff"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-201"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-11T21:32:32Z",
+    "nvd_published_at": "2023-04-11T10:15:00Z"
+  }
+}

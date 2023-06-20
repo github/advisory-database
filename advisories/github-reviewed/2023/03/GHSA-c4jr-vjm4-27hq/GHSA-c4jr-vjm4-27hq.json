@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c4jr-vjm4-27hq",
+  "modified": "2023-04-05T19:40:36Z",
+  "published": "2023-03-28T21:30:20Z",
+  "aliases": [
+    "CVE-2023-25721"
+  ],
+  "summary": "Veracode Scan Jenkins Plugin vulnerable to information disclosure",
+  "details": "Veracode Scan Jenkins Plugin before 23.3.19.0 is vulnerable to information disclosure of proxy credentials in job logs under specific configurations.\n\nUsers are potentially affected if they:\n- are using Veracode Scan Jenkins Plugin prior to 23.3.19.0\n- AND have configured Veracode Scan to run on remote agent jobs\n- AND have enabled the \"Connect using proxy\" option\n- AND have configured the proxy settings with proxy credentials\n- AND a Jenkins admin has enabled debug in global system settings.\n\nBy default, even in this configuration only the job owner or Jenkins admin can view the job log.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.veracode.jenkins:veracode-scan"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "23.3.19.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-25721"
+    },
+    {
+      "type": "WEB",
+      "url": "https://community.veracode.com/s/spotlight/frequently-asked-questions-for-cve-2023-25721-and-cve-2023-25722-MCFT34TH6OGRFR7F7JGDQQP4TNZE"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.veracode.com/updates/r/c_all_int#veracode-jenkins-plugin-233190"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/veracode-scan-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://veracode.com"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-532"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-05T19:40:36Z",
+    "nvd_published_at": "2023-03-28T20:15:00Z"
+  }
+}

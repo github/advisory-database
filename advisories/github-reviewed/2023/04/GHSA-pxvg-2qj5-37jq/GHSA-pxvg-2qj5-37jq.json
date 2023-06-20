@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-pxvg-2qj5-37jq",
+  "modified": "2023-04-11T21:48:01Z",
+  "published": "2023-04-11T21:48:01Z",
+  "aliases": [
+
+  ],
+  "summary": "Nokogiri updates packaged libxml2 to v2.10.4 to resolve multiple CVEs",
+  "details": "### Summary\n\nNokogiri v1.14.3 upgrades the packaged version of its dependency libxml2 to [v2.10.4](https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.10.4) from v2.10.3.\n\nlibxml2 v2.10.4 addresses the following known vulnerabilities:\n\n- [CVE-2023-29469](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-29469): Hashing of empty dict strings isn't deterministic\n- [CVE-2023-28484](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-28484): Fix null deref in xmlSchemaFixupComplexType\n- Schemas: Fix null-pointer-deref in xmlSchemaCheckCOSSTDerivedOK\n\nPlease note that this advisory only applies to the CRuby implementation of Nokogiri `< 1.14.3`, and only if the _packaged_ libraries are being used. If you've overridden defaults at installation time to use _system_ libraries instead of packaged libraries, you should instead pay attention to your distro's `libxml2` release announcements.\n\n\n### Mitigation\n\nUpgrade to Nokogiri `>= 1.14.3`.\n\nUsers who are unable to upgrade Nokogiri may also choose a more complicated mitigation: compile and link Nokogiri against external libraries libxml2 `>= 2.10.4` which will also address these same issues.\n\n\n### Impact\n\nNo public information has yet been published about the security-related issues other than the upstream commits. Examination of those changesets indicate that the more serious issues relate to libxml2 dereferencing NULL pointers and potentially segfaulting while parsing untrusted inputs.\n\nThe commits can be examined at:\n\n- [[CVE-2023-29469] Hashing of empty dict strings isn't deterministic (09a2dd45) · Commits · GNOME / libxml2 · GitLab](https://gitlab.gnome.org/GNOME/libxml2/-/commit/09a2dd453007f9c7205274623acdd73747c22d64)\n- [[CVE-2023-28484] Fix null deref in xmlSchemaFixupComplexType (647e072e) · Commits · GNOME / libxml2 · GitLab](https://gitlab.gnome.org/GNOME/libxml2/-/commit/647e072ea0a2f12687fa05c172f4c4713fdb0c4f)\n- [schemas: Fix null-pointer-deref in xmlSchemaCheckCOSSTDerivedOK (4c6922f7) · Commits · GNOME / libxml2 · GitLab](https://gitlab.gnome.org/GNOME/libxml2/-/commit/4c6922f763ad958c48ff66f82823ae21f2e92ee6)\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "nokogiri"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.14.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/sparklemotion/nokogiri/security/advisories/GHSA-pxvg-2qj5-37jq"
+    },
+    {
+      "type": "WEB",
+      "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-28484"
+    },
+    {
+      "type": "WEB",
+      "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-29469"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/sparklemotion/nokogiri"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/09a2dd453007f9c7205274623acdd73747c22d64"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/4c6922f763ad958c48ff66f82823ae21f2e92ee6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/647e072ea0a2f12687fa05c172f4c4713fdb0c4f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.10.4"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-11T21:48:01Z",
+    "nvd_published_at": null
+  }
+}

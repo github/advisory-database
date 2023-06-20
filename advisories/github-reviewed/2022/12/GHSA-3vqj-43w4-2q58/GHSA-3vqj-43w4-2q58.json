@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3vqj-43w4-2q58",
+  "modified": "2023-04-14T17:02:26Z",
+  "published": "2022-12-13T15:30:26Z",
+  "aliases": [
+    "CVE-2022-45688"
+  ],
+  "summary": "json stack overflow vulnerability",
+  "details": "A stack overflow in the XML.toJSONObject component of hutool-json v5.8.10 and org.json:json before version 20230227 allows attackers to cause a Denial of Service (DoS) via crafted JSON or XML data.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "cn.hutool:hutool-json"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "5.8.10"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.json:json"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "20230227"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-45688"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dromara/hutool/issues/2748"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/stleary/JSON-java/issues/708"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/stleary/JSON-java/commit/a6e412bded7a0ad605adfeca029318f184c32102"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-787"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2022-12-13T19:25:03Z",
+    "nvd_published_at": "2022-12-13T15:15:00Z"
+  }
+}

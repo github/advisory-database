@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w9rv-xmf7-x3gh",
+  "modified": "2023-01-10T16:12:55Z",
+  "published": "2022-12-30T12:30:25Z",
+  "aliases": [
+    "CVE-2022-44621"
+  ],
+  "summary": "Apache Kylin vulnerable to Command injection by Diagnosis Controller",
+  "details": "Diagnosis Controller miss parameter validation, so user may attacked by command injection via HTTP Request.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.kylin:kylin-server-base"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "4.0.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-44621"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/kylin/pull/2011"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/kylin/pull/2011/commits/418a63c61379d429312972fc94b87994e06b664f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/kylin/commit/fd2977e21c51f1afed668f2d9713cf562f2dc42d"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/kylin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/7ctchj24dofgsj9g1rg1245cms9myb34"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-77"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-01-03T12:34:35Z",
+    "nvd_published_at": "2022-12-30T11:15:00Z"
+  }
+}

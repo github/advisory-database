@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-gvfj-fxx3-j323",
+  "modified": "2023-01-10T16:10:22Z",
+  "published": "2022-12-31T03:30:26Z",
+  "aliases": [
+    "CVE-2022-48195"
+  ],
+  "summary": "Mellium vulnerable to authentication failure or insufficient randomness used during authentication",
+  "details": "An issue was discovered in Mellium mellium.im/sasl before 0.3.1. When performing SCRAM-based SASL authentication, if the remote end advertises support for channel binding, no random nonce is generated (instead, the nonce is empty). This causes authentication to fail in the best case, but (if paired with a remote end that does not validate the length of the nonce) could lead to insufficient randomness being used during authentication.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "mellium.im/sasl"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.3.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-48195"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://codeberg.org/mellium/sasl"
+    },
+    {
+      "type": "WEB",
+      "url": "https://codeberg.org/mellium/sasl/commit/e6cbf681b247c4efa1477eaad2cc47a01707b732"
+    },
+    {
+      "type": "WEB",
+      "url": "https://mellium.im/cve/cve-2022-48195/"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/vuln/GO-2023-1268"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-287"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-01-04T13:56:47Z",
+    "nvd_published_at": "2022-12-31T01:15:00Z"
+  }
+}

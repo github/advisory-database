@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-x8gv-j25j-89qm",
+  "modified": "2022-05-13T01:14:07Z",
+  "published": "2022-05-13T01:14:07Z",
+  "aliases": [
+    "CVE-2017-14174"
+  ],
+  "details": "In coders/psd.c in ImageMagick 7.0.7-0 Q16, a DoS in ReadPSDLayersInternal() due to lack of an EOF (End of File) check might cause huge CPU consumption. When a crafted PSD file, which claims a large \"length\" field in the header but does not contain sufficient backing data, is provided, the loop over \"length\" would consume huge CPU resources, since there is no EOF check inside the loop.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-14174"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ImageMagick/ImageMagick/issues/714"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ImageMagick/ImageMagick/commit/04a567494786d5bb50894fc8bb8fea0cf496bea8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ImageMagick/ImageMagick/commit/f68a98a9d385838a1c73ec960a14102949940a64"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.debian.org/debian-lts-announce/2019/05/msg00015.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.debian.org/debian-lts-announce/2020/09/msg00007.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.gentoo.org/glsa/201711-07"
+    },
+    {
+      "type": "WEB",
+      "url": "https://usn.ubuntu.com/3681-1/"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-834"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2017-09-07T06:29:00Z"
+  }
+}

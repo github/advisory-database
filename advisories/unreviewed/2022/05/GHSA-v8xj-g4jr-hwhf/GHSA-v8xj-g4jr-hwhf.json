@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v8xj-g4jr-hwhf",
+  "modified": "2022-05-13T01:05:20Z",
+  "published": "2022-05-13T01:05:20Z",
+  "aliases": [
+    "CVE-2018-12895"
+  ],
+  "details": "WordPress through 4.9.6 allows Author users to execute arbitrary code by leveraging directory traversal in the wp-admin/post.php thumb parameter, which is passed to the PHP unlink function and can delete the wp-config.php file. This is related to missing filename validation in the wp-includes/post.php wp_delete_attachment function. The attacker must have capabilities for files and posts that are normally available only to the Author, Editor, and Administrator roles. The attack methodology is to delete wp-config.php and then launch a new installation process to increase the attacker's privileges.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-12895"
+    },
+    {
+      "type": "WEB",
+      "url": "https://blog.ripstech.com/2018/wordpress-file-delete-to-code-execution/"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.debian.org/debian-lts-announce/2018/07/msg00046.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://wpvulndb.com/vulnerabilities/9100"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.debian.org/security/2018/dsa-4250"
+    },
+    {
+      "type": "WEB",
+      "url": "http://packetstormsecurity.com/files/164633/WordPress-4.9.6-Arbitrary-File-Deletion.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/104569"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2018-06-26T20:29:00Z"
+  }
+}

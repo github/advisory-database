@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7x45-phmr-9wqp",
+  "modified": "2023-03-30T22:19:50Z",
+  "published": "2023-03-30T20:16:33Z",
+  "aliases": [
+    "CVE-2022-23522"
+  ],
+  "summary": "Arbitrary file write in mindsdb when Extracting Tarballs retrieved from a remote location ",
+  "details": "### Summary\n\nAn unsafe extraction is being performed using `shutil.unpack_archive()` from a remotely retrieved tarball. Which may lead to the writing of the extracted files to an unintended location. This vulnerability is sometimes called a **TarSlip** or a **ZipSlip variant**.\n\n### Details\n\nUnpacking files using the high-level function `shutil.unpack_archive()` from a potentially malicious tarball without validating that the destination file path remained within the intended destination directory may cause files to be overwritten outside the destination directory.\n\nAs can be seen in the vulnerable snippet code source, an archive is being retrieved using the `download_file()` function from a remote location which is a user-provided permanent storage bucket `s3`. Immediately after being retrieved, the tarball is unsafely unpacked using the function `shutil.unpack_archive()`.\n\nThe vulnerable code is [L128..L129](https://github.com/mindsdb/mindsdb/blob/69c76e727b8067f32b06ab83bb835a8c416c4f21/mindsdb/interfaces/storage/fs.py#L128..L129) in [fs.py](https://github.com/mindsdb/mindsdb/blob/69c76e727b8067f32b06ab83bb835a8c416c4f21/mindsdb/interfaces/storage/fs.py) file.\n\n```python3\n    def __init__(self):\n        super().__init__()\n        if 's3_credentials' in self.config['permanent_storage']:\n            self.s3 = boto3.client('s3', **self.config['permanent_storage']['s3_credentials'])\n        else:\n            self.s3 = boto3.client('s3')\n       \n        # User provided remote storage!\n        self.bucket = self.config['permanent_storage']['bucket'] \n\n    def get(self, local_name, base_dir):\n        remote_name = local_name\n        remote_ziped_name = f'{remote_name}.tar.gz'\n        local_ziped_name = f'{local_name}.tar.gz'\n        local_ziped_path = os.path.join(base_dir, local_ziped_name)\n        os.makedirs(base_dir, exist_ok=True)\n        \n        # Retrieve a potentially malicious tarball\n        self.s3.download_file(self.bucket, remote_ziped_name, local_ziped_path)\n\n        # Perform an unsafe extraction\n        shutil.unpack_archive(local_ziped_path, base_dir)\n\n        os.system(f'chmod -R 777 {base_dir}')\n        os.remove(local_ziped_path)\n```  \n\n### PoC\n\nThe following PoC is provided for illustration purposes only. It showcases the risk of extracting a non-harmless text file `sim4n6.txt` to one of the parent locations rather than the intended current folder.\n\n```bash\n> tar --list -f archive.tar\ntar: Removing leading \"../../../\" from member names\n../../../sim4n6.txt\n\n> python3 \nPython 3.10.6 (main, Nov  2 2022, 18:53:38) [GCC 11.3.0] on linux\nType \"help\", \"copyright\", \"credits\" or \"license\" for more information.\n>>> import shutil\n>>> shutil.unpack_archive(\"archive.tar\")\n>>> exit()\n\n> test -f ../../../sim4n6.txt && echo \"sim4n6.txt exists\"\nsim4n6.txt exists\n```\n\n### Attack Scenario\n\nAn attacker could craft a malicious tarball with a filename path, such as `../../../../../../../../etc/passwd`, and then serve the archive remotely using a personal bucket `s3`, thus, retrieve the tarball through **mindsdb** and overwrite the system files of the hosting server. \n\n### Mitigation\n\nPotential mitigation could be to:\n - Use a safer module, like `zipfile`.\n -  Validate the location of the extracted files and discard those with malicious paths such as relative path `..` or absolute path such as `/etc/password`.\n -  Perform a checksum verification for the retrieved archive, but hard-coding the hashes may be cumbersome and difficult to manage.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "mindsdb"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "22.11.4.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/mindsdb/mindsdb/security/advisories/GHSA-7x45-phmr-9wqp"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-23522"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mindsdb/mindsdb"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mindsdb/mindsdb/blob/69c76e727b8067f32b06ab83bb835a8c416c4f21/mindsdb/interfaces/storage/fs.py"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mindsdb/mindsdb/blob/69c76e727b8067f32b06ab83bb835a8c416c4f21/mindsdb/interfaces/storage/fs.py#L128..L129"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mindsdb/mindsdb/releases/tag/v22.11.4.3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-30T20:16:33Z",
+    "nvd_published_at": "2023-03-30T19:15:00Z"
+  }
+}

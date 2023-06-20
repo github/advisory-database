@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qhxf-m7jm-jc57",
+  "modified": "2023-01-14T05:26:30Z",
+  "published": "2022-05-24T17:08:46Z",
+  "aliases": [
+    "CVE-2020-2116"
+  ],
+  "summary": "CSRF vulnerability in Pipeline GitHub Notify Step Plugin allows capturing credentials",
+  "details": "A cross-site request forgery vulnerability in Jenkins Pipeline GitHub Notify Step Plugin 1.0.4 and earlier allows attackers to connect to an attacker-specified URL using attacker-specified credentials IDs obtained through another method, capturing credentials stored in Jenkins.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:pipeline-githubnotify-step"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.0.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-2116"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/pipeline-githubnotify-step-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2020-02-12/#SECURITY-812%20(1)"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2020/02/12/3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-01-14T05:26:30Z",
+    "nvd_published_at": "2020-02-12T15:15:00Z"
+  }
+}

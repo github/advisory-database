@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-gv8p-vwhw-pg7f",
+  "modified": "2022-10-01T00:00:17Z",
+  "published": "2022-09-30T00:00:21Z",
+  "aliases": [
+    "CVE-2022-40278"
+  ],
+  "details": "An issue was discovered in Samsung TizenRT through 3.0_GBM (and 3.1_PRE). createDB in security/provisioning/src/provisioningdatabasemanager.c has a missing sqlite3_free after sqlite3_exec, leading to a denial of service.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-40278"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Samsung/TizenRT/issues/5628"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Samsung/TizenRT/blob/f8f776dd183246ad8890422c1ee5e8f33ab2aaaf/external/iotivity/iotivity_1.2-rel/resource/csdk/security/provisioning/src/provisioningdatabasemanager.c#L103"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Samsung/TizenRT/blob/f8f776dd183246ad8890422c1ee5e8f33ab2aaaf/external/iotivity/iotivity_1.2-rel/resource/csdk/security/provisioning/src/provisioningdatabasemanager.c#L107"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.sqlite.org/c3ref/exec.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-416"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2022-09-29T03:15:00Z"
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6cqj-6969-p57x",
+  "modified": "2022-11-28T16:16:29Z",
+  "published": "2022-11-21T20:38:51Z",
+  "aliases": [
+    "CVE-2022-39199"
+  ],
+  "summary": "Lack of proper validation of server UUID can be used by the server to trick the client to accept invalid proofs",
+  "details": "### Impact\n\nimmudb client SDKs use server's UUID to distinguish between different server instance so that the client can connect to different immudb instances and keep the state for multiple servers. SDK does not validate this uuid and can accept any value reported by the server. A malicious server can change the reported UUID tricking the client to treat it as a different server thus accepting a state completely irrelevant to the one previously retrieved from the server.\n\n### Patches\n\nThe following Go SDK versions are not vulnerable:\n\n| **SDK** | **Version** |\n|-------|------------|\n| [go](pkg.go.dev/github.com/codenotary/immudb/pkg/client) | 1.4.1 |\n\n### Workarounds\n\nWhen initializing an immudb client object, a custom state handler can be used to store the state. Providing custom implementation that ignores the server UUID can be used to ensure that even if the server changes the UUID, client will still consider it to be the same server.\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n\n* Open a discussion in [immudb Discussions](https://github.com/codenotary/immudb/discussions/new)\n* Email us at [immudb-security@codenotary.com](mailto:immudb-security@codenotary.com)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:C/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/codenotary/immudb"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.4.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/codenotary/immudb/security/advisories/GHSA-6cqj-6969-p57x"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-39199"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/codenotary/immudb/commit/cade04756ff3f0a3b9e8d24149062744574adf5d"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/codenotary/immudb"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/codenotary/immudb/releases/tag/v1.4.1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/vuln/GO-2022-1118"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-345"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2022-11-21T20:38:51Z",
+    "nvd_published_at": "2022-11-22T20:15:00Z"
+  }
+}

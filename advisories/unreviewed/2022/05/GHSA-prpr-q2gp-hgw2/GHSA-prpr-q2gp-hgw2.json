@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-prpr-q2gp-hgw2",
+  "modified": "2022-05-13T01:13:27Z",
+  "published": "2022-05-13T01:13:27Z",
+  "aliases": [
+    "CVE-2018-12617"
+  ],
+  "details": "qmp_guest_file_read in qga/commands-posix.c and qga/commands-win32.c in qemu-ga (aka QEMU Guest Agent) in QEMU 2.12.50 has an integer overflow causing a g_malloc0() call to trigger a segmentation fault when trying to allocate a large memory chunk. The vulnerability can be exploited by sending a crafted QMP command (including guest-file-read with a large count value) to the agent via the listening socket.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-12617"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gist.github.com/fakhrizulkifli/c7740d28efa07dafee66d4da5d857ef6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.debian.org/debian-lts-announce/2019/02/msg00041.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.gnu.org/archive/html/qemu-devel/2018-06/msg03385.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://seclists.org/bugtraq/2019/May/76"
+    },
+    {
+      "type": "WEB",
+      "url": "https://usn.ubuntu.com/3826-1/"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.debian.org/security/2019/dsa-4454"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.exploit-db.com/exploits/44925/"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/104531"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-190"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2018-06-21T18:29:00Z"
+  }
+}

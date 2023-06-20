@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8vxc-r5wp-vgvc",
+  "modified": "2023-03-24T22:00:05Z",
+  "published": "2023-03-24T22:00:05Z",
+  "aliases": [
+    "CVE-2023-28448"
+  ],
+  "summary": "Versionize::deserialize implementation for FamStructWrapper<T> is lacking bound checks, potentially leading to out of bounds memory accesses",
+  "details": "### Impact\n\nAn issue was discovered in the `Versionize::deserialize` implementation provided by the `versionize` crate for `vmm_sys_util::fam::FamStructWrapper`, which can lead to out of bounds memory accesses.\n\n### Patches\n\nThe impact started with version 0.1.1. The issue was corrected in version 0.1.10 by inserting a check that verifies, for any deserialized header, the lengths of compared flexible arrays are equal and aborting deserialization otherwise.\n\n### Workarounds\n\\-\n\n### References\n- https://github.com/firecracker-microvm/versionize/pull/53",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:C/C:N/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "versionize"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.1.1"
+            },
+            {
+              "fixed": "0.1.10"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/firecracker-microvm/versionize/security/advisories/GHSA-8vxc-r5wp-vgvc"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-28448"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/firecracker-microvm/versionize/pull/53"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/firecracker-microvm/versionize/commit/a57a051ba006cfa3b41a0532f484df759e008d47"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/firecracker-microvm/versionize"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/firecracker-microvm/versionize/releases/tag/v0.1.10"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2023-0030.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-125"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-24T22:00:05Z",
+    "nvd_published_at": "2023-03-24T20:15:00Z"
+  }
+}

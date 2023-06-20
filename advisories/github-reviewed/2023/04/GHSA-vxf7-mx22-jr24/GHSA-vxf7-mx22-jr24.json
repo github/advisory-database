@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vxf7-mx22-jr24",
+  "modified": "2023-04-26T22:17:01Z",
+  "published": "2023-04-12T20:38:44Z",
+  "aliases": [
+    "CVE-2023-29205"
+  ],
+  "summary": "org.xwiki.platform:xwiki-platform-rendering-xwiki vulnerable to stored cross-site scripting via HTML and raw macro",
+  "details": "### Impact\n\nThe HTML macro does not systematically perform a proper neutralization of script-related html tags. As a result, any user able to use the html macro in XWiki, is able to introduce an XSS attack. This can be particularly dangerous since in a standard wiki, any user is able to use the html macro directly in their own user profile page. \n\n### Patches\n\nThe problem has been patched in XWiki 14.8RC1. The patch involve that the HTML macro are systematically cleaned up whenever the user does not have script right. \n\n### Workarounds\n\nThere's no workaround for this issue.\n\n### For more information\nIf you have any questions or comments about this advisory:\n* Open an issue in [Jira](https://jira.xwiki.org)\n* Email us at [security ML](mailto:security@xwiki.org)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-rendering-xwiki"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "14.8-rc-1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-vxf7-mx22-jr24"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-29205"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-18568"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-12T20:38:44Z",
+    "nvd_published_at": "2023-04-15T16:15:00Z"
+  }
+}

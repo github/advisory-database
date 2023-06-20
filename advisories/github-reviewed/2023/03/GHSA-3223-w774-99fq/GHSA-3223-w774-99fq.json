@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3223-w774-99fq",
+  "modified": "2023-03-22T19:54:12Z",
+  "published": "2023-03-16T18:34:20Z",
+  "aliases": [
+    "CVE-2023-1429"
+  ],
+  "summary": "Cross-site Scripting (XSS) in Document Types",
+  "details": "### Impact\nUnsecured Name field in Document Types module in Settings.\n\nThis vulnerability has the potential to steal a user's cookie and gain unauthorized access to that user's account through the stolen cookie or redirect users to other malicious sites.\n\n### Patches\nUpdate to version 10.5.19 or apply this patch manually https://github.com/pimcore/pimcore/pull/14645.patch\n\n### Workarounds\nApply https://github.com/pimcore/pimcore/pull/14645.patch manually.\n\n### References\nhttps://huntr.dev/bounties/e0829fea-e458-47b8-84a3-a74476d9638f/\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "pimcore/pimcore"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "10.5.19"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/pimcore/security/advisories/GHSA-3223-w774-99fq"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-1429"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/pimcore/commit/7588c336edb24050656111b89d69e69cc9feb5f5"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pimcore/pimcore"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.dev/bounties/e0829fea-e458-47b8-84a3-a74476d9638f"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-16T18:34:20Z",
+    "nvd_published_at": "2023-03-16T12:15:00Z"
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3cgw-hfw7-wc7j",
+  "modified": "2023-03-27T22:32:19Z",
+  "published": "2023-03-23T09:30:25Z",
+  "withdrawn": "2023-03-23T20:10:27Z",
+  "aliases": [
+
+  ],
+  "summary": "Duplicate Advisory: Grafana Stored Cross-site Scripting vulnerability",
+  "details": "## Duplicate Advisory\nThis advisory has been withdrawn because it is a duplicate of [GHSA-qrrg-gw7w-vp76](https://github.com/advisories/GHSA-qrrg-gw7w-vp76). This link is maintained to preserve external references.\n\n## Original Description\nGrafana is an open-source platform for monitoring and observability. Grafana had a stored XSS vulnerability in the Graphite FunctionDescription tooltip. The stored XSS vulnerability was possible due the value of the Function Description was not properly sanitized. An attacker needs to have control over the Graphite data source in order to manipulate a function description and a Grafana admin needs to configure the data source, later a Grafana user needs to select a tampered function and hover over the description. Users may upgrade to version 8.5.22, 9.2.15 and 9.3.11 to receive a fix.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/grafana/grafana"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "8.5.22"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/grafana/grafana"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.0.0"
+            },
+            {
+              "fixed": "9.2.15"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/grafana/grafana"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.3.0"
+            },
+            {
+              "fixed": "9.3.11"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/grafana/bugbounty/security/advisories/GHSA-qrrg-gw7w-vp76"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-1410"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/grafana/grafana"
+    },
+    {
+      "type": "WEB",
+      "url": "https://grafana.com/security/security-advisories/cve-2023-1410/"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.netapp.com/advisory/ntap-20230420-0003/"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-23T20:10:27Z",
+    "nvd_published_at": "2023-03-23T08:15:00Z"
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5286-f2rf-35c2",
+  "modified": "2023-04-03T20:21:28Z",
+  "published": "2023-04-03T17:25:27Z",
+  "aliases": [
+    "CVE-2023-28836"
+  ],
+  "summary": "Wagtail vulnerable to stored Cross-site Scripting attack via ModelAdmin views",
+  "details": "### Impact\n\nA stored cross-site scripting (XSS) vulnerability exists on ModelAdmin views within the Wagtail admin interface. A user with a limited-permission editor account for the Wagtail admin could potentially craft pages and documents that, when viewed by a user with higher privileges, could perform actions with that user's credentials. The vulnerability is not exploitable by an ordinary site visitor without access to the Wagtail admin, and only affects sites with ModelAdmin enabled.\n\n- For page, the vulnerability is in the \"Choose a parent page\" ModelAdmin view ([`ChooseParentView`](https://docs.wagtail.org/en/stable/reference/contrib/modeladmin/chooseparentview.html#customising-chooseparentview)), available when managing pages via ModelAdmin.\n- For documents, the vulnerability is in the ModelAdmin Inspect view ([`InspectView`](https://docs.wagtail.org/en/stable/reference/contrib/modeladmin/inspectview.html#enabling-customising-inspectview)) when displaying document fields.\n\n### Patches\n\nPatched versions have been released as Wagtail 4.1.4 (for the LTS 4.1 branch) and Wagtail 4.2.2 (for the current 4.2 branch).\n\n### Workarounds\n\nSite owners who are unable to upgrade to the new versions can disable or override the corresponding functionality.\n\n#### `ChooseParentView`\n\nFor [`ChooseParentView`](https://docs.wagtail.org/en/stable/reference/contrib/modeladmin/chooseparentview.html#modeladmin-choose-parent-view-class):\n\n- Disable ModelAdmin for all page models.\n- Or provide a custom view via [`choose_parent_view_class`](https://docs.wagtail.org/en/stable/reference/contrib/modeladmin/chooseparentview.html#id4), with the custom view overriding the `get_form` method.\n\nOne of those steps need to be applied for every `ModelAdmin` class hooked into Wagtail where the model is a Wagtail `Page` or sub-class. Here is an example of implementing the custom `ChooseParentView` with patched HTML escaping:\n\n```python\nfrom django import forms\nfrom django.utils.translation import gettext as _\nfrom wagtail.contrib.modeladmin.views import ChooseParentView\nfrom wagtail.contrib.modeladmin.forms import ParentChooserForm\n\n\nclass PatchedPageChoiceField(forms.ModelChoiceField):\n    \"\"\"PageChoiceField with plain-text breadcrumbs to patch stored XSS.\"\"\"\n    def label_from_instance(self, obj):\n        bits = []\n        for ancestor in (\n            obj.get_ancestors(inclusive=True).exclude(depth=1).specific(defer=True)\n        ):\n            bits.append(ancestor.get_admin_display_title())\n        return ' | '.join(bits)\n\n\nclass PatchedParentChooserForm(ParentChooserForm):\n    \"\"\"ParentChooserForm with custom parent_page to patch stored XSS.\"\"\"\n    parent_page = PatchedPageChoiceField(\n        label=_(\"Parent page\"),\n        required=True,\n        empty_label=None,\n        queryset=Page.objects.none(),\n        widget=forms.RadioSelect(),\n    )\n\n\nclass PatchedChooseParentView(ChooseParentView):\n    \"\"\"ChooseParentView with custom get_form patch stored XSS.\"\"\"\n    def get_form(self, request):\n        parents = self.permission_helper.get_valid_parent_pages(request.user)\n        return PatchedParentChooserForm(parents, request.POST or None)\n```\n\n#### `InspectView`\n\nFor [`InspectView`](https://docs.wagtail.org/en/stable/reference/contrib/modeladmin/inspectview.html#enabling-customising-inspectview):\n\n- Remove `inspect_view_enabled=True` or set it to False to disable the view.\n- Or use [`inspect_view_fields`](https://docs.wagtail.org/en/stable/reference/contrib/modeladmin/inspectview.html#modeladmin-inspect-view-fields) or [`inspect_view_fields_exclude`](https://docs.wagtail.org/en/stable/reference/contrib/modeladmin/inspectview.html#modeladmin-inspect-view-fields-exclude) to prevent displaying document fields in the views.\n- Or provide a custom view via [`inspect_view_class`](https://docs.wagtail.org/en/stable/reference/contrib/modeladmin/inspectview.html#id12), with the custom view overriding the `get_document_field_display` method.\n\nOne of those steps need to be applied for every `ModelAdmin` class hooked into Wagtail where `inspect_view_enabled=True`. Here is an example of implementing the custom `InspectView` with patched HTML escaping:\n\n```python\nfrom django.template.defaultfilters import filesizeformat\nfrom django.utils.html import format_html\nfrom wagtail.contrib.modeladmin.views import InspectView\n\n\nclass PatchedInspectView(InspectView):\n    \"\"\"InspectView with override to patch stored XSS vulnerability.\"\"\"\n    def get_document_field_display(self, field_name, field):\n        \"\"\"Render a link to a document\"\"\"\n        document = getattr(self.instance, field_name)\n        if document:\n            return format_html(\n                '<a href=\"{}\">{} <span class=\"meta\">({}, {})</span></a>',\n                document.url,\n                document.title,\n                document.file_extension.upper(),\n                filesizeformat(document.file.size),\n            )\n        return self.model_admin.get_empty_value_display(field_name)\n```",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "wagtail"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.5"
+            },
+            {
+              "fixed": "4.1.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "wagtail"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.2"
+            },
+            {
+              "fixed": "4.2.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/wagtail/wagtail/security/advisories/GHSA-5286-f2rf-35c2"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-28836"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/wagtail/wagtail/commit/5be2b1ed55fd7259dfdf2c82e7701dba407b8b62"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/wagtail/wagtail/commit/bc84bf9815610cfbf8db3b6050c7ddcbaa4b9713"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/wagtail/wagtail/commit/eefc3381d37b476791610e5d30594fae443f33af"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/wagtail/wagtail/commit/ff806ab173a504395fdfb3139eb0a29444ab4b91"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.wagtail.org/en/stable/reference/contrib/modeladmin/chooseparentview.html#customising-chooseparentview"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.wagtail.org/en/stable/reference/contrib/modeladmin/inspectview.html#enabling-customising-inspectview"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/wagtail/wagtail"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/wagtail/wagtail/releases/tag/v4.1.4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/wagtail/wagtail/releases/tag/v4.2.2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-03T17:25:27Z",
+    "nvd_published_at": "2023-04-03T17:15:00Z"
+  }
+}

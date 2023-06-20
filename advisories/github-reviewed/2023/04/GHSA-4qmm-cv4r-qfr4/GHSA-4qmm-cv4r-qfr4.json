@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4qmm-cv4r-qfr4",
+  "modified": "2023-04-21T20:35:00Z",
+  "published": "2023-04-15T15:30:14Z",
+  "aliases": [
+    "CVE-2023-2105"
+  ],
+  "summary": "alextselegidis/easyappointments Session Fixation vulnerability",
+  "details": "alextselegidis/easyappointments is vulnerable to session fixation. The application does not generate a new `ea_session` cookie after the user authenticates. A malicious user may create a new session cookie value and inject it to a victim. After the victim logs in, the injected cookie becomes valid, giving the attacker access to the user's account through the active session. If an attacker conducts this attack against an admin user, the attacker may escalate their privileges with the admin user being unaware.\n\nThis issue is patched in commit 7f37350fab9d729a9350d96369ff0f453cf7b840 and anticipated to be part of version 1.5.0.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "alextselegidis/easyappointments"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.4.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-2105"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/alextselegidis/easyappointments/commit/7f37350fab9d729a9350d96369ff0f453cf7b840"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/alextselegidis/easyappointments"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.dev/bounties/de213e0b-a227-4fc3-bbe7-0b33fbf308e1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-384"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-21T20:34:48Z",
+    "nvd_published_at": "2023-04-15T14:15:00Z"
+  }
+}

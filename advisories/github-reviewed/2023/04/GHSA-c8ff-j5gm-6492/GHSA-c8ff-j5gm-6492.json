@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c8ff-j5gm-6492",
+  "modified": "2023-04-21T17:53:28Z",
+  "published": "2023-04-12T18:30:36Z",
+  "aliases": [
+    "CVE-2023-30525"
+  ],
+  "summary": "Jenkins Report Portal Plugin Cross-Site Request Forgery vulnerability",
+  "details": "Jenkins Report Portal Plugin 0.5 and earlier does not perform a permission check in a method implementing form validation.\n\nThis allows attackers with Overall/Read permission to connect to an attacker-specified URL using attacker-specified bearer token authentication. Additionally, this form validation method does not require POST requests, resulting in a cross-site request forgery (CSRF) vulnerability.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:reportportal"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-30525"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-04-12/#SECURITY-2950"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2023/04/13/3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-12T22:18:35Z",
+    "nvd_published_at": "2023-04-12T18:15:00Z"
+  }
+}

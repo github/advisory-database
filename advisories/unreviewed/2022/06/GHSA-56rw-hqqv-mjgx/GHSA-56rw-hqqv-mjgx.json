@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-56rw-hqqv-mjgx",
+  "modified": "2022-06-25T00:01:03Z",
+  "published": "2022-06-16T00:00:22Z",
+  "aliases": [
+    "CVE-2022-32157"
+  ],
+  "details": "Splunk Enterprise deployment servers in versions before 9.0 allow unauthenticated downloading of forwarder bundles. Remediation requires you to update the deployment server to version 9.0 and Configure authentication for deployment servers and clients (https://docs.splunk.com/Documentation/Splunk/9.0.0/Security/ConfigDSDCAuthEnhancements#Configure_authentication_for_deployment_servers_and_clients). Once enabled, deployment servers can manage only Universal Forwarder versions 9.0 and higher. Though the vulnerability does not directly affect Universal Forwarders, remediation requires updating all Universal Forwarders that the deployment server manages to version 9.0 or higher prior to enabling the remediation.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-32157"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.splunk.com/Documentation/Splunk/9.0.0/Security/ConfigDSDCAuthEnhancements#Configure_authentication_for_deployment_servers_and_clients"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.splunk.com/Documentation/Splunk/9.0.0/Security/Updates"
+    },
+    {
+      "type": "WEB",
+      "url": "https://research.splunk.com/application/splunk_process_injection_forwarder_bundle_downloads/"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.splunk.com/en_us/product-security/announcements/svd-2022-0607.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-306"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2022-06-15T17:15:00Z"
+  }
+}

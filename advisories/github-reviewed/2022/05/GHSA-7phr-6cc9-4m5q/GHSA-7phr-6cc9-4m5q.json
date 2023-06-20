@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7phr-6cc9-4m5q",
+  "modified": "2023-03-27T22:13:46Z",
+  "published": "2022-05-24T16:49:05Z",
+  "aliases": [
+    "CVE-2019-13068"
+  ],
+  "summary": "Grafana Cross-site Scripting vulnerability",
+  "details": "`public/app/features/panel/panel_ctrl.ts` in Grafana before 6.2.5 allows HTML Injection in panel drilldown links (via the Title or url field).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/grafana/grafana"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.2.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-13068"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/grafana/grafana/issues/17718"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/grafana/grafana"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/grafana/grafana/releases/tag/v6.2.5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.netapp.com/advisory/ntap-20190710-0001/"
+    },
+    {
+      "type": "WEB",
+      "url": "http://packetstormsecurity.com/files/171500/Grafana-6.2.4-HTML-Injection.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-27T22:13:46Z",
+    "nvd_published_at": "2019-06-30T00:15:00Z"
+  }
+}

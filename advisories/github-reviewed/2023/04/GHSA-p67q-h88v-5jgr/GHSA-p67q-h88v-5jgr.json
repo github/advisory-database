@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-p67q-h88v-5jgr",
+  "modified": "2023-04-28T19:53:41Z",
+  "published": "2023-04-20T22:06:19Z",
+  "aliases": [
+    "CVE-2023-29521"
+  ],
+  "summary": "XWiki Platform vulnerable to code injection from account/view through VFS Tree macro",
+  "details": "### Impact\nAny user with view rights can execute arbitrary Groovy, Python or Velocity code in XWiki leading to full access to the XWiki installation. The root cause is improper escaping of `Macro.VFSTreeMacro`. This page is not installed by default.\n\nSee https://jira.xwiki.org/browse/XWIKI-20260 for the reproduction steps.\n\n### Patches\nThe vulnerability has been patched in XWiki 15.0-rc-1, 14.10.2, 14.4.8, 13.10.11.\n\n### Workarounds\nThe issue can be fixed by applying this [patch](https://github.com/xwiki/xwiki-platform/commit/fad02328f5ec7ab7fe5b932ffb5bc5c1ba7a5b12) on `Macro.VFSTreeMacro`.\n\n### References\n- https://jira.xwiki.org/browse/XWIKI-20260\n- https://github.com/xwiki/xwiki-platform/commit/fad02328f5ec7ab7fe5b932ffb5bc5c1ba7a5b12\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n\n*    Open an issue in [Jira XWiki.org](https://jira.xwiki.org/)\n*    Email us at [Security Mailing List](mailto:security@xwiki.org)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-vfs-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.4-milestone-2"
+            },
+            {
+              "fixed": "13.10.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-vfs-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.0-rc-1"
+            },
+            {
+              "fixed": "14.4.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-vfs-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.5"
+            },
+            {
+              "fixed": "14.10.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-p67q-h88v-5jgr"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-29521"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/fad02328f5ec7ab7fe5b932ffb5bc5c1ba7a5b12"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20260"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-20T22:06:19Z",
+    "nvd_published_at": null
+  }
+}

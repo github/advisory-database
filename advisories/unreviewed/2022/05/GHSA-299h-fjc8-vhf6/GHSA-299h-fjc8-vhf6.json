@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-299h-fjc8-vhf6",
+  "modified": "2022-05-13T01:12:16Z",
+  "published": "2022-05-13T01:12:16Z",
+  "aliases": [
+    "CVE-2017-14169"
+  ],
+  "details": "In the mxf_read_primer_pack function in libavformat/mxfdec.c in FFmpeg 3.3.3 -> 2.4, an integer signedness error might occur when a crafted file, which claims a large \"item_num\" field such as 0xffffffff, is provided. As a result, the variable \"item_num\" turns negative, bypassing the check for a large value.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-14169"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FFmpeg/FFmpeg/commit/9d00fb9d70ee8c0cc7002b89318c5be00f1bbdad"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FFmpeg/FFmpeg/commit/a4e85b2e1c8d5b4bf0091157bbdeb0e457fb7b8f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.debian.org/debian-lts-announce/2019/02/msg00005.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.debian.org/security/2017/dsa-3996"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/100692"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2017-09-07T06:29:00Z"
+  }
+}

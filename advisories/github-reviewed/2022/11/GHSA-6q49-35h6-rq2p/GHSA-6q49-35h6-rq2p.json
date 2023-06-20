@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6q49-35h6-rq2p",
+  "modified": "2022-12-02T22:32:45Z",
+  "published": "2022-11-25T18:30:25Z",
+  "aliases": [
+    "CVE-2022-43984"
+  ],
+  "summary": "Browsershot version 3.57.3 vulnerable to improper input validation",
+  "details": "Browsershot version 3.57.3 allows an external attacker to remotely obtain arbitrary local files. This is possible because the application does not validate that the JS content imported from an external source passed to the Browsershot::html method does not contain URLs that use the file:// protocol.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "spatie/browsershot"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.57.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-43984"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/spatie/browsershot/commit/554c3e566fde8c47ad1ac9be47eaeb9a84c4dfe2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/spatie/browsershot/commit/92cf16fc098211731f80d21687abeafbe2c457ad"
+    },
+    {
+      "type": "WEB",
+      "url": "https://fluidattacks.com/advisories/malone/"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/spatie/browsershot/"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20",
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2022-12-02T22:32:45Z",
+    "nvd_published_at": "2022-11-25T17:15:00Z"
+  }
+}

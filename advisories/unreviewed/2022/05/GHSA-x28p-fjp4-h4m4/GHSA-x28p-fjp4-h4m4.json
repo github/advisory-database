@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-x28p-fjp4-h4m4",
+  "modified": "2022-05-13T01:02:56Z",
+  "published": "2022-05-13T01:02:56Z",
+  "aliases": [
+    "CVE-2018-17974"
+  ],
+  "details": "An issue was discovered in Tcpreplay 4.3.0 beta1. A heap-based buffer over-read was triggered in the function dlt_en10mb_encode() of the file plugins/dlt_en10mb/en10mb.c, due to inappropriate values in the function memmove(). The length (pktlen + ctx -> l2len) can be larger than source value (packet + ctx->l2len) because the function fails to ensure the length of a packet is valid. This leads to Denial of Service.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-17974"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/appneta/tcpreplay/issues/486"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/SegfaultMasters/covering360/tree/master/tcpreplay"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-125"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2018-10-03T22:29:00Z"
+  }
+}

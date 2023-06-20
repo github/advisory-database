@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-68p4-pjpf-xwcq",
+  "modified": "2023-06-13T20:09:07Z",
+  "published": "2022-05-24T17:41:47Z",
+  "aliases": [
+    "CVE-2021-26954"
+  ],
+  "summary": "insert_slice_clone can double drop if Clone panics.",
+  "details": "Affected versions of this crate used ptr::copy when inserting into the middle of a Vec. When ownership was temporarily duplicated during this copy, it calls the clone method of a user provided element.\n\nThis issue can result in an element being double-freed if the clone call panics.\n\nCommit `20cb73d` fixed this issue by adding a set_len(0) call before operating on the vector to avoid dropping the elements during a panic.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "qwutils"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "qwutils::imp::vec::VecExt::insert_slice_clone"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.3.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-26954"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/qwertz19281/rust_utils/issues/3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/qwertz19281/rust_utils/commit/20cb73d"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/qwertz19281/rust_utils"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2021-0018.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-415"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2022-06-17T00:14:33Z",
+    "nvd_published_at": "2021-02-09T23:15:00Z"
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jgg7-w2rj-58cj",
+  "modified": "2023-04-20T22:25:42Z",
+  "published": "2023-04-20T22:25:42Z",
+  "aliases": [
+    "CVE-2023-29525"
+  ],
+  "summary": "XWiki Platform vulnerable to privilege escalation from view right on XWiki.Notifications.Code.LegacyNotificationAdministration",
+  "details": "### Impact\n\nSteps to reproduce:\n\nOpen <xwiki-host>/xwiki/bin/view/XWiki/Notifications/Code/LegacyNotificationAdministration?since=%7B%7B%2Fhtml%7D%7D+%7B%7Basync+async%3D%22true%22+cached%3D%22false%22+context%3D%22doc.reference%22%7D%7D%7B%7Bgroovy%7D%7Dprintln%28%22Hello+%22+%2B+%22from+groovy%21%22%29%7B%7B%2Fgroovy%7D%7D%7B%7B%2Fasync%7D%7D, where <xwiki-host> is the URL of your XWiki installation.\n\nThis demonstrates an XWiki syntax injection attack via the since-parameter, allowing privilege escalation from view to programming rights.\n\n### Patches\n\nThe vulnerability has been patched in XWiki 15.0-rc-1, 14.10.3, 14.4.8 and 14.10.3.\n\n### Workarounds\n\nFor versions >= 14.6-rc-1 the workaround is to modify the page `XWiki.Notifications.Code.LegacyNotificationAdministration` to add the missing escaping, as described on https://github.com/xwiki/xwiki-platform/commit/8e7c7f90f2ddaf067cb5b83b181af41513028754#diff-4e13f4ee4a42938bf1201b7ee71ca32edeacba22559daf0bcb89d534e0225949R70\n\nFor versions < 14.6-rc-1 the workaround is to modify the file `<xwikiwebapp>/templates/distribution/eventmigration.wiki` to add the missing escaping, as described on https://github.com/xwiki/xwiki-platform/commit/6d74e2e4aa03d19f0be385ab63ae9e0f0e90a766\n\n### References\n\nhttps://jira.xwiki.org/browse/XWIKI-20287\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n* Open an issue in [Jira XWiki.org](https://jira.xwiki.org/)\n* Email us at [Security Mailing List](mailto:security@xwiki.org)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-distribution-war"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "12.6.1"
+            },
+            {
+              "fixed": "13.10.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-distribution-war"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.0-rc-1"
+            },
+            {
+              "fixed": "14.4.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-distribution-war"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.5"
+            },
+            {
+              "fixed": "14.6-rc-1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-legacy-events-hibernate-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.6-rc-1"
+            },
+            {
+              "fixed": "14.10.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-jgg7-w2rj-58cj"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-29525"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/6d74e2e4aa03d19f0be385ab63ae9e0f0e90a766"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/8e7c7f90f2ddaf067cb5b83b181af41513028754#diff-4e13f4ee4a42938bf1201b7ee71ca32edeacba22559daf0bcb89d534e0225949R70"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20287"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-20T22:25:42Z",
+    "nvd_published_at": null
+  }
+}

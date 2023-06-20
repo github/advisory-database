@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fjrv-vx9m-4jpj",
+  "modified": "2023-04-05T20:19:51Z",
+  "published": "2023-03-28T21:30:20Z",
+  "aliases": [
+    "CVE-2023-25722"
+  ],
+  "summary": "Veracode Scan Jenkins Plugin vulnerable to information disclosure",
+  "details": "Veracode Scan Jenkins Plugin before 23.3.19.0, when configured for remote agent jobs, invokes the Veracode Java API Wrapper in a manner that allows local users (with OS-level access of the Jenkins remote) to discover Veracode API credentials by listing the process and its arguments.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.veracode.jenkins:veracode-scan"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "23.3.19.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-25722"
+    },
+    {
+      "type": "WEB",
+      "url": "https://community.veracode.com/s/global-search/CVE-2023-25722"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.veracode.com/updates/r/c_all_int#veracode-jenkins-plugin-233190"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/veracode-scan-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://veracode.com"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-214"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-05T20:19:51Z",
+    "nvd_published_at": "2023-03-28T20:15:00Z"
+  }
+}

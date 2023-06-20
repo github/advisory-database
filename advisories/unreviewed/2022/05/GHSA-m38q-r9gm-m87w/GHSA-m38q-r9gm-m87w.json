@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-m38q-r9gm-m87w",
+  "modified": "2022-05-02T06:22:49Z",
+  "published": "2022-05-02T06:22:49Z",
+  "aliases": [
+    "CVE-2010-1438"
+  ],
+  "details": "Web Application Finger Printer (WAFP) 0.01-26c3 uses fixed pathnames under /tmp for temporary files and directories, which (1) allows local users to cause a denial of service (application outage) by creating a file with a pathname that the product expects is available for its own internal use, (2) allows local users to overwrite arbitrary files via symlink attacks on certain files in /tmp, (3) might allow local users to delete arbitrary files and directories via a symlink attack on a directory under /tmp, and (4) might make it easier for local users to obtain sensitive information by reading files in a directory under /tmp, related to (a) lib/wafp_pidify.rb, (b) utils/generate_wafp_fingerprint.sh, (c) utils/online_update.sh, and (d) utils/extract_from_db.sh.",
+  "severity": [
+
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2010-1438"
+    },
+    {
+      "type": "WEB",
+      "url": "http://code.google.com/p/webapplicationfingerprinter/issues/detail?id=8"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2010/04/27/6"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2010/04/28/3"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/39760"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2010-05-06T14:53:00Z"
+  }
+}

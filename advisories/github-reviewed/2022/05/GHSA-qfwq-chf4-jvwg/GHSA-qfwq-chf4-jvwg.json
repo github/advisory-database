@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qfwq-chf4-jvwg",
+  "modified": "2023-03-29T20:26:16Z",
+  "published": "2022-05-14T01:49:44Z",
+  "aliases": [
+    "CVE-2014-10075"
+  ],
+  "summary": "karo Metacharacter Handling Remote Command Execution",
+  "details": "The karo gem through 2.5.2 for Ruby allows Remote command injection via the host field.\n\nA flaw in `db.rb` is triggered when handling metacharacters. This may allow a remote attacker to execute arbitrary commands.\n\nIn particular lines 76 and 95 (as of `2014-06-01`) pass unsanitized user supplied input to the command line. \n\n```\n73-      host = \"{@configuration[\"user\"]}@{@configuration[\"host\"]}\"\n74-      cmd  = \"ssh #{host} cat {server_db_config_file}\"\n75-\n76:      server_db_config_output = `{cmd}`\n79-\n--\n89- def drop_and_create_local_database(local_db_config)\n90-      command = case local_db_config[\"adapter\"]\n91-      when \"mysql2\"\n93-      when \"postgresql\"\n95-          dropdb -h #{local_db_config[\"host\"]} -U #{local_db_config[\"username\"]} --if-exists #{local_db_config[\"database\"]}\n```\n\nIf this gem is used in the context of a rails application malicious input could lead to remote command injection. As of version 2.5.2 the affected code lines have not changed.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "karo"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "2.5.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2014-10075"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/rahult/karo"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rahult/karo/blob/master/lib/karo/db.rb#L76"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rahult/karo/blob/master/lib/karo/db.rb#L95"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/karo/CVE-2014-10075.yml"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.vapid.dhs.org/advisories/karo-2.3.8.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.vapidlabs.com/advisory.php?v=63"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-77"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-29T20:26:16Z",
+    "nvd_published_at": "2018-10-05T06:29:00Z"
+  }
+}

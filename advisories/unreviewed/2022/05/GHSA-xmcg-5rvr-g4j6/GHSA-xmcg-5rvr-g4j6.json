@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xmcg-5rvr-g4j6",
+  "modified": "2022-05-13T01:07:02Z",
+  "published": "2022-05-13T01:07:02Z",
+  "aliases": [
+    "CVE-2015-1834"
+  ],
+  "details": "A path traversal vulnerability was identified in the Cloud Foundry component Cloud Controller that affects cf-release versions prior to v208 and Pivotal Cloud Foundry Elastic Runtime versions prior to 1.4.2. Path traversal is the 'outbreak' of a given directory structure through relative file paths in the user input. It aims at accessing files and directories that are stored outside the web root folder, for disallowed reading or even executing arbitrary system commands. An attacker could use a certain parameter of the file path for instance to inject '../' sequences in order to navigate through the file system. In this particular case a remote authenticated attacker can exploit the identified vulnerability in order to upload arbitrary files to the server running a Cloud Controller instance - outside the isolated application container.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2015-1834"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pivotal.io/security/cve-2015-1834"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/98691"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2017-05-25T17:29:00Z"
+  }
+}

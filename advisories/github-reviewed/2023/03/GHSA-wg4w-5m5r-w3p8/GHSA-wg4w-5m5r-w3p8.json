@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wg4w-5m5r-w3p8",
+  "modified": "2023-04-07T22:45:23Z",
+  "published": "2023-03-31T21:30:38Z",
+  "aliases": [
+    "CVE-2023-27162"
+  ],
+  "summary": "OpenAPI Generator vulnerable to Server-Side Request Forgery",
+  "details": "openapi-generator up to v6.4.0 was discovered to contain a Server-Side Request Forgery (SSRF) via the component `/api/gen/clients/{language}`. This vulnerability allows attackers to access network resources and sensitive information via a crafted API request.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.openapitools:openapi-generator-project"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "6.4.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-27162"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gist.github.com/b33t1e/6121210ebd9efd4f693c73b830d8ab08"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/OpenAPITools/openapi-generator"
+    },
+    {
+      "type": "WEB",
+      "url": "https://notes.sjtu.edu.cn/s/2_yki_2Xq"
+    },
+    {
+      "type": "WEB",
+      "url": "http://openapi-generator.com"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-918"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-31T22:44:19Z",
+    "nvd_published_at": "2023-03-31T20:15:00Z"
+  }
+}

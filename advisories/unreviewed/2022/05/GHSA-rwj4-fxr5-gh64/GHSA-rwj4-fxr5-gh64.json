@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rwj4-fxr5-gh64",
+  "modified": "2022-05-13T01:18:43Z",
+  "published": "2022-05-13T01:18:43Z",
+  "aliases": [
+    "CVE-2018-1000030"
+  ],
+  "details": "Python 2.7.14 is vulnerable to a Heap-Buffer-Overflow as well as a Heap-Use-After-Free. Python versions prior to 2.7.14 may also be vulnerable and it appears that Python 2.7.17 and prior may also be vulnerable however this has not been confirmed. The vulnerability lies when multiply threads are handling large amounts of data. In both cases there is essentially a race condition that occurs. For the Heap-Buffer-Overflow, Thread 2 is creating the size for a buffer, but Thread1 is already writing to the buffer without knowing how much to write. So when a large amount of data is being processed, it is very easy to cause memory corruption using a Heap-Buffer-Overflow. As for the Use-After-Free, Thread3->Malloc->Thread1->Free's->Thread2-Re-uses-Free'd Memory. The PSRT has stated that this is not a security vulnerability due to the fact that the attacker must be able to run code, however in some situations, such as function as a service, this vulnerability can potentially be used by an attacker to violate a trust boundary, as such the DWF feels this issue deserves a CVE.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:L/I:N/A:L"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-1000030"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.python.org/issue31530"
+    },
+    {
+      "type": "WEB",
+      "url": "https://drive.google.com/file/d/1oyR9DAZjZK_SCn3mor6NRAYLJS6ueXaY/view"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.gentoo.org/glsa/201811-02"
+    },
+    {
+      "type": "WEB",
+      "url": "https://usn.ubuntu.com/3817-1/"
+    },
+    {
+      "type": "WEB",
+      "url": "https://usn.ubuntu.com/3817-2/"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.dropbox.com/sh/sj3ee7xv55j36k7/AADwP-YfOYikBMuy32e0uvPFa?dl=0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.oracle.com/security-alerts/cpujan2020.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-787"
+    ],
+    "severity": "LOW",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2018-02-08T17:29:00Z"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g986-42m5-mxwm",
+  "modified": "2023-01-20T21:30:31Z",
+  "published": "2022-09-01T00:00:21Z",
+  "aliases": [
+    "CVE-2022-38152"
+  ],
+  "details": "An issue was discovered in wolfSSL before 5.5.0. When a TLS 1.3 client connects to a wolfSSL server and SSL_clear is called on its session, the server crashes with a segmentation fault. This occurs in the second session, which is created through TLS session resumption and reuses the initial struct WOLFSSL. If the server reuses the previous session structure (struct WOLFSSL) by calling wolfSSL_clear(WOLFSSL* ssl) on it, the next received Client Hello (that resumes the previous session) crashes the server. Note that this bug is only triggered when resuming sessions using TLS session resumption. Only servers that use wolfSSL_clear instead of the recommended SSL_free; SSL_new sequence are affected. Furthermore, wolfSSL_clear is part of wolfSSL's compatibility layer and is not enabled by default. It is not part of wolfSSL's native API.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-38152"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/wolfSSL/wolfssl/pull/5468"
+    },
+    {
+      "type": "WEB",
+      "url": "https://blog.trailofbits.com/2023/01/12/wolfssl-vulnerabilities-tlspuffin-fuzzing-ssh/"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tlspuffin/tlspuffin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/wolfSSL/wolfssl/releases"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.wolfssl.com/docs/security-vulnerabilities/"
+    },
+    {
+      "type": "WEB",
+      "url": "http://packetstormsecurity.com/files/170604/wolfSSL-Session-Resumption-Denial-Of-Service.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://seclists.org/fulldisclosure/2023/Jan/7"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-754"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2022-08-31T17:15:00Z"
+  }
+}

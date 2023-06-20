@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w3mh-hj36-4cjx",
+  "modified": "2022-05-13T01:19:48Z",
+  "published": "2022-05-13T01:19:48Z",
+  "aliases": [
+    "CVE-2018-19650"
+  ],
+  "details": "Local attackers can trigger a stack-based buffer overflow on vulnerable installations of Antiy-AVL ATool security management v1.0.0.22. An attacker must first obtain the ability to execute low-privileged code on the target system in order to exploit this vulnerability. The specific flaw exists within the processing of IOCTL 0x80002000 by the IRPFile.sys Antiy-AVL ATool kernel driver. The bug is caused by failure to properly validate the length of the user-supplied data, which results in a kernel stack buffer overflow. An attacker can leverage this vulnerability to execute arbitrary code in the context of the kernel, which could lead to privilege escalation and a failed exploit could lead to denial of service.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-19650"
+    },
+    {
+      "type": "WEB",
+      "url": "http://packetstormsecurity.com/files/150549/ATool-1.0.0.22-Stack-Buffer-Overflow.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-787"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2018-12-05T22:29:00Z"
+  }
+}

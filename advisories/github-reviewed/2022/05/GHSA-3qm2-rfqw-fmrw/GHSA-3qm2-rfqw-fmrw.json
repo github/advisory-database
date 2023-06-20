@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3qm2-rfqw-fmrw",
+  "modified": "2023-06-13T20:40:29Z",
+  "published": "2022-05-24T17:43:48Z",
+  "aliases": [
+    "CVE-2021-28031"
+  ],
+  "summary": "move_elements can double-free objects on panic",
+  "details": "Affected versions of scratchpad used ptr::read to read elements while calling a user provided function f on them. Since the pointer read duplicates ownership, a panic inside the user provided f function could cause a double free when unwinding.\n\nThe flaw was fixed in commit `891561bea` by removing the unsafe block and using a plain iterator.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "scratchpad"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "scratchpad::SliceMoveSource::move_elements"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.3.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-28031"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/okready/scratchpad/issues/1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/okready/scratchpad/commit/891561bea"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/okready/scratchpad"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2021-0030.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-415"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2022-06-17T00:23:59Z",
+    "nvd_published_at": "2021-03-05T09:15:00Z"
+  }
+}

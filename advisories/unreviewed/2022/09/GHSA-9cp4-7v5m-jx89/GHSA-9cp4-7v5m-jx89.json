@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9cp4-7v5m-jx89",
+  "modified": "2023-01-20T21:30:31Z",
+  "published": "2022-09-01T00:00:17Z",
+  "aliases": [
+    "CVE-2022-38153"
+  ],
+  "details": "An issue was discovered in wolfSSL before 5.5.0 (when --enable-session-ticket is used); however, only version 5.3.0 is exploitable. Man-in-the-middle attackers or a malicious server can crash TLS 1.2 clients during a handshake. If an attacker injects a large ticket (more than 256 bytes) into a NewSessionTicket message in a TLS 1.2 handshake, and the client has a non-empty session cache, the session cache frees a pointer that points to unallocated memory, causing the client to crash with a \"free(): invalid pointer\" message. NOTE: It is likely that this is also exploitable during TLS 1.3 handshakes between a client and a malicious server. With TLS 1.3, it is not possible to exploit this as a man-in-the-middle.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-38153"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/wolfSSL/wolfssl/pull/5476"
+    },
+    {
+      "type": "WEB",
+      "url": "https://blog.trailofbits.com/2023/01/12/wolfssl-vulnerabilities-tlspuffin-fuzzing-ssh/"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/trailofbits/tlspuffin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/wolfSSL/wolfssl/releases"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.wolfssl.com/docs/security-vulnerabilities/"
+    },
+    {
+      "type": "WEB",
+      "url": "http://packetstormsecurity.com/files/170605/wolfSSL-5.3.0-Denial-Of-Service.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://seclists.org/fulldisclosure/2023/Jan/8"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-770"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2022-08-31T18:15:00Z"
+  }
+}

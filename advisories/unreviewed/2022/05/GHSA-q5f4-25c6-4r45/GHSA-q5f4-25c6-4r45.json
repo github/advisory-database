@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-q5f4-25c6-4r45",
+  "modified": "2022-05-13T01:05:21Z",
+  "published": "2022-05-13T01:05:21Z",
+  "aliases": [
+    "CVE-2018-0063"
+  ],
+  "details": "A vulnerability in the IP next-hop index database in Junos OS 17.3R3 may allow a flood of ARP requests, sent to the management interface, to exhaust the private Internal routing interfaces (IRIs) next-hop limit. Once the IRI next-hop database is full, no further next hops can be learned and existing entries cannot be cleared, leading to a sustained denial of service (DoS) condition. An indicator of compromise for this issue is the report of the following error message: %KERN-4: Nexthop index allocation failed: private index space exhausted This issue only affects the management interface, and does not impact regular transit traffic through the FPCs. This issue also only affects Junos OS 17.3R3. No prior versions of Junos OS are affected by this issue. Affected releases are Juniper Networks Junos OS: 17.3R3.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-0063"
+    },
+    {
+      "type": "WEB",
+      "url": "https://kb.juniper.net/JSA10899"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securitytracker.com/id/1041861"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2018-10-10T18:29:00Z"
+  }
+}

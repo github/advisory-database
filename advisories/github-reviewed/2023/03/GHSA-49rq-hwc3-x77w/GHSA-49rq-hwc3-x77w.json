@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-49rq-hwc3-x77w",
+  "modified": "2023-03-30T22:17:27Z",
+  "published": "2023-03-24T21:55:32Z",
+  "aliases": [
+    "CVE-2023-25670"
+  ],
+  "summary": "TensorFlow has Null Pointer Error in QuantizedMatMulWithBiasAndDequantize",
+  "details": "### Impact\nNPE in QuantizedMatMulWithBiasAndDequantize with MKL enable \n```python\nimport tensorflow as tf\n\nfunc = tf.raw_ops.QuantizedMatMulWithBiasAndDequantize\npara={'a': tf.constant(138, dtype=tf.quint8), 'b': tf.constant(4, dtype=tf.qint8), 'bias': [[31.81644630432129, 47.21876525878906], [109.95201110839844, 152.07968139648438]], 'min_a': 141.5337138686371, 'max_a': [73.84139251708984, 173.15280151367188], 'min_b': [], 'max_b': [[16.128345489501953, 193.26820373535156]], 'min_freezed_output': [], 'max_freezed_output': [115.50032806396484, 156.974853515625], 'Toutput': 1.0, 'transpose_a': True, 'transpose_b': False, 'input_quant_mode': 'MIN_FIRST'}\n\nfunc(**para)\n```\n\n### Patches\nWe have patched the issue in GitHub commit [8a47a39d9697969206d23a523c977238717e8727](https://github.com/tensorflow/tensorflow/commit/8a47a39d9697969206d23a523c977238717e8727).\n\nThe fix will be included in TensorFlow 2.12.0. We will also cherrypick this commit on TensorFlow 2.11.1\n\n\n### For more information\nPlease consult [our security guide](https://github.com/tensorflow/tensorflow/blob/master/SECURITY.md) for more information regarding the security model and how to contact us with issues and questions.\n\n\n### Attribution\nThis vulnerability has been reported by r3pwnx\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "tensorflow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.11.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "tensorflow-cpu"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.11.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "tensorflow-gpu"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.11.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/tensorflow/tensorflow/security/advisories/GHSA-49rq-hwc3-x77w"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-25670"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tensorflow/tensorflow/commit/8a47a39d9697969206d23a523c977238717e8727"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/tensorflow/tensorflow"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-476"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-24T21:55:32Z",
+    "nvd_published_at": "2023-03-25T00:15:00Z"
+  }
+}

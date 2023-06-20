@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c6qg-cjj8-47qp",
+  "modified": "2023-03-15T21:36:02Z",
+  "published": "2023-03-15T21:36:02Z",
+  "aliases": [
+    "CVE-2023-27539"
+  ],
+  "summary": "Possible Denial of Service Vulnerability in Rack’s header parsing",
+  "details": "There is a denial of service vulnerability in the header parsing component of Rack. This vulnerability has been assigned the CVE identifier CVE-2023-27539.\n\nVersions Affected: >= 2.0.0 Not affected: None. Fixed Versions: 2.2.6.4, 3.0.6.1\n\n# Impact\nCarefully crafted input can cause header parsing in Rack to take an unexpected amount of time, possibly resulting in a denial of service attack vector. Any applications that parse headers using Rack (virtually all Rails applications) are impacted.\n\n# Workarounds\nSetting Regexp.timeout in Ruby 3.2 is a possible workaround.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "rack"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.2.6.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "rack"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.0.6.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-27539"
+    },
+    {
+      "type": "WEB",
+      "url": "https://discuss.rubyonrails.org/t/cve-2023-27539-possible-denial-of-service-vulnerability-in-racks-header-parsing/82466"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/rack/CVE-2023-27539.yml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-15T21:36:02Z",
+    "nvd_published_at": null
+  }
+}

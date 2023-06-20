@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w9g2-3w7p-72g9",
+  "modified": "2023-04-25T16:34:41Z",
+  "published": "2023-04-24T22:33:52Z",
+  "aliases": [
+    "CVE-2023-30629"
+  ],
+  "summary": "Incorrect success value returned in vyper",
+  "details": "### Background\nDuring the audit of [Lido's Gate Seals](https://github.com/lidofinance/gate-seals) code [statemind](https://statemind.io) team identified a weird behavior of the code that uses `raw_call`: https://github.com/lidofinance/gate-seals/blob/051593e74df01a4131c485b4fda52e691cd4b7d8/contracts/GateSeal.vy#L164 .\n\nConstruction like this:\n```vyper\nsuccess = raw_call(\n    sealable,\n    _abi_encode(SEAL_DURATION_SECONDS, method_id=method_id(\"pauseFor(uint256)\")),\n    revert_on_failure=False\n)\n```\nwas not fully documented: https://docs.vyperlang.org/en/v0.3.7/built-in-functions.html#raw_call .\n\nThe documentation says that: if `max_outsize=0` it should return nothing and then it says that if `revert_on_failure=False` it should return a `success` flag in the tuple of response, but what if `max_outsize=0`  and `revert_on_failure=False`.\n\n<img width=\"715\" alt=\"image\" src=\"https://user-images.githubusercontent.com/22330612/232125364-d2b3bbac-0b4f-40cb-80ff-f55d8eafef44.png\">\n\n So the team started researching what exactly happened in that case, after some research we found that the Vyper compiler generates the wrong bytecode in that case, it generates the sequence:\n```\nCALL // call\nMLOAD // MLOAD is wrong since the CALL result is already stored in the stack\n```\n\n### Impact\nExample of buggy code:\n```vyper\n@external\ndef returnSome(calling: address, a: uint256) -> bool:\n    success: bool = false\n    success = raw_call(\n        calling,\n        _abi_encode(a, method_id=method_id(\"a(uint256)\")),\n        revert_on_failure=False\n        )\n```\n\nany contract that uses the `raw_call` with `revert_on_failure=False` and `max_outsize=0` receives the wrong response from `raw_call`. Depending on the memory garbage, the result can be either `True` or `False`.\n\n### Patches\nFix by @charles-cooper https://github.com/vyperlang/vyper/commit/851f7a1b3aa2a36fd041e3d0ed38f9355a58c8ae\n\n### Workarounds\nThe simple workaround is always to put  `max_outsize>0`.\nWorkaround example https://github.com/lidofinance/gate-seals/pull/5/files\n\n### References\nLido's fix: https://github.com/lidofinance/gate-seals/pull/5/files\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "vyper"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "vyper.builtins.functions.RawCall.build_IR"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.3.1"
+            },
+            {
+              "fixed": "0.3.8"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/vyperlang/vyper/security/advisories/GHSA-w9g2-3w7p-72g9"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-30629"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/lidofinance/gate-seals/pull/5/files"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vyperlang/vyper/commit/851f7a1b3aa2a36fd041e3d0ed38f9355a58c8ae"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.vyperlang.org/en/v0.3.7/built-in-functions.html#raw_call"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/lidofinance/gate-seals/blob/051593e74df01a4131c485b4fda52e691cd4b7d8/contracts/GateSeal.vy#L164"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vyperlang/vyper"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-670"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-24T22:33:52Z",
+    "nvd_published_at": null
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wm8x-php5-hvq6",
+  "modified": "2023-03-07T20:13:19Z",
+  "published": "2023-03-07T20:13:19Z",
+  "aliases": [
+
+  ],
+  "summary": "Maligned causes incorrect deallocation",
+  "details": "`maligned::align_first` manually allocates with an alignment larger than T, and then uses `Vec::from_raw_parts` on that allocation to get a `Vec<T>`.\n\n[`GlobalAlloc::dealloc`](https://doc.rust-lang.org/std/alloc/trait.GlobalAlloc.html#tymethod.dealloc) requires that the `layout` argument must be the same layout that was used to allocate that block of memory.\n\nWhen deallocating, `Box` and `Vec` may not respect the specified alignment and can cause undefined behavior.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "maligned"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.2.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/tylerhawkes/maligned/issues/5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://doc.rust-lang.org/std/alloc/trait.GlobalAlloc.html#tymethod.dealloc"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/tylerhawkes/maligned"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2023-0017.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-07T20:13:19Z",
+    "nvd_published_at": null
+  }
+}

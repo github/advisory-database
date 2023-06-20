@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-786p-jmmh-gc9x",
+  "modified": "2023-04-21T15:30:17Z",
+  "published": "2023-04-12T06:30:22Z",
+  "aliases": [
+    "CVE-2022-48437"
+  ],
+  "details": "An issue was discovered in x509/x509_verify.c in LibreSSL before 3.6.1, and in OpenBSD before 7.2 errata 001. x509_verify_ctx_add_chain does not store errors that occur during leaf certificate verification, and therefore an incorrect error is returned. This behavior occurs when there is an installed verification callback that instructs the verifier to continue upon detecting an invalid certificate.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-48437"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openbsd/src/commit/4f94258c65a918ee3d8670e93916d15bf879e6ec"
+    },
+    {
+      "type": "WEB",
+      "url": "https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.6.1-relnotes.txt"
+    },
+    {
+      "type": "WEB",
+      "url": "https://ftp.openbsd.org/pub/OpenBSD/patches/7.2/common/001_x509.patch.sig"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-295"
+    ],
+    "severity": null,
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2023-04-12T05:15:00Z"
+  }
+}

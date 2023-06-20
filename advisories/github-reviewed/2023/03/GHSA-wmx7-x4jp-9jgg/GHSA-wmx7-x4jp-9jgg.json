@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wmx7-x4jp-9jgg",
+  "modified": "2023-03-07T20:04:42Z",
+  "published": "2023-03-07T20:04:42Z",
+  "aliases": [
+    "CVE-2022-41918"
+  ],
+  "summary": "OpenSearch has issue with fine-grained access control of indices backing data streams",
+  "details": "### Impact\nThere is an issue with the implementation of fine-grained access control rules (document-level security, field-level security and field masking) where they are not correctly applied to the indices that back data streams potentially leading to incorrect access authorization. This issue can only be triggered by authenticated users authorized to read those data streams which are backed by the impacted indexes. Additionally, existing privileged users cannot access random indexes within these clusters; they can only access indexes to which they have already been granted permission.\n\n### Patches\nOpenSearch 1.3.7 and 2.4.0 contain a fix for this issue.\n\n### Workarounds\nThere is no recommended work around.\n\n### For more information\nIf you have any questions or comments about this advisory, please contact AWS/Amazon Security via our issue reporting page (https://aws.amazon.com/security/vulnerability-reporting/) or directly via email to aws-security@amazon.com. Please do not create a public GitHub issue.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.opensearch.plugin:opensearch-security"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.3.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.opensearch.plugin:opensearch-security"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.4.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/opensearch-project/security/security/advisories/GHSA-wmx7-x4jp-9jgg"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-41918"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/opensearch-project/security/commit/f7cc569c9d3fa5d5432c76c854eed280d45ce6f4"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/opensearch-project/security"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-612",
+      "CWE-863"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-07T20:04:42Z",
+    "nvd_published_at": "2022-11-15T23:15:00Z"
+  }
+}

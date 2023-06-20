@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vrr8-fp7c-7qgp",
+  "modified": "2023-04-18T14:35:21Z",
+  "published": "2023-04-12T20:36:51Z",
+  "aliases": [
+    "CVE-2023-30537"
+  ],
+  "summary": "org.xwiki.platform:xwiki-platform-flamingo-theme-ui vulnerable to privilege escalation",
+  "details": "### Impact\n\nAny user with the right to add an object on a page can execute arbitrary Groovy, Python or Velocity code in XWiki leading to full access to the XWiki installation. The root cause is improper escaping of the styles properties `FlamingoThemesCode.WebHome`. This page is installed by default.\n\n#### Reproduction Steps\n\n**Steps to reproduce**:\n\n- As a user without script or programming rights, edit your user profile with the object editor (enable advanced mode if necessary to get access) and add an object of type \"Theme Class\" of \"FlamingoThemesCode\". In the field \"body-bg\" (all other fields should work, too) add the following text:\n\n`{{/html}} {{async async=\"true\" cached=\"false\" context=\"doc.reference\"}}{{groovy}}println(\"Hello \" + \"from groovy!\"){{/groovy}}{{/async}}`\n\n- Click \"Save & View\"\n- Open <xwiki-host>/xwiki/bin/view/FlamingoThemesCode/WebHomeSheet where <xwiki-host> is the URL of your XWiki installation\n\n**Expected result**:\n\nThe list of color themes either doesn't include the user's profile or displays a regular preview.\n\n**Actual result**:\n\nThe user's profile is listed as color theme but instead of the little preview the message\n\n```\nFailed to execute the [html] macro. Cause: [When using HTML content inline, you can only use inline HTML content. Block HTML content (such as tables) cannot be displayed. Try leaving an empty line before and after the macro.]. Click on this message for details.\nHello from groovy!\">\n```\n\nis displayed. This shows that a Groovy macro with content created by the user has been executed and thus demonstrates a privilege escalation from simple user account to programming rights.\n\n\n### Patches\nThe vulnerability has been patched in XWiki 13.10.11, 14.4.7 and 14.10.\n\n### Workarounds\nThe issue can be fixed by applying this [patch](https://github.com/xwiki/xwiki-platform/commit/df596f15368342236f8899ca122af8f3df0fe2e8#diff-e2153fa59f9d92ef67b0afbf27984bd17170921a3b558fac227160003d0dfd2a) on `FlamingoThemesCode.WebHomeSheet`.\n\n### References\n- patch: https://github.com/xwiki/xwiki-platform/commit/df596f15368342236f8899ca122af8f3df0fe2e8\n- Jira: https://jira.xwiki.org/browse/XWIKI-20280\n\n### For more information\nIf you have any questions or comments about this advisory:\n\n*    Open an issue in [Jira XWiki.org](https://jira.xwiki.org/)\n*    Email us at [Security Mailing List](mailto:security@xwiki.org)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-flamingo-theme-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "12.6.6"
+            },
+            {
+              "fixed": "13.10.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-flamingo-theme-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.0-rc-1"
+            },
+            {
+              "fixed": "14.4.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-flamingo-theme-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.5"
+            },
+            {
+              "fixed": "14.10"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-vrr8-fp7c-7qgp"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-30537"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/df596f15368342236f8899ca122af8f3df0fe2e8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20280"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94",
+      "CWE-95"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-12T20:36:51Z",
+    "nvd_published_at": "2023-04-16T08:15:00Z"
+  }
+}

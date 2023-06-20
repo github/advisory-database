@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-93hq-5wgc-jc82",
+  "modified": "2023-04-27T15:35:33Z",
+  "published": "2023-04-20T14:11:03Z",
+  "aliases": [
+    "CVE-2023-30542"
+  ],
+  "summary": "GovernorCompatibilityBravo may trim proposal calldata",
+  "details": "### Impact\n\nThe proposal creation entrypoint (`propose`) in `GovernorCompatibilityBravo` allows the creation of proposals with a `signatures` array shorter than the `calldatas` array. This causes the additional elements of the latter to be ignored, and if the proposal succeeds the corresponding actions would eventually execute without any calldata. The `ProposalCreated` event correctly represents what will eventually execute, but the proposal parameters as queried through `getActions` appear to respect the original intended calldata.\n\n### Patches\n\nThis issue has been patched in v4.8.3.\n\n### Workarounds\n\nEnsure that all proposals that pass through governance have equal length `signatures` and `calldatas` parameters.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@openzeppelin/contracts"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.3.0"
+            },
+            {
+              "fixed": "4.8.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@openzeppelin/contracts-upgradeable"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.3.0"
+            },
+            {
+              "fixed": "4.8.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenZeppelin/openzeppelin-contracts/security/advisories/GHSA-93hq-5wgc-jc82"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-30542"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenZeppelin/openzeppelin-contracts/commit/8d633cb7d169f2f8595b273660b00b69e845c2fe"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/OpenZeppelin/openzeppelin-contracts"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenZeppelin/openzeppelin-contracts/releases/tag/v4.8.3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-20T14:11:03Z",
+    "nvd_published_at": "2023-04-16T08:15:00Z"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qx82-prw3-cr2g",
+  "modified": "2022-05-13T01:13:44Z",
+  "published": "2022-05-13T01:13:44Z",
+  "aliases": [
+    "CVE-2017-8246"
+  ],
+  "details": "In function msm_pcm_playback_close() in all Android releases from CAF using the Linux kernel, prtd is assigned substream->runtime->private_data. Later, prtd is freed. However, prtd is not sanitized and set to NULL, resulting in a dangling pointer. There are other functions that access the same memory (substream->runtime->private_data) with a NULL check, such as msm_pcm_volume_ctl_put(), which means this freed memory could be used.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-8246"
+    },
+    {
+      "type": "WEB",
+      "url": "https://source.android.com/security/bulletin/2017-07-01"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.codeaurora.org/use-after-free-alsa-pcm-playback-kernel-module-cve-2017-8246"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-416"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2017-05-12T20:29:00Z"
+  }
+}

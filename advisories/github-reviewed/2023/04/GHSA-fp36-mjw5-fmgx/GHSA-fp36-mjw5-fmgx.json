@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fp36-mjw5-fmgx",
+  "modified": "2023-04-20T21:39:56Z",
+  "published": "2023-04-20T21:39:56Z",
+  "aliases": [
+    "CVE-2023-29513"
+  ],
+  "summary": "xwiki-platform-web-templates allows users to be created even when registration is disabled without validation via template macro",
+  "details": "### Impact\n\nIf a guest has view rights on any document, it's possible to create a new user using the `distribution/firstadminuser.wiki` in the wrong context.\n\nTo reproduce:\n\n* On a wiki with view rights for guests but user registration disabled, open as guest <server>/xwiki/bin/view/Main?sheet=CKEditor.HTMLConverter&language=en&sourceSyntax=xwiki%2F2.1&stripHTMLEnvelope=true&fromHTML=false&toHTML=true&text=%7B%7Btemplate+name%3D%22distribution%2Ffirstadminuser.wiki%22+%2F%7D%7D where <server> is the URL of your XWiki installation.\n* Enter username and password of your choice.\n* Click \"Register and login\"\n\n### Patches\n\nThe vulnerability has been patched in XWiki 15.0-rc-1 and 14.10.1.\n\n### Workarounds\nThere is no known workaround other than upgrading.\n\n### References\nhttps://jira.xwiki.org/browse/XWIKI-19852\nhttps://jira.xwiki.org/browse/XWIKI-20400\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n* Open an issue in [Jira XWiki.org](https://jira.xwiki.org/)\n* Email us at [Security Mailing List](mailto:security@xwiki.org)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-web-templates"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.0-rc-1"
+            },
+            {
+              "fixed": "14.10.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-fp36-mjw5-fmgx"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-29513"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-19852"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20400"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-284"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-20T21:39:56Z",
+    "nvd_published_at": null
+  }
+}

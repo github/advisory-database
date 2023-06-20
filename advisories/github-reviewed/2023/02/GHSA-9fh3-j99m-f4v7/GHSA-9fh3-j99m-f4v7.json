@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9fh3-j99m-f4v7",
+  "modified": "2023-03-03T23:31:11Z",
+  "published": "2023-02-24T00:30:17Z",
+  "aliases": [
+    "CVE-2022-36231"
+  ],
+  "summary": "Code injection in pdf_info",
+  "details": "pdf_info 0.5.3 is vulnerable to Command Execution. An attacker using a specially crafted payload may execute OS commands by using command chaining because during object initalization there is no validation performed and the user provided path is used.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "pdf_info"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.5.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-36231"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/newspaperclub/pdf_info/issues/16"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/newspaperclub/pdf_info/pull/15"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/affix/CVE-2022-36231"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/newspaperclub/pdf_info"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/pdf_info/CVE-2022-36231.yml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rubygems.org/gems/pdf_info"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-02-24T00:33:27Z",
+    "nvd_published_at": "2023-02-23T22:15:00Z"
+  }
+}

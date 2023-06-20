@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-25w9-jc8c-rx9w",
+  "modified": "2022-11-23T21:30:33Z",
+  "published": "2022-11-22T15:30:26Z",
+  "aliases": [
+    "CVE-2022-3910"
+  ],
+  "details": "Use After Free vulnerability in Linux Kernel allows Privilege Escalation. An improper Update of Reference Count in io_uring leads to Use-After-Free and Local Privilege Escalation. When io_msg_ring was invoked with a fixed file, it called io_fput_file() which improperly decreased its reference count (leading to Use-After-Free and Local Privilege Escalation). Fixed files are permanently registered to the ring, and should not be put separately. We recommend upgrading past commit https://github.com/torvalds/linux/commit/fc7222c3a9f56271fba02aabbfbae999042f1679 https://github.com/torvalds/linux/commit/fc7222c3a9f56271fba02aabbfbae999042f1679",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-3910"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/torvalds/linux/commit/fc7222c3a9f56271fba02aabbfbae999042f1679"
+    },
+    {
+      "type": "WEB",
+      "url": "https://kernel.dance/#fc7222c3a9f56271fba02aabbfbae999042f1679"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-416"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2022-11-22T13:15:00Z"
+  }
+}

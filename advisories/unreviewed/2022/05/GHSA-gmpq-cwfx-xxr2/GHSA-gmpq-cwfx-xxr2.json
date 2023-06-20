@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-gmpq-cwfx-xxr2",
+  "modified": "2022-05-13T01:14:38Z",
+  "published": "2022-05-13T01:14:38Z",
+  "aliases": [
+    "CVE-2017-14173"
+  ],
+  "details": "In the function ReadTXTImage() in coders/txt.c in ImageMagick 7.0.6-10, an integer overflow might occur for the addition operation \"GetQuantumRange(depth)+1\" when \"depth\" is large, producing a smaller value than expected. As a result, an infinite loop would occur for a crafted TXT file that claims a very large \"max_value\" value.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-14173"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ImageMagick/ImageMagick/issues/713"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ImageMagick/ImageMagick/commit/50f54462076648ac2e36c3f58f4dadd4babbf1c9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.debian.org/debian-lts-announce/2019/05/msg00015.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.debian.org/debian-lts-announce/2020/09/msg00007.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.gentoo.org/glsa/201711-07"
+    },
+    {
+      "type": "WEB",
+      "url": "https://usn.ubuntu.com/3681-1/"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-190"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2017-09-07T06:29:00Z"
+  }
+}

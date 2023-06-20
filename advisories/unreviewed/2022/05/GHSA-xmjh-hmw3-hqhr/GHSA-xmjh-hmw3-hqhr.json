@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xmjh-hmw3-hqhr",
+  "modified": "2022-05-13T01:11:27Z",
+  "published": "2022-05-13T01:11:27Z",
+  "aliases": [
+    "CVE-2019-3823"
+  ],
+  "details": "libcurl versions from 7.34.0 to before 7.64.0 are vulnerable to a heap out-of-bounds read in the code handling the end-of-response for SMTP. If the buffer passed to `smtp_endofresp()` isn't NUL terminated and contains no character ending the parsed number, and `len` is set to 5, then the `strtol()` call reads beyond the allocated buffer. The read contents will not be returned to the caller.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-3823"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2019:3701"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2019-3823"
+    },
+    {
+      "type": "WEB",
+      "url": "https://cert-portal.siemens.com/productcert/pdf/ssa-936080.pdf"
+    },
+    {
+      "type": "WEB",
+      "url": "https://curl.haxx.se/docs/CVE-2019-3823.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread.html/8338a0f605bdbb3a6098bb76f666a95fc2b2f53f37fa1ecc89f1146f@%3Cdevnull.infra.apache.org%3E"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.gentoo.org/glsa/201903-03"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.netapp.com/advisory/ntap-20190315-0001/"
+    },
+    {
+      "type": "WEB",
+      "url": "https://usn.ubuntu.com/3882-1/"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.debian.org/security/2019/dsa-4386"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.oracle.com/technetwork/security-advisory/cpuapr2019-5072813.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.oracle.com/technetwork/security-advisory/cpujul2019-5072835.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/106950"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-125"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2019-02-06T20:29:00Z"
+  }
+}

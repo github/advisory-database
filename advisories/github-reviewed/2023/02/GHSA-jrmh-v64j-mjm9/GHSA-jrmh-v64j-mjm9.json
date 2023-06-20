@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jrmh-v64j-mjm9",
+  "modified": "2023-03-02T19:56:37Z",
+  "published": "2023-02-18T00:31:59Z",
+  "aliases": [
+    "CVE-2023-0482"
+  ],
+  "summary": "Insecure Temporary File in RESTEasy",
+  "details": "In RESTEasy the insecure File.createTempFile() is used in the DataSourceProvider, FileProvider and Mime4JWorkaround classes which creates temp files with insecure permissions that could be read by a local user.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jboss.resteasy:resteasy-undertow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "6.2.2.Final"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-0482"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/resteasy/resteasy/pull/3409/commits/807d7456f2137cde8ef7c316707211bf4e542d56"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/resteasy/Resteasy"
+    },
+    {
+      "type": "WEB",
+      "url": "https://issues.redhat.com/browse/RESTEASY-3286"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.netapp.com/advisory/ntap-20230427-0001/"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-378"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-02-18T02:18:19Z",
+    "nvd_published_at": "2023-02-17T22:15:00Z"
+  }
+}

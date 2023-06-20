@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jwpw-q68h-r678",
+  "modified": "2023-03-22T21:26:32Z",
+  "published": "2022-05-24T17:47:44Z",
+  "aliases": [
+
+  ],
+  "summary": "Improper Neutralization of CRLF Sequences in dio",
+  "details": "The dio package prior to 5.0.0 for Dart allows CRLF injection if the attacker controls the HTTP method string, a different vulnerability than CVE-2020-35669.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Pub",
+        "name": "dio"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-31402"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cfug/dio/issues/1130"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cfug/dio/commit/927f79e93ba39f3c3a12c190624a55653d577984"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cfug/dio"
+    },
+    {
+      "type": "WEB",
+      "url": "https://osv.dev/GHSA-jwpw-q68h-r678"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74",
+      "CWE-88",
+      "CWE-93"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2022-09-15T03:27:03Z",
+    "nvd_published_at": "2021-04-15T19:15:00Z"
+  }
+}

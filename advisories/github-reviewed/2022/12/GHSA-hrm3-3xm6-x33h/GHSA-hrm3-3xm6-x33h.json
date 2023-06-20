@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hrm3-3xm6-x33h",
+  "modified": "2023-01-10T15:49:55Z",
+  "published": "2022-12-28T00:30:23Z",
+  "aliases": [
+    "CVE-2020-36569"
+  ],
+  "summary": "golang-nanoauth authentication bypass vulnerability",
+  "details": "Authentication is globally bypassed in github.com/nanobox-io/golang-nanoauth between v0.0.0-20160722212129-ac0cc4484ad4 and v0.0.0-20200131131040-063a3fb69896 if ListenAndServe is called with an empty token.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/nanobox-io/golang-nanoauth"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.0.0-20160722212129-ac0cc4484ad4"
+            },
+            {
+              "fixed": "0.0.0-20200131131040-063a3fb69896"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-36569"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nanobox-io/golang-nanoauth/pull/5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nanobox-io/golang-nanoauth/commit/063a3fb69896acf985759f0fe3851f15973993f3"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/nanobox-io/golang-nanoauth"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/vuln/GO-2020-0004"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-287",
+      "CWE-305"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2022-12-30T18:54:51Z",
+    "nvd_published_at": "2022-12-27T22:15:00Z"
+  }
+}

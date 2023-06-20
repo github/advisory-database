@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r93v-9p5q-vhpf",
+  "modified": "2023-06-13T17:25:42Z",
+  "published": "2022-05-24T17:37:49Z",
+  "aliases": [
+    "CVE-2020-35906"
+  ],
+  "summary": "futures_task::waker may cause a use-after-free if used on a type that isn't 'static",
+  "details": "Affected versions of the crate did not properly implement a 'static lifetime bound on the waker function. This resulted in a use-after-free if Waker::wake() is called after original data had been dropped.\n\nThe flaw was corrected by adding 'static lifetime bound to the data waker takes.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "futures-task"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "futures_task::waker"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.2.1"
+            },
+            {
+              "fixed": "0.3.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-35906"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rust-lang/futures-rs/pull/2206"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/rust-lang/futures-rs"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2020-0060.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-416"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2022-06-16T23:58:42Z",
+    "nvd_published_at": "2020-12-31T09:15:00Z"
+  }
+}

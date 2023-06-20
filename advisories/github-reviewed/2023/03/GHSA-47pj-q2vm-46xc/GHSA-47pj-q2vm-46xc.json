@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-47pj-q2vm-46xc",
+  "modified": "2023-03-24T19:40:25Z",
+  "published": "2023-03-18T06:30:15Z",
+  "aliases": [
+    "CVE-2023-26113"
+  ],
+  "summary": "Collection.js vulnerable to Prototype Pollution",
+  "details": "Versions of the package collection.js before 6.8.1 are vulnerable to Prototype Pollution via the `extend` function in `Collection.js/dist/node/iterators/extend.js`.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "collection.js"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "collection.js.extend"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.8.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-26113"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kobezzza/Collection/issues/27"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kobezzza/Collection/commit/d3d937645f62f37d3115d6aa90bb510fd856e6a2"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/kobezzza/Collection"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kobezzza/Collection/blob/be32c48e68f49d3be48a58e929d1ab8ff1d2d19c/dist/node/iterators/extend.js%23L324"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kobezzza/Collection/releases/tag/v6.8.1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-JS-COLLECTIONJS-3185148"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1321"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-20T21:19:22Z",
+    "nvd_published_at": "2023-03-18T05:15:00Z"
+  }
+}

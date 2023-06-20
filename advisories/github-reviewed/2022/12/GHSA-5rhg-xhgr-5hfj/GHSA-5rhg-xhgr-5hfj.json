@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5rhg-xhgr-5hfj",
+  "modified": "2023-01-10T15:58:16Z",
+  "published": "2022-12-28T03:30:28Z",
+  "aliases": [
+    "CVE-2020-36563"
+  ],
+  "summary": "go-saml's XML Digital Signatures use SHA-1",
+  "details": "XML Digital Signatures generated and validated using this package use SHA-1, which may allow an attacker to craft inputs which cause hash collisions depending on their control over the input.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/RobotsAndPencils/go-saml"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.0.0-20170520135329-fb13cb52a46b"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-36563"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/RobotsAndPencils/go-saml/pull/38"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/RobotsAndPencils/go-saml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/vuln/GO-2020-0047"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-347"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2022-12-30T19:48:02Z",
+    "nvd_published_at": "2022-12-28T03:15:00Z"
+  }
+}

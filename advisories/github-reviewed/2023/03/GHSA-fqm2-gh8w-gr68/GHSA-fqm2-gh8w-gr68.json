@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fqm2-gh8w-gr68",
+  "modified": "2023-03-27T22:02:10Z",
+  "published": "2023-03-24T21:57:09Z",
+  "aliases": [
+    "CVE-2023-25667"
+  ],
+  "summary": "TensorFlow vulnerable to segfault when opening multiframe gif",
+  "details": "### Impact\nInteger overflow occurs when 2^31 <= num_frames * height * width * channels < 2^32, for example Full HD screencast of at least 346 frames.\n```python\nimport urllib.request\ndat = urllib.request.urlopen('https://raw.githubusercontent.com/tensorflow/tensorflow/1c38ad9b78ffe06076745a1ee00cec42f39ff726/tensorflow/core/lib/gif/testdata/3g_multiframe.gif').read()\nimport tensorflow as tf\ntf.io.decode_gif(dat)\n```\n\n### Patches\nWe have patched the issue in GitHub commit [8dc723fcdd1a6127d6c970bd2ecb18b019a1a58d](https://github.com/tensorflow/tensorflow/commit/8dc723fcdd1a6127d6c970bd2ecb18b019a1a58d).\n\nThe fix will be included in TensorFlow 2.12.0. We will also cherrypick this commit on TensorFlow 2.11.1\n\n\n### For more information\nPlease consult [our security guide](https://github.com/tensorflow/tensorflow/blob/master/SECURITY.md) for more information regarding the security model and how to contact us with issues and questions.\n\n\n### Attribution\nThis vulnerability has been reported by Andrei\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "tensorflow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.11.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "tensorflow-cpu"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.11.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "tensorflow-gpu"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.11.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/tensorflow/tensorflow/security/advisories/GHSA-fqm2-gh8w-gr68"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-25667"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tensorflow/tensorflow/commit/8dc723fcdd1a6127d6c970bd2ecb18b019a1a58d"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/tensorflow/tensorflow"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-190"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-24T21:57:09Z",
+    "nvd_published_at": "2023-03-25T00:15:00Z"
+  }
+}

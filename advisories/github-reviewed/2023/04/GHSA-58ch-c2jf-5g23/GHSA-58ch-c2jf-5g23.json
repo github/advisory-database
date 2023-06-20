@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-58ch-c2jf-5g23",
+  "modified": "2023-04-10T16:42:59Z",
+  "published": "2023-04-02T21:30:16Z",
+  "aliases": [
+    "CVE-2023-28684"
+  ],
+  "summary": "Jenkins remote-jobs-view-plugin vulnerable to XML external entity attacks",
+  "details": "Jenkins remote-jobs-view-plugin Plugin 0.0.3 and earlier does not configure its XML parser to prevent XML external entity (XXE) attacks.\n\nThis allows authenticated attackers with Overall/Read permission to have Jenkins parse a crafted XML document that uses external entities for extraction of secrets from the Jenkins controller or server-side request forgery.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.sap.jenkinsci:remote-jobs-view-plugin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.0.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-28684"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/remote-jobs-view-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-03-21/#SECURITY-2956"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-611"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-10T16:42:59Z",
+    "nvd_published_at": "2023-04-02T21:15:00Z"
+  }
+}

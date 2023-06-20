@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6vm3-jj99-7229",
+  "modified": "2023-01-10T15:56:22Z",
+  "published": "2022-12-27T21:30:20Z",
+  "aliases": [
+    "CVE-2020-36567"
+  ],
+  "summary": "Gin's default logger allows unsanitized input that can allow remote attackers to inject arbitrary log lines",
+  "details": "Gin is a HTTP web framework written in Go (Golang). Unsanitized input in the default logger in github.com/gin-gonic/gin before v1.6.0 allows remote attackers to inject arbitrary log lines.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/gin-gonic/gin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.6.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-36567"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/gin-gonic/gin/pull/2237"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/gin-gonic/gin/commit/a71af9c144f9579f6dbe945341c1df37aaf09c0d"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/gin-gonic/gin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/vuln/GO-2020-0001"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-116",
+      "CWE-117"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2022-12-30T00:56:53Z",
+    "nvd_published_at": "2022-12-27T21:15:00Z"
+  }
+}

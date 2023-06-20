@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v5jg-gm3q-h894",
+  "modified": "2022-05-13T01:03:36Z",
+  "published": "2022-05-13T01:03:36Z",
+  "aliases": [
+    "CVE-2017-7574"
+  ],
+  "details": "Schneider Electric SoMachine Basic 1.4 SP1 and Schneider Electric Modicon TM221CE16R 1.3.3.3 devices have a hardcoded-key vulnerability. The Project Protection feature is used to prevent unauthorized users from opening an XML protected project file, by prompting the user for a password. This XML file is AES-CBC encrypted; however, the key used for encryption (SoMachineBasicSoMachineBasicSoMa) cannot be changed. After decrypting the XML file with this key, the user password can be found in the decrypted data. After reading the user password, the project can be opened and modified with the Schneider product.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-7574"
+    },
+    {
+      "type": "WEB",
+      "url": "https://os-s.net/advisories/OSS-2017-02.pdf"
+    },
+    {
+      "type": "WEB",
+      "url": "http://download.schneider-electric.com/files?p_Doc_Ref=SEVD-2017-097-01"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/97518"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-798"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2017-04-06T21:59:00Z"
+  }
+}

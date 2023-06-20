@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-q9j6-px2x-x688",
+  "modified": "2022-05-13T01:02:14Z",
+  "published": "2022-05-13T01:02:14Z",
+  "aliases": [
+    "CVE-2019-10655"
+  ],
+  "details": "Grandstream GAC2500 1.0.3.35, GXP2200 1.0.3.27, GVC3202 1.0.3.51, GXV3275 before 1.0.3.219 Beta, and GXV3240 before 1.0.3.219 Beta devices allow unauthenticated remote code execution via shell metacharacters in a /manager?action=getlogcat priority field, in conjunction with a buffer overflow (via the phonecookie cookie) to overwrite a data structure and consequently bypass authentication. This can be exploited remotely or via CSRF because the cookie can be placed in an Accept HTTP header in an XMLHttpRequest call to lighttpd.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-10655"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/scarvell/grandstream_exploits"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.trustwave.com/en-us/resources/security-resources/security-advisories/?fid=23920&dl=1"
+    },
+    {
+      "type": "WEB",
+      "url": "http://packetstormsecurity.com/files/165643/Grandstream-GXV3175-Unauthenticated-Command-Execution.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://packetstormsecurity.com/files/165931/Grandstream-GXV31XX-settimezone-Unauthenticated-Command-Execution.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-119"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2019-03-30T17:29:00Z"
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mpg5-fvwp-42m2",
+  "modified": "2022-06-16T23:52:24Z",
+  "published": "2022-06-16T23:52:24Z",
+  "aliases": [
+
+  ],
+  "summary": "Unsoundness in `dashmap` references",
+  "details": "Reference returned by some methods of `Ref` (and similar types) may outlive the `Ref` and escape the lock.\nThis causes undefined behavior and may result in a segfault.\n\nMore information in [`dashmap#167`](https://github.com/xacrimon/dashmap/issues/167) issue.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "dashmap"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "dashmap::mapref::multiple::RefMulti::key",
+          "dashmap::mapref::multiple::RefMulti::pair",
+          "dashmap::mapref::multiple::RefMulti::value",
+          "dashmap::mapref::multiple::RefMutMulti::key",
+          "dashmap::mapref::multiple::RefMutMulti::pair",
+          "dashmap::mapref::multiple::RefMutMulti::pair_mut",
+          "dashmap::mapref::one::Ref::key",
+          "dashmap::mapref::one::Ref::pair",
+          "dashmap::mapref::one::Ref::value",
+          "dashmap::mapref::one::RefMut::key",
+          "dashmap::mapref::one::RefMut::pair",
+          "dashmap::mapref::one::RefMut::pair_mut",
+          "dashmap::setref::multiple::RefMulti::key",
+          "dashmap::setref::one::Ref::key"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0"
+            },
+            {
+              "fixed": "5.1.0"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "5.0.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xacrimon/dashmap/issues/167"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xacrimon/dashmap"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2022-0002.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2022-06-16T23:52:24Z",
+    "nvd_published_at": null
+  }
+}

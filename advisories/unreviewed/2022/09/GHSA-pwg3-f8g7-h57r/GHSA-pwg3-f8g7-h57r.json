@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-pwg3-f8g7-h57r",
+  "modified": "2022-09-17T00:00:31Z",
+  "published": "2022-09-14T00:00:43Z",
+  "aliases": [
+    "CVE-2022-20385"
+  ],
+  "details": "a function called 'nla_parse', do not check the len of para, it will check nla_type (which can be controlled by userspace) with 'maxtype' (in this case, it is GSCAN_MAX), then it access polciy array 'policy[type]', which OOB access happens.Product: AndroidVersions: Android SoCAndroid ID: A-238379819",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-20385"
+    },
+    {
+      "type": "WEB",
+      "url": "https://source.android.com/security/bulletin/2022-09-01"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-119"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2022-09-13T20:15:00Z"
+  }
+}

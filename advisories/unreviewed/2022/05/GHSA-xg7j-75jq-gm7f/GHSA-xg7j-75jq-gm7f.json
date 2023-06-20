@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xg7j-75jq-gm7f",
+  "modified": "2022-05-13T01:09:55Z",
+  "published": "2022-05-13T01:09:55Z",
+  "aliases": [
+    "CVE-2019-10125"
+  ],
+  "details": "An issue was discovered in aio_poll() in fs/aio.c in the Linux kernel through 5.0.4. A file may be released by aio_poll_wake() if an expected event is triggered immediately (e.g., by the close of a pair of pipes) after the return of vfs_poll(), and this will cause a use-after-free.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-10125"
+    },
+    {
+      "type": "WEB",
+      "url": "https://patchwork.kernel.org/patch/10828359/"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.netapp.com/advisory/ntap-20190411-0003/"
+    },
+    {
+      "type": "WEB",
+      "url": "https://support.f5.com/csp/article/K29215970"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/107655"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-416"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2019-03-27T06:29:00Z"
+  }
+}

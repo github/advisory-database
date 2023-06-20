@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xv9q-3jh5-9rrc",
+  "modified": "2022-05-13T01:02:11Z",
+  "published": "2022-05-13T01:02:11Z",
+  "aliases": [
+    "CVE-2019-3870"
+  ],
+  "details": "A vulnerability was found in Samba from version (including) 4.9 to versions before 4.9.6 and 4.10.2. During the creation of a new Samba AD DC, files are created in a private subdirectory of the install location. This directory is typically mode 0700, that is owner (root) only access. However in some upgraded installations it will have other permissions, such as 0755, because this was the default before Samba 4.8. Within this directory, files are created with mode 0666, which is world-writable, including a sample krb5.conf, and the list of DNS names and servicePrincipalName values to update.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:H"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-3870"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2019-3870"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.samba.org/show_bug.cgi?id=13834"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/6354GALK73CZWQKFUG7AWB6EIEGFMF62/"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/JTJVFA3RZ6G2IZDTVKLHRMX6QBYA4GPA/"
+    },
+    {
+      "type": "WEB",
+      "url": "https://support.f5.com/csp/article/K20804356"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.samba.org/samba/security/CVE-2019-3870.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.synology.com/security/advisory/Synology_SA_19_15"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-276"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2019-04-09T16:29:00Z"
+  }
+}

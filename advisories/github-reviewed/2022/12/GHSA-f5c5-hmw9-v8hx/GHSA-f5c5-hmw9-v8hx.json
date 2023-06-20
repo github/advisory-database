@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f5c5-hmw9-v8hx",
+  "modified": "2023-01-10T15:56:14Z",
+  "published": "2022-12-28T00:30:23Z",
+  "aliases": [
+    "CVE-2020-36561"
+  ],
+  "summary": "Unzip vulnerable to path traversal",
+  "details": "Due to improper path santization, archives containing relative file paths can cause files to be written (or overwritten) outside of the target directory.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/yi-ge/unzip"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.0.3-0.20200308084313-2adbaa4891b9"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-36561"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/yi-ge/unzip/pull/1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/yi-ge/unzip/commit/2adbaa4891b9690853ef10216189189f5ad7dc73"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/yi-ge/unzip"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/vuln/GO-2020-0035"
+    },
+    {
+      "type": "WEB",
+      "url": "https://snyk.io/research/zip-slip-vulnerability"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2022-12-30T19:07:02Z",
+    "nvd_published_at": "2022-12-27T22:15:00Z"
+  }
+}

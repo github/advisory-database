@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9337-8c6c-c2xg",
+  "modified": "2023-04-20T14:15:51Z",
+  "published": "2023-04-12T06:30:22Z",
+  "aliases": [
+    "CVE-2023-30512"
+  ],
+  "summary": "CubeFS allows Kubernetes cluster-level privilege escalation",
+  "details": "CubeFS through 3.2.1 allows Kubernetes cluster-level privilege escalation. This occurs because DaemonSet has cfs-csi-cluster-role and can thus list all secrets, including the admin secret.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cubefs/cubefs"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "3.2.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-30512"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cubefs/cubefs/issues/1882"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cubefs/cubefs"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-732"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-12T20:40:15Z",
+    "nvd_published_at": "2023-04-12T06:15:00Z"
+  }
+}

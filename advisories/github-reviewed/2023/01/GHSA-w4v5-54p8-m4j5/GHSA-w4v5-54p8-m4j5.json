@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w4v5-54p8-m4j5",
+  "modified": "2023-02-02T17:13:25Z",
+  "published": "2023-01-26T21:30:18Z",
+  "aliases": [
+    "CVE-2023-24435"
+  ],
+  "summary": "Missing permission checks in Jenkins GitHub Pull Request Builder Plugin",
+  "details": "A missing permission check in Jenkins GitHub Pull Request Builder Plugin 1.42.2 and earlier allows attackers with Overall/Read permission to connect to an attacker-specified URL using attacker-specified credentials IDs obtained through another method, capturing credentials stored in Jenkins.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:ghprb"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.42.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-24435"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/ghprb-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-01-24/#SECURITY-2789%20(2)"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-862"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-01-27T01:20:04Z",
+    "nvd_published_at": "2023-01-26T21:18:00Z"
+  }
+}

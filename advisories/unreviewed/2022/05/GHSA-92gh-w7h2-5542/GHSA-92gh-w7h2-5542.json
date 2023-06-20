@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-92gh-w7h2-5542",
+  "modified": "2022-05-13T01:02:56Z",
+  "published": "2022-05-13T01:02:56Z",
+  "aliases": [
+    "CVE-2018-17582"
+  ],
+  "details": "Tcpreplay v4.3.0 beta1 contains a heap-based buffer over-read. The get_next_packet() function in the send_packets.c file uses the memcpy() function unsafely to copy sequences from the source buffer pktdata to the destination (*prev_packet)->pktdata. This will result in a Denial of Service (DoS) and potentially Information Exposure when the application attempts to process a file.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:H"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-17582"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/appneta/tcpreplay/issues/484"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/SegfaultMasters/covering360/blob/master/tcpreplay"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-125"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2018-09-28T09:29:00Z"
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-pfcc-3g6r-8rg8",
+  "modified": "2023-03-03T23:12:22Z",
+  "published": "2023-02-23T21:30:16Z",
+  "aliases": [
+    "CVE-2022-4492"
+  ],
+  "summary": "Undertow client not checking server identity presented by server certificate in https connections",
+  "details": "The undertow client is not checking the server identity presented by the server certificate in https connections. This should be performed by default in https and in http/2.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.undertow:undertow-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.3.0"
+            },
+            {
+              "fixed": "2.3.5.Final"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.undertow:undertow-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.2.24.Final"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-4492"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/undertow-io/undertow/pull/1447"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/undertow-io/undertow/pull/1447/commits/e5071e52b72529a14d3ec436ae7102cea5d918c4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/undertow-io/undertow/pull/1457"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/undertow-io/undertow/pull/1457/commits/a4d3b167126a803cc4f7fb740dd9a6ecabf59342"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/security/cve/CVE-2022-4492"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2153260"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/undertow-io/undertow/blob/master/core/src/main/java/io/undertow/security/impl/ClientCertAuthenticationMechanism.java"
+    },
+    {
+      "type": "WEB",
+      "url": "https://issues.redhat.com/browse/MTA-93"
+    },
+    {
+      "type": "WEB",
+      "url": "https://issues.redhat.com/browse/UNDERTOW-2212"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.netapp.com/advisory/ntap-20230324-0002/"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-03T23:12:22Z",
+    "nvd_published_at": "2023-02-23T20:15:00Z"
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-38jc-2rwx-qgxr",
+  "modified": "2023-04-12T22:19:45Z",
+  "published": "2023-04-12T18:30:37Z",
+  "aliases": [
+    "CVE-2023-30516"
+  ],
+  "summary": "Jenkins Image Tag Parameter Plugin improperly introduces option to opt out of SSL/TLS certificate validation",
+  "details": "Jenkins Image Tag Parameter Plugin 2.0 improperly introduces an option to opt out of SSL/TLS certificate validation when connecting to Docker registries.\n\nJob configurations using Image Tag Parameters that were created before 2.0 will have SSL/TLS certificate validation disabled by default.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:image-tag-parameter"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "2.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-30516"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-04-12/#SECURITY-2840"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2023/04/13/3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-295"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-12T22:19:45Z",
+    "nvd_published_at": "2023-04-12T18:15:00Z"
+  }
+}

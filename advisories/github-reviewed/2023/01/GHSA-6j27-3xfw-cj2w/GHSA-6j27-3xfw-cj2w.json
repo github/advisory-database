@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6j27-3xfw-cj2w",
+  "modified": "2023-02-06T16:41:08Z",
+  "published": "2023-01-26T21:30:18Z",
+  "aliases": [
+    "CVE-2023-24438"
+  ],
+  "summary": "Missing permissions check in Jenkins JIRA Pipeline Steps Plugin",
+  "details": "A missing permission check in Jenkins JIRA Pipeline Steps Plugin 2.0.165.v8846cf59f3db and earlier allows attackers with Overall/Read permission to connect to an attacker-specified URL using attacker-specified credentials IDs obtained through another method, capturing credentials stored in Jenkins.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:jira-steps"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "2.0.165.v8846cf59f3db"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-24438"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-01-24/#SECURITY-2786"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-862"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-01-27T01:08:29Z",
+    "nvd_published_at": "2023-01-26T21:18:00Z"
+  }
+}

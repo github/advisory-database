@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xrqq-wqh4-5hg2",
+  "modified": "2023-03-23T12:50:28Z",
+  "published": "2023-03-20T20:44:30Z",
+  "withdrawn": "2023-03-23T12:50:28Z",
+  "aliases": [
+    "CVE-2023-28426"
+  ],
+  "summary": "svg-sanitizer has Cross-site Scripting Bypass",
+  "details": "### Update\nIn [#88](https://github.com/darylldoyle/svg-sanitizer/issues/88) we have determined that the bypass this security advisory was created for, was a false positive and as such we have requested that the CVE be rejected.\n\n___\n\nA bypass has been found that allows an attacker to upload an SVG with persistent XSS.\n\nHTML elements within CDATA needed to be sanitized correctly, as we were converting them to a textnode and therefore, the library wasn't seeing them as DOM elements.\n\nAny data within a CDATA node will now be sanitised using [HTMLPurifier](https://github.com/ezyang/htmlpurifier). We've also removed many of the HTML and MathML elements from the allowed element list, as without `ForiegnObject`, they're not legal within the SVG context. \n\nAdditional tests have been added to the test suite to account for these new bypasses.\n\n### Impact\nThis impacts all users of the `svg-sanitizer` library.\n\n### Patches\nThis issue is fixed in 0.16.0 and higher.\n\n### Workarounds\nThere is currently no workaround available without upgrading.\n\n### For more information\nIf you have any questions or comments about this advisory:\n\nOpen an issue in [Github](https://github.com/darylldoyle/svg-sanitizer/issues)\nEmail us at [daryll@enshrined.co.uk](mailto:daryll@enshrined.co.uk)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "enshrined/svg-sanitize"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.16.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/darylldoyle/svg-sanitizer/security/advisories/GHSA-xrqq-wqh4-5hg2"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-28426"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/darylldoyle/svg-sanitizer/issues/88"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/darylldoyle/svg-sanitizer/commit/cce18bc237c05c6e093e9672db7926788da9b322"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/darylldoyle/svg-sanitizer"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-20T20:44:30Z",
+    "nvd_published_at": "2023-03-20T14:15:00Z"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-x4qp-7wvj-8c69",
+  "modified": "2022-07-22T00:00:40Z",
+  "published": "2022-07-15T00:00:18Z",
+  "aliases": [
+    "CVE-2022-28371"
+  ],
+  "details": "On Verizon 5G Home LVSKIHP InDoorUnit (IDU) 3.4.66.162 and OutDoorUnit (ODU) 3.33.101.0 devices, the CRTC and ODU RPC endpoints rely on a static certificate for access control. This certificate is embedded in the firmware, and is identical across the fleet of devices. An attacker need only download this firmware and extract the private components of these certificates (from /etc/lighttpd.d/ca.pem and /etc/lighttpd.d/server.pem) to gain access. (The firmware download location is shown in a device's upgrade logs.)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-28371"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/JousterL/SecWriteups/blob/main/Verizon%20LVSKIHP%205G%20Modem/readme.md"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.verizon.com/info/reportsecurityvulnerability/"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-522"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2022-07-14T13:15:00Z"
+  }
+}

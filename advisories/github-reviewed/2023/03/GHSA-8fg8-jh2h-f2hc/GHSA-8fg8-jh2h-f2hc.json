@@ -1,0 +1,112 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8fg8-jh2h-f2hc",
+  "modified": "2023-03-17T21:38:38Z",
+  "published": "2023-03-17T18:22:19Z",
+  "aliases": [
+    "CVE-2023-27594"
+  ],
+  "summary": "Potential network policy bypass when routing IPv6 traffic ",
+  "details": "## Impact\n\nUnder specific conditions, Cilium may misattribute the source IP address of traffic to a cluster, identifying external traffic as coming from the host on which Cilium is running. As a consequence, network policies for that cluster might be bypassed, depending on the specific network policies enabled. Only IPv6 traffic is impacted by this vulnerability.\n\nThis issue only manifests when:\n* Cilium is routing IPv6 traffic, and\n* Kube-proxy is used for service handling, and\n* NodePorts are used to route traffic to pods.\n\nIPv6 is disabled by default. Cilium's kube-proxy replacement feature is not affected by this vulnerability.\n\n## Patches\n\nThe problem has been fixed and is available on versions >=1.11.15, >=1.12.8, >=1.13.1\n\n## Workarounds\n\nDisable IPv6 routing (IPv6 is disabled by default).\n\n## Acknowledgements\n\nThe Cilium community has worked together with members of Isovalent to prepare these mitigations. Special thanks to Yusuke Suzuki for both highlighting and fixing the issue.\n\n## For more information\n\nIf you have any questions or comments about this advisory, please reach out on [Slack](https://docs.cilium.io/en/latest/community/community/#slack).\n\nAs usual, if you think you found a related vulnerability, we strongly encourage you to report security vulnerabilities to our private security mailing list: security@cilium.io - first, before disclosing them in any public forums. This is a private mailing list where only members of the Cilium internal security team are subscribed to, and is treated as top priority.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:A/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cilium/cilium"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.11.15"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cilium/cilium"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.12.0"
+            },
+            {
+              "fixed": "1.12.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cilium/cilium"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.13.0"
+            },
+            {
+              "fixed": "1.13.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/security/advisories/GHSA-8fg8-jh2h-f2hc"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-27594"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cilium/cilium"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/releases/tag/v1.11.15"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/releases/tag/v1.12.8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/releases/tag/v1.13.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-285",
+      "CWE-863"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-17T18:22:19Z",
+    "nvd_published_at": "2023-03-17T20:15:00Z"
+  }
+}

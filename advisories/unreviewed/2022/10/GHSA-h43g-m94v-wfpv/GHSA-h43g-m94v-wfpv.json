@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h43g-m94v-wfpv",
+  "modified": "2022-10-05T00:00:39Z",
+  "published": "2022-10-01T00:00:25Z",
+  "aliases": [
+    "CVE-2022-41848"
+  ],
+  "details": "drivers/char/pcmcia/synclink_cs.c in the Linux kernel through 5.19.12 has a race condition and resultant use-after-free if a physically proximate attacker removes a PCMCIA device while calling ioctl, aka a race condition between mgslpc_ioctl and mgslpc_detach.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:P/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-41848"
+    },
+    {
+      "type": "WEB",
+      "url": "https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log/drivers/char/pcmcia/synclink_cs.c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lore.kernel.org/lkml/20220919040251.GA302541@ubuntu/T/#rc85e751f467b3e6f9ccef92cfa7fb8a6cc50c270"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-362"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2022-09-30T06:15:00Z"
+  }
+}

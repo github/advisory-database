@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-29pr-6jr8-q5jm",
+  "modified": "2023-03-22T21:49:38Z",
+  "published": "2023-03-21T22:31:19Z",
+  "aliases": [
+    "CVE-2023-28117"
+  ],
+  "summary": "Sentry SDK leaks sensitive session information when `sendDefaultPII` is set to `True`",
+  "details": "### Impact\n\nWhen using the [Django integration](https://docs.sentry.io/platforms/python/guides/django/) of the Sentry SDK in a specific configuration it is possible to leak sensitive cookies values, including the session cookie to Sentry. These sensitive cookies could then be used by someone with access to your Sentry issues to impersonate or escalate their privileges within your application.\n\nThe below must be true in order for these sensitive values to be leaked:\n1. Your Sentry SDK configuration has `sendDefaultPII` set to `True`\n2. You are using a custom name for either of the cookies below in your Django settings.\n  - [`SESSION_COOKIE_NAME`](https://docs.djangoproject.com/en/4.1/ref/settings/#std-setting-SESSION_COOKIE_NAME) or \n  - [`CSRF_COOKIE_NAME`](https://docs.djangoproject.com/en/4.1/ref/settings/#std-setting-CSRF_COOKIE_NAME) Django settings\n3. You are not configured in your organization or project settings to use [our data scrubbing features](https://docs.sentry.io/product/data-management-settings/scrubbing/) to account for the custom cookie names\n\n### Patches\nAs of version `1.14.0`, the Django integration of the `sentry-sdk` will detect the custom cookie names based on your Django settings and will remove the values from the payload _before_ sending the data to Sentry.\n\n### Workarounds\n\nIf you can not update your `sentry-sdk` to a patched version than you can use the SDKs filtering mechanism to remove the cookies from the payload that is sent to Sentry. For error events this can be done with the [before_send](https://docs.sentry.io/platforms/python/configuration/filtering/#using-platformidentifier-namebefore-send-) callback method and for performance related events (transactions) you can use the [before_send_transaction](https://docs.sentry.io/platforms/python/configuration/filtering/#using-platformidentifier-namebefore-send-transaction-) callback method.\n\nIf you'd like to handle filtering of these values on the server-side, you can also use our [advanced data scrubbing feature](https://docs.sentry.io/product/data-management-settings/scrubbing/advanced-datascrubbing/) to account for the custom cookie names. Look for the `$http.cookies`, `$http.headers`, `$request.cookies`, or `$request.headers` fields to target with your scrubbing rule.\n\n### References\n- [Using Your Tools Against You (Chapter8 Blog Post)](https://medium.com/@tomwolters/using-your-tools-against-you-cea4d2482ebb)\n- [Sentry Python SDK Filtering](https://docs.sentry.io/platforms/python/configuration/filtering/)\n- [Sentry Data Scrubbing](https://docs.sentry.io/product/data-management-settings/scrubbing/advanced-datascrubbing/)\n\n### Credits\n- [Tom Wolters (Chapter8)](https://chapter8.com)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:H/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "sentry-sdk"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.14.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/getsentry/sentry-python/security/advisories/GHSA-29pr-6jr8-q5jm"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-28117"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getsentry/sentry-python/pull/1842"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/getsentry/sentry-python"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getsentry/sentry-python/releases/tag/1.14.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-201",
+      "CWE-209"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-21T22:31:19Z",
+    "nvd_published_at": "2023-03-22T20:15:00Z"
+  }
+}

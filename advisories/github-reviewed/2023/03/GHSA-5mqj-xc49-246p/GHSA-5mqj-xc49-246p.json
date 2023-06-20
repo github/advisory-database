@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5mqj-xc49-246p",
+  "modified": "2023-03-22T21:49:43Z",
+  "published": "2023-03-22T21:23:25Z",
+  "aliases": [
+    "CVE-2023-28119"
+  ],
+  "summary": "crewjam/saml vulnerable to Denial Of Service Via Deflate Decompression Bomb",
+  "details": "Our use of flate.NewReader does not limit the size of the input. The user could pass more than 1 MB of data in the HTTP request to the processing functions, which will be decompressed server-side using the Deflate algorithm. Therefore, after repeating the same request multiple times, it is possible to achieve a reliable crash since the operating system kills the process.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/crewjam/saml"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.4.13"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/crewjam/saml/security/advisories/GHSA-5mqj-xc49-246p"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-28119"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/crewjam/saml/commit/8e9236867d176ad6338c870a84e2039aef8a5021"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/crewjam/saml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-770"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-22T21:23:25Z",
+    "nvd_published_at": "2023-03-22T20:15:00Z"
+  }
+}

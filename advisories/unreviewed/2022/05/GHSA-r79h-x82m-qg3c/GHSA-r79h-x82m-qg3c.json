@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r79h-x82m-qg3c",
+  "modified": "2022-05-13T01:15:21Z",
+  "published": "2022-05-13T01:15:21Z",
+  "aliases": [
+    "CVE-2019-0031"
+  ],
+  "details": "Specific IPv6 DHCP packets received by the jdhcpd daemon will cause a memory resource consumption issue to occur on a Junos OS device using the jdhcpd daemon configured to respond to IPv6 requests. Once started, memory consumption will eventually impact any IPv4 or IPv6 request serviced by the jdhcpd daemon, thus creating a Denial of Service (DoS) condition to clients requesting and not receiving IP addresses. Additionally, some clients which were previously holding IPv6 addresses will not have their IPv6 Identity Association (IA) address and network tables agreed upon by the jdhcpd daemon after the failover event occurs, which leads to more than one interface, and multiple IP addresses, being denied on the client. Affected releases are Juniper Networks Junos OS: 17.4 versions prior to 17.4R2; 18.1 versions prior to 18.1R2.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-0031"
+    },
+    {
+      "type": "WEB",
+      "url": "https://kb.juniper.net/JSA10920"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/107874"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-770"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2019-04-10T20:29:00Z"
+  }
+}

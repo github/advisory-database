@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-q6g2-g7f3-rr83",
+  "modified": "2023-03-30T01:01:25Z",
+  "published": "2023-03-22T06:30:21Z",
+  "aliases": [
+    "CVE-2023-1436"
+  ],
+  "summary": "Jettison vulnerable to infinite recursion",
+  "details": "An infinite recursion is triggered in Jettison when constructing a JSONArray from a Collection that contains a self-reference in one of its elements. This leads to a StackOverflowError exception being thrown.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.codehaus.jettison:jettison"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.5.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-1436"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jettison-json/jettison/issues/60"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jettison-json/jettison/pull/62"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jettison-json/jettison"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jettison-json/jettison/releases/tag/jettison-1.5.4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://research.jfrog.com/vulnerabilities/jettison-json-array-dos-xray-427911/"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-674"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-22T21:23:09Z",
+    "nvd_published_at": "2023-03-22T06:15:00Z"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-p54v-5qqx-fv5f",
+  "modified": "2022-05-13T01:23:07Z",
+  "published": "2022-05-13T01:23:07Z",
+  "aliases": [
+    "CVE-2019-9857"
+  ],
+  "details": "In the Linux kernel through 5.0.2, the function inotify_update_existing_watch() in fs/notify/inotify/inotify_user.c neglects to call fsnotify_put_mark() with IN_MASK_CREATE after fsnotify_find_mark(), which will cause a memory leak (aka refcount leak). Finally, this will cause a denial of service.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-9857"
+    },
+    {
+      "type": "WEB",
+      "url": "https://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git/commit/?h=fsnotify&id=62c9d2674b31d4c8a674bee86b7edc6da2803aea"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/NXLZ2V2ES37A3J7DMK4MZYIWV2LEZFLM/"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/PPH3B7FJOMWD5JWUPZKB6T44KNT4PX2L/"
+    },
+    {
+      "type": "WEB",
+      "url": "https://patchwork.kernel.org/patch/10836283/"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.netapp.com/advisory/ntap-20190404-0002/"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/107527"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-401"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2019-03-21T16:01:00Z"
+  }
+}

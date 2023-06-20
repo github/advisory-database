@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9pc2-x9qf-7j2q",
+  "modified": "2023-04-16T07:16:33Z",
+  "published": "2023-04-12T20:35:03Z",
+  "aliases": [
+    "CVE-2023-29209"
+  ],
+  "summary": "org.xwiki.platform:xwiki-platform-legacy-notification-activitymacro Eval Injection vulnerability",
+  "details": "### Impact\n\nAny user with view rights on commonly accessible documents including the legacy notification activity macro can execute arbitrary Groovy, Python or Velocity code in XWiki leading to full access to the XWiki installation. The root cause is improper escaping of the macro parameters of the [legacy notification activity macro](https://extensions.xwiki.org/xwiki/bin/view/Extension/Legacy%20Notification%20Activity%20Macro/). This macro is installed by default in XWiki.\n\nA proof of concept exploit is\n\n```\n{{activity wikis=\"~\" /~}~} {{async async=~\"true~\" cached=~\"false~\" context=~\"doc.reference~\"~}~}{{groovy~}~}println(~\"Hello from Groovy!~\"){{/groovy~}~}\"/}}\n```\n\nIf the output of this macro is\n```\nThe [notifications] macro is a standalone macro and it cannot be used inline. Click on this message for details.\nHello from Groovy!\"    displayMinorEvents=\"false\" displayRSSLink=\"false\" /}}\n```\nor similar, the XWiki installation is vulnerable. The vulnerability can be exploited via every wiki page that is editable including the user's profile, but also with just view rights using the HTMLConverter that is part of the [CKEditor integration](https://extensions.xwiki.org/xwiki/bin/view/Extension/CKEditor%20Integration/) which is bundled with XWiki.\n\n### Patches\nThe vulnerability has been patched in XWiki 13.10.11, 14.4.7 and 14.10.\n\n### Workarounds\nThe issue can be fixed by replacing the code of the legacy notification activity macro by the [patched version](https://github.com/xwiki/xwiki-platform/commit/94392490884635c028199275db059a4f471e57bc). Alternatively, if the macro isn't used, the document `XWiki.Notifications.Code.Legacy.ActivityMacro` can also be completely deleted.\n\n### References\n* https://github.com/xwiki/xwiki-platform/commit/94392490884635c028199275db059a4f471e57bc\n* https://jira.xwiki.org/browse/XWIKI-20258\n\n### For more information\nIf you have any questions or comments about this advisory:\n* Open an issue in [Jira XWiki.org](https://jira.xwiki.org/)\n* Email us at [Security Mailing List](mailto:security@xwiki.org)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-legacy-notification-activitymacro"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "10.9"
+            },
+            {
+              "fixed": "13.10.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-legacy-notification-activitymacro"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.0-rc-1"
+            },
+            {
+              "fixed": "14.4.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-legacy-notification-activitymacro"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.5"
+            },
+            {
+              "fixed": "14.10"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-9pc2-x9qf-7j2q"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-29209"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/94392490884635c028199275db059a4f471e57bc"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20258"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94",
+      "CWE-95"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-12T20:35:03Z",
+    "nvd_published_at": "2023-04-15T17:15:00Z"
+  }
+}

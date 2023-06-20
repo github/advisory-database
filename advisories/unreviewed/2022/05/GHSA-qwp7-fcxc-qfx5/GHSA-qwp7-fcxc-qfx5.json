@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qwp7-fcxc-qfx5",
+  "modified": "2022-05-13T01:09:06Z",
+  "published": "2022-05-13T01:09:06Z",
+  "aliases": [
+    "CVE-2018-19204"
+  ],
+  "details": "PRTG Network Monitor before 18.3.44.2054 allows a remote authenticated attacker (with read-write privileges) to execute arbitrary code and OS commands with system privileges. When creating an HTTP Advanced Sensor, the user's input in the POST parameter 'proxyport_' is mishandled. The attacker can craft an HTTP request and override the 'writeresult' command-line parameter for HttpAdvancedSensor.exe to store arbitrary data in an arbitrary place on the file system. For example, the attacker can create an executable file in the \\Custom Sensors\\EXE directory and execute it by creating EXE/Script Sensor.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-19204"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.paessler.com/prtg/history/stable#18.3.44.2054"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.ptsecurity.com/ww-en/analytics/threatscape/pt-2018-23/"
+    },
+    {
+      "type": "WEB",
+      "url": "http://en.securitylab.ru/lab/PT-2018-23"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2018-11-12T16:29:00Z"
+  }
+}

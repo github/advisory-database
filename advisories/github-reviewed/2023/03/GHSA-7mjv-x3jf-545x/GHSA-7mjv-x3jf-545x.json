@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7mjv-x3jf-545x",
+  "modified": "2023-03-21T22:32:50Z",
+  "published": "2023-03-21T22:32:50Z",
+  "aliases": [
+    "CVE-2023-1314"
+  ],
+  "summary": "cloudflared's Installer has Local Privilege Escalation Vulnerability",
+  "details": "### Impact\n\nA vulnerability has been discovered in cloudflared's installer (<= 2023.3.0) for Windows 32-bits devices that allows a local attacker with no administrative permissions to escalate their privileges on the affected device. This vulnerability exists because the MSI installer used by cloudflared relied on a world-writable directory.\n\nAn attacker with local access to the device (without Administrator rights) can use symbolic links to trick the MSI installer into deleting files in locations that the attacker would otherwise have no access to. By creating a symlink from the world-writable directory to the target file, the attacker can manipulate the MSI installer's repair functionality to delete the target file during the repair process.\n\nExploitation of this vulnerability could allow an attacker to delete important system files or replace them with malicious files, potentially leading to the affected device being compromised.\n\n**The cloudflared client itself is not affected by this vulnerability, only the installer for 32-bit Windows devices.**\n\n### Patches\nA new installer was released as part of version 2023.3.1, corresponding to pseudoversion 0.0.0-20230313153246-f686da832f85 on pkg.go.dev. Users are encouraged to remove old installers from their systems.\n\n### References\n[Cloudflared Releases](https://github.com/cloudflare/cloudflared/releases)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:C/C:N/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cloudflare/cloudflared"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.0.0-20230313153246-f686da832f85"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudflare/cloudflared/security/advisories/GHSA-7mjv-x3jf-545x"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-1314"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudflare/cloudflared/commit/9c15f31d003bebfbe6467c2b42972df3e7c9b886"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cloudflare/cloudflared"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudflare/cloudflared/releases"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-59"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-21T22:32:50Z",
+    "nvd_published_at": "2023-03-21T12:15:00Z"
+  }
+}

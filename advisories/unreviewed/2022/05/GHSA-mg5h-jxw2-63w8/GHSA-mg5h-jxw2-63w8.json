@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mg5h-jxw2-63w8",
+  "modified": "2022-05-13T01:18:05Z",
+  "published": "2022-05-13T01:18:05Z",
+  "aliases": [
+    "CVE-2014-0069"
+  ],
+  "details": "The cifs_iovec_write function in fs/cifs/file.c in the Linux kernel through 3.13.5 does not properly handle uncached write operations that copy fewer than the requested number of bytes, which allows local users to obtain sensitive information from kernel memory, cause a denial of service (memory corruption and system crash), or possibly gain privileges via a writev system call with a crafted pointer.",
+  "severity": [
+
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2014-0069"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/torvalds/linux/commit/5d81de8e8667da7135d3a32a964087c0faf5483f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1064253"
+    },
+    {
+      "type": "WEB",
+      "url": "http://article.gmane.org/gmane.linux.kernel.cifs/9401"
+    },
+    {
+      "type": "WEB",
+      "url": "http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git%3Ba=commit%3Bh=5d81de8e8667da7135d3a32a964087c0faf5483f"
+    },
+    {
+      "type": "WEB",
+      "url": "http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=5d81de8e8667da7135d3a32a964087c0faf5483f"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.opensuse.org/opensuse-security-announce/2014-03/msg00026.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://rhn.redhat.com/errata/RHSA-2014-0328.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2014/02/17/4"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/65588"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-119"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2014-02-28T06:18:00Z"
+  }
+}

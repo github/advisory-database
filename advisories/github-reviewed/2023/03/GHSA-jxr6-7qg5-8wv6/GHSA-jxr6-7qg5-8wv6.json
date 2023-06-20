@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jxr6-7qg5-8wv6",
+  "modified": "2023-03-30T01:01:45Z",
+  "published": "2023-03-22T21:30:17Z",
+  "aliases": [
+    "CVE-2023-0870"
+  ],
+  "summary": "OpenNMS Meridian and Horizon vulnerable to Cross-Site Request Forgery",
+  "details": "A form can be manipulated with cross-site request forgery in multiple versions of OpenNMS Meridian and Horizon. This can potentially allow an attacker to gain access to confidential information and compromise integrity. The solution is to upgrade to Meridian 2023.1.1 or Horizon 31.0.6 or newer. Meridian and Horizon installation instructions state that they are intended for installation within an organization's private networks and should not be directly accessible from the Internet.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:A/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.opennms:opennms-webapp"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "31.0.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-0870"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenNMS/opennms/pull/5835/files"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.opennms.com/meridian/2023/releasenotes/changelog.html#releasenotes-changelog-Meridian-2023.1.1"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/OpenNMS/opennms"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-22T22:21:57Z",
+    "nvd_published_at": "2023-03-22T19:15:00Z"
+  }
+}

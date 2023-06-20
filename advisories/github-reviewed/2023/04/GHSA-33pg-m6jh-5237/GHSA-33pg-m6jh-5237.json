@@ -1,0 +1,109 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-33pg-m6jh-5237",
+  "modified": "2023-04-05T23:16:54Z",
+  "published": "2023-04-04T21:12:20Z",
+  "aliases": [
+    "CVE-2023-28841"
+  ],
+  "summary": "Docker Swarm encrypted overlay network traffic may be unencrypted",
+  "details": "[Moby](https://mobyproject.org/) is an open source container framework developed by Docker Inc. that is distributed as Docker, Mirantis Container Runtime, and various other downstream projects/products. The Moby daemon component (`dockerd`), which is developed as [moby/moby](https://github.com/moby/moby) is commonly referred to as *Docker*.\n\nSwarm Mode, which is compiled in and delivered by default in `dockerd` and is thus present in most major Moby downstreams, is a simple, built-in container orchestrator that is implemented through a combination of [SwarmKit](https://github.com/moby/swarmkit) and supporting network code.\n\nThe `overlay` network driver is a core feature of Swarm Mode, providing isolated virtual LANs that allow communication between containers and services across the cluster. This driver is an implementation/user of [VXLAN](https://en.wikipedia.org/wiki/Virtual_Extensible_LAN), which encapsulates link-layer (Ethernet) frames in UDP datagrams that tag the frame with a VXLAN Network ID (VNI) that identifies the originating overlay network. In addition, the overlay network driver supports an optional, off-by-default encrypted mode, which is especially useful when VXLAN packets traverses an untrusted network between nodes.\n\nEncrypted overlay networks function by encapsulating the VXLAN datagrams through the use of the [IPsec Encapsulating Security Payload](https://en.wikipedia.org/wiki/IPsec#Encapsulating_Security_Payload) protocol in [Transport mode](https://en.wikipedia.org/wiki/IPsec#Transport_mode). By deploying IPSec encapsulation, encrypted overlay networks gain the additional properties of source authentication through cryptographic proof, data integrity through check-summing, and confidentiality through encryption.\n\nWhen setting an endpoint up on an encrypted overlay network, Moby installs three [iptables](https://www.netfilter.org/projects/iptables/index.html) (Linux kernel firewall) rules that enforce both incoming and outgoing IPSec. These rules rely on the `u32` iptables extension provided by the `xt_u32` kernel module to directly filter on a VXLAN packet's VNI field, so that IPSec guarantees can be enforced on encrypted overlay networks without interfering with other overlay networks or other users of VXLAN.\n\nAn [iptables rule](https://github.com/moby/libnetwork/blob/d9fae4c73daf76c3b0f77e14b45b8bf612ba764d/drivers/overlay/encryption.go#L205-L207) designates outgoing VXLAN datagrams with a VNI that corresponds to an encrypted overlay network for IPsec encapsulation.\n\nOn Red Hat Enterprise Linux and derivatives such as CentOS and Rocky, the `xt_u32` module has been:\n* [moved to the kernel-modules-extra package and no longer installed by default in RHEL 8.3](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/8.3_release_notes/rhel-8-3-0-release#technology-preview_networking)\n* [officially deprecated in RHEL 8.6](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/8.6_release_notes/deprecated_functionality#deprecated-functionality_networking)\n* [removed completely in RHEL 9](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html/considerations_in_adopting_rhel_9/assembly_networking_considerations-in-adopting-rhel-9#ref_firewall-networking_assembly_networking)\n\nThis rule is not created when `xt_u32` is unavailable, even though the container is still attached to the network.\n\n## Impact\nEncrypted overlay networks on affected platforms silently transmit unencrypted data. As a result, `overlay` networks may appear to be functional, passing traffic as expected, but without any of the expected confidentiality or data integrity guarantees.\n\nIt is possible for an attacker sitting in a trusted position on the network to read all of the application traffic that is moving across the overlay network, resulting in unexpected secrets or user data disclosure. Thus, because many database protocols, internal APIs, etc. are not protected by a second layer of encryption, a user may rely on Swarm encrypted overlay networks to provide confidentiality, which due to this vulnerability is no longer guaranteed.\n\n## Patches\nPatches are available in Moby releases 23.0.3, and 20.10.24. As Mirantis Container Runtime's 20.10 releases are numbered differently, users of that platform should update to 20.10.16.\n\n## Workarounds\n* Close the VXLAN port (by default, UDP port 4789) to outgoing traffic at the Internet boundary (see [GHSA-vwm3-crmr-xfxw](https://github.com/moby/moby/security/advisories/GHSA-vwm3-crmr-xfxw)) in order to prevent unintentionally leaking unencrypted traffic over the Internet.\n* Ensure that the `xt_u32` kernel module is available on all nodes of the Swarm cluster.\n\n## Background\n* [#43382 ](https://github.com/moby/moby/issues/43382)partially discussed this concern, but did not consider the security implications.\n* Mirantis FIELD-5788 essentially duplicates [#43382](https://github.com/moby/moby/issues/43382), and was created six months earlier; it similarly overlooked the security implications.\n* [#45118](https://github.com/moby/moby/pull/45118) is the ancestor of the final patches, and was where the security implications were discovered.\n\n## Related\n* [CVE-2023-28840: Encrypted overlay network may be unauthenticated](https://github.com/moby/moby/security/advisories/GHSA-232p-vwff-86mp)\n* [CVE-2023-28842: Encrypted overlay network with a single endpoint is unauthenticated](https://github.com/moby/moby/security/advisories/GHSA-6wrf-mxfj-pf5p)\n* [GHSA-vwm3-crmr-xfxw: The Swarm VXLAN port may be exposed to attack due to ambiguous documentation](https://github.com/moby/moby/security/advisories/GHSA-vwm3-crmr-xfxw)\n* [GHSA-gvm4-2qqg-m333: Security issues in encrypted overlay networks](https://github.com/moby/libnetwork/security/advisories/GHSA-gvm4-2qqg-m333) (libnetwork)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/docker/docker"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.12.0"
+            },
+            {
+              "fixed": "20.10.24"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/docker/docker"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "23.0.0"
+            },
+            {
+              "fixed": "23.0.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/libnetwork/security/advisories/GHSA-gvm4-2qqg-m333"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/moby/security/advisories/GHSA-232p-vwff-86mp"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/moby/security/advisories/GHSA-33pg-m6jh-5237"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/moby/security/advisories/GHSA-6wrf-mxfj-pf5p"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/moby/security/advisories/GHSA-vwm3-crmr-xfxw"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-28841"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/moby/issues/43382"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/moby/pull/45118"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/libnetwork/blob/d9fae4c73daf76c3b0f77e14b45b8bf612ba764d/drivers/overlay/encryption.go#L205-L207"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/moby/moby"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-311",
+      "CWE-636"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-04T21:12:20Z",
+    "nvd_published_at": "2023-04-04T22:15:00Z"
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wp72-7hj9-5265",
+  "modified": "2023-03-28T18:04:29Z",
+  "published": "2023-03-24T22:01:15Z",
+  "aliases": [
+    "CVE-2023-1176"
+  ],
+  "summary": "Remote file existence check vulnerability in `mlflow server` and `mlflow ui` CLIs",
+  "details": "### Impact\n\nUsers of the MLflow Open Source Project who are hosting the MLflow Model Registry using the `mlflow server` or `mlflow ui` commands using an MLflow version older than MLflow 2.2.1 may be vulnerable to a remote file existence check exploit if they are not limiting who can query their server (for example, by using a cloud VPC, an IP allowlist for inbound requests, or authentication / authorization middleware).\n\nThis issue only affects users and integrations that run the `mlflow server` and `mlflow ui` commands. Integrations that do not make use of `mlflow server` or `mlflow ui` are unaffected; for example, the Databricks Managed MLflow product and MLflow on Azure Machine Learning do not make use of these commands and are not impacted by these vulnerabilities in any way.\n\nThe vulnerability detailed in https://nvd.nist.gov/vuln/detail/CVE-2023-1176 enables an actor to check the existence of arbitrary files unrelated to MLflow from the host server, including any files stored in remote locations to which the host server has access.\n\n### Patches\nThis vulnerability has been patched in MLflow 2.2.1, which was released to PyPI on March 2nd, 2023. If you are using `mlflow server` or `mlflow ui` with the MLflow Model Registry, we recommend upgrading to MLflow 2.2.1 as soon as possible.\n\n### Workarounds\nIf you are using the MLflow open source `mlflow server` or `mlflow ui` commands, we strongly recommend limiting who can access your MLflow Model Registry and MLflow Tracking servers using a cloud VPC, an IP allowlist for inbound requests, authentication / authorization middleware, or another access restriction mechanism of your choosing.\n\nIf you are using the MLflow open source `mlflow server` or `mlflow ui` commands, we also strongly recommend limiting the remote files to which your MLflow Model Registry and MLflow Tracking servers have access. For example, if your MLflow Model Registry or MLflow Tracking server uses cloud-hosted blob storage for MLflow artifacts, make sure to restrict the scope of your server's cloud credentials such that it can only access files and directories related to MLflow.\n\n### References\nMore information about the vulnerability is available at https://nvd.nist.gov/vuln/detail/CVE-2023-1176.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "mlflow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.2.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.2.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/mlflow/mlflow/security/advisories/GHSA-wp72-7hj9-5265"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-1176"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mlflow/mlflow/commit/63ef72aa4334a6473ce7f889573c92fcae0b3c0d"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mlflow/mlflow"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.dev/bounties/ae92f814-6a08-435c-8445-eec0ef4f1085"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-36"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-24T22:01:15Z",
+    "nvd_published_at": "2023-03-24T15:15:00Z"
+  }
+}

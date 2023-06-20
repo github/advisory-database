@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-pj73-v5mw-pm9j",
+  "modified": "2023-03-15T21:36:01Z",
+  "published": "2023-03-15T21:36:01Z",
+  "aliases": [
+    "CVE-2023-28120"
+  ],
+  "summary": "Possible XSS Security Vulnerability in SafeBuffer#bytesplice",
+  "details": "There is a vulnerability in ActiveSupport if the new bytesplice method is called on a SafeBuffer with untrusted user input.\nThis vulnerability has been assigned the CVE identifier CVE-2023-28120.\n\nVersions Affected: All. Not affected: None Fixed Versions: 7.0.4.3, 6.1.7.3\n\n# Impact\n\nActiveSupport uses the SafeBuffer string subclass to tag strings as html_safe after they have been sanitized.\nWhen these strings are mutated, the tag is should be removed to mark them as no longer being html_safe.\n\nRuby 3.2 introduced a new bytesplice method which ActiveSupport did not yet understand to be a mutation.\nUsers on older versions of Ruby are likely unaffected.\n\nAll users running an affected release and using bytesplice should either upgrade or use one of the workarounds immediately.\n\n# Workarounds\n\nAvoid calling bytesplice on a SafeBuffer (html_safe) string with untrusted user input.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "activesupport"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.0.0"
+            },
+            {
+              "fixed": "7.0.4.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "activesupport"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.1.7.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-28120"
+    },
+    {
+      "type": "WEB",
+      "url": "https://discuss.rubyonrails.org/t/cve-2023-28120-possible-xss-security-vulnerability-in-safebuffer-bytesplice/82469"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/activesupport/CVE-2023-28120.yml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-15T21:36:01Z",
+    "nvd_published_at": null
+  }
+}

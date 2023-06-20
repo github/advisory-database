@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6g67-q39g-r79q",
+  "modified": "2023-04-25T16:35:38Z",
+  "published": "2023-04-14T16:14:17Z",
+  "aliases": [
+    "CVE-2023-29529"
+  ],
+  "summary": "matrix-js-sdk vulnerable to invisible eavesdropping in group calls",
+  "details": "### Impact\n\nAn attacker present in a room where an [MSC3401](https://github.com/matrix-org/matrix-spec-proposals/pull/3401) group call is taking place can eavesdrop on the video and audio of participants using matrix-js-sdk, without their knowledge. To affected matrix-js-sdk users, the attacker will not appear to be participating in the call.\n\nThis attack is possible because matrix-js-sdk's group call implementation accepts incoming direct calls from other users, even if they have not yet declared intent to participate in the group call, as a means of resolving a race condition in call setup. Affected versions do not restrict access to the user's outbound media in this case.\n\nLegacy 1:1 calls are unaffected.\n\n### Workarounds\n\nUsers may hold group calls in private rooms where only the exact users who are expected to participate in the call are present.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "matrix-js-sdk"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "24.1.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/matrix-org/matrix-js-sdk/security/advisories/GHSA-6g67-q39g-r79q"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-29529"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/matrix-org/matrix-spec-proposals/pull/3401"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/matrix-org/matrix-js-sdk"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/matrix-org/matrix-js-sdk/releases/tag/v24.1.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-862"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-14T16:14:17Z",
+    "nvd_published_at": "2023-04-14T19:15:00Z"
+  }
+}

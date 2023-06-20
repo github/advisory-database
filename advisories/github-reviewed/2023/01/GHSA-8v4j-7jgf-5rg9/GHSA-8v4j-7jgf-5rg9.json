@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8v4j-7jgf-5rg9",
+  "modified": "2023-03-31T00:06:08Z",
+  "published": "2023-01-31T23:33:47Z",
+  "aliases": [
+
+  ],
+  "summary": "Warp vulnerable to Path Traversal via Improper validation of Windows paths",
+  "details": "Path resolution in `warp::filters::fs::dir` didn't correctly validate Windows paths meaning paths like `/foo/bar/c:/windows/web/screen/img101.png` would be allowed and respond with the contents of `c:/windows/web/screen/img101.png`. Thus users could potentially read files anywhere on the filesystem.\n\nThis only impacts Windows. Linux and other unix likes are not impacted by this.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "warp"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.3.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/seanmonstar/warp/issues/937"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/seanmonstar/warp/pull/997"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/seanmonstar/warp/commit/0074a0a3e98786509259bfe3821d3b3f094257aa"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/seanmonstar/warp"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2022-0082.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-01-31T23:33:47Z",
+    "nvd_published_at": null
+  }
+}

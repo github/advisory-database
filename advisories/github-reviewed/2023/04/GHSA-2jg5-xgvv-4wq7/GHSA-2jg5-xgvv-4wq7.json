@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2jg5-xgvv-4wq7",
+  "modified": "2023-04-25T21:00:01Z",
+  "published": "2023-04-15T21:30:16Z",
+  "aliases": [
+    "CVE-2021-34337"
+  ],
+  "summary": "Mailman Core vulnerable to timing attacks",
+  "details": "An issue was discovered in Mailman Core before 3.3.5. An attacker with access to the REST API could use timing attacks to determine the value of the configured REST API password and then make arbitrary REST API calls. The REST API is bound to localhost by default, limiting the ability for attackers to exploit this, but can optionally be made to listen on other interfaces.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "mailman"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.3.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-34337"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://gitlab.com/mailman/mailman"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gitlab.com/mailman/mailman/-/commit/e4a39488c4510fcad8851217f10e7337a196bb51"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gitlab.com/mailman/mailman/-/issues/911"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gitlab.com/mailman/mailman/-/tags"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-208"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-18T13:05:08Z",
+    "nvd_published_at": "2023-04-15T20:16:00Z"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g2j6-57v7-gm8c",
+  "modified": "2023-03-30T20:20:23Z",
+  "published": "2023-03-30T20:20:23Z",
+  "aliases": [
+    "CVE-2023-28642"
+  ],
+  "summary": "runc AppArmor bypass with symlinked /proc",
+  "details": "### Impact\nIt was found that AppArmor, and potentially SELinux, can be bypassed when `/proc` inside the container is symlinked with a specific mount configuration.\n\n### Patches\nFixed in runc v1.1.5, by prohibiting symlinked `/proc`: https://github.com/opencontainers/runc/pull/3785\n\nThis PR fixes CVE-2023-27561 as well.\n\n### Workarounds\nAvoid using an untrusted container image.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/opencontainers/runc"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.1.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/opencontainers/runc/security/advisories/GHSA-g2j6-57v7-gm8c"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-28642"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/opencontainers/runc/pull/3785"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/opencontainers/runc"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-281",
+      "CWE-59"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-30T20:20:23Z",
+    "nvd_published_at": "2023-03-29T19:15:00Z"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mjvx-c375-3xj2",
+  "modified": "2022-05-13T01:18:20Z",
+  "published": "2022-05-13T01:18:20Z",
+  "aliases": [
+    "CVE-2017-15302"
+  ],
+  "details": "In CPUID CPU-Z through 1.81, there are improper access rights to a kernel-mode driver (e.g., cpuz143_x64.sys for version 1.43) that can result in information disclosure or elevation of privileges, because of an arbitrary read of any physical address via ioctl 0x9C402604. Any application running on the system (Windows), including sandboxed users, can issue an ioctl to this driver without any validation. Furthermore, the driver can map any physical page on the system and returns the allocated map page address to the user: that results in an information leak and EoP. NOTE: the vendor indicates that the arbitrary read itself is intentional behavior (for ACPI scan functionality); the security issue is the lack of an ACL.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-15302"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/akayn/Bugs/blob/master/CPUID/CVE-2017-15302/README.md"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2017-10-16T01:29:00Z"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4v94-xg8j-pp22",
+  "modified": "2022-05-13T01:11:48Z",
+  "published": "2022-05-13T01:11:48Z",
+  "aliases": [
+    "CVE-2017-12982"
+  ],
+  "details": "The bmp_read_info_header function in bin/jp2/convertbmp.c in OpenJPEG 2.2.0 does not reject headers with a zero biBitCount, which allows remote attackers to cause a denial of service (memory allocation failure) in the opj_image_create function in lib/openjp2/image.c, related to the opj_aligned_alloc_n function in opj_malloc.c.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-12982"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/uclouvain/openjpeg/issues/983"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/uclouvain/openjpeg/commit/baf0c1ad4572daa89caa3b12985bdd93530f0dd7"
+    },
+    {
+      "type": "WEB",
+      "url": "https://blogs.gentoo.org/ago/2017/08/14/openjpeg-memory-allocation-failure-in-opj_aligned_alloc_n-opj_malloc-c/"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.gentoo.org/glsa/201710-26"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-119"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2017-08-21T07:29:00Z"
+  }
+}

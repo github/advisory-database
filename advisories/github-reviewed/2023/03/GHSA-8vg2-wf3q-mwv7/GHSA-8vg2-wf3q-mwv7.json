@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8vg2-wf3q-mwv7",
+  "modified": "2023-03-31T16:08:10Z",
+  "published": "2023-03-23T19:47:12Z",
+  "aliases": [
+    "CVE-2023-28443"
+  ],
+  "summary": "directus vulnerable to Insertion of Sensitive Information into Log File",
+  "details": "### Summary\n\nCWE-532: Insertion of Sensitive Information into Log File discovered in v9.23.1. The `directus_refresh_token` is not redacted properly from the log outputs and can be used to impersonate users without their permission. \n\n### Details\n\nUsing `v9.23.1`, I am seeing that the `directus_refresh_token` is not properly redacted as indicated by https://github.com/directus/directus/blob/7c479c5161639aac466c763b6b958a9524201d74/api/src/logger.ts#L13\n\nI'm classifying this as a security vulnerability because if someone has access to the log outputs, for example with a shared Cloud account or Splunk implementation, they could exchange the refresh token using `/auth/refresh` for an access token and use the token to perform actions on behalf of an unsuspecting user. This situation creates issues with accountability and non-repudiation because we can no longer have confidence that actions taken in the application were authorized or even performed by the logged-in user. \n\nA couple of examples of this are:\n- A disgruntled employee deletes all of the data to get even with a target team member before logging off on their last day\n- Under the guise of their unsuspecting boss, a mischievous engineer uploads _questionable_ images that get displayed on internal or external facing content sites\n\nThe list could go on but I think these communicate the risk of an internal threat that has access to this information 😆 \n\n### PoC\n1. Set `LOG_STYLE=\"raw\"` and run Directus v9.23.1\n1. Log in to the application\n1. Look at the shell output and see that `directus_refresh_token` is logged\n    > Note: This is different from the standard `raw` output format. I intentionally ran this with `npx directus start | pino-pretty` so logs would be easier to read. It can also be reproduced by running `npx directus start` alone. \n\n    ![image](https://user-images.githubusercontent.com/13325146/224877190-54e12d7e-3c3e-42d3-9e21-0bd4439f4f44.png)\n\n1. Exchange the `directus_refresh_token` for an `access_token`\n\n     ``` shell\n      curl -X POST \\\n        'http://0.0.0.0:8055/auth/refresh' \\\n        --header 'Accept: */*' \\\n        --header 'Cookie: directus_refresh_token=$shh'\n     ```\n\n### Impact\nBecause this can be used to exploit other threats related to  [CWE-284: Improper Access Control](https://cwe.mitre.org/data/definitions/284.html) I rank it with a Moderate severity. An insider with knowledge of this could do many mischievous things and get away with them for a long time without victims knowing about it. \n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:H/UI:R/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "directus"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "9.23.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/directus/directus/security/advisories/GHSA-8vg2-wf3q-mwv7"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-28443"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/directus/directus/commit/349536303983ccba68ecb3e4fb35315424011afc"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/directus/directus"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/directus/directus/blob/7c479c5161639aac466c763b6b958a9524201d74/api/src/logger.ts#L13"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-284",
+      "CWE-532"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-23T19:47:12Z",
+    "nvd_published_at": "2023-03-24T00:15:00Z"
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c885-89fw-55qr",
+  "modified": "2023-04-25T21:47:35Z",
+  "published": "2023-04-12T20:38:37Z",
+  "aliases": [
+    "CVE-2023-29202"
+  ],
+  "summary": "org.xwiki.platform:xwiki-platform-rendering-macro-rss Cross-site Scripting vulnerability",
+  "details": "### Impact\nThe [RSS macro](https://extensions.xwiki.org/xwiki/bin/view/Extension/RSS%20Macro) that is bundled in XWiki included the content of the feed items without any cleaning in the HTML output when the parameter `content` was set to `true`. This allowed arbitrary HTML and in particular also JavaScript injection and thus cross-site scripting (XSS) by specifying an RSS feed with malicious content. With the interaction of a user with programming rights, this could be used to execute arbitrary actions in the wiki, including privilege escalation, remote code execution, information disclosure, modifying or deleting content and sabotaging the wiki.\n\nThe issue can be reproduced by inserting the following XWiki syntax in any wiki page like the user account:\n\n```javascript\n{{rss feed=\"https://xssrss.blogspot.com/feeds/posts/default?alt=rss\" content=\"true\" /}}\n```\n\nIf an alert is displayed when viewing the page, the wiki is vulnerable.\n\n### Patches\nThe issue has been patched in XWiki 14.6 RC1, the content of the feed is now properly cleaned before being displayed.\n\n### Workarounds\nIf the RSS macro isn't used in the wiki, the macro can be uninstalled by deleting `WEB-INF/lib/xwiki-platform-rendering-macro-rss-XX.jar`, where `XX` is XWiki's version, in the web application's directory.\n\n### References\n* https://github.com/xwiki/xwiki-platform/commit/5c7ebe47c2897e92d8f04fe2e15027e84dc3ec03\n* https://jira.xwiki.org/browse/XWIKI-19671\n\n### For more information\nIf you have any questions or comments about this advisory:\n* Open an issue in [Jira XWiki.org](https://jira.xwiki.org/)\n* Email us at [Security Mailing List](mailto:security@xwiki.org)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-core-rendering-macro-rss"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.8"
+            },
+            {
+              "last_affected": "3.0.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-rendering-macro-rss"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "14.6-rc-1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-c885-89fw-55qr"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-29202"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/5c7ebe47c2897e92d8f04fe2e15027e84dc3ec03"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-19671"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-12T20:38:37Z",
+    "nvd_published_at": "2023-04-15T15:15:00Z"
+  }
+}

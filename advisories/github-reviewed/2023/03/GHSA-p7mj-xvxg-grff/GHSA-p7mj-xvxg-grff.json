@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-p7mj-xvxg-grff",
+  "modified": "2023-03-13T20:49:24Z",
+  "published": "2023-03-13T20:49:24Z",
+  "aliases": [
+
+  ],
+  "summary": "`out_reference::Out::from_raw` should be `unsafe`",
+  "details": "`Out::from_raw` in affected versions allows writing a value to invalid memory address without requiring `unsafe`.\n\nThe soundness issue has been addressed by making `Out::from_raw` an unsafe function.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "out-reference"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.1.0"
+            },
+            {
+              "fixed": "0.2.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/RustyYato/out-ref/issues/1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2021-0152.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-13T20:49:24Z",
+    "nvd_published_at": null
+  }
+}

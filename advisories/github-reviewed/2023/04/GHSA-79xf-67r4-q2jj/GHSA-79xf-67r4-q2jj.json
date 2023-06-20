@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-79xf-67r4-q2jj",
+  "modified": "2023-04-19T17:10:20Z",
+  "published": "2023-04-11T06:30:29Z",
+  "aliases": [
+    "CVE-2023-26122"
+  ],
+  "summary": "safe-eval vulnerable to Sandbox Bypass due to improper input sanitization",
+  "details": "All versions of the package safe-eval are vulnerable to Sandbox Bypass due to improper input sanitization. The vulnerability is derived from prototype pollution exploitation. Exploiting this vulnerability might result in remote code execution (RCE).\n\n**Vulnerable functions:**\n\n__defineGetter__, stack(), toLocaleString(), propertyIsEnumerable.call(),  valueOf().",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "safe-eval"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.4.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-26122"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hacksparrow/safe-eval/issues/27"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hacksparrow/safe-eval/issues/31"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hacksparrow/safe-eval/issues/32"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hacksparrow/safe-eval/issues/33"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hacksparrow/safe-eval/issues/34"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hacksparrow/safe-eval/issues/35"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gist.github.com/seongil-wi/2db6cb884e10137a93132b7f74879cce"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/hacksparrow/safe-eval"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-JS-SAFEEVAL-3373064"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1321"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-11T15:27:27Z",
+    "nvd_published_at": "2023-04-11T05:15:00Z"
+  }
+}

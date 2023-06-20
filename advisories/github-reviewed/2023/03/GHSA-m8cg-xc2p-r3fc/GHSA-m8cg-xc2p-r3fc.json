@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-m8cg-xc2p-r3fc",
+  "modified": "2023-03-30T20:17:24Z",
+  "published": "2023-03-30T20:17:24Z",
+  "aliases": [
+    "CVE-2023-25809"
+  ],
+  "summary": "rootless: `/sys/fs/cgroup` is writable when cgroupns isn't unshared in runc",
+  "details": "### Impact\nIt was found that rootless runc makes `/sys/fs/cgroup` writable in following conditons:\n1. when runc is executed inside the user namespace, and the `config.json` does not specify the cgroup namespace to be unshared (e.g.., `(docker|podman|nerdctl) run --cgroupns=host`, with Rootless Docker/Podman/nerdctl)\n2. or, when runc is executed outside the user namespace, and `/sys` is mounted with `rbind, ro` (e.g., `runc spec --rootless`; this condition is very rare)\n\nA container may gain the write access to user-owned cgroup hierarchy `/sys/fs/cgroup/user.slice/...` on the host .\nOther users's cgroup hierarchies are not affected.\n\n### Patches\nv1.1.5 (planned)\n\n### Workarounds\n- Condition 1: Unshare the cgroup namespace (`(docker|podman|nerdctl) run --cgroupns=private)`. This is the default behavior of Docker/Podman/nerdctl on cgroup v2 hosts.\n- Condition 2 (very rare): add `/sys/fs/cgroup` to `maskedPaths`\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:H/PR:H/UI:N/S:C/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/opencontainers/runc"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.1.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/opencontainers/runc/security/advisories/GHSA-m8cg-xc2p-r3fc"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-25809"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/opencontainers/runc/commit/0d62b950e60f6980b54fe3bafd9a9c608dc1df17"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/opencontainers/runc"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-281"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-30T20:17:24Z",
+    "nvd_published_at": "2023-03-29T19:15:00Z"
+  }
+}

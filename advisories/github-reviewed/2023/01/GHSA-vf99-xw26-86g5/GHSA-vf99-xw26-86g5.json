@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vf99-xw26-86g5",
+  "modified": "2023-01-11T20:54:21Z",
+  "published": "2023-01-05T09:30:28Z",
+  "aliases": [
+    "CVE-2023-22626"
+  ],
+  "summary": "PgHero Allows Information Disclosure Through EXPLAIN Feature",
+  "details": "PgHero before 3.1.0 allows Information Disclosure via EXPLAIN because query results may be present in an error message. (Depending on database user privileges, this may only be information from the database, or may be information from file contents on the database server.)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "pghero"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.1.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-22626"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ankane/pghero/issues/439"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ankane/pghero"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/pghero/CVE-2023-22626.yml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-209"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-01-09T20:03:14Z",
+    "nvd_published_at": "2023-01-05T08:15:00Z"
+  }
+}

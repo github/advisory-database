@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r3fg-3r88-6x3f",
+  "modified": "2023-05-11T20:12:31Z",
+  "published": "2023-05-10T21:25:28Z",
+  "aliases": [
+
+  ],
+  "summary": "Ibexa User Settings are accessible on the front-end for anonymous user",
+  "details": "### Impact\nThis security advisory is about the user settings, which include things like preferred time zone and number of items per page in item listings. These could be accessed by the anonymous user. This impacted only the anonymous users themselves, and had no impact on logged in users. As such the impact is limited, even if custom user settings have been added, but please consider if this matters for your site. The fix ensures that only logged in users can access their user settings.\n\n### References\nhttps://developers.ibexa.co/security-advisories/ibexa-sa-2023-002-user-settings-are-accessible-on-the-front-end-for-the-anonymous-user\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "ibexa/user"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0"
+            },
+            {
+              "fixed": "4.4.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ibexa/user/security/advisories/GHSA-r3fg-3r88-6x3f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ibexa/user/commit/77d1a0926d93ca85aa6faeea66bee55e0e067551"
+    },
+    {
+      "type": "WEB",
+      "url": "https://developers.ibexa.co/security-advisories/ibexa-sa-2023-002-user-settings-are-accessible-on-the-front-end-for-the-anonymous-user"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ibexa/user"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-10T21:25:28Z",
+    "nvd_published_at": null
+  }
+}

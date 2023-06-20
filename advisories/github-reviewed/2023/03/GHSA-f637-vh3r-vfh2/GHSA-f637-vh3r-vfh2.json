@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f637-vh3r-vfh2",
+  "modified": "2023-03-27T22:01:33Z",
+  "published": "2023-03-24T21:57:18Z",
+  "aliases": [
+    "CVE-2023-25666"
+  ],
+  "summary": "TensorFlow has Floating Point Exception in AudioSpectrogram ",
+  "details": "### Impact\nversion:2.11.0 //core/ops/audio_ops.cc:70\n\nStatus SpectrogramShapeFn(InferenceContext* c) { ShapeHandle input; TF_RETURN_IF_ERROR(c->WithRank(c->input(0), 2, &input)); int32_t window_size; TF_RETURN_IF_ERROR(c->GetAttr(\"window_size\", &window_size)); int32_t stride; TF_RETURN_IF_ERROR(c->GetAttr(\"stride\", &stride)); .....[1]\n\nDimensionHandle input_length = c->Dim(input, 0); DimensionHandle input_channels = c->Dim(input, 1);\n\nDimensionHandle output_length; if (!c->ValueKnown(input_length)) { output_length = c->UnknownDim(); } else { const int64_t input_length_value = c->Value(input_length); const int64_t length_minus_window = (input_length_value - window_size); int64_t output_length_value; if (length_minus_window < 0) { output_length_value = 0; } else { output_length_value = 1 + (length_minus_window / stride); .....[2] } output_length = c->MakeDim(output_length_value); }\n\nGet the value of stride at [1], and the used at [2]\n```python\nimport tensorflow as tf\n\npara = {'input': tf.constant([[14.], [24.]], dtype=tf.float32), 'window_size': 1, 'stride': 0, 'magnitude_squared': False}\nfunc = tf.raw_ops.AudioSpectrogram\n\n@tf.function(jit_compile=True)\ndef fuzz_jit():\n   y = func(**para)\n   return y\n\nfuzz_jit()\n```\n\n### Patches\nWe have patched the issue in GitHub commit [d0d4e779da0d0f56499c6fa5ba09f0a576cc6b14](https://github.com/tensorflow/tensorflow/commit/d0d4e779da0d0f56499c6fa5ba09f0a576cc6b14).\n\nThe fix will be included in TensorFlow 2.12.0. We will also cherrypick this commit on TensorFlow 2.11.1\n\n\n### For more information\nPlease consult [our security guide](https://github.com/tensorflow/tensorflow/blob/master/SECURITY.md) for more information regarding the security model and how to contact us with issues and questions.\n\n\n### Attribution\nThis vulnerability has been reported by r3pwnx\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "tensorflow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.11.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "tensorflow-cpu"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.11.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "tensorflow-gpu"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.11.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/tensorflow/tensorflow/security/advisories/GHSA-f637-vh3r-vfh2"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-25666"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tensorflow/tensorflow/commit/d0d4e779da0d0f56499c6fa5ba09f0a576cc6b14"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/tensorflow/tensorflow"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-697"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-24T21:57:18Z",
+    "nvd_published_at": "2023-03-25T00:15:00Z"
+  }
+}

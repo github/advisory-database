@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8vmc-7qrc-q5mx",
+  "modified": "2022-11-18T21:30:16Z",
+  "published": "2022-11-15T12:00:17Z",
+  "aliases": [
+    "CVE-2022-40735"
+  ],
+  "details": "Using long exponents in the Diffie-Hellman Key Agreement Protocol allows remote attackers (from the client side) to trigger unnecessarily expensive server-side DHE modular-exponentiation calculations. An attacker may cause asymmetric resource consumption with any common client application which uses a DHE implementation that applies short exponents. The attack may be more disruptive in cases where a client sends arbitrary numbers that are actually not DH public keys (aka the D(HE)ater attack) or can require a server to select its largest supported key size. The basic attack scenario is that the client must claim that it can only communicate with DHE, and the server must be configured to allow DHE. This can affect TLS, SSH, and IKE.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-40735"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mozilla/ssl-config-generator/issues/162"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gist.github.com/c0r0n3r/9455ddcab985c50fd1912eabf26e058b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://link.springer.com/content/pdf/10.1007/3-540-68339-9_29.pdf"
+    },
+    {
+      "type": "WEB",
+      "url": "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-57pt1r5.pdf"
+    },
+    {
+      "type": "WEB",
+      "url": "https://raw.githubusercontent.com/CVEProject/cvelist/9d7fbbcabd3f44cfedc9e8807757d31ece85a2c6/2022/40xxx/CVE-2022-40735.json"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.researchgate.net/profile/Anton-Stiglic-2/publication/2401745_Security_Issues_in_the_Diffie-Hellman_Key_Agreement_Protocol/links/546c144f0cf20dedafd53e7e/Security-Issues-in-the-Diffie-Hellman-Key-Agreement-Protocol.pdf"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.rfc-editor.org/rfc/rfc3526"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.rfc-editor.org/rfc/rfc4419"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.rfc-editor.org/rfc/rfc5114#section-4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.rfc-editor.org/rfc/rfc7919#section-5.2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2022-11-14T23:15:00Z"
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mf6x-hrgr-658f",
+  "modified": "2023-02-07T23:18:23Z",
+  "published": "2023-01-30T06:30:27Z",
+  "aliases": [
+    "CVE-2022-25967"
+  ],
+  "summary": "Eta vulnerable to Code Injection via templates rendered with user-defined data",
+  "details": "Versions of the package eta before 2.0.0 are vulnerable to Remote Code Execution (RCE) by overwriting template engine configuration variables with view options received from The Express render API. **Note:** This is exploitable only for users who are rendering templates with user-defined data.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "eta"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-25967"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/eta-dev/eta/commit/5651392462ee0ff19d77c8481081a99e5b9138dd"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/eta-dev/eta"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/eta-dev/eta/blob/9c8e4263d3a559444a3881a85c1607bf344d0b28/src/compile-string.ts%23L21"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/eta-dev/eta/blob/9c8e4263d3a559444a3881a85c1607bf344d0b28/src/file-handlers.ts%23L182"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-JS-ETA-2936803"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-02-01T01:34:42Z",
+    "nvd_published_at": "2023-01-30T05:15:00Z"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-444w-xm89-r2p5",
+  "modified": "2022-05-07T00:01:25Z",
+  "published": "2022-05-07T00:01:25Z",
+  "aliases": [
+    "CVE-2018-10191"
+  ],
+  "details": "In versions of mruby up to and including 1.4.0, an integer overflow exists in src/vm.c::mrb_vm_exec() when handling OP_GETUPVAR in the presence of deep scope nesting, resulting in a use-after-free. An attacker that can cause Ruby code to be run can use this to possibly execute arbitrary code.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-10191"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mruby/mruby/issues/3995"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mruby/mruby/commit/1905091634a6a2925c911484434448e568330626"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.debian.org/debian-lts-announce/2022/05/msg00006.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-190"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2018-04-17T21:29:00Z"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-prgj-cjmj-v8ff",
+  "modified": "2022-05-13T01:13:20Z",
+  "published": "2022-05-13T01:13:20Z",
+  "aliases": [
+    "CVE-2018-14938"
+  ],
+  "details": "An issue was discovered in wifipcap/wifipcap.cpp in TCPFLOW through 1.5.0-alpha. There is an integer overflow in the function handle_prism during caplen processing. If the caplen is less than 144, one can cause an integer overflow in the function handle_80211, which will result in an out-of-bounds read and may allow access to sensitive memory (or a denial of service).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:H"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-14938"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/simsong/tcpflow/issues/182"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/simsong/tcpflow/commit/a4e1cd14eb5ccc51ed271b65b3420f7d692c40eb"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.debian.org/debian-lts-announce/2020/11/msg00046.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://usn.ubuntu.com/3955-1/"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-125"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2018-08-05T03:29:00Z"
+  }
+}

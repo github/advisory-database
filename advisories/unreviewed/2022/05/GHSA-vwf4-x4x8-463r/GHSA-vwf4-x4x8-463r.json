@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vwf4-x4x8-463r",
+  "modified": "2022-05-13T01:20:38Z",
+  "published": "2022-05-13T01:20:38Z",
+  "aliases": [
+    "CVE-2018-8072"
+  ],
+  "details": "An issue was discovered on EDIMAX IC-3140W through 3.06, IC-5150W through 3.09, and IC-6220DC through 3.06 devices. The ipcam_cgi binary contains a stack-based buffer overflow that is possible to trigger from a remote unauthenticated /camera-cgi/public/getsysyeminfo.cgi?action=VALUE_HERE HTTP request: if the VALUE_HERE length is more than 0x400 (1024), it is possible to overwrite other values located on the stack due to an incorrect use of the strcpy() function.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-8072"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gitlab.com/nemux/CVE-2018-8072/blob/master/CVE-2018-8072_PoC.txt"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gitlab.com/nemux/CVE-2018-8072/blob/master/nemux_codemotion_Rome18_cover.pdf"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.edimax.com/edimax/download/download/data/edimax/uk/download/for_home/home_network_cameras/home_network_cameras_indoor_fixed/ic-3140w"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.nemux.org/2018/04/24/cve-2018-8072/"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-787"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2018-04-26T15:29:00Z"
+  }
+}
