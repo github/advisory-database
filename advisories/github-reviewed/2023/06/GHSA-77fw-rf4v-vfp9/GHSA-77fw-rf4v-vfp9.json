@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-77fw-rf4v-vfp9",
+  "modified": "2023-06-21T22:00:18Z",
+  "published": "2023-06-21T22:00:18Z",
+  "aliases": [
+    "CVE-2017-16897"
+  ],
+  "summary": "passport-wsfed-saml2 vulnerable to Signature Bypass in SAML2 token",
+  "details": "## Information\nPlease note that this is not a new disclosure, and is previously reported in our [SECURITY-NOTICE.md](https://github.com/auth0/passport-wsfed-saml2/commit/520b9fc0bb4249ce83bec47e30153419f086ab70\n) which we removed in favor of github advisory. \n\n# Overview \n This vulnerability allows an attacker to impersonate another user and potentially elevate their privileges if the SAML identity provider:\n\n- signs SAML response and signs assertion\n\n- does not sign SAML response and signs assertion\n\n# Am I affected?\n\nYou may be affected if you use SAML2 protocol with passport-wsfed-saml2 versions below 3.0.5 and your SAML identity Provider: \n1. signs SAML response and signs assertion; or \n2. does not sign SAML response and signs assertion\n\n# How do I fix it?\n\nYou may fix this vulnerability by upgrading your library to version 3.0.5 or above. \n\n# Will the fix impact my users?\nThis fix patches the library that your application runs, but will not impact your users, their current state, or any existing sessions.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "passport-wsfed-saml2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.0.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/auth0/passport-wsfed-saml2/security/advisories/GHSA-77fw-rf4v-vfp9"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-16897"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/auth0/passport-wsfed-saml2/commit/520b9fc0bb4249ce83bec47e30153419f086ab70"
+    },
+    {
+      "type": "WEB",
+      "url": "https://auth0.com/docs/security/bulletins/cve-2017-16897"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/auth0/passport-wsfed-saml2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-290"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-21T22:00:18Z",
+    "nvd_published_at": null
+  }
+}
