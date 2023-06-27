@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wfg4-322g-9vqv",
+  "modified": "2023-06-21T22:06:29Z",
+  "published": "2023-06-21T22:06:29Z",
+  "aliases": [
+
+  ],
+  "summary": "memoffset allows reading uninitialized memory",
+  "details": "memoffset allows attempt of reading data from address `0` with arbitrary type. This behavior is an undefined behavior because address `0` to `std::mem::size_of<T>` may not have valid bit-pattern with `T`. Old implementation dereferences uninitialized memory obtained from `std::mem::align_of`. Older implementation prior to it allows using uninitialized data obtained from `std::mem::uninitialized` with arbitrary type then compute offset by taking the address of field-projection. This may also result in an undefined behavior for \"father\" that includes (directly or transitively) type that [does not allow to be uninitialized](https://doc.rust-lang.org/nightly/reference/behavior-considered-undefined.html).\n\nThis flaw was corrected by using `std::ptr::addr_of` in <https://github.com/Gilnaa/memoffset/pull/50>.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "memoffset"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.6.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/Gilnaa/memoffset/issues/24"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Gilnaa/memoffset/pull/50"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Gilnaa/memoffset"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2023-0045.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-21T22:06:29Z",
+    "nvd_published_at": null
+  }
+}
