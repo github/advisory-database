@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rm8v-mxj3-5rmq",
+  "modified": "2023-06-14T17:24:36Z",
+  "published": "2023-06-14T17:24:36Z",
+  "aliases": [
+
+  ],
+  "summary": "github.com/lestrrat-go/jwx vulnerable to Potential Padding Oracle Attack",
+  "details": "### Summary\n\nDecrypting AES-CBC encrypted JWE has Potential Padding Oracle Attack Vulnerability.\n\n### Details\n\nOn [v2.0.10](https://github.com/lestrrat-go/jwx/releases/tag/v2.0.10), decrypting AES-CBC encrypted JWE may return an error \"failed to generate plaintext from decrypted blocks: invalid padding\":\n\nhttps://github.com/lestrrat-go/jwx/blob/8840ffd4afc5839f591ff0e9ba9034af52b1643e/jwe/internal/aescbc/aescbc.go#L210-L213\n\nReporting padding error causes [Padding Oracle Attack](https://en.wikipedia.org/wiki/Padding_oracle_attack) Vulnerability.\nRFC 7516 JSON Web Encryption (JWE) says that we **MUST NOT** do this.\n\n> 11.5.  Timing Attacks\n> To mitigate the attacks described in RFC 3218 [RFC3218], the\n> recipient MUST NOT distinguish between format, padding, and length\n> errors of encrypted keys.  It is strongly recommended, in the event\n> of receiving an improperly formatted key, that the recipient\n> substitute a randomly generated CEK and proceed to the next step, to\n> mitigate timing attacks.\n\nIn addition, the time to remove padding depends on the length of the padding.\nIt may leak the length of the padding by Timing Attacks.\n\nhttps://github.com/lestrrat-go/jwx/blob/796b2a9101cf7e7cb66455e4d97f3c158ee10904/jwe/internal/aescbc/aescbc.go#L33-L66\n\nTo mitigate Timing Attacks, it MUST be done in constant time.\n\n### Impact\n\nThe authentication tag is verified, so it is not an immediate attack.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/lestrrat-go/jwx/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.11"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.0.10"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/lestrrat-go/jwx"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.2.26"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.2.25"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/lestrrat-go/jwx/security/advisories/GHSA-rm8v-mxj3-5rmq"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/lestrrat-go/jwx/commit/6c41e3822485fc7e11dd70b4b0524b075d66b103"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/lestrrat-go/jwx/commit/d9ddbc8e5009cfdd8c28413390b67afa7f576dd6"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/lestrrat-go/jwx"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/lestrrat-go/jwx/blob/796b2a9101cf7e7cb66455e4d97f3c158ee10904/jwe/internal/aescbc/aescbc.go#L33-L66"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/lestrrat-go/jwx/blob/8840ffd4afc5839f591ff0e9ba9034af52b1643e/jwe/internal/aescbc/aescbc.go#L210-L213"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-14T17:24:36Z",
+    "nvd_published_at": null
+  }
+}

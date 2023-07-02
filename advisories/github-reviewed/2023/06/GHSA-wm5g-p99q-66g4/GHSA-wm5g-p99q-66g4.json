@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wm5g-p99q-66g4",
+  "modified": "2023-06-19T20:17:51Z",
+  "published": "2023-06-14T16:37:01Z",
+  "aliases": [
+    "CVE-2023-35840"
+  ],
+  "summary": "elFinder vulnerable to path traversal in LocalVolumeDriver connector",
+  "details": "### Impact\nPath Traversal vulnerability in PHP LocalVolumeDriver connector. This vulnerability can be exploited by allowing untrusted users to write to the local file system.\n\nThis issue was caused by incomplete validity checking of the supplied request parameters. That problem has been fixed in elFinder Version 2.1.62.\n\n### Patches\nThis vulnerability has been fixed in elFinder 2.1.62. Installation managers should update to the latest version as soon as possible.\n\n### Workarounds\nIf you cannot update for some reason, you must stop using it or prohibit writing to untrusted users.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "studio-42/elfinder"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.1.62"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/Studio-42/elFinder/security/advisories/GHSA-wm5g-p99q-66g4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Studio-42/elFinder/commit/bb9aaa7b096a1b83f2f85657c43f12131ece2891"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Studio-42/elFinder"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-14T16:37:01Z",
+    "nvd_published_at": null
+  }
+}
