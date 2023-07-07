@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-gcv6-2v9c-rj48",
+  "modified": "2023-07-07T13:52:40Z",
+  "published": "2022-05-24T16:55:25Z",
+  "aliases": [
+    "CVE-2019-14470"
+  ],
+  "summary": "Cosenary Instagram-PHP-API contains reflected XSS vulnerability",
+  "details": "cosenary Instagram-PHP-API (aka Instagram PHP API V2), used in the UserPro plugin through 4.9.32 for WordPress, is vulnerable to cross-site scripting via the [example/success.php](https://github.com/cosenary/Instagram-PHP-API/blob/master/example/success.php#L36\n) error_description parameter.\n\nVulnerable code:\n\n```php\n    if (isset($_GET['error'])) {\n        echo 'An error occurred: ' . $_GET['error_description'];\n    }\n```\n\nProof-of-Concept:\n\n`https://domain.tld/wp-content/plugins/userpro/lib/instagram/vendor/cosenary/instagram/example/success.php?error=&error_description=<PAYLOAD>`",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "cosenary/instagram"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "2.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-14470"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cosenary/Instagram-PHP-API"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cosenary/Instagram-PHP-API/blob/master/example/success.php#L33-L36"
+    },
+    {
+      "type": "WEB",
+      "url": "https://wpvulndb.com/vulnerabilities/9815"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.exploit-db.com/exploits/47304"
+    },
+    {
+      "type": "WEB",
+      "url": "http://packetstormsecurity.com/files/154206/WordPress-UserPro-4.9.32-Cross-Site-Scripting.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-07T13:52:40Z",
+    "nvd_published_at": "2019-09-04T20:15:00Z"
+  }
+}
