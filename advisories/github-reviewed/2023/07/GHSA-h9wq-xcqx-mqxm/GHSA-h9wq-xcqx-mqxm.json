@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h9wq-xcqx-mqxm",
+  "modified": "2023-07-11T22:46:19Z",
+  "published": "2023-07-11T22:46:19Z",
+  "aliases": [
+
+  ],
+  "summary": "Vendure Cross Site Request Forgery vulnerability impacting all API requests",
+  "details": "### Impact\nVendure is an e-commerce GraphQL framework with a number of APIs and different levels of\nauthorization. By default the Cookie settings are insecure, having the SameSite setting as false\nwhich results in not having one (originates from the cookie-session npm package’s default\nsettings).\n\n### Patches\nIn progress\n\n### Workarounds\nManually set the `authOptions.cookieOptions.sameSite` configuration option to `'strict'`, `'lax'` or `true`.\n\n### References\n_Are there any links users can visit to find out more?_\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@vendure/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/vendure-ecommerce/vendure/security/advisories/GHSA-h9wq-xcqx-mqxm"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vendure-ecommerce/vendure/commit/4a10d6785a3bf792ddf84053cdf232c205b82c81"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vendure-ecommerce/vendure"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-11T22:46:19Z",
+    "nvd_published_at": null
+  }
+}
