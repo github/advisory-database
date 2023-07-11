@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-38f9-4vhq-9cr8",
+  "modified": "2023-07-07T13:56:21Z",
+  "published": "2022-05-24T17:40:23Z",
+  "aliases": [
+    "CVE-2021-3291"
+  ],
+  "summary": "Zen Cart vulnerable to authenticated remote code execution",
+  "details": "Zen Cart 1.5.7b allows admins to execute arbitrary OS commands by inspecting an HTML radio input element (within the modules edit page) and inserting a command.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "zencart/zencart"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.5.7c"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.5.7b"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-3291"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zencart/zencart/commit/7447627f7148b11c614f89dab4a09d3f102b58af"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/MucahitSaratar/zencart_auth_rce_poc"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/zencart/zencart"
+    },
+    {
+      "type": "WEB",
+      "url": "http://packetstormsecurity.com/files/161613/Zen-Cart-1.5.7b-Remote-Code-Execution.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-78"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-07T13:56:21Z",
+    "nvd_published_at": "2021-01-26T18:16:00Z"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-gm68-572p-q28r",
+  "modified": "2023-07-06T15:30:51Z",
+  "published": "2023-07-06T15:30:51Z",
+  "aliases": [
+
+  ],
+  "summary": "@vendure/admin-ui-plugin authenticated Cross-site Scripting vulnerability",
+  "details": "### Impact\nVendure provides an authorization system with different levels of privileges. For example, an administrator cannot create another administrator.\n\nIn the admin UI, there are a couple of places with description inputs, such as inventory/collection catalog, shipping methods, promotions, and more.\n\nWhile the WYSIWYG editor allows limited customization, altering the request data (not in the ui) saves and returns arbitrary HTML with no sanitization. Causing an XSS when viewing the page.\n\nThe impact of this XSS is privilege escalation. A user that can write any type of description can trigger the attack. Then any other user that visits the vulnerable page is prone to arbitrary Javascript code execution, giving the attacker ability to execute actions on behalf of this user.\n\n### Patches\nin progress\n\n### Workarounds\n_Is there a way for users to fix or remediate the vulnerability without upgrading?_\n\n### References\n_Are there any links users can visit to find out more?_\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@vendure/admin-ui-plugin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/vendure-ecommerce/vendure/security/advisories/GHSA-gm68-572p-q28r"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vendure-ecommerce/vendure/commit/0cdc92b241e6fd4017ddfc9fbdca189fc7c1ada0"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vendure-ecommerce/vendure"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vendure-ecommerce/vendure/blob/master/CHANGELOG.md#203-2023-07-04"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-06T15:30:51Z",
+    "nvd_published_at": null
+  }
+}
