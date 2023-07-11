@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4wgf-9x5r-p938",
+  "modified": "2023-07-06T23:26:41Z",
+  "published": "2022-05-13T01:50:53Z",
+  "aliases": [
+    "CVE-2018-19784"
+  ],
+  "summary": "Weak Cryptography in PHP-Proxy",
+  "details": "The [str_rot_pass](https://github.com/Athlon1600/php-proxy/blob/9cc42804ddafa079b86b947e4dd83852edddffca/src/helpers.php#L66) function in vendor/atholn1600/php-proxy/src/helpers.php in PHP-Proxy 5.1.0 uses weak cryptography, which makes it easier for attackers to calculate the authorization data needed for local file inclusion.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "athlon1600/php-proxy"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "5.1.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-19784"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Athlon1600/php-proxy-app/issues/139"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/0xUhaw/CVE-Bins/tree/master/PHP-Proxy"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Athlon1600/php-proxy"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-326"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-06T23:26:41Z",
+    "nvd_published_at": "2018-12-01T00:29:00Z"
+  }
+}

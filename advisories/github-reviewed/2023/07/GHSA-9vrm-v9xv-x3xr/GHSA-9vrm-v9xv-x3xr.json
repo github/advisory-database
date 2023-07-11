@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9vrm-v9xv-x3xr",
+  "modified": "2023-07-06T21:47:39Z",
+  "published": "2023-07-06T19:24:09Z",
+  "aliases": [
+    "CVE-2023-0690"
+  ],
+  "summary": "HashiCorp Boundary Workers Store Rotated Credentials in Plaintext Even When Key Management Service Configured",
+  "details": "HashiCorp Boundary from 0.10.0 through 0.11.2 contain an issue where when using a PKI-based worker with a Key Management Service (KMS) defined in the configuration file, new credentials created after an automatic rotation may not have been encrypted via the intended KMS. This would result in the credentials being stored in plaintext on the Boundary PKI worker’s disk. This issue is fixed in version 0.12.0.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/hashicorp/boundary"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.10.0"
+            },
+            {
+              "fixed": "0.12.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-0690"
+    },
+    {
+      "type": "WEB",
+      "url": "https://discuss.hashicorp.com/t/hcsec-2023-03-boundary-workers-store-rotated-credentials-in-plaintext-even-when-key-management-service-configured/49907"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/hashicorp/boundary"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-311",
+      "CWE-312"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-06T21:47:39Z",
+    "nvd_published_at": "2023-02-08T19:15:00Z"
+  }
+}
