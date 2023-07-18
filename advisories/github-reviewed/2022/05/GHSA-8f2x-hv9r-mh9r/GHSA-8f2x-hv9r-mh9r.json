@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8f2x-hv9r-mh9r",
+  "modified": "2023-07-18T19:33:47Z",
+  "published": "2022-05-24T17:27:21Z",
+  "aliases": [
+    "CVE-2020-25102"
+  ],
+  "summary": "silverstripe-advancedreports vulnerable to XSS",
+  "details": "silverstripe-advancedreports (aka the Advanced Reports module for SilverStripe) 1.0 through 2.0 is vulnerable to Cross-Site Scripting (XSS) because it is possible to inject and store malicious JavaScript code. The affects `admin/advanced-reports/DataObjectReport/EditForm/field/DataObjectReport/item` (aka report preview) when an SVG document is provided in the Description parameter.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe-australia/advancedreports"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0"
+            },
+            {
+              "last_affected": "2.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-25102"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gist.github.com/ahpaleus/c3bd2d41d306544ca3158569335d12f2"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/nyeholt/silverstripe-advancedreports"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nyeholt/silverstripe-advancedreports/releases"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-18T19:33:47Z",
+    "nvd_published_at": "2020-09-03T17:15:00Z"
+  }
+}
