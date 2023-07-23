@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2p2x-mw56-jc98",
+  "modified": "2023-07-17T23:26:53Z",
+  "published": "2022-05-24T16:54:45Z",
+  "aliases": [
+    "CVE-2019-15521"
+  ],
+  "summary": "Spoon Library as used in Fork CMS allows PHP object injection",
+  "details": "Spoon Library through 2014-02-06, as used in Fork CMS before 1.4.1 and other products, allows PHP object injection via a cookie containing an object.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "spoon/library"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.4.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-15521"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/forkcms/library/pull/69"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/forkcms/library"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/forkcms/library/releases/tag/1.4.1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/spoon/library/blob/bda89be80b7e1ffdc93d3180d33a56927430298b/spoon/cookie/cookie.php#L117"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-502"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-17T23:26:53Z",
+    "nvd_published_at": "2019-08-26T13:15:00Z"
+  }
+}

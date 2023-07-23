@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r83x-wj75-v89r",
+  "modified": "2023-07-21T23:24:45Z",
+  "published": "2022-05-13T01:32:03Z",
+  "aliases": [
+    "CVE-2018-6333"
+  ],
+  "summary": "Nuclide Improper Input Validation",
+  "details": "The hhvm-attach deep link handler in Nuclide did not properly sanitize the provided hostname parameter when rendering. As a result, a malicious URL could be used to render HTML and other content inside of the editor's context, which could potentially be chained to lead to code execution. This issue affected Nuclide prior to v0.290.0.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "nuclide"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.290.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-6333"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/facebook/nuclide/commit/65f6bbd683404be1bb569b8d1be84b5d4c74a324"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-21T23:24:45Z",
+    "nvd_published_at": "2018-12-31T23:29:00Z"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hp5f-qqrw-c8gj",
+  "modified": "2023-07-11T18:24:03Z",
+  "published": "2022-05-24T22:28:42Z",
+  "aliases": [
+    "CVE-2021-37939"
+  ],
+  "summary": "Kibana Sensitive Data Disclosure",
+  "details": "It was discovered that Kibana’s JIRA connector & IBM Resilient connector could be used to return HTTP response data on internal hosts, which may be intentionally hidden from public view. Using this vulnerability, a malicious user with the ability to create connectors, could utilize these connectors to view limited HTTP response data on hosts accessible to the cluster.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "kibana"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.8.0"
+            },
+            {
+              "fixed": "7.15.2"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 7.15.1"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-37939"
+    },
+    {
+      "type": "WEB",
+      "url": "https://discuss.elastic.co/t/kibana-7-15-2-security-update/288923"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-319"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-11T18:24:03Z",
+    "nvd_published_at": "2021-11-18T16:15:00Z"
+  }
+}
