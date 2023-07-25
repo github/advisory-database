@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vf78-3q9f-92g3",
+  "modified": "2023-07-25T13:53:42Z",
+  "published": "2023-07-25T13:53:42Z",
+  "aliases": [
+
+  ],
+  "summary": "Hard-coded System User Credentials in Folio Data Export Spring module ",
+  "details": "### Impact\nThe module creates a system user that is used to perform internal module-to-module operations.  Credentials for this user are hard-coded in the source code.  This makes it trivial to authenticate as this user, resulting in unauthorized access to potentially dangerous APIs, allowing to view and modify configuration including single-sign-on configuration, to read, add and modify user data, and to read and transfer fees/fines in a patron's account.\n\n### Patches\nUpgrade mod-data-export-spring to >=2.0.2, or a 1.5.x version >=1.5.4.\n\n### Workarounds\nNo known workarounds.\n\n### References\nhttps://wiki.folio.org/x/hbMMBw - FOLIO Security Advisory with Upgrade Instructions\nhttps://github.com/folio-org/mod-data-export-spring/commit/93aff4566bff59e30f4121b5a2bda5b0b508a446 - Fix",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.folio:mod-data-export-spring"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.0.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.folio:mod-data-export-spring"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.5.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/folio-org/mod-data-export-spring/security/advisories/GHSA-vf78-3q9f-92g3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/folio-org/mod-data-export-spring/commit/93aff4566bff59e30f4121b5a2bda5b0b508a446"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/folio-org/mod-data-export-spring"
+    },
+    {
+      "type": "WEB",
+      "url": "https://wiki.folio.org/x/hbMMBw"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-25T13:53:42Z",
+    "nvd_published_at": null
+  }
+}
