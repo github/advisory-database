@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-m8v7-469p-5x89",
+  "modified": "2023-07-25T14:44:27Z",
+  "published": "2023-07-25T14:44:27Z",
+  "aliases": [
+
+  ],
+  "summary": "Hard-coded System User Credentials in Folio Data Export Spring module ",
+  "details": "### Impact\nThe module creates a system user that is used to perform internal module-to-module operations.  Credentials for this user are hard-coded in the source code.  This makes it trivial to authenticate as this user, allowing unauthorized read access to these mod-inventory-storage records: instances, holdings, items, contributor-types, identifier-types. This includes records marked as suppressed from discovery.\n\n### Patches\nUpgrade mod-remote-storage to >=2.0.3, or a 1.7.x version >=1.7.1.\n\n### Workarounds\nNo known workarounds.\n\n### References\nhttps://wiki.folio.org/x/hbMMBw - FOLIO Security Advisory with Upgrade Instructions\nhttps://github.com/folio-org/mod-remote-storage/commit/57df495f76e9aa5be9ce7ce3a65f89b6dbcbc13b - Fix",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.folio:mod-remote-storage"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.0.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.folio:mod-remote-storage"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.7.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/folio-org/mod-remote-storage/security/advisories/GHSA-m8v7-469p-5x89"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/folio-org/mod-remote-storage/commit/57df495f76e9aa5be9ce7ce3a65f89b6dbcbc13b"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/folio-org/mod-remote-storage"
+    },
+    {
+      "type": "WEB",
+      "url": "https://wiki.folio.org/x/hbMMBw"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-25T14:44:27Z",
+    "nvd_published_at": null
+  }
+}
