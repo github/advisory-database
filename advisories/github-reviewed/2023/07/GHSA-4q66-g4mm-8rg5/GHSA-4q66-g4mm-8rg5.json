@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4q66-g4mm-8rg5",
+  "modified": "2023-07-31T22:02:35Z",
+  "published": "2023-07-31T22:02:35Z",
+  "aliases": [
+
+  ],
+  "summary": "Silverstripe has Cross-site Scripting (XSS) vulnerabilities inherited from TinyMCE",
+  "details": "TinyMCE 4.x is vulnerable to several XSS vectors, which had been patched in later versions. Two of these have been identified as affecting `silverstripe/admin`.\n\nOnly Silverstripe CMS 4 is affected by this issue. It's not possible to upgrade Silverstripe CMS 4 to use a more recent release of TinyMCE without introducing breaking changes. Instead, the security patches that shipped in later releases of TinyMCE have been backported to the TinyMCE version bundled in `silverstripe/admin`.\n\nSilverstripe CMS 5 is not affected by those vulnerabilities because it uses TinyMCE 6.\n\nYou can find more information about the underlying vulnerabilities in those GitHub security advisories:\n\n- [GHSA-5h9g-x5rv-25wg Cross-site scripting vulnerability in TinyMCE](https://github.com/advisories/GHSA-5h9g-x5rv-25wg)\n- [GHSA-w7jx-j77m-wp65 Cross-site scripting vulnerability in TinyMCE](https://github.com/advisories/GHSA-w7jx-j77m-wp65)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/admin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.13.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-admin/security/advisories/GHSA-4q66-g4mm-8rg5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-admin/commit/cafc1c4de58f1553b019dc2f8a62f835cabdbeb2"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-5h9g-x5rv-25wg"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-w7jx-j77m-wp65"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/silverstripe/silverstripe-admin"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-31T22:02:35Z",
+    "nvd_published_at": null
+  }
+}
