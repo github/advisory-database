@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cg5h-q983-4rww",
+  "modified": "2023-08-02T21:01:26Z",
+  "published": "2022-05-14T02:48:54Z",
+  "aliases": [
+    "CVE-2015-3188"
+  ],
+  "summary": "Apache Storm remote code execution vulnerability",
+  "details": "The UI daemon in Apache Storm 0.10.0-beta allows remote users to run arbitrary code as the user running the web server. With kerberos authentication this could allow impersonation of arbitrary users on other systems, including HDFS and HBase.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.storm:storm"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.10.0-beta"
+            },
+            {
+              "fixed": "0.10.0-beta1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "0.10.0-beta"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2015-3188"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/storm/blob/v0.10.0-beta1/SECURITY.md"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/storm/blob/v0.10.0-beta1/STORM-UI-REST-API.md"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20151014213052/http://www.securitytracker.com/id/1032695"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20171202122914/http://www.securityfocus.com/archive/1/535804/100/0/threaded"
+    },
+    {
+      "type": "WEB",
+      "url": "http://packetstormsecurity.com/files/132417/Apache-Storm-0.10.0-beta-Code-Execution.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-02T21:01:26Z",
+    "nvd_published_at": "2017-01-13T15:59:00Z"
+  }
+}
