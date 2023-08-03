@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-gwvq-rgqf-993f",
+  "modified": "2023-08-03T23:09:34Z",
+  "published": "2022-05-17T00:13:54Z",
+  "aliases": [
+    "CVE-2014-0105"
+  ],
+  "summary": "python-keystoneclient vulnerable to context confusion in Keystone auth_token middleware",
+  "details": "A context confusion vulnerability was identified in Keystone auth_token middleware (shipped in python-keystoneclient) before 0.7.0. By doing repeated requests, with sufficient load on the target system, an authenticated user may in certain situations assume another authenticated user's complete identity and multi-tenant authorizations, potentially resulting in a privilege escalation. Note that it is related to a bad interaction between eventlet and python-memcached that should be avoided if the calling process already monkey-patches \"thread\" to use eventlet. Only keystone middleware setups using auth_token with memcache are vulnerable.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:C/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "python-keystoneclient"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.7.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.6.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2014-0105"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.launchpad.net/python-keystoneclient/+bug/1282865"
+    },
+    {
+      "type": "WEB",
+      "url": "https://review.opendev.org/c/openstack/python-keystoneclient/+/81078"
+    },
+    {
+      "type": "WEB",
+      "url": "http://rhn.redhat.com/errata/RHSA-2014-0382.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://rhn.redhat.com/errata/RHSA-2014-0409.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2014/03/27/4"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-522"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-03T23:09:34Z",
+    "nvd_published_at": "2014-04-15T14:55:00Z"
+  }
+}
