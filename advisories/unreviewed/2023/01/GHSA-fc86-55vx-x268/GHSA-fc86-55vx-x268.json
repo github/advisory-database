@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fc86-55vx-x268",
+  "modified": "2023-01-23T15:30:30Z",
+  "published": "2023-01-11T03:30:19Z",
+  "aliases": [
+    "CVE-2023-22947"
+  ],
+  "details": "** DISPUTED ** Insecure folder permissions in the Windows installation path of Shibboleth Service Provider (SP) before 3.4.1 allow an unprivileged local attacker to escalate privileges to SYSTEM via DLL planting in the service executable's folder. This occurs because the installation goes under C:\\opt (rather than C:\\Program Files) by default. NOTE: the vendor disputes the significance of this report, stating that \"We consider the ACLs a best effort thing\" and \"it was a documentation mistake.\"",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-22947"
+    },
+    {
+      "type": "WEB",
+      "url": "https://shibboleth.atlassian.net/browse/SSPCPP-961"
+    },
+    {
+      "type": "WEB",
+      "url": "https://shibboleth.atlassian.net/wiki/spaces/SP3/pages/2065335545/Install+on+Windows#Restricting-ACLs"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-427"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2023-01-11T02:15:00Z"
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-pgvh-p3g4-86jw",
+  "modified": "2023-04-27T19:55:01Z",
+  "published": "2023-02-02T01:32:42Z",
+  "aliases": [
+    "CVE-2023-25313"
+  ],
+  "summary": "AVideo contains Command injection when embedding a video link",
+  "details": "Impact:\n\nAn attacker could execute remote code on a system running wwbn/avideo\n\nStep to Reproduce:\n\n1. Go to the `My Videos` tab\n\nhttps://demo.avideo.com/mvideos\n\n2. Click \"Embed a video link\"\n\nAppend a command to the url as a query string. eg. `?whoami`\n\n\nthen click Save\n\nThis issue has been resolved in commit `236228f15`",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "wwbn/avideo"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "12.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/WWBN/AVideo/security/advisories/GHSA-pgvh-p3g4-86jw"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-30842"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/WWBN/AVideo/commit/236228f15a9a31be5a0e60f05dac043682e49a5e"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/WWBN/AVideo"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-02-02T01:32:42Z",
+    "nvd_published_at": null
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-878m-3g6q-594q",
+  "modified": "2023-03-10T15:30:54Z",
+  "published": "2023-03-03T20:02:16Z",
+  "aliases": [
+    "CVE-2023-26488"
+  ],
+  "summary": "OpenZeppelin Contracts contains Incorrect Calculation",
+  "details": "### Impact\n\nThe ERC721Consecutive contract designed for minting NFTs in batches does not update balances when a batch has size 1 and consists of a single token. Subsequent transfers from the receiver of that token may overflow the balance as reported by `balanceOf`.\n\nThe issue exclusively presents with batches of size 1.\n\n### Patches\n\nThe issue has been patched in 4.8.2.\n\n<!-- ### References -->\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@openzeppelin/contracts"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.8.0"
+            },
+            {
+              "fixed": "4.8.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@openzeppelin/contracts-upgradeable"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.8.0"
+            },
+            {
+              "fixed": "4.8.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenZeppelin/openzeppelin-contracts/security/advisories/GHSA-878m-3g6q-594q"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-26488"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenZeppelin/openzeppelin-contracts/commit/167bf67ed3907f4a674043496019fa346cee7705"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/OpenZeppelin/openzeppelin-contracts"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenZeppelin/openzeppelin-contracts/releases/tag/v4.8.2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-682"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-03T20:02:16Z",
+    "nvd_published_at": "2023-03-03T22:15:00Z"
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7372-q459-jxhr",
+  "modified": "2023-08-16T22:48:18Z",
+  "published": "2022-05-17T01:27:07Z",
+  "aliases": [
+    "CVE-2014-1624"
+  ],
+  "summary": "pyxdg Arbitrary File Overwrite via Race Condition",
+  "details": "Race condition in the `xdg.BaseDirectory.get_runtime_dir` function in pyxdg 0.25 allows local users to overwrite arbitrary files by pre-creating `/tmp/pyxdg-runtime-dir-fallback-victim` to point to a victim-owned location, then replacing it with a symlink to an attacker-controlled location once the `get_runtime_dir` function is called.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "pyxdg"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "xdg.BaseDirectory.get_runtime_dir"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.25"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2014-1624"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/takluyver/pyxdg/commit/bd999c1c3fe7ee5f30ede2cf704cf03e400347b4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://exchange.xforce.ibmcloud.com/vulnerabilities/90618"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/takluyver/pyxdg"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20200227194825/http://www.securityfocus.com/bid/65042"
+    },
+    {
+      "type": "WEB",
+      "url": "http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=736247"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2014/01/21/3"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2014/01/21/4"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-59"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-16T22:48:18Z",
+    "nvd_published_at": "2014-01-28T00:55:00Z"
+  }
+}

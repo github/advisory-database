@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-j9h4-p6p7-8652",
+  "modified": "2023-04-07T22:57:52Z",
+  "published": "2023-04-02T21:30:17Z",
+  "aliases": [
+    "CVE-2023-28672"
+  ],
+  "summary": "Jenkins OctoPerf Load Testing Plugin vulnerable to credential capture",
+  "details": "OctoPerf Load Testing Plugin Plugin 4.5.1 and earlier does not perform a permission check in a connection test HTTP endpoint.\n\nThis allows attackers with Overall/Read permission to connect to an attacker-specified URL using attacker-specified credentials IDs obtained through another method, capturing credentials stored in Jenkins.\n\nOctoPerf Load Testing Plugin Plugin 4.5.2 properly performs a permission check when accessing the affected connection test HTTP endpoint.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkinsci.plugins:octoperf"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.5.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-28672"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-03-21/#SECURITY-3067%20(2)"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-862"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-03T22:54:33Z",
+    "nvd_published_at": "2023-04-02T21:15:00Z"
+  }
+}

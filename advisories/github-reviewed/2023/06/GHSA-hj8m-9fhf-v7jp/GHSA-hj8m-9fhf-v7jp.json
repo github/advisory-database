@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hj8m-9fhf-v7jp",
+  "modified": "2023-06-23T21:46:11Z",
+  "published": "2023-06-23T21:46:11Z",
+  "aliases": [
+
+  ],
+  "summary": "fief-server Server-Side Template Injection vulnerability",
+  "details": "# Server-Side Template Injection\n\n## Overview of the Vulnerability\n\nServer-Side Template Injection (SSTI) is a vulnerability within application templating engines where user input is improperly handled and is embedded into the template, possibly leading code being executed.\n\nAn attacker can use SSTI to execute code on the underlying system by manipulating values within the embedded template. When code is executed within the underlying system, it can allow an attacker to run permissioned commands under the exploited process, or exploit Cross-Site Scripting (XSS) to run code within the user's browser.\n\n## Business Impact\n\nSSTI can lead to reputational damage for the business due to a loss in confidence and trust by users. If an attacker successfully executes code within the underlying system, it can result in data theft and indirect financial losses.\n\n## Steps to Reproduce\n\n1. [Sign up](https://fief.fief.dev/register) and login to your account\n1. Use a browser to navigate to: email-templates {{[URL](https://test.fief.dev/admin/customization/email-templates/)}}\n1. put your payload in Edit Base template `{{ cycler.__init__.__globals__.os.popen('id').read() }}` and you will se it will execute.\n\nPayload:\n`{{ cycler.__init__.__globals__.os.popen('id').read() }}`\n\n## Proof of Concept (PoC)\n\nThe screenshot(s) below demonstrates the SSTI:\n\n![SSTI](https://user-images.githubusercontent.com/42150485/248214990-854c2272-4f34-4c49-9759-d49ce8ce3d12.png)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "fief-server"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "fief.apps.dashboard.routers.email_templates.update_email_template",
+          "fief.services.email_template.renderers.EmailTemplateRenderer._get_jinja_environment",
+          "fief.services.email_template.renderers.EmailSubjectRenderer._get_jinja_environment"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.19.0"
+            },
+            {
+              "fixed": "0.25.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/fief-dev/fief/security/advisories/GHSA-hj8m-9fhf-v7jp"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/fief-dev/fief/commit/91e56625b641fa419e2985772266774bae18382b"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/fief-dev/fief"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/fief-dev/fief/releases/tag/v0.25.3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-23T21:46:11Z",
+    "nvd_published_at": null
+  }
+}

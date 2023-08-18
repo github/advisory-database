@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-p2hp-3wv3-4w74",
+  "modified": "2023-03-08T17:22:31Z",
+  "published": "2023-02-24T21:30:18Z",
+  "aliases": [
+    "CVE-2022-44310"
+  ],
+  "summary": "ecdh vulnerable to Exposure of Resource to Wrong Sphere",
+  "details": "In Development IL ecdh before 0.2.0, an attacker can send an invalid point (not on the curve) as the public key, and obtain the derived shared secret.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "ecdh"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.2.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-44310"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/developmentil/ecdh/issues/3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/developmentil/ecdh/pull/4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/developmentil/ecdh/commit/ef4560e7233f4e8107a17a77bc540121599c78fa"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/developmentil/ecdh"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-668"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-08T17:22:31Z",
+    "nvd_published_at": "2023-02-24T20:15:00Z"
+  }
+}

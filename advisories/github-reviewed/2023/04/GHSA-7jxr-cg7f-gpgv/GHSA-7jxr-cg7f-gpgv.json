@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7jxr-cg7f-gpgv",
+  "modified": "2023-04-07T20:35:03Z",
+  "published": "2023-04-07T20:35:03Z",
+  "aliases": [
+    "CVE-2023-29017"
+  ],
+  "summary": "vm2 vulnerable to sandbox escape",
+  "details": "vm2 was not properly handling host objects passed to `Error.prepareStackTrace` in case of unhandled async errors.\n\n- vm2 version: ~3.9.14\n- Node version: 18.15.0, 19.8.1, 17.9.1\n\n### Impact\nA threat actor can bypass the sandbox protections to gain remote code execution rights on the host running the sandbox.\n\n### Patches\nThis vulnerability was patched in the release of version `3.9.15` of `vm2`.\n\n### Workarounds\nNone.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "vm2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.9.15"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/patriksimek/vm2/security/advisories/GHSA-7jxr-cg7f-gpgv"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-29017"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/patriksimek/vm2/issues/515"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/patriksimek/vm2/commit/d534e5785f38307b70d3aac1945260a261a94d50"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gist.github.com/seongil-wi/2a44e082001b959bfe304b62121fb76d"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/patriksimek/vm2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-913"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-07T20:35:03Z",
+    "nvd_published_at": "2023-04-06T20:15:00Z"
+  }
+}

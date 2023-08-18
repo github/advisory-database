@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4m3m-ppvx-xgw9",
+  "modified": "2023-04-24T15:56:25Z",
+  "published": "2023-04-21T22:33:30Z",
+  "aliases": [
+    "CVE-2023-29019"
+  ],
+  "summary": "Session fixation in fastify-passport",
+  "details": "Applications using `@fastify/passport` for user authentication, in combination with `@fastify/session` as the underlying session management mechanism, are vulnerable to [session fixation attacks](https://owasp.org/www-community/attacks/Session_fixation) from network and same-site attackers.\n\n## Details\nfastify applications rely on the `@fastify/passport` library for user authentication. The login and user validation are performed by the `authenticate` function. When executing this function, the `sessionId` is preserved between the pre-login and the authenticated session. Network and [same-site attackers](https://canitakeyoursubdomain.name/) can hijack the victim's session by tossing a valid `sessionId` cookie in the victim's browser and waiting for the victim to log in on the website.\n\n## Fix\nAs a solution, newer versions of `@fastify/passport` regenerate `sessionId` upon login, preventing the attacker-controlled pre-session cookie from being upgraded to an authenticated session.\n\n## Credits\n* Pedro Adão (@pedromigueladao), [Instituto Superior Técnico, University of Lisbon](https://tecnico.ulisboa.pt/)\n* Marco Squarcina (@lavish), [Security & Privacy Research Unit, TU Wien](https://secpriv.wien/)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@fastify/passport"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.1.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@fastify/passport"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.3.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/fastify/fastify-passport/security/advisories/GHSA-4m3m-ppvx-xgw9"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-29019"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/fastify/fastify-passport/commit/43c82c321db58ea3e375dd475de60befbfcf2a11"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/fastify/fastify-passport"
+    },
+    {
+      "type": "WEB",
+      "url": "https://owasp.org/www-community/attacks/Session_fixation"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-384"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-21T22:33:30Z",
+    "nvd_published_at": null
+  }
+}

@@ -1,0 +1,221 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xv3h-4844-9h36",
+  "modified": "2023-04-28T20:07:40Z",
+  "published": "2023-04-24T22:42:39Z",
+  "aliases": [
+    "CVE-2023-29530"
+  ],
+  "summary": "HTTP Multiline Header Termination",
+  "details": "### Impact\n\nAffected versions of Laminas Diactoros accepted a single line feed (LF / `\\n` ) character at the end of a header name. When serializing such a header name containing a line-feed into the on-the-wire representation of a HTTP/1.x message, the resulting message would be syntactically invalid, due to the header line being terminated too early. An attacker that is able to control the header names that are passed to Laminas Diactoros would be able to intentionally craft invalid messages, possibly causing application errors or invalid HTTP requests being sent out with an PSR-18 HTTP client. The latter might present a denial of service vector if a remote service’s web application firewall bans the application due to the receipt of malformed requests.\n\n### Patches\n\nThe problem has been patched in the following versions:\n\n- 2.18.1\n- 2.19.1\n- 2.20.1\n- 2.21.1\n- 2.22.1\n- 2.23.1\n- 2.24.2\n- 2.25.2\n\n### Workarounds\n\nValidate HTTP header keys and/or values, and if using user-supplied values, filter them to strip off leading or trailing newline characters before calling `withHeader()`.\n\n### References\n\n- CVE-2023-29197\n- GHSA-wxmh-65f7-jcvw",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "laminas/laminas-diactoros"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.18.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "laminas/laminas-diactoros"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.19.0"
+            },
+            {
+              "fixed": "2.19.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "2.19.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "laminas/laminas-diactoros"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.20.0"
+            },
+            {
+              "fixed": "2.20.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "2.20.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "laminas/laminas-diactoros"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.21.0"
+            },
+            {
+              "fixed": "2.21.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "2.21.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "laminas/laminas-diactoros"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.22.0"
+            },
+            {
+              "fixed": "2.22.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "2.22.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "laminas/laminas-diactoros"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.23.0"
+            },
+            {
+              "fixed": "2.23.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "2.23.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "laminas/laminas-diactoros"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.24.0"
+            },
+            {
+              "fixed": "2.24.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "laminas/laminas-diactoros"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.25.0"
+            },
+            {
+              "fixed": "2.25.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/laminas/laminas-diactoros/security/advisories/GHSA-xv3h-4844-9h36"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-29530"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/laminas/laminas-diactoros/commit/7e721a60a09c5119c98694c2d23fc031094e1f1c"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-wxmh-65f7-jcvw"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/laminas/laminas-diactoros"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/BPW54QK7ISDALPLP2CKODU4ZIVRYS336/"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-24T22:42:39Z",
+    "nvd_published_at": null
+  }
+}

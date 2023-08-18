@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-pwvp-h579-hfxg",
+  "modified": "2023-07-17T23:19:49Z",
+  "published": "2022-05-24T16:55:31Z",
+  "aliases": [
+    "CVE-2019-15952"
+  ],
+  "summary": "Total.js CMS Path Traversal",
+  "details": "An issue was discovered in Total.js CMS 12.0.0. An authenticated user with the Pages privilege can conduct a path traversal attack (../) to include .html files that are outside the permitted directory. Also, if a page contains a template directive, then the directive will be server side processed. Thus, if a user can control the content of a .html file, then they can inject a payload with a malicious template directive to gain Remote Command Execution. The exploit will work only with the .html extension.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "total4"
+      },
+      "versions": [
+        "12.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-15952"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/beerpwn/CVE/blob/master/Totaljs_disclosure_report/report_final.pdf"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/totaljs/cms"
+    },
+    {
+      "type": "WEB",
+      "url": "https://seclists.org/fulldisclosure/2019/Sep/2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-17T23:19:49Z",
+    "nvd_published_at": "2019-09-05T19:16:00Z"
+  }
+}

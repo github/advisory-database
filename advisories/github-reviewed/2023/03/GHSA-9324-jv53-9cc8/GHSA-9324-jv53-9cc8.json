@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9324-jv53-9cc8",
+  "modified": "2023-03-21T22:41:11Z",
+  "published": "2023-03-21T22:41:11Z",
+  "aliases": [
+    "CVE-2021-31402"
+  ],
+  "summary": "dio vulnerable to CRLF injection with HTTP method string",
+  "details": "### Impact\nThe dio package 4.0.0 for Dart allows CRLF injection if the attacker controls the HTTP method string, a different vulnerability than CVE-2020-35669.\n\n### Patches\nThe vulnerability has been resolved by https://github.com/cfug/dio/commit/927f79e93ba39f3c3a12c190624a55653d577984, and included since v5.0.0.\n\n### Workarounds\nCherry-pick the commit to your own fork can resolves the vulberability too.\n\n### References\n- https://nvd.nist.gov/vuln/detail/CVE-2021-31402\n- https://osv.dev/GHSA-jwpw-q68h-r678\n- https://github.com/cfug/dio/issues/1130\n- https://github.com/cfug/dio/issues/1752\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Pub",
+        "name": "dio"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/cfug/dio/security/advisories/GHSA-9324-jv53-9cc8"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-31402"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cfug/dio/issues/1752"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/flutterchina/dio/issues/1130"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cfug/dio/commit/927f79e93ba39f3c3a12c190624a55653d577984"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cfug/dio"
+    },
+    {
+      "type": "WEB",
+      "url": "https://osv.dev/GHSA-jwpw-q68h-r678"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74",
+      "CWE-88",
+      "CWE-93"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-21T22:41:11Z",
+    "nvd_published_at": null
+  }
+}

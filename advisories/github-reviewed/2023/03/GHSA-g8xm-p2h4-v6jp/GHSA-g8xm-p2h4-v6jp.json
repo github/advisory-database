@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g8xm-p2h4-v6jp",
+  "modified": "2023-04-04T15:24:49Z",
+  "published": "2023-03-24T21:30:48Z",
+  "aliases": [
+    "CVE-2021-3684"
+  ],
+  "summary": "OpenShift Assisted Installer leaks image pull secrets as plaintext in installation logs",
+  "details": "A vulnerability was found in OpenShift Assisted Installer. During generation of the Discovery ISO, image pull secrets were leaked as plaintext in the installation logs. An authenticated user could exploit this by re-using the image pull secret to pull container images from the registry as the associated user.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/openshift/assisted-installer"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.0.25.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-3684"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openshift/assisted-installer/commit/2403dad3795406f2c5d923af0894e07bc8b0bdc4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openshift/assisted-installer/commit/f3800cfa3d64ce6dcd6f7b73f0578bb99bfdaf7a"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1985962"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openshift/assisted-installer"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-532"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-24T21:59:18Z",
+    "nvd_published_at": "2023-03-24T20:15:00Z"
+  }
+}

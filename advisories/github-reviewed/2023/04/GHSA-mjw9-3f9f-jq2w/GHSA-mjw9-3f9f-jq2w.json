@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mjw9-3f9f-jq2w",
+  "modified": "2023-04-28T22:05:58Z",
+  "published": "2023-04-20T22:15:35Z",
+  "aliases": [
+    "CVE-2023-29522"
+  ],
+  "summary": "XWiki Platform vulnerable to code injection from view right on XWiki.ClassSheet",
+  "details": "### Impact\n\nAny user with view rights can execute arbitrary script macros including Groovy and Python macros that allow remote code execution including unrestricted read and write access to all wiki contents. The attack works by opening a non-existing page with a name crafted to contain a dangerous payload.\n\nFor instance: `Open <xwiki-host>/xwiki/bin/view/%22%2F%7D%7D%7B%7B%2Fhtml%7D%7D%20%7B%7Basync%20async%3D%22true%22%20cached%3D%22false%22%20context%3D%22doc.reference%22%7D%7D%7B%7Bgroovy%7D%7Dprintln(%22Hello%20%22%20%2B%20%22from%20groovy!%22)%7B%7B%2Fgroovy%7D%7D%7B%7B%2Fasync%7D%7D?sheet=XWiki.ClassSheet&xpage=view`, where `<xwiki-host>` is the URL of your XWiki installation.\n\n### Patches\nThis has been patched in XWiki 14.4.8, 14.10.3 and 15.0RC1.\n\n### Workarounds\nThe fix is only impacting Velocity templates and page contents, so applying this [patch](https://github.com/xwiki/xwiki-platform/commit/d7e56185376641ee5d66477c6b2791ca8e85cfee) is enough to fix the issue.\n\n### References\n- https://github.com/xwiki/xwiki-platform/commit/d7e56185376641ee5d66477c6b2791ca8e85cfee\n- https://jira.xwiki.org/browse/XWIKI-20456\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n\n-    Open an issue in [Jira XWiki.org](https://jira.xwiki.org/)\n-    Email us at [Security Mailing List](mailto:security@xwiki.org)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-xclass-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.0-rc-1"
+            },
+            {
+              "fixed": "14.4.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-xclass-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.5"
+            },
+            {
+              "fixed": "14.10.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-mjw9-3f9f-jq2w"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-29522"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/d7e56185376641ee5d66477c6b2791ca8e85cfee"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20456"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-20T22:15:35Z",
+    "nvd_published_at": null
+  }
+}

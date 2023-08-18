@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-749h-rrm4-w97r",
+  "modified": "2023-04-18T00:32:01Z",
+  "published": "2023-04-18T00:32:01Z",
+  "aliases": [
+    "CVE-2023-28971"
+  ],
+  "details": "An Improper Restriction of Communication Channel to Intended Endpoints vulnerability in the timescaledb feature of Juniper Networks Paragon Active Assurance (PAA) (Formerly Netrounds) allows an attacker to bypass existing firewall rules and limitations used to restrict internal communcations. The Test Agents (TA) Appliance connects to the Control Center (CC) using OpenVPN. TA's are assigned an internal IP address in the 100.70.0.0/16 range. Firewall rules exists to limit communication from TA's to the CC to specific services only. OpenVPN is configured to not allow direct communication between Test Agents in the OpenVPN application itself, and routing is normally not enabled on the server running the CC application. The timescaledb feature is installed as an optional package on the Control Center. When the timescaledb container is started, this causes side-effects by bypassing the existing firewall rules and limitations for Test Agent communications. Note: This issue only affects customers hosting their own on-prem Control Center. The Paragon Active Assurance Software as a Service (SaaS) is not affected by this vulnerability since the timescaledb service is not enabled. This issue affects all on-prem versions of Juniper Networks Paragon Active Assurance prior to 4.1.2.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-28971"
+    },
+    {
+      "type": "WEB",
+      "url": "https://supportportal.juniper.net/JSA70595"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-923"
+    ],
+    "severity": null,
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": null
+  }
+}

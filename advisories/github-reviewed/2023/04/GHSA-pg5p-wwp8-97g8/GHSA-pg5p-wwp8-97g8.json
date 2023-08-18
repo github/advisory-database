@@ -1,0 +1,118 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-pg5p-wwp8-97g8",
+  "modified": "2023-04-19T18:16:51Z",
+  "published": "2023-04-19T18:16:51Z",
+  "aliases": [
+    "CVE-2023-29002"
+  ],
+  "summary": "Debug mode leaks confidential data in Cilium",
+  "details": "### Impact\n\nWhen run in debug mode, Cilium may log sensitive information.\n\nIn particular, Cilium running in debug mode will log the values of headers if they match HTTP network policy rules. This issue affects Cilium versions:\n\n- 1.7.* to 1.10.* inclusive\n- 1.11.* before 1.11.16\n- 1.12.* before 1.12.9\n- 1.13.* before 1.13.2\n\nIn addition, Cilium 1.12.* before 1.12.9 and 1.13.* before 1.13.2., when running in debug mode, might log secrets used by the Cilium agent. This includes TLS private keys for Ingress and GatewayAPI resources, depending on the configuration of the affected cluster. Output of the confidential data would occur at Cilium agent restart, when the secrets are modified, and on creation of Ingress or GatewayAPI resources.\n\n### Patches\n\nThis vulnerability is fixed in Cilium releases 1.11.16, 1.12.9, and 1.13.2.\n\n### Workarounds\nDisable debug mode.\n\n### Acknowledgements\nThe Cilium community has worked together with members of Isovalent to prepare these mitigations. Special thanks to @meyskens for investigating and fixing the issue.\n\n### For more information\nIf you have any questions or comments about this advisory, please reach out on [Slack](https://docs.cilium.io/en/latest/community/community/#slack).\n\nAs usual, if you think you found a related vulnerability, we strongly encourage you to report security vulnerabilities to our private security mailing list: [security@cilium.io](mailto:security@cilium.io) - first, before disclosing them in any public forums. This is a private mailing list where only members of the Cilium internal security team are subscribed to, and is treated as top priority.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:H/PR:H/UI:N/S:C/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cilium/cilium"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.7.0"
+            },
+            {
+              "last_affected": "1.10.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cilium/cilium"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.11.0"
+            },
+            {
+              "fixed": "1.11.16"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cilium/cilium"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.12.0"
+            },
+            {
+              "fixed": "1.12.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cilium/cilium"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.13.0"
+            },
+            {
+              "fixed": "1.13.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/security/advisories/GHSA-pg5p-wwp8-97g8"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-29002"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cilium/cilium"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-532"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-19T18:16:51Z",
+    "nvd_published_at": null
+  }
+}

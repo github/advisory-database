@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-833c-xh79-p429",
+  "modified": "2023-04-24T15:57:13Z",
+  "published": "2023-04-21T19:42:10Z",
+  "aliases": [
+    "CVE-2023-30622"
+  ],
+  "summary": "A potential risk in clusternet which can be leveraged to make a cluster-level privilege escalation",
+  "details": "## Summary:\nA potential risk in clusternet which can be leveraged to make a cluster-level privilege escalation.\n## Detailed analysis:\nThe clusternet has a deployment called cluster-hub inside the clusternet-system Kubernetes namespace, which runs on worker nodes\nrandomly. The deployment has a service account called clusternet-hub, which has a cluster role called clusternet:hub via cluster role binding. The clusternet:hub cluster role has \"*\" verbs of \"*.*\" resources. Thus, if a malicious user can access the worker node which runs the clusternet, he/she can leverage the service account to do malicious actions to critical system resources. For example, he/she can leverage the service account to get ALL secrets in the entire cluster, resulting in cluster-level privilege escalation.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:H/PR:H/UI:N/S:C/C:H/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/clusternet/clusternet"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.15.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/clusternet/clusternet/security/advisories/GHSA-833c-xh79-p429"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-30622"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/clusternet/clusternet"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/clusternet/clusternet/releases/tag/v0.15.2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-269"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-21T19:42:10Z",
+    "nvd_published_at": null
+  }
+}

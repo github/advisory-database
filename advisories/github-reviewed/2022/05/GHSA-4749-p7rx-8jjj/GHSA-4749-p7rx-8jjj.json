@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4749-p7rx-8jjj",
+  "modified": "2023-08-02T20:59:34Z",
+  "published": "2022-05-14T03:07:28Z",
+  "aliases": [
+    "CVE-2015-3220"
+  ],
+  "summary": "tlslite remote denial of service vulnerability",
+  "details": "The tlslite library before 0.4.9 for Python allows remote attackers to trigger a denial of service (runtime exception and process crash).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "tlslite"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "tlslite.tlsrecordlayer.TLSRecordLayer._decryptRecord"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.4.9"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2015-3220"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/trevp/tlslite/commit/aca8d4f898b436ff6754e1a9ab96cae976c8a853"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1254215"
+    },
+    {
+      "type": "WEB",
+      "url": "https://groups.google.com/forum/#!topic/tlslite-dev/MoWE7B0A4iU"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-119"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-02T20:59:14Z",
+    "nvd_published_at": "2017-06-13T16:29:00Z"
+  }
+}

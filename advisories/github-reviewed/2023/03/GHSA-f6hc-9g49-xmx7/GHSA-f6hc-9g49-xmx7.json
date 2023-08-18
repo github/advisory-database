@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f6hc-9g49-xmx7",
+  "modified": "2023-04-04T16:14:37Z",
+  "published": "2023-03-01T22:36:36Z",
+  "aliases": [
+    "CVE-2023-24533"
+  ],
+  "summary": "nistec has Incorrect Calculation in Multiplication of unreduced P-256 scalars",
+  "details": "Multiplication of certain unreduced P-256 scalars produce incorrect results. There are no protocols known at this time that can be attacked due to this.\n\nFrom the fix commit notes:\n\n> Unlike the rest of nistec, the P-256 assembly doesn't use complete addition formulas, meaning that p256PointAdd[Affine]Asm won't return the correct value if the two inputs are equal.\n> \n> This was (undocumentedly) ignored in the scalar multiplication loops because as long as the input point is not the identity and the scalar is lower than the order of the group, the addition inputs can't be the same.\n> \n> As part of the math/big rewrite, we went however from always reducing the scalar to only checking its length, under the incorrect assumption that the scalar multiplication loop didn't require reduction.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "filippo.io/nistec"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.0.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-24533"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FiloSottile/nistec/commit/c58aa1223ccf3943513e1e661cebce95af137244"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/FiloSottile/nistec"
+    },
+    {
+      "type": "WEB",
+      "url": "https://go.dev/issue/58647"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/vuln/GO-2023-1595"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-682"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-01T22:36:36Z",
+    "nvd_published_at": "2023-03-08T20:15:00Z"
+  }
+}

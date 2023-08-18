@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-42c3-wvww-gcqj",
+  "modified": "2023-03-22T18:36:47Z",
+  "published": "2023-03-22T18:36:47Z",
+  "aliases": [
+    "CVE-2023-1578"
+  ],
+  "summary": "Pimcore Remote Code Execution vulnerability in Search function",
+  "details": "### Impact\nAttacker can get full DB and maybe RCE knowing the WEBROOT path\n\n### Patches\nUpdate to version 10.5.19 or apply this patch manually https://github.com/pimcore/pimcore/commit/367b74488808d71ec3f66f4ca9e8df5217c2c8d2.patch\n\n### Workarounds\nApply patch https://github.com/pimcore/pimcore/commit/367b74488808d71ec3f66f4ca9e8df5217c2c8d2.patch manually.\n\n### References\n#14538\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:H/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "pimcore/pimcore"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "10.5.19"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/pimcore/security/advisories/GHSA-42c3-wvww-gcqj"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-1578"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/pimcore/pull/14538"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/pimcore/commit/367b74488808d71ec3f66f4ca9e8df5217c2c8d2"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pimcore/pimcore"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.dev/bounties/7e441a14-8e55-4ab4-932c-4dc56bb1bc2e/"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-89"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-22T18:36:47Z",
+    "nvd_published_at": "2023-03-22T16:15:00Z"
+  }
+}

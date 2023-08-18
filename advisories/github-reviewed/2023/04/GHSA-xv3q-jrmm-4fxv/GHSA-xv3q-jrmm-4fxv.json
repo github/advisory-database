@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xv3q-jrmm-4fxv",
+  "modified": "2023-04-18T22:28:02Z",
+  "published": "2023-04-18T22:28:02Z",
+  "aliases": [
+
+  ],
+  "summary": "Authentication Bypass in @strapi/plugin-users-permissions",
+  "details": "### Summary\n\nStrapi through 4.5.6 does not verify the access or ID tokens issued during the OAuth flow when the AWS Cognito login provider is used for authentication.\n\n### Details\n\nStrapi through 4.5.6 does not verify the access or ID tokens issued during the OAuth flow when the AWS Cognito login provider is used for authentication. A remote attacker could forge an ID token that is signed using the 'None' type algorithm to bypass authentication and impersonate any user that use AWS Cognito for authentication.\n\n### IoC\n\nReviewing of application logs is recommended to detect any suspicious activity. Running the following regex pattern will extract all ID tokens sent to `/api/auth/cognito/callback`.\n\n`/\\/api\\/auth\\/cognito\\/callback\\?[\\s\\S]*id_token=\\s*([\\S]*)/`\n\nOnce you have a list of the ID tokens, you will need to verify each token using the public key file for your AWS Cognito user pool that you can download from `https://cognito-idp.{region}.amazonaws.com/{userPoolId}/.well-known/jwks.json`. If there are any JWT tokens that cannot be verified using the correct public key, then you need to inspect the JWT body and see if it contains the `email` and `cognito:username` claims (example below).\n\n```json\n{\n  \"cognito:username\": \"auth-bypass-example\",\n  \"email\": \"user@example.com\"\n}\n```\n\nIf there are any JWTs that have this body, verify when the account with the email address was created. If the account was created earlier than the request to `/api/auth/cognito/callback` with the invalid JWT token, then you need to contact the user to inform them their account has been breached!\n\nAfter upgrading to Strapi v4.6.0 or greater you will need to reconfigure your AWS Cognito provider to include the JWKS URL for it to work properly. If you do not reconfigure your provider you will receive an error message when attempting to login.\n\n\n### Impact\n\nAny Strapi user using the users-permissions AWS Cognito provider before 4.6.0\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@strapi/plugin-users-permissions"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.2.1"
+            },
+            {
+              "fixed": "4.6.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/strapi/strapi/security/advisories/GHSA-xv3q-jrmm-4fxv"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/strapi/strapi/pull/15382"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/strapi/strapi/commit/d0edd25ceb49d275d710bf8d59999a2c07072893"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/strapi/strapi"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/strapi/strapi/releases/tag/v4.6.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-18T22:28:02Z",
+    "nvd_published_at": null
+  }
+}

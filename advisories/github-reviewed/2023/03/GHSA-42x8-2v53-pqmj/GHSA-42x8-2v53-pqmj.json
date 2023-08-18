@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-42x8-2v53-pqmj",
+  "modified": "2023-03-23T22:36:14Z",
+  "published": "2023-03-20T17:18:25Z",
+  "aliases": [
+    "CVE-2023-1517"
+  ],
+  "summary": "Pimcore has Cross site Scripting vulnerability in Schedule tab of Documents",
+  "details": "### Impact\nThis vulnerability has the potential to steal a user's cookie and gain unauthorized access to that user's account through the stolen cookie or redirect users to other malicious sites.\n\n### Patches\nUpdate to version 10.5.19 or apply this patch manually https://github.com/pimcore/pimcore/pull/14631.patch\n\n### Workarounds\nApply https://github.com/pimcore/pimcore/pull/14631.patch manually.\n\n### References\nhttps://huntr.dev/bounties/82adf0dd-8ebd-4d15-9f91-6060c8fa5a0d/\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "pimcore/pimcore"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "10.5.19"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/pimcore/security/advisories/GHSA-42x8-2v53-pqmj"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-1517"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/pimcore/pull/14631"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/pimcore/pull/14631.patch"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/pimcore/commit/3a22700dacd8a439cffcb208838a4199e732cff7"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pimcore/pimcore"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.dev/bounties/82adf0dd-8ebd-4d15-9f91-6060c8fa5a0d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.dev/bounties/82adf0dd-8ebd-4d15-9f91-6060c8fa5a0d/"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-20T17:18:25Z",
+    "nvd_published_at": "2023-03-20T16:15:00Z"
+  }
+}

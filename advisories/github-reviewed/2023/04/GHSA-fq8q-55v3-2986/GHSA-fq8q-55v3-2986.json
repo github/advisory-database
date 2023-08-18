@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fq8q-55v3-2986",
+  "modified": "2023-04-03T18:58:01Z",
+  "published": "2023-04-03T18:58:01Z",
+  "aliases": [
+    "CVE-2023-28850"
+  ],
+  "summary": "Pimcore Perspective Editor vulnerable to stored cross-site scripting (XSS) in perspective name",
+  "details": "### Impact\nThis vulnerability has the potential to steal a user's cookie and gain unauthorized access to that user's account through the stolen cookie or redirect users to other malicious sites.\n\n### Patches\nUpdate to version 1.5.1.\n\n### Workarounds\nApply the patch https://github.com/pimcore/perspective-editor/pull/121.patch manually.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "pimcore/perspective-editor"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.5.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/perspective-editor/security/advisories/GHSA-fq8q-55v3-2986"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-28850"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/perspective-editor/pull/121.patch"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pimcore/perspective-editor"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.dev/bounties/5529f51e-e40f-46f1-887b-c9dbebab4f06/"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-03T18:58:01Z",
+    "nvd_published_at": "2023-04-03T18:15:00Z"
+  }
+}

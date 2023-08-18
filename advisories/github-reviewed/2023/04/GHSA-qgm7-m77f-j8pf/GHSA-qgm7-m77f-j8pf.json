@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qgm7-m77f-j8pf",
+  "modified": "2023-04-10T16:29:54Z",
+  "published": "2023-04-02T21:30:16Z",
+  "aliases": [
+    "CVE-2023-28682"
+  ],
+  "summary": "Jenkins Performance Publisher Plugin vulnerable to XML external entity (XXE) attacks",
+  "details": "Jenkins Performance Publisher Plugin 8.09 and earlier does not configure its XML parser to prevent XML external entity (XXE) attacks.\n\nThis allows attackers able to control PerfPublisher report files to have Jenkins parse a crafted XML document that uses external entities for extraction of secrets from the Jenkins controller or server-side request forgery.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:perfpublisher"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "8.09"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-28682"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/perfpublisher-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-03-21/#SECURITY-2928"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-611"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-03T22:55:48Z",
+    "nvd_published_at": "2023-04-02T21:15:00Z"
+  }
+}

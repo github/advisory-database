@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9hcr-9hcv-x6pv",
+  "modified": "2023-04-19T17:12:23Z",
+  "published": "2023-04-10T16:37:40Z",
+  "aliases": [
+    "CVE-2023-29005"
+  ],
+  "summary": "Flask-AppBuilder Has No Rate Limiting on Login AUTH DB",
+  "details": "### Impact\nLack of rate limiting will allow an attacker to brute-force user credentials.\n\n### Patches\nAbility to enable rate limiting on Flask-AppBuilder >=  4.3.0. Use `AUTH_RATE_LIMITED = True` and `RATELIMIT_ENABLED = True` set the limit itself by using `AUTH_RATE_LIMIT`. Will apply only to database authentication.\n\n### Workarounds\nImplement rate limiting using a reverse proxy or other strategies. ",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "Flask-AppBuilder"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.3.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/dpgaspar/Flask-AppBuilder/security/advisories/GHSA-9hcr-9hcv-x6pv"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-29005"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dpgaspar/Flask-AppBuilder/pull/1976"
+    },
+    {
+      "type": "WEB",
+      "url": "https://flask-limiter.readthedocs.io/en/stable/configuration.html"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/dpgaspar/Flask-AppBuilder"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dpgaspar/Flask-AppBuilder/releases/tag/v4.3.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-307"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-10T16:37:40Z",
+    "nvd_published_at": "2023-04-10T21:15:00Z"
+  }
+}

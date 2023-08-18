@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4g8v-vg43-wpgf",
+  "modified": "2023-06-29T15:03:16Z",
+  "published": "2023-06-29T15:03:16Z",
+  "aliases": [
+    "CVE-2023-28362"
+  ],
+  "summary": "Actionpack has possible cross-site scripting vulnerability via User Supplied Values to redirect_to",
+  "details": "The `redirect_to` method in Rails allows provided values to contain characters which are not legal in an HTTP header value. This results in the potential for downstream services which enforce RFC compliance on HTTP response headers to remove the assigned Location header. This vulnerability has been assigned the CVE identifier CVE-2023-28362.\n\nVersions Affected: All. Not affected: None Fixed Versions: 7.0.5.1, 6.1.7.4\n\n# Impact\n\nThis introduces the potential for a Cross-site-scripting (XSS) payload to be delivered on the now static redirection page. Note that this both requires user interaction and for a Rails app to be configured to allow redirects to external hosts (defaults to false in Rails >= 7.0.x).\n\n# Releases\n\nThe FIXED releases are available at the normal locations.\n\n# Workarounds\n\nAvoid providing user supplied URLs with arbitrary schemes to the `redirect_to` method.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "actionpack"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.1.7.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "actionpack"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.0.0"
+            },
+            {
+              "fixed": "7.0.5.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/rails/rails/commit/1c3f93d1e90a3475f9ae2377ead25ccf11f71441"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rails/rails/commit/c9ab9b32bcdcfd8bcd55907f6c7b20b4e004cc23"
+    },
+    {
+      "type": "WEB",
+      "url": "https://discuss.rubyonrails.org/t/cve-2023-28362-possible-xss-via-user-supplied-values-to-redirect-to/83132"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/rails/rails"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/actionpack/CVE-2023-28362.yml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-29T15:03:16Z",
+    "nvd_published_at": null
+  }
+}

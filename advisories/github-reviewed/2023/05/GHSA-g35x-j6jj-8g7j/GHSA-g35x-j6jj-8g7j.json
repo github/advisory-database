@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g35x-j6jj-8g7j",
+  "modified": "2023-05-02T16:51:25Z",
+  "published": "2023-05-02T16:51:25Z",
+  "aliases": [
+
+  ],
+  "summary": "@mittwald/kubernetes's secret contents leaked via debug logging",
+  "details": "### Impact\n\nWhen debug logging is enabled (via `DEBUG` environment variable), the Kubernetes client may log all response bodies into the debug log -- including sensitive data from `Secret` resources.\n\nWhen running in a Kubernetes cluster, this might expose sensitive information to users who are _not_ authorised to access secrets, but have access to Pod logs (either directly using kubectl, or by Pod logs being shipped elsewhere).\n\n### Patches\nUpgrade to 3.5.0 or newer.\n\n### Workarounds\nDisable debug logging entirely, or exclude the `kubernetes:client` debug item (for example, using `DEBUG=*,-kubernetes:client`).\n\n### References\n\n- https://cwe.mitre.org/data/definitions/532.html\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@mittwald/kubernetes"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.5.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/mittwald/node-kubernetes/security/advisories/GHSA-g35x-j6jj-8g7j"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mittwald/node-kubernetes/commit/04f6809fd438417c343d541e57f76f0040e069cd"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mittwald/node-kubernetes"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mittwald/node-kubernetes/releases/tag/v3.5.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-532"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-02T16:51:25Z",
+    "nvd_published_at": null
+  }
+}

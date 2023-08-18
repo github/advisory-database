@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v27q-87jf-j9cr",
+  "modified": "2023-04-07T23:03:42Z",
+  "published": "2023-04-02T21:30:17Z",
+  "aliases": [
+    "CVE-2023-28670"
+  ],
+  "summary": "Jenkins Pipeline Aggregator View Plugin vulnerable to Cross-site Scripting",
+  "details": "Jenkins Pipeline Aggregator View Plugin 1.13 and earlier does not escape a variable representing the current view's URL in inline JavaScript, resulting in a stored cross-site scripting (XSS) vulnerability exploitable by authenticated attackers with Overall/Read permission. Version 1.14 obtains the current URL in a way not susceptible to XSS.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.paul8620.jenkins.plugins:pipeline-aggregator-view"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.14"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-28670"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/pipeline-aggregator-view-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-03-21/#SECURITY-2885"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-03T22:55:07Z",
+    "nvd_published_at": "2023-04-02T21:15:00Z"
+  }
+}

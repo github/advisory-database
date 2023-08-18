@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5x5q-8cgm-2hjq",
+  "modified": "2023-03-31T22:44:09Z",
+  "published": "2023-03-31T22:44:09Z",
+  "aliases": [
+
+  ],
+  "summary": "Karate has vulnerable dependency on json-smart package (CVE-2023-1370)",
+  "details": "### Summary\nKarate has vulnerable dependency on the package [net.minidev:json-smart](https://github.com/netplex/json-smart-v1). More information is available at https://github.com/oswaldobapvicjr/jsonmerge/security/advisories/GHSA-493p-pfq6-5258.\n\n![image](https://user-images.githubusercontent.com/2663049/229081854-1155c041-56fa-48ca-a7ff-f2f085b845fd.png)\n\n\n### How to fix it\nVery simple, just upgrade json-path package to 2.8.0 (from 2.7.0) inside karate-core pom.xml ;)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.intuit.karate:karate-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.3.1"
+            },
+            {
+              "fixed": "1.4.0"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "1.3.1"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/karatelabs/karate/security/advisories/GHSA-5x5q-8cgm-2hjq"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/oswaldobapvicjr/jsonmerge/security/advisories/GHSA-493p-pfq6-5258"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-1370"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/karatelabs/karate"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-674"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-31T22:44:09Z",
+    "nvd_published_at": null
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4hmq-ggrm-qfc6",
+  "modified": "2023-03-07T20:35:54Z",
+  "published": "2023-03-07T20:35:54Z",
+  "aliases": [
+    "CVE-2023-27474"
+  ],
+  "summary": "directus vulnerable to HTML Injection in Password Reset email to custom Reset URL",
+  "details": "### Impact\n\nInstances relying on an allow-listed reset URL are vulnerable to an HTML injection attack through the use of query parameters in the reset URL. \n\n### Patches\n\nThe problem has been resolved and released under version 9.23.0. People relying on a custom password reset URL should upgrade to 9.23.0 or later, or remove the custom reset url from the configured allow list.\n\n### Workarounds\n\nDisable the custom reset URL allow list.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "directus"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "9.23.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/directus/directus/security/advisories/GHSA-4hmq-ggrm-qfc6"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-27474"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/directus/directus/issues/17119"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/directus/directus/pull/17120"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/directus/directus"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-07T20:35:54Z",
+    "nvd_published_at": "2023-03-06T17:15:00Z"
+  }
+}

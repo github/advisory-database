@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qgjq-hrhg-f24h",
+  "modified": "2023-02-03T20:39:23Z",
+  "published": "2023-01-26T21:30:18Z",
+  "aliases": [
+    "CVE-2023-24448"
+  ],
+  "summary": "Missing permission check in Jenkins RabbitMQ Consumer Plugin",
+  "details": "A missing permission check in Jenkins RabbitMQ Consumer Plugin 2.8 and earlier allows attackers with Overall/Read permission to connect to an attacker-specified AMQP(S) URL using attacker-specified username and password.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:rabbitmq-consumer"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "2.8"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-24448"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-01-24/#SECURITY-2778"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-862"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-01-27T01:19:28Z",
+    "nvd_published_at": "2023-01-26T21:18:00Z"
+  }
+}

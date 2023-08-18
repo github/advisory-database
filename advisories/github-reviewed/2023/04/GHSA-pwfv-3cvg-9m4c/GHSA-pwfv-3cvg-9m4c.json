@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-pwfv-3cvg-9m4c",
+  "modified": "2023-04-26T20:32:48Z",
+  "published": "2023-04-12T20:36:28Z",
+  "aliases": [
+    "CVE-2023-29507"
+  ],
+  "summary": "org.xwiki.platform:xwiki-platform-oldcore makes Incorrect Use of Privileged APIs with DocumentAuthors",
+  "details": "### Impact\n\nThe Document script API returns directly a DocumentAuthors allowing to set any authors to the document, which in consequence can allow subsequent executions of scripts since this author is used for checking rights. \nExample of such attack:\n\n```\n{{velocity}}\n$doc.setContent('{{velocity}}$xcontext.context.authorReference{{/velocity}}')\n$doc.authors.setContentAuthor('xwiki:XWiki.superadmin')\n$doc.getRenderedContent()\n{{/velocity}}\n```\n\n### Patches\nThe problem has been patched in XWiki 14.10 and 14.4.7 by returning a safe script API.\n\n### Workarounds\nThere no easy workaround apart of upgrading. \n\n### References\n\n  * https://jira.xwiki.org/browse/XWIKI-20380\n  * https://github.com/xwiki/xwiki-platform/commit/905cdd7c421dbf8c565557cdc773ab1aa9028f83\n\n### For more information\nIf you have any questions or comments about this advisory:\n* Open an issue in [Jira](https://jira.xwiki.org)\n* Email us at [security ML](mailto:security@xwiki.org)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-oldcore"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.5"
+            },
+            {
+              "fixed": "14.10"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-oldcore"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.4.1"
+            },
+            {
+              "fixed": "14.4.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-pwfv-3cvg-9m4c"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-29507"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/905cdd7c421dbf8c565557cdc773ab1aa9028f83"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20380"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-648"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-12T20:36:28Z",
+    "nvd_published_at": "2023-04-16T07:15:00Z"
+  }
+}

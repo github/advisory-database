@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3j93-7rf7-p7m6",
+  "modified": "2023-04-06T14:40:57Z",
+  "published": "2023-04-05T18:30:18Z",
+  "aliases": [
+    "CVE-2023-1758"
+  ],
+  "summary": "thorsten/phpmyfaq vulnerable to stored cross-site scripting (XSS) in FAQ comment username parameter",
+  "details": "thorsten/phpmyfaq prior to 3.1.12 is vulnerable to stored cross-site scripting (XSS) because it fails to sanitize user input in the FAQ comment username parameter. This has been fixed in 3.1.12.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "thorsten/phpmyfaq"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.1.12"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-1758"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/thorsten/phpmyfaq/commit/f3380f46c464d1bc6f3ded29213c79be0de8fc57"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/thorsten/phpMyFAQ"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.dev/bounties/0854328e-eb00-41a3-9573-8da8f00e369c"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-75",
+      "CWE-79"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-05T21:27:37Z",
+    "nvd_published_at": "2023-04-05T16:15:00Z"
+  }
+}

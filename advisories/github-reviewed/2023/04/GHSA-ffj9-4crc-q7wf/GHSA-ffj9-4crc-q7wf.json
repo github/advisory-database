@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-ffj9-4crc-q7wf",
+  "modified": "2023-04-14T20:26:33Z",
+  "published": "2023-04-07T15:30:38Z",
+  "aliases": [
+    "CVE-2023-28710"
+  ],
+  "summary": "Apache Airflow Spark Provider vulnerable to improper input validation",
+  "details": "Apache Software Foundation Apache Airflow Spark Provider before 4.0.1 is vulnerable to improper input validation because the host and schema of JDBC Hook can contain `/` and `?` which is used to denote the end of the field.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "apache-airflow-providers-apache-spark"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.0.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-28710"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/airflow/pull/30223"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/airflow"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/lb9w9114ow00h2nkn8bjm106v5x1p1d2"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2023/04/07/3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-07T22:22:39Z",
+    "nvd_published_at": "2023-04-07T15:15:00Z"
+  }
+}

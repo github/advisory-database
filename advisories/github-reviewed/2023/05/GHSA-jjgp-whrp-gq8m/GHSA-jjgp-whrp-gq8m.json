@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jjgp-whrp-gq8m",
+  "modified": "2023-05-11T20:48:15Z",
+  "published": "2023-05-11T20:48:15Z",
+  "aliases": [
+
+  ],
+  "summary": "in-toto: PGP trust model not (fully) considered",
+  "details": "### Impact\n\nThis security advisory lists multiple concerns about how in-toto uses PGP keys. The findings are aggregated here, because they are all eligible to the same mitigation strategy. Note that the findings are rated with different severities (see inline) and the highest score was chosen for this advisory:\n\n- **PGP Key Creation Time Not Validated** (severity: low)\n  in-toto does not check, if the validity period of a PGP Key (starting with the key creation time) is in the future, when copying the key from GnuPG to a layout, or when verifying signatures. A validity period in the future is usually a sign of a wrong system clock, meaning it can’t be trusted for verifying the validity period. A MITM attacker who is able to manipulate delivered software products might also be able to control the system time by manipulating NTP. In a scenario where an attacker gained control over two expired subkeys with no overlapping validity period, the attacker could set the system time to a time before the validity period of either key, resulting in both keys being accepted.\n\n- **PGP Key Revocation Not Considered** (severity: medium)\n in-toto does not check PGP revocation signatures, when copying the key from GnuPG to a layout, or when verifying signatures. This means that a key may still be accepted in signatures, even if it has been revoked in GnuPG.\n\n- **PGP Key Usage Flags Not Considered** (severity: low)\n  in-toto does not check PGP usage flags, when copying the key from GnuPG to a layout, or when verifying signatures. This means that at a key may still be accepted in signatures, even if it is not permitted to sign data as per its key usage flags.\n\n\nSecurity auditors recommend to verify these properties at signature verification time.\n\nHowever, this is not planned, as in-toto does not rely on PGP’s trust model, because it should not be required to consult with a separate PKI/web-of-trust at verification time. Instead the project owner establishes ultimate trust by adding a PGP public key to a layout, and thus is responsible for its validity, and also to revoke the layout, if the key is no longer trusted. The same is true for PGP public keys used to verify a layout.\n\nThe preferred mitigation strategy is to verify these properties when exporting a public key from GnuPG, and to clarify usage documentation that no verification against the PGP trust model is performed afterwards.\n\n### References\n- \"Handle GPG revocation signatures\" -- https://github.com/secure-systems-lab/securesystemslib/issues/190\n- \"inconsistent use of GnuPG\" -- https://github.com/in-toto/in-toto/issues/569\n\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "in-toto"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.4.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/in-toto/in-toto/security/advisories/GHSA-jjgp-whrp-gq8m"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/in-toto/in-toto/issues/569"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/secure-systems-lab/securesystemslib/issues/190"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/in-toto/in-toto"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-295"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-11T20:48:15Z",
+    "nvd_published_at": null
+  }
+}

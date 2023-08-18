@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rrhf-32rq-f28h",
+  "modified": "2023-04-14T20:24:31Z",
+  "published": "2023-04-10T09:30:15Z",
+  "aliases": [
+    "CVE-2023-29216"
+  ],
+  "summary": "Apache Linkis DatasourceManager module has deserialization vulnerability",
+  "details": "In Apache Linkis <=1.3.1, because the parameters are not effectively filtered, the attacker can use the MySQL data source and malicious parameters to configure a new data source to trigger a deserialization vulnerability, eventually leading to remote code execution. Users should upgrade their version of Linkis to version 1.3.2.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.linkis:linkis-datasource"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.3.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-29216"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/linkis"
+    },
+    {
+      "type": "WEB",
+      "url": "https://linkis.apache.org/download/release-notes-1.3.2/"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/18vv0m32oy51nzk8tbz13qdl5569y55l"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2023/04/10/5"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-502"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-10T16:58:23Z",
+    "nvd_published_at": "2023-04-10T08:15:00Z"
+  }
+}

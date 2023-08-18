@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3g43-x7qr-96ph",
+  "modified": "2023-03-13T20:51:32Z",
+  "published": "2023-03-13T20:51:32Z",
+  "aliases": [
+    "CVE-2023-25170"
+  ],
+  "summary": "Possible CSRF token fixation",
+  "details": "### Impact\nWhen authenticating users PrestaShop preserves session attributes. Because this does not clear CSRF tokens upon login, this might enables `same-site attackers` to bypass the CSRF protection mechanism by performing an attack similar to a session-fixation.\n\n### Patches\nThe problem is fixed in version 8.0.1\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "prestashop/prestashop"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "8.0.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/PrestaShop/PrestaShop/security/advisories/GHSA-3g43-x7qr-96ph"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-25170"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/PrestaShop/PrestaShop"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-13T20:51:32Z",
+    "nvd_published_at": "2023-03-13T17:15:00Z"
+  }
+}

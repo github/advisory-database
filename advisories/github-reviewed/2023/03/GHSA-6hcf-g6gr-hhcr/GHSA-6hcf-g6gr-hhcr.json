@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6hcf-g6gr-hhcr",
+  "modified": "2023-03-24T22:01:23Z",
+  "published": "2023-03-24T22:01:23Z",
+  "aliases": [
+
+  ],
+  "summary": "`openssl` `X509Extension::new` and `X509Extension::new_nid` null pointer dereference",
+  "details": "These functions would crash when the context argument was None with certain extension types.\n\nThanks to David Benjamin (Google) for reporting this issue.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "openssl"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.9.7"
+            },
+            {
+              "fixed": "0.10.48"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/sfackler/rust-openssl/pull/1854"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/sfackler/rust-openssl"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2023-0024.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-476"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-24T22:01:23Z",
+    "nvd_published_at": null
+  }
+}

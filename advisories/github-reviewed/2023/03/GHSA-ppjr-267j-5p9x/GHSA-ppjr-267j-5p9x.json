@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-ppjr-267j-5p9x",
+  "modified": "2023-07-19T19:19:42Z",
+  "published": "2023-03-20T21:11:58Z",
+  "aliases": [
+
+  ],
+  "summary": "NULL pointer derefernce in `stb_image`",
+  "details": "A bug in error handling in the `stb_image` C library could cause a NULL pointer dereference when attempting to load an invalid or unsupported image file.  This is fixed in version 0.2.5 and later of the `stb_image` Rust crate, by patching the C code to correctly handle NULL pointers.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "stb_image"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.2.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/servo/rust-stb-image/pull/102"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/servo/rust-stb-imag"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2023-0021.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-476"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-20T21:11:58Z",
+    "nvd_published_at": null
+  }
+}

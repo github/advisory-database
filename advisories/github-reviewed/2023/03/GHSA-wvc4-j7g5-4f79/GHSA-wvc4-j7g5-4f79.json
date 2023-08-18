@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wvc4-j7g5-4f79",
+  "modified": "2023-03-27T21:12:24Z",
+  "published": "2023-03-27T21:12:24Z",
+  "aliases": [
+
+  ],
+  "summary": "NATS TLS certificate common name validation bypass",
+  "details": "The NATS official Rust clients are vulnerable to MitM when using TLS.\n\nA fix for the `nats` crate hasn't been released yet. Since the `nats` crate is going to be deprecated anyway, consider switching to `async-nats` `>= 0.29` which already fixed this vulnerability.\n\nThe common name of the server's TLS certificate is validated against the `host`name provided by the server's plaintext `INFO` message during the initial connection setup phase. A MitM proxy can tamper with the `host` field's value by substituting it with the common name of a valid certificate it controls, fooling the client into accepting it.\n\n## Reproduction steps\n\n1. The NATS Rust client tries to establish a new connection\n2. The connection is intercepted by a MitM proxy\n3. The proxy makes a separate connection to the NATS server\n4. The NATS server replies with an `INFO` message\n5. The proxy reads the `INFO`, alters the `host` JSON field and passes the tampered `INFO` back to the client\n6. The proxy upgrades the client connection to TLS, presenting a certificate issued by a certificate authority present in the client's keychain. In the previous step the `host` was set to the common name of said certificate\n7. `rustls` accepts the certificate, having verified that the common name matches the attacker-controlled value it was given\n9. The client has been fooled by the MitM proxy into accepting the attacker-controlled certificate\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "nats"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.9.0"
+            },
+            {
+              "last_affected": "0.24.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/nats-io/nats.rs/pull/881"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nats-io/nats.rs/pull/887"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/nats-io/nats.rs"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2023-0029.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-347"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-27T21:12:24Z",
+    "nvd_published_at": null
+  }
+}

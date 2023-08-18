@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wqm8-jx8r-8rcq",
+  "modified": "2023-04-26T15:54:44Z",
+  "published": "2023-04-26T15:54:44Z",
+  "aliases": [
+
+  ],
+  "summary": "Cross-site scripting vulnerabilities in old version of bundled TinyMCE",
+  "details": "An old version of TinyMCE include an XSS vulnerability, which was patched in a later version. This was described by TinyMCE:\n\n> A cross-site scripting (XSS) vulnerability was discovered in the core parser. The vulnerability allowed arbitrary JavaScript execution when inserting a specially crafted piece of content into the editor via the clipboard or APIs. This impacts all users who are using TinyMCE 4.9.10 or lower and TinyMCE 5.4.0 or lower.\n\nWe reviewed the potential impact of this vulnerability within the context of Silverstripe CMS. We concluded this is a medium impact vulnerability given how TinyMCE is used by Silverstripe CMS.\n\nReported by: Developers at ACC",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/admin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.12.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-admin/security/advisories/GHSA-wqm8-jx8r-8rcq"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/silverstripe/admin/SS-2023-001.yaml"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-vrv8-v4w8-f95h"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/silverstripe/silverstripe-admin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.silverstripe.org/download/security-releases/ss-2023-001"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.tiny.cloud/docs/release-notes/release-notes54/#securityfixes"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-26T15:54:44Z",
+    "nvd_published_at": null
+  }
+}

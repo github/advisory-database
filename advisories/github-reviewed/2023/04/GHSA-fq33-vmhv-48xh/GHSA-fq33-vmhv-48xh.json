@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fq33-vmhv-48xh",
+  "modified": "2023-04-07T19:23:49Z",
+  "published": "2023-04-07T19:23:49Z",
+  "aliases": [
+
+  ],
+  "summary": "ntru-rs has unsound FFI: Wrong API usage causes write past allocated area",
+  "details": "The following usage causes undefined behavior.\n```rust\nlet kp: ntru::types::KeyPair = …;\nkp.get_public().export(Default::default())\n```\n\nWhen compiled with debug assertions, the code above will trigger a `attempt to subtract with overflow` panic before UB occurs.\nOther mistakes (e.g. using `EncParams` from a different key) may always trigger UB.\n\nLikely, older versions of this crate are also affected, but have not been tested.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "ntru"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.4.3"
+            },
+            {
+              "last_affected": "0.5.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/FrinkGlobal/ntru-rs/issues/8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/FrinkGlobal/ntru-rs"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2023-0032.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-07T19:23:49Z",
+    "nvd_published_at": null
+  }
+}

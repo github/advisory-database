@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2g5w-29q9-w6hx",
+  "modified": "2023-04-22T00:07:09Z",
+  "published": "2023-03-30T21:42:48Z",
+  "aliases": [
+    "CVE-2023-30620"
+  ],
+  "summary": "mindsdb arbitrary file write when extracting a remotely retrieved Tarball",
+  "details": "### Summary\n\nAn unsafe extraction is being performed using `tarfile.extractall()` from a remotely retrieved tarball. Which may lead to the writing of the extracted files to an unintended location. Sometimes, the vulnerability is called a TarSlip or a ZipSlip variant.\n\n### Details\n\nI commented the following snippet of code as a vulnerability details. The code is from [file.py#L26..L134](https://github.com/mindsdb/mindsdb/blob/afedd37c16e579b6dc075b0814e42d0505ccdc07/mindsdb/api/http/namespaces/file.py#L26..L134)\n\n```python\n@ns_conf.route('/<name>')\n@ns_conf.param('name', \"MindsDB's name for file\")\nclass File(Resource):\n    @ns_conf.doc('put_file')\n    def put(self, name: str):\n        ''' add new file\n            params in FormData:\n                - file\n                - original_file_name [optional]\n        '''\n\n        data = {}\n\n        ... omitted for brevity\n\n            url = data['source']\n            data['file'] = data['name']\n\n            ... omitted for brevity \n\n            with requests.get(url, stream=True) as r:                   # Source: retrieve the URL which point to a remotely located tarball \n                if r.status_code != 200:\n                    return http_error(\n                        400,\n                        \"Error getting file\",\n                        f\"Got status code: {r.status_code}\"\n                    )\n                file_path = os.path.join(temp_dir_path, data['file'])\n                with open(file_path, 'wb') as f:\n                    for chunk in r.iter_content(chunk_size=8192):   # write with chunks the remote retrieved file into file_path location \n                        f.write(chunk)\n\n        original_file_name = data.get('original_file_name')\n\n        file_path = os.path.join(temp_dir_path, data['file'])      \n        lp = file_path.lower()\n        if lp.endswith(('.zip', '.tar.gz')):\n            if lp.endswith('.zip'):\n                with zipfile.ZipFile(file_path) as f:\n                    f.extractall(temp_dir_path)\n            elif lp.endswith('.tar.gz'):\n                with tarfile.open(file_path) as f:  # Just after \n                    f.extractall(temp_dir_path)  # Sink: the tarball located by file_path is supposed to be extracted to temp_dir_path. \n```\n\nSo, a remotely available tarball is being retrieved and written to the server filesystem in chunks, and then, if the extension ends with `.tar.gz` of a compressed tarball, the mindsdb app applies `tarfile.extractall()` directly with no checks for the destination. \n\nHowever, according to the following [warning](https://docs.python.org/3/library/tarfile.html#tarfile.TarFile.extractall) from the official documentation;\n\n> Warning: Never extract archives from untrusted sources without prior inspection. It is possible that files are created outside of path, e.g. members that have absolute filenames starting with \"/\" or filenames with two dots \"..\". \n\n\n### PoC\n\nThe following PoC is provided for illustration purposes only. It showcases the risk of extracting a non-harmless text file `sim4n6.txt` to one of the parent locations rather than the intended current folder.\n\n```bash\n> tar --list -v -f archive.tar.gz\ntar: Removing leading \"../../../\" from member names\n../../../sim4n6.txt\n\n> python3 \nPython 3.10.6 (main, Nov  2 2022, 18:53:38) [GCC 11.3.0] on linux\nType \"help\", \"copyright\", \"credits\" or \"license\" for more information.\n>>> import tarfile\n>>> with tarfile.open(\"archive.tar.gz\") as tf:\n>>>         tf.extractall()\n>>> exit()\n\n> test -f ../../../sim4n6.txt && echo \"sim4n6.txt exists\"\nsim4n6.txt exists\n```\n\n### Attack Scenario\n\nAn attacker could craft a malicious tarball with a filename path, such as ../../../../../../../../etc/passwd, and then serve the archive remotely, proceed to the PUT request of the tarball through mindsdb and overwrite the system files of the hosting server for instance.\n\n### Mitigation \n\nPotential mitigation could be to:\n - Use a safer module, like `zipfile`.\n - Use an alternative of `tarfile`, such as `tarsafe`. \n  - Validate the location or the absolute path of the extracted files and discard those with malicious paths such as relative path `../../..` or absolute path such as `/etc/password`. A simple wrapper could be written to raise an exception when a path traversal may be identified.\n\nThis is similar to the other report [GHSA-7x45-phmr-9wqp](https://github.com/mindsdb/mindsdb/security/advisories/GHSA-7x45-phmr-9wqp).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "mindsdb"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "23.1.5.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/mindsdb/mindsdb/security/advisories/GHSA-2g5w-29q9-w6hx"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-30620"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mindsdb/mindsdb/commit/4419b0f0019c000db390b54d8b9d06e1d3670039"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mindsdb/mindsdb"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mindsdb/mindsdb/blob/afedd37c16e579b6dc075b0814e42d0505ccdc07/mindsdb/api/http/namespaces/file.py#L26..L134"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mindsdb/mindsdb/releases/tag/v23.2.1.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-30T21:42:48Z",
+    "nvd_published_at": null
+  }
+}

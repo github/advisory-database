@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qf34-f43r-gv9p",
+  "modified": "2023-04-05T19:38:24Z",
+  "published": "2023-03-29T15:30:17Z",
+  "aliases": [
+    "CVE-2023-28158"
+  ],
+  "summary": "Apache Archiva vulnerable to privilege escalation via stored cross-site scripting (XSS)",
+  "details": "Apache Archiva is vulnerable to privilege escalation vua stored cross-site-scripting using the file upload service to upload malicious content. The issue can be exploited only by authenticated users which can create directory name to inject some XSS content and gain some privileges, such as an admin user.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.archiva:archiva"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.2.10"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-28158"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/archiva/commit/d62e81c7e75f617cf01d2a75952a2c857758f8c4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/archiva/commit/e7f7e70992d361d8b7a3298ddcdf49dda2fdc842"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/archiva/commit/ee3ee0a18977b67b6997ea8cd023816201059f96"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/archiva"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/archiva/releases/tag/archiva-2.2.10"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/8pm6d5y9cptznm0bdny3n8voovmm0dtt"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2023/04/18/2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-05T19:38:24Z",
+    "nvd_published_at": "2023-03-29T13:15:00Z"
+  }
+}

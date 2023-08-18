@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cwf6-xj49-wp83",
+  "modified": "2023-04-25T16:34:37Z",
+  "published": "2023-04-12T20:40:38Z",
+  "aliases": [
+    "CVE-2023-29018"
+  ],
+  "summary": " OpenFeature Operator vulnerable to Cluster-level Privilege Escalation",
+  "details": "### Impact\n\nOn a node controlled by an attacker or malicious user, the lax permissions configured on `open-feature-operator-controller-manager` can be used to further escalate the privileges of any service account in the cluster.\n\nThe increased privileges could be used to modify cluster state, leading to DoS, or read sensitive data, including secrets.\n\n### Patches\n\nThe patch mitigates this issue by restricting the resources the `open-feature-operator-controller-manager` can modify.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/open-feature/open-feature-operator"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.2.32"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/open-feature/open-feature-operator/security/advisories/GHSA-cwf6-xj49-wp83"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-29018"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/open-feature/open-feature-operator"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/open-feature/open-feature-operator/releases/tag/v0.2.32"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-269"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-12T20:40:38Z",
+    "nvd_published_at": "2023-04-14T19:15:00Z"
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-527r-mfmj-prqf",
+  "modified": "2023-02-08T18:11:20Z",
+  "published": "2022-05-14T01:09:00Z",
+  "aliases": [
+    "CVE-2016-3072"
+  ],
+  "summary": "Katello SQL Injection vulnerabilities",
+  "details": "Multiple SQL injection vulnerabilities in the scoped_search function in app/controllers/katello/api/v2/api_controller.rb in Katello allow remote authenticated users to execute arbitrary SQL commands via the (1) sort_by or (2) sort_order parameter.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "katello"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.4.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2016-3072"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Katello/katello/pull/6051"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Katello/katello/commit/5645ed4365980a34e30a9c57fe0793dff729e8e4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2016:1083"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/security/cve/CVE-2016-3072"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1322050"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Katello/katello"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/katello/CVE-2016-3072.yml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-89"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-02-08T18:11:20Z",
+    "nvd_published_at": "2016-06-07T18:59:00Z"
+  }
+}

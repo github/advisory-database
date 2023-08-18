@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-255r-3prx-mf99",
+  "modified": "2023-03-22T22:21:49Z",
+  "published": "2023-03-22T22:21:49Z",
+  "aliases": [
+
+  ],
+  "summary": "`rmp-serde` `Raw` and `RawRef` may crash when receiving invalid UTF-8",
+  "details": "It was found that `Raw::from_utf8` expects valid UTF-8. If invalid UTF-8 is received it can cause the process to crash.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "rmp-serde"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.1.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/3Hren/msgpack-rust/issues/305"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/3Hren/msgpack-rust"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2022-0092.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-22T22:21:49Z",
+    "nvd_published_at": null
+  }
+}

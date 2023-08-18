@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3gxf-9r58-2ghg",
+  "modified": "2023-03-24T22:01:35Z",
+  "published": "2023-03-24T22:01:35Z",
+  "aliases": [
+
+  ],
+  "summary": "`openssl` `X509NameBuilder::build` returned object is not thread safe",
+  "details": "OpenSSL has a `modified` bit that it can set on on `X509_NAME` objects. If this bit is set then the object is not thread-safe even when it appears the code is not modifying the value.\n\nThanks to David Benjamin (Google) for reporting this issue.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "openssl"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.9.7"
+            },
+            {
+              "fixed": "0.10.48"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/sfackler/rust-openssl/pull/1854"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2023-0022.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-24T22:01:35Z",
+    "nvd_published_at": null
+  }
+}

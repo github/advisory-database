@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-m875-3xf6-mf78",
+  "modified": "2023-04-07T22:54:15Z",
+  "published": "2023-03-30T22:58:38Z",
+  "aliases": [
+    "CVE-2023-28846"
+  ],
+  "summary": "unpoly-rails Denial of Service vulnerability",
+  "details": "There is a possible Denial of Service (DoS) vulnerability in the unpoly-rails gem that implements the [Unpoly server protocol](https://unpoly.com/up.protocol) for Rails applications.\n\n### Impact\n\nThis issues affects Rails applications that operate as an upstream of a load balancer's that uses [passive health checks](https://docs.nginx.com/nginx/admin-guide/load-balancer/http-health-check/#passive-health-checks).\n\nThe [unpoly-rails](https://github.com/unpoly/unpoly-rails/) gem echoes the request URL as an `X-Up-Location` response header. By making a request with exceedingly long URLs (paths or query string), an attacker can cause unpoly-rails to write a exceedingly large response header.\n\nIf the response header is too large to be parsed by a load balancer downstream of the Rails application, it may cause the load balancer to remove the upstream from a load balancing group. This causes that application instance to become unavailable until a configured timeout is reached or until an active healthcheck succeeds.\n\n\n### Patches\n\nThe fixed release 2.7.2.2+ is available via RubyGems and GitHub.\n\n\n### Workarounds\n\nIf you cannot upgrade to a fixed release, several workarounds are available:\n\n- Configure your load balancer to use active health checks, e.g. by periodically requesting a route with a known response that indicates healthiness.\n- Configure your load balancer so the [maximum size of response headers](https://makandracards.com/operations/537537-nginx-proxy-buffer-tuning) is at least twice the [maximum size of a URL](https://tryhexadecimal.com/guides/http/414-request-uri-too-long).\n- Instead of changing your server configuration you may also configure your Rails application to delete redundant `X-Up-Location` headers set by unpoly-rails:\n  \n  ```ruby\n  class ApplicationController < ActionController::Base\n  \n    after_action :remove_redundant_up_location_header\n    \n    private\n    \n    def remove_redundant_up_location_header\n      if request.original_url == response.headers['X-Up-Location']\n        response.headers.delete('X-Up-Location')\n      end\n    end\n  \n  end\n  ```",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "unpoly-rails"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.7.2.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/unpoly/unpoly-rails/security/advisories/GHSA-m875-3xf6-mf78"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-28846"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/unpoly/unpoly-rails/commit/cd9ad0007daceeb3b2354fdcab4f88350427bf16"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.nginx.com/nginx/admin-guide/load-balancer/http-health-check/#passive-health-checks"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/unpoly-rails/CVE-2023-28846.yml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/unpoly/unpoly-rails"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/unpoly/unpoly-rails/"
+    },
+    {
+      "type": "WEB",
+      "url": "https://makandracards.com/operations/537537-nginx-proxy-buffer-tuning"
+    },
+    {
+      "type": "WEB",
+      "url": "https://tryhexadecimal.com/guides/http/414-request-uri-too-long"
+    },
+    {
+      "type": "WEB",
+      "url": "https://unpoly.com/up.protocol"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-30T22:58:38Z",
+    "nvd_published_at": "2023-03-30T20:15:00Z"
+  }
+}

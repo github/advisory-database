@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w4x6-6w3r-9h2m",
+  "modified": "2023-03-30T22:16:44Z",
+  "published": "2023-03-23T21:30:19Z",
+  "aliases": [
+    "CVE-2022-3146"
+  ],
+  "summary": "tripleo-ansible may disclose important configuration details from an OpenStack deployment",
+  "details": "A flaw was found in tripleo-ansible. Due to an insecure default configuration, the permissions of a sensitive file are not sufficiently restricted. This flaw allows a local attacker to use brute force to explore the relevant directory and discover the file. This issue leads to information disclosure of important configuration details from the OpenStack deployment.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "tripleo-ansible"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "6.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-3146"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/security/cve/CVE-2022-3146"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openstack/tripleo-ansible"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22",
+      "CWE-276",
+      "CWE-732"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-23T23:11:40Z",
+    "nvd_published_at": "2023-03-23T21:15:00Z"
+  }
+}

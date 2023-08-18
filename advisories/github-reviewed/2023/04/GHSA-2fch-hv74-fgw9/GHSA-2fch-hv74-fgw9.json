@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2fch-hv74-fgw9",
+  "modified": "2023-04-26T19:42:30Z",
+  "published": "2023-04-26T19:42:30Z",
+  "aliases": [
+
+  ],
+  "summary": "Cross site scripting (XSS) in wwbn/avideo",
+  "details": "Description:\n\nWhile making an account in demo.avideo.com I found a parameter \"?success=\" which did not sanitize any symbol character properly which leads to XSS attack.\n\nImpact:\n\nSince there's an Admin account on demo.avideo.com attacker can use this attack to Takeover the admin's account\n\nStep to Reproduce:\n\n1. Click the link below\n\n[https://demo.avideo.com/user?success=\"><img](https://demo.avideo.com/user?success=%22%3E%3Cimg) src=x onerror=alert(document.cookie)>\n\n2. Then XSS will be executed",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "wwbn/avideo"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "12.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/WWBN/AVideo/security/advisories/GHSA-2fch-hv74-fgw9"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/WWBN/AVideo"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-26T19:42:30Z",
+    "nvd_published_at": null
+  }
+}

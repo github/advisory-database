@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cqvm-j2r2-hwpg",
+  "modified": "2023-03-17T14:42:45Z",
+  "published": "2023-03-17T14:42:45Z",
+  "aliases": [
+    "CVE-2023-28113"
+  ],
+  "summary": "russh may use insecure Diffie-Hellman keys",
+  "details": "### Summary\n\nDiffie-Hellman key validation is insufficient, which can lead to insecure shared secrets and therefore breaks confidentiality.\n\n### Details\n\nRussh does not validate Diffie-Hellman keys.\n\nIt accepts received DH public keys $e$ where $e<0$, $e=1$, or $e \\geq p-1$ from a misbehaving peer annd successfully performs key exchange.\n\nThis is a violation of [RFC 4253, section 8](https://www.rfc-editor.org/rfc/rfc4253#section-8) and [RFC 8268, section 4](https://www.rfc-editor.org/rfc/rfc8268#section-4), which state that:\n\n>DH Public Key values MUST be checked and both conditions:\n>\n> - $1 < e < p-1$\n> - $1 < f < p-1$\n>\n> MUST be true.  Values not within these bounds MUST NOT be sent or\n> accepted by either side.  If either one of these conditions is\n> violated, then the key exchange fails.\n\nFor example, a DH client public key $e=1$ would mean that the shared secret that the server calculates is always $K = e^y \\mod{p} = 1^y \\mod{p} = 1$.\nIn other cases, an insecure order-2 subgroup may be used.\n\nAlso, the code does not look like it ensures that the generated secret key $y$ is in the valid interval $0 < y < q$ (or, if russh is the client, that the secret key $x$ satisfies $1 < x < q$):\nhttps://github.com/warp-tech/russh/blob/master/russh/src/kex/dh/groups.rs#L72-L76\nFor example, `rng.gen_biguint()` might return a number consisting of zeroes, so that $y = 0$.\n\nThe public key is not validated either:\nhttps://github.com/warp-tech/russh/blob/master/russh/src/kex/dh/groups.rs#L78-L81\n\n### Impact\n\nDue to the issues in the DH key generation, I think any connection that uses Diffie-Hellman key exchange is affected.\nConnections between a russh client and server or those of a russh peer with some other misbehaving peer are most likely to be problematic. These may vulnerable to eavesdropping.\n\nMost other implementations reject such keys, so this is mainly an interoperability issue in such a case.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "russh"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.36.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "russh"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.37.0"
+            },
+            {
+              "fixed": "0.37.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/warp-tech/russh/security/advisories/GHSA-cqvm-j2r2-hwpg"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-28113"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/warp-tech/russh/commit/45d2d82930bf4a675bd57abfafec8fe4065befcd"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/warp-tech/russh/commit/d831a3716d3719dc76f091fcea9d94bd4ef97c6e"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/warp-tech/russh"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/warp-tech/russh/blob/master/russh/src/kex/dh/groups.rs#L72-L76"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/warp-tech/russh/blob/master/russh/src/kex/dh/groups.rs#L78-L81"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/warp-tech/russh/releases/tag/v0.36.2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/warp-tech/russh/releases/tag/v0.37.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20",
+      "CWE-347"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-17T14:42:45Z",
+    "nvd_published_at": "2023-03-16T21:15:00Z"
+  }
+}

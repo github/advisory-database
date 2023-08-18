@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4v38-964c-xjmw",
+  "modified": "2023-04-19T18:26:35Z",
+  "published": "2023-04-19T18:26:35Z",
+  "aliases": [
+    "CVE-2023-29510"
+  ],
+  "summary": "Code injection via unescaped translations in xwiki-platform",
+  "details": "### Impact\nIn XWiki, every user can add translations that are only applied to the current user. This also allows overriding existing translations. Such translations are often included in privileged contexts without any escaping which allows remote code execution for any user who has edit access on at least one document which could be the user's own profile where edit access is enabled by default.\n\nThe following describes a proof of concept exploit to demonstrate this vulnerability:\n\n1. Edit the user profile with the wiki editor and set the content to\n```\nerror={{/html}} {{async async=\"true\" cached=\"false\" context=\"doc.reference\"}}{{groovy}}println(\"hello from groovy!\"){{/groovy}}{{/async}}\n```\n2. Use the object editor to add an object of type `XWiki.TranslationDocumentClass` with scope `USER`.\n3. Open the document `WikiManager.AdminWikiDescriptorSheet`.\n\nThe expected result would be that a message with title `{{/html}} {{async async=\"true\" cached=\"false\" context=\"doc.reference\"}}{{groovy}}println(\"hello from groovy!\"){{/groovy}}{{/async}}` is displayed while in fact an error that the HTML macro couldn't be executed is displayed, followed by the text \"hello from groovy!\" and some raw HTML, showing that the Groovy macro has been executed.\n\n### Patches\n\nA mitigation for this vulnerability is part of XWiki 14.10.2 and XWiki 15.0 RC1: translations with user scope now require script right. This means that regular users cannot exploit this anymore as users don't have script right by default anymore starting with XWiki 14.10.\n\n### Workarounds\n\nThere are no known workarounds apart from upgrading to a patched versions.\n\n### References\n\n* https://jira.xwiki.org/browse/XWIKI-19749\n* https://github.com/xwiki/xwiki-platform/commit/d06ff8a58480abc7f63eb1d4b8b366024d990643\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n* Open an issue in [Jira XWiki.org](https://jira.xwiki.org/)\n* Email us at [Security Mailing List](mailto:security@xwiki.org)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-administration-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.3-milestone-2"
+            },
+            {
+              "fixed": "14.10.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-4v38-964c-xjmw"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-29510"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/d06ff8a58480abc7f63eb1d4b8b366024d990643"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-19749"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-19T18:26:35Z",
+    "nvd_published_at": null
+  }
+}

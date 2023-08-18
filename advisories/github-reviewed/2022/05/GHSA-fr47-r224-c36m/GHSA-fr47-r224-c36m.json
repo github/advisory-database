@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fr47-r224-c36m",
+  "modified": "2023-02-14T00:28:19Z",
+  "published": "2022-05-24T16:55:43Z",
+  "aliases": [
+    "CVE-2019-16172"
+  ],
+  "summary": "Cross-site Scripting in LimeSurvey",
+  "details": "LimeSurvey before v3.17.14 allows stored XSS for escalating privileges from a low-privileged account to, for example, SuperAdmin. The attack uses a survey group in which the title contains JavaScript that is mishandled upon group deletion.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "limesurvey/limesurvey"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.17.14"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-16172"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/LimeSurvey/LimeSurvey/commit/32d6a5224327b246ee3a2a08500544e4f80f9a9a"
+    },
+    {
+      "type": "WEB",
+      "url": "https://seclists.org/bugtraq/2019/Sep/27"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.limesurvey.org/limesurvey-updates/2188-limesurvey-3-17-14-build-190902-released"
+    },
+    {
+      "type": "WEB",
+      "url": "http://packetstormsecurity.com/files/154479/LimeSurvey-3.17.13-Cross-Site-Scripting.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://seclists.org/fulldisclosure/2019/Sep/22"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-02-14T00:28:19Z",
+    "nvd_published_at": "2019-09-09T19:15:00Z"
+  }
+}

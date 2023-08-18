@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-35jj-vqcf-f2jf",
+  "modified": "2023-04-26T19:45:04Z",
+  "published": "2023-04-26T19:45:04Z",
+  "aliases": [
+    "CVE-2023-30843"
+  ],
+  "summary": "Hidden fields can be leaked on readable collections in Payload",
+  "details": "### Details\n\nIf a user has access to documents that contain hidden fields or fields they do not have access to, the user could reverse-engineer those values via brute force.\n\nAffected versions:  < 1.7.0\n\n### Workarounds\n\nIf you are unable to update, you can write a `beforeOperation` hook to remove `where` queries that attempt to access hidden field data.\n\n### Detecting Compromise\n\nMonitor your instance for brute-force style requests against your instance using `where` queries.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "payload"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.7.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/payloadcms/payload/security/advisories/GHSA-35jj-vqcf-f2jf"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-30843"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/payloadcms/payload"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/payloadcms/payload/releases/tag/v1.7.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-26T19:45:04Z",
+    "nvd_published_at": null
+  }
+}

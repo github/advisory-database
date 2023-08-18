@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6m9f-pj6w-w87g",
+  "modified": "2023-04-25T18:09:03Z",
+  "published": "2023-04-24T22:34:59Z",
+  "aliases": [
+    "CVE-2023-22651"
+  ],
+  "summary": "Rancher Webhook is misconfigured during upgrade process",
+  "details": "### Impact\n\nA failure in the update logic of Rancher's admission Webhook may lead to the misconfiguration of the Webhook. This component enforces validation rules and security checks before resources are admitted into the Kubernetes cluster.\n\nWhen the Webhook is operating in a degraded state, it no longer validates any resources, which may result in severe privilege escalations and data corruption.\n\nThe issue only affects users that upgrade from `2.6.x` or `2.7.x` to `2.7.2`. Users that did a fresh install of 2.7.2 (and did not follow an upgrade path) are not affected.\n\nThe command below can be executed on the `local` cluster to determine whether the cluster is affected by this issue:\n\n```sh\n$ kubectl get validatingwebhookconfigurations.admissionregistration.k8s.io rancher.cattle.io\n\nNAME                WEBHOOKS   AGE\nrancher.cattle.io   0         19h\n```\n\nIf the resulting webhook quantity is `0`, the Rancher instance is affected.\n\n### Patches\n\nPatched versions include release `2.7.3` and later versions.\n\n### Workarounds\n\nIf you are affected and cannot update to a patched Rancher version, the recommended workaround is to manually reconfigure the Webhook with the script below. Please note that the script must be run from inside the `local` cluster or with a kubeconfig pointing to the `local` cluster which has admin permissions.\n\n```yaml\n#!/bin/bash\n\nset -euo pipefail\n\nfunction prereqs() {\n    if ! [ -x \"$(command -v kubectl)\" ]; then\n      echo \"error: kubectl is not installed.\" >&2\n      exit 1\n    fi\n\n    if [[ -z \"$(kubectl config view -o jsonpath='{.clusters[].cluster.server}')\" ]]; then\n        echo \"error: No kubernetes cluster found on kubeconfig.\" >&2\n        exit 1\n    fi\n}\n\nfunction restart_deployment(){\n    kubectl rollout restart deployment rancher-webhook -n cattle-system\n    kubectl rollout status deployment rancher-webhook -n cattle-system --timeout=30s\n}\n\nfunction workaround() {\n    echo \"Cluster: $(kubectl config view -o jsonpath='{.clusters[].cluster.server}')\"\n\n    if ! kubectl get validatingwebhookconfigurations.admissionregistration.k8s.io rancher.cattle.io > /dev/null 2>&1; then\n        echo \"webhook rancher.cattle.io not found, restarting deployment:\"\n        restart_deployment\n\n        echo \"waiting for webhook configuration\"\n        sleep 15s\n    fi\n\n    local -i webhooks\n    webhooks=\"$(kubectl get validatingwebhookconfigurations.admissionregistration.k8s.io rancher.cattle.io --no-headers | awk '{ print $2 }')\"\n\n    if [ \"${webhooks}\" == \"0\" ]; then\n        echo \"Webhook misconfiguration status: Cluster is affected by CVE-2023-22651\"\n        \n        echo \"Running workaround:\"\n        kubectl delete validatingwebhookconfiguration rancher.cattle.io\n        restart_deployment\n\n        ret=$?\n        if [ $ret -eq 0 ]; then\n            echo \"Webhook restored, CVE-2023-22651 is fixed\"\n        else\n            echo \"error trying to restart deployment. try again in a few seconds.\"\n        fi\n    else\n        echo \"Webhook misconfiguration status: not present (skipping)\"\n    fi\n\n    echo \"Done\"\n}\n\nfunction main() {\n    prereqs\n    workaround\n}\n\nmain\n```\n\n### References\n- https://github.com/rancher/webhook/pull/216/commits/a4a498613b43a3ee93c5ab06742a3bc8adace45d\n\n### For more information\nIf you have any questions or comments about this advisory:\n\n- Reach out to the [SUSE Rancher Security team](https://github.com/rancher/rancher/security/policy) for security related inquiries.\n- Open an issue in the [Rancher](https://github.com/rancher/rancher/issues/new/choose) repository.\n- Verify our [support matrix](https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/) and [product support lifecycle](https://www.suse.com/lifecycle/).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/rancher/rancher"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.7.2"
+            },
+            {
+              "fixed": "2.7.3"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "2.7.2"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/rancher/rancher/security/advisories/GHSA-6m9f-pj6w-w87g"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/rancher/rancher"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rancher/rancher/releases/tag/v2.7.3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-24T22:34:59Z",
+    "nvd_published_at": null
+  }
+}

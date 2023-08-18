@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f8vr-r385-rh5r",
+  "modified": "2023-05-01T21:22:01Z",
+  "published": "2023-04-11T15:30:30Z",
+  "aliases": [
+    "CVE-2023-26964"
+  ],
+  "summary": "h2 vulnerable to denial of service",
+  "details": "Hyper is an HTTP library for Rust and h2 is an HTTP 2.0 client & server implementation for Rust. An issue was discovered in h2 v0.2.4 when processing header frames. It incorrectly processes the HTTP2 `RST_STREAM` frames by not always releasing the memory immediately upon receiving the reset frame, leading to stream stacking. As a result, the memory and CPU usage are high which can lead to a Denial of Service (DoS).\n\nThis issue affects users only when dealing with http2 connections.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "h2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.3.17"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-26964"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hyperium/h2/issues/621"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hyperium/hyper/issues/2877"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hyperium/h2/pull/668"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/hyperium/hyper"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2023-0034.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-770"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-11T21:47:01Z",
+    "nvd_published_at": "2023-04-11T14:15:00Z"
+  }
+}

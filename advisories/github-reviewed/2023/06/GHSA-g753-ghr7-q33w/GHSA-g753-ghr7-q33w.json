@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g753-ghr7-q33w",
+  "modified": "2023-06-22T20:01:55Z",
+  "published": "2023-06-22T20:01:55Z",
+  "aliases": [
+
+  ],
+  "summary": "cyfs-base vulnerable to misaligned pointer dereference in `ChunkId::new`",
+  "details": "The function `ChunkId::new` creates a misaligned pointer by casting mutable pointer of `u8` slice which has alignment 1 to the mutable pointer of `u32` which has alignment 4, and dereference the misaligned pointer leading UB, which should not be allowed in safe function.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "cyfs-base"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.6.12"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/buckyos/CYFS/issues/275"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/buckyos/CYFS/commit/e030188895096fd8d91d48753877729f4d37dd24"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/buckyos/CYFS"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2023-0046.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-22T20:01:55Z",
+    "nvd_published_at": null
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5g7f-p7jg-v6mv",
+  "modified": "2023-01-26T23:56:32Z",
+  "published": "2022-05-14T03:47:43Z",
+  "aliases": [
+    "CVE-2014-4998"
+  ],
+  "summary": "lean-ruport allows local users to obtain sensitive information by listing the process",
+  "details": "`test/tc_database.rb` in the lean-ruport gem 0.3.8 for Ruby places the mysql user password on the mysqldump command line, which allows local users to obtain sensitive information by listing the process.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "lean-ruport"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.3.8"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2014-4998"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2014/07/07/18"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2014/07/17/5"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.vapid.dhs.org/advisories/lean-ruport-0.3.8.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-01-26T23:56:32Z",
+    "nvd_published_at": "2018-01-10T18:29:00Z"
+  }
+}

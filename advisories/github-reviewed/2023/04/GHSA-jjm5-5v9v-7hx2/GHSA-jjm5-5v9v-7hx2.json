@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jjm5-5v9v-7hx2",
+  "modified": "2023-04-26T20:33:32Z",
+  "published": "2023-04-12T20:36:19Z",
+  "aliases": [
+    "CVE-2023-29506"
+  ],
+  "summary": "org.xwiki.platform:xwiki-platform-security-authentication-default XSS with authenticate endpoints",
+  "details": "### Impact\n\nIt was possible to inject some code using the URL of authenticate endpoints, e.g.:\n\n```\nhttps://hostname/xwiki/authenticate/wiki/xwiki%22onload=%22alert(origin)%22/resetpassword\n```\n\nThis vulnerability was present in recent versions of XWiki:\n  - 13.10.8+\n  - 14.4.3+\n  - 14.6+\n\n### Patches\n\nThis problem has been patched on XWiki 13.10.11, 14.4.7 and 14.10.\n\n### Workarounds\nThere is no easy workaround except to upgrade.\n\n### References\n\n  - https://jira.xwiki.org/browse/XWIKI-20335\n  - https://github.com/xwiki/xwiki-platform/commit/1943ea26c967ef868fb5f67c487d98d97cba0380\n\n### For more information\nIf you have any questions or comments about this advisory:\n* Open an issue in [Jira](https://jira.xwiki.org)\n* Email us at [security mailing-list](mailto:security@xwiki.org)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-security-authentication-default"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "13.10.8"
+            },
+            {
+              "fixed": "13.10.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-security-authentication-default"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.4.3"
+            },
+            {
+              "fixed": "14.4.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-security-authentication-default"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.6"
+            },
+            {
+              "fixed": "14.10"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-jjm5-5v9v-7hx2"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-29506"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/1943ea26c967ef868fb5f67c487d98d97cba0380"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20335"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-12T20:36:19Z",
+    "nvd_published_at": "2023-04-16T07:15:00Z"
+  }
+}

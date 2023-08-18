@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-583x-23h9-f5w7",
+  "modified": "2023-04-24T18:43:51Z",
+  "published": "2023-04-19T18:33:22Z",
+  "aliases": [
+    "CVE-2023-22893"
+  ],
+  "summary": "Strapi does not verify the access or ID tokens issued during the OAuth flow",
+  "details": "Strapi 3.2.1 until 4.6.0 does not verify the access or ID tokens issued during the OAuth flow when the AWS Cognito login provider is used for authentication. A remote attacker could forge an ID token that is signed using the 'None' type algorithm to bypass authentication and impersonate any user that use AWS Cognito for authentication.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@strapi/plugin-users-permissions"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.2.1"
+            },
+            {
+              "fixed": "4.6.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-22893"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/strapi/strapi/commit/46f8f98378338f18b5c6139d0157a8f71bf4de83"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/strapi/strapi/commit/8bbbd7383a20bb7cb163c8b462baffee559e994f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/strapi/strapi/commit/eeab43b57707d7ef275076d27be6eabc72bd71a7"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/strapi/strapi"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/strapi/strapi/blob/v4.5.6/packages/plugins/users-permissions/server/services/providers-registry.js"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/strapi/strapi/releases"
+    },
+    {
+      "type": "WEB",
+      "url": "https://strapi.io/blog/security-disclosure-of-vulnerabilities-cve"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.ghostccamm.com/blog/multi_strapi_vulns/"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-24T18:43:51Z",
+    "nvd_published_at": null
+  }
+}

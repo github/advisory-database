@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wqxw-8h5g-hq56",
+  "modified": "2023-02-15T17:35:36Z",
+  "published": "2023-02-02T01:33:06Z",
+  "aliases": [
+    "CVE-2023-23925"
+  ],
+  "summary": "Switcher Client contains Regular Expression Denial of Service (ReDoS)",
+  "details": "### Impact\nUnsanitized input flows into Strategy match operation (EXIST), where it is used to build a regular expression. This may result in a Regular expression Denial of Service attack (reDOS).\n\n### Patches\nPatched in 3.1.4\n\n### Workarounds\nAvoid using Strategy settings that use REGEX in conjunction with EXIST and NOT_EXIST operations.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "switcher-client"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.1.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/switcherapi/switcher-client-master/security/advisories/GHSA-wqxw-8h5g-hq56"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-23925"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/switcherapi/switcher-client-master/commit/374752563d6ce9353ee592b40c809c8136f24930"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/switcherapi/switcher-client-master"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/switcherapi/switcher-client-master/releases/tag/v3.1.4"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1333",
+      "CWE-400"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-02-02T01:33:06Z",
+    "nvd_published_at": "2023-02-03T20:15:00Z"
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-x34j-wxq8-7vcm",
+  "modified": "2023-08-03T22:13:29Z",
+  "published": "2022-05-17T02:56:23Z",
+  "aliases": [
+    "CVE-2015-8813"
+  ],
+  "summary": "Umbraco CMS vulnerable to CSRF",
+  "details": "The `Page_Load` function in [Umbraco.Web/umbraco.presentation/umbraco/dashboard/FeedProxy.aspx.cs](https://github.com/umbraco/Umbraco-CMS/commit/924a016ffe7ae7ea6d516c07a7852f0095eddbce#diff-2899f01df84571577834f97a81637c65e20178ec6129b76c02f99789b23cf72e) in Umbraco before 7.4.0 allows remote attackers to conduct server-side request forgery (SSRF) attacks via the url parameter.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Umbraco.CMS"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "7.4.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2015-8813"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/umbraco/Umbraco-CMS/commit/924a016ffe7ae7ea6d516c07a7852f0095eddbce"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20230608160721/https://issues.umbraco.org/issue/U4-7457"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2016/02/16/10"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2016/02/17/1"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2016/02/17/5"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2016/02/18/8"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-918"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-03T22:13:29Z",
+    "nvd_published_at": "2017-03-03T16:59:00Z"
+  }
+}

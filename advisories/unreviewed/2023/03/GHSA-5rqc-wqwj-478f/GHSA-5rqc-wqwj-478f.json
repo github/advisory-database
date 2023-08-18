@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5rqc-wqwj-478f",
+  "modified": "2023-04-06T18:30:18Z",
+  "published": "2023-03-28T21:30:16Z",
+  "aliases": [
+    "CVE-2023-20903"
+  ],
+  "details": "This disclosure regards a vulnerability related to UAA refresh tokens and external identity providers.Assuming that an external identity provider is linked to the UAA, a refresh token is issued to a client on behalf of a user from that identity provider, the administrator of the UAA deactivates the identity provider from the UAA. It is expected that the UAA would reject a refresh token during a refresh token grant, but it does not (hence the vulnerability). It will continue to issue access tokens to request presenting such refresh tokens, as if the identity provider was still active. As a result, clients with refresh tokens issued through the deactivated identity provider would still have access to Cloud Foundry resources until their refresh token expires (which defaults to 30 days).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-20903"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.cloudfoundry.org/blog/cve-2023-20903-tokens-for-inactivated-idps-are-not-revoked-and-remain-valid-until-expiration/"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-613"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": false,
+    "github_reviewed_at": null,
+    "nvd_published_at": "2023-03-28T21:15:00Z"
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3x8x-79m2-3w2w",
+  "modified": "2023-03-23T18:23:19Z",
+  "published": "2023-03-19T00:30:25Z",
+  "aliases": [
+    "CVE-2021-46877"
+  ],
+  "summary": "jackson-databind possible Denial of Service if using JDK serialization to serialize JsonNode",
+  "details": "jackson-databind 2.10.x through 2.12.x before 2.12.6 and 2.13.x before 2.13.1 allows attackers to cause a denial of service (2 GB transient heap usage per read) in uncommon situations involving JsonNode JDK serialization.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.fasterxml.jackson.core:jackson-databind"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.10.0"
+            },
+            {
+              "fixed": "2.12.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.fasterxml.jackson.core:jackson-databind"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.13.0"
+            },
+            {
+              "fixed": "2.13.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-46877"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FasterXML/jackson-databind/issues/3328"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FasterXML/jackson-databind/commit/3ccde7d938fea547e598fdefe9a82cff37fed5cb"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/FasterXML/jackson-databind"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FasterXML/jackson/wiki/Jackson-Release-2.12.6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FasterXML/jackson/wiki/Jackson-Release-2.13.1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://groups.google.com/g/jackson-user/c/OsBsirPM_Vw"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-20T21:14:14Z",
+    "nvd_published_at": "2023-03-18T22:15:00Z"
+  }
+}

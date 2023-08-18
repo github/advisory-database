@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7c44-m589-36w7",
+  "modified": "2023-04-10T16:31:08Z",
+  "published": "2023-04-02T21:30:17Z",
+  "aliases": [
+    "CVE-2023-28677"
+  ],
+  "summary": "Jenkins Convert To Pipeline Plugin vulnerable to command injection",
+  "details": "Jenkins Convert To Pipeline Plugin 1.0 and earlier uses basic string concatenation to convert Freestyle projects' Build Environment, Build Steps, and Post-build Actions to the equivalent Pipeline step invocations.\n\nThis allows attackers able to configure Freestyle projects to prepare a crafted configuration that injects Pipeline script code into the (unsandboxed) Pipeline resulting from a conversion by Convert To Pipeline Plugin. If an administrator converts the Freestyle project to a Pipeline, the script will be pre-approved.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:convert-to-pipeline"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-28677"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/convert-to-pipeline-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-03-21/#SECURITY-2966"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-77"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-04T17:11:17Z",
+    "nvd_published_at": "2023-04-02T21:15:00Z"
+  }
+}

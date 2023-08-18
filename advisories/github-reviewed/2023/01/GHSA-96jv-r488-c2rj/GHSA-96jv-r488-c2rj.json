@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-96jv-r488-c2rj",
+  "modified": "2023-01-13T17:18:40Z",
+  "published": "2023-01-10T03:30:29Z",
+  "aliases": [
+    "CVE-2023-22895"
+  ],
+  "summary": "bzip2 allows attackers to cause a denial of service via a large file that triggers an integer overflow",
+  "details": "The bzip2 crate before 0.4.4 for Rust allow attackers to cause a denial of service via a large file that triggers an integer overflow in `mem.rs`. NOTE: this is unrelated to the https://crates.io/crates/bzip2-rs product.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "bzip2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.4.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-22895"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/alexcrichton/bzip2-rs/pull/86"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/alexcrichton/bzip2-rs/commit/90c9c182cd5a5ebc75810aebd89b347a7bdf590b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://crates.io/crates/bzip2/versions"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/alexcrichton/bzip2-rs"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/MI5SVRSGKBWB2JGDLDVIFY5ZQVDZP6I7/"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/SQK57GGXJX3AH7KF6S7S3N7JC5QOYUQ7/"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/UUK2JO25PPA6XBREKJRBLRCD22LKIOLO/"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2023-0004.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-190"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-01-10T22:10:17Z",
+    "nvd_published_at": "2023-01-10T01:15:00Z"
+  }
+}

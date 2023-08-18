@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qvc4-78gw-pv8p",
+  "modified": "2023-04-24T16:47:24Z",
+  "published": "2023-04-24T16:47:24Z",
+  "aliases": [
+
+  ],
+  "summary": "Adverserial use of `make_bitflags!` macro can cause undefined behavior",
+  "details": "The macro relied on an expression of the form `Enum::Variant` always being a\nvariant of the enum. However, it may also be an associated integer constant, in\nwhich case there's no guarantee that the value of said constant consists only of\nbits valid for this bitflag type.\n\nThus, code like this could create an invalid `BitFlags<Test>`, which would cause\niterating over it to trigger undefined behavior. As the debug formatter\ninternally iterates over the value, it is also affected.\n\n```rust\nuse enumflags2::{bitflags, make_bitflags};\n\n#[bitflags]\n#[repr(u8)]\n#[derive(Copy, Clone, Debug)]\nenum Test {\n    A = 1,\n    B = 2,\n}\n\nimpl Test {\n    const C: u8 = 69;\n}\n\nfn main() {\n    let x = make_bitflags!(Test::{C});\n    // printing or iterating over x is UB\n}\n```\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "enumflags2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.7.0"
+            },
+            {
+              "fixed": "0.7.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/meithecatte/enumflags2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/meithecatte/enumflags2/releases/tag/v0.7.7"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2023-0035.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-24T16:47:24Z",
+    "nvd_published_at": null
+  }
+}

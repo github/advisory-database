@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-x77j-w7wf-fjmw",
+  "modified": "2023-04-20T21:19:24Z",
+  "published": "2023-04-20T21:19:24Z",
+  "aliases": [
+    "CVE-2023-2142"
+  ],
+  "summary": "Nunjucks autoescape bypass leads to cross site scripting",
+  "details": "### Impact\nIn Nunjucks versions prior to version 3.2.4, it was possible to bypass the restrictions which are provided by the autoescape functionality. If there are two user-controlled parameters on the same line used in the views, it was possible to inject cross site scripting payloads using the backslash `\\` character.\n\n#### Example\nIf the user-controlled parameters were used in the views similar to the following:\n```\n<script>\nlet testObject = { lang: '{{ lang }}', place: '{{ place }}' };\n</script>\n```\n\nIt is possible to inject XSS payload using the below parameters:\n```\nhttps://<application-url>/?lang=jp\\&place=};alert(document.domain)//\n```\n\n### Patches\nThe issue was patched in version 3.2.4.\n\n### References\n\n- https://bugzilla.mozilla.org/show_bug.cgi?id=1825980\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "nunjucks"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.2.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/mozilla/nunjucks/security/advisories/GHSA-x77j-w7wf-fjmw"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mozilla/nunjucks/pull/1437"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mozilla/nunjucks/commit/ec16d210e7e13f862eccdb0bc9af9f60ff6749d6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.mozilla.org/show_bug.cgi?id=1825980"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mozilla/nunjucks"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mozilla/nunjucks/releases/tag/v3.2.4"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-20T21:19:24Z",
+    "nvd_published_at": null
+  }
+}

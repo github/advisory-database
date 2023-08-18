@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-q7fx-wm2p-qfj8",
+  "modified": "2023-06-09T23:23:59Z",
+  "published": "2022-05-13T01:23:06Z",
+  "aliases": [
+    "CVE-2019-9764"
+  ],
+  "summary": "HashiCorp Consul vulnerable to Origin Validation Error",
+  "details": "HashiCorp Consul 1.4.3 lacks server hostname verification for agent-to-agent TLS communication. In other words, the product behaves as if `verify_server_hostname` were set to false, even when it is actually set to true. This is fixed in 1.4.4.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/hashicorp/consul"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.4.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-9764"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hashicorp/consul/issues/5519"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hashicorp/consul/commit/7e11dd82aa8dae505b7307adcb68c9d3194b3b40"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/hashicorp/consul"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-346"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-09T23:23:59Z",
+    "nvd_published_at": "2019-03-26T14:29:00Z"
+  }
+}

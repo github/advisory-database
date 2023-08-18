@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2x9c-qwgf-94xr",
+  "modified": "2023-03-28T23:09:13Z",
+  "published": "2023-03-28T19:57:57Z",
+  "aliases": [
+    "CVE-2022-36060"
+  ],
+  "summary": "matrix-react-sdk Prototype pollution vulnerability",
+  "details": "### Impact\nEvents sent with special strings in key places can temporarily disrupt or impede the matrix-react-sdk from functioning properly, such as by causing room or event tile crashes. The remainder of the application can appear functional, though certain rooms/events will not be rendered.\n\n### Patches\nThis is fixed in matrix-react-sdk 3.53.0\n\n### Workarounds\nThere are no workarounds. Please upgrade immediately.\n\n### References\nhttps://learn.snyk.io/lessons/prototype-pollution/javascript/\n\n### For more information\nIf you have any questions or comments about this advisory please email us at [security at matrix.org](mailto:security@matrix.org).\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "matrix-react-sdk"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.53.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/matrix-org/matrix-react-sdk/security/advisories/GHSA-2x9c-qwgf-94xr"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-36060"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/matrix-org/matrix-react-sdk"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/matrix-org/matrix-react-sdk/releases/tag/v3.53.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1321"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-28T19:57:57Z",
+    "nvd_published_at": "2023-03-28T21:15:00Z"
+  }
+}

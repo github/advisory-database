@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h6g5-wqqr-3mw3",
+  "modified": "2023-03-17T21:36:34Z",
+  "published": "2023-03-15T12:30:19Z",
+  "aliases": [
+    "CVE-2023-25695"
+  ],
+  "summary": "Sensitive Information in Error Messages in Apache Airflow",
+  "details": "Generation of Error Message Containing Sensitive Information vulnerability in Apache Software Foundation Apache Airflow.This issue affects Apache Airflow: before 2.5.2. The traceback contains information that might be useful for a potential attacker to better target their attack (Python/Airflow version, node name). This information should not be shown if traceback is shown to unauthenticated user.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "apache-airflow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.5.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-25695"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/airflow/pull/29501"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/airflow"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/z8w6ckzs61ql365tv4d19k82o67r15p2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-209"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-16T14:43:08Z",
+    "nvd_published_at": "2023-03-15T10:15:00Z"
+  }
+}

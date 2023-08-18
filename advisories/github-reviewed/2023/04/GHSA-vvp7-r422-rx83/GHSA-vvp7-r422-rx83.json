@@ -1,0 +1,112 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vvp7-r422-rx83",
+  "modified": "2023-04-16T07:18:33Z",
+  "published": "2023-04-12T20:40:00Z",
+  "aliases": [
+    "CVE-2023-29203"
+  ],
+  "summary": "Unauthenticated user can have information about hidden users on subwikis through uorgsuggest.vm ",
+  "details": "### Impact\n\nIt's possible to list some users who are normally not viewable from subwiki by requesting users on a subwiki which allows only global users with `uorgsuggest.vm`. This issue only concerns hidden users from main wiki.\nNote that the disclosed information are the username and the first and last name of users, no other information is leaked. \n\n### Patches\n\nThe problem has been patched on XWiki 13.10.8, 14.4.3 and 14.7RC1.\n\n### Workarounds\n\nIt's possible to workaround this vulnerability by patching directly `uorgsuggest.vm ` to apply the same changes as in https://github.com/xwiki/xwiki-platform/pull/1883.\n\n### References\n\n  * JIRA ticket: https://jira.xwiki.org/browse/XWIKI-20007\n  * this vulnerability is actually a remaining of https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-97jg-43c9-q6pf which wasn't entirely fixed back then\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n* Open an issue in [Jira](https://jira.xwiki.org)\n* Email us at [security ML](mailto:security@xwiki.org)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-web-templates"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "13.9-rc-1"
+            },
+            {
+              "fixed": "13.10.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-web-templates"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.0-rc-1"
+            },
+            {
+              "fixed": "14.4.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-web-templates"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.5"
+            },
+            {
+              "fixed": "14.7-rc-1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-97jg-43c9-q6pf"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-vvp7-r422-rx83"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-29203"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/pull/1883"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20007"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-359",
+      "CWE-668"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-12T20:40:00Z",
+    "nvd_published_at": "2023-04-15T16:15:00Z"
+  }
+}

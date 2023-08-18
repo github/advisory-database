@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f49c-87jh-g47q",
+  "modified": "2023-03-27T21:23:48Z",
+  "published": "2023-03-24T21:53:49Z",
+  "aliases": [
+    "CVE-2023-25801"
+  ],
+  "summary": "TensorFlow has double free in Fractional(Max/Avg)Pool",
+  "details": "### Impact\n`nn_ops.fractional_avg_pool_v2` and `nn_ops.fractional_max_pool_v2` require the first and fourth elements of their parameter `pooling_ratio` to be equal to 1.0, as pooling on batch and channel dimensions is not supported.\n\n```python\nimport tensorflow as tf\nimport os\nimport numpy as np\nfrom tensorflow.python.ops import nn_ops\ntry:\n  arg_0_tensor = tf.random.uniform([3, 30, 50, 3], dtype=tf.float64)\n  arg_0 = tf.identity(arg_0_tensor)\n  arg_1_0 = 2\n  arg_1_1 = 3\n  arg_1_2 = 1\n  arg_1_3 = 1\n  arg_1 = [arg_1_0,arg_1_1,arg_1_2,arg_1_3,]\n  arg_2 = True\n  arg_3 = True\n  seed = 341261001\n  out = nn_ops.fractional_avg_pool_v2(arg_0,arg_1,arg_2,arg_3,seed=seed,)\nexcept Exception as e:\n  print(\"Error:\"+str(e))\n```\n\n### Patches\nWe have patched the issue in GitHub commit [ee50d1e00f81f62a4517453f721c634bbb478307](https://github.com/tensorflow/tensorflow/commit/ee50d1e00f81f62a4517453f721c634bbb478307).\n\nThe fix will be included in TensorFlow 2.12. We will also cherrypick this commit on TensorFlow 2.11.1.\n\n\n### For more information\nPlease consult [our security guide](https://github.com/tensorflow/tensorflow/blob/master/SECURITY.md) for more information regarding the security model and how to contact us with issues and questions.\n\n### Attribution\nThis vulnerability was reported by [dmc1778](https://github.com/dmc1778), of [nimashiri2012@gmail.com](mailto:nimashiri2012@gmail.com).\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "tensorflow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.11.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "tensorflow-cpu"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.11.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "tensorflow-gpu"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.11.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/tensorflow/tensorflow/security/advisories/GHSA-f49c-87jh-g47q"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-25801"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tensorflow/tensorflow/commit/ee50d1e00f81f62a4517453f721c634bbb478307"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/tensorflow/tensorflow"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-415"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-24T21:53:49Z",
+    "nvd_published_at": "2023-03-25T00:15:00Z"
+  }
+}

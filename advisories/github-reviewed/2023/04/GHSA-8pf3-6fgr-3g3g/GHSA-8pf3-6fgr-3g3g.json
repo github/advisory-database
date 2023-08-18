@@ -1,0 +1,125 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8pf3-6fgr-3g3g",
+  "modified": "2023-04-18T22:29:53Z",
+  "published": "2023-04-18T22:29:53Z",
+  "aliases": [
+    "CVE-2023-30543"
+  ],
+  "summary": "`chainId` may be outdated if user changes chains as part of connection in @web3-react",
+  "details": "### Impact\n`chainId` may be outdated if the user changes chains as part of the connection flow. This means that the value of `chainId` returned by `useWeb3React()` may be incorrect. In an application, this means that any data derived from `chainId` could be incorrect.\n\nFor example, if a swapping application derives a wrapped token contract address from the `chainId` *and* a user has changed chains as part of their connection flow the application could cause the user to send funds to the incorrect address when wrapping. This is a common approach when using other foundational libraries like [`ethers`](https://github.com/ethers-io/ethers.js), and most users of v8 will want to upgrade past the affected versions.\n\n### Patches\nPatched in https://github.com/Uniswap/web3-react/pull/749.\nUsers of web3-react@8.0.x-beta.0 should upgrade to at least:\n - @web3-react/coinbase-wallet@^8.0.35-beta.0\n - @web3-react/eip1193@^8.0.27-beta.0\n - @web3-react/metamask@^8.0.30-beta.0\n - @web3-react/walletconnect@^8.0.37-beta.0\n\n### Workarounds\nN/A\n\n### References\nN/A\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:U/C:N/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@web3-react/coinbase-wallet"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.0.0"
+            },
+            {
+              "fixed": "8.0.35-beta.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@web3-react/eip1193"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.0.0"
+            },
+            {
+              "fixed": "8.0.27-beta"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "< 8.0.27-beta.0"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@web3-react/metamask"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.0.0"
+            },
+            {
+              "fixed": "8.0.30-beta.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@web3-react/walletconnect"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.0.0"
+            },
+            {
+              "fixed": "8.0.37-beta.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/Uniswap/web3-react/security/advisories/GHSA-8pf3-6fgr-3g3g"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-30543"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Uniswap/web3-react/pull/749"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Uniswap/web3-react"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-362"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-18T22:29:53Z",
+    "nvd_published_at": null
+  }
+}

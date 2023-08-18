@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-ffxj-547x-5j7c",
+  "modified": "2023-02-03T20:29:55Z",
+  "published": "2023-01-26T21:30:25Z",
+  "aliases": [
+    "CVE-2022-25882"
+  ],
+  "summary": "Directory Traversal in onnx",
+  "details": "Versions of the package onnx before 1.13.0 are vulnerable to Directory Traversal as the external_data field of the tensor proto can have a path to the file which is outside the model current directory or user-provided directory, for example \"../../../etc/passwd\"",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "onnx"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.13.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-25882"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/onnx/onnx/issues/3991"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/onnx/onnx/pull/4400"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/onnx/onnx/commit/f369b0e859024095d721f1d1612da5a8fa38988d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gist.github.com/jnovikov/02a9aff9bf2188033e77bd91ff062856"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/onnx/onnx"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/onnx/onnx/blob/96516aecd4c110b0ac57eba08ac236ebf7205728/onnx/checker.cc%23L129"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-PYTHON-ONNX-2395479"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-01-27T01:04:53Z",
+    "nvd_published_at": "2023-01-26T21:15:00Z"
+  }
+}

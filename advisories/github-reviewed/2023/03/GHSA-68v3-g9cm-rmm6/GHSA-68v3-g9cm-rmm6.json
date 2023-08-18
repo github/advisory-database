@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-68v3-g9cm-rmm6",
+  "modified": "2023-03-27T21:26:02Z",
+  "published": "2023-03-24T21:53:25Z",
+  "aliases": [
+    "CVE-2023-25658"
+  ],
+  "summary": "TensorFlow vulnerable to Out-of-Bounds Read in GRUBlockCellGrad",
+  "details": "### Impact\nOut of bounds read in GRUBlockCellGrad\n```python\nfunc = tf.raw_ops.GRUBlockCellGrad\n\npara = {'x': [[21.1, 156.2], [83.3, 115.4]], 'h_prev': array([[136.5],\n      [136.6]]), 'w_ru': array([[26.7,  0.8],\n      [47.9, 26.1],\n      [26.2, 26.3]]), 'w_c': array([[ 0.4],\n      [31.5],\n      [ 0.6]]), 'b_ru': array([0.1, 0.2 ], dtype=float32), 'b_c': 0x41414141, 'r': array([[0.3],\n      [0.4]], dtype=float32), 'u': array([[5.7],\n      [5.8]]), 'c': array([[52.9],\n      [53.1]]), 'd_h': array([[172.2],\n      [188.3 ]])}\n```\n\n### Patches\nWe have patched the issue in GitHub commit [ff459137c2716a2a60f7d441b855fcb466d778cb](https://github.com/tensorflow/tensorflow/commit/ff459137c2716a2a60f7d441b855fcb466d778cb).\n\nThe fix will be included in TensorFlow 2.12.0. We will also cherrypick this commit on TensorFlow 2.11.1\n\n\n### For more information\nPlease consult [our security guide](https://github.com/tensorflow/tensorflow/blob/master/SECURITY.md) for more information regarding the security model and how to contact us with issues and questions.\n\n\n### Attribution\nThis vulnerability has been reported by r3pwnx.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "tensorflow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.11.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "tensorflow-cpu"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.11.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "tensorflow-gpu"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.11.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/tensorflow/tensorflow/security/advisories/GHSA-68v3-g9cm-rmm6"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-25658"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tensorflow/tensorflow/commit/ff459137c2716a2a60f7d441b855fcb466d778cb"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/tensorflow/tensorflow"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-125"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-24T21:53:25Z",
+    "nvd_published_at": "2023-03-25T00:15:00Z"
+  }
+}

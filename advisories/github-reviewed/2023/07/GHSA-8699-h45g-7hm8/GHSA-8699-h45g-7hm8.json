@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8699-h45g-7hm8",
+  "modified": "2023-08-08T21:49:34Z",
+  "published": "2023-07-06T19:24:04Z",
+  "aliases": [
+    "CVE-2022-43695"
+  ],
+  "summary": "Concrete CMS Cross-site Scripting vulnerability",
+  "details": "Concrete CMS (formerly concrete5) below 8.5.10 and between 9.0.0 and 9.1.2 is vulnerable to Stored Cross-Site Scripting (XSS) in dashboard/system/express/entities/associations because Concrete CMS allows association with an entity name that doesn’t exist or, if it does exist, contains XSS since it was not properly sanitized. Remediate by updating to Concrete CMS 9.1.3+ or 8.5.10+.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "concrete5/concrete5"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "8.5.10"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "concrete5/concrete5"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.0.0"
+            },
+            {
+              "fixed": "9.1.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-43695"
+    },
+    {
+      "type": "WEB",
+      "url": "https://documentation.concretecms.org/developers/introduction/version-history/8510-release-notes"
+    },
+    {
+      "type": "WEB",
+      "url": "https://documentation.concretecms.org/developers/introduction/version-history/913-release-notes"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/concretecms"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/concretecms/concretecms/releases/8.5.10"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/concretecms/concretecms/releases/9.1.3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.concretecms.org/about/project-news/security/concrete-cms-security-advisory-2022-10-31"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-77",
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-06T21:34:29Z",
+    "nvd_published_at": "2022-11-14T23:15:00Z"
+  }
+}

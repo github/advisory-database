@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-m3jr-cvhj-f35j",
+  "modified": "2023-04-25T21:00:29Z",
+  "published": "2023-04-12T20:38:17Z",
+  "aliases": [
+    "CVE-2023-29201"
+  ],
+  "summary": "org.xwiki.commons:xwiki-commons-xml Cross-site Scripting vulnerability",
+  "details": "### Impact\nThe \"restricted\" mode of the HTML cleaner in XWiki, introduced in version 4.2-milestone-1, only escaped `<script>` and `<style>`-tags but neither attributes that can be used to inject scripts nor other dangerous HTML tags like `<iframe>`. As a consequence, any code relying on this \"restricted\" mode for security is vulnerable to JavaScript injection (\"cross-site scripting\"/XSS). An example are anonymous comments in XWiki where the HTML macro filters HTML using restricted mode:\n\n```javascript\n{{html}}\n<a href='' onclick='alert(1)'>XSS</a>\n{{/html}}\n```\n\nWhen a privileged user with programming rights visits such a comment in XWiki, the malicious JavaScript code is executed in the context of the user session. This allows server-side code execution with programming rights, impacting the confidentiality, integrity and availability of the XWiki instance.\n\n### Patches\nThis problem has been patched in XWiki 14.6 RC1 with the introduction of a filter with allowed HTML elements and attributes that is enabled in restricted mode.\n\n### Workarounds\nThere are no known workarounds apart from upgrading to a version including the fix.\n\n### References\n* https://github.com/xwiki/xwiki-commons/commit/b11eae9d82cb53f32962056b5faa73f3720c6182 - the patch with the filter\n* https://github.com/xwiki/xwiki-commons/commit/4a185e0594d90cd4916d60aa60bb4333dc5623b2 - the patch with the definitions what is allowed\n* https://jira.xwiki.org/browse/XWIKI-9118 - the security issue with the HTML macro\n* https://jira.xwiki.org/browse/XCOMMONS-1680 - the issue regarding a definition of what is allowed HTML\n* https://jira.xwiki.org/browse/XCOMMONS-2426 - the issue regarding the filter that fixes the security issue\n\n### For more information\nIf you have any questions or comments about this advisory:\n* Open an issue in [Jira XWiki](https://jira.xwiki.org/)\n* Email us at [XWiki Security mailing-list](mailto:security@xwiki.org)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.commons:xwiki-commons-xml"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.2-milestone-1"
+            },
+            {
+              "fixed": "14.6-rc-1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-commons/security/advisories/GHSA-m3jr-cvhj-f35j"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-29201"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-commons/commit/4a185e0594d90cd4916d60aa60bb4333dc5623b2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-commons/commit/b11eae9d82cb53f32962056b5faa73f3720c6182"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-commons"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XCOMMONS-1680"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XCOMMONS-2426"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-9118"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-12T20:38:17Z",
+    "nvd_published_at": "2023-04-15T15:15:00Z"
+  }
+}

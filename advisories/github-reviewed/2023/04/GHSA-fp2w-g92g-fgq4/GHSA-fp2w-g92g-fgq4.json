@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fp2w-g92g-fgq4",
+  "modified": "2023-04-21T20:26:07Z",
+  "published": "2023-04-18T03:30:42Z",
+  "aliases": [
+    "CVE-2023-2138"
+  ],
+  "summary": "@nuxtlabs/github-module made Use of Hard-coded Credentials",
+  "details": "https://nuxt.com had a hardcoded GitHub token in the source code of the page. This token had access to multiple repositories under `nuxt`, `nuxtlabs` and `nuxt-themes` GitHub organizations. A patch in version 1.6.2 fixed the issue.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@nuxtlabs/github-module"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.6.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-2138"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nuxtlabs/github-module/commit/5490c43f729eee60f07920bf88c0aabdc1398b6e"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/nuxtlabs/github-module"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nuxtlabs/github-module/releases/tag/v1.6.2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.dev/bounties/65096ef9-eafc-49da-b49a-5b88c0203ca6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-798"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-21T20:26:07Z",
+    "nvd_published_at": null
+  }
+}

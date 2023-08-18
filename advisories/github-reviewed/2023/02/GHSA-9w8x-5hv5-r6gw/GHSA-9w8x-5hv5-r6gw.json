@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9w8x-5hv5-r6gw",
+  "modified": "2023-04-04T21:45:28Z",
+  "published": "2023-02-15T06:30:26Z",
+  "aliases": [
+    "CVE-2022-25978"
+  ],
+  "summary": "Cross Site Scripting in usememos/memos",
+  "details": "All versions of the package github.com/usememos/memos/server prior to 0.11.0 are vulnerable to Cross-site Scripting (XSS) due to insufficient checks on external resources, which allows malicious actors to introduce links starting with a javascript: scheme.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/usememos/memos"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.11.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.10.3"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-25978"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/usememos/memos/issues/1026"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/usememos/memos/commit/b11d2130a084385eb65c3761a3c841ebe9f81ae8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/vuln/GO-2023-1566"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-GOLANG-GITHUBCOMUSEMEMOSMEMOSSERVER-3319070"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "github.com/usememos/memos"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-02-15T18:16:31Z",
+    "nvd_published_at": "2023-02-15T05:15:00Z"
+  }
+}

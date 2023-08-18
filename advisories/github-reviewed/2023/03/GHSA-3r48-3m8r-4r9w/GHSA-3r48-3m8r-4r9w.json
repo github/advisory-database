@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3r48-3m8r-4r9w",
+  "modified": "2023-04-04T17:38:51Z",
+  "published": "2023-03-28T15:30:18Z",
+  "aliases": [
+    "CVE-2023-28326"
+  ],
+  "summary": "Apache OpenMeetings missing authentication and can allow user impersonation ",
+  "details": "The Apache Software Foundation's OpenMeetings from 2.0.0 before 7.0.0 is missing authentication on meeting invitation URLs. An invitation URL contains a hash that automatically logs in as the invited user. An unauthorized user could obtain this URL and log in to the meeting as an invited user, in effect elevating their privileges in the meeting room. OpenMeetings 7.0.0 disables this option if a contact is not selected. ",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.openmeetings:openmeetings-parent"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "7.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-28326"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/openmeetings/commit/1fb71af36"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/openmeetings"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/r9vn12dp5yofn1h3wd5x4h7c3vmmr5d9"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-306"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-04T17:38:51Z",
+    "nvd_published_at": "2023-03-28T13:15:00Z"
+  }
+}

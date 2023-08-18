@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f4v8-58f6-mwj4",
+  "modified": "2023-04-18T14:09:30Z",
+  "published": "2023-04-12T20:36:42Z",
+  "aliases": [
+    "CVE-2023-29509"
+  ],
+  "summary": "org.xwiki.platform:xwiki-platform-flamingo-theme-ui Eval Injection vulnerability",
+  "details": "### Impact\nAny user with view rights on commonly accessible documents can execute arbitrary Groovy, Python or Velocity code in XWiki leading to full access to the XWiki installation. The root cause is improper escaping of the `documentTree` macro parameters in  This macro is installed by default in `FlamingoThemesCode.WebHome`. This page is installed by default.\n\nExample of reproduction:\nOpen `<xwiki_host>/xwiki/bin/view/%22%20%2F%7D%7D%20%7B%7Basync%20async%3D%22true%22%20cached%3D%22false%22%20context%3D%22doc.reference%22%7D%7D%7B%7Bgroovy%7D%7Dprintln(%22Hello%20%22%20%2B%20%22from%20groovy!%22)%7B%7B%2Fgroovy%7D%7D%7B%7B%2Fasync%7D%7D?sheet=FlamingoThemesCode.WebHome&xpage=view` where `<xwiki_host>` is the URL of your XWiki installation.\n\n> The [documentTree] macro is a standalone macro and it cannot be used inline. Click on this message for details.\n> Hello from groovy!.WebHome\" /}}\n\nis displayed. This shows that the Groovy macro that is passed in the URL has been executed and thus demonstrates a privilege escalation from view to programming rights.\n\n### Patches\nThe vulnerability has been patched in XWiki 13.10.11, 14.4.7 and 14.10.\n\n### Workarounds\nThe issue can be fixed by replacing the code of `FlamingoThemesCode.WebHome` by the [patched version](https://github.com/xwiki/xwiki-platform/commit/80d5be36f700adcd56b6c8eb3ed8b973f62ec0ae).\n\n### References\n- https://jira.xwiki.org/browse/XWIKI-20279\n- https://github.com/xwiki/xwiki-platform/commit/80d5be36f700adcd56b6c8eb3ed8b973f62ec0ae\n\n### For more information\nIf you have any questions or comments about this advisory:\n* Open an issue in [Jira XWiki.org](https://jira.xwiki.org/)\n* Email us at [Security Mailing List](mailto:security@xwiki.org)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-flamingo-theme-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.2-rc-1"
+            },
+            {
+              "fixed": "13.10.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-flamingo-theme-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.0-rc-1"
+            },
+            {
+              "fixed": "14.4.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-flamingo-theme-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.5"
+            },
+            {
+              "fixed": "14.10"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-f4v8-58f6-mwj4"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-29509"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/80d5be36f700adcd56b6c8eb3ed8b973f62ec0ae"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20279"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94",
+      "CWE-95"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-04-12T20:36:42Z",
+    "nvd_published_at": "2023-04-16T08:15:00Z"
+  }
+}

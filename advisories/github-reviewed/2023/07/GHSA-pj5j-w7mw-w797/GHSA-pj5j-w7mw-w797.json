@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-pj5j-w7mw-w797",
+  "modified": "2023-07-06T22:04:38Z",
+  "published": "2023-07-06T19:24:13Z",
+  "aliases": [
+    "CVE-2023-27603"
+  ],
+  "summary": "Apache Linkis Zip Slip issue",
+  "details": "In Apache Linkis <=1.3.1, due to the Manager module engineConn material upload does not check the zip path, This is a Zip Slip issue, which will lead to a potential RCE vulnerability.\n\n\nWe recommend users upgrade the version of Linkis to version 1.3.2.\n\n\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.linkis:linkis"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.3.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-27603"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/linkis"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/6n1vlvnyn441rm02zdqc0wnpckj8ltn8"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-434"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-06T22:04:38Z",
+    "nvd_published_at": "2023-04-10T08:15:00Z"
+  }
+}
