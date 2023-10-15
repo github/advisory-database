@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xp5h-f8jf-rc8q",
+  "modified": "2023-06-09T22:41:16Z",
+  "published": "2023-06-09T22:41:16Z",
+  "aliases": [
+    "CVE-2023-23913"
+  ],
+  "summary": "rails-ujs vulnerable to DOM Based Cross-site Scripting contenteditable HTML Elements",
+  "details": "NOTE: rails-ujs is part of Rails/actionview since 5.1.0.\n\nThere is a potential DOM based cross-site scripting issue in rails-ujs\nwhich leverages the Clipboard API to target HTML elements that are\nassigned the contenteditable attribute. This has the potential to\noccur when pasting malicious HTML content from the clipboard that\nincludes a data-method, data-remote or data-disable-with attribute.\n\nThis vulnerability has been assigned the CVE identifier CVE-2023-23913.\n\nNot affected: < 5.1.0\nVersions Affected: >= 5.1.0\nFixed Versions: 6.1.7.3, 7.0.4.3\n\nImpact\n  If the specified malicious HTML clipboard content is provided to a\n  contenteditable element, this could result in the arbitrary execution\n  of javascript on the origin in question.\n\nReleases\n  The FIXED releases are available at the normal locations.\n\nWorkarounds\n  We recommend that all users upgrade to one of the FIXED versions.\n  In the meantime, users can attempt to mitigate this vulnerability\n  by removing the contenteditable attribute from elements in pages\n  that rails-ujs will interact with.\n\nPatches\n  To aid users who aren’t able to upgrade immediately we have provided\n  patches for the two supported release series. They are in git-am\n  format and consist of a single changeset.\n\n* rails-ujs-data-method-contenteditable-6-1.patch - Patch for 6.1 series\n* rails-ujs-data-method-contenteditable-7-0.patch - Patch for 7.0 series\n\nPlease note that only the 7.0.Z and 6.1.Z series are\nsupported at present, and 6.0.Z for severe vulnerabilities.\n\nUsers of earlier unsupported releases are advised to upgrade as\nsoon as possible as we cannot guarantee the continued availability\nof security fixes for unsupported releases.\n\nCredits\n  We would like to thank ryotak 15 for reporting this!\n\n* rails-ujs-data-method-contenteditable-6-1.patch (8.5 KB)\n* rails-ujs-data-method-contenteditable-7-0.patch (8.5 KB)\n* rails-ujs-data-method-contenteditable-main.patch (8.9 KB)\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "actionview"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.1.0"
+            },
+            {
+              "fixed": "6.1.7.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "actionview"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.0.0"
+            },
+            {
+              "fixed": "7.0.4.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/rails/rails/commit/5037a13614d71727af8a175063bcf6ba1a74bdbd"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rails/rails/commit/73009ea59a811b28e8ec2a9c9bc24635aa891214"
+    },
+    {
+      "type": "WEB",
+      "url": "https://discuss.rubyonrails.org/t/cve-2023-23913-dom-based-cross-site-scripting-in-rails-ujs-for-contenteditable-html-elements/82468"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/rails/rails"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/actionview/CVE-2023-23913.yml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-09T22:41:16Z",
+    "nvd_published_at": null
+  }
+}

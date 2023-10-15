@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jjhj-8gx7-x836",
+  "modified": "2023-06-30T19:32:15Z",
+  "published": "2022-05-13T01:49:24Z",
+  "aliases": [
+    "CVE-2018-12028"
+  ],
+  "summary": "Incorrect Access Control in Phusion Passenger",
+  "details": "An Incorrect Access Control vulnerability in SpawningKit in Phusion Passenger 5.3.x before 5.3.2 allows a Passenger-managed malicious application, upon spawning a child process, to report an arbitrary different PID back to Passenger's process manager. If the malicious application then generates an error, it would cause Passenger's process manager to kill said reported arbitrary PID.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "passenger"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.3.0"
+            },
+            {
+              "fixed": "5.3.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-12028"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/phusion/passenger/commit/1e7c82deb4901c438f583737d8c9f2aac264737c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://blog.phusion.nl/passenger-5-3-2"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/phusion/passenger"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/passenger/CVE-2018-12028.yml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.gentoo.org/glsa/201807-02"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-732"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-09T22:58:30Z",
+    "nvd_published_at": "2018-06-17T20:29:00Z"
+  }
+}

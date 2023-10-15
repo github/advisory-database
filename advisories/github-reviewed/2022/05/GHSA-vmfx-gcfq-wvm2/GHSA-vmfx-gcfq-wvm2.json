@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vmfx-gcfq-wvm2",
+  "modified": "2023-07-10T13:05:32Z",
+  "published": "2022-05-24T17:03:17Z",
+  "aliases": [
+    "CVE-2019-5815"
+  ],
+  "summary": "Nokogiri implementation of libxslt vulnerable to heap corruption",
+  "details": "Type confusion in `xsltNumberFormatGetMultipleLevel` prior to libxslt 1.1.33 could allow attackers to potentially exploit heap corruption via crafted XML data.\n\nNokogiri prior to version 1.10.5 contains a vulnerable version of libxslt. Nokogiri version 1.10.5 upgrades the dependency to libxslt 1.1.34, which contains a patch for this issue.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "nokogiri"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.10.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-5815"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sparklemotion/nokogiri/issues/2630"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/nokogiri/CVE-2019-5815.yml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/sparklemotion/nokogiri"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gitlab.gnome.org/GNOME/libxslt/commit/08b62c25871b38d5d573515ca8a065b4b8f64f6b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.debian.org/debian-lts-announce/2022/09/msg00010.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-787",
+      "CWE-843"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-07T21:30:28Z",
+    "nvd_published_at": "2019-12-11T01:15:00Z"
+  }
+}

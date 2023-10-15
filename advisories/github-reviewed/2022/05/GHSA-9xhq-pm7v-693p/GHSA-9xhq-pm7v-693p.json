@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9xhq-pm7v-693p",
+  "modified": "2023-07-31T21:54:58Z",
+  "published": "2022-05-17T02:36:42Z",
+  "aliases": [
+    "CVE-2016-9847"
+  ],
+  "summary": "phpMyAdmin Cryptographic Vulnerability",
+  "details": "An issue was discovered in phpMyAdmin. When the user does not specify a blowfish_secret key for encrypting cookies, phpMyAdmin generates one at runtime. A vulnerability was reported where the way this value is created uses a weak algorithm. This could allow an attacker to determine the user's blowfish_secret and potentially decrypt their cookies. All 4.6.x versions (prior to 4.6.5), 4.4.x versions (prior to 4.4.15.9), and 4.0.x versions (prior to 4.0.10.18) are affected.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "phpmyadmin/phpmyadmin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.6"
+            },
+            {
+              "fixed": "4.6.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "phpmyadmin/phpmyadmin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.4"
+            },
+            {
+              "fixed": "4.4.15.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "phpmyadmin/phpmyadmin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0"
+            },
+            {
+              "fixed": "4.0.10.18"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2016-9847"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.gentoo.org/glsa/201701-32"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20210123194700/http://www.securityfocus.com/bid/94524"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.phpmyadmin.net/security/PMASA-2016-58"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-31T21:54:58Z",
+    "nvd_published_at": "2016-12-11T02:59:00Z"
+  }
+}

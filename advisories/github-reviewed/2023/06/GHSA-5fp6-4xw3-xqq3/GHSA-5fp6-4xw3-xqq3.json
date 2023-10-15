@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5fp6-4xw3-xqq3",
+  "modified": "2023-06-23T13:56:28Z",
+  "published": "2023-06-12T18:37:31Z",
+  "aliases": [
+
+  ],
+  "summary": "@keystone-6/core's bundled cuid package known to be insecure",
+  "details": "### Summary\nThe `cuid` package used by `@keystone-6/*` and upstream dependencies is deprecated and [marked as insecure by the author](https://github.com/paralleldrive/cuid#status-deprecated-due-to-security-use-cuid2-instead).\n\nAs reported by the author\n> Cuid and other k-sortable and non-cryptographic ids (Ulid, ObjectId, KSUID, all UUIDs) are all insecure. Use @paralleldrive/cuid2 instead.\n\n### What are doing about this?\n- [We are waiting on Prisma](https://github.com/keystonejs/keystone/issues/8282) to add support for [`cuid2`](https://github.com/paralleldrive/cuid2)\n- Alternatively, we might default to a random string ourselves\n\n### What can I do about this?\nWe have added a work-around for users who want to provide custom identifiers in https://github.com/keystonejs/keystone/pull/8645\n\n### What if I need a `cuid`?\nThe features marked as a security vulnerability by @paralleldrive are sometimes actually needed ([as written in the README of `cuid`](https://github.com/paralleldrive/cuid#motivation)) - the problem is the inherent risks that features like this can have.\n\nYou might actually want the features of a monotonically increasing (auto-increment, k-sortable), and timestamp-based id as part of your application, and keystone should support that - but you might not want them by _default_.\nThis is why this security advisory has been accepted by me (@dcousens), we currently use cuid identifiers by default, and that should change.\n\n### Impact\nI have accepted this security advisory on the basis that we don't need this kind of identifier typically, and the need for them should be driven by an application's requirements, not a convenient default.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@keystone-6/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "5.3.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/keystonejs/keystone/security/advisories/GHSA-5fp6-4xw3-xqq3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/keystonejs/keystone/issues/8282#issuecomment-1586019823"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/keystonejs/keystone"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/paralleldrive/cuid#status-deprecated-due-to-security-use-cuid2-instead"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-12T18:37:31Z",
+    "nvd_published_at": null
+  }
+}

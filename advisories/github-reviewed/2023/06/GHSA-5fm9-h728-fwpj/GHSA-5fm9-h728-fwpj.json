@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5fm9-h728-fwpj",
+  "modified": "2023-06-06T02:06:23Z",
+  "published": "2023-06-06T02:06:23Z",
+  "aliases": [
+
+  ],
+  "summary": "trust-dns vulnerable to Remote Attackers causing Denial-of-Service (packet loops) with crafted DNS packets",
+  "details": "trust-dns and trust-dns-server are vulnerable to remotely triggered denial-of-service attacks, consuming both network and CPU resources.\nDNS messages with the QR=1 bit set are responded to with a `FormErr` response.\nThis allows creating a traffic loop, in which these `FormErr` responses are sent nonstop between vulnerable servers.\n\nThere are two scenarios how this can be exploited: 1) Create a loop between two instances of trust-dns, consuming network resources, or 2) consuming the CPU of a single instance.\n\nWith two instances *A* and *B* an attacker sends a DNS query with a spoofed source IP address to *A*.\n*A* replies with a `FormErr` to *B*.\nNow both servers with ping-pong the message back and forth until by chance the packet is dropped in the network.\nMultiple spoofed packets can be sent by the attacker, increasing resource consumption.\n\nA single server can get locked up replying to itself.\nSame setup as above, but now *A* sends the reply to itself.\nThe packet is sent out as fast as the CPU and network stack manage.\nThis locks up a CPU core.\nMultiple packets from the attacker consume multiple CPU cores.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "trust-dns-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.22.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "trust-dns-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.23.0-alpha.2"
+            },
+            {
+              "fixed": "0.23.0-alpha.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/bluejekyll/trust-dns/pull/1952"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/bluejekyll/trust-dns"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2023-0041.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-06T02:06:23Z",
+    "nvd_published_at": null
+  }
+}

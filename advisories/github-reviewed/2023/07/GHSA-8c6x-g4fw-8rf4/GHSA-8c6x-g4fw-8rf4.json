@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8c6x-g4fw-8rf4",
+  "modified": "2023-07-10T21:54:36Z",
+  "published": "2023-07-10T21:54:36Z",
+  "aliases": [
+
+  ],
+  "summary": "Whatsapp-Chat-Exporter has Cross-Site Scripting vulnerability in HTML output of chats.",
+  "details": "### Impact\nA Cross-Site Scripting (XSS) vulnerability was found in the HTML output of chats. XSS is intended to be mitigated by Jinja's escape function. However, `autoescape=True` was missing when setting the environment. Although the actual impact is low, considering the HTML file is being viewed offline, an adversary may still be able to inject malicious payloads into the chat through WhatsApp. All users are affected.\n\n### Patches\nThe vulnerability is patched in 0.9.5. All users are strongly advised to update the exporter to the latest version.\n\n### Workarounds\nNo workaround is available. Please update the exporter to the latest version.\n\n### References\nhttps://github.com/KnugiHK/WhatsApp-Chat-Exporter/commit/bfdc68cd6ad53ceecf132773f9aaba50dd80fe79\nhttps://owasp.org/www-community/attacks/xss/",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "Whatsapp-Chat-Exporter"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.9.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/KnugiHK/WhatsApp-Chat-Exporter/security/advisories/GHSA-8c6x-g4fw-8rf4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/KnugiHK/WhatsApp-Chat-Exporter/commit/bfdc68cd6ad53ceecf132773f9aaba50dd80fe79"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/KnugiHK/WhatsApp-Chat-Exporter"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-10T21:54:36Z",
+    "nvd_published_at": null
+  }
+}

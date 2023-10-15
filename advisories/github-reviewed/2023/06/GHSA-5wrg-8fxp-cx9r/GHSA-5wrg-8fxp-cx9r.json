@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5wrg-8fxp-cx9r",
+  "modified": "2023-06-21T22:06:22Z",
+  "published": "2023-06-21T22:06:22Z",
+  "aliases": [
+
+  ],
+  "summary": "passport-wsfed-saml2 Signature Bypass vulnerability",
+  "details": "## Information\nPlease note that this is not a new disclosure, and is previously reported in our [SECURITY-NOTICE.md](https://github.com/auth0/passport-wsfed-saml2/commit/520b9fc0bb4249ce83bec47e30153419f086ab70\n) which we removed in favor of github advisory. \n\n# Overview\n\nA vulnerability was found in the validation of a SAML signature. The validation doesn't ensure that the \"Signature\" tag is at the proper location inside an \"Assertion\" tag. This leads to a signature relocation attack where the attacker can corrupt one field of data while maintaining the signature valid. This could allow an authenticated attacker to \"remove\" one group from the assertion or corrupt another field of an assertion.\n\n# Am I affected?\n\nYou are affected if you are using the passport-wsfed-saml2 library to version < 3.0.10\n\n# How do I fix it?\n\nYou may fix this issue by upgrading passport-wsfed-saml2 library to version 3.0.10 or above. \n\n# Will the fix impact my users?\n\nThis fix patches the library that your application runs, but will not impact your users, their current state, or any existing sessions.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "passport-wsfed-saml2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.0.10"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/auth0/passport-wsfed-saml2/security/advisories/GHSA-5wrg-8fxp-cx9r"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/auth0/passport-wsfed-saml2/pull/79"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/auth0/passport-wsfed-saml2/commit/f75211d42d2586a0d24a9da29ba8590e42363500"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/auth0/passport-wsfed-saml2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-21T22:06:22Z",
+    "nvd_published_at": null
+  }
+}

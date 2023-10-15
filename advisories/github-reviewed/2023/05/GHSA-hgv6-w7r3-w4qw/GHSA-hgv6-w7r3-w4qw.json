@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hgv6-w7r3-w4qw",
+  "modified": "2023-05-30T20:07:06Z",
+  "published": "2023-05-30T20:07:06Z",
+  "aliases": [
+
+  ],
+  "summary": "Kyverno vulnerable due to usage of insecure cipher",
+  "details": "### Summary\nInsecure 3DES ciphers are used which may lead to exploitation of the [Sweet32 vulnerability](https://sweet32.info/). Specifically, the ciphers TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA (secp256r1) and TLS_RSA_WITH_3DES_EDE_CBC_SHA (rsa 2048) are allowed. See CVE-2016-2183. This is fixed in Kyverno v1.9.5 and v1.10.0 and no known users have been affected.\n\n### Details\n\nThe ciphers in affected versions can be read using the following command which uses `nmap`:\n\n```sh\n$ kubectl exec -it mypod -n kyverno sh \nkubectl exec [POD] [COMMAND] is DEPRECATED and will be removed in a future version. Use kubectl exec [POD] -- [COMMAND] instead.\n**nmap -sV --script ssl-enum-ciphers -p 443 kyverno-cleanup-controller** or  \n**nmap -sV --script ssl-enum-ciphers -p 443 kyverno-svc**\nStarting Nmap 7.92 ( https://nmap.org ) at 2023-05-26 10:55 UTC\nNmap scan report for kyverno-cleanup-controller (10.103.199.233)\nHost is up (0.000058s latency).\nrDNS record for 10.103.199.233: kyverno-cleanup-controller.kyverno.svc.cluster.local\n\nPORT    STATE SERVICE  VERSION\n443/tcp open  ssl/http Golang net/http server (Go-IPFS json-rpc or InfluxDB API)\n| ssl-enum-ciphers: \n|   TLSv1.2: \n|     ciphers: \n**|       TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA (secp256r1) - C**\n|       TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA (secp256r1) - A\n|       TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (secp256r1) - A\n|       TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA (secp256r1) - A\n|       TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (secp256r1) - A\n|       TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256 (secp256r1) - A\n**|       TLS_RSA_WITH_3DES_EDE_CBC_SHA (rsa 2048) - C**\n|       TLS_RSA_WITH_AES_128_CBC_SHA (rsa 2048) - A\n|       TLS_RSA_WITH_AES_128_GCM_SHA256 (rsa 2048) - A\n|       TLS_RSA_WITH_AES_256_CBC_SHA (rsa 2048) - A\n|       TLS_RSA_WITH_AES_256_GCM_SHA384 (rsa 2048) - A\n|     compressors: \n|       NULL\n|     cipher preference: client\n|     warnings: \n|       64-bit block cipher 3DES vulnerable to SWEET32 attack\n|   TLSv1.3: \n|     ciphers: \n|       TLS_AKE_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A\n|       TLS_AKE_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A\n|       TLS_AKE_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A\n|     cipher preference: server\n|_  least strength: C\n\nService detection performed. Please report any incorrect results at https://nmap.org/submit/ .\nNmap done: 1 IP address (1 host up) scanned in 12.72 seconds\n```",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/kyverno/kyverno"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.9.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/kyverno/kyverno/security/advisories/GHSA-hgv6-w7r3-w4qw"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kyverno/kyverno/pull/7308"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/kyverno/kyverno"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kyverno/kyverno/releases/tag/v1.9.5"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-30T20:07:06Z",
+    "nvd_published_at": null
+  }
+}
