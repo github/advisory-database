@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-99jc-v8pq-6qm4",
+  "modified": "2023-10-25T21:26:07Z",
+  "published": "2022-05-13T01:15:07Z",
+  "aliases": [
+    "CVE-2019-1003038"
+  ],
+  "summary": "Jenkins Repository Connector Plugin has insufficiently protected credentials",
+  "details": "Jenkins Repository Connector Plugin stored the username and password in its configuration unencrypted in its global configuration file on the Jenkins controller. This password could be viewed by users with access to the Jenkins controller file system.\n\nThe plugin now stores the password encrypted in the configuration files on disk and no longer transfers it to users viewing the configuration form in plain text.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:repository-connector"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.2.5"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.2.4"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-1003038"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2019-03-06/#SECURITY-958"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20200227084009/http://www.securityfocus.com/bid/107476"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-522"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-25T21:26:07Z",
+    "nvd_published_at": "2019-03-08T21:29:00Z"
+  }
+}
