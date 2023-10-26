@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7mfp-938r-fcfj",
+  "modified": "2023-10-26T14:21:32Z",
+  "published": "2022-05-13T01:17:42Z",
+  "aliases": [
+    "CVE-2019-1003074"
+  ],
+  "summary": "Jenkins hyper.sh Commons Plugin stores credentials in plain text",
+  "details": "Jenkins Hyper.sh Commons Plugin stores credentials unencrypted in its global configuration file `sh.hyper.plugins.hypercommons.Tools.xml` on the Jenkins controller. These credentials can be viewed by users with access to the Jenkins controller file system.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "sh.hyper.plugins:hyper-commons"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.1.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-1003074"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2019-04-03/#SECURITY-964"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20200227082017/http://www.securityfocus.com/bid/107790"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2019/04/12/2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-311"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-26T14:21:32Z",
+    "nvd_published_at": "2019-04-04T16:29:00Z"
+  }
+}
