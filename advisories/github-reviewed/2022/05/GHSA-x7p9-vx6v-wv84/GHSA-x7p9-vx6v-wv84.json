@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-x7p9-vx6v-wv84",
+  "modified": "2023-10-26T22:51:26Z",
+  "published": "2022-05-24T16:52:46Z",
+  "aliases": [
+    "CVE-2019-10380"
+  ],
+  "summary": "Jenkins Simple Travis Pipeline Runner Plugin script sandbox bypass vulnerability",
+  "details": "Jenkins Simple Travis Pipeline Runner Plugin defines a custom list of pre-approved signatures for scripts protected by the Script Security sandbox.\n\nThis custom list of pre-approved signatures allows the use of methods that can be used to bypass Script Security sandbox protection. This results in arbitrary code execution on any Jenkins instance with this plugin installed.\n\nAs of publication of this advisory, there is no fix.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:simple-travis-runner"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-10380"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2019-08-07/#SECURITY-922"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2019/08/07/1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-26T22:51:26Z",
+    "nvd_published_at": "2019-08-07T15:15:00Z"
+  }
+}
