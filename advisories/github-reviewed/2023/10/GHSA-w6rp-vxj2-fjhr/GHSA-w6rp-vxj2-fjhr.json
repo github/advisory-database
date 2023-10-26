@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w6rp-vxj2-fjhr",
+  "modified": "2023-10-26T23:10:19Z",
+  "published": "2023-10-26T23:10:19Z",
+  "aliases": [
+
+  ],
+  "summary": "Cosmos packet-forward-middleware vulnerable to chain-halt",
+  "details": "The Cosmos SDK is used for Inter-Blockchain Communication Protocol (IBC) applications and middleware. The [packet-forward-middleware](https://github.com/cosmos/ibc-apps/tree/main/middleware/packet-forward-middleware) module is an IBC middleware module built for Cosmos blockchains utilizing the IBC protocol allowing routing of incoming IBC packets from a source chain to a destination chain. The `packet-forward-middleware` module is vulnerable to potential chain-halt due to error non-determinism.\n\n### Patches\nPlease patch at your earliest convenience by applying one of the following patch versions, respective to the chain's ibc-go major version:\nv4.1.1\nv5.2.1\nv6.1.1",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cosmos/ibc-apps/middleware/packet-forward-middleware/v4"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.1.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cosmos/ibc-apps/middleware/packet-forward-middleware/v5"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.2.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cosmos/ibc-apps/middleware/packet-forward-middleware/v6"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.1.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/cosmos/ibc-apps/security/advisories/GHSA-w6rp-vxj2-fjhr"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cosmos/ibc-apps"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-26T23:10:19Z",
+    "nvd_published_at": null
+  }
+}
