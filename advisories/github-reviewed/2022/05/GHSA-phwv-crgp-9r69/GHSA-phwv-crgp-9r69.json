@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-phwv-crgp-9r69",
+  "modified": "2023-10-26T21:51:58Z",
+  "published": "2022-05-24T16:44:55Z",
+  "aliases": [
+    "CVE-2019-10315"
+  ],
+  "summary": "Jenkins GitHub Authentication Plugin Cross-Site Request Forgery vulnerability",
+  "details": "Jenkins GitHub Authentication Plugin did not manage the state parameter of OAuth to prevent CSRF. This allowed an attacker to catch the redirect URL provided during the authentication process using OAuth and send it to the victim. If the victim was already connected to Jenkins, their Jenkins account would be attached to the attacker’s GitHub account.\n\nThe state parameter is now correctly managed.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:github-oauth"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.32"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.31"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-10315"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2019-04-30/#SECURITY-443"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20200227073756/http://www.securityfocus.com/bid/108159"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2019/04/30/5"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-26T21:51:58Z",
+    "nvd_published_at": "2019-04-30T13:29:00Z"
+  }
+}
