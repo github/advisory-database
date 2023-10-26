@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cjr8-5rw4-wh65",
+  "modified": "2023-10-26T23:01:32Z",
+  "published": "2022-05-24T16:55:01Z",
+  "aliases": [
+    "CVE-2019-10390"
+  ],
+  "summary": "Jenkins Splunk Plugin Sandbox Bypass",
+  "details": "Jenkins Splunk Plugin has a form validation HTTP endpoint used to validate a user-submitted Groovy script through compilation, which was not subject to sandbox protection. This allowed attackers with Overall/Read access to execute arbitrary code on the Jenkins controller by applying AST transforming annotations such as `@Grab` to source code elements.\n\nThe affected HTTP endpoint now applies a safe Groovy compiler configuration preventing the use of unsafe AST transforming annotations.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.splunk.splunkins:splunk-devops"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.8.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-10390"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jenkinsci/splunk-devops-plugin/commit/58db2878a7faa4c34f73774f28740e5ac8041928"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2019-08-28/#SECURITY-1294"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2019/08/28/4"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-26T23:01:32Z",
+    "nvd_published_at": "2019-08-28T16:15:00Z"
+  }
+}
