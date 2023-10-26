@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4c2w-wcw4-8jv9",
+  "modified": "2023-10-26T23:09:04Z",
+  "published": "2022-05-24T16:58:50Z",
+  "aliases": [
+    "CVE-2019-10454"
+  ],
+  "summary": "Jenkins Rundeck Plugin CSRF vulnerability",
+  "details": "Jenkins Rundeck Plugin does not perform permission checks on a method implementing form validation. This allows users with Overall/Read access to Jenkins to initiate a connection test to an attacker-specified server with attacker-specified username and password.\n\nAdditionally, the form validation method does not require POST requests, resulting in a CSRF vulnerability.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:rundeck"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.6.6"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.6.5"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-10454"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jenkinsci/rundeck-plugin/commit/68177fc53f40d038233c9d54f3d59fdee9d6ced0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2019-10-16/#SECURITY-1460"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-26T23:09:04Z",
+    "nvd_published_at": "2019-10-16T14:15:00Z"
+  }
+}
