@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-89vj-rqv8-7737",
+  "modified": "2023-10-27T15:48:38Z",
+  "published": "2022-05-24T16:59:37Z",
+  "aliases": [
+    "CVE-2019-10465"
+  ],
+  "summary": "Jenkins Deploy WebLogic Plugin missing permission check",
+  "details": "JenkinsDeploy WebLogic Plugin does not perform permission checks on a method implementing form validation. This allows users with Overall/Read access to Jenkins to send an HTTP HEAD request to a user-specified URL, or confirm the existence of any file or directory on the Jenkins controller.\n\nAdditionally, the form validation method does not require POST requests, resulting in a CSRF vulnerability.\n\nAs of publication of this advisory, there is no fix.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:weblogic-deployer-plugin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "4.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-10465"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2019-10-23/#SECURITY-820"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2019/10/23/2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-276"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-27T15:48:38Z",
+    "nvd_published_at": "2019-10-23T13:15:00Z"
+  }
+}
