@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-793w-q2h5-8h5j",
+  "modified": "2023-10-27T17:39:59Z",
+  "published": "2022-05-24T17:01:41Z",
+  "aliases": [
+    "CVE-2019-16545"
+  ],
+  "summary": "Jenkins QMetry for JIRA Plugin shows plain text password in configuration form",
+  "details": "Jenkins QMetry for JIRA - Test Management Plugin stores a credential as part of its post-build step configuration.\n\nWhile the password is stored encrypted on disk since QMetry for JIRA - Test Management Plugin 1.13, it is transmitted in plain text as part of the configuration form. This can result in exposure of the password through browser extensions, cross-site scripting vulnerabilities, and similar situations.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:qmetry-for-jira-test-management"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.14.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.13"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-16545"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jenkinsci/qmetry-for-jira-test-management-plugin/commit/6711f566b72c099f10b1cecab406786ca998651d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2019-11-21/#SECURITY-727%20(2)"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2019/11/21/1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-319"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-27T17:39:59Z",
+    "nvd_published_at": "2019-11-21T15:15:00Z"
+  }
+}
