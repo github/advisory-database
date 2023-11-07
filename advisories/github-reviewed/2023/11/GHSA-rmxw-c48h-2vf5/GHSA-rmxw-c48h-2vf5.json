@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rmxw-c48h-2vf5",
+  "modified": "2023-11-07T23:03:57Z",
+  "published": "2023-11-07T23:03:57Z",
+  "aliases": [
+    "CVE-2023-46244"
+  ],
+  "summary": "XWiki Platform privilege escalation from script right to programming right through title displayer",
+  "details": "### Impact\n\nIn XWiki Platform, it's possible for a user to write a script in which any velocity content is executed with the right of any other document content author.\n\nTo reproduce:\n\nAs a user with script but not programming right, create a document with the following content:\n\n```\n{{velocity}}\n#set($main = $xwiki.getDocument('AppWithinMinutes.DynamicMessageTool'))\n$main.setTitle('$doc.getDocument().getContentAuthor()')\n$main.getPlainTitle()\n{{/velocity}}\n```\n\nSince this API require programming right and the user does not have it, the expected result is `$doc.document.authors.contentAuthor` (not executed script), unfortunately with the security vulnerability we get `XWiki.superadmin` which shows that the title was executed with the right of the unmodified document.\n\n### Patches\n\nThis has been patched in XWiki 14.10.7 and 15.2-RC-1.\n\n### Workarounds\n\nThere are no known workarounds for it.\n\n### References\n\n* https://jira.xwiki.org/browse/XWIKI-20624\n* https://github.com/xwiki/xwiki-platform/commit/11a9170dfe63e59f4066db67f84dbfce4ed619c6\n* https://jira.xwiki.org/browse/XWIKI-20625\n* https://github.com/xwiki/xwiki-platform/commit/41d7dca2d30084966ca6a7ee537f39ee8354a7e3\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n* Open an issue in [Jira XWiki.org](https://jira.xwiki.org/)\n* Email us at [Security Mailing List](mailto:security@xwiki.org)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-display-api"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.2-milestone-3"
+            },
+            {
+              "fixed": "14.10.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-display-api"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "15.0"
+            },
+            {
+              "fixed": "15.2-rc-1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-rmxw-c48h-2vf5"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-46244"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/11a9170dfe63e59f4066db67f84dbfce4ed619c6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/41d7dca2d30084966ca6a7ee537f39ee8354a7e3"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20624"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20625"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-863"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-07T23:03:57Z",
+    "nvd_published_at": "2023-11-07T19:15:10Z"
+  }
+}
