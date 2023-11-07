@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6758-979h-249x",
+  "modified": "2023-11-07T21:46:04Z",
+  "published": "2023-11-07T21:46:04Z",
+  "aliases": [
+    "CVE-2023-46254"
+  ],
+  "summary": "capsule-proxy service discloses Namespaces of colliding tenants to owners of different tenants with the same ServiceAccount name",
+  "details": "### Summary\n\nA bug in the RoleBinding reflector used by `capsule-proxy` gives ServiceAccount tenant owners the right to list Namespaces of other tenants backed by the same owner kind and name.\n\n### Details\n\n- Tenant `solar`, owned by a ServiceAccount named `tenant-owner` in the Namespace `solar`\n- Tenant `wind`, owned by a ServiceAccount named `tenant-owner` in the Namespace `wind`\n\n> Please, notice the same ServiceAccount name, although in different namespaces.\n\nThe Tenant owner `solar` would be able to list the namespaces of the Tenant `wind` and vice-versa, although this is not correct.\n\nThe bug introduces an exfiltration vulnerability since allows the listing of Namespace resources of other Tenants, although just in some specific conditions:\n\n1. `capsule-proxy` runs with the `--disable-caching=false` (default value: `false`)\n2. Tenant owners are ServiceAccount, with the same resource name, but in different Namespaces.\n\nThe CVE doesn't allow any privilege escalation on the outer tenant Namespace-scoped resources, since the Kubernetes RBAC is enforcing this.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/projectcapsule/capsule"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.4.5"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.4.4"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/projectcapsule/capsule-proxy"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.4.5"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.4.4"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/projectcapsule/capsule-proxy/security/advisories/GHSA-6758-979h-249x"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-46254"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/projectcapsule/capsule-proxy/commit/615202f7b02eaec7681336bd63daed1f39ae00c5"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/projectcapsule/capsule-proxy"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/projectcapsule/capsule-proxy/releases/tag/v0.4.5"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-07T21:46:04Z",
+    "nvd_published_at": "2023-11-06T19:15:09Z"
+  }
+}
