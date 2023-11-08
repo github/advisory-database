@@ -1,0 +1,112 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-62pr-qqf7-hh89",
+  "modified": "2023-11-08T14:51:06Z",
+  "published": "2023-11-08T14:51:06Z",
+  "aliases": [
+    "CVE-2023-46731"
+  ],
+  "summary": "XWiki Platform vulnerable to remote code execution through the section parameter in Administration as guest",
+  "details": "### Impact\nXWiki doesn't properly escape the section URL parameter that is used in the code for displaying administration sections. This allows any user with read access to the document `XWiki.AdminSheet` (by default, everyone including unauthenticated users) to execute code including Groovy code. This impacts the confidentiality, integrity and availability of the whole XWiki instance.\n\nBy opening the URL `<server>/xwiki/bin/get/Main/WebHome?sheet=XWiki.AdminSheet&viewer=content&section=%5D%5D%7B%7B%2Fhtml%7D%7D%7B%7Basync%7D%7D%7B%7Bgroovy%7D%7Dservices.logging.getLogger(%22attacker%22).error(%22Attack%20succeeded!%22)%7B%7B%2Fgroovy%7D%7D%7B%7B%2Fasync%7D%7D&xpage=view` where `<server>` is the URL of the XWiki installation, it can be tested if an XWiki installation is vulnerable. If this causes a log message `ERROR attacker                       - Attack succeeded!` to appear in XWiki's log, the installation is vulnerable. In very old versions of XWiki, the attack can be demonstrated with `<server>/xwiki/bin/get/XWiki/XWikiPreferences?section=%3C%25println(%22Hello%20from%20Groovy%22)%25%3E&xpage=view` which displays `admin.hello from groovy` as title when the attack succeeds (tested on XWiki 1.7).\n\n### Patches\nThis vulnerability has been patched in XWiki 14.10.14, 15.6 RC1 and 15.5.1.\n\n### Workarounds\nThe [fix](https://github.com/xwiki/xwiki-platform/commit/fec8e0e53f9fa2c3f1e568cc15b0e972727c803a#diff-6271f9be501f30b2ba55459eb451aee3413d34171ba8198a77c865306d174e23), which consists of replacing `= $services.localization.render(\"administration.sectionTitle$level\", [$sectionName]) =` by `= $services.localization.render(\"administration.sectionTitle$level\", 'xwiki/2.1', [$sectionName]) =`, can be applied manually to the document `XWiki.AdminSheet`.\n\n### References\n* https://jira.xwiki.org/browse/XWIKI-21110\n* https://github.com/xwiki/xwiki-platform/commit/fec8e0e53f9fa2c3f1e568cc15b0e972727c803a",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-administration-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "14.10.14"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-administration-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "15.0-rc-1"
+            },
+            {
+              "fixed": "15.5.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-administration"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "14.10.14"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-62pr-qqf7-hh89"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-46731"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/fec8e0e53f9fa2c3f1e568cc15b0e972727c803a"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/fec8e0e53f9fa2c3f1e568cc15b0e972727c803a#diff-6271f9be501f30b2ba55459eb451aee3413d34171ba8198a77c865306d174e23"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-21110"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94",
+      "CWE-95"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-08T14:51:06Z",
+    "nvd_published_at": "2023-11-06T19:15:09Z"
+  }
+}
