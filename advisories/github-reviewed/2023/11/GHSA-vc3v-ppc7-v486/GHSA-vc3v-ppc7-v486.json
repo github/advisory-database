@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vc3v-ppc7-v486",
+  "modified": "2023-11-14T22:21:57Z",
+  "published": "2023-11-14T22:21:57Z",
+  "aliases": [
+    "CVE-2023-47631"
+  ],
+  "summary": "vantage6-server node accepts non-whitelisted algorithms from malicious server",
+  "details": "### Impact\nA node does not check if an image is allowed to run if a `parent_id` is set. A malicious party that breaches the server may modify it to set a fake `parent_id` and send a task of a non-whitelisted algorithm. The node will then execute it because the `parent_id` that is set prevents checks from being run. Relevant node code [here](https://github.com/vantage6/vantage6/blob/version/4.1.1/vantage6-node/vantage6/node/docker/docker_manager.py#L265-L268)\n\nThis impacts all servers that are breached by an expert user\n\n### Patches\nFixed in v4.1.2\n\n### Workarounds\nNone\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "vantage6-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.1.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/vantage6/vantage6/security/advisories/GHSA-vc3v-ppc7-v486"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-47631"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vantage6/vantage6/commit/bf83521eb12fa80aa5fc92ef1692010a9a7f8243"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vantage6/vantage6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vantage6/vantage6/blob/version/4.1.1/vantage6-node/vantage6/node/docker/docker_manager.py#L265-L268"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-345",
+      "CWE-358"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-14T22:21:57Z",
+    "nvd_published_at": "2023-11-14T21:15:13Z"
+  }
+}
