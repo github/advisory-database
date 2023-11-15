@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w98g-5fmx-wm4x",
+  "modified": "2023-11-15T18:42:38Z",
+  "published": "2023-11-15T18:42:38Z",
+  "aliases": [
+
+  ],
+  "summary": "pocketmine/raklib reliable-ordered queue size is unlimited, allowing a session to hog server memory",
+  "details": "### Impact\nA client can send reliable-ordered packets 0, 2, 3, 4, 5 ... etc, and all the packets 2 and up will stay in the reliable-ordered queue until 1 arrives. A malicious client can exploit this to waste all available server memory by simply never sending the missing packet. Since the server doesn't make any effort to limit the size of the queue or detect this kind of abuse, this problem is easy to abuse.\n\n### Patches\nThis bug was fixed on the 0.14.x and 0.15.x release lines by 371190f5854372154d1b263cd2a10e658e92bebe.\n\n### Workarounds\nNo workaround is known.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "pocketmine/raklib"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.14.0"
+            },
+            {
+              "fixed": "0.14.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "pocketmine/raklib"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.15.0"
+            },
+            {
+              "fixed": "0.15.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pmmp/RakLib/security/advisories/GHSA-w98g-5fmx-wm4x"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pmmp/RakLib/commit/371190f5854372154d1b263cd2a10e658e92bebe"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pmmp/RakLib"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-15T18:42:38Z",
+    "nvd_published_at": null
+  }
+}
