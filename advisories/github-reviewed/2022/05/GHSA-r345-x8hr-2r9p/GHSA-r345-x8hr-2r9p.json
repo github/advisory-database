@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r345-x8hr-2r9p",
+  "modified": "2023-11-15T20:26:56Z",
+  "published": "2022-05-24T17:21:35Z",
+  "aliases": [
+    "CVE-2020-13700"
+  ],
+  "summary": "acf-to-rest-api plugin insecure direct object reference (IDOR) via permalink manipulation",
+  "details": "An issue was discovered in the acf-to-rest-api plugin through 3.1.0 for WordPress. It allows an insecure direct object reference via permalinks manipulation, as demonstrated by a `wp-json/acf/v3/options/` request that reads sensitive information in the `wp_options` table, such as the login and pass values.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "airesvsg/acf-to-rest-api"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "3.1.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-13700"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gist.github.com/mariuszpoplwski/4fbaab7f271bea99c733e3f2a4bafbb5"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/airesvsg/acf-to-rest-api"
+    },
+    {
+      "type": "WEB",
+      "url": "https://wordpress.org/plugins/acf-to-rest-api/#developers"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200",
+      "CWE-639"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-15T20:26:56Z",
+    "nvd_published_at": "2020-06-24T15:15:00Z"
+  }
+}
