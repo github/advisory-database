@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wm63-7627-ch33",
+  "modified": "2023-11-17T21:50:31Z",
+  "published": "2023-11-17T21:50:31Z",
+  "aliases": [
+
+  ],
+  "summary": "@vendure/core's insecure currencyCode handling allows wrong payment amounts",
+  "details": "### Impact\n\nCurrently, in many Vendure deployments it's possible to select any currencyCode (really any, doesn't need to be assigned to the channel) and pay through Mollie and Stripe in that particular currencyCode.\nThe prices are not transformed. The result is the Order is in Payment Settled in the foreign currency.\nSee SS, CZK is not in the channel.\nI've tested with Mollie and Stripe it both works.\n\n**Further notes**\n\nAfter looking into this further and with help from the comments below, the root cause of this vulnerability is the ability to specify an arbitrary `currencyCode` as a query parameter to an API call, and then Vendure will use this and pass it to the rest of the system as `RequestContext.currencyCode`.\n\nThe solution is to add validation to the passed `currencyCode` to ensure that it matches one of the available `availableCurrencyCodes` of the active Channel.\n\nFurthermore, an additional check has been added for when the currencyCode changes during the AddingItems stage - in this case we need to re-calculate the prices in the new currency.\n\n### Patches\nv2.1.3\n\n### Workarounds\nYou can define a custom OrderProcess [onTransitionStart function](https://docs.vendure.io/guides/core-concepts/orders/#intercepting-a-state-transition) which can verify the order's `currencyCode` is as expected before allowing the transition to the `ArrangingPayment` state.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@vendure/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.1.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/vendure-ecommerce/vendure/security/advisories/GHSA-wm63-7627-ch33"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vendure-ecommerce/vendure/commit/5e506fd8ba9f7e20030c329e62af1140d906121f"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vendure-ecommerce/vendure"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-17T21:50:31Z",
+    "nvd_published_at": null
+  }
+}
