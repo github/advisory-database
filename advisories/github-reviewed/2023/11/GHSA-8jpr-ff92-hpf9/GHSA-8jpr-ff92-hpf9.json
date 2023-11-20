@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8jpr-ff92-hpf9",
+  "modified": "2023-11-20T21:01:07Z",
+  "published": "2023-11-20T21:01:07Z",
+  "aliases": [
+    "CVE-2023-48292"
+  ],
+  "summary": "Run Shell Command allows Cross-Site Request Forgery",
+  "details": "### Impact\nA cross site request forgery vulnerability in the admin tool for executing shell commands on the server allows an attacker to execute arbitrary shell commands by tricking an admin into loading the URL with the shell command. A very simple possibility for an attack are comments. When the attacker can leave a comment on any page in the wiki it is sufficient to include an image with an URL like  `/xwiki/bin/view/Admin/RunShellCommand?command=touch%20/tmp/attacked` in the comment. When an admin views the comment, the file `/tmp/attacked` will be created on the server. The output of the command is also vulnerable to XWiki syntax injection which offers a simple way to execute Groovy in the context of the XWiki installation and thus an even easier way to compromise the integrity and confidentiality of the whole XWiki installation.\n\n### Patches\nThis has been patched by adding a form token check in version 4.5.1 of the admin tools.\n\n### Workarounds\nThe [patch](https://github.com/xwiki-contrib/application-admintools/commit/03815c505c9f37006a0c56495e862dc549a39da8) can be applied manually to the affected wiki pages. Alternatively, the document `Admin.RunShellCommand` can also be deleted if the possibility to run shell commands isn't needed.\n\n### References\n* https://jira.xwiki.org/browse/ADMINTOOL-91\n* https://github.com/xwiki-contrib/application-admintools/commit/03815c505c9f37006a0c56495e862dc549a39da8\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.contrib:xwiki-application-admintools"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.4"
+            },
+            {
+              "fixed": "4.5.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki-contrib/application-admintools/security/advisories/GHSA-8jpr-ff92-hpf9"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-48292"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki-contrib/application-admintools/commit/03815c505c9f37006a0c56495e862dc549a39da8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki-contrib/application-admintools"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/ADMINTOOL-91"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-20T21:01:07Z",
+    "nvd_published_at": "2023-11-20T18:15:07Z"
+  }
+}
