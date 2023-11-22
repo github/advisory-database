@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cf9f-wmhp-v4pr",
+  "modified": "2023-11-22T20:55:54Z",
+  "published": "2023-11-22T20:55:54Z",
+  "aliases": [
+    "CVE-2023-48705"
+  ],
+  "summary": "Cross-site Scripting potential in custom links, job buttons, and computed fields",
+  "details": "### Impact\n\nAll users of Nautobot versions earlier than 1.6.6 or 2.0.5 are potentially affected.\n\nDue to incorrect usage of Django's `mark_safe()` API when rendering certain types of user-authored content, including:\n\n- custom links\n- job buttons\n- computed fields\n\nit is possible that users with permission to create or edit these types of content could craft a malicious payload (such as JavaScript code) that would be executed when rendering pages containing this content.\n\n### Patches\n_Has the problem been patched? What versions should users upgrade to?_\n\nWe have fixed the incorrect uses of `mark_safe()` (generally by replacing them with appropriate use of `format_html()` instead) to prevent such malicious data from being executed.\n\nUsers on Nautobot 1.6.x LTM should upgrade to v1.6.6 and users on Nautobot 2.0.x should upgrade to v2.0.5.\n\n### Workarounds\n_Is there a way for users to fix or remediate the vulnerability without upgrading?_\n\nAppropriate object permissions can and should be applied to restrict which users are permitted to create or edit the aforementioned types of user-authored content. Other than that, there is no direct fix available.\n\n### References\n_Are there any links users can visit to find out more?_\n\n- https://github.com/nautobot/nautobot/pull/4832\n- https://github.com/nautobot/nautobot/pull/4833\n- https://docs.djangoproject.com/en/3.2/ref/utils/#django.utils.html.format_html\n- https://docs.djangoproject.com/en/3.2/ref/utils/#django.utils.safestring.mark_safe",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:R/S:C/C:L/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "nautobot"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.6.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "nautobot"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.0.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/nautobot/nautobot/security/advisories/GHSA-cf9f-wmhp-v4pr"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-48705"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nautobot/nautobot/pull/4832"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nautobot/nautobot/pull/4833"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nautobot/nautobot/commit/362850f5a94689a4c75e3188bf6de826c3b012b2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nautobot/nautobot/commit/54abe23331b6c3d0d82bf1b028c679b1d200920d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.djangoproject.com/en/3.2/ref/utils/#django.utils.html.format_html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.djangoproject.com/en/3.2/ref/utils/#django.utils.safestring.mark_safe"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/nautobot/nautobot"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-22T20:55:54Z",
+    "nvd_published_at": "2023-11-22T16:15:09Z"
+  }
+}
