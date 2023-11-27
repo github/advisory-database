@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c6xw-hg9q-3c9f",
+  "modified": "2023-11-27T23:21:45Z",
+  "published": "2023-11-17T00:31:06Z",
+  "aliases": [
+    "CVE-2023-40314"
+  ],
+  "summary": "OpenNMS Cross-site Scripting vulnerability",
+  "details": "Cross-site scripting in bootstrap.jsp in multiple versions of OpenNMS Meridian and Horizon allows an attacker access to confidential session information. The solution is to upgrade to Horizon 32.0.5 or newer and Meridian 2023.1.9 or newer.\n\nMeridian and Horizon installation instructions state that they are intended for installation within an organization's private networks and should not be directly accessible from the Internet.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:A/AC:L/PR:L/UI:R/S:U/C:H/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.opennms:opennms-webapp"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "32.0.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-40314"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenNMS/opennms/pull/6791"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/OpenNMS/opennms"
+    },
+    {
+      "type": "WEB",
+      "url": "https://opennms.atlassian.net/browse/NMS-15790"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20",
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-27T23:21:45Z",
+    "nvd_published_at": "2023-11-16T22:15:27Z"
+  }
+}
