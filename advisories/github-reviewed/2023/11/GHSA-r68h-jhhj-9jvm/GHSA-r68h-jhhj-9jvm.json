@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r68h-jhhj-9jvm",
+  "modified": "2023-11-27T17:25:46Z",
+  "published": "2023-11-27T17:25:46Z",
+  "aliases": [
+
+  ],
+  "summary": "Validator.isValidSafeHTML is being deprecated and will be deleted from org.owasp.esapi:esapi in 1 year",
+  "details": "### Impact\nThe `Validator.isValidSafeHTML` method can result in false negatives where it reports some input as safe (i.e., returns true), but really isn't, and using that same input as-is can in certain circumstances result in XSS vulnerabilities. Because this method cannot be fixed, it is being deprecated and will be removed in one years time from when this advisory is published. Full details may be found in [ESAPI Security Bulletin #12](https://github.com/ESAPI/esapi-java-legacy/blob/develop/documentation/ESAPI-security-bulletin12.pdf).\n\nNote that all versions of ESAPI, that have this method (which dates back to at least the ESAPI 1.3 release more than 15 years ago) have this issue and it will continue to exist until we remove these two methods in a future ESAPI release.\n\n### Patches\nThere is no patch. We do not believe that it is possible to patch this pretentiously named method other then perhaps renaming it to something like Validator.mightThisBeValidSafeHTML to dissuade developers from using it.\n\n### Workarounds\nStop using this method. Note that `Validator.getValidSafeHTML` is believed to be safe to use with the default **antisamy-esapi.xml** AntiSamy policy file.\n\n### Why is no CVE being filed?\nWe outline the reasons in the section \"Why no CVE for this issue?\" in [ESAPI Security Bulletin #12](https://github.com/ESAPI/esapi-java-legacy/blob/develop/documentation/ESAPI-security-bulletin12.pdf). If after reading that, if _you_ still want to file a CVE or this, knock yourself out.\n\n### References\n[CWE-79](https://cwe.mitre.org/data/definitions/79.html)\n[CWE-80](https://cwe.mitre.org/data/definitions/80.html)\n[ESAPI Security Bulletin #12](https://github.com/ESAPI/esapi-java-legacy/blob/develop/documentation/ESAPI-security-bulletin12.pdf)\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.owasp.esapi:esapi"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "2.5.3.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ESAPI/esapi-java-legacy/security/advisories/GHSA-r68h-jhhj-9jvm"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ESAPI/esapi-java-legacy"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-27T17:25:46Z",
+    "nvd_published_at": null
+  }
+}
