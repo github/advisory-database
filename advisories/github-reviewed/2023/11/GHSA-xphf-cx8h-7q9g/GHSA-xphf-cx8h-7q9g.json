@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xphf-cx8h-7q9g",
+  "modified": "2023-11-28T20:51:08Z",
+  "published": "2023-11-28T20:51:08Z",
+  "aliases": [
+
+  ],
+  "summary": "`openssl` `X509StoreRef::objects` is unsound",
+  "details": "This function returned a reference into an OpenSSL datastructure, but there was no way to ensure OpenSSL would not mutate the datastructure behind one's back.\n\nUse of this function should be replaced with `X509StoreRef::all_certificates`.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "openssl"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "openssl::x509::store::X509StoreRef::objects"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.10.29"
+            },
+            {
+              "fixed": "0.10.60"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/sfackler/rust-openssl/issues/2096"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sfackler/rust-openssl/commit/cf9681a55cabd4cb9f1475bde17b5079f2a0384e"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/sfackler/rust-openssl"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2023-0072.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-28T20:51:08Z",
+    "nvd_published_at": null
+  }
+}

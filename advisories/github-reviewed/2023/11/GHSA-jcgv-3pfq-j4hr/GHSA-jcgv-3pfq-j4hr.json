@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jcgv-3pfq-j4hr",
+  "modified": "2023-11-28T20:50:03Z",
+  "published": "2023-11-27T12:30:54Z",
+  "aliases": [
+    "CVE-2023-35075"
+  ],
+  "summary": "Mattermost Injection vulnerability",
+  "details": "Mattermost fails to use innerText / textContent when setting the channel name in the webapp during autocomplete, allowing an attacker to inject HTML to a victim's page by create a channel name that is valid HTML. No XSS is possible though.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/mattermost/mattermost/server/v8"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "8.1.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/mattermost/mattermost-server/v6"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "7.8.13"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-35075"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mattermost/mattermost"
+    },
+    {
+      "type": "WEB",
+      "url": "https://mattermost.com/security-updates"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-28T20:50:03Z",
+    "nvd_published_at": "2023-11-27T10:15:07Z"
+  }
+}

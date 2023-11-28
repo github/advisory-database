@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jj46-9cgh-qmfx",
+  "modified": "2023-11-28T20:50:05Z",
+  "published": "2023-11-27T12:30:54Z",
+  "aliases": [
+    "CVE-2023-47865"
+  ],
+  "summary": "Mattermost Improper Access Control vulnerability",
+  "details": "Mattermost fails to check if hardened mode is enabled when overriding the username and/or the icon when posting a post. If settings allowed integrations to override the username and profile picture when posting, a member could also override the username and icon when making a post even if the Hardened Mode setting was enabled\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/mattermost/mattermost/server/v8"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "8.1.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/mattermost/mattermost-server/v6"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "7.8.13"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-47865"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mattermost/mattermost"
+    },
+    {
+      "type": "WEB",
+      "url": "https://mattermost.com/security-updates"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-284"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-28T20:50:05Z",
+    "nvd_published_at": "2023-11-27T09:15:32Z"
+  }
+}
