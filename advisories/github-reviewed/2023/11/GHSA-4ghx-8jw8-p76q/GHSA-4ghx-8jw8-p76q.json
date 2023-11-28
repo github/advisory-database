@@ -1,0 +1,118 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4ghx-8jw8-p76q",
+  "modified": "2023-11-28T20:48:08Z",
+  "published": "2023-11-27T12:30:54Z",
+  "aliases": [
+    "CVE-2023-47168"
+  ],
+  "summary": "Mattermost Open Redirect vulnerability",
+  "details": "Mattermost fails to properly check a redirect URL parameter allowing for an open redirect was possible when the user clicked \"Back to Mattermost\" after providing a invalid custom url scheme in /oauth/{service}/mobile_login?redirect_to=\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/mattermost/mattermost/server/v8"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.1.0"
+            },
+            {
+              "fixed": "9.1.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/mattermost/mattermost/server/v8"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.0.0"
+            },
+            {
+              "fixed": "9.0.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/mattermost/mattermost/server/v8"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "8.1.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/mattermost/mattermost-server/v6"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "7.8.13"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-47168"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mattermost/mattermost"
+    },
+    {
+      "type": "WEB",
+      "url": "https://mattermost.com/security-updates"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-601"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-28T20:48:08Z",
+    "nvd_published_at": "2023-11-27T10:15:08Z"
+  }
+}
