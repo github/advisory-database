@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rvx8-p3xp-fj3p",
+  "modified": "2023-11-29T21:45:31Z",
+  "published": "2023-11-29T21:45:31Z",
+  "aliases": [
+    "CVE-2023-44383"
+  ],
+  "summary": "October CMS stored XSS by authenticated backend user with improper configuration",
+  "details": "### Impact\n\nA user with access to the media manager that stores SVG files could create a stored XSS attack against themselves and any other user with access to the media manager when SVG files are supported.\n\nSVG files are supported by default in v3 for convenience; however, this has resulted in multiple mistaken vulnerability reports from security researchers. As per the documentation, if a backend user is not trusted, the advice is to remove the `svg` extension from the list of supported file types.\n\n### Patches\n\nThe issue has been patched in v3.5.2 by including an SVG sanister. It is enabled by default for new installations but must be enabled for existing sites in the **config/media.php** file.\n\n```\n'clean_vectors' => true,\n```\n\n### Workarounds\n\nIf you cannot upgrade for this patch, follow the pervious advice and remove `svg` from the supported file types.\n\n### References\n\n- https://github.com/octobercms/october/blob/3.x/config/media.php\n\nCredits to:\n- Faris Krivic\n- Okan Kurtulus\n- Aldin Visnjic\n- Bug Shankar\n\n### For more information\nIf you have any questions or comments about this advisory:\n* Email us at [hello@octobercms.com](mailto:hello@octobercms.com)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "october/system"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.5.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/octobercms/october/security/advisories/GHSA-rvx8-p3xp-fj3p"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-44383"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/octobercms/october/commit/b7eed0bbf54d07ff310fcdc7037a8e8bf1f5043b"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/octobercms/october"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-29T21:45:31Z",
+    "nvd_published_at": "2023-11-29T20:15:07Z"
+  }
+}
