@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7vwr-g6pm-9hc8",
+  "modified": "2023-12-01T19:23:49Z",
+  "published": "2023-12-01T19:23:49Z",
+  "aliases": [
+
+  ],
+  "summary": "Cookie leakage between different users in fastapi-proxy-lib",
+  "details": "### Impact\n\nIn the implementation of version `0.0.1`, requests from different user clients are processed using a shared `httpx.AsyncClient`.\n\nHowever, one oversight is that the `httpx.AsyncClient` will persistently store cookies based on the `set-cookie` response header sent by the target server and share these cookies across different user requests.\n\nThis results in a cookie leakage issue among all user clients sharing the same `httpx.AsyncClient`.\n\n### Patches\n\nIt's fixed in `0.1.0`\n\n### Workarounds\n\nIf you insist `0.0.1`:\n- Do not use `ForwardHttpProxy` at all.\n- Do not use `ReverseHttpProxy` or `ReverseWebSocketProxy` for any servers that may potentially send a `set-cookie` response.\n\n**However, it's best to upgrade to the latest version.**\n\n### References\n\nfixed in [#10](https://github.com/WSH032/fastapi-proxy-lib/pull/10) \n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "fastapi-proxy-lib"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.1.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/WSH032/fastapi-proxy-lib/security/advisories/GHSA-7vwr-g6pm-9hc8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/WSH032/fastapi-proxy-lib/pull/10"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/WSH032/fastapi-proxy-lib"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-12-01T19:23:49Z",
+    "nvd_published_at": null
+  }
+}
