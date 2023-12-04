@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-j3rq-4xjw-xg63",
+  "modified": "2023-12-04T23:13:42Z",
+  "published": "2023-12-04T23:13:42Z",
+  "aliases": [
+
+  ],
+  "summary": "Go package github.com/edgelesssys/marblerun CLI commands susceptible to MITM attacks",
+  "details": "### Impact\nAny CLI command issued to a Coordinator after the Manifest has been set, is susceptible to be redirected to another MarbleRun Coordinator instance, which runs the same binary, but potentially a different manifest.\n\n### Patches\n The issue has been patched in [`v1.4.0`](https://github.com/edgelesssys/marblerun/releases/tag/v1.4.0)\n\n### Workarounds\n\nDirectly using the REST API of the Coordinator and manually verifying and pinning the certificate to a set Manifest avoids the issue.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/edgelesssys/marblerun"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.4.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/edgelesssys/marblerun/security/advisories/GHSA-j3rq-4xjw-xg63"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/edgelesssys/marblerun"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/edgelesssys/marblerun/releases/tag/v1.4.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-300"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-12-04T23:13:42Z",
+    "nvd_published_at": null
+  }
+}
