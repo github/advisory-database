@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-92r3-m2mg-pj97",
+  "modified": "2023-12-05T23:31:34Z",
+  "published": "2023-12-05T23:31:34Z",
+  "aliases": [
+    "CVE-2023-49293"
+  ],
+  "summary": "Vite XSS vulnerability in `server.transformIndexHtml` via URL payload",
+  "details": "### Summary\nWhen Vite's HTML transformation is invoked manually via `server.transformIndexHtml`, the original request URL is passed in unmodified, and the `html` being transformed contains inline module scripts (`<script type=\"module\">...</script>`), it is possible to inject arbitrary HTML into the transformed output by supplying a malicious URL query string to `server.transformIndexHtml`.\n\n### Impact\nOnly apps using `appType: 'custom'` and using the default Vite HTML middleware are affected. The HTML entry must also contain an inline script. The attack requires a user to click on a malicious URL while running the dev server. Restricted files aren't exposed to the attacker.\n\n### Patches\nFixed in vite@5.0.5, vite@4.5.1, vite@4.4.12\n\n### Details\nSuppose `index.html` contains an inline module script:\n\n```html\n<script type=\"module\">\n  // Inline script\n</script>\n```\n\nThis script is transformed into a proxy script like\n\n```html\n<script type=\"module\" src=\"/index.html?html-proxy&index=0.js\"></script>\n```\n\ndue to Vite's HTML plugin:\n\nhttps://github.com/vitejs/vite/blob/7fd7c6cebfcad34ae7021ebee28f97b1f28ef3f3/packages/vite/src/node/plugins/html.ts#L429-L465\n\nWhen `appType: 'spa' | 'mpa'`, Vite serves HTML itself, and `htmlFallbackMiddleware` rewrites `req.url` to the canonical path of `index.html`,\n\nhttps://github.com/vitejs/vite/blob/73ef074b80fa7252e0c46a37a2c94ba8cba46504/packages/vite/src/node/server/middlewares/htmlFallback.ts#L44-L47\n\nso the `url` passed to `server.transformIndexHtml` is `/index.html`.\n\nHowever, if `appType: 'custom'`, HTML is served manually, and if `server.transformIndexHtml` is called with the unmodified request URL (as the SSR docs suggest), then the path of the transformed `html-proxy` script varies with the request URL. For example, a request with path `/` produces\n\n```html\n<script type=\"module\" src=\"/@id/__x00__/index.html?html-proxy&index=0.js\"></script>\n```\n\nIt is possible to abuse this behavior by crafting a request URL to contain a malicious payload like\n\n```\n\"></script><script>alert('boom')</script>\n```\n\nso a request to http://localhost:5173/?%22%3E%3C/script%3E%3Cscript%3Ealert(%27boom%27)%3C/script%3E produces HTML output like\n\n```html\n<script type=\"module\" src=\"/@id/__x00__/?\"></script><script>alert(\"boom\")</script>?html-proxy&index=0.js\"></script>\n```\n\nwhich demonstrates XSS.\n\n### PoC\n\n- Example 1. Serving HTML from `vite dev` middleware with `appType: 'custom'`\n    - Go to https://stackblitz.com/edit/vitejs-vite-9xhma4?file=main.js&terminal=dev-html\n    - \"Open in New Tab\"\n    - Edit URL to set query string to `?%22%3E%3C/script%3E%3Cscript%3Ealert(%27boom%27)%3C/script%3E` and navigate\n    - Witness XSS:\n    - ![image](https://user-images.githubusercontent.com/2456381/287434281-13757894-7a63-4a73-b1e9-d2b024c19d14.png)\n- Example 2. Serving HTML from SSR-style Express server (Vite dev server runs in middleware mode):\n    - Go to https://stackblitz.com/edit/vitejs-vite-9xhma4?file=main.js&terminal=server\n    - (Same steps as above)\n- Example 3. Plain `vite dev` (this shows that vanilla `vite dev` is _not_ vulnerable, provided `htmlFallbackMiddleware` is used)\n    - Go to https://stackblitz.com/edit/vitejs-vite-9xhma4?file=main.js&terminal=dev\n    - (Same steps as above)\n    - You should _not_ see the alert box in this case\n\n### Detailed Impact\n\nThis will probably predominantly affect [development-mode SSR](https://vitejs.dev/guide/ssr#setting-up-the-dev-server), where `vite.transformHtml` is called using the original `req.url`, per the docs:\n\nhttps://github.com/vitejs/vite/blob/7fd7c6cebfcad34ae7021ebee28f97b1f28ef3f3/docs/guide/ssr.md?plain=1#L114-L126\n\nHowever, since this vulnerability affects `server.transformIndexHtml`, the scope of impact may be higher to also include other ad-hoc calls to `server.transformIndexHtml` from outside of Vite's own codebase.\n\nMy best guess at bisecting which versions are vulnerable involves the following test script\n\n```js\nimport fs from 'node:fs/promises';\nimport * as vite from 'vite';\n\nconst html = `\n<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n  </head>\n  <body>\n    <script type=\"module\">\n      // Inline script\n    </script>\n  </body>\n</html>\n`;\nconst server = await vite.createServer({ appType: 'custom' });\nconst transformed = await server.transformIndexHtml('/?%22%3E%3C/script%3E%3Cscript%3Ealert(%27boom%27)%3C/script%3E', html);\nconsole.log(transformed);\nawait server.close();\n```\n\nand using it I was able to narrow down to #13581. If this is correct, then vulnerable Vite versions are 4.4.0-beta.2 and higher (which includes 4.4.0).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "vite"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.4.0"
+            },
+            {
+              "fixed": "4.4.12"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "vite"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.5.0"
+            },
+            {
+              "fixed": "4.5.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "4.5.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "vite"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0"
+            },
+            {
+              "fixed": "5.0.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/vitejs/vite/security/advisories/GHSA-92r3-m2mg-pj97"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-49293"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vitejs/vite"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-12-05T23:31:34Z",
+    "nvd_published_at": "2023-12-04T23:15:27Z"
+  }
+}
