@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v7hc-87jc-qrrr",
+  "modified": "2023-12-06T19:19:35Z",
+  "published": "2023-12-06T19:19:35Z",
+  "aliases": [
+
+  ],
+  "summary": "eventing-github vulnerable to denial of service caused by improper enforcement of the timeout on individual read operations",
+  "details": "### Impact\n\nThe eventing-github cluster-local server doesn't set `ReadHeaderTimeout`‬‭ which could lead do a DDoS‬ ‭attack, where a large group of users send requests to the server causing the server to hang‬ ‭for long enough to deny it from being available to other users, also know as a Slowloris‬ ‭attack.\n\n### Patches\n\nFix in `v1.12.1` and `v1.11.3`\n\n### Credits\n\nThe vulnerability was reported by Ada Logics during an ongoing security audit of Knative involving Ada Logics, the Knative maintainers, OSTIF and CNCF.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "knative.dev/eventing-github"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.39.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/knative-extensions/eventing-github/security/advisories/GHSA-v7hc-87jc-qrrr"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/knative-extensions/eventing-github/pull/442"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/knative-extensions/eventing-github/pull/446"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/knative-extensions/eventing-github/pull/447"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/knative-extensions/eventing-github/commit/ea5cb8b25fc3410dde45ce2eb95454e4cfe77c40"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/knative-extensions/eventing-github"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-12-06T19:19:35Z",
+    "nvd_published_at": null
+  }
+}
