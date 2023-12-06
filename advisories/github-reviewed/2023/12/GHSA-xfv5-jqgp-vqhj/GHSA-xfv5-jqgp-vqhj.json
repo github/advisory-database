@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xfv5-jqgp-vqhj",
+  "modified": "2023-12-06T21:43:18Z",
+  "published": "2023-12-06T18:31:05Z",
+  "aliases": [
+    "CVE-2023-6393"
+  ],
+  "summary": "Quarkus Cache Runtime exposes sensitive information to an unauthorized actor",
+  "details": "A flaw was found in the Quarkus Cache Runtime. When request processing utilizes a Uni cached using @CacheResult and the cached Uni reuses the initial \"completion\" context, the processing switches to the cached Uni instead of the request context. This is a problem if the cached Uni context contains sensitive information, and could allow a malicious user to benefit from a POST request returning the response that is meant for another user, gaining access to sensitive data.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.quarkus:quarkus-cache"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.3.0.CR1"
+            },
+            {
+              "fixed": "3.5.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.quarkus:quarkus-cache"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.2.0.CR1"
+            },
+            {
+              "fixed": "3.2.9.Final"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-6393"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/quarkusio/quarkus/issues/37078"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/quarkusio/quarkus/pull/37077"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/quarkusio/quarkus/commit/d9ace85caec2d8497b1a2c48b8d52bb163f04adf"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/security/cve/CVE-2023-6393"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2253113"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/quarkusio/quarkus"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-12-06T21:43:18Z",
+    "nvd_published_at": "2023-12-06T17:15:07Z"
+  }
+}
