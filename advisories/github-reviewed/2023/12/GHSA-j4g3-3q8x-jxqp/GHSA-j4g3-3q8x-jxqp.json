@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-j4g3-3q8x-jxqp",
+  "modified": "2023-12-08T15:38:37Z",
+  "published": "2023-12-08T15:38:37Z",
+  "aliases": [
+
+  ],
+  "summary": "dbt-core's secret env vars written to package-lock.json in plaintext",
+  "details": "### Impact\n\nWhen used to pull source code from a private repository using a Personal Access Token (PAT), some versions of dbt-core write a URL with the PAT in plaintext to the `package-lock.yml` file.\n\n### Patches\n\nThe bug has been fixed in [dbt-core v1.7.3](https://github.com/dbt-labs/dbt-core/releases/tag/v1.7.3).\n\n### Mitigations\n\nRemove any git URLs with plaintext secrets from `package-lock.yml` file(s) on servers, workstations, or in source control. Rotate any tokens that have been written to version-controlled files.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:C/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "dbt-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.7.0"
+            },
+            {
+              "fixed": "1.7.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/dbt-labs/dbt-core/security/advisories/GHSA-j4g3-3q8x-jxqp"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dbt-labs/dbt-core/commit/09f5bb3dcffeda7a60ad2b22c2891f237628ecd1"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/dbt-labs/dbt-core"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dbt-labs/dbt-core/releases/tag/v1.7.3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-315"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-12-08T15:38:37Z",
+    "nvd_published_at": null
+  }
+}
