@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-99jv-8292-2hpm",
+  "modified": "2023-12-08T21:57:27Z",
+  "published": "2023-12-08T21:57:27Z",
+  "aliases": [
+
+  ],
+  "summary": "eventing-gitlab vulnerable to denial of service, caused by improper enforcement of the timeout on individual read operations",
+  "details": "### Impact\n\nThe eventing-gitlab cluster-local server doesn't set `ReadHeaderTimeout`‬‭ which could lead do a DDoS‬ ‭attack, where a large group of users send requests to the server causing the server to hang‬ ‭for long enough to deny it from being available to other users, also know as a Slowloris‬ ‭attack.\n\n### Patches\n\nFix in `v1.12.1` and `v1.11.3`.\n\n\n### Credits\n\nThe vulnerability was reported by Ada Logics during an ongoing security audit of Knative involving Ada Logics, the Knative maintainers, OSTIF and CNCF.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "knative.dev/eventing-gitlab"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.39.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/knative-extensions/eventing-gitlab/security/advisories/GHSA-99jv-8292-2hpm"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/knative-extensions/eventing-gitlab/commit/463fcb36ac31cdac34eda0e900b64039d6d30b36"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/knative-extensions/eventing-gitlab/commit/db76c668aa47890e7fe73c9df3135da292cfd9ec"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/knative-extensions/eventing-gitlab"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-12-08T21:57:27Z",
+    "nvd_published_at": null
+  }
+}
