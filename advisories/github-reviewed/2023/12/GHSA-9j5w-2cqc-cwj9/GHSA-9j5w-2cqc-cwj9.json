@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9j5w-2cqc-cwj9",
+  "modified": "2023-12-08T15:15:14Z",
+  "published": "2023-12-08T15:15:14Z",
+  "aliases": [
+
+  ],
+  "summary": "Magento LTS vulnerable to Stored XSS via TinyMCE WYSIWYG Editor",
+  "details": "From HackerOne report [#1948040](https://hackerone.com/reports/1948040) by Halit AKAYDIN (hltakydn)\n\n### Impact\n_What kind of vulnerability is it? Who is impacted?_\n\nThe TinyMCE WYSIWYG editor fails to filter scripts when rendering the HTML in specially crafted HTML tags.\n\n### Patches\n_Has the problem been patched? What versions should users upgrade to?_\n\nThis vulnerability was fixed in version 20.2.0 by upgrading TinyMCE to a recent version in https://github.com/OpenMage/magento-lts/pull/3220\n\n### Workarounds\n_Is there a way for users to fix or remediate the vulnerability without upgrading?_\n\nThe WYSIWYG editor features could be disabled in the configuration. Possibly some WAF appliances would filter this attack.\n\n### References\n_Are there any links users can visit to find out more?_\n\nThe attack is simply an exploit of the \"onmouseover\" attribute of an `img` element as described on [OWASP XSS Filter Evasion](https://cheatsheetseries.owasp.org/cheatsheets/XSS_Filter_Evasion_Cheat_Sheet.html)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:H/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "openmage/magento-lts"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "20.2.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenMage/magento-lts/security/advisories/GHSA-9j5w-2cqc-cwj9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenMage/magento-lts/pull/3220"
+    },
+    {
+      "type": "WEB",
+      "url": "https://hackerone.com/reports/1948040"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/OpenMage/magento-lts"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenMage/magento-lts/releases/tag/v20.2.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-12-08T15:15:14Z",
+    "nvd_published_at": null
+  }
+}
