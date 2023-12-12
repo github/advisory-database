@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-crhp-7c74-cg4c",
+  "modified": "2023-12-12T00:49:00Z",
+  "published": "2023-12-12T00:49:00Z",
+  "aliases": [
+    "CVE-2023-49796"
+  ],
+  "summary": "Improper Input Validation in mindsdb",
+  "details": "### Impact\n\nThe put method in `mindsdb/mindsdb/api/http/namespaces/file.py` does not validate the user-controlled `name` value, which is used in a temporary file name, which is afterwards opened for writing on lines 122-125, which leads to path injection. This issue may lead to arbitrary file write. This vulnerability allows for writing files anywhere on the server that the filesystem permissions that the running server has access to.\n\n### Patches\n\nUse mindsdb staging branch or v23.11.4.1\n\n\n### References\n\n* GHSL-2023-184 \n* See [CodeQL path injection prevention guidelines](https://codeql.github.com/codeql-query-help/python/py-path-injection/) and [OWASP guidelines](https://owasp.org/www-community/attacks/Path_Traversal).\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "mindsdb"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "23.11.4.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/mindsdb/mindsdb/security/advisories/GHSA-crhp-7c74-cg4c"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-49796"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mindsdb/mindsdb/commit/8d13c9c28ebcf3b36509eb679378004d4648d8fe"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mindsdb/mindsdb"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mindsdb/mindsdb/blob/1821da719f34c022890c9ff25810218e71c5abbc/mindsdb/api/http/namespaces/file.py#L122-L125"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-12-12T00:49:00Z",
+    "nvd_published_at": "2023-12-11T21:15:07Z"
+  }
+}
