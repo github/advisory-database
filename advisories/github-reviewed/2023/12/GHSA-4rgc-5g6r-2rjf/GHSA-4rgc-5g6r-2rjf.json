@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4rgc-5g6r-2rjf",
+  "modified": "2023-12-12T00:58:29Z",
+  "published": "2023-12-12T00:58:29Z",
+  "aliases": [
+
+  ],
+  "summary": "lakeFS logs S3 credentials in plain text",
+  "details": "### Impact\n\nS3 credentials are logged in plain text\n\n```\nS3Creds:{Key:AKIAIOSFODNN7EXAMPLE Secret:wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY\n```\n\nappears as part of the log message: \n\n```\ntime=\"2023-05-12T13:51:52Z\" level=error msg=\"failed to perform diff\" func=\"pkg/plugins/diff.(*Service).RunDiff\" file=\"build/pkg/plugins/diff/service.go:124\" error=\"rpc error: code = Canceled desc = stream terminated by RST_STREAM with error code: CANCEL\" host=\"localhost:8000\" method=GET operation_id=OtfDiff params=\"{TablePaths:{Left:{Ref:data_load@ Path:aggs/agg_variety/} Right:{Ref:data_load Path:aggs/agg_variety/} Base:{Ref: Path:}} S3Creds:{Key:AKIAIOSFODNN7EXAMPLE Secret:wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY Endpoint:http://0.0.0.0:8000} Repo:example}\" path=\"/api/v1/repositories/example/otf/refs/data_load%40/diff/data_load?table_path=aggs%2Fagg_variety%2F&type=delta\" request_id=d3b6fdc7-2544-4c12-8e05-376f16e35a80 service_name=rest_api type=delta user=docker\n```\n\nDiscovered when investigating [#5862](https://github.com/treeverse/lakeFS/issues/5862)\n\n\n### Patches\n_Has the problem been patched? What versions should users upgrade to?_\n\nNo\n\n### Workarounds\n_Is there a way for users to fix or remediate the vulnerability without upgrading?_\n\ndisable all logging? \n\n### References\n_Are there any links users can visit to find out more?_\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/treeverse/lakefs"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.101.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/treeverse/lakeFS/security/advisories/GHSA-4rgc-5g6r-2rjf"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/treeverse/lakeFS"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-312"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-12-12T00:58:29Z",
+    "nvd_published_at": null
+  }
+}
