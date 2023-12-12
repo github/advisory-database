@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-88j4-pcx8-q4q3",
+  "modified": "2023-12-12T00:59:30Z",
+  "published": "2023-12-12T00:59:30Z",
+  "aliases": [
+    "CVE-2023-49804"
+  ],
+  "summary": "Password Change Vulnerability",
+  "details": "## Overview:\n\nA moderate security vulnerability has been identified in Uptime Kuma platform that poses a significant threat to the confidentiality and integrity of user accounts.  \nWhen a user changes their login password in Uptime Kuma, a previously logged-in user retains access without being logged out.\nThis behaviour persists consistently, even after system restarts or browser restarts.\nThis vulnerability allows unauthorized access to user accounts, compromising the security of sensitive information.\n\nThe same vulnerability was partially fixed in https://github.com/louislam/uptime-kuma/security/advisories/GHSA-g9v2-wqcj-j99g but logging existing users out of their accounts was forgotten.\n\n## Impact:\n\nThe impact of this vulnerability is moderate, as it enables attackers or unauthorized individuals to maintain access to user accounts even after the account password has been changed. This can lead to unauthorized data access, manipulation, or compromise of user accounts, posing a threat to the integrity and confidentiality of Uptime Kuma.\nA better impact-analysis is included in https://github.com/louislam/uptime-kuma/security/advisories/GHSA-g9v2-wqcj-j99g\n\n## PoC\n\n- Change the password for a user account\n- Access the platform using the previously logged-in account without logging out\n- Note that access (read-write) remains despite the password change \n- Expected behaviour:  \n   After changing the password for a user account, all previously logged-in sessions should be invalidated, requiring users to log in again with the updated credentials.\n- Actual behaviour:  \n  The system retains sessions and never logs out users unless explicitly done by clicking logout.\n\n## Remediation:\n\nTo mitigate the risks associated with this vulnerability, we made the server emit a `refresh` event (clients handle this by reloading) and then disconnecting all clients except the one initiating the password change.\n\nIt is recommended to Update Uptime Kuma to `>= 1.23.9`. \n\n## Timeline:\n\n|Date|Event|\n|--|--|\n|2023-12-07 14:35 UTC| @manoonabbasi discovered and posts this information as a `bug`-report in issue #4188 [^1] into our **public issue tracker**, which is [**against our security policy**](https://github.com/louislam/uptime-kuma/security/policy) |\n| 2023-12-07 16:50 UTC | The Uptime Kuma team deleted the post in our issue tracker |\n| 2023-12-10 18:10 UTC | Uptime Kuma team released patch and this Advisory |\n\n[^1]: deleted to prevent the spread of this vulnerability without there being a fix available",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "uptime-kuma"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.23.9"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/louislam/uptime-kuma/security/advisories/GHSA-88j4-pcx8-q4q3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/louislam/uptime-kuma/security/advisories/GHSA-g9v2-wqcj-j99g"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-49804"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/louislam/uptime-kuma/commit/482049c72b3a650c7bc5c26c2f4d57a21c0e0aa0"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/louislam/uptime-kuma"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-384"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-12-12T00:59:30Z",
+    "nvd_published_at": "2023-12-11T23:15:07Z"
+  }
+}
