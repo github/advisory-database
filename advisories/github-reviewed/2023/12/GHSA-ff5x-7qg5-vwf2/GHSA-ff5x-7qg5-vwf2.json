@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-ff5x-7qg5-vwf2",
+  "modified": "2023-12-13T13:32:21Z",
+  "published": "2023-12-13T13:32:21Z",
+  "aliases": [
+    "CVE-2023-50251"
+  ],
+  "summary": "Denial of service caused by infinite recursion when parsing SVG document",
+  "details": "### Summary\nWhen parsing the attributes passed to a `use` tag inside an svg document, we can cause the system to go to an infinite recursion. Depending on the system configuration and attack pattern this could exhaust the memory available to the executing process and/or to the server itself.\n\n### Details\nInside `Svg\\Tag\\UseTag::before`, php-svg-lib parses the attributes passed to an `use` tag inside an svg document. When it finds a `href` or `xlink:href`, it will try to retrieve the object representing this tag:\n\n```\n$link = $attributes[\"href\"] ?? $attributes[\"xlink:href\"];\n$this->reference = $document->getDef($link);\n\nif ($this->reference) {\n    $this->reference->before($attributes);\n}\n```\n\n`$document->getDef` is implemented as follow:\n\n```\npublic function getDef($id) {\n    $id = ltrim($id, \"#\");\n\n    return isset($this->defs[$id]) ? $this->defs[$id] : null;\n}\n```\n\n_Note:_ the `$id` in the above method is actually the _link_ being used in `use` tag. This part is important, because this behaviour  here actually leads to the vulnerability. It will be mentioned later on in this report.\n\nIf it finds the referenced object, it will try to call the `before` method on the referenced object (this is still inside `Svg\\Tag\\UseTag::before`) :\n\n```\nif ($this->reference) {\n    $this->reference->before($attributes);\n}\n```\n\nIn order to cause an infinte loop, we need to be able to control the `$id` used in the `$this->defs[$id]` code above. This `defs` property (`Svg\\Document::defs`) is being populated when `Svg\\Document::_tagStart` is called. This is the handler being used when the php-svg-lib is parsing the svg structure:\n\n```\n// Svg\\Document line 343\nif ($tag) {\n    if (isset($attributes[\"id\"])) {\n        $this->defs[$attributes[\"id\"]] = $tag;\n    }\n    else {\n        // ...\n    }\n\n    // ...\n}\n```\n\nSo if the `use` tag contains an `id`, then that `use` tag will be added to the `$defs` array with it's `id` as the key.\n\nNow as noted before, when there is a link inside the `use` tag, the library uses that link as the `id` to actually find the object or `tag` that has been added to the `Svg\\Document::defs`.\n\nSo if the `id` attribute is equal to the link attribute inside the `use` tag, then the referenced object (in this case it is the `Use` tag object) will be called recursively until the memory given to the script is exhausted.\n\n### PoC\n\nThis is an example svg file that can be used to demonstrate the vulnerability.\n\n```\n<svg width=\"200\" height=\"200\"\n  xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n  <use id=\"selfref\" xlink:href=\"#selfref\" />\n</svg>\n```\n\n### Impact\n\nWhen the lib parses the above payload, it will crash:\n\n```\nPHP Fatal error:  Allowed memory size of 536870912 bytes exhausted (tried to allocate 262144 bytes) in /xxx/dompdf/vendor/phenx/php-svg-lib/src/Svg/Tag/UseTag.php on line 37\n```\n\nAn attacker sending multiple request to a system to render the above payload can potentially cause resource exhaustion to the point that the system is unable to handle incoming request.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "phenx/php-svg-lib"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.5.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/dompdf/php-svg-lib/security/advisories/GHSA-ff5x-7qg5-vwf2"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-50251"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dompdf/php-svg-lib/commit/88163cbe562d9b391b3a352e54d9c89d02d77ee0"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/dompdf/php-svg-lib"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-674"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-12-13T13:32:21Z",
+    "nvd_published_at": "2023-12-12T21:15:08Z"
+  }
+}
