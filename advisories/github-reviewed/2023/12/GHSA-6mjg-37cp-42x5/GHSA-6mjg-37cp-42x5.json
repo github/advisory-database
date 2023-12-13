@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6mjg-37cp-42x5",
+  "modified": "2023-12-13T13:34:36Z",
+  "published": "2023-12-13T13:34:36Z",
+  "aliases": [
+
+  ],
+  "summary": "Improper Privilege Management in sap-xssec",
+  "details": "### Impact\n\nSAP BTP Security Services Integration Library ([Python] sap-xssec) allows under certain conditions an escalation of privileges. On successful exploitation, an unauthenticated attacker can obtain arbitrary permissions within the application.\n\n### Patches\nUpgrade to patched version >= 4.1.0\nWe always recommend to upgrade to the latest released version.\n\n### Workarounds\nNo workarounds\n\n### References\nhttps://www.cve.org/CVERecord?id=CVE-2023-50423\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "sap-xssec"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.1.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/SAP/cloud-pysec/security/advisories/GHSA-6mjg-37cp-42x5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/SAP/cloud-pysec/commit/d90c9e0733fa9af68bd8ea0b1cf023cf482163ef"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/SAP/cloud-pysec"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-269"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-12-13T13:34:36Z",
+    "nvd_published_at": null
+  }
+}
