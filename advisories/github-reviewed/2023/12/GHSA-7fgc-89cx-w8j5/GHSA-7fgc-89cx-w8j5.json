@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7fgc-89cx-w8j5",
+  "modified": "2023-12-13T23:08:35Z",
+  "published": "2023-12-13T23:08:35Z",
+  "aliases": [
+    "CVE-2023-50248"
+  ],
+  "summary": "Out of memory error when submitting the dataset form with a specially-crafted field",
+  "details": "### Impact\n\nWhen submitting a POST request to the `/dataset/new` endpoint (including either the auth cookie or the `Authorization` header) with a specially-crafted field, an attacker can create an out-of-memory error in the hosting server.\n\nTo trigger this error the user needs to have permissions to create or edit datasets.\n\n### Patches\n\nThis vulnerability has been patched in CKAN 2.10.3 and 2.9.10",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ckan"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0"
+            },
+            {
+              "fixed": "2.9.10"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ckan"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.10.0"
+            },
+            {
+              "fixed": "2.10.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ckan/ckan/security/advisories/GHSA-7fgc-89cx-w8j5"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-50248"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ckan/ckan/commit/bd02018b65c5b81d7ede195d00d0fcbac3aa33be"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ckan/ckan"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-130"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-12-13T23:08:35Z",
+    "nvd_published_at": "2023-12-13T21:15:08Z"
+  }
+}
