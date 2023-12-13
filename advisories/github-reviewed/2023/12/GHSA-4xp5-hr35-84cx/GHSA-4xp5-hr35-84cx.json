@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4xp5-hr35-84cx",
+  "modified": "2023-12-13T23:11:54Z",
+  "published": "2023-12-13T23:11:54Z",
+  "aliases": [
+    "CVE-2023-50459"
+  ],
+  "summary": "Broken Access Control in extension \"femanager\" ",
+  "details": "The extension fails to check access permissions for the edit user component. An authenticated frontend user can use the vulnerability to either edit data of various frontend users or to delete various frontend user accounts.\n\nAnother missing access check in the backend module of the extensions allows an authenticated backend user to perform various actions (userLogout, confirmUser, refuseUser and resendUserConfirmation) for any frontend user in the system.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "in2code/femanager"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.0.0"
+            },
+            {
+              "fixed": "7.2.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/in2code/femanager/CVE-2023-50459.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://typo3.org/security/advisory/typo3-ext-sa-2023-010"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-12-13T23:11:54Z",
+    "nvd_published_at": null
+  }
+}
