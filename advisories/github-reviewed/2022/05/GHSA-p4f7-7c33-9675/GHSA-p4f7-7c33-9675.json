@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-p4f7-7c33-9675",
+  "modified": "2023-12-14T18:14:17Z",
+  "published": "2022-05-24T16:58:50Z",
+  "aliases": [
+    "CVE-2019-10455"
+  ],
+  "summary": "Missing permission check in Jenkins Rundeck Plugin",
+  "details": "A missing permission check in Jenkins Rundeck Plugin allows attackers with Overall/Read permission to connect to an attacker-specified URL using attacker-specified credentials.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:rundeck"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.6.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-10455"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jenkinsci/rundeck-plugin/commit/68177fc53f40d038233c9d54f3d59fdee9d6ced0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jenkinsci/rundeck-plugin/commit/f0d115f14a9d2b0bfe4a33f1dc68aa637430b8ed"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/rundeck-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2019-10-16/#SECURITY-1460"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-862"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-12-14T18:14:17Z",
+    "nvd_published_at": "2019-10-16T14:15:00Z"
+  }
+}
