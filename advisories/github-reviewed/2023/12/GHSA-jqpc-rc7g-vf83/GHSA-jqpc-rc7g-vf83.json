@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jqpc-rc7g-vf83",
+  "modified": "2023-12-15T23:19:28Z",
+  "published": "2023-12-15T23:19:28Z",
+  "aliases": [
+    "CVE-2023-50715"
+  ],
+  "summary": "User accounts disclosed to unauthenticated actors on the LAN",
+  "details": "### Summary\n\nThe login page discloses all active user accounts to any unauthenticated browsing request originating on the Local Area Network.\n\n### Details\n\nStarting the [Home Assistant 2023.12 release](https://www.home-assistant.io/blog/2023/12/06/release-202312/), the login page returns all currently active user accounts to browsing requests from the Local Area Network. Tests showed that this occurs when:\n\n- The request is not authenticated and\n- The request originated locally, meaning on the Home Assistant host local subnet or any other private subnet (`10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16, fd00::/8, ::ffff:10.0.0.0/104, ::ffff:172.16.0.0/108, ::ffff:192.168.0.0/112`)\n\nThe rationale behind this is to make the login more user-friendly (see [release blog post](https://www.home-assistant.io/blog/2023/12/06/release-202312/)) and an experience better aligned with other applications that have multiple user-profiles.\n\nHowever, as a result, all accounts are displayed regardless of them having logged in or not and for any device that navigates to the server. This disclosure is mitigated by the fact that it only occurs for requests originating from a LAN address. But note that this applies to the local subnet where Home Assistant resides and to any private subnet that can reach it.\n\n### PoC\n\n1. Place a Home Assistant instance on a private subnet, i.e., 192.168.1.0/24.\n2. Create a few users, let's say, three.\n3. From any (or another) private subnet on the LAN, like 192.168.2.0/24, open an incognito browser window (to ensure that the browser has no cookies from Home Assistant and therefore is demonstrably unauthenticated) and navigate to the Home Assistant URL.\n4. The login page will display all three users, including their profile photo.\n\n### Impact\n\nThe following CVSS string could be shaped to describe the overall impact of this issue:\nAV:A/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N\n\nAs seen, the Exploitability metrics are high, and the Impact metrics are low. This is fitting because the problem does not constitute a critical one, but at the same time, it is trivial to exploit. Still, since the mitigation can be so easily implemented in code to eliminate a typical case of information disclosure, it would certainly be worth pursuing.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "homeassistant"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2023.12.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/home-assistant/core/security/advisories/GHSA-jqpc-rc7g-vf83"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-50715"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/home-assistant/core/commit/dbfc5ea8f96bde6cd165892f5a6a6f9a65731c76"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/home-assistant/core"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-12-15T23:19:28Z",
+    "nvd_published_at": "2023-12-15T03:15:45Z"
+  }
+}
