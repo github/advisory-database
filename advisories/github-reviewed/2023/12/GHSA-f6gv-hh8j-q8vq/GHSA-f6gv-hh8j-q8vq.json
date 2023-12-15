@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f6gv-hh8j-q8vq",
+  "modified": "2023-12-15T02:45:54Z",
+  "published": "2023-12-15T02:45:54Z",
+  "aliases": [
+    "CVE-2023-50710"
+  ],
+  "summary": "Named path parameters can be overridden in TrieRouter",
+  "details": "### Impact\n\nThe clients may override named path parameter values from previous requests if the application is using TrieRouter. So, there is a risk that a privileged user may use unintended parameters when deleting REST API resources.\n\nTrieRouter is used either explicitly or when the application matches a pattern that is not supported by the default RegExpRouter.\n\nThe code to reproduce it. The server side application:\n\n```ts\nimport { Hono } from 'hono'\nimport { TrieRouter } from 'hono/router/trie-router'\n\nconst wait = async (ms: number) => {\n  return new Promise((resolve) => {\n    setTimeout(resolve, ms)\n  })\n}\n\nconst app = new Hono({ router: new TrieRouter() })\n\napp.use('*', async (c, next) => {\n  await wait(Math.random() * 200)\n  return next()\n})\n\napp.get('/modules/:id/versions/:version', async (c) => {\n  const id = c.req.param('id')\n  const version = c.req.param('version')\n\n  console.log('path', c.req.path)\n  console.log('version', version)\n\n  return c.json({\n    id,\n    version,\n  })\n})\n\nexport default app\n```\n\nThe client code which makes requests to the server application:\n\n```ts\nconst examples = [\n  'http://localhost:8787/modules/first/versions/first',\n  'http://localhost:8787/modules/second/versions/second',\n  'http://localhost:8787/modules/third/versions/third',\n]\n\nconst test = () => {\n  for (const example of examples) {\n    fetch(example)\n      .then((response) => response.json())\n      .then((data) => {\n        const splitted = example.split('/')\n        const expected = splitted[splitted.length - 1]\n\n        if (expected !== data.version) {\n          console.error(`Error: exprected ${expected} but got ${data.version} - url was ${example}`)\n        }\n      })\n  }\n}\n\ntest()\n```\n\nThe results:\n\n```txt\nError: exprected second but got third - url was http://localhost:8787/modules/second/versions/second\nError: exprected first but got third - url was http://localhost:8787/modules/first/versions/first\n```\n\n### Patches\n\n\"v3.11.7\" includes the change to fix this issue.\n\n### Workarounds\n\nDon't use TrieRouter directly.\n\n```ts\n// DON'T USE TrieRouter\nimport { TrieRouter } from 'hono/router/trie-router'\nconst app = new Hono({ router: new TrieRouter() })\n```\n\n### References\n\nRouter options on the Hono website: https://hono.dev/api/hono#router-option",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:N/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "hono"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.11.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/honojs/hono/security/advisories/GHSA-f6gv-hh8j-q8vq"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-50710"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/honojs/hono/commit/8e2b6b08518998783f66d31db4f21b1b1eecc4c8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/honojs/hono"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/honojs/hono/releases/tag/v3.11.7"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-12-15T02:45:54Z",
+    "nvd_published_at": "2023-12-14T18:15:45Z"
+  }
+}
