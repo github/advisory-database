@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-x5fr-7hhj-34j3",
+  "modified": "2023-12-15T03:46:36Z",
+  "published": "2023-12-15T03:46:36Z",
+  "aliases": [
+
+  ],
+  "summary": "Full Table Permissions by Default",
+  "details": "Default table permissions in SurrealDB were `FULL` instead of `NONE`. This would lead to tables having `FULL` permissions for `SELECT`, `CREATE`, `UPDATE` and `DELETE` unless some other permissions were specified via the `PERMISSIONS` clause.\n\nWe have decided to treat this behaviour as a vulnerability due to its security implications, especially considering the lack of specific documentation and potential for confusion due to the `INFO FOR DB` statement previously not displaying default permissions. Treating it as a bug fix provides justification for a change in default behavior outside of a major release.\n\n### Impact\n\nAny client authorized to query data in a SurrealDB instance will have full access to any tables that were defined with no explicit permissions and that are within its authorization scope (i.e. namespace or database), including creating, reading, updating and deleting data. This is specially relevant for SurrealDB instances allowing guest access with publicly exposed interfaces (e.g. HTTP REST API or WebSocket API), since a remote unauthenticated user may gain full access to any tables that were defined without any explicit permissions. Tables that were defined with explicit permissions using the `PERMISSIONS` clause are not affected.\n\n### Patches\n\n- Version `1.0.1` includes a patch for this specific issue. Later releases will also include the patch.\n- Version `1.1.0-beta.1` and latest nightly releases already include the patch for this issue.\n\nIn patched versions:\n\n- Tables defined after the patch without explicit permissions have `NONE` permissions.\n- Table permissions are always explicitly displayed with the `INFO FOR DB` statement.\n\n### Workarounds\n\nIn unpatched versions, this issue can be resolved by explicitly defining table permissions as shown in the following examples:\n\n```sql\n-- INSECURE EXAMPLE\n-- DEFINE TABLE insecure;\n-- SECURE EXAMPLE 1\nDEFINE TABLE secure PERMISSIONS NONE;\n-- SECURE EXAMPLE 2\nDEFINE TABLE secure PERMISSIONS FOR SELECT, CREATE, UPDATE, DELETE NONE;\n-- SECURE EXAMPLE 3\nDEFINE TABLE secure PERMISSIONS FOR\n  SELECT WHERE user = $auth.id,\n  CREATE, UPDATE, DELETE NONE;\n-- SECURE EXAMPLE 4\nDEFINE TABLE secure PERMISSIONS\n  FOR select WHERE published = true OR user = $auth.id\n  FOR create, update WHERE user = $auth.id\n  FOR delete WHERE user = $auth.id OR $auth.admin = true;\n```\n\n### References\n\n- https://github.com/surrealdb/surrealdb/pull/3074\n- https://github.com/surrealdb/surrealdb/pull/3083\n- https://github.com/surrealdb/surrealdb/pull/3125\n- https://docs.surrealdb.com/docs/surrealql/statements/define/table/\n- https://docs.surrealdb.com/docs/security/capabilities#guest-access",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "surrealdb"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.0.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/surrealdb/surrealdb/security/advisories/GHSA-x5fr-7hhj-34j3"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/surrealdb/surrealdb"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-12-15T03:46:36Z",
+    "nvd_published_at": null
+  }
+}
