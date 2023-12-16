@@ -1,0 +1,206 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-pwfr-8pq7-x9qv",
+  "modified": "2023-12-16T00:52:19Z",
+  "published": "2023-12-16T00:52:19Z",
+  "aliases": [
+    "CVE-2023-50728"
+  ],
+  "summary": "Unauthenticated Denial of Service in the octokit/webhooks library",
+  "details": "### Impact\nVersions [v9.26.0](https://github.com/octokit/webhooks.js/releases/tag/v9.26.0), [v10.9.x](https://github.com/octokit/webhooks.js/releases/tag/v10.9.1)), [v11.1.x](https://github.com/octokit/webhooks.js/releases/tag/v11.1.1), [v12.0.x](https://github.com/octokit/webhooks.js/releases/tag/v12.0.3) all contained the code that would throw the error.\n\nSpecifically, during a pentest we encountered a bug in the octokit/webhooks library (a dependency of Probot, a framework for building Github Apps). The resulting request was found to cause an uncaught exception that ends the nodejs process.\n\nThe problem is caused by an issue with error handling in the @octokit/webhooks library because the error can be undefined in some cases.\n\nCredit goes to @pb82 (for the early analysis) and @rh-tguittet (for discovery). \n\n### Patches\n\nMaintenance releases for the Error being thrown by the verify method in [octokit/webhooks.js](https://github.com/octokit/webhooks.js)\n* v12 - [v12.0.4](https://github.com/octokit/webhooks.js/releases/tag/v12.0.4)\n* v11 - [v11.1.2](https://github.com/octokit/webhooks.js/releases/tag/v11.1.2)\n* v10 -[v10.9.2](https://github.com/octokit/webhooks.js/releases/tag/v10.9.2)\n* v9 - [v9.26.3](https://github.com/octokit/webhooks.js/releases/tag/v9.26.3)\n\nMaintenance release for the reference for [octokit/webhooks.js](https://github.com/octokit/webhooks.js) in [app.js](https://github.com/octokit/app.js)\n* [v14.0.2](https://github.com/octokit/app.js/releases/tag/v14.0.2)\n\nMaintenance release for the reference for [octokit/webhooks.js](https://github.com/octokit/webhooks.js) in [octokit.js](https://github.com/octokit/octokit.js)\n* [v3.1.2](https://github.com/octokit/octokit.js/releases/tag/v3.1.2)\n\nMaintenance release for the reference for [octokit/webhooks.js](https://github.com/octokit/webhooks.js) in [Protobot](https://github.com/probot/probot)\n* [v12.3.3](https://github.com/probot/probot/releases/tag/v12.3.3)\n\n\n### Workarounds\nIt is recommend that all users upgrade to the latest version of  [octokit/webhooks.js](https://github.com/octokit/webhooks.js) or use one of the updated back ported versions.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@octokit/webhooks"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "9.26.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@octokit/webhooks"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "10.0.0"
+            },
+            {
+              "fixed": "10.9.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@octokit/webhooks"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "11.0.0"
+            },
+            {
+              "fixed": "11.1.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@octokit/webhooks"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "12.0.0"
+            },
+            {
+              "fixed": "12.0.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@octokit/app"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.0.1"
+            },
+            {
+              "fixed": "14.0.2"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "14.0.1"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "octokit"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.1.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "probot"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "12.3.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/octokit/webhooks.js/security/advisories/GHSA-pwfr-8pq7-x9qv"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-50728"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/octokit/app.js/releases/tag/v14.0.2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/octokit/octokit.js/releases/tag/v3.1.2"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/octokit/webhooks.js"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/octokit/webhooks.js/releases/tag/v10.9.2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/octokit/webhooks.js/releases/tag/v11.1.2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/octokit/webhooks.js/releases/tag/v12.0.4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/octokit/webhooks.js/releases/tag/v9.26.3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/probot/probot/releases/tag/v12.3.3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-755"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-12-16T00:52:19Z",
+    "nvd_published_at": "2023-12-15T22:15:07Z"
+  }
+}
