@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4g5f-w3mh-w99m",
+  "modified": "2023-12-18T23:39:03Z",
+  "published": "2023-12-13T18:31:04Z",
+  "aliases": [
+    "CVE-2023-50769"
+  ],
+  "summary": "Jenkins Nexus Platform Plugin missing permission check",
+  "details": "Jenkins Nexus Platform Plugin 3.18.0-03 and earlier does not perform permission checks in methods implementing form validation.\n\nThis allows attackers with Overall/Read permission to connect to an attacker-specified HTTP server using attacker-specified credentials IDs obtained through another method, capturing credentials stored in Jenkins.\n\nAdditionally, these form validation methods do not require POST requests, resulting in a cross-site request forgery (CSRF) vulnerability.\n\nNexus Platform Plugin 3.18.1-01 requires POST requests and Overall/Administer permission for the affected form validation methods.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.sonatype.nexus.ci:nexus-jenkins-plugin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.18.1-01"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-50769"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jenkinsci/nexus-platform-plugin/pull/291"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jenkinsci/nexus-platform-plugin/commit/1d5e1e9e457af5e8ce8c9a403933d6cb73542dbd"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/nexus-platform-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-12-13/#SECURITY-3203"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2023/12/13/4"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-862"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-12-18T23:39:03Z",
+    "nvd_published_at": "2023-12-13T18:15:43Z"
+  }
+}
