@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jg82-xh3w-rhxx",
+  "modified": "2023-10-25T17:00:38Z",
+  "published": "2023-10-18T18:27:13Z",
+  "aliases": [
+    "CVE-2023-45811"
+  ],
+  "summary": "Synchrony deobfuscator prototype pollution vulnerability leading to arbitrary code execution",
+  "details": "### Impact\n\nA `__proto__` pollution vulnerability exists in synchrony versions before v2.4.4. Successful exploitation could lead to arbitrary code execution.\n\n### Summary\n\nA `__proto__` pollution vulnerability exists in the [LiteralMap] transformer allowing crafted input to modify properties in the Object prototype.\n\nWhen executing in Node.js, due to use of the `prettier` module, defining a `parser` property on `__proto__` with a path to a JS module on disk [causes a `require` of the value][prettier/src/main/parser.js] which can lead to arbitrary code execution.\n\n### Patch\n\nA fix has been released in `deobfuscator@2.4.4`.\n\n### Mitigation\n\n- Upgrade synchrony to v2.4.4\n- Launch node with the [--disable-proto=delete][disable-proto] or [--disable-proto=throw][disable-proto] flag\n\n### Proof of Concept\n\nCraft a malicious input file named `poc.js` as follows:\n\n```js\n// Malicious code to be run after this file is imported. Logs the result of shell command \"dir\" to the console.\nconsole.log(require('child_process').execSync('dir').toString())\n\n// Synchrony exploit PoC\n{\n  var __proto__ = { parser: 'poc.js' }\n}\n```\n\nThen, run `synchrony poc.js` from the same directory as the malicious file.\n\n### Credits\n\nThis vulnerability was found and disclosed by [William Khem-Marquez][SteakEnthusiast].\n\n[LiteralMap]: src/transformers/literalmap.ts\n[SteakEnthusiast]: https://github.com/SteakEnthusiast\n[disable-proto]: https://nodejs.dev/en/api/v20/cli/#--disable-protomode\n[prettier/src/main/parser.js]: https://github.com/prettier/prettier/blob/2.5.1/src/main/parser.js#L53-L63\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "deobfuscator"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.1"
+            },
+            {
+              "fixed": "2.4.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/relative/synchrony/security/advisories/GHSA-jg82-xh3w-rhxx"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-45811"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/relative/synchrony/commit/b583126be94c4db7c5a478f1c5204bfb4162cf40"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/relative/synchrony"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/relative/synchrony/security/advisories/src/transformers/literalmap.ts"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1321"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-18T18:27:13Z",
+    "nvd_published_at": "2023-10-17T23:15:12Z"
+  }
+}

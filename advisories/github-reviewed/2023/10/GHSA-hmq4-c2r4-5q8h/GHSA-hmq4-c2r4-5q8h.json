@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hmq4-c2r4-5q8h",
+  "modified": "2023-10-19T19:35:45Z",
+  "published": "2023-10-19T17:06:42Z",
+  "aliases": [
+    "CVE-2023-45823"
+  ],
+  "summary": "Artifact Hub arbitrary file read vulnerability",
+  "details": "### Impact\n\nDuring a security audit of Artifact Hub's code base, a security researcher at [OffSec](https://www.offsec.com/) identified a bug in which by using symbolic links in certain kinds of repositories loaded into Artifact Hub, it was possible to read internal files.\n\nArtifact Hub indexes content from a variety of sources, including git repositories. When processing git based repositories, Artifact Hub clones the repository and, depending on the artifact kind, reads some files from it. During this process, in some cases, no validation was done to check if the file was a symbolic link. This made possible to read arbitrary files in the system, potentially leaking sensitive information.\n\n### Patches\n\nThis issue has been resolved in version [1.16.0](https://artifacthub.io/packages/helm/artifact-hub/artifact-hub?modal=changelog&version=1.16.0).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/artifacthub/hub"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.16.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/artifacthub/hub/security/advisories/GHSA-hmq4-c2r4-5q8h"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-45823"
+    },
+    {
+      "type": "WEB",
+      "url": "https://artifacthub.io/packages/helm/artifact-hub/artifact-hub?modal=changelog&version=1.16.0"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/artifacthub/hub"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-19T17:06:42Z",
+    "nvd_published_at": "2023-10-19T21:15:09Z"
+  }
+}

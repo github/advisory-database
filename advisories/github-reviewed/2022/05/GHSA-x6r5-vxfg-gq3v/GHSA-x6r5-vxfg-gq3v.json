@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-x6r5-vxfg-gq3v",
+  "modified": "2023-08-01T23:17:41Z",
+  "published": "2022-05-24T16:50:33Z",
+  "aliases": [
+    "CVE-2019-1010275"
+  ],
+  "summary": "Helm Improper Certificate Validation",
+  "details": "helm Before 2.7.2 is affected by: CWE-295: Improper Certificate Validation. The impact is: Unauthorized clients could connect to the server because self-signed client certs were aloowed. The component is: helm (many files updated, see https://github.com/helm/helm/pull/3152/files/1096813bf9a425e2aa4ac755b6c991b626dfab50). The attack vector is: A malicious client could connect to the server over the network. The fixed version is: 2.7.2.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "helm.sh/helm"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.7.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-1010275"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/helm/helm/pull/3152"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/helm/helm/pull/3152/files/1096813bf9a425e2aa4ac755b6c991b626dfab50"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/helm/helm/commit/1096813bf9a425e2aa4ac755b6c991b626dfab50"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/helm/helm/releases/tag/v2.7.2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-295"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-01T23:17:41Z",
+    "nvd_published_at": "2019-07-17T21:15:00Z"
+  }
+}

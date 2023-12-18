@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-gc57-xhh5-m94r",
+  "modified": "2023-10-13T19:29:13Z",
+  "published": "2023-10-13T19:29:13Z",
+  "aliases": [
+    "CVE-2023-41882"
+  ],
+  "summary": "Improper Access Control in vantage6",
+  "details": "### Impact\nThe endpoint /api/collaboration/{id}/task is used to collect all tasks from a certain collaboration. To get such tasks, a user should have permission to view the collaboration and to view the tasks in it. However, currently it is only checked if the user has permission to view the collaboration.\n\n### Patches\nNo\n\n### Workarounds\nNone\n\n### References\nNone \n\n### For more information\nIf you have any questions or comments about this advisory:\n* Email us at [vantage6@iknl.nl](mailto:vantage6@iknl.nl)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "vantage6"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/vantage6/vantage6/security/advisories/GHSA-gc57-xhh5-m94r"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-41882"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vantage6/vantage6/pull/711"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vantage6/vantage6/commit/86564e103cbac5238ce2fe392e3357e0e8c20220"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/vantage6/PYSEC-2023-201.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vantage6/vantage6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vantage6/vantage6/blob/0682c4288f43fee5bcc72dc448cdd99bd7e57f76/docs/release_notes.rst#400"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-284"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-13T19:29:13Z",
+    "nvd_published_at": "2023-10-11T20:15:10Z"
+  }
+}

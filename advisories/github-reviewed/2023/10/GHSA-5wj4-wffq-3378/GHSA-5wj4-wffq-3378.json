@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5wj4-wffq-3378",
+  "modified": "2023-11-03T19:13:55Z",
+  "published": "2023-10-25T21:30:33Z",
+  "aliases": [
+    "CVE-2023-5043"
+  ],
+  "summary": "Ingress nginx annotation injection causes arbitrary command execution",
+  "details": "### Issue Details\nA security issue was identified in ingress-nginx where the nginx.ingress.kubernetes.io/configuration-snippet annotation on an Ingress object (in the networking.k8s.io or extensions API group) can be used to inject arbitrary commands, and obtain the credentials of the ingress-nginx controller. In the default configuration, that credential has access to all secrets in the cluster.\n\nThis issue has been rated High (CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:L/A:L), and assigned CVE-2023-5043.\n\n### Affected Components and Configurations\nThis bug affects ingress-nginx. If you do not have ingress-nginx installed on your cluster, you are not affected. You can check this by running kubectl get po -n ingress-nginx.\n\nIf you are running the “chrooted” ingress-nginx controller introduced in v1.2.0 (gcr.io/k8s-staging-ingress-nginx/controller-chroot), command execution is possible but credential extraction is not, so the High severity does not apply.\n\nMulti-tenant environments where non-admin users have permissions to create Ingress objects are most affected by this issue.\n\n#### Affected Versions\n<v1.9.0\n#### Versions allowing mitigation\nv1.9.0\n### Mitigation\nIngress Administrators should set the --enable-annotation-validation flag to enforce restrictions on the contents of ingress-nginx annotation fields.\n\n### Detection\nIf you find evidence that this vulnerability has been exploited, please contact security@kubernetes.io\n\n### Additional Details\nSee ingress-nginx Issue [#10571](https://github.com/kubernetes/ingress-nginx/issues/10571) for more details.\n\n### Acknowledgements\nThis vulnerability was reported by suanve\n\nThank You,\nCJ Cullen on behalf of the Kubernetes Security Response Committee",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "k8s.io/ingress-nginx"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.9.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-5043"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kubernetes/ingress-nginx/issues/10571"
+    },
+    {
+      "type": "WEB",
+      "url": "https://groups.google.com/g/kubernetes-security-announce/c/pVsXsOpxYZo"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2023/10/25/4"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20",
+      "CWE-74"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-03T19:13:55Z",
+    "nvd_published_at": "2023-10-25T20:15:18Z"
+  }
+}

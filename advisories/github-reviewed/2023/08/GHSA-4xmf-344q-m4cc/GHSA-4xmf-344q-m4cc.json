@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4xmf-344q-m4cc",
+  "modified": "2023-08-22T17:53:47Z",
+  "published": "2023-08-22T00:31:10Z",
+  "aliases": [
+    "CVE-2023-4302"
+  ],
+  "summary": "Jenkins Fortify Plugin missing permission check",
+  "details": "Jenkins Fortify Plugin 22.1.38 and earlier does not perform permission checks in several HTTP endpoints.\n\nThis allows attackers with Overall/Read permission to connect to an attacker-specified URL using attacker-specified credentials IDs obtained through another method, capturing credentials stored in Jenkins.\n\nAdditionally, these HTTP endpoints do not require POST requests, resulting in a cross-site request forgery (CSRF) vulnerability.\n\nFortify Plugin 22.2.39 requires POST requests and the appropriate permissions for the affected HTTP endpoints.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:fortify"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "22.2.39"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 22.1.38"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-4302"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jenkinsci/fortify-plugin/commit/357d7bfbcb0ff796ea7d078bee13159f1d000f5d"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/fortify-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-08-16/#SECURITY-3115"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-862"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-22T17:53:47Z",
+    "nvd_published_at": "2023-08-21T23:15:09Z"
+  }
+}

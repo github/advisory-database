@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vcvg-xgr8-p5gq",
+  "modified": "2023-06-09T19:31:32Z",
+  "published": "2023-06-09T19:31:32Z",
+  "aliases": [
+    "CVE-2020-15230"
+  ],
+  "summary": "Arbitrary file read using percent-encoded relative paths in FileMiddleware",
+  "details": "### Impact\n\nAttackers can access data at arbitrary filesystem paths on the same host as an application using `FileMiddleware`.\n\n### Patches\n\nVersion [4.29.4](https://github.com/vapor/vapor/releases/tag/4.29.4)\n\n### Workarounds\n\nUpgrade to 4.24.4 or later, or disable `FileMiddleware`.\n\n### References\n\n* Introduced in https://github.com/vapor/vapor/pull/2223\n* Fixed by https://github.com/vapor/vapor/pull/2500\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n* Open [an issue](https://github.com/vapor/vapor/issues)\n* Email us at [security@vapor.codes](mailto:security@vapor.codes)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "SwiftURL",
+        "name": "github.com/vapor/vapor"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0-rc.2.5"
+            },
+            {
+              "fixed": "4.29.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/vapor/vapor/security/advisories/GHSA-vcvg-xgr8-p5gq"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-15230"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vapor/vapor/pull/2500"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vapor/vapor/commit/cf1651f7ff76515593f4d8ca6e6e15d2247fe255"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vapor/vapor"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-09T19:31:32Z",
+    "nvd_published_at": "2020-10-02T19:15:00Z"
+  }
+}

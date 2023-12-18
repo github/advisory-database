@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6mf5-36v9-3h2w",
+  "modified": "2023-06-20T16:46:11Z",
+  "published": "2023-06-20T16:46:11Z",
+  "aliases": [
+    "CVE-2023-35150"
+  ],
+  "summary": "XWiki Platform vulnerable to privilege escalation (PR) from view right via Invitation application",
+  "details": "### Impact\nAny user with view rights on any document can execute code with programming rights, leading to remote code execution by crafting an url with a dangerous payload. See the example below:\nOpen `<xwiki-host>/xwiki/bin/view/%5D%5D%20%7B%7Basync%20async%3D%22true%22%20cached%3D%22false%22%20context%3D%22doc.reference%22%7D%7D%7B%7Bgroovy%7D%7Dprintln(%22Hello%20%22%20%2B%20%22from%20groovy!%22)%7B%7B%2Fgroovy%7D%7D%7B%7B%2Fasync%7D%7D?sheet=Invitation.InvitationGuestActions&xpage=view` where `<xwiki-host>` is the URL of your XWiki installation.\n\n### Patches\nThe problem as been patching on XWiki 15.0, 14.10.4 and 14.4.8.\n\n### Workarounds\nIt is possible to partially fix the issue by applying this [patch](https://github.com/xwiki/xwiki-platform/commit/b65220a4d86b8888791c3b643074ebca5c089a3a). Note that some additional issue can remain and can be fixed automatically by a migration. Hence, it is advised to upgrade to one of the patched version instead of patching manually.\n\n### References\n- https://jira.xwiki.org/browse/XWIKI-20285\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n\n*    Open an issue in [Jira XWiki.org](https://jira.xwiki.org/)\n*    Email us at [Security Mailing List](mailto:security@xwiki.org)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-invitation-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.4-m-2"
+            },
+            {
+              "fixed": "14.4.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-invitation-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.5"
+            },
+            {
+              "fixed": "14.10.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-invitation-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "15.0-rc-1"
+            },
+            {
+              "fixed": "15.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-6mf5-36v9-3h2w"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-35150"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/b65220a4d86b8888791c3b643074ebca5c089a3a"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20285"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94",
+      "CWE-95"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-20T16:46:11Z",
+    "nvd_published_at": "2023-06-23T17:15:09Z"
+  }
+}

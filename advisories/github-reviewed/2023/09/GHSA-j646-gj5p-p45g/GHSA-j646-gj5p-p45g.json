@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-j646-gj5p-p45g",
+  "modified": "2023-10-02T20:17:01Z",
+  "published": "2023-09-21T17:11:42Z",
+  "aliases": [
+
+  ],
+  "summary": "CefSharp affected by heap buffer overflow in WebP",
+  "details": "**Google is aware that an exploit for [CVE-2023-4863](https://www.cve.org/CVERecord?id=CVE-2023-4863) exists in the wild.**\n\n### Description\n\nHeap buffer overflow in WebP in Google Chrome prior to 116.0.5845.187 allowed a remote attacker to perform an out of bounds memory write via a crafted HTML page. (Chromium security severity: Critical)\n\n### References\n\n- https://www.cve.org/CVERecord?id=CVE-2023-4863\n- https://nvd.nist.gov/vuln/detail/CVE-2023-4863\n- https://www.techtarget.com/searchsecurity/news/366551978/Browser-companies-patch-critical-zero-day-vulnerability\n\n---\n**Updated**\n\nThere is another related security vulnerability. \n\n> There's another related CVE ([CVE-2023-5217](https://nvd.nist.gov/vuln/detail/CVE-2023-5217)) that is fixed in Chromium 117.0.5938.132. This one is triggered by WebCodecs API encoder usage, so a workaround for older versions is to disable the WebCodecs API (`--disable-blink-features=WebCodecs`).\n\nAs per https://magpcss.org/ceforum/viewtopic.php?f=6&t=19551#p54150\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "CefSharp.Common"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "116.0.230"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "CefSharp.Common.NETCore"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "116.0.230"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/cefsharp/CefSharp/security/advisories/GHSA-j646-gj5p-p45g"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cefsharp/CefSharp/commit/f2890ba66170afb0bf742839febe4d20449f758c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cefsharp/CefSharp"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cefsharp/CefSharp/releases/tag/v116.0.230"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-21T17:11:42Z",
+    "nvd_published_at": null
+  }
+}

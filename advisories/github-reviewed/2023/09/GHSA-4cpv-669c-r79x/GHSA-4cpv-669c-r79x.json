@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4cpv-669c-r79x",
+  "modified": "2023-09-11T14:43:05Z",
+  "published": "2023-09-11T14:43:05Z",
+  "aliases": [
+    "CVE-2023-41336"
+  ],
+  "summary": "Prevent injection of invalid entity ids for \"autocomplete\" fields",
+  "details": "### Impact\nUnder certain circumstances, an attacker could successfully submit an entity id for an `EntityType` that is *not* part of the valid choices.\n\nAffected applications are any that use:\n\n* A custom `query_builder` option to limit the valid results;\nAND\n* An `EntityType` with `'autocomplete' => true` or a custom [AsEntityAutocompleteField](https://symfony.com/bundles/ux-autocomplete/current/index.html#usage-in-a-form-with-ajax).\n\nUnder this circumstance, if an id is submitted, it is accepted even if the matching record would not be returned by the custom query built with `query_builder`.\n\n### Patches\n\nThe problem has been fixed in `symfony/ux-autocomplete` version 2.11.2.\n\n### Workarounds\nUpgrade to version 2.11.2 or greater of `symfony/ux-autocomplete` or perform extra validation after submit to verify the selected option is valid.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/ux-autocomplete"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.11.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/symfony/ux-autocomplete/security/advisories/GHSA-4cpv-669c-r79x"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-41336"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/symfony/ux-autocomplete/commit/fabcb2eee14b9e84a45b276711853a560b5d770c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/symfony/ux-autocomplete/CVE-2023-41336.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/symfony/ux-autocomplete"
+    },
+    {
+      "type": "WEB",
+      "url": "https://symfony.com/bundles/ux-autocomplete/current/index.html#usage-in-a-form-with-ajax"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-11T14:43:05Z",
+    "nvd_published_at": "2023-09-11T20:15:10Z"
+  }
+}

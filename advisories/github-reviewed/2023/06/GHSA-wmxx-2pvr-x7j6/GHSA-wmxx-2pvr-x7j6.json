@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wmxx-2pvr-x7j6",
+  "modified": "2023-06-14T20:30:40Z",
+  "published": "2023-06-14T15:30:37Z",
+  "aliases": [
+    "CVE-2023-35145"
+  ],
+  "summary": "Jenkins Sonargraph Integration Plugin vulnerable to Stored Cross-site Scripting",
+  "details": "Jenkins Sonargraph Integration Plugin 5.0.1 and earlier does not correctly escape the file path and the project name for the Log file field form validation.\n\nThis results in a stored cross-site scripting (XSS) vulnerability exploitable by attackers with Item/Configure permission.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:sonargraph-integration"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "5.0.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-35145"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-06-14/#SECURITY-3155"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2023/06/14/5"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-14T20:29:11Z",
+    "nvd_published_at": "2023-06-14T13:15:12Z"
+  }
+}

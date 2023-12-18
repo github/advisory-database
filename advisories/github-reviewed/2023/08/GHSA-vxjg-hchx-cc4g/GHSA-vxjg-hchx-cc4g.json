@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vxjg-hchx-cc4g",
+  "modified": "2023-08-04T18:41:47Z",
+  "published": "2023-08-01T16:59:40Z",
+  "aliases": [
+    "CVE-2023-38695"
+  ],
+  "summary": "@simonsmith/cypress-image-snapshothas fix for insecure snapshot file names",
+  "details": "### Impact\nIt's possible for a user to pass a relative file path for the snapshot name and reach outside of the project directory into the machine running the test. Example:\n\n```js\n  cy.get('h1').matchImageSnapshot('../../../ignore-relative-dirs')\n```\nThe above will create an `ignore-relative-dirs.png` three levels up\n\n### Patches\nFixed in `8.0.2`\n\n### Workarounds\nValidate all the existing uses of `matchImageSnapshot` to ensure correct use of the filename argument. Example:\n\n```js\n    // snapshot name will be the test title\n    cy.matchImageSnapshot();\n\n    // snapshot name will be the name passed in\n    cy.matchImageSnapshot('login');\n```\n\n### References\nhttps://github.com/simonsmith/cypress-image-snapshot/issues/15\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@simonsmith/cypress-image-snapshot"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "8.0.2"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 8.0.1"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/simonsmith/cypress-image-snapshot/security/advisories/GHSA-vxjg-hchx-cc4g"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-38695"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/simonsmith/cypress-image-snapshot/issues/15"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/simonsmith/cypress-image-snapshot/commit/ef49519795daf5183f4fac6f3136e194f20f39f4"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/simonsmith/cypress-image-snapshot"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/simonsmith/cypress-image-snapshot/releases/tag/8.0.2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-01T16:59:40Z",
+    "nvd_published_at": "2023-08-04T18:15:14Z"
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5j46-5hwq-gwh7",
+  "modified": "2023-09-21T17:21:08Z",
+  "published": "2023-09-20T18:30:21Z",
+  "aliases": [
+    "CVE-2023-43495"
+  ],
+  "summary": "Jenkins Cross-site Scripting vulnerability",
+  "details": "`ExpandableDetailsNote` allows annotating build log content with additional information that can be revealed when interacted with.\n\nJenkins 2.423 and earlier, LTS 2.414.1 and earlier does not escape the value of the `caption` constructor parameter of `ExpandableDetailsNote`.\n\nThis results in a stored cross-site scripting (XSS) vulnerability exploitable by attackers able to provide `caption` parameter values.\n\nAs of publication, the related API is not used within Jenkins (core), and the Jenkins security team is not aware of any affected plugins.\nJenkins 2.424, LTS 2.414.2 escapes `caption` constructor parameter values.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.main:jenkins-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.50"
+            },
+            {
+              "fixed": "2.414.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.main:jenkins-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.415"
+            },
+            {
+              "fixed": "2.424"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-43495"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-09-20/#SECURITY-3245"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2023/09/20/5"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-21T17:21:08Z",
+    "nvd_published_at": "2023-09-20T17:15:11Z"
+  }
+}

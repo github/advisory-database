@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9phh-r37v-34wh",
+  "modified": "2023-08-14T21:10:17Z",
+  "published": "2023-08-14T21:10:17Z",
+  "aliases": [
+
+  ],
+  "summary": "lakeFS vulnerable to Arbitrary JavaScript Injection via Direct Link to HTML Files",
+  "details": "### Impact\nThe browser renders the resulting HTML when opening a direct link to an HTML file via lakeFS. Any JavaScript within that page is executed within the context of the domain lakeFS is running in.  \nAn attacker can inject a malicious script inline, download resources from another domain, or make arbitrary HTTP requests. This would allow the attacker to send information to a random domain or carry out lakeFS operations while impersonating the victim.  \n\nNote that to carry out this attack, an attacker must already have access to upload the malicious HTML file to one or more repositories. It also depends on the victim receiving and opening the link to the malicious HTML file.\n\n### Patches\nThis is fixed in lakeFS version 0.106.0\n\n### Workarounds\nThere are no known workarounds at this time.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:R/S:C/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/treeverse/lakefs"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.106.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/treeverse/lakeFS/security/advisories/GHSA-9phh-r37v-34wh"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/treeverse/lakeFS/commit/2b2a9fa156ad80b0aac043e17533b546b1800603"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/treeverse/lakeFS"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/treeverse/lakeFS/releases/tag/v0.106.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-14T21:10:17Z",
+    "nvd_published_at": null
+  }
+}

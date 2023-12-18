@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hpf4-v7v2-95p2",
+  "modified": "2023-09-07T21:28:14Z",
+  "published": "2023-08-09T14:38:18Z",
+  "aliases": [
+    "CVE-2023-39528"
+  ],
+  "summary": "PrestaShop file access through path traversal",
+  "details": "### Impact\n`displayAjaxEmailHTML` method can be used to read any file on the server, potentially even outside of the project if the server is not correctly configured.\n\nThis vulnerability can be exacerbated when coupled with [CWE-502](https://cwe.mitre.org/data/definitions/502.html), which pertains to the Deserialization of Untrusted Data. Such a combination could potentially lead to a Remote Code Execution (RCE) vulnerability\n\n### Patches\n8.1.1\n\n### Found by\nAleksey Solovev (Positive Technologies)\n\n### Workarounds\n\n### References\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "prestashop/prestashop"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "8.1.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 8.1.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/PrestaShop/PrestaShop/security/advisories/GHSA-hpf4-v7v2-95p2"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-39528"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/PrestaShop/PrestaShop/commit/11de3a84322fa4ecd0995ac40d575db61804724c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/PrestaShop/PrestaShop"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-09T14:38:18Z",
+    "nvd_published_at": "2023-08-07T21:15:10Z"
+  }
+}

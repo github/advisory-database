@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-86pw-4rqp-6x7v",
+  "modified": "2023-08-03T17:55:50Z",
+  "published": "2023-07-25T09:30:17Z",
+  "aliases": [
+    "CVE-2023-34189"
+  ],
+  "summary": "Apache InLong: General user can delete and update process",
+  "details": "Exposure of Resource to Wrong Sphere Vulnerability in Apache Software Foundation Apache InLong.This issue affects Apache InLong: from 1.4.0 through 1.7.0. The attacker could use general users to delete and update the process, which only the admin can operate occurrences. \n\nUsers are advised to upgrade to Apache InLong's 1.8.0 or cherry-pick  https://github.com/apache/inlong/pull/8109  to solve it.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.inlong:inlong-manager"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.4.0"
+            },
+            {
+              "fixed": "1.8.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-34189"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/inlong/issues/8108"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/inlong/pull/8109"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/inlong"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/smxqyx43hxjvzv4w71n2n3rfho9p378s"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2023/07/25/2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-668"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-25T19:13:02Z",
+    "nvd_published_at": "2023-07-25T08:15:10Z"
+  }
+}

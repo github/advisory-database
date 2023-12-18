@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9436-3gmp-4f53",
+  "modified": "2023-07-19T22:11:07Z",
+  "published": "2023-07-19T22:11:07Z",
+  "aliases": [
+    "CVE-2023-37897"
+  ],
+  "summary": "grav Server-side Template Injection (SSTI) mitigation bypass",
+  "details": "### Summary\nThe fix for SSTI using `|map`, `|filter` and `|reduce` twigs implemented in the commit [71bbed1](https://github.com/getgrav/grav/commit/71bbed12f950de8335006d7f91112263d8504f1b) introduces bypass of the denylist due to incorrect return value from `isDangerousFunction()`, which allows to execute the payload prepending double backslash (`\\\\`) \n\n### Details\nThe `isDangerousFunction()` check in version 1.7.42 and onwards retuns `false` value instead of `true` when the `\\` symbol is found in the `$name`.\n\n```php\n...\n        if (strpos($name, \"\\\\\") !== false) {\n            return false;\n        }\n\n        if (in_array($name, $commandExecutionFunctions)) {\n            return true;\n        }\n...\n```\nBased on the code where the function is used, it is expected that any dangerous condition would return `true`\n```php\n    /**\n     * @param Environment $env\n     * @param array $array\n     * @param callable|string $arrow\n     * @return array|CallbackFilterIterator\n     * @throws RuntimeError\n     */\n    function mapFunc(Environment $env, $array, $arrow)\n    {\n        if (!$arrow instanceof \\Closure && !is_string($arrow) || Utils::isDangerousFunction($arrow)) {\n            throw new RuntimeError('Twig |map(\"' . $arrow . '\") is not allowed.');\n\t}\n```\nwhen `|map('\\system')` is used in the malicious payload, the single backslash is dropped prior to reaching `strpos($name, '\\\\')` check, thus `$name` variable already has no backslash, and the command is blacklisted because it reaches the  `if (in_array($name, $commandExecutionFunctions)) {` validation step. \n\nHowever if `|map('\\\\system')` is used (i.e. double backslash), then the `strpos($name, \"\\\\\") !== false` takes effect, and `isDangerousFunction()` returns `false` , in which case the `RuntimeError` is not generated, and blacklist is bypassed leading to code execution.\n\n### Exploit Conditions\nThis vulnerability can be exploited if the attacker has access to:\n\n1. an Administrator account, or\n2. a non-administrator, user account that has Admin panel access and Create/Update page permissions\n\n### Steps to reproduce\n\n1. Log in to Grav Admin using an administrator account.\n2. Navigate to `Accounts > Add`, and ensure that the following permissions are assigned when creating a new low-privileged user: \n    - Login to Admin - Allowed\n    - Page Update - Allowed\n3. Log out of Grav Admin\n4. Login using the account created in step 2.\n5. Choose `Pages -> Home`\n6. Click the `Advanced` tab and select the checkbox beside `Twig` to ensure that Twig processing is enabled for the modified webpage.\n7. Under the `Content` tab, insert the following payload within the editor:\n```{{ ['id'] | map('\\\\system') | join() }}```\n8. Click the `Preview` button. Observe that the output of the id shell command is returned in the preview.\n\n### Mitigation\n\n```diff\ndiff --git a/system/src/Grav/Common/Utils.php b/system/src/Grav/Common/Utils.php\nindex 2f121bbe3..7b267cd0f 100644\n--- a/system/src/Grav/Common/Utils.php\n+++ b/system/src/Grav/Common/Utils.php\n@@ -2069,7 +2069,7 @@ abstract class Utils\n         }\n \n         if (strpos($name, \"\\\\\") !== false) {\n-            return false;\n+            return true;\n         }\n \n         if (in_array($name, $commandExecutionFunctions)) {\n                                                                         \n```\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getgrav/grav"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.7.42.2"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.7.42.1"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/getgrav/grav/security/advisories/GHSA-9436-3gmp-4f53"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-37897"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getgrav/grav/commit/71bbed12f950de8335006d7f91112263d8504f1b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getgrav/grav/commit/b4c62101a43051fc7f5349c7d0a5b6085375c1d7"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/getgrav/grav"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-393",
+      "CWE-74"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-19T22:11:07Z",
+    "nvd_published_at": "2023-07-18T21:15:15Z"
+  }
+}

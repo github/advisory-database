@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-p3h7-3c45-qj4v",
+  "modified": "2023-08-29T21:40:04Z",
+  "published": "2022-05-17T05:18:21Z",
+  "aliases": [
+    "CVE-2012-4571"
+  ],
+  "summary": "Python Keyring does not securely initialize encryption cipher",
+  "details": "Python Keyring 0.9.1 does not securely initialize the cipher when encrypting passwords for `CryptedFileKeyring` files, which makes it easier for local users to obtain passwords via a brute-force attack.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "keyring"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.9.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2012-4571"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jaraco/keyring/commit/162f2ed0e39e16d561732b9fad8af6cd2341d7bd"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.launchpad.net/ubuntu/+source/python-keyring/+bug/1004845"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jaraco/keyring"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2012/10/31/8"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.ubuntu.com/usn/USN-1634-1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-326"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-29T21:40:04Z",
+    "nvd_published_at": "2012-11-30T22:55:00Z"
+  }
+}

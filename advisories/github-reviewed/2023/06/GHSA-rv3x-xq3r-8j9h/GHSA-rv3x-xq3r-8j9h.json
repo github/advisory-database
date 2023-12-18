@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rv3x-xq3r-8j9h",
+  "modified": "2023-06-09T19:32:32Z",
+  "published": "2023-06-09T19:32:32Z",
+  "aliases": [
+    "CVE-2021-37634"
+  ],
+  "summary": "LeafKit allows XSS with untrusted user input",
+  "details": "### Impact\nThis affects anyone passing unsanitised data to Leaf's variable tags. Before this fix, Leaf would not escape any strings passed to tags as variables. If an attacker managed to find a variable that was rendered with their unsanitised data, they could inject scripts into a generated Leaf page, which could enable XSS attacks if other mitigations such as a Content Security Policy were not enabled.\n\n### Patches\nThis has been patched in 1.3.0\n\n### Workarounds\nSanitise any untrusted input before passing it to Leaf and enable a CSP to block inline script and CSS data.\n\n### References\nhttps://github.com/vapor/leaf-kit-ghsa-rv3x-xq3r-8j9h/pull/1\n\n### For more information\nIf you have any questions or comments about this advisory:\n* Open an issue in [Leaf Kit](https://github.com/vapor/leaf-kit)\n* Email us at [security@vapor.codes](mailto:security@vapor.codes)",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "SwiftURL",
+        "name": "github.com/vapor/leaf-kit"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.3.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/vapor/leaf-kit/security/advisories/GHSA-rv3x-xq3r-8j9h"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-37634"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vapor/leaf-kit"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vapor/leaf-kit/releases/tag/1.3.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79",
+      "CWE-80"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-09T19:32:32Z",
+    "nvd_published_at": "2021-08-09T20:15:00Z"
+  }
+}

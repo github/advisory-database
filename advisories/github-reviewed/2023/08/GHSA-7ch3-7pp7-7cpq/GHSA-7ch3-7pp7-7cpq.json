@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7ch3-7pp7-7cpq",
+  "modified": "2023-08-25T16:08:10Z",
+  "published": "2023-08-22T18:06:46Z",
+  "aliases": [
+    "CVE-2023-40570"
+  ],
+  "summary": "Datasette 1.0 alpha series leaks names of databases and tables to unauthenticated users",
+  "details": "### Impact\n\nThis bug affects Datasette instances running a Datasette 1.0 alpha - 1.0a0, 1.0a1, 1.0a2 or 1.0a3 - in an online accessible location but with authentication enabled using a plugin such as [datasette-auth-passwords](https://datasette.io/plugins/datasette-auth-passwords).\n\nThe `/-/api` API explorer endpoint could reveal the names of both databases and tables - but not their contents - to an unauthenticated user.\n\n### Patches\n\nDatasette 1.0a4 has a fix for this issue.\n\n### Workarounds\n\nTo work around this issue, block all traffic to the `/-/api` endpoint. This can be done with a proxy such as Apache or NGINX, or by installing the [datasette-block](https://datasette.io/plugins/datasette-block) plugin and adding the following configuration to your `metadata.json` or `metadata.yml` file:\n\n```json\n{\n    \"plugins\": {\n        \"datasette-block\": {\n            \"prefixes\": [\"/-/api\"]\n        }\n    }\n}\n```\nThis will block access to the API explorer but will still allow access to the Datasette read or write JSON APIs, as those use different URL patterns within the Datasette `/database` hierarchy.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "datasette"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0a0"
+            },
+            {
+              "fixed": "1.0a4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/simonw/datasette/security/advisories/GHSA-7ch3-7pp7-7cpq"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-40570"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/simonw/datasette/commit/01e0558825b8f7ec17d3b691aa072daf122fcc74"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/datasette/PYSEC-2023-154.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/simonw/datasette"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200",
+      "CWE-213"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-22T18:06:46Z",
+    "nvd_published_at": "2023-08-25T01:15:09Z"
+  }
+}

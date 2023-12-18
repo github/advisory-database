@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mm79-jhqm-9j54",
+  "modified": "2023-11-15T18:15:24Z",
+  "published": "2023-11-14T20:33:27Z",
+  "aliases": [
+    "CVE-2023-47125"
+  ],
+  "summary": "Bypassing Cross-Site Scripting Protection in TYPO3 HTML Sanitizer",
+  "details": "> ### CVSS: `CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:L/I:L/A:N/E:F/RL:O/RC:C` (4.4)\n\n### Problem\nDOM processing instructions are not handled correctly. This allows bypassing the cross-site scripting mechanism of [`typo3/html-sanitizer`](https://packagist.org/packages/typo3/html-sanitizer).\n\n### Solution\nUpdate to `typo3/html-sanitizer` versions 1.5.3 or 2.1.4 that fix the problem described.\n\n### Credits\nThanks to Yaniv Nizry and Niels Dossche who reported this issue, and to TYPO3 core & security team member Oliver Hader who fixed the issue.\n\n### References\n* [TYPO3-CORE-SA-2023-007](https://typo3.org/security/advisory/typo3-core-sa-2023-007)\n* [Context & Details at `masterminds/html5`](https://github.com/Masterminds/html5-php/issues/241)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/html-sanitizer"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.0"
+            },
+            {
+              "fixed": "1.5.3"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.5.2"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/html-sanitizer"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.1.4"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.1.3"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/TYPO3/html-sanitizer/security/advisories/GHSA-mm79-jhqm-9j54"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-47125"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/TYPO3/html-sanitizer/commit/b8f90717251d968c49dc77f8c1e5912e2fbe0dff"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/TYPO3/html-sanitizer"
+    },
+    {
+      "type": "WEB",
+      "url": "https://typo3.org/security/advisory/typo3-core-sa-2023-007"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-14T20:33:27Z",
+    "nvd_published_at": "2023-11-14T20:15:07Z"
+  }
+}

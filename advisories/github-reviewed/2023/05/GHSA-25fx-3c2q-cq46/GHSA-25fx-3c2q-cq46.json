@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-25fx-3c2q-cq46",
+  "modified": "2023-05-25T21:32:00Z",
+  "published": "2023-05-17T15:48:04Z",
+  "aliases": [
+    "CVE-2023-2756"
+  ],
+  "summary": "pimcore/customer-management-framework-bundle has SQL Injection vulnerability in Segment Assignment query",
+  "details": "### Impact\nAn administrator user can use the inheritable segments feature to execute his own blind SQL queries.\n\nA user with administrator privileges can run any SQL query on database. This can be used to retrieve sensitive data, change database information or any other malicious activity against the database.\n\n### Patches\nUpdate to version 3.3.10 or apply this patch manually https://github.com/pimcore/customer-data-framework/commit/76df151737b7964ce5169fdf9e27a0ad801757fe.patch\n\n### Workarounds\nApply https://github.com/pimcore/customer-data-framework/commit/76df151737b7964ce5169fdf9e27a0ad801757fe.patch manually.\n\n### References\nhttps://huntr.dev/bounties/cf398528-819f-456e-88e7-c06d268d3f44/\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "pimcore/customer-management-framework-bundle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.3.10"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/customer-data-framework/security/advisories/GHSA-25fx-3c2q-cq46"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-2756"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/customer-data-framework/commit/76df151737b7964ce5169fdf9e27a0ad801757fe"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pimcore/customer-data-framework"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.dev/bounties/cf398528-819f-456e-88e7-c06d268d3f44"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-89"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-17T15:48:04Z",
+    "nvd_published_at": "2023-05-17T11:15:09Z"
+  }
+}

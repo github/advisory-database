@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rxrc-rgv4-jpvx",
+  "modified": "2023-10-20T22:26:13Z",
+  "published": "2023-10-19T15:31:08Z",
+  "aliases": [
+    "CVE-2023-5654"
+  ],
+  "summary": "React Developer Tools extension Improper Authorization vulnerability",
+  "details": "The React Developer Tools extension registers a message listener with window.addEventListener('message', <listener>) in a content script that is accessible to any webpage that is active in the browser. Within the listener is code that requests a URL derived from the received message via fetch(). The URL is not validated or sanitised before it is fetched, thus allowing a malicious web page to arbitrarily fetch URL’s via the victim's browser.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "react-devtools-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.28.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-5654"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/facebook/react/pull/27417"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/facebook/react/commit/09285d5a7f1c08bec09f44cec3d0518a603597fc"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/facebook/react/commit/94d5b5b2bf5204ebd289a113989c0e2c51b626ef"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gist.github.com/CalumHutton/1fb89b64409570a43f89d1fd3274b231"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/facebook/react"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-285"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-20T22:26:13Z",
+    "nvd_published_at": "2023-10-19T15:15:09Z"
+  }
+}

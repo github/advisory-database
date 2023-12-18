@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-89c9-3758-737w",
+  "modified": "2023-08-31T16:29:35Z",
+  "published": "2022-05-14T00:55:07Z",
+  "aliases": [
+    "CVE-2017-15112"
+  ],
+  "summary": "keycloak-httpd-client-install Insecure Secrets",
+  "details": "keycloak-httpd-client-install versions before 0.8 allow users to insecurely pass password through command line, leaking it via command history and process info to other local users.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "keycloak-httpd-client-install"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "DeprecatedPasswordAction"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.8"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-15112"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jdennis/keycloak-httpd-client-install/commit/c3121b271abaaa1a76de2b9ae89dacde0105cd75"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2019:2137"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jdennis/keycloak-httpd-client-install"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-26T20:18:53Z",
+    "nvd_published_at": "2018-01-20T00:29:00Z"
+  }
+}

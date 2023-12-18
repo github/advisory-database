@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-q9w4-w667-qqj4",
+  "modified": "2023-07-21T17:59:43Z",
+  "published": "2023-07-10T21:54:03Z",
+  "aliases": [
+    "CVE-2023-37905"
+  ],
+  "summary": "ckeditor-wordcount-plugin vulnerable to Cross-site Scripting in Source Mode of Editor",
+  "details": "### Problem\n\nIt has been discovered that the `ckeditor-wordcount-plugin` plugin for CKEditor4 is susceptible to cross-site scripting when switching to the source code mode.\n\n### Solution\n\nUpdate to version 1.17.12 of the `ckeditor-wordcount-plugin` plugin.\n\n### Credits\n\n* @sypets for reporting this finding to the TYPO3 Security Team\n* @ohader for fixing the issue on behalf of the TYPO3 Security Team\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "ckeditor-wordcount-plugin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.17.12"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.17.11"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/TYPO3/typo3/security/advisories/GHSA-m8fw-p3cr-6jqc"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/w8tcha/CKEditor-WordCount-Plugin/security/advisories/GHSA-q9w4-w667-qqj4"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-37905"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/w8tcha/CKEditor-WordCount-Plugin/commit/0f03b3e5b7c1409998a13aba3a95396e6fa349d8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/w8tcha/CKEditor-WordCount-Plugin/commit/a4b154bdf35b3465320136fcb078f196b437c2f1"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/w8tcha/CKEditor-WordCount-Plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://typo3.org/security/advisory/typo3-core-sa-2023-004"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-10T21:54:03Z",
+    "nvd_published_at": "2023-07-21T20:15:16Z"
+  }
+}

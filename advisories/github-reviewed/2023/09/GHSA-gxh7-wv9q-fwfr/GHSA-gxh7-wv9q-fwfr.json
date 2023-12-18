@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-gxh7-wv9q-fwfr",
+  "modified": "2023-09-06T18:42:17Z",
+  "published": "2023-09-06T18:42:17Z",
+  "aliases": [
+    "CVE-2023-23623"
+  ],
+  "summary": "Electron's Content-Secrity-Policy disabling eval not applied consistently in renderers with sandbox disabled",
+  "details": "### Impact\nA Content-Security-Policy that disables eval, specifically setting a `script-src` directive and _not_ providing `unsafe-eval` in that directive, is not respected in renderers that have sandbox and contextIsolation disabled.  i.e. `sandbox: false` and `contextIsolation: false` in the `webPreferences` object.\n\nThis resulted in incorrectly allowing usage of methods like `eval()` and `new Function`, which can result in an expanded attack surface.\n\n### Patches\nThis issue only ever affected the 22 and 23 major versions of Electron and has been fixed in the latest versions of those release lines. Specifically, these versions contain the fixes:\n\n- 22.0.1\n- 23.0.0-alpha.2\n\nWe recommend all apps upgrade to the latest stable version of Electron, especially if they use `sandbox: false` or `contextIsolation: false`.\n\n### Workarounds\nIf upgrading isn't possible, this issue can be addressed without upgrading by enabling at least one of `sandbox: true` or `contextIsolation: true` on all renderers.\n\n```js\nconst mainWindow = new BrowserWindow({\n  webPreferences: {\n    sandbox: true,\n  }\n});\n```\n\n### For more information\nIf you have any questions or comments about this advisory, email us at [security@electronjs.org](mailto:security@electronjs.org).\n\n### Credit\nThanks to user @andreasdj for reporting this issue.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "electron"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "22.0.0-beta.1"
+            },
+            {
+              "fixed": "22.0.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "electron"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "23.0.0-alpha.1"
+            },
+            {
+              "fixed": "23.0.0-alpha.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/electron/electron/security/advisories/GHSA-gxh7-wv9q-fwfr"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-23623"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/electron/electron/pull/36667"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/electron/electron/pull/36668"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/electron/electron/commit/9e7fbc7021d8d716c43782249a552e55289c35db"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/electron/electron"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/electron/electron/releases/tag/v22.0.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-670"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-06T18:42:17Z",
+    "nvd_published_at": "2023-09-06T21:15:08Z"
+  }
+}

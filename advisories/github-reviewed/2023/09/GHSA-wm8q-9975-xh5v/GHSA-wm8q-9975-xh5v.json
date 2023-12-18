@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wm8q-9975-xh5v",
+  "modified": "2023-09-21T17:05:38Z",
+  "published": "2023-09-21T17:04:09Z",
+  "aliases": [
+    "CVE-2023-42458"
+  ],
+  "summary": "Zope vulnerable to Stored Cross Site Scripting with SVG images",
+  "details": "### Impact\nThere is a stored cross site scripting vulnerability for SVG images.\n\nNote that an image tag with an SVG image as source is never vulnerable, even when the SVG image contains malicious code. To exploit the vulnerability, an attacker would first need to upload an image, and then trick a user into following a specially crafted link.\n\nAll versions of Zope are impacted on sites that allow untrusted users to upload images.\n\n\n### Patches\nPatches will be released in Zope 4.8.10 and 5.8.5.\n\n### Workarounds\nMake sure the \"Add Documents, Images, and Files\" permission is only assigned to trusted roles. By default only the Manager has this permission.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:R/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "Zope"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.8.10"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 4.8.9"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "Zope"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.8.0"
+            },
+            {
+              "fixed": "5.8.5"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 5.8.4"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/zopefoundation/Zope/security/advisories/GHSA-wm8q-9975-xh5v"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-42458"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zopefoundation/Zope/commit/26a55dbc301db417f47cafda6fe0f983b5690088"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zopefoundation/Zope/commit/603b0a12881c90a072a7a65e32d47ed898ce37cb"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/zopefoundation/Zope"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2023/09/22/2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-21T17:04:09Z",
+    "nvd_published_at": "2023-09-21T17:15:22Z"
+  }
+}

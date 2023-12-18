@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3w22-wrwx-2r75",
+  "modified": "2023-07-25T19:48:22Z",
+  "published": "2022-05-14T03:25:24Z",
+  "aliases": [
+    "CVE-2018-6905"
+  ],
+  "summary": "Typo3 XSS Vulnerability",
+  "details": "The page module in TYPO3 before 8.7.11 has XSS via `$GLOBALS['TYPO3_CONF_VARS']['SYS']['sitename']`, as demonstrated by an admin entering a crafted site name during the installation process.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "9.2.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-6905"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/TYPO3/typo3/commit/d2c0ea7db3b31a796a82f9d39f77f9983beb7c35"
+    },
+    {
+      "type": "WEB",
+      "url": "https://forge.typo3.org/issues/84191"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pradeepjairamani/TYPO3-XSS-POC"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securitytracker.com/id/1040755"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-25T19:48:22Z",
+    "nvd_published_at": "2018-04-08T17:29:00Z"
+  }
+}

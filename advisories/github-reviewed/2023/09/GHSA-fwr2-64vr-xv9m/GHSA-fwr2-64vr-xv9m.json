@@ -1,0 +1,128 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fwr2-64vr-xv9m",
+  "modified": "2023-09-11T12:59:30Z",
+  "published": "2023-09-11T12:59:30Z",
+  "aliases": [
+    "CVE-2023-40029"
+  ],
+  "summary": "Argo CD cluster secret might leak in cluster details page",
+  "details": "### Impact\n\nArgo CD Cluster secrets might be managed declaratively using Argo CD / kubectl apply. As a result, the full secret body is stored in`kubectl.kubernetes.io/last-applied-configuration` annotation. \n\nhttps://github.com/argoproj/argo-cd/pull/7139 introduced the ability to manage cluster labels and annotations. Since clusters are stored as secrets it also exposes the `kubectl.kubernetes.io/last-applied-configuration` annotation which includes full secret body. In order to view the cluster annotations via the Argo CD API, the user must have `clusters, get` RBAC access.\n\n**Note:** In many cases, cluster secrets do not contain any actually-secret information. But sometimes, as in bearer-token auth, the contents might be very sensitive.\n\n### Patches\n\nThe bug has been patched in the following versions:\n\n* 2.8.3\n* 2.7.14\n* 2.6.15\n\n### Workarounds\n\nUpdate/Deploy cluster secret with `server-side-apply` flag which does not use or rely on `kubectl.kubernetes.io/last-applied-configuration` annotation. Note: annotation for existing secrets will require manual removal.\n\n### For more information\n\n* Open an issue in [the Argo CD issue tracker](https://github.com/argoproj/argo-cd/issues) or [discussions](https://github.com/argoproj/argo-cd/discussions)\n* Join us on [Slack](https://argoproj.github.io/community/join-slack) in channel #argo-cd",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/argoproj/argo-cd/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.2.0"
+            },
+            {
+              "fixed": "2.6.15"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/argoproj/argo-cd/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.7.0"
+            },
+            {
+              "fixed": "2.7.14"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/argoproj/argo-cd/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.8.0"
+            },
+            {
+              "fixed": "2.8.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/security/advisories/GHSA-fwr2-64vr-xv9m"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-40029"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/pull/7139"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/commit/44e52c4ae76e6da1343bdd54e57a822d93549f28"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/commit/4b2e5b06bff2ffd8ed1970654ddd8e55fc4a41c4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/commit/7122b83fc346ec2729227405a2f9c2aa84b0bf80"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/argoproj/argo-cd"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/releases/tag/v2.6.15"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/releases/tag/v2.7.14"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/releases/tag/v2.8.3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200",
+      "CWE-532"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-11T12:59:30Z",
+    "nvd_published_at": "2023-09-07T23:15:09Z"
+  }
+}

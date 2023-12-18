@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5p3h-7fwh-92rc",
+  "modified": "2023-11-28T21:58:57Z",
+  "published": "2023-11-16T18:30:31Z",
+  "aliases": [
+    "CVE-2023-6018"
+  ],
+  "summary": "Remote Code Execution due to Full Controled File Write in mlflow",
+  "details": "The mlflow web server includes tools for tracking experiments, packaging code into reproducible runs, and sharing and deploying models. As this vulnerability allows to write / overwrite any file on the file system, it gives a lot of ways to archive code execution (like overwriting `/home/<user>/.bashrc`). A malicious user could use this issue to get command execution on the vulnerable machine and get access to data & models information.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "mlflow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "2.8.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-6018"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mlflow/mlflow"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.com/bounties/7cf918b5-43f4-48c0-a371-4d963ce69b30"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-78"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-28T21:58:57Z",
+    "nvd_published_at": "2023-11-16T16:15:34Z"
+  }
+}

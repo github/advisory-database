@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3p62-6fjh-3p5h",
+  "modified": "2023-07-07T21:47:57Z",
+  "published": "2023-06-30T20:30:50Z",
+  "aliases": [
+    "CVE-2022-4361"
+  ],
+  "summary": "Keycloak vulnerable to cross-site scripting when validating URI-schemes on SAML and OIDC",
+  "details": "AssertionConsumerServiceURL is a Java implementation for SAML Service Providers (org.keycloak.protocol.saml). Affected versions of this package are vulnerable to Cross-site Scripting (XSS).\n\nAssertionConsumerServiceURL allows XSS when sending a crafted SAML XML request.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.keycloak:keycloak-services"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "21.1.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/keycloak/keycloak/security/advisories/GHSA-3p62-6fjh-3p5h"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-4361"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/keycloak/keycloak/commit/a1cfe6e24e5b34792699a00b8b4a8016a5929e3a"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2151618"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/keycloak/keycloak"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79",
+      "CWE-81"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-30T20:30:50Z",
+    "nvd_published_at": "2023-07-07T20:15:09Z"
+  }
+}

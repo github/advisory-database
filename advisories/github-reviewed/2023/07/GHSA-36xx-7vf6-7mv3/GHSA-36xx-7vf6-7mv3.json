@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-36xx-7vf6-7mv3",
+  "modified": "2023-10-04T17:11:40Z",
+  "published": "2023-07-31T22:00:58Z",
+  "aliases": [
+    "CVE-2023-32302"
+  ],
+  "summary": "Silverstripe Framework: Members with no password can be created and bypass custom login forms",
+  "details": "When a new `Member` record was created in the cms it was possible to set a blank password. If an attacker knows the email address of the user with the blank password then they can attempt to log in using an empty password. The default member authenticator, login form and basic auth all require a non-empty password, however if a custom authentication method is used it may allow a successful login with the empty password. Starting with this release, blank passwords are no no longer allowed when members are created in the CMS. Programatically created `Member` records, such as those used in unit tests, still allow blank passwords. You may have some `Member` records in your system already which have empty passwords. To detect these, you can loop over all `Member` records with `Member::get()` and pass each record into the below method. It might be sensible to create a [`BuildTask`](https://api.silverstripe.org/5/SilverStripe/Dev/BuildTask.html) for this purpose.\n  ```php\n    private function memberHasBlankPassword(Member $member): bool\n    {\n        // skip default admin as this is created programatically\n        if ($member->isDefaultAdmin()) {\n            return false;\n        }\n        // return true if a blank password is valid for this member\n        $authenticator = new MemberAuthenticator();\n        return $authenticator->checkPassword($member, '')->isValid();\n    }\n  ```\n  Once you have identified the records with empty passwords, it's up to you how to handle this. The most sensible way to resolve this is probably to generate a new secure password for each of these members, mark it as immediately expired, and email each affected member (assuming they have a valid email address in the system).\n\nUsers would need to opt-in to insecure behavior by using a configuration which allowed for empty passwords. These configurations are not expected and hence this advisory is primarily informational in nature.\n\nReported by: [Sabina Talipova](https://www.silverstripe.com/about-us/team/?member=sabina-talipova) from Silverstripe and [Christian Bünte](https://github.com/bimthebam)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:N/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "4.13.14"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0"
+            },
+            {
+              "fixed": "5.0.13"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/security/advisories/GHSA-36xx-7vf6-7mv3"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-32302"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/github/advisory-database/pull/2575"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/commit/7b21b38ac4532d06565dfcefad50540ebd2b50f4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/silverstripe/framework/CVE-2023-32302.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/silverstripe/silverstripe-framework"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/releases/tag/4.13.14"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/releases/tag/5.0.13"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.silverstripe.org/download/security-releases/CVE-2023-32302"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20",
+      "CWE-862"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-31T22:00:58Z",
+    "nvd_published_at": "2023-08-01T11:15:09Z"
+  }
+}

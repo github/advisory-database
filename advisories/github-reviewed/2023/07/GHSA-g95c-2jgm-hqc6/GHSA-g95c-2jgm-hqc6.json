@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g95c-2jgm-hqc6",
+  "modified": "2023-07-18T19:22:18Z",
+  "published": "2023-07-18T19:22:18Z",
+  "aliases": [
+    "CVE-2023-37480"
+  ],
+  "summary": "Fides Webserver Vulnerable to Zip Bomb File Uploads",
+  "details": "### Impact\nThe Fides webserver is vulnerable to a type of Denial of Service (DoS) attack. Attackers can exploit a weakness in the connector template upload feature to upload a malicious zip bomb file, resulting in resource exhaustion and service unavailability for all users of the Fides webserver.\n\nThis vulnerability affects Fides versions `2.11.0` through `2.15.1`. Exploitation is limited to users with elevated privileges with the `CONNECTOR_TEMPLATE_REGISTER` scope, which includes root users and users with the owner role.\n\n### Patches\nThe vulnerability has been patched in Fides version `2.16.0`. Users are advised to upgrade to this version or later to secure their systems against this threat.\n\n### Workarounds\nThere is no known workaround to remediate this vulnerability without upgrading. If an attack occurs, the impact can be mitigated by manually or automatically restarting the affected container.\n\n### References\nMore information about this type of vulnerability can be found at the following links:\n\n- https://www.bamsoftware.com/hacks/zipbomb/\n- https://python-security.readthedocs.io/security.html#archives-and-zip-bomb-cve-2019-9674\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ethyca-fides"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "fides.api.service.connectors.saas.connector_registry_service.CustomConnectorTemplateLoader.save_template"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.11.0"
+            },
+            {
+              "fixed": "2.16.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ethyca/fides/security/advisories/GHSA-g95c-2jgm-hqc6"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-37480"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ethyca/fides/commit/5aea738463960d81821c11ae7ade1d627a46bf32"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ethyca/fides"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ethyca/fides/releases/tag/2.16.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-18T19:22:18Z",
+    "nvd_published_at": "2023-07-18T19:15:09Z"
+  }
+}

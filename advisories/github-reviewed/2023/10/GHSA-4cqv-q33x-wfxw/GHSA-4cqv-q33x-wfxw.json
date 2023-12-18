@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4cqv-q33x-wfxw",
+  "modified": "2023-10-31T21:23:37Z",
+  "published": "2023-10-20T00:30:24Z",
+  "aliases": [
+    "CVE-2023-45279"
+  ],
+  "summary": "Yamcs Cross-site Scripting vulnerability",
+  "details": "Yamcs 5.8.6 allows XSS (issue 1 of 2). It comes with a Bucket as its primary storage mechanism. Buckets allow for the upload of any file. There's a way to upload a display referencing a malicious JavaScript file to the bucket. The user can then open the uploaded display by selecting Telemetry from the menu and navigating to the display.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.yamcs:yamcs"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.8.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-45279"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/yamcs/yamcs"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/yamcs/yamcs/compare/yamcs-5.8.6...yamcs-5.8.7"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.linkedin.com/pulse/yamcs-vulnerability-assessment-visionspace-technologies"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-20T22:31:45Z",
+    "nvd_published_at": "2023-10-19T22:15:09Z"
+  }
+}

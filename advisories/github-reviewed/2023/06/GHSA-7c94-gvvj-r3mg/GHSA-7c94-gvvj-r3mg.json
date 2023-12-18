@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7c94-gvvj-r3mg",
+  "modified": "2023-06-05T20:36:58Z",
+  "published": "2023-06-05T20:36:58Z",
+  "aliases": [
+
+  ],
+  "summary": "cheqd-node affected by Inter-blockchain Communication (IBC) protocol \"Huckleberry\" vulnerability",
+  "details": "### Impact\nThis vulnerability affects the [`ibc-go` package for those running full nodes, dubbed \"Huckleberry\"](https://forum.cosmos.network/t/ibc-security-advisory-huckleberry/10731). According to their advisory:\n\n> This issue is low-severity in general, and it has a low impact and likelihood of exploitation. Depending on how a full node is architected, this issue could potentially yield a high or critical severity vulnerability.\n\nThere is no vulnerability in the DID/resource modules for cheqd-node.\n\n### Patches\nNode operators are requested to upgrade to [cheqd-node v1.4.2](https://github.com/cheqd/cheqd-node/releases/tag/v1.4.2). This is a non-state breaking release, and does not require a coordinated upgrade across all node operators.\n\n### Workarounds\nNo. Node operators are recommended to upgrade to the latest release version.\n\n### References\n- [\"Huckleberry\" IBC security advisory](https://forum.cosmos.network/t/ibc-security-advisory-huckleberry/10731)\n- [`ibc-go` v6.1.1 release notes](https://github.com/cosmos/ibc-go/releases/tag/v6.1.1)\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cheqd/cheqd-node"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.4.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/cheqd/cheqd-node/security/advisories/GHSA-7c94-gvvj-r3mg"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cheqd/cheqd-node/commit/f325f5f250e150e3e76a5a557669f67b606e34e1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://forum.cosmos.network/t/ibc-security-advisory-huckleberry/10731"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cheqd/cheqd-node"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cheqd/cheqd-node/releases/tag/v1.4.2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cosmos/ibc-go/releases/tag/v6.1.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-05T20:36:58Z",
+    "nvd_published_at": null
+  }
+}

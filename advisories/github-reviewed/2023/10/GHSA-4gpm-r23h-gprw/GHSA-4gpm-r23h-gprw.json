@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4gpm-r23h-gprw",
+  "modified": "2023-11-08T18:41:14Z",
+  "published": "2023-10-31T03:31:22Z",
+  "aliases": [
+    "CVE-2015-20110"
+  ],
+  "summary": "generator-jhipster allows a timing attack against validateToken due to a string comparison that stops at the first character",
+  "details": "JHipster generator-jhipster before 2.23.0 allows a timing attack against validateToken due to a string comparison that stops at the first character that is different. Attackers can guess tokens by brute forcing one character at a time and observing the timing. This of course drastically reduces the search space to a linear amount of guesses based on the token length times the possible characters.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "generator-jhipster"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.23.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2015-20110"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jhipster/generator-jhipster/issues/2095"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jhipster/generator-jhipster/commit/79fe5626cb1bb80f9ac86cf46980748e65d2bdbc"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jhipster/generator-jhipster/commit/7c49ab3d45dc4921b831a2ca55fb1e2a2db1ee25"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jhipster/generator-jhipster"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jhipster/generator-jhipster/compare/v2.22.0...v2.23.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-208",
+      "CWE-307"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-31T19:30:57Z",
+    "nvd_published_at": "2023-10-31T03:15:07Z"
+  }
+}

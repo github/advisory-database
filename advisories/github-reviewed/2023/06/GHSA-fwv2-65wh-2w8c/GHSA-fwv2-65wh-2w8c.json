@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fwv2-65wh-2w8c",
+  "modified": "2023-06-09T22:53:25Z",
+  "published": "2023-06-09T22:53:25Z",
+  "aliases": [
+    "CVE-2023-34231"
+  ],
+  "summary": "Snowflake Golang Driver vulnerable to Command Injection",
+  "details": "### Issue\nSnowflake was informed via our bug bounty program of a command injection vulnerability in the Snowflake Golang driver via SSO browser URL authentication.\n\n### Impacted driver package: \ngosnowflake\n\n### Impacted version range: \nbefore [Version 1.6.19](https://community.snowflake.com/s/article/Go-Snowflake-Driver-Release-Notes)\n\n### Attack Scenario\nIn order to exploit the potential for command injection, an attacker would need to be successful in (1) establishing a malicious resource and (2) redirecting users to utilize the resource. The attacker could set up a malicious, publicly accessible server which responds to the SSO URL with an attack payload. If the attacker then tricked a user into visiting the maliciously crafted connection URL, the user’s local machine would render the malicious payload, leading to a remote code execution. \n\nThis attack scenario can be mitigated through URL whitelisting as well as common anti-phishing resources.  \n\n### Solution\nOn March 21, 2023, Snowflake merged a patch that fixed a command injection vulnerability in the Snowflake Golang driver via SSO browser URL authentication. The vulnerability affected the Snowflake Golang driver before Version 1.6.19. We strongly recommend users upgrade to Version 1.6.19 as soon as possible via the following resources: [Go Snowflake Driver](https://docs.snowflake.com/en/developer-guide/golang/go-driver)\n\n### Additional Information\nIf you discover a security vulnerability in one of our products or websites, please report the issue to HackerOne. For more information, please see our [Vulnerability Disclosure Policy](https://hackerone.com/snowflake?type=team).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/snowflakedb/gosnowflake"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.6.19"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/snowflakedb/gosnowflake/security/advisories/GHSA-fwv2-65wh-2w8c"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-34231"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/snowflakedb/gosnowflake/pull/757"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/snowflakedb/gosnowflake/commit/e11a2a555f1b9f7adc1f01fb7b5e7f38fbbb2a1c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/snowflakedb/gosnowflake"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-77"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-09T22:53:25Z",
+    "nvd_published_at": "2023-06-08T20:15:09Z"
+  }
+}

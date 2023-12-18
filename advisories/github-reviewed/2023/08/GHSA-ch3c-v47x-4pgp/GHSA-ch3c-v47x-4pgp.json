@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-ch3c-v47x-4pgp",
+  "modified": "2023-08-29T17:36:40Z",
+  "published": "2023-08-29T17:36:40Z",
+  "aliases": [
+    "CVE-2023-41037"
+  ],
+  "summary": "Cleartext Signed Message Signature Spoofing in openpgp",
+  "details": "### Impact\nOpenPGP Cleartext Signed Messages are cryptographically signed messages where the signed text is readable without special tools:\n\n```\n-----BEGIN PGP SIGNED MESSAGE-----\nHash: SHA256\n\nThis text is signed.\n-----BEGIN PGP SIGNATURE-----\n\nwnUEARMIACcFgmTkrNAJkInXCgj0fgcIFiEE1JlKzzDGQxZmmHkYidcKCPR+\nBwgAAKXDAQDWGhI7tPbhB+jlKwe4+yPJ+9X8aWDUG60XFNi/w8T7ZgEAsAGd\nWJrkm/H5AXGZsqyqqO6IWGF0geTCd4mWm/CsveM=\n-----END PGP SIGNATURE-----\n```\nThese messages typically contain a \"Hash: ...\" header declaring the hash algorithm used to compute the signature digest.\nOpenPGP.js up to v5.9.0 ignored any data preceding the \"Hash: ...\" texts when verifying the signature. As a result, malicious parties could add arbitrary text to a third-party Cleartext Signed Message, to lead the victim to believe that the arbitrary text was signed.\n\nA user or application is vulnerable to said attack vector if it verifies the CleartextMessage by only checking the returned `verified` property, discarding the associated `data` information, and instead _visually trusting_ the contents of the original message:\n\n```js\nconst cleartextMessage = `\n-----BEGIN PGP SIGNED MESSAGE-----\nThis text is not signed but you might think it is. Hash: SHA256\n\nThis text is signed.\n-----BEGIN PGP SIGNATURE-----\n\nwnUEARMIACcFgmTkrNAJkInXCgj0fgcIFiEE1JlKzzDGQxZmmHkYidcKCPR+\nBwgAAKXDAQDWGhI7tPbhB+jlKwe4+yPJ+9X8aWDUG60XFNi/w8T7ZgEAsAGd\nWJrkm/H5AXGZsqyqqO6IWGF0geTCd4mWm/CsveM=\n-----END PGP SIGNATURE-----\n`;\nconst message = await openpgp.readCleartextMessage({ cleartextMessage });\nconst verificationResult = await verifyCleartextMessage({ message, verificationKeys });\nconsole.log(await verificationResult.verified); // output: true\nconsole.log(verificationResult.data); // output: 'This text is signed.'\n```\nSince `verificationResult.data` would always contain the actual signed data, users and apps that check this information are not vulnerable.\nSimilarly, given a CleartextMessage object, retrieving the data using `getText()` or the `text` field returns only the contents that are considered when verifying the signature.\nFinally, re-armoring a CleartextMessage object (using `armor()` will also result in a \"sanitised\" version, with the extraneous text being removed.\nBecause of this, we consider the vulnerability impact to be very limited when the CleartextMessage is processed programmatically; this is reflected in the Severity CVSS assessment, specifically in the scope's score (\"Unchanged\").\n\n### Patches\n- v5.10.1 (current stable version) will reject messages when calling `openpgp.readCleartextMessage()`\n- v4.10.11 (legacy version) will reject messages when calling `openpgp.cleartext.readArmored()`\n\n### Workarounds\nCheck the contents of `verificationResult.data` to see what data was actually signed, rather than visually trusting the contents of the armored message.\n\n### References\nSimilar CVE: https://sec-consult.com/vulnerability-lab/advisory/cleartext-message-spoofing-in-go-cryptography-libraries-cve-2019-11841/\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "openpgp"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.10.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "openpgp"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0"
+            },
+            {
+              "fixed": "5.10.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/openpgpjs/openpgpjs/security/advisories/GHSA-ch3c-v47x-4pgp"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-41037"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openpgpjs/openpgpjs/commit/6b43e02a254853f5ff508ebd1b07541f78b7c566"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openpgpjs/openpgpjs"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openpgpjs/openpgpjs/releases/tag/v4.10.11"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openpgpjs/openpgpjs/releases/tag/v5.10.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-347"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-29T17:36:40Z",
+    "nvd_published_at": "2023-08-29T17:15:13Z"
+  }
+}

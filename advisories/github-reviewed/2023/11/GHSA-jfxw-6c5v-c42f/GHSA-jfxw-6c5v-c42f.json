@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jfxw-6c5v-c42f",
+  "modified": "2023-11-01T14:35:42Z",
+  "published": "2023-11-01T14:35:42Z",
+  "aliases": [
+    "CVE-2023-46722"
+  ],
+  "summary": "Pimcore Admin Classic Bundle Cross-site Scripting (XSS) in PDF previews",
+  "details": "### Impact\nThis vulnerability has the potential to steal a user's cookie and gain unauthorized access to that user's account through the stolen cookie or redirect users to other malicious sites.\n\nProof of Concept\nStep 1. Go to /admin and login.\nStep 2. In Documents, go to home -> click on Sample Content -> click Document folder\nStep 3. Upload file PDF content XSS payload\n\n### Patches\nApply patches \nhttps://github.com/pimcore/pimcore/commit/757375677dc83a44c6c22f26d97452cc5cda5d7c.patch\nhttps://github.com/pimcore/admin-ui-classic-bundle/commit/19fda2e86557c2ed4978316104de5ccdaa66d8b9.patch\n\n### Workarounds\nUpdate to version 1.2.0 or apply patches manually\nhttps://github.com/pimcore/pimcore/commit/757375677dc83a44c6c22f26d97452cc5cda5d7c.patch\nhttps://github.com/pimcore/admin-ui-classic-bundle/commit/19fda2e86557c2ed4978316104de5ccdaa66d8b9.patch",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "pimcore/admin-ui-classic-bundle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.2.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/admin-ui-classic-bundle/security/advisories/GHSA-jfxw-6c5v-c42f"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-46722"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/admin-ui-classic-bundle/commit/19fda2e86557c2ed4978316104de5ccdaa66d8b9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/pimcore/commit/757375677dc83a44c6c22f26d97452cc5cda5d7c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pimcore/admin-ui-classic-bundle"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-01T14:35:42Z",
+    "nvd_published_at": "2023-10-31T16:15:10Z"
+  }
+}

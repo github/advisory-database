@@ -1,0 +1,441 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7vpr-3ppw-qrpj",
+  "modified": "2023-09-27T21:16:16Z",
+  "published": "2023-09-27T21:16:16Z",
+  "aliases": [
+
+  ],
+  "summary": "Imageflow affected by libwebp zero-day and should not be used with malicious source images.",
+  "details": "### Impact\n\nThis vulnerability affects deployments of Imageflow that involve decoding or processing malicious source .webp files. If you only process your own trusted files, this should not affect you (but you should update anyway). \n\nImageflow relies on Google's [libwebp] library to decode .webp images, and is affected by the recent zero-day out-of-bounds write vulnerability [CVE-2023-4863](https://nvd.nist.gov/vuln/detail/CVE-2023-4863) and https://github.com/advisories/GHSA-j7hp-h8jx-5ppr. The libwebp vulnerability also affects Chrome, Android, macOS, and other consumers of the library).\n\nlibwebp patched [the vulnerability](https://github.com/webmproject/libwebp/commit/2af26267cdfcb63a88e5c74a85927a12d6ca1d76 ) and released [1.3.2](https://github.com/webmproject/libwebp/releases/tag/v1.3.2) \n\nThis was patched in [libwebp-sys in 0.9.3 and 0.9.4](https://github.com/NoXF/libwebp-sys/commits/master)\n\n**[Imageflow v2.0.0-preview8](https://github.com/imazen/imageflow/releases/tag/v2.0.0-preview8) uses the patched version of libwebp as well as updated versions of all dependencies.**\n\nNote: preview 8 requires libc 2.31 or higher on linux and macOS 11 or higher. These restrictions are due to the oldest supported versions of those platforms (which is reflected on Github Actions).\n\n### Patches\n\n**Imageflow v2.0.0-preview8 use the patched version (v1.3.2) of libwebp and libwebp-sys 0.9.4.**\n**Imageflow.AllPlatforms 0.10.2 is patched**\n**Imageflow.Server v0.8.2 is patched**\n**ImageResizer.Plugins.Imageflow 5.0.12 is patched**\n\n### Workarounds\n\nDisable webp decoding using `EnabledCodecs::disable_decoder(NamedDecoders::WebPDecoder)` if using the Rust API. \n\nOnly files that meet the following criteria will be passed to libwebp: \n\n```rust\nbytes.starts_with(b\"RIFF\") && bytes[8..12].starts_with(b\"WEBP\")\n```\n\nYou can utilize matching logic to block webp inputs in your language of choice.\n\n### References\n\nhttps://github.com/advisories/GHSA-j7hp-h8jx-5ppr\nhttps://nvd.nist.gov/vuln/detail/CVE-2023-4863\nhttps://github.com/webmproject/libwebp/commit/2af26267cdfcb63a88e5c74a85927a12d6ca1d76 \nhttps://github.com/NoXF/libwebp-sys/commits/master",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Imageflow.AllPlatforms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.10.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Imageflow.NativeRuntime.win-x86_64"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.0-preview6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Imageflow.NativeRuntime.osx-x86_64"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.0-preview6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Imageflow.NativeRuntime.win-x86"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.0-preview6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Imageflow.NativeRuntime.ubuntu-x86_64"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.0-preview6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Imageflow.NativeRuntime.ubuntu-x86_64-haswell"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.0-preview6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Imageflow.NativeTool.win-x86_64"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.0-preview6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Imageflow.NativeTool.osx-x86_64"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.0-preview6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Imageflow.NativeTool.win-x86"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.0-preview6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Imageflow.NativeTool.ubuntu-x86_64"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.0-preview6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Imageflow.NativeTool.ubuntu-x86_64-haswell"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.0-preview6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Imageflow.NativeRuntime.ubuntu_18_04-x86_64-haswell"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "< 2.0.0-preview6"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Imageflow.NativeRuntime.ubuntu_18_04-x86_64"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "< 2.0.0-preview6"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Imageflow.NativeRuntime.osx_10_11-x86_64"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "< 2.0.0-preview6"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Imageflow.NativeRuntime.ubuntu_16_04-x86_64"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "< 2.0.0-preview6"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Imageflow.NativeTool.ubuntu_18_04-x86_64-haswell"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "< 2.0.0-preview6"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Imageflow.NativeTool.ubuntu_16_04-x86_64"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "< 2.0.0-preview6"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Imageflow.NativeTool.ubuntu_18_04-x86_64"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "< 2.0.0-preview6"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Imageflow.NativeTool.osx_10_11-x86_64"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "< 2.0.0-preview6"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Imageflow.Server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.8.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "ImageResizer.Plugins.Imageflow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.0.12"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/imazen/imageflow/security/advisories/GHSA-7vpr-3ppw-qrpj"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/imazen/imageflow/commit/24894940403a8491fd6495759b8f996ea2da8ad8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/imazen/imageflow"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-27T21:16:16Z",
+    "nvd_published_at": null
+  }
+}

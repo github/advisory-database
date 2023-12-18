@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rfc8-wrrf-wp3w",
+  "modified": "2023-10-26T21:00:23Z",
+  "published": "2022-05-24T16:43:53Z",
+  "aliases": [
+    "CVE-2019-10303"
+  ],
+  "summary": "Jenkins Azure PublisherSettings Credentials Plugin stored credentials in plain text",
+  "details": "Jenkins Azure PublisherSettings Credentials Plugin stored the service management certificate unencrypted in credentials.xml on the Jenkins controller. These credentials could be viewed by users with access to the Jenkins controller file system.\n\nAzure PublisherSettings Credentials Plugin has been deprecated. Azure PublisherSettings Credentials Plugin 1.5 no longer provides any user features and we recommend the plugin be uninstalled.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:azure-publishersettings-credentials"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-10303"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2019-04-17/#SECURITY-844"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20200227075952/http://www.securityfocus.com/bid/108045"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-522"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-26T21:00:23Z",
+    "nvd_published_at": "2019-04-18T17:29:00Z"
+  }
+}

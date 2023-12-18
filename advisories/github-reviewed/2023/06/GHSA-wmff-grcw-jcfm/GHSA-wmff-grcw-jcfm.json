@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wmff-grcw-jcfm",
+  "modified": "2023-06-21T18:35:21Z",
+  "published": "2023-06-21T18:35:21Z",
+  "aliases": [
+    "CVE-2023-34460"
+  ],
+  "summary": "Tauri vulnerable to Regression on Filesystem Scope Checks for Dotfiles",
+  "details": "### Impact\nThe 1.4.0 release includes a regression on the filesystem scope check for dotfiles on Linux and macOS.\n\nPreviously dotfiles (eg. `$HOME/.ssh/`) were not implicitly allowed by the glob wildcard scopes (eg. `$HOME/*`), but a regression was introduced when a configuration option for this behavior was implemented and dotfiles were implicitly allowed.\n\nOnly Tauri applications using wildcard scopes in the `fs` endpoint are affected.\nOnly macOS and Linux systems are affected.\n\n### Patches\nThe regression has been patched on `v1.4.1`.\n\n### Workarounds\nThere are no known workarounds at this time, users should update to `v1.4.1` immediately.\n\n### References\nSee the [original advisory](https://github.com/tauri-apps/tauri/security/advisories/GHSA-6mv3-wm7j-h4w5) for more information.\n\n### For more Information\nIf you have any questions or comments about this advisory:\n\nOpen an issue in tauri\nEmail us at [security@tauri.app](mailto:security@tauri.app)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:A/AC:L/PR:H/UI:N/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "tauri"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.4.0"
+            },
+            {
+              "fixed": "1.4.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "1.4.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/tauri-apps/tauri/security/advisories/GHSA-6mv3-wm7j-h4w5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tauri-apps/tauri/security/advisories/GHSA-wmff-grcw-jcfm"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-34460"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tauri-apps/tauri/pull/6969#discussion_r1232018347"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tauri-apps/tauri/pull/7227"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tauri-apps/tauri/commit/066c09a6ea06f42f550d090715e06beb65cd5564"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/tauri-apps/tauri"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-285"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-21T18:35:21Z",
+    "nvd_published_at": "2023-06-23T20:15:09Z"
+  }
+}

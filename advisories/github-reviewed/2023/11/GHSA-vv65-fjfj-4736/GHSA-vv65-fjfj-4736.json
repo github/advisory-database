@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vv65-fjfj-4736",
+  "modified": "2023-11-28T20:53:25Z",
+  "published": "2023-11-27T12:30:55Z",
+  "aliases": [
+    "CVE-2023-42501"
+  ],
+  "summary": "Apache Superset has Incorrect Default Permissions",
+  "details": "Unnecessary read permissions within the Gamma role would allow authenticated users to read configured CSS templates and annotations.\nThis issue affects Apache Superset: before 2.1.2.\nUsers should upgrade to version or above 2.1.2 and run `superset init` to reconstruct the Gamma role or remove `can_read` permission from the mentioned resources.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "apache-superset"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.1.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-42501"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/superset"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/vk1rmrh9kz0chjmc9tk7o3md6zpz4ygh"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2023/11/27/3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-276"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-28T20:53:25Z",
+    "nvd_published_at": "2023-11-27T11:15:07Z"
+  }
+}

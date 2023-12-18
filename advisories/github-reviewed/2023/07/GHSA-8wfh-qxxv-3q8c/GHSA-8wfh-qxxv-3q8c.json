@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8wfh-qxxv-3q8c",
+  "modified": "2023-07-31T19:01:32Z",
+  "published": "2023-07-26T12:30:28Z",
+  "aliases": [
+    "CVE-2023-38669"
+  ],
+  "summary": "Use after free in PaddlePaddle",
+  "details": "Use after free in paddle.diagonal in PaddlePaddle before 2.5.0. This resulted in a potentially exploitable condition.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "paddlepaddle"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "paddle.diagonal"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.5.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-38669"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/PaddlePaddle/Paddle/commit/43981874f5e1683b855eab871092fa9be58d6a44"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/PaddlePaddle/Paddle"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/PaddlePaddle/Paddle/blob/develop/security/advisory/pdsa-2023-001.md"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/paddlepaddle/PYSEC-2023-122.yaml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-416"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-26T22:30:22Z",
+    "nvd_published_at": "2023-07-26T10:15:11Z"
+  }
+}

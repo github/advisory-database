@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c79v-2rjq-965m",
+  "modified": "2023-10-10T15:00:23Z",
+  "published": "2022-05-13T01:42:32Z",
+  "aliases": [
+    "CVE-2017-11767"
+  ],
+  "summary": "ChakraCore vulnerable to privilege escalation",
+  "details": "ChakraCore allows an attacker to gain the same user rights as the current user, due to the way that the ChakraCore scripting engine handles objects in memory. If the current user is logged on with administrative user rights, an attacker who successfully exploited the vulnerability could take control of an affected system. An attacker could then install programs; view, change, or delete data; or create new accounts with full user rights.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Microsoft.ChakraCore"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.6.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-11767"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/chakra-core/ChakraCore/pull/3727"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/chakra-core/ChakraCore/pull/3727/commits/b3e3959d14814f42ee2197c504c322bcbe12347d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/chakra-core/ChakraCore/commit/b3e3959d14814f42ee2197c504c322bcbe12347d"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/chakra-core/ChakraCore"
+    },
+    {
+      "type": "WEB",
+      "url": "https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2017-11767"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20210124103810/http://www.securityfocus.com/bid/100838"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20211127230635/http://www.securitytracker.com/id/1039369"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-119"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-26T19:37:50Z",
+    "nvd_published_at": "2017-11-02T19:29:00Z"
+  }
+}

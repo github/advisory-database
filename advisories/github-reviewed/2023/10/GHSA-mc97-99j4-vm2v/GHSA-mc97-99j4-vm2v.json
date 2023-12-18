@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mc97-99j4-vm2v",
+  "modified": "2023-10-04T22:13:08Z",
+  "published": "2023-10-02T23:30:39Z",
+  "aliases": [
+    "CVE-2023-43809"
+  ],
+  "summary": "Soft Serve Public Key Authentication Bypass Vulnerability when Keyboard-Interactive SSH Authentication is Enabled",
+  "details": "### Impact\n\nA security vulnerability in Soft Serve could allow an unauthenticated, remote attacker to bypass public key authentication when keyboard-interactive SSH authentication is active, through the `allow-keyless` setting, and the public key requires additional client-side verification for example using FIDO2 or GPG. This is due to insufficient validation procedures of the public key step during SSH request handshake, granting unauthorized access if the keyboard-interaction mode is utilized. An attacker could exploit this vulnerability by presenting manipulated SSH requests using keyboard-interactive authentication mode. This could potentially result in unauthorized access to the Soft Serve.\n\n### Patches\n\nUsers should upgrade to the latest Soft Serve version `v0.6.2` to receive the patch for this issue. \n\n### Workarounds\n\nTo workaround this vulnerability without upgrading, users can _temporarily_ disable Keyboard-Interactive SSH Authentication using the `allow-keyless` setting.\n\n### References\n\nhttps://github.com/charmbracelet/soft-serve/issues/389",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/charmbracelet/soft-serve"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.6.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/charmbracelet/soft-serve/security/advisories/GHSA-mc97-99j4-vm2v"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-43809"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/charmbracelet/soft-serve/issues/389"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/charmbracelet/soft-serve/commit/407c4ec72d1006cee1ff8c1775e5bcc091c2bc89"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/charmbracelet/soft-serve"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/charmbracelet/soft-serve/releases/tag/v0.6.2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-287"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-02T23:30:39Z",
+    "nvd_published_at": "2023-10-04T21:15:10Z"
+  }
+}

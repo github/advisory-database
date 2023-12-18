@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mvxp-3j62-jqr6",
+  "modified": "2023-07-31T22:13:08Z",
+  "published": "2022-05-13T01:36:52Z",
+  "aliases": [
+    "CVE-2017-2638"
+  ],
+  "summary": "Infinispan Rest API Does Not Enforce Auth Constraints",
+  "details": "It was found that the REST API in Infinispan before version 9.0.0 did not properly enforce auth constraints. An attacker could use this vulnerability to read or modify data in the default cache or a known cache name.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.infinispan:infinispan-server-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "9.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-2638"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/infinispan/infinispan/pull/4936"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2017-2638"
+    },
+    {
+      "type": "WEB",
+      "url": "https://issues.jboss.org/browse/ISPN-7485"
+    },
+    {
+      "type": "WEB",
+      "url": "http://rhn.redhat.com/errata/RHSA-2017-1097.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/97964"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-287"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-31T22:13:08Z",
+    "nvd_published_at": "2018-07-16T13:29:00Z"
+  }
+}

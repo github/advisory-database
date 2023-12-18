@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wjcc-cq79-p63f",
+  "modified": "2023-10-31T22:22:50Z",
+  "published": "2023-10-31T22:22:50Z",
+  "aliases": [
+    "CVE-2023-46250"
+  ],
+  "summary": "Possible Infinite Loop when PdfWriter(clone_from) is used with a PDF",
+  "details": "### Impact\nAn attacker who uses this vulnerability can craft a PDF which leads to an infinite loop.\nThis infinite loop blocks the current process and can utilize a single core of the CPU by 100%. It does not affect memory usage.\n\nThat is, for example, the case when the pypdf-user manipulates an incoming malicious PDF e.g. by merging it with another PDF or by adding annotations.\n\n### Patches\nThe issue was fixed with #2264\n\n### Workarounds\nIf you cannot update your version of pypdf, you should modify `pypdf/generic/_data_structures.py` just like #2264 did.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "pypdf"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.7.0"
+            },
+            {
+              "fixed": "3.17.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/py-pdf/pypdf/security/advisories/GHSA-wjcc-cq79-p63f"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-46250"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/py-pdf/pypdf/pull/2264"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/py-pdf/pypdf/commit/9b23ac3c9619492570011d551d521690de9a3e2d"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/py-pdf/pypdf"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-835"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-31T22:22:50Z",
+    "nvd_published_at": "2023-10-31T16:15:09Z"
+  }
+}

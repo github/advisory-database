@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hxq4-mx37-fqvg",
+  "modified": "2023-06-30T22:11:42Z",
+  "published": "2023-06-30T22:11:42Z",
+  "aliases": [
+
+  ],
+  "summary": "s2n-quic potential denial of service vulnerability when receiving empty UDP packets",
+  "details": "### Impact\n\nAn issue in s2n-quic results in the endpoint shutting down after receiving an empty UDP packet on a connection. \n\nNo AWS services are affected by this issue and customers of AWS services do not need to take action. Applications using s2n-quic should upgrade their application to the most recent release of s2n-quic.\n\nImpacted version: s2n-quic v1.22.0.\n\n### Patches\n\nThe patch is included in s2n-quic [v1.23.0](https://github.com/aws/s2n-quic/releases/tag/v1.23.0).\n\nIf you have any questions or comments about this advisory we ask that you contact AWS/Amazon Security via our [vulnerability reporting page](https://aws.amazon.com/security/vulnerability-reporting) or directly via email to [aws-security@amazon.com](mailto:aws-security@amazon.com). Please do not create a public GitHub issue.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "s2n-quic"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.22.0"
+            },
+            {
+              "fixed": "1.23.0"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "1.22.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/aws/s2n-quic/security/advisories/GHSA-hxq4-mx37-fqvg"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/aws/s2n-quic/commit/4b1d417e9de7eafaf5350553c5fcb9264dfa32f5"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/aws/s2n-quic"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/aws/s2n-quic/releases/tag/v1.23.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-30T22:11:42Z",
+    "nvd_published_at": null
+  }
+}

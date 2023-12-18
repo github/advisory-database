@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-33hq-f2mf-jm3c",
+  "modified": "2023-06-01T04:07:20Z",
+  "published": "2023-05-25T16:58:48Z",
+  "aliases": [
+    "CVE-2023-33191"
+  ],
+  "summary": "kyverno seccomp control can be circumvented",
+  "details": "### Impact\n\nUsers of the podSecurity (`validate.podSecurity`) subrule in Kyverno versions v1.9.2 and v1.9.3 may be unable to enforce the check for the Seccomp control at the baseline level when using a `version` value of `latest`. There is no effect if a version number is referenced instead. See the [documentation](https://kyverno.io/docs/writing-policies/validate/#pod-security) for information on this subrule type. Users of Kyverno v1.9.2 and v1.9.3 are affected.\n\n### Patches\n\nv1.9.4\nv1.10.0\n\n### Workarounds\n\nTo work around this issue without upgrading to v1.9.4, temporarily install individual policies for the respective Seccomp checks in baseline [here](https://kyverno.io/policies/pod-security/baseline/restrict-seccomp/restrict-seccomp/) and restricted [here](https://kyverno.io/policies/pod-security/restricted/restrict-seccomp-strict/restrict-seccomp-strict/).\n\n### References\n\n* https://kyverno.io/docs/writing-policies/validate/#pod-security\n* https://github.com/kyverno/kyverno/pull/7263\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:R/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/kyverno/kyverno"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.9.2"
+            },
+            {
+              "fixed": "1.9.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/kyverno/kyverno/security/advisories/GHSA-33hq-f2mf-jm3c"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-33191"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kyverno/kyverno/pull/7263"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/kyverno/kyverno"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kyverno/kyverno/releases/tag/v1.9.4"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-284"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-25T16:58:48Z",
+    "nvd_published_at": "2023-05-30T07:15:09Z"
+  }
+}

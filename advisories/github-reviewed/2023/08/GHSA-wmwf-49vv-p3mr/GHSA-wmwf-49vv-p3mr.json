@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wmwf-49vv-p3mr",
+  "modified": "2023-08-04T13:31:19Z",
+  "published": "2023-08-03T19:44:28Z",
+  "aliases": [
+    "CVE-2023-39343"
+  ],
+  "summary": "Sulu Observable Response Discrepancy on Admin Login",
+  "details": "### Impact\n\nIt allows over the Admin Login form to detect which user (username, email) exists and which one do not exist.\n\nImpacted by this issue are Sulu installation >= 2.5.0 and <2.5.10 using the newer Symfony Security System which is default since Symfony 6.0 but can be enabled in Symfony 5.4. Sulu Installation not using the old Symfony 5.4 security System and previous version are not impacted by this Security issue.\n\n### Patches\n\nThe problem has been patched in version 2.5.10. \n\n### Workarounds\n\nCreate a custom AuthenticationFailureHandler which does not return the `$exception->getMessage();` instead the `$exception->getMessageKey();`\n\n### References\n\nCurrently no references.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "sulu/sulu"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.5.0"
+            },
+            {
+              "fixed": "2.5.10"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/sulu/sulu/security/advisories/GHSA-wmwf-49vv-p3mr"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-39343"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sulu/sulu/commit/5f6c98ba030b2005793e2dc647cc938937ea889b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/sulu/sulu/CVE-2023-39343.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/sulu/sulu"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sulu/sulu/releases/tag/2.5.10"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-204"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-03T19:44:28Z",
+    "nvd_published_at": "2023-08-04T01:15:10Z"
+  }
+}

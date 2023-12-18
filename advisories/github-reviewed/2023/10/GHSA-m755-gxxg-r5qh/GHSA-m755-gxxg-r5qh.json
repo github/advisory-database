@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-m755-gxxg-r5qh",
+  "modified": "2023-10-13T19:40:07Z",
+  "published": "2023-10-04T18:50:25Z",
+  "aliases": [
+    "CVE-2023-44389"
+  ],
+  "summary": "Zope management interface vulnerable to stored cross site scripting via the title property",
+  "details": "### Impact\nThe title property, available on most Zope objects, can be used to store script code that is executed while viewing the affected object in the Zope Management Interface (ZMI) because the title property is displayed unquoted in the breadcrumbs element. All versions of Zope 4 and Zope 5 are affected. \n\n### Patches\nPatches will be released with Zope versions 4.8.11 and 5.8.6.\n\n### Workarounds\nMake sure only Manager users can edit and view Zope objects in the Zope Management Interface. This is the default.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "Zope"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0"
+            },
+            {
+              "fixed": "4.8.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "Zope"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0"
+            },
+            {
+              "fixed": "5.8.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/zopefoundation/Zope/security/advisories/GHSA-m755-gxxg-r5qh"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-44389"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zopefoundation/Zope/commit/21dfa78609ffd8b6bd8143805678ebbacae5141a"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zopefoundation/Zope/commit/aeaf2cdc80dff60815e3706af448f086ddc3b98d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/zope/PYSEC-2023-193.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/zopefoundation/Zope"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-04T18:50:25Z",
+    "nvd_published_at": "2023-10-04T21:15:10Z"
+  }
+}

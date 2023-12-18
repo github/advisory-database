@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-735f-w79p-282x",
+  "modified": "2023-08-03T19:40:12Z",
+  "published": "2023-08-03T16:32:49Z",
+  "aliases": [
+    "CVE-2023-4145"
+  ],
+  "summary": "pimcore/customer-management-framework-bundle Cross-site Scripting vulnerability in Segment name",
+  "details": "### Impact\nAs HTML injection works in email an attacker can trick a victim to click on such hyperlinks to redirect him to any malicious site and also can host a XSS page. All this will surely cause some damage to the victim. This could lead to users being tricked into giving logins away to malicious attackers.\n\n### Patches\nUpdate to version 3.4.2 or apply this patch manually https://github.com/pimcore/customer-data-framework/commit/72f45dd537a706954e7a71c99fbe318640e846a2.patch\n\n### Workarounds\nApply https://github.com/pimcore/customer-data-framework/commit/72f45dd537a706954e7a71c99fbe318640e846a2.patch manually.\n\n### References\nhttps://huntr.dev/bounties/ce852777-2994-40b4-bb4e-c4d10023eeb0/\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "pimcore/customer-management-framework-bundle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.4.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/customer-data-framework/security/advisories/GHSA-735f-w79p-282x"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-4145"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/customer-data-framework/commit/72f45dd537a706954e7a71c99fbe318640e846a2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/customer-data-framework/commit/72f45dd537a706954e7a71c99fbe318640e846a2.patch"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pimcore/customer-data-framework"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.dev/bounties/ce852777-2994-40b4-bb4e-c4d10023eeb0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79",
+      "CWE-87"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-03T16:32:49Z",
+    "nvd_published_at": "2023-08-03T17:15:12Z"
+  }
+}

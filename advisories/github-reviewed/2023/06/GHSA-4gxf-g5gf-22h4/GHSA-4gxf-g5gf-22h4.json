@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4gxf-g5gf-22h4",
+  "modified": "2023-06-12T18:34:39Z",
+  "published": "2023-06-10T06:30:25Z",
+  "aliases": [
+    "CVE-2023-26132"
+  ],
+  "summary": "dottie vulnerable to Prototype Pollution",
+  "details": "Versions of the package dottie before 2.0.4 are vulnerable to Prototype Pollution due to insufficient checks, via the `set()` function and the current variable in the `/dottie.js` file.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "dottie"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "(dottie).set"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-26132"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mickhansen/dottie.js/commit/7d3aee1c9c3c842720506e131de7e181e5c8db68"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mickhansen/dottie.js"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mickhansen/dottie.js/blob/b48e22714aae4489ea6276452f22cc61980ba5a4/dottie.js#L107"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-JS-DOTTIE-3332763"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1321"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-12T18:34:39Z",
+    "nvd_published_at": "2023-06-10T05:15:08Z"
+  }
+}

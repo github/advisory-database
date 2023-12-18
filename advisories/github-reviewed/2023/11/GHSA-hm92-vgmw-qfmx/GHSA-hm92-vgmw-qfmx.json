@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hm92-vgmw-qfmx",
+  "modified": "2023-11-17T22:12:01Z",
+  "published": "2023-11-09T06:30:28Z",
+  "aliases": [
+    "CVE-2023-26156"
+  ],
+  "summary": "chromedriver Command Injection vulnerability",
+  "details": "Versions of the package chromedriver before 119.0.1 are vulnerable to Command Injection when setting the chromedriver.path to an arbitrary system binary. This could lead to unauthorized access and potentially malicious actions on the host system.\n\n**Note:**\n\nAn attacker must have access to the system running the vulnerable chromedriver library to exploit it. The success of exploitation also depends on the permissions and privileges of the process running chromedriver. ",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "chromedriver"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "119.0.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-26156"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/giggio/node-chromedriver/commit/de961e34e023afcf4fa5c0faeeec69aaa6c3c815"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gist.github.com/mcoimbra/47b1da554a80795c45126d51e41b2b18"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/giggio/node-chromedriver"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-JS-CHROMEDRIVER-6049539"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-78"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-09T22:07:39Z",
+    "nvd_published_at": "2023-11-09T05:15:09Z"
+  }
+}

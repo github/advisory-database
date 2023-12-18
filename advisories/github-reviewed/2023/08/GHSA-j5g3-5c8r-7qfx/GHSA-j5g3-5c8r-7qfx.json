@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-j5g3-5c8r-7qfx",
+  "modified": "2023-08-30T21:24:57Z",
+  "published": "2023-08-30T21:24:57Z",
+  "aliases": [
+
+  ],
+  "summary": "Prevent logging invalid header values",
+  "details": "## Impact\n### What kind of vulnerability is it?\nApollo Server can log sensitive information (Studio API keys) if they are passed incorrectly (with leading/trailing whitespace) or if they have any characters that are invalid as part of a header value.\n\n### Who is impacted?\nUsers who (all of the below):\n* use either the schema reporting or usage reporting feature\n* use an Apollo Studio API key which has invalid header values\n* use the default fetcher (`node-fetch`) or configured their own `node-fetch` fetcher\n\nThe following node snippet can test whether your API key has invalid header values. This code is taken directly from `node-fetch@2`'s header value validation code.\n```js\nconst invalidHeaderCharRegex = /[^\\t\\x20-\\x7e\\x80-\\xff]/;\nif (invalidHeaderCharRegex.test('<YOUR_API_KEY>')) {\n  console.log('potentially affected');\n}\nconsole.log('unaffected');\n```\n\nIf the provided API key is not a valid header value, whenever Apollo Server uses that API key in a request (to Studio, for example), `node-fetch` will throw an error _which contains the header value_. This error is logged in various ways depending on the user's configuration, but most likely the console or some configured logging service.\n\n### Patches\nThis problem is patched in the latest version of Apollo Server as soon as this advisory is published.\n\n### Workarounds\n* Try retrieving a new API key from Studio. Note: this may not work if the invalid character is not part of the secret (it may be derived from identifiers like graph name, user name).\n* Override the `fetcher` \n* Disable schema reporting and/or usage reporting\n\n### Solution\n* Apollo Server will now call `.trim()` on incoming API keys in order to eliminate leading/trailing whitespace and log a warning when it does so.\n* Apollo Server will now perform the same validation of API keys as `node-fetch@2` performs on header values on startup. Apollo Server will throw an error on startup (i.e., fail to start completely) and notify the user their API key is invalid along with the offending characters.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@apollo/server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.9.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "apollo-server-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.12.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "apollo-server-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.26.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/apollographql/apollo-server/security/advisories/GHSA-j5g3-5c8r-7qfx"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apollographql/apollo-server/commit/2c8106c433c4add4b43e2e2b2f5c5c4887b17314"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apollographql/apollo-server/commit/d38b43bac88acdef4295759d7dcc3d4c348d9575"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apollographql/apollo-server"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-30T21:24:57Z",
+    "nvd_published_at": null
+  }
+}

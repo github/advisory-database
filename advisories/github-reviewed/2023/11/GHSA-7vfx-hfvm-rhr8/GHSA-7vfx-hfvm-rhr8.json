@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7vfx-hfvm-rhr8",
+  "modified": "2023-11-02T20:44:41Z",
+  "published": "2023-11-02T20:44:41Z",
+  "aliases": [
+    "CVE-2021-43849"
+  ],
+  "summary": "cordova-plugin-fingerprint-aio DoS vulnerability",
+  "details": "## Summary:\n\nSending a specially crafted intent with an invalid/empty extras `de.niklasmerz.cordova.biometric.BiometricActivity` can cause the app to crash. sending the intent repeatedly can prevent the app using this plugin from working, resulting in a denial of service (DoS) condition.\n\n## Impact\n\nA 3rd party app/remote attacker can exploit this vulnerability by sending a malicious intent to the target device, causing the app using this plugin from working to crash or become unresponsive, resulting in a denial of service (DoS) condition.\n\n## Mitigation\n\nVersion 5.0.1 of the cordova-plugin-fingerprint-aio doesn't export the activity anymore and is no longer vulnerable.\n\nIf you want to fix older versions change the attribute `android:exported` of this code snippet in plugin.xml to `false`:\n\n```xml\n<config-file target=\"AndroidManifest.xml\" parent=\"application\">\n      <activity android:name=\"de.niklasmerz.cordova.biometric.BiometricActivity\" android:theme=\"@style/TransparentTheme\" android:exported=\"false\"/>\n</config-file>\n``` \n\n## Patches\n\nPlease upgrade to version 5.0.1 as soon as possible.\n\nPlease check out the release on [GitHub](https://github.com/NiklasMerz/cordova-plugin-fingerprint-aio/releases/tag/v5.0.1).\n\n## For more information\nIf you have any questions or comments about this advisory please go to the discussion on [GitHub](https://github.com/NiklasMerz/cordova-plugin-fingerprint-aio/discussions/394).\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "cordova-plugin-fingerprint-aio"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.0.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/NiklasMerz/cordova-plugin-fingerprint-aio/security/advisories/GHSA-7vfx-hfvm-rhr8"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-43849"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/NiklasMerz/cordova-plugin-fingerprint-aio/commit/27434a240f97f69fd930088654590c8ba43569df"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/NiklasMerz/cordova-plugin-fingerprint-aio"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/NiklasMerz/cordova-plugin-fingerprint-aio/discussions/394"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/NiklasMerz/cordova-plugin-fingerprint-aio/releases/tag/v5.0.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-617"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-02T20:44:41Z",
+    "nvd_published_at": "2021-12-23T17:15:00Z"
+  }
+}

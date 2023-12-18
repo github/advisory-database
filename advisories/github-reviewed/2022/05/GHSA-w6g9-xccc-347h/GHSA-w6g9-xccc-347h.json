@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w6g9-xccc-347h",
+  "modified": "2023-07-12T23:37:04Z",
+  "published": "2022-05-24T17:07:14Z",
+  "aliases": [
+    "CVE-2020-7941"
+  ],
+  "summary": "Plone Unauthenticated Write Vulnerability",
+  "details": "A privilege escalation issue in plone.app.contenttypes in Plone 4.3 through 5.2.1 allows users to PUT (overwrite) some content without needing write permission.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "Plone"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.3"
+            },
+            {
+              "last_affected": "5.2.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "plone.app.contenttypes"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "< 2.1.6"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-7941"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/plone/plone.app.contenttypes"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/plone/plone.app.contenttypes/blob/master/CHANGES.rst?plain=1#L372-L374"
+    },
+    {
+      "type": "WEB",
+      "url": "https://plone.org/security/hotfix/20200121"
+    },
+    {
+      "type": "WEB",
+      "url": "https://plone.org/security/hotfix/20200121/privilege-escalation-for-overwriting-content"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.openwall.com/lists/oss-security/2020/01/22/1"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2020/01/24/1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-269"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-12T23:37:04Z",
+    "nvd_published_at": "2020-01-23T21:15:00Z"
+  }
+}

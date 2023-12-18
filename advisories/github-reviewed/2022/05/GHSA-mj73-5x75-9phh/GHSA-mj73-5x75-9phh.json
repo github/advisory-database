@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mj73-5x75-9phh",
+  "modified": "2023-09-26T20:03:52Z",
+  "published": "2022-05-24T17:04:02Z",
+  "aliases": [
+    "CVE-2019-19724"
+  ],
+  "summary": "Singularity insecure permissions",
+  "details": "Insecure permissions (777) are set on `$HOME/.singularity` when it is newly created by Singularity (version from 3.3.0 to 3.5.1), which could lead to an information leak, and malicious redirection of operations performed against Sylabs cloud services.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/sylabs/singularity"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.3.0"
+            },
+            {
+              "fixed": "3.5.2"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.5.1"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-19724"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sylabs/singularity/commit/2cda4981812c29f0fb11d3ea6aaf6139f665a631"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/sylabs/singularity"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sylabs/singularity/releases/tag/v3.5.2"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.opensuse.org/opensuse-security-announce/2020-01/msg00025.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.opensuse.org/opensuse-security-announce/2020-07/msg00059.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-276"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-18T21:02:11Z",
+    "nvd_published_at": "2019-12-18T21:15:00Z"
+  }
+}

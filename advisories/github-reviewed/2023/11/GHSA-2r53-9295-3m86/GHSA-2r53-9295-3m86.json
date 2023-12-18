@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2r53-9295-3m86",
+  "modified": "2023-11-15T18:08:58Z",
+  "published": "2023-11-14T22:25:41Z",
+  "aliases": [
+    "CVE-2023-48217"
+  ],
+  "summary": "Statamic CMS vulnerable to remote code execution via form uploads",
+  "details": "### Impact\n\nSimilar to [another advisory](https://github.com/statamic/cms/security/advisories/GHSA-72hg-5wr5-rmfc), certain additional PHP files crafted to look like images may be uploaded regardless of mime type validation rules. This affects front-end forms using the \"Forms\" feature, and asset upload fields in the control panel.\n\n### Patches\nIt has been patched in 3.4.14 and 4.34.0.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "statamic/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0"
+            },
+            {
+              "fixed": "4.34.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "statamic/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.4.14"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/statamic/cms/security/advisories/GHSA-2r53-9295-3m86"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-48217"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/statamic/cms/pull/8991"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/statamic/cms/pull/8992"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/statamic/cms/commit/4c6fe041e2203a8033e5949ce4a5d9d6c0ad2411"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/statamic/cms/commit/da28afde818d605179fbb63b96eabafabad876b6"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/statamic/cms"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/statamic/cms/releases/tag/v3.4.14"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/statamic/cms/releases/tag/v4.34.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-434",
+      "CWE-94"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-14T22:25:41Z",
+    "nvd_published_at": "2023-11-14T22:15:31Z"
+  }
+}

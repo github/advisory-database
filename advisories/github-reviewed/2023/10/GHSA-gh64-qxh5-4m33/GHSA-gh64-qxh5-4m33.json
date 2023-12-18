@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-gh64-qxh5-4m33",
+  "modified": "2023-10-25T21:06:58Z",
+  "published": "2023-10-25T21:06:58Z",
+  "aliases": [
+    "CVE-2023-37911"
+  ],
+  "summary": "org.xwiki.platform:xwiki-platform-oldcore may leak data through deleted and re-created documents",
+  "details": "### Impact\n\nWhen a document has been deleted and re-created, it is possible for users with view right on the re-created document but not on the deleted document to view the contents of the deleted document. Such a situation might arise when rights were added to the deleted document. This can be exploited through the diff feature and, partially, through the REST API by using versions such as `deleted:1` (where the number counts the deletions in the wiki and is thus guessable). Given sufficient rights, the attacker can also re-create the deleted document, thus extending the scope to any deleted document as long as the attacker has edit right in the location of the deleted document.\n\n### Patches\nThis vulnerability has been patched in XWiki 14.10.8 and 15.3 RC1 by properly checking rights when deleted revisions of a document are accessed.\n\n### Workarounds\nThe only workaround is to regularly [clean deleted documents](https://extensions.xwiki.org/xwiki/bin/view/Extension/Index%20Application#HPermanentlydeleteallpages) to minimize the potential exposure. Extra care should be taken when deleting sensitive documents that are protected individually (and not, e.g., by being placed in a protected space) or deleting a protected space as a whole.\n\n### References\n* https://jira.xwiki.org/browse/XWIKI-20685 (root cause)\n* https://jira.xwiki.org/browse/XWIKI-20817 (exploitation via the diff feature)\n* https://jira.xwiki.org/browse/XWIKI-20684 (exploitation via the REST API)\n* https://github.com/xwiki/xwiki-platform/commit/f471f2a392aeeb9e51d59fdfe1d76fccf532523f",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-oldcore"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.4-rc-1"
+            },
+            {
+              "fixed": "14.10.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-oldcore"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "15.0-rc-1"
+            },
+            {
+              "fixed": "15.3-rc-1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-gh64-qxh5-4m33"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-37911"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/f471f2a392aeeb9e51d59fdfe1d76fccf532523f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://extensions.xwiki.org/xwiki/bin/view/Extension/Index%20Application#HPermanentlydeleteallpages"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20684"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20685"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20817"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-668"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-25T21:06:58Z",
+    "nvd_published_at": "2023-10-25T18:17:28Z"
+  }
+}

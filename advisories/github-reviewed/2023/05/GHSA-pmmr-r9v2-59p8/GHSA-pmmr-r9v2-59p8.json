@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-pmmr-r9v2-59p8",
+  "modified": "2023-05-17T03:26:11Z",
+  "published": "2023-05-16T18:30:16Z",
+  "aliases": [
+    "CVE-2023-32987"
+  ],
+  "summary": "Jenkins Reverse Proxy Auth Plugin cross-site request forgery vulnerability",
+  "details": "Jenkins Reverse Proxy Auth Plugin 1.7.4 and earlier does not require POST requests for a form validation method, resulting in a cross-site request forgery (CSRF) vulnerability.\n\nThis vulnerability allows attackers to connect to an attacker-specified LDAP server using attacker-specified credentials.\n\nReverse Proxy Auth Plugin 1.7.5 requires POST requests for the affected form validation method.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:reverse-proxy-auth-plugin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.7.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-32987"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-05-16/#SECURITY-3002"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-17T03:26:11Z",
+    "nvd_published_at": "2023-05-16T16:15:11Z"
+  }
+}

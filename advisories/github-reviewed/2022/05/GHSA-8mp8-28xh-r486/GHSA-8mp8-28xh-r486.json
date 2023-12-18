@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8mp8-28xh-r486",
+  "modified": "2023-10-19T18:24:49Z",
+  "published": "2022-05-24T17:35:13Z",
+  "aliases": [
+    "CVE-2020-28272"
+  ],
+  "summary": "keyget vulnerable to prototype pollution",
+  "details": "### Overview\nPrototype pollution vulnerability in 'keyget' versions 1.0.0 through 2.2.0 allows attacker to cause a denial of service and may lead to remote code execution.\n\n### Details\nThe npm module 'keyget' can be abused by Prototype Pollution vulnerability since the function 'setByPath()' did not check for the type of object before assigning value to the property. Due to this flaw an attacker could create a non-existent property or able to manipulate the property which leads to Denial of Service or potentially Remote code execution.\n\n### PoC Details\nThe `setByPath()` function accepts three arguments `target, path, value`. Due to the absence of validation, at values passed into `path, value` an attacker can supply a malicious value by adjusting the `path` value to include the `__proto__` property. Since there is no validation before assigning property to check whether the assigned `path` is the Object's own property or not, the property `polluted` will be directly be assigned to the empty obj({}) thereby polluting the Object prototype. Later in the code, if there is a check to validate `polluted` the value would be substituted as \"true\" as it had been polluted.\n\n### PoC Code\n```js\nvar keyget = require(\"keyget\")\n keyget.set({}, '__proto__.polluted', 'true');\n console.log(polluted); \n```",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "keyget"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.0"
+            },
+            {
+              "fixed": "2.3.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.2.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-28272"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rumkin/keyget/commit/17d15b6c75036eb429075a8cfeccfc18094dd2e2"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/rumkin/keyget"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20201207183211/https://www.whitesourcesoftware.com/vulnerability-database/CVE-2020-28272"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1321"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-19T18:24:49Z",
+    "nvd_published_at": "2020-12-02T15:15:00Z"
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-gcq9-qqwx-rgj3",
+  "modified": "2023-11-17T22:07:30Z",
+  "published": "2023-08-24T22:22:59Z",
+  "aliases": [
+    "CVE-2023-40583"
+  ],
+  "summary": "libp2p nodes vulnerable to OOM attack",
+  "details": "### Summary\nIn go-libp2p, by using signed peer records a malicious actor can store an arbitrary amount of data in a remote node’s memory. This memory does not get garbage collected and so the victim can run out of memory and crash.\n\nIt is feasible to do this at scale. An attacker would have to transfer ~1/2 as much memory it wants to occupy (2x amplification factor).\n\nThe attacker can perform this attack over time as the target node’s memory will not be garbage collected.\n\nThis can occur because when a signed peer record is received, only the signature validity check is performed but the sender signature is not checked. Signed peer records from randomly generated peers can be sent by a malicious actor. A target node will accept the peer record as long as the signature is valid, and then stored in the peer store.\n\nThere is cleanup logic in the peer store that cleans up data when a peer disconnects, but this cleanup is never triggered for the fake peer (from which signed peer records were accepted) because it was never “connected”.\n\n### Impact\nIf users of go-libp2p in production are not monitoring memory consumption over time, it could be a silent attack i.e. the attacker could bring down nodes over a period of time (how long depends on the node resources i.e. a go-libp2p node on a virtual server with 4 gb of memory takes about 90 sec to bring down; on a larger server, it might take a bit longer.)\n\n### Patches\nUpdate your go-libp2p dependency to the latest release, v0.30.0 at the time of writing.\n\nIf you'd like to stay on the 0.27.x release, we strongly recommend users to update to go-libp2p [0.27.7](https://github.com/libp2p/go-libp2p/releases/tag/v0.27.7). Though this OOM issue was fixed in 0.27.4, there were subsequent patch releases afterwards (important fixes for other issues unrelated to the OOM).\n\n### Workarounds\nNone",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/libp2p/go-libp2p"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.27.4"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.27.3"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/libp2p/go-libp2p/security/advisories/GHSA-gcq9-qqwx-rgj3"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-40583"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/libp2p/go-libp2p/commit/45d3c6fff662ddd6938982e7e9309ad5fa2ad8dd"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/libp2p/go-libp2p"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/libp2p/go-libp2p/releases/tag/v0.27.4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/libp2p/go-libp2p/releases/tag/v0.27.7"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-24T22:22:59Z",
+    "nvd_published_at": "2023-08-25T21:15:09Z"
+  }
+}

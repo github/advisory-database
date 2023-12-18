@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cw7j-v52w-fp5r",
+  "modified": "2023-07-24T16:55:19Z",
+  "published": "2023-07-21T20:20:56Z",
+  "aliases": [
+
+  ],
+  "summary": "copyparty vulnerable to reflected cross-site scripting via hc parameter",
+  "details": "### Summary\nThe application contains a reflected cross-site scripting via URL-parameter `?hc=...`\n\n### Details\nA reflected cross-site scripting (XSS) vulnerability exists in the web interface of the application that could allow an attacker to execute malicious javascript code by tricking users into accessing a malicious link.\n\nThe worst-case outcome of this is being able to move or delete existing files on the server, or upload new files, using the account of the person who clicks the malicious link.\n\nIt is recommended to change the passwords of  your copyparty accounts, unless you have inspected your logs and found no trace of attacks.\n\n### Checking for exposure\nif copyparty is running behind a reverse proxy, you can check the access-logs for traces of attacks, by grepping for URLs containing `?hc=` with `<` somewhere in its value, for example using the following command:\n* nginx:\n  ```bash\n  (gzip -dc access.log*.gz; cat access.log) | sed -r 's/\" [0-9]+ .*//' | grep -E '[?&](hc|pw)=.*[<>]'\n  ```\n\n\n### PoC\n* `http://127.0.0.1:3923/?hc=\"><script>alert(1);</script>`\n* `http://127.0.0.1:3923/?pw=<script>alert(1);</script>`",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "copyparty"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "copyparty.httpcli.HttpCli.tx_svcs"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.8.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/9001/copyparty/security/advisories/GHSA-cw7j-v52w-fp5r"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/9001/copyparty/commit/0778da6c4d04de870c61f970763a7b619094093c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/9001/copyparty"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/9001/copyparty/releases/tag/v1.8.6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-21T20:20:56Z",
+    "nvd_published_at": null
+  }
+}

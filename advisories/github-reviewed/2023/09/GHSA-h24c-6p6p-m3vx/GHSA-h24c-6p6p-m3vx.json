@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h24c-6p6p-m3vx",
+  "modified": "2023-09-01T20:51:05Z",
+  "published": "2023-09-01T20:51:05Z",
+  "aliases": [
+
+  ],
+  "summary": "tss-lib leaks secret keys in response to incorrectly constructed Paillier moduli",
+  "details": "### Impact\n\nThe specification of the GG18 threshold ECDSA signature protocol contains a vulnerability allowing an attacker to recover the shared secret key. If a participant generates a Paillier modulus `N` containing small factors (less than `2^100`) they can interact with other participants in the signing protocol to steal their secret key shares in as little as sixteen signing attempts. The master key can then be reconstructed from these shares.\n\n### Patches\n\nThe implementation of GG18 in tss-lib did not prove that `N` is biprime or that it doesn't contain small factors. The fixed implementation adds the following proofs from the CGGMP21 threshold ECDSA protocol to the key generation:\n\n- Paillier-Blum Modulus (`N` is the product of two primes)\n- No Small Factor (both factors of `N` are greater than `2^256`)\n\nThese proofs apply to both the Paillier encryption modulus `N`, and the modulus `NTilde` used in MTA proofs.\n\nTo address the issue in the resharing protocol, an additional round has been added to the end so that participants can confirm that they received valid proofs.\n\n### References\n\n- [GG18](https://eprint.iacr.org/2019/114)\n- [CGGMP21](https://eprint.iacr.org/2021/060)",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/bnb-chain/tss-lib"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.3.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/threshold-network/tss-lib/security/advisories/GHSA-h24c-6p6p-m3vx"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/threshold-network/tss-lib/commit/2e712689cfbeefede15f95a0ec7112227d86f702"
+    },
+    {
+      "type": "WEB",
+      "url": "https://eprint.iacr.org/2019/114"
+    },
+    {
+      "type": "WEB",
+      "url": "https://eprint.iacr.org/2021/060"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/threshold-network/tss-lib"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-01T20:51:05Z",
+    "nvd_published_at": null
+  }
+}

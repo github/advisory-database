@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vm2p-f5j4-mj6g",
+  "modified": "2023-10-19T18:21:26Z",
+  "published": "2022-05-14T03:05:44Z",
+  "aliases": [
+    "CVE-2018-11537"
+  ],
+  "summary": "Auth0 angular-jwt misinterprets allowlist as regex",
+  "details": "Auth0 angular-jwt before 0.1.10 treats whiteListedDomains entries as regular expressions, which allows remote attackers with knowledge of the `jwtInterceptorProvider.whiteListedDomains` setting to bypass the domain allowlist filter via a crafted domain.\n\n For example, if the setting is initialized with:\n\n`jwtInterceptorProvider.whiteListedDomains = ['whitelisted.Example.com'];`\n\nAn attacker can set up a domain `whitelistedXexample.com` that will pass the allow list filter, as it considers the `.` separator to be a regex whildcard which matches any character.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "angular-jwt"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.1.10"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-11537"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/auth0/angular-jwt/pull/174"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/auth0/angular-jwt/commit/a4f03b49c3fb47cc6375c2a33b5ac11ca3c606f0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/auth0/angular-jwt/commit/e368cf124443507f1710f60ae855c4c54eebc6ea"
+    },
+    {
+      "type": "WEB",
+      "url": "https://auth0.com/docs/security/bulletins/cve-2018-11537"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/auth0/angular-jwt"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-19T18:21:26Z",
+    "nvd_published_at": "2018-06-19T19:29:00Z"
+  }
+}

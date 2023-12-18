@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2qc8-r663-v864",
+  "modified": "2023-08-18T19:22:58Z",
+  "published": "2023-08-11T18:31:49Z",
+  "aliases": [
+    "CVE-2023-0871"
+  ],
+  "summary": "OpenNMS Horizon XXE Injection Vulnerability",
+  "details": "XXE injection in `/rtc/post/ endpoint` in OpenNMS Horizon 31.0.8 and versions earlier than 32.0.2 on multiple platforms is vulnerable to XML external entity (XXE) injection, which can be used for instance to force Horizon to make arbitrary HTTP requests to internal and external services. The solution is to upgrade to Meridian 2023.1.6, 2022.1.19, 2021.1.30, 2020.1.38 or Horizon 32.0.2 or newer. Meridian and Horizon installation instructions state that they are intended for installation within an organization's private networks and should not be directly accessible from the Internet.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:C/C:H/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.opennms.core:org.opennms.core.xml"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "31.0.8"
+            },
+            {
+              "fixed": "32.0.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-0871"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenNMS/opennms/pull/6355"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenNMS/opennms/commit/5a3b0b62e0c612c9e2aa2c91c847abec71d767d5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.opennms.com/horizon/32/releasenotes/changelog.html"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/OpenNMS/opennms"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-611"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-11T23:04:51Z",
+    "nvd_published_at": "2023-08-11T17:15:08Z"
+  }
+}

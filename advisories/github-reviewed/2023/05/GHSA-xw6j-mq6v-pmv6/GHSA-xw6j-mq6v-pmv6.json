@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xw6j-mq6v-pmv6",
+  "modified": "2023-05-17T02:42:50Z",
+  "published": "2023-05-16T18:30:16Z",
+  "aliases": [
+    "CVE-2023-32991"
+  ],
+  "summary": "Jenkins SAML Single Sign On(SSO) Plugin Cross-Site Request Forgery vulnerability",
+  "details": "Jenkins SAML Single Sign On(SSO) Plugin 2.0.2 and earlier does not perform permission checks in multiple HTTP endpoints.\n\nThis allows attackers with Overall/Read permission to send an HTTP request to an attacker-specified URL and parse the response as XML, or parse a local file on the Jenkins controller as XML.\n\nAs the plugin does not configure its XML parser to prevent XML external entity (XXE) attacks, attackers can have Jenkins parse a crafted XML response that uses external entities for extraction of secrets from the Jenkins controller or server-side request forgery.\n\nAdditionally, these HTTP endpoints do not require POST requests, resulting in a cross-site request forgery (CSRF) vulnerability.\n\nSAML Single Sign On(SSO) Plugin 2.1.0 requires POST requests and Overall/Administer permission for the affected HTTP endpoints.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.jenkins.plugins:miniorange-saml-sp"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.1.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-32991"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-05-16/#SECURITY-2993"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-17T02:42:50Z",
+    "nvd_published_at": "2023-05-16T17:15:11Z"
+  }
+}

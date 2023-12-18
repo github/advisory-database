@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-p84x-5xx8-hff9",
+  "modified": "2023-09-26T20:02:48Z",
+  "published": "2022-05-24T22:01:17Z",
+  "aliases": [
+    "CVE-2019-19729"
+  ],
+  "summary": "bson-objectid contains Improper input validation",
+  "details": "An issue was discovered in the BSON ObjectID (aka bson-objectid) package 1.3.0 for Node.js. ObjectID() allows an attacker to generate a malformed objectid by inserting an additional property to the user-input, because bson-objectid will return early if it `detects _bsontype==ObjectID` in the user-input object. As a result, objects in arbitrary forms can bypass formatting if they have a valid bsontype.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "bson-objectid"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.3.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-19729"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/williamkapke/bson-objectid/issues/30"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cabinjs/bson-objectid"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.npmjs.com/package/bson-objectid"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20",
+      "CWE-670"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-18T21:09:18Z",
+    "nvd_published_at": "2019-12-11T20:15:00Z"
+  }
+}

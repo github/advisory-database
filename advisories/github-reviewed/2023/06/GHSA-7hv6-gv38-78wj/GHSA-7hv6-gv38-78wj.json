@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7hv6-gv38-78wj",
+  "modified": "2023-06-02T17:09:17Z",
+  "published": "2023-06-02T17:09:17Z",
+  "aliases": [
+    "CVE-2023-32310"
+  ],
+  "summary": "DataEase API interface has IDOR vulnerability",
+  "details": "### Impact\nThe api interface for DataEase delete dashboard and delete system messages is vulnerable to IDOR.\n\nThe interface to delete the dashboard:\n1. Create two users: user1 and user2\n2. User1 creates a dashboard named pan1\n3. User2 creates a dashboard named pan2\n4. Both user1 and user2 share their dashboards with the demo user\n5. User1 wants to delete his dashboard. We hijack the request with burpsuite. The request will probably look like this: POST /api/share/removePanelShares/440efa7f-efd8-11ed-bec7-1144724bc08c HTTP/1.1. 440efa7f-efd8-11ed-bec7-1144724bc08c is the ID of pan1\n6. We replace this ID with the ID of pan2 and continue the execution (i.e. we delete the shares of others)\n7. Successfully remove the shared link\n![image](https://user-images.githubusercontent.com/985347/238271028-d23a9ca3-cd77-42a2-9199-a28ef03f5bf0.png)\n\nThe interface to delete system messages:\n1. Our request to delete a message is shown below\n![image](https://user-images.githubusercontent.com/985347/238271474-1bf6be85-7a39-436d-b209-ac88bf52b591.png)\n2. We can delete all messages by simply enumerating the message ID, regardless of whether the message belongs to the requester or not.\n3. The interface for marking read messages is also affected\n\nAffected versions: <= 1.18.6\n\n### Patches\nThe vulnerability has been fixed in v1.18.7.\n\n### Workarounds\nIt is recommended to upgrade the version to v1.18.7.\n\n### References\nIf you have any questions or comments about this advisory:\n\nOpen an issue in https://github.com/dataease/dataease\nEmail us at [wei@fit2cloud.com](mailto:wei@fit2cloud.com)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.dataease:dataease-plugin-common"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.18.7"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.18.6"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/dataease/dataease/security/advisories/GHSA-7hv6-gv38-78wj"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-32310"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dataease/dataease/pull/5342"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dataease/dataease/commit/72f428e87b5395c03d2f94ef6185fc247ddbc8dc"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/dataease/dataease"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dataease/dataease/releases/tag/v1.18.7"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-639"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-02T17:09:17Z",
+    "nvd_published_at": "2023-06-01T16:15:09Z"
+  }
+}

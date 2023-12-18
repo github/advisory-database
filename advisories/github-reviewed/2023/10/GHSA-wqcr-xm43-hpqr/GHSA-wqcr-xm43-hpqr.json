@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wqcr-xm43-hpqr",
+  "modified": "2023-10-06T20:46:33Z",
+  "published": "2023-10-06T20:46:33Z",
+  "aliases": [
+
+  ],
+  "summary": "Vulnerable version of libwebp and can be exploited with a malicious source image",
+  "details": "### Impact\n\nThis vulnerability affects deployments of FreeImage that involve decoding or processing malicious source .webp files. If you only process your own trusted files, this should not affect you, but **you should remove FreeImage from your project, as it is not maintained and presents a massive security risk**. \n\nIf you are using FreeImage via  ImageResizer.Plugins.FreeImage, please utilize [Imageflow](https://github.com/imazen/imageflow) or [Imageflow.Server](https://github.com/imazen/imageflow-dotnet-server) instead, or upgrade to ImageResizer 5 and use ImageResizer.Plugins.Imageflow (enable Prereleases on NuGet to access). \n\nFreeImage relies on Google's [libwebp](https://github.com/webmproject/libwebp) library to decode .webp images, and is affected by the recent zero-day out-of-bounds write vulnerability [CVE-2023-4863](https://nvd.nist.gov/vuln/detail/CVE-2023-4863) and https://github.com/advisories/GHSA-j7hp-h8jx-5ppr. The libwebp vulnerability also affects Chrome, Android, macOS, and other consumers of the library).\n\nlibwebp patched [the vulnerability](https://github.com/webmproject/libwebp/commit/2af26267cdfcb63a88e5c74a85927a12d6ca1d76 ) and released [1.3.2](https://github.com/webmproject/libwebp/releases/tag/v1.3.2). FreeImage hasn't been updated since then and is presumed vulnerable. \n\n### Patches\n\nNone. FreeImage has not been updated in several years.\n\n### Workarounds\n\n If you are using ImageResizer.Plugins.FreeImage, please utilize [Imageflow](https://github.com/imazen/imageflow) or [Imageflow.Server](https://github.com/imazen/imageflow-dotnet-server) instead, or upgrade to ImageResizer 5 and use ImageResizer.Plugins.Imageflow (enable Prereleases on NuGet to access). \n\n### References\n\nhttps://github.com/advisories/GHSA-j7hp-h8jx-5ppr\nhttps://nvd.nist.gov/vuln/detail/CVE-2023-4863\nhttps://github.com/webmproject/libwebp/commit/2af26267cdfcb63a88e5c74a85927a12d6ca1d76 \nhttps://github.com/NoXF/libwebp-sys/commits/master",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "ImageResizer.Plugins.FreeImage"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "4.2.8"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/imazen/resizer/security/advisories/GHSA-wqcr-xm43-hpqr"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-4863"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/webmproject/libwebp/commit/2af26267cdfcb63a88e5c74a85927a12d6ca1d76"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/NoXF/libwebp-sys/commits/master"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-j7hp-h8jx-5ppr"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/imazen/resizer"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-06T20:46:33Z",
+    "nvd_published_at": null
+  }
+}

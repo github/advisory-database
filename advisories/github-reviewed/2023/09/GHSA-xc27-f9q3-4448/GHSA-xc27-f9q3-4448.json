@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xc27-f9q3-4448",
+  "modified": "2023-10-09T19:51:02Z",
+  "published": "2023-09-04T17:02:36Z",
+  "aliases": [
+    "CVE-2023-41057"
+  ],
+  "summary": "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal') in hyper-bump-it",
+  "details": "### Summary\n`hyper-bump-it` reads a file glob pattern from the configuration file. That is combined with the project root directory to construct a full glob pattern that is used to find files that should be edited. These matched files should be contained within the project root directory, but that is not checked. This could result in changes being written to files outside of the project.\n\nThe default behaviour of `hyper-bump-it` is to display the planned changes and prompt the user for confirmation before editing any files. However, the configuration file provides a field that can be used cause files to be edited without displaying the prompt.\n\n### Details\n\nThe vulnerability is present in \n\nhttps://github.com/plannigan/hyper-bump-it/blob/49c726201bbdc02c052302e03fd907d2170e1f47/hyper_bump_it/_hyper_bump_it/files.py#L35\n\nThat code joins the project root directory with a string read from the configuration file without checking if the final path is located outside the project root directory.\n\nThe following configuration file contents would cause `hyper-bump-it` to replace every instance of \"hello\" in every file adjacent to the project root directory with \"world\". The line setting  `show_confirm_prompt` to `false` is not required, but will result in the user file edits to occur without the user having a chance to reject the changes (The fact that changes happened would still be displayed). \n\n```toml\n[hyper-bump-it]\ncurrent_version = \"1.2.3\"\nshow_confirm_prompt=false\n\n[[hyper-bump-it.files]]\nfile_glob = \"../*\"\nsearch_format_pattern = \"hello\"\nreplace_format_pattern = \"world\"\n```\n\n### Patches\nA fix that been released as part of v0.5.1. The changes can be view as part of  PR #307.\n\n### Workarounds\nUsers that are unable to update from vulnerable versions, executing `hyper-bump-it` with the `--interactive` command line argument will ensure that all planned changes are displayed and prompt the user for confirmation before editing any files, even if the configuration file contains `show_confirm_prompt=true`.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "hyper-bump-it"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.5.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/plannigan/hyper-bump-it/security/advisories/GHSA-xc27-f9q3-4448"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-41057"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/plannigan/hyper-bump-it/pull/307"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/plannigan/hyper-bump-it"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-04T17:02:36Z",
+    "nvd_published_at": "2023-09-04T18:15:09Z"
+  }
+}

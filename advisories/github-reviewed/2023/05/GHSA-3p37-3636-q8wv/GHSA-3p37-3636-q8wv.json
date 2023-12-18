@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3p37-3636-q8wv",
+  "modified": "2023-06-06T17:05:03Z",
+  "published": "2023-05-12T20:21:54Z",
+  "aliases": [
+    "CVE-2023-31146"
+  ],
+  "summary": "Vyper vulnerable to OOB DynArray access when array is on both LHS and RHS of an assignment",
+  "details": "### Impact\nduring codegen, the length word of a dynarray is written before the data, which can result in OOB array access in the case where the dynarray is on both the lhs and rhs of an assignment. here is a minimal example producing the issue:\n```vyper\na:DynArray[uint256,3]\n@external\ndef test() -> DynArray[uint256,3]:\n    self.a = [1,2,3]\n    self.a = empty(DynArray[uint256,3])\n    self.a = [self.a[0],self.a[1],self.a[2]]\n    return self.a # return [1,2,3]\n```\n\nand here is an example demonstrating the issue can cause data corruption across call frames:\n\n```vyper\n@external\ndef test() -> DynArray[uint256,3]:\n    self.a()\n    return self.b() # return [1,2,3]\n\n@internal\ndef a():\n    a: uint256 = 0    \n    b: uint256 = 1    \n    c: uint256 = 2    \n    d: uint256 = 3\n\n@internal\ndef b() -> DynArray[uint256,3]:\n    a: DynArray[uint256,3] = empty(DynArray[uint256,3])\n    a = [a[0],a[1],a[2]]\n    return a\n```\n\nexamples involving append and pop:\n```vyper\n@internal\ndef foo():\n    c: DynArray[uint256, 1] = []\n    c.append(c[0])\n```\n\n```vyper\n@internal\ndef foo():\n    c: DynArray[uint256, 1] = [1]\n    c[0] = c.pop()\n```\n\nthe expected behavior in all of the above cases is to revert due to oob array access.\n\n### Patches\npatched in 4f8289a81206f767df1900ac48f485d90fc87edb\n\n### Workarounds\n_Is there a way for users to fix or remediate the vulnerability without upgrading?_\n\n### References\n_Are there any links users can visit to find out more?_\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "vyper"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.3.8"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/vyperlang/vyper/security/advisories/GHSA-3p37-3636-q8wv"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-31146"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vyperlang/vyper/commit/4f8289a81206f767df1900ac48f485d90fc87edb"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/vyper/PYSEC-2023-77.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vyperlang/vyper"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-787"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-12T20:21:54Z",
+    "nvd_published_at": "2023-05-11T21:15:10Z"
+  }
+}

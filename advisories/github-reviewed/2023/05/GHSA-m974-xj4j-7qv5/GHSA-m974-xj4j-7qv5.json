@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-m974-xj4j-7qv5",
+  "modified": "2023-05-11T20:32:18Z",
+  "published": "2023-05-11T20:32:18Z",
+  "aliases": [
+    "CVE-2023-25568"
+  ],
+  "summary": "Boxo bitswap/server: DOS unbounded persistent memory leak",
+  "details": "### Impact\nAn attacker is able allocate arbitrarily many bytes in the Bitswap server by sending many `WANT_BLOCK` and or `WANT_HAVE` requests which are queued in an unbounded queue, with allocations that persist even if the connection is closed.\nThis affects users accepting untrusted connections with the Bitswap server, this also affects users using the old API stubs at `github.com/ipfs/boxo/bitswap` because it transitively uses `github.com/ipfs/boxo/bitswap/server`.\n\nWe have [renamed go-libipfs to boxo](https://github.com/ipfs/boxo/issues/215); this document uses both terms interchangeably. The version numbers for both are applicable, as they share the same historical timeline.\n\n### Remediation\nApply one of:\n- Update `boxo` to [`v0.6.0`](https://github.com/ipfs/boxo/releases/tag/v0.6.0) or later\n- Update `boxo` to [`v0.4.1`](https://github.com/ipfs/boxo/releases/tag/v0.4.1)\n   Note that ***`v0.5.0` is NOT safe***, `v0.4.1` is a backport of the `v0.6.0` security fixes on top of `v0.4.0`.\n\n### Mitigations\n1. The server now limits how many wantlist entries per peer it knows.\n    The `MaxQueuedWantlistEntriesPerPeer` option allows configuring how many wantlist entries the server remembers; if a peer sends a wantlist bigger than this (including a sum of multiple delta updates) the server will truncate the wantlist to the match the limit.\n    This defaults to `1024` entries per peer.\n2. The server now properly clears state about peers when they disconnect.\n    Peer state is more lazily allocated (only when a wantlist is received in the first place) and is properly cleared when the `PeerDisconnected` callback is received.\n3. The server now ignores CIDs above some size.\n    Clients were able to send any CID as long as the total protobuf message were bellow the 4MiB limit. This is allowed to allocate lots of memory with very little entries.\n    This can be configured using the `MaxCidSize` option and defaults to `168 bytes`.\n4. The server now closes the connection if an inline CID is requested (either as `WANT_*` or `CANCEL`).\n    The attack were more effective if done with CIDs that are present in target's blockstore, this is because this will push longer-lasting jobs on some priority queue.\n    Since inline CID are literal data (instead of hashes of data), everyone always \"has\" any inline CID (since instead of loading the data from disk, it can be extracted from the CID). It makes no sense for anyone to ever ask you about an inline CID since they could also just parse it themselves. Thus, as a defensive measure, we kill the connection with peers that ask about an inline CID.\n\n### Vulnerable symbols\n- `github.com/ipfs/go-libipfs/bitswap/server/internal/decision.(*Engine).MessageReceived`\n- `github.com/ipfs/go-libipfs/bitswap/server/internal/decision.(*Engine).NotifyNewBlocks`\n- `github.com/ipfs/go-libipfs/bitswap/server/internal/decision.(*Engine).findOrCreate`\n- `github.com/ipfs/go-libipfs/bitswap/server/internal/decision.(*Engine).PeerConnected`\n\n### Patches\n- https://github.com/ipfs/boxo/commit/9cb5cb54d40b57084d1221ba83b9e6bb3fcc3197 (mitigations 1 and 2)\n- https://github.com/ipfs/boxo/commit/62cbac40b96f49e39cd7fedc77ee6b56adce4916 (mitigations 3 and 4)\n- https://github.com/ipfs/boxo/commit/baa748b682fabb21a4c1f7628a8af348d4645974 (tests)\n\n### Workarounds\nIf you are using the stubs at `github.com/ipfs/go-libipfs/bitswap` and not taking advantage of the features provided by the server, refactoring your code to use the new split API will allow you to run in a client-only mode using: [`github.com/ipfs/boxo/bitswap/client`](https://pkg.go.dev/github.com/ipfs/boxo/bitswap/client).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/ipfs/go-libipfs"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.5.0"
+            },
+            {
+              "fixed": "0.6.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/ipfs/go-libipfs"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.4.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ipfs/boxo/security/advisories/GHSA-m974-xj4j-7qv5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ipfs/go-libipfs/security/advisories/GHSA-m974-xj4j-7qv5"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-25568"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ipfs/boxo/commit/62cbac40b96f49e39cd7fedc77ee6b56adce4916"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ipfs/boxo/commit/9cb5cb54d40b57084d1221ba83b9e6bb3fcc3197"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ipfs/boxo/commit/baa748b682fabb21a4c1f7628a8af348d4645974"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ipfs/boxo"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400",
+      "CWE-770"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-11T20:32:18Z",
+    "nvd_published_at": "2023-05-10T14:15:32Z"
+  }
+}

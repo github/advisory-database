@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xc8x-vp79-p3wm",
+  "modified": "2023-11-03T15:56:04Z",
+  "published": "2023-10-25T21:15:13Z",
+  "aliases": [
+    "CVE-2023-46137"
+  ],
+  "summary": "twisted.web has disordered HTTP pipeline response",
+  "details": "Twisted is an event-based framework for internet applications. Prior to version 23.10.0rc1, when sending multiple HTTP requests in one TCP packet, twisted.web will process the requests asynchronously without guaranteeing the response order. If one of the endpoints is controlled by an attacker, the attacker can delay the response on purpose to manipulate the response of the second request when a victim launched two requests using HTTP pipeline. Version 23.10.0rc1 contains a patch for this issue.\n\n### Details\nThere's an example faulty program:\n```python\nfrom twisted.internet import reactor, endpoints\nfrom twisted.web import server\nfrom twisted.web.proxy import ReverseProxyResource\nfrom twisted.web.resource import Resource\n\nclass Second(Resource):\n    isLeaf = True\n    def render_GET(self, request):\n        return b'SECOND\\n'\n\nclass First(Resource):\n    isLeaf = True\n    def render_GET(self, request):\n        def send_response():\n            request.write(b'FIRST DELAYED\\n')\n            request.finish()\n        reactor.callLater(0.5, send_response)\n        return server.NOT_DONE_YET\n\nroot = Resource()\n\nroot.putChild(b'second', Second())\nroot.putChild(b'first', First())\n\nendpoint = endpoints.TCP4ServerEndpoint(reactor, 8080)\nendpoint.listen(server.Site(root))\nreactor.run()\n```\n\nWhen two requests for `/first` and `/second` are sent in the same order, the second request will be responded to first.\n```shell\necho -en \"GET /first HTTP/1.1\\r\\nHost: a\\r\\n\\r\\nGET /second HTTP/1.1\\r\\nHost: a\\r\\n\\r\\n\" | nc localhost 8080\n```",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "twisted"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "23.10.0rc1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/twisted/twisted/security/advisories/GHSA-xc8x-vp79-p3wm"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-46137"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/twisted/PYSEC-2023-224.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/twisted/twisted"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-444"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-25T21:15:13Z",
+    "nvd_published_at": "2023-10-25T21:15:10Z"
+  }
+}

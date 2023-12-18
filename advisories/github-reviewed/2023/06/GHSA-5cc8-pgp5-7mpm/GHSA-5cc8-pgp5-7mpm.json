@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5cc8-pgp5-7mpm",
+  "modified": "2023-06-30T20:30:30Z",
+  "published": "2023-06-30T20:30:30Z",
+  "aliases": [
+    "CVE-2023-1664"
+  ],
+  "summary": "Keycloak Untrusted Certificate Validation vulnerability",
+  "details": "A flaw was found in keycloak-core. This flaw considers the scenario when using X509 Client Certificate Authenticatior with the option \"Revalidate Client Certificate\". A user may be able to choose, if directly connect to keycloak (not passing via reverse proxy) a specific certificate. If there's a configuration error in KC_SPI_TRUSTSTORE_FILE_FILE the authenticator allows even with the \"Cannot validate client certificate trust: Truststore not available\" message as there's no certificate to trust against.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.keycloak:keycloak-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "21.1.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/keycloak/keycloak/security/advisories/GHSA-5cc8-pgp5-7mpm"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-1664"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/security/cve/CVE-2023-1664"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2182196&comment#0"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/keycloak/keycloak"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-295"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-30T20:30:30Z",
+    "nvd_published_at": null
+  }
+}

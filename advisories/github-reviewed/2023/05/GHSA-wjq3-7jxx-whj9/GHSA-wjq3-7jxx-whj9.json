@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wjq3-7jxx-whj9",
+  "modified": "2023-05-18T02:01:53Z",
+  "published": "2023-05-17T21:30:22Z",
+  "aliases": [
+    "CVE-2023-2780"
+  ],
+  "summary": "mlflow Path Traversal vulnerability",
+  "details": "mlflow prior to 2.3.0 is vulnerable to path traversal due to a bypass of the fix for CVE-2023-1177.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "mlflow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.3.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-2780"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mlflow/mlflow/commit/fae77a525dd908c56d6204a4cef1c1c75b4e9857"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mlflow/mlflow"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/mlflow/PYSEC-2023-69.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.dev/bounties/b12b0073-0bb0-4bd1-8fc2-ec7f17fd7689"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-29"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-18T02:01:53Z",
+    "nvd_published_at": "2023-05-17T21:15:09Z"
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-gj2r-phwg-6rww",
+  "modified": "2023-09-27T15:42:11Z",
+  "published": "2023-09-26T18:00:22Z",
+  "aliases": [
+    "CVE-2023-39347"
+  ],
+  "summary": "Kubernetes users may update Pod labels to bypass network policy",
+  "details": "### Impact\n\nAn attacker with the ability to update pod labels can cause Cilium to apply incorrect network policies.\n\nThis issue arises due to the fact that on pod update, Cilium incorrectly uses user-provided pod labels to select the policies which apply to the workload in question.\n\nThis can affect:\n\n* Cilium network policies that use the namespace, service account or cluster constructs to restrict traffic\n* Cilium clusterwide network policies that use Cilium namespace labels to select the Pod\n* Kubernetes network policies\n\nNon-existent construct names can be provided, which bypass all network policies applicable to the construct. For example, providing a pod with a non-existent namespace as the value of the `io.kubernetes.pod.namespace` label results in none of the namespaced CiliumNetworkPolicies applying to the pod in question.\n\nThis attack requires the attacker to have [Kubernetes API Server access](https://docs.cilium.io/en/latest/security/threat-model/#kubernetes-api-server-attacker), as described in the Cilium Threat Model.\n\n### Patches\n\nThis issue affects:\n\n- Cilium <= v1.14.1\n- Cilium <= v1.13.6\n- Cilium <= v1.12.13\n\nThis issue has been resolved in:\n\n- Cilium v1.14.2\n- Cilium v1.13.7\n- Cilium v1.12.14\n\n### Workarounds\n\nAn admission webhook can be used to prevent pod label updates to the `k8s:io.kubernetes.pod.namespace` and `io.cilium.k8s.policy.*` keys.\n\n### Acknowledgements\nThe Cilium community has worked together with members of Palantir and Isovalent to prepare these mitigations. Special thanks to @odinuge for reporting this issue and to @nebril for the fix.\n\n### For more information\nIf you have any questions or comments about this advisory, please reach out on [Slack](https://docs.cilium.io/en/latest/community/community/#slack).\n\nIf you think you have found a vulnerability in Cilium, we strongly encourage you to report it to our private security mailing list – [security@cilium.io](mailto:security@cilium.io) – first, before disclosing them in any public forums. This is a private mailing list where only members of the Cilium internal security team are subscribed to, and is treated as top priority.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:A/AC:L/PR:L/UI:N/S:C/C:L/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cilium/cilium"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.13.0"
+            },
+            {
+              "fixed": "1.13.7"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.13.6"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cilium/cilium"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.14.0"
+            },
+            {
+              "fixed": "1.14.2"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.14.1"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cilium/cilium"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.12.14"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.12.13"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/security/advisories/GHSA-gj2r-phwg-6rww"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-39347"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.cilium.io/en/latest/security/threat-model/#kubernetes-api-server-attacker"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cilium/cilium"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-345"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-26T18:00:22Z",
+    "nvd_published_at": "2023-09-27T15:18:55Z"
+  }
+}

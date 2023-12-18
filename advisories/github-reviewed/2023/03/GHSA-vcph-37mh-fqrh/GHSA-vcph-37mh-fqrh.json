@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vcph-37mh-fqrh",
+  "modified": "2023-08-24T20:07:48Z",
+  "published": "2023-03-07T18:30:39Z",
+  "aliases": [
+    "CVE-2023-27522"
+  ],
+  "summary": "Apache HTTP Server via mod_proxy_uwsgi HTTP response smuggling",
+  "details": "HTTP Response Smuggling vulnerability in Apache HTTP Server via mod_proxy_uwsgi. This issue affects Apache HTTP Server from 2.4.30 through 2.4.55 and the uWSGI PyPI package prior to version 2.0.22. Special characters in the origin response header can truncate/split the response forwarded to the client.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "uWSGI"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.22"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-27522"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/httpd/commit/d753ea76b5972a85349b68c31b59d04c60014f2d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/unbit/uwsgi/commit/58ee1df31fa9e9af106aaeabb82374c36b433822"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/unbit/uwsgi/commit/acb03530aaaeaa810f28a5b64da619525940f569"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/unbit/uwsgi"
+    },
+    {
+      "type": "WEB",
+      "url": "https://httpd.apache.org/security/vulnerabilities_24.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.debian.org/debian-lts-announce/2023/04/msg00028.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.gentoo.org/glsa/202309-01"
+    },
+    {
+      "type": "WEB",
+      "url": "https://uwsgi-docs.readthedocs.io/en/latest/Changelog-2.0.22.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-444"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-24T20:07:48Z",
+    "nvd_published_at": "2023-03-07T16:15:00Z"
+  }
+}

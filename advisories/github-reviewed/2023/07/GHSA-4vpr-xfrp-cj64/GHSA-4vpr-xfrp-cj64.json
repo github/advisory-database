@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4vpr-xfrp-cj64",
+  "modified": "2023-07-27T16:16:27Z",
+  "published": "2023-07-18T18:30:36Z",
+  "aliases": [
+    "CVE-2023-34035"
+  ],
+  "summary": "Spring Security's authorization rules can be misconfigured when using multiple servlets",
+  "details": "Spring Security versions 5.8 prior to 5.8.5, 6.0 prior to 6.0.5, and 6.1 prior to 6.1.2 could be susceptible to authorization rule misconfiguration if the application uses requestMatchers(String) and multiple servlets, one of them being Spring MVC’s DispatcherServlet. (DispatcherServlet is a Spring MVC component that maps HTTP endpoints to methods on @Controller-annotated classes.)\n\nSpecifically, an application is vulnerable when all of the following are true:\n\n  *  Spring MVC is on the classpath\n  *  Spring Security is securing more than one servlet in a single application (one of them being Spring MVC’s DispatcherServlet)\n  *  The application uses requestMatchers(String) to refer to endpoints that are not Spring MVC endpoints\n\n\nAn application is not vulnerable if any of the following is true:\n\n  *  The application does not have Spring MVC on the classpath\n  *  The application secures no servlets other than Spring MVC’s DispatcherServlet\n  *  The application uses requestMatchers(String) only for Spring MVC endpoints",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.springframework.security:spring-security-config"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.8.0"
+            },
+            {
+              "fixed": "5.8.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.springframework.security:spring-security-config"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.0.0"
+            },
+            {
+              "fixed": "6.0.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.springframework.security:spring-security-config"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.1.0"
+            },
+            {
+              "fixed": "6.1.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-34035"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/spring-projects/spring-security-samples/commit/4e3bec904a5467db28ea33e25ac9d90524b53d66"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/spring-projects/spring-security/commit/bb46a5427005e33e637b15948de8adae244ce547"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/spring-projects/spring-security/commit/df239b6448ccf138b0c95b5575a88f33ac35cd9a"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/spring-projects/spring-security-samples/tree/main/servlet/java-configuration/authentication/preauth"
+    },
+    {
+      "type": "WEB",
+      "url": "https://spring.io/security/cve-2023-34035"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-863"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-19T22:10:34Z",
+    "nvd_published_at": "2023-07-18T16:15:11Z"
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-72hg-5wr5-rmfc",
+  "modified": "2023-11-12T15:57:58Z",
+  "published": "2023-11-12T15:57:58Z",
+  "aliases": [
+    "CVE-2023-47129"
+  ],
+  "summary": "Statamic CMS remote code execution via front-end form uploads",
+  "details": "### Impact\nOn front-end forms with an asset upload field, PHP files crafted to look like images may be uploaded regardless of mime validation rules. This only affects forms using the \"Forms\" feature and not just _any_ arbitrary form. This does not affect the control panel.\n\n### Patches\nIt has been patched in 3.4.13 and 4.33.0.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "statamic/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0"
+            },
+            {
+              "fixed": "4.33.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "statamic/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.4.13"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/statamic/cms/security/advisories/GHSA-72hg-5wr5-rmfc"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-47129"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/statamic/cms/commit/098ef8024d97286ca501273c18ae75b646262d75"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/statamic/cms/commit/f6c688154f6bdbd0b67039f8f11dcd98ba061e77"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/statamic/cms"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-434"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-12T15:57:58Z",
+    "nvd_published_at": "2023-11-10T19:15:16Z"
+  }
+}

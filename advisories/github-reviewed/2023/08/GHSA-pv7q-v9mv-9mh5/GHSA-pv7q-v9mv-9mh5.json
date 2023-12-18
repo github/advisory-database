@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-pv7q-v9mv-9mh5",
+  "modified": "2023-08-10T20:09:07Z",
+  "published": "2023-08-10T20:09:07Z",
+  "aliases": [
+    "CVE-2023-39964"
+  ],
+  "summary": "1Panel O&M management panel has a background arbitrary file reading vulnerability",
+  "details": "### Summary\nArbitrary file reads allow an attacker to read arbitrary important configuration files on the server.\n\n### Details\nIn the api/v1/file.go file, there is a function called LoadFromFile, which directly reads the file by obtaining the requested path parameter[path]. The request parameters are not filtered, resulting in a background arbitrary file reading vulnerability\n![picture1](https://user-images.githubusercontent.com/136411443/257109786-1b0af1e7-346f-4e92-9da2-d977f2f7fe6a.jpg)\n\n### PoC\nRequest /api/v1/files/loadfile, carry /etc/passwd data to read, as shown below:\n![微信图片_20230731112833](https://user-images.githubusercontent.com/136411443/257109931-108fc16f-e180-4d1e-996c-d9da5f76559f.png)\n\n\n### Impact\n1Panel v1.4.3\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/1Panel-dev/1Panel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.4.3"
+            },
+            {
+              "fixed": "1.5.0"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "1.4.3"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/1Panel-dev/1Panel/security/advisories/GHSA-pv7q-v9mv-9mh5"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-39964"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/1Panel-dev/1Panel"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/1Panel-dev/1Panel/releases/tag/v1.5.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-10T20:09:07Z",
+    "nvd_published_at": "2023-08-10T18:15:11Z"
+  }
+}

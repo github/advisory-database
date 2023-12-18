@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hq87-h4jg-vxfw",
+  "modified": "2023-09-21T21:37:19Z",
+  "published": "2023-09-20T18:30:21Z",
+  "aliases": [
+    "CVE-2023-43498"
+  ],
+  "summary": "Jenkins temporary uploaded file created with insecure permissions",
+  "details": "In Jenkins 2.423 and earlier, LTS 2.414.1 and earlier, uploaded files processed via the Stapler web framework and the Jenkins API `MultipartFormDataParser` create temporary files in the system temporary directory with the default permissions for newly created files.\n\nIf these permissions are overly permissive, attackers with access to the system temporary directory may be able to read and write the file before it is used.\n\nThis vulnerability only affects operating systems using a shared temporary directory for all users (typically Linux). Additionally, the default permissions for newly created files generally only allow attackers to read the temporary file, but not write to it.\nJenkins 2.424, LTS 2.414.2 creates the temporary files in a subdirectory with more restrictive permissions.\n\nAs a workaround, you can change your default temporary-file directory using the Java system property `java.io.tmpdir`, if you’re concerned about this issue but unable to immediately update Jenkins.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.main:jenkins-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.50"
+            },
+            {
+              "fixed": "2.414.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.main:jenkins-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.415"
+            },
+            {
+              "fixed": "2.424"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-43498"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-09-20/#SECURITY-3073"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2023/09/20/5"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-21T21:37:19Z",
+    "nvd_published_at": "2023-09-20T17:15:11Z"
+  }
+}

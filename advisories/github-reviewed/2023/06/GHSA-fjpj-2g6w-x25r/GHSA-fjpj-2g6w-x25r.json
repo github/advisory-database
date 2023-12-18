@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fjpj-2g6w-x25r",
+  "modified": "2023-06-27T21:57:13Z",
+  "published": "2023-06-15T16:28:08Z",
+  "aliases": [
+    "CVE-2023-34454"
+  ],
+  "summary": "snappy-java's Integer Overflow vulnerability in compress leads to DoS",
+  "details": "## Summary\nDue to unchecked multiplications, an integer overflow may occur, causing an unrecoverable fatal error.\n## Impact\nDenial of Service\n## Description\nThe function [compress(char[] input)](https://github.com/xerial/snappy-java/blob/05c39b2ca9b5b7b39611529cc302d3d796329611/src/main/java/org/xerial/snappy/Snappy.java#L169) in the file [Snappy.java](https://github.com/xerial/snappy-java/blob/master/src/main/java/org/xerial/snappy/Snappy.java) receives an array of characters and compresses it. It does so by multiplying the length by 2 and passing it to the [rawCompress](https://github.com/xerial/snappy-java/blob/05c39b2ca9b5b7b39611529cc302d3d796329611/src/main/java/org/xerial/snappy/Snappy.java#L422) function.\n\n```java\npublic static byte[] compress(char[] input)\n            throws IOException\n    {\n        return rawCompress(input, input.length * 2); // char uses 2 bytes\n    }\n\n```\n\nSince the length is not tested, the multiplication by two can cause an integer overflow and become negative. The rawCompress function then uses the received length and passes it to the natively compiled maxCompressedLength function, using the returned value to allocate a byte array.\n\n```java\n    public static byte[] rawCompress(Object data, int byteSize)\n            throws IOException\n    {\n        byte[] buf = new byte[Snappy.maxCompressedLength(byteSize)];\n        int compressedByteSize = impl.rawCompress(data, 0, byteSize, buf, 0);\n        byte[] result = new byte[compressedByteSize];\n        System.arraycopy(buf, 0, result, 0, compressedByteSize);\n        return result;\n    }\n\n```\n\nSince the maxCompressedLength function treats the length as an unsigned integer, it doesn’t care that it is negative, and it returns a valid value, which is casted to a signed integer by the Java engine. If the result is negative, a “java.lang.NegativeArraySizeException” exception will be raised while trying to allocate the array “buf”. On the other side, if the result is positive, the “buf” array will successfully be allocated, but its size might be too small to use for the compression, causing a fatal Access Violation error.\nThe same issue exists also when using the “compress” functions that receive double, float, int, long and short, each using a different multiplier that may cause the same issue. The issue most likely won’t occur when using a byte array, since creating a byte array of size 0x80000000 (or any other negative value) is impossible in the first place.\n\n\n## Steps To Reproduce\nCompile and run the following code:\n\n```java\npackage org.example;\nimport org.xerial.snappy.Snappy;\n\nimport java.io.*;\n\npublic class Main {\n\n    public static void main(String[] args) throws IOException {\n        char[] uncompressed = new char[0x40000000];\n        byte[] compressed = Snappy.compress(uncompressed);\n    }\n}\n\n```\n\nThe program will crash, creating crashdumps and showing the following error (or similar):\n\n```\n#\n# A fatal error has been detected by the Java Runtime Environment:\n#\n#  EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x0000000063a01c20, pid=21164, tid=508\n#\n.......\n```\n\n\nAlternatively - compile and run the following code:\n\n```java\npackage org.example;\nimport org.xerial.snappy.Snappy;\n\nimport java.io.*;\n\npublic class Main {\n\n    public static void main(String[] args) throws IOException {\n        char[] uncompressed = new char[0x3fffffff];\n        byte[] compressed = Snappy.compress(uncompressed);\n    }\n}\n```\n\nThe program will crash with the following error (or similar), since the maxCompressedLength returns a value that is interpreted as negative by java:\n\n```\nException in thread \"main\" java.lang.NegativeArraySizeException: -1789569677\n\tat org.xerial.snappy.Snappy.rawCompress(Snappy.java:425)\n\tat org.xerial.snappy.Snappy.compress(Snappy.java:172)\n\tat org.example.Main.main(Main.java:10)\n\n```",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xerial.snappy:snappy-java"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.1.10.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.1.10.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xerial/snappy-java/security/advisories/GHSA-fjpj-2g6w-x25r"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-34454"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xerial/snappy-java/commit/d0042551e4a3509a725038eb9b2ad1f683674d94"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xerial/snappy-java"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xerial/snappy-java/blob/05c39b2ca9b5b7b39611529cc302d3d796329611/src/main/java/org/xerial/snappy/Snappy.java#L169"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xerial/snappy-java/blob/05c39b2ca9b5b7b39611529cc302d3d796329611/src/main/java/org/xerial/snappy/Snappy.java#L422"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xerial/snappy-java/blob/master/src/main/java/org/xerial/snappy/Snappy.java"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-190"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-15T16:28:08Z",
+    "nvd_published_at": "2023-06-15T17:15:09Z"
+  }
+}

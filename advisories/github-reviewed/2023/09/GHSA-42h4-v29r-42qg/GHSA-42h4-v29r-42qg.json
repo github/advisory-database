@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-42h4-v29r-42qg",
+  "modified": "2023-09-26T13:57:26Z",
+  "published": "2023-09-25T17:33:40Z",
+  "aliases": [
+    "CVE-2023-40581"
+  ],
+  "summary": " yt-dlp on Windows vulnerable to `--exec` command injection when using `%q`",
+  "details": "### Impact\n[`yt-dlp`](https://github.com/yt-dlp/yt-dlp) allows the user to provide shell commands to be executed at various stages in its download process through the `--exec` flag. This flag allows output template expansion in its argument, so that video metadata values may be used in the shell commands. The metadata fields can be combined with the `%q` conversion, which is intended to quote/escape these values so they can be safely passed to the shell.\n\nHowever, the escaping used for `cmd` (the shell used by Python's `subprocess` on Windows) did not properly escape special characters, which can allow for remote code execution if `--exec` is used directly with maliciously crafted remote data. This vulnerability only impacts `yt-dlp` on Windows, and the vulnerability is present regardless of whether `yt-dlp` is run from `cmd` or from `PowerShell`.\n\nSupport for output template expansion in `--exec`, along with this vulnerable behavior, was added to `yt-dlp` in version [2021.04.11](https://github.com/yt-dlp/yt-dlp/releases/tag/2021.04.11).\n\n```shell\n> yt-dlp https://youtu.be/Jo66yyCpHcQ --exec \"echo %(title)q\"\n[youtube] Extracting URL: https://youtu.be/Jo66yyCpHcQ\n[youtube] Jo66yyCpHcQ: Downloading webpage\n[youtube] Jo66yyCpHcQ: Downloading ios player API JSON\n[youtube] Jo66yyCpHcQ: Downloading android player API JSON\n[youtube] Jo66yyCpHcQ: Downloading m3u8 information\n[info] Jo66yyCpHcQ: Downloading 1 format(s): 135+251\n[download] Destination: ＂&echo(&echo(pwned&rem( [Jo66yyCpHcQ].f135.mp4\n[download] 100% of    4.85KiB in 00:00:00 at 60.20KiB/s\n[download] Destination: ＂&echo(&echo(pwned&rem( [Jo66yyCpHcQ].f251.webm\n[download] 100% of    4.80KiB in 00:00:00 at 31.58KiB/s\n[Merger] Merging formats into \"＂&echo(&echo(pwned&rem( [Jo66yyCpHcQ].mkv\"\nDeleting original file ＂&echo(&echo(pwned&rem( [Jo66yyCpHcQ].f135.mp4 (pass -k to keep)\nDeleting original file ＂&echo(&echo(pwned&rem( [Jo66yyCpHcQ].f251.webm (pass -k to keep)\n[Exec] Executing command: echo \"\\\"&echo(&echo(pwned&rem(\"\n\"\\\"\n\npwned\n```\n\n### Patches\nyt-dlp version 2023.09.24 fixes this issue by properly escaping each special character.\n`\\n` will be replaced by `\\r`, as no way of escaping it has been found.\n\n### Workarounds\nIt is recommended to upgrade yt-dlp to version 2023.09.24 as soon as possible. Also, always be careful when using `--exec`, because while this specific vulnerability has been patched, using unvalidated input in shell commands is inherently dangerous.\n\nFor Windows users who are not able to upgrade:\n- Avoid using any output template expansion in `--exec` other than `{}` (filepath).\n- If expansion in `--exec` is needed, verify the fields you are using do not contain `\"`, `|` or `&`.\n- Instead of using `--exec`, write the info json and load the fields from it instead.\n\n### References\n- https://github.com/yt-dlp/yt-dlp/security/advisories/GHSA-42h4-v29r-42qg\n- https://nvd.nist.gov/vuln/detail/CVE-2023-40581\n- https://github.com/yt-dlp/yt-dlp/releases/tag/2023.09.24\n- https://github.com/yt-dlp/yt-dlp-nightly-builds/releases/tag/2023.09.24.003044\n- https://github.com/yt-dlp/yt-dlp/commit/de015e930747165dbb8fcd360f8775fd973b7d6e",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "yt-dlp"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2021.04.11"
+            },
+            {
+              "fixed": "2023.09.24"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/yt-dlp/yt-dlp/security/advisories/GHSA-42h4-v29r-42qg"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-40581"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/yt-dlp/yt-dlp/commit/de015e930747165dbb8fcd360f8775fd973b7d6e"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/yt-dlp/yt-dlp"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/yt-dlp/yt-dlp-nightly-builds/releases/tag/2023.09.24.003044"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/yt-dlp/yt-dlp/releases/tag/2021.04.11"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/yt-dlp/yt-dlp/releases/tag/2023.09.24"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-78"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-25T17:33:40Z",
+    "nvd_published_at": "2023-09-25T19:15:09Z"
+  }
+}

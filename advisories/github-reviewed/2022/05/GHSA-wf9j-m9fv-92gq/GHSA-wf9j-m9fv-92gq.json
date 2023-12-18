@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wf9j-m9fv-92gq",
+  "modified": "2023-10-19T17:37:44Z",
+  "published": "2022-05-17T19:57:11Z",
+  "aliases": [
+    "CVE-2014-0161"
+  ],
+  "summary": "ovirt-engine-sdk-python improper validation of hostname in x.509 certificate",
+  "details": "ovirt-engine-sdk-python before 3.4.0.7 and 3.5.0.4 does not verify that the hostname of the remote endpoint matches the Common Name (CN) or subjectAltName as specified by its x.509 certificate in a TLS/SSL session. This could allow man-in-the-middle attackers to spoof remote endpoints via an arbitrary valid certificate.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ovirt-engine-sdk-python"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.4.0.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2014-0161"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/security/cve/cve-2014-0161"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2014-0161"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/oVirt/python-ovirt-engine-sdk4"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-295"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-19T17:37:44Z",
+    "nvd_published_at": "2020-01-02T18:15:00Z"
+  }
+}

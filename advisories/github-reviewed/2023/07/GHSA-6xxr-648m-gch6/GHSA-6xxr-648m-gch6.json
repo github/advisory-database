@@ -1,0 +1,126 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6xxr-648m-gch6",
+  "modified": "2023-07-10T21:53:12Z",
+  "published": "2023-07-10T21:53:12Z",
+  "aliases": [
+    "CVE-2023-37277"
+  ],
+  "summary": "XWiki Platform vulnerable to cross-site request forgery (CSRF) via the REST API",
+  "details": "### Impact\n\nThe REST API allows executing all actions via POST requests and accepts `text/plain`, `multipart/form-data` or `application/www-form-urlencoded` as content types which can be sent via regular HTML forms, thus allowing cross-site request forgery. With the interaction of a user with programming rights, this allows remote code execution through script macros and thus impacts the integrity, availability and confidentiality of the whole XWiki installation.\n\nFor regular cookie-based authentication, the vulnerability is mitigated by SameSite cookie restrictions but as of March 2023, these are not enabled by default in Firefox and Safari.\n\n### Patches\nThe vulnerability has been patched in XWiki 14.10.8 and 15.2 by requiring a CSRF token header for certain request types that are susceptible to CSRF attacks.\n\n### Workarounds\n\nIt is possible to check for the `Origin` header in a reverse proxy to protect the REST endpoint from CSRF attacks, see [the Jira issue](https://jira.xwiki.org/browse/XWIKI-20135) for an example configuration.\n\n### References\n\n* https://jira.xwiki.org/browse/XWIKI-20135\n* https://github.com/xwiki/xwiki-platform/commit/4c175405faa0e62437df397811c7526dfc0fbae7\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-rest-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.8"
+            },
+            {
+              "fixed": "14.10.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.xpn.xwiki.platform:xwiki-core-rest-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.8"
+            },
+            {
+              "fixed": "14.10.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.xpn.xwiki.platform:xwiki-rest"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.8"
+            },
+            {
+              "fixed": "14.10.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-rest-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "15.0-rc-1"
+            },
+            {
+              "fixed": "15.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-6xxr-648m-gch6"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-37277"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/4c175405faa0e62437df397811c7526dfc0fbae7"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20135"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-10T21:53:12Z",
+    "nvd_published_at": "2023-07-10T17:15:09Z"
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vqxf-r9ph-cc9c",
+  "modified": "2023-05-22T20:36:06Z",
+  "published": "2023-05-22T20:36:06Z",
+  "aliases": [
+    "CVE-2023-32679"
+  ],
+  "summary": "Craft CMS vulnerable to Remote Code Execution via unrestricted file extension ",
+  "details": "### Summary\nUnrestricted file extension lead to a potential Remote Code Execution\n(Authenticated, ALLOW_ADMIN_CHANGES=true)\n\n### Details\n#### Vulnerability Cause : \nIf the name parameter value is not empty string('') in the View.php's doesTemplateExist() -> resolveTemplate() -> _resolveTemplateInternal() -> _resolveTemplate() function, it returns directly without extension verification, so that arbitrary extension files are rendered as twig templates (even if they are not extensions set in defaultTemplateExtensions = ['html', 'twig'])\n```php\n    /**\n     * Searches for a template files, and returns the first match if there is one.\n     *\n     * @param string $basePath The base path to be looking in.\n     * @param string $name The name of the template to be looking for.\n     * @param bool $publicOnly Whether to only look for public templates (template paths that don’t start with the private template trigger).\n     * @return string|null The matching file path, or `null`.\n     */\n    private function _resolveTemplate(string $basePath, string $name, bool $publicOnly): ?string\n    {\n        // Normalize the path and name\n        $basePath = FileHelper::normalizePath($basePath);\n        $name = trim(FileHelper::normalizePath($name), '/');\n\n        // $name could be an empty string (e.g. to load the homepage template)\n        if ($name !== '') {\n            if ($publicOnly && preg_match(sprintf('/(^|\\/)%s/', preg_quote($this->_privateTemplateTrigger, '/')), $name)) {\n                return null;\n            }\n\n            // Maybe $name is already the full file path\n            $testPath = $basePath . DIRECTORY_SEPARATOR . $name;\n\n            if (is_file($testPath)) {\n                return $testPath;\n            }\n\n            foreach ($this->_defaultTemplateExtensions as $extension) {\n                $testPath = $basePath . DIRECTORY_SEPARATOR . $name . '.' . $extension;\n\n                if (is_file($testPath)) {\n                    return $testPath;\n                }\n            }\n        }\n\n        foreach ($this->_indexTemplateFilenames as $filename) {\n            foreach ($this->_defaultTemplateExtensions as $extension) {\n                $testPath = $basePath . ($name !== '' ? DIRECTORY_SEPARATOR . $name : '') . DIRECTORY_SEPARATOR . $filename . '.' . $extension;\n\n                if (is_file($testPath)) {\n                    return $testPath;\n                }\n            }\n        }\n\n        return null;\n    }\n```\n\nWhen attacker with admin privileges on the DEV or Misconfigured STG, PROD, they can exploit this vulnerability to remote code execution **(ALLOW_ADMIN_CHANGES=true)**\n\n\n### PoC\n**Step 1)** Create a new filesystem. **Base Path: /var/www/html/templates**\n![1](https://user-images.githubusercontent.com/30969523/228049254-6c3a9897-c26a-46a5-96ad-41c7b769116a.png)\n\n**Step 2)** Create a new asset volume. **Asset Filesystem: template**\n![2](https://user-images.githubusercontent.com/30969523/228049839-d2d42245-fa6e-4245-9fd2-967f1b9f4a74.png)\n\n**Step 3)** Upload poc file( .txt , .js , .json , etc ) with twig template rce payload\n```twig\n{{'<pre>'}}\n{{1337*1337}}\n{{['cat /etc/passwd']|map('passthru')|join}}\n{{['id;pwd;ls -altr /']|map('passthru')|join}}\n```\n![7](https://user-images.githubusercontent.com/30969523/228051307-623b78d0-4792-44ae-af0f-aff6b16f8d87.png)\n![5](https://user-images.githubusercontent.com/30969523/228051064-cfaad338-3aff-4c4f-a177-9b42e473142b.png)\n\n**Step 4)** Create a new global set with template layout. The template filename is poc.js\n![8](https://user-images.githubusercontent.com/30969523/228051430-365457eb-2a10-47a8-aed9-fb400e80c6d5.png)\n\n**Step 5)** When access global menu or /admin/global/test, poc.js is rendered as a template file and RCE confirmed\n![9](https://user-images.githubusercontent.com/30969523/228053142-62a0f1ad-bbfa-4b8d-b6bd-28ed26c1cc18.png)\n\n**Step 6)** RCE can be confirmed on other menus(Entries, Categories) where the template file is loaded.\n![10](https://user-images.githubusercontent.com/30969523/228054216-5dcd0c30-85bd-4603-84e5-944cfe9ad93c.png)\n![11](https://user-images.githubusercontent.com/30969523/228054146-d5a3ceea-e13d-461a-bcd6-abf260761d62.png)\n\n\n**Poc Environment)** ALLOW_ADMIN_CHANGES=true, defaultTemplateExtensions=['html','twig']\n![0](https://user-images.githubusercontent.com/30969523/228054764-37d78cf5-5eca-442f-873a-99e6676b8173.png)\n![13](https://user-images.githubusercontent.com/30969523/228054803-1a2c40b0-e515-46b3-a653-bb5ef1a287a2.png)\n![14](https://user-images.githubusercontent.com/30969523/228054821-c7b0cfd6-126a-4722-846c-26d725af1a6a.png)\n\n### Impact\nTake control of vulnerable systems, Data exfiltrations, Malware execution, Pivoting, etc.\n\nAdditionally, there are 371 domains using CraftCMS exposed on Shodan, and among them, 33 servers have \"stage\" or \"dev\" included in their hostnames. \n\nalthough the vulnerability is exploitable only in the authenticated users, configuration with ALLOW_ADMIN_CHANGES=true, there is still a potential security threat (Remote Code Execution)\n\n![2023-03-31 10 29 53](https://user-images.githubusercontent.com/30969523/229001176-4c235b2f-e1a3-4b96-965a-78f227546a12.png)\n\n### Remediation\nRecommend taking measures by referring to https://github.com/craftcms/cms-ghsa-9f84-5wpf-3vcf/pull/1\n```php\n            // Maybe $name is already the full file path\n            $testPath = $basePath . DIRECTORY_SEPARATOR . $name;\n\n            if (is_file($testPath)) {\n                // Remedation: Verify template file extension, before return\n                $fileExt = pathinfo($testPath, PATHINFO_EXTENSION);\n                $isDisallowed = false;\n\n                if (isset($fileExt)) {\n                    $isDisallowed = !in_array($fileExt, $this->_defaultTemplateExtensions);\n\n                    if($isDisallowed) {\n                        return null;\n                    } else {\n                        return $testPath;\n                    }\n                }\n            }\n```\n\n![remediation](https://user-images.githubusercontent.com/30969523/228841202-43079754-0d9d-47fa-8ae3-ce5dd509796b.png)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "craftcms/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0"
+            },
+            {
+              "fixed": "4.4.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/craftcms/cms/security/advisories/GHSA-vqxf-r9ph-cc9c"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-32679"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/craftcms/cms"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/craftcms/cms/releases/tag/4.4.6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-22T20:36:06Z",
+    "nvd_published_at": "2023-05-19T20:15:09Z"
+  }
+}

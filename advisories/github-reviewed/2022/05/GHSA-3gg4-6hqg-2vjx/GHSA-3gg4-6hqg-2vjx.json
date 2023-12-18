@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3gg4-6hqg-2vjx",
+  "modified": "2023-11-22T19:28:34Z",
+  "published": "2022-05-13T01:38:50Z",
+  "aliases": [
+    "CVE-2016-10362"
+  ],
+  "summary": "Logstash Logs Sensitive Information",
+  "details": "Prior to Logstash version 5.0.1, Elasticsearch Output plugin when updating connections after sniffing, would log to file HTTP basic auth credentials.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "logstash-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.0.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2016-10362"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/elastic/logstash"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20210730201452/http://www.securityfocus.com/bid/99154"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.elastic.co/community/security"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-28T21:30:09Z",
+    "nvd_published_at": "2017-06-16T21:29:00Z"
+  }
+}

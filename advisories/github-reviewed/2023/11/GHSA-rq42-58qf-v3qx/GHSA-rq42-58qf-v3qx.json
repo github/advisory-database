@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rq42-58qf-v3qx",
+  "modified": "2023-11-20T22:06:37Z",
+  "published": "2023-11-17T21:38:42Z",
+  "aliases": [
+    "CVE-2023-46745"
+  ],
+  "summary": "LibreNMS vulnerable to rate limiting bypass on login page",
+  "details": "### Summary\nApplication is using two login methods and one of them is using GET request for authentication. There is no rate limiting security feature at GET request or backend is not validating that. \n\n### PoC\nGo to /?username=admin&password=password&submit=\nCapture request in Burpsuite intruder and add payload marker at password parameter value.\nStart the attack after adding your password list\nWe have added 74 passwords\nCheck screenshot for more info\n<img width=\"1241\" alt=\"Screenshot 2023-11-06 at 8 55 19 PM\" src=\"https://user-images.githubusercontent.com/31764504/280905148-42274f1e-f869-4145-95b4-71c0bffde3a0.png\">\n\n### Impact\nAn attacker can Bruteforce user accounts and using GET request for authentication is not recommended because certain web servers logs all requests in old logs which can also store victim user credentials.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "librenms/librenms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "23.11.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/librenms/librenms/security/advisories/GHSA-rq42-58qf-v3qx"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-46745"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/librenms/librenms/pull/15558"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/librenms/librenms/commit/7c006e96251ae1d32e1a015b361a7bfbb815c028"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/librenms/librenms"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/librenms/librenms/releases/tag/23.11.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-307",
+      "CWE-770"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-17T21:38:42Z",
+    "nvd_published_at": "2023-11-17T22:15:07Z"
+  }
+}

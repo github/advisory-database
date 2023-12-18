@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xqcf-hj92-967m",
+  "modified": "2023-07-25T20:00:40Z",
+  "published": "2022-07-24T00:00:33Z",
+  "aliases": [
+    "CVE-2018-25045"
+  ],
+  "summary": "Django REST framework XSS Vulnerability",
+  "details": "Django REST framework (aka django-rest-framework) before 3.9.1 allows XSS because the default DRF Browsable API view templates disable autoescaping.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "django-rest-framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.9.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-25045"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/encode/django-rest-framework/pull/6191"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/encode/django-rest-framework/pull/6330"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/encode/django-rest-framework/commit/4bb9a3c48427867ef1e46f7dee945a4c25a4f9b8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/encode/django-rest-framework"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-25T20:00:40Z",
+    "nvd_published_at": "2022-07-23T02:15:00Z"
+  }
+}

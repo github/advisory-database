@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9q9v-qgwx-84mr",
+  "modified": "2023-07-31T19:02:11Z",
+  "published": "2023-07-26T12:30:28Z",
+  "aliases": [
+    "CVE-2023-38673"
+  ],
+  "summary": "Command injection in PaddlePaddle",
+  "details": "PaddlePaddle before 2.5.0 has a command injection in fs.py. This resulted in the ability to execute arbitrary commands on the operating system.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "paddlepaddle"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "paddle.distributed.fleet.utils.LocalFS"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.5.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-38673"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/PaddlePaddle/Paddle/commit/2bfe358043096fdba9e2a4cf0f5740102b37fd8f"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/PaddlePaddle/Paddle"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/PaddlePaddle/Paddle/blob/develop/security/advisory/pdsa-2023-005.md"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/paddlepaddle/PYSEC-2023-126.yaml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-78"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-26T22:33:35Z",
+    "nvd_published_at": "2023-07-26T12:15:09Z"
+  }
+}

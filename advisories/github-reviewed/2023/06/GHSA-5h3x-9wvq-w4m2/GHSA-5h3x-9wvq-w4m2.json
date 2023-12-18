@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5h3x-9wvq-w4m2",
+  "modified": "2023-06-08T18:03:11Z",
+  "published": "2023-06-08T18:03:11Z",
+  "aliases": [
+    "CVE-2023-34234"
+  ],
+  "summary": "OpenZeppelin Contracts's governor proposal creation may be blocked by frontrunning",
+  "details": "### Impact\n\nBy frontrunning the creation of a proposal, an attacker can become the proposer and gain the ability to cancel it. The attacker can do this repeatedly to try to prevent a proposal from being proposed at all.\n\nThis impacts the `Governor` contract in v4.9.0 only, and the `GovernorCompatibilityBravo` contract since v4.3.0.\n\n### Patches\n\nThe problem has been patched in 4.9.1 by introducing opt-in frontrunning protection.\n\n### Workarounds\n\nSubmit the proposal creation transaction to an endpoint with frontrunning protection.\n\n### Credit\n\nReported by Lior Abadi and Joaquin Pereyra from Coinspect.\n\n### References\n\nhttps://www.coinspect.com/openzeppelin-governor-dos/",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@openzeppelin/contracts"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.3.0"
+            },
+            {
+              "fixed": "4.9.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@openzeppelin/contracts-upgradeable"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.3.0"
+            },
+            {
+              "fixed": "4.9.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenZeppelin/openzeppelin-contracts/security/advisories/GHSA-5h3x-9wvq-w4m2"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-34234"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable/commit/66f390fa516b550838e2c2f65132b5bc2afe1ced"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenZeppelin/openzeppelin-contracts/commit/d9474327a492f9f310f31bc53f38dbea56ed9a57"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/OpenZeppelin/openzeppelin-contracts"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenZeppelin/openzeppelin-contracts/releases/tag/v4.9.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-862"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-08T18:03:11Z",
+    "nvd_published_at": "2023-06-07T18:15:09Z"
+  }
+}

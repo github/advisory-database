@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7v4p-328v-8v5g",
+  "modified": "2023-10-17T02:37:42Z",
+  "published": "2023-10-17T02:37:42Z",
+  "aliases": [
+
+  ],
+  "summary": "Traefik vulnerable to HTTP/2 request causing denial of service ",
+  "details": "### Impact\n\nA vulnerability CVE-2023-39325 exists in [Go managing HTTP/2 requests](https://groups.google.com/g/golang-announce/c/iNNxDTCjZvo/m/UDd7VKQuAAAJ?pli=1), which impacts Traefik. This vulnerability could be exploited to cause a denial of service.\n\n### References\n\n- [CVE-2023-44487](https://www.cve.org/CVERecord?id=CVE-2023-44487)\n- [CVE-2023-39325](https://www.cve.org/CVERecord?id=CVE-2023-39325)\n\n### Patches\n\n- https://github.com/traefik/traefik/releases/tag/v2.10.5\n- https://github.com/traefik/traefik/releases/tag/v3.0.0-beta4",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/traefik/traefik"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.10.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/traefik/traefik"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0-beta1"
+            },
+            {
+              "fixed": "3.0.0-beta4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/traefik/traefik/security/advisories/GHSA-7v4p-328v-8v5g"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/traefik/traefik"
+    },
+    {
+      "type": "WEB",
+      "url": "https://groups.google.com/g/golang-announce/c/iNNxDTCjZvo/m/UDd7VKQuAAAJ?pli=1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-17T02:37:42Z",
+    "nvd_published_at": null
+  }
+}

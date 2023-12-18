@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rqjq-ww83-wv5c",
+  "modified": "2023-06-06T02:04:22Z",
+  "published": "2023-06-03T00:30:16Z",
+  "aliases": [
+    "CVE-2023-2816"
+  ],
+  "summary": "Hashicorp Consul allows user with service:write permissions to patch remote proxy instances",
+  "details": "Consul and Consul Enterprise allowed any user with service:write permissions to use Envoy extensions configured via service-defaults to patch remote proxy instances that target the configured service, regardless of whether the user has permission to modify the service(s) corresponding to those modified proxies.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/hashicorp/consul"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.15.0"
+            },
+            {
+              "fixed": "1.15.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-2816"
+    },
+    {
+      "type": "WEB",
+      "url": "https://discuss.hashicorp.com/t/hcsec-2023-16-consul-envoy-extension-downstream-proxy-configuration-by-upstream-service-owner/54525"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/hashicorp/consul"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-06T02:04:22Z",
+    "nvd_published_at": "2023-06-02T23:15:09Z"
+  }
+}

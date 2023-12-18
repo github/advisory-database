@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wc9j-gc65-3cm7",
+  "modified": "2023-08-31T21:47:28Z",
+  "published": "2023-08-31T21:47:28Z",
+  "aliases": [
+    "CVE-2023-41034"
+  ],
+  "summary": "DDFFileParser is vulnerable to XXE Attacks",
+  "details": "### Impact\n`DDFFileParser` and `DefaultDDFFileValidator` (and so `ObjectLoader`) are vulnerable to [XXE Attacks](https://owasp.org/www-community/vulnerabilities/XML_External_Entity_(XXE)_Processing).\n\n[DDF file](https://github.com/eclipse-leshan/leshan/wiki/Adding-new-objects#the-lwm2m-model) is a LWM2M format used to store LWM2M object description.   \nLeshan users are impacted only if they parse untrusted DDF files (e.g. if they let external users provide their own model), in that case they MUST upgrade to fixed version.\nIf you parse only trusted DDF file and validate only with trusted xml schema, upgrading is not mandatory. \n\n### Patches\nThis is fixed in **v1.5.0** and **2.0.0-M13**.\n\n### Workarounds\nNo easy way. Eventually writing your own `DDFFileParser`/`DefaultDDFFileValidator` (and so `ObjectLoader`) creating a `DocumentBuilderFactory` with : \n```java\n// For DDFFileParser\nDocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();\nfactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);\nfactory.setFeature(\"http://apache.org/xml/features/disallow-doctype-decl\", true); // Disable DTDs\nfactory.setXIncludeAware(false); // Disable XML Inclusions\nfactory.setExpandEntityReferences(false); // disable expand entity reference nodes\n\n// For DefaultDDFFileValidator\nSchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);\nfactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);\nfactory.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, \"\");\nfactory.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, \"\");\n``` \n\n### References\n- https://owasp.org/www-community/vulnerabilities/XML_External_Entity_(XXE)_Processing\n- https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html\n- https://semgrep.dev/docs/cheat-sheets/java-xxe/\n- https://community.veracode.com/s/article/Java-Remediation-Guidance-for-XXE",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.eclipse.leshan:leshan-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.5.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.eclipse.leshan:leshan-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0-M1"
+            },
+            {
+              "fixed": "2.0.0-M13"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/eclipse-leshan/leshan/security/advisories/GHSA-wc9j-gc65-3cm7"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-41034"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/eclipse-leshan/leshan/commit/29577d2879ba8e7674c3b216a7f01193fc7ae013"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/eclipse-leshan/leshan/commit/4d3e63ac271a817f81fba3e3229c519af7a3049c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/eclipse-leshan/leshan"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/eclipse-leshan/leshan/wiki/Adding-new-objects#the-lwm2m-model"
+    },
+    {
+      "type": "WEB",
+      "url": "https://owasp.org/www-community/vulnerabilities/XML_External_Entity_(XXE)_Processing"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-611"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-31T21:47:28Z",
+    "nvd_published_at": "2023-08-31T18:15:09Z"
+  }
+}

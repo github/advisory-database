@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g6ph-x5wf-g337",
+  "modified": "2023-10-02T22:07:45Z",
+  "published": "2023-09-25T21:30:26Z",
+  "aliases": [
+    "CVE-2022-4244"
+  ],
+  "summary": "plexus-codehaus vulnerable to directory traversal",
+  "details": "A flaw was found in plexus-codehaus. A directory traversal attack (also known as path traversal) aims to access files and directories stored outside the intended folder. By manipulating files with dot-dot-slash (`../`) sequences and their variations or by using absolute file paths, it may be possible to access arbitrary files and directories stored on the file system, including application source code, configuration, and other critical system files.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.codehaus.plexus:plexus-utils"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.0.24"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-4244"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/codehaus-plexus/plexus-utils/issues/4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/codehaus-plexus/plexus-utils/commit/33a2853df8185b4519b1b8bfae284f03392618ef"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2023:3906"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/security/cve/CVE-2022-4244"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2149841"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-JAVA-ORGCODEHAUSPLEXUS-31521"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-26T17:59:40Z",
+    "nvd_published_at": "2023-09-25T20:15:10Z"
+  }
+}

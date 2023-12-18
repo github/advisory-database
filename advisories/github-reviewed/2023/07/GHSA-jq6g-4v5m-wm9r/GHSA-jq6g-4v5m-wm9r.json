@@ -1,0 +1,126 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jq6g-4v5m-wm9r",
+  "modified": "2023-08-03T17:57:05Z",
+  "published": "2023-07-25T18:25:52Z",
+  "aliases": [
+    "CVE-2023-38499"
+  ],
+  "summary": "Information Disclosure due to Out-of-scope Site Resolution",
+  "details": "> ### CVSS: `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N/E:F/RL:O/RC:C` (3.5)\n\n### Problem\nIn multi-site scenarios, enumerating the HTTP query parameters `id` and `L` allowed out-of-scope access to rendered content in the website frontend. For instance, this allowed visitors to access content of an internal site by adding handcrafted query parameters to the URL of a site that was publicly available.\n\n### Solution\nUpdate to TYPO3 versions 9.5.42 ELTS, 10.4.39 ELTS, 11.5.30, 12.4.4 that fix the problem described above.\n\n> ℹ️ **Strong security defaults - Manual actions required**\n> Resolving sites by the `id` and `L` HTTP query parameters is now denied per default. However, it is still allowed to resolve a particular page by e.g. `https://example.org/?id=123&L=0` - as long as the `page-id 123` is in the scope of the site configured for the `base-url example.org`.\n> The new feature flag `security.frontend.allowInsecureSiteResolutionByQueryParameters` - which is disabled per default - can be used to reactivate the previous behavior.\n\n### Credits\nThanks to Garvin Hicking who reported this issue, and to TYPO3 core & security team members Oliver Hader and Benjamin Franzke who fixed the issue.\n\n### References\n* [TYPO3-CORE-SA-2023-003](https://typo3.org/security/advisory/typo3-core-sa-2023-003)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.4.0"
+            },
+            {
+              "fixed": "9.5.42"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "10.0.0"
+            },
+            {
+              "fixed": "10.4.39"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "11.0.0"
+            },
+            {
+              "fixed": "11.5.30"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "12.0.0"
+            },
+            {
+              "fixed": "12.4.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/TYPO3/typo3/security/advisories/GHSA-jq6g-4v5m-wm9r"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-38499"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/TYPO3/typo3/commit/702e2debd4b28f9cdb540544565fe6a8627ccb6a"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/TYPO3/typo3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://typo3.org/security/advisory/typo3-core-sa-2023-003"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-25T18:25:52Z",
+    "nvd_published_at": "2023-07-25T21:15:10Z"
+  }
+}

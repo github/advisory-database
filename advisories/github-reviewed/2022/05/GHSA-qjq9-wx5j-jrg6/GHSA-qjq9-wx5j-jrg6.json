@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qjq9-wx5j-jrg6",
+  "modified": "2023-10-31T19:54:00Z",
+  "published": "2022-05-14T03:50:13Z",
+  "aliases": [
+    "CVE-2017-17971"
+  ],
+  "summary": "Dolibarr ERP and CRM contain XSS Vulnerability",
+  "details": "The test_sql_and_script_inject function in htdocs/main.inc.php in Dolibarr ERP/CRM 6.0.4 blocks some event attributes but neither onclick nor onscroll, which allows XSS.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "dolibarr/dolibarr"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.0.5"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 6.0.4"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-17971"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Dolibarr/dolibarr/issues/8000"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Dolibarr/dolibarr/commit/b2feac9d90f2ecfd5916c4d49176ff1a138744c8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Dolibarr/dolibarr"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-26T22:09:51Z",
+    "nvd_published_at": "2017-12-29T18:29:00Z"
+  }
+}

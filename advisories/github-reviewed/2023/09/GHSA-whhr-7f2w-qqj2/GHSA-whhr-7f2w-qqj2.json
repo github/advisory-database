@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-whhr-7f2w-qqj2",
+  "modified": "2023-10-06T20:00:20Z",
+  "published": "2023-09-21T17:10:57Z",
+  "aliases": [
+    "CVE-2023-42444"
+  ],
+  "summary": "phonenumber panics on parsing crafted RFC3966 inputs",
+  "details": "### Impact\nThe phonenumber parsing code may panic due to a panic-guarded out-of-bounds access on the phonenumber string.\n\nIn a typical deployment of `rust-phonenumber`, this may get triggered by feeding a maliciously crafted phonenumber over the network, specifically the string `.;phone-context=`.\n\n### Patches\nPatches will be published as version `0.3.3+8.13.9` and backported as `0.2.5+8.11.3`.\n\n### Workarounds\nn.a.\n\n### References\nn.a.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "phonenumber"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.2.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "phonenumber"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.3.0"
+            },
+            {
+              "fixed": "0.3.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/whisperfish/rust-phonenumber/security/advisories/GHSA-whhr-7f2w-qqj2"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-42444"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/whisperfish/rust-phonenumber/commit/2dd44be94539c051b4dee55d1d9d349bd7bedde6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/whisperfish/rust-phonenumber/commit/bea8e732b9cada617ede5cf51663dba183747f71"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/whisperfish/rust-phonenumber"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1284",
+      "CWE-248",
+      "CWE-392"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-21T17:10:57Z",
+    "nvd_published_at": "2023-09-19T15:15:56Z"
+  }
+}

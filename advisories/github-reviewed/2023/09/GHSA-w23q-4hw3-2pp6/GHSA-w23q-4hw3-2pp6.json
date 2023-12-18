@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w23q-4hw3-2pp6",
+  "modified": "2023-09-06T18:43:13Z",
+  "published": "2023-09-06T18:43:13Z",
+  "aliases": [
+    "CVE-2023-28433"
+  ],
+  "summary": "Minio vulnerable to Privilege Escalation on Windows via Path separator manipulation",
+  "details": "### Impact\nAll users on Windows are impacted. MinIO fails to filter the `\\` character, which allows for arbitrary object placement across\nbuckets. As a result, a user with low privileges, such as an access key, service account, or STS credential, which only has permission to `PutObject` in a specific bucket, can create an admin user.\n\n### Patches\nThere are two patches that fix this problem comprehensively\n\n```\ncommit b3c54ec81e0a06392abfb3a1ffcdc80c6fbf6ebc\nAuthor: Harshavardhana <harsha@minio.io>\nDate:   Mon Mar 20 13:16:00 2023 -0700\n\n    reject object names with '\\' on windows (#16856)\n```\n\n```\ncommit 8d6558b23649f613414c8527b58973fbdfa4d1b8\nAuthor: Harshavardhana <harsha@minio.io>\nDate:   Mon Mar 20 00:35:25 2023 -0700\n\n    fix: convert '\\' to '/' on windows (#16852)\n```\n\n### Workarounds\nThere are no known workarounds\n\n### References\nThe vulnerable code:\n```go\n// minio/cmd/generic-handlers.go\n// Check if the incoming path has bad path components,\n// such as \"..\" and \".\"\n// SlashSeparator -> /\n// dotdotComponent -> ..\n// dotComponent -> .\nfunc hasBadPathComponent(path string) bool {\n  path = strings.TrimSpace(path)\n  for _, p := range strings.Split(path, SlashSeparator) {\n    switch strings.TrimSpace(p) {\n    case dotdotComponent:\n      return true\n    case dotComponent:\n      return true\n    }\n  }\n  return false\n}\n```\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/minio/minio"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.0.0-202303200735"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/minio/minio/security/advisories/GHSA-w23q-4hw3-2pp6"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-28433"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/minio/minio/commit/8d6558b23649f613414c8527b58973fbdfa4d1b8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/minio/minio/commit/b3c54ec81e0a06392abfb3a1ffcdc80c6fbf6ebc"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/minio/minio"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/minio/minio/releases/tag/RELEASE.2023-03-20T20-16-18Z"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-668"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-06T18:43:13Z",
+    "nvd_published_at": "2023-03-22T21:15:00Z"
+  }
+}

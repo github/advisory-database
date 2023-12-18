@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rhrv-645h-fjfh",
+  "modified": "2023-10-03T21:51:29Z",
+  "published": "2023-09-29T18:30:22Z",
+  "aliases": [
+    "CVE-2023-39410"
+  ],
+  "summary": "Apache Avro Java SDK vulnerable to Improper Input Validation",
+  "details": "When deserializing untrusted or corrupted data, it is possible for a reader to consume memory beyond the allowed constraints and thus lead to out of memory on the system.\n\nThis issue affects Java applications using Apache Avro Java SDK up to and including 1.11.2.  Users should update to apache-avro version 1.11.3 which addresses this issue.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.avro:avro"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.11.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "avro"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.11.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-39410"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/avro/commit/a12a7e44ddbe060c3dc731863cad5c15f9267828"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/avro"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/avro/PYSEC-2023-188.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/q142wj99cwdd0jo5lvdoxzoymlqyjdds"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.openwall.com/lists/oss-security/2023/09/29/6"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2023/09/29/6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20",
+      "CWE-502"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-29T22:06:14Z",
+    "nvd_published_at": "2023-09-29T17:15:46Z"
+  }
+}

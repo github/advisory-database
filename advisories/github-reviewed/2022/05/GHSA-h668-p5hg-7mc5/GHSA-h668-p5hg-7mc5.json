@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h668-p5hg-7mc5",
+  "modified": "2023-10-27T15:47:28Z",
+  "published": "2022-05-24T16:58:50Z",
+  "aliases": [
+    "CVE-2019-10456"
+  ],
+  "summary": "Jenkins Oracle Cloud Infrastructure Compute Classic Plugin cross-site request forgery vulnerability",
+  "details": "Jenkins Oracle Cloud Infrastructure Compute Classic Plugin does not perform permission checks on a method implementing form validation. This allows users with Overall/Read access to Jenkins to initiate a connection test to an attacker-specified server with attacker-specified username and password.\n\nAdditionally, the form validation method does not require POST requests, resulting in a CSRF vulnerability.\n\nAs of publication of this advisory there is no fix.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:oracle-cloud-infrastructure-compute-classic"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-10456"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2019-10-16/#SECURITY-1462"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-27T15:47:28Z",
+    "nvd_published_at": "2019-10-16T14:15:00Z"
+  }
+}

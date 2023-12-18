@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2c4m-59x9-fr2g",
+  "modified": "2023-06-16T17:57:38Z",
+  "published": "2023-05-12T20:19:25Z",
+  "aliases": [
+    "CVE-2023-29401"
+  ],
+  "summary": "Gin Web Framework does not properly sanitize filename parameter of Context.FileAttachment function",
+  "details": "The filename parameter of the Context.FileAttachment function is not properly sanitized. A maliciously crafted filename can cause the Content-Disposition header to be sent with an unexpected filename value or otherwise modify the Content-Disposition header. For example, a filename of \"setup.bat&quot;;x=.txt\" will be sent as a file named \"setup.bat\".\n\nIf the FileAttachment function is called with names provided by an untrusted source, this may permit an attacker to cause a file to be served with a name different than provided. Maliciously crafted attachment file name can modify the Content-Disposition header.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/gin-gonic/gin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.3.1-0.20190301021747-ccb9e902956d"
+            },
+            {
+              "fixed": "1.9.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-29401"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/gin-gonic/gin/issues/3555"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/gin-gonic/gin/pull/3556"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/gin-gonic/gin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/gin-gonic/gin/releases/tag/v1.9.1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/vuln/GO-2023-1737"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-494"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-12T20:19:25Z",
+    "nvd_published_at": "2023-06-08T21:15:16Z"
+  }
+}

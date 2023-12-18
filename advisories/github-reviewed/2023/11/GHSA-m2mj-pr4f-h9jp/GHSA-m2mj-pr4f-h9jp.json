@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-m2mj-pr4f-h9jp",
+  "modified": "2023-11-21T21:33:46Z",
+  "published": "2023-11-21T01:40:20Z",
+  "aliases": [
+    "CVE-2023-48299"
+  ],
+  "summary": "TorchServe ZipSlip",
+  "details": "### Impact\nUsing the model/workflow management API, there is a chance of uploading potentially harmful archives that contain files that are extracted to any location on the filesystem that is within the process permissions. Leveraging this issue could aid third-party actors in hiding harmful code in open-source/public models, which can be downloaded from the internet, and take advantage of machines running Torchserve.\n\n### Patches\nThe ZipSlip issue in TorchServe has been fixed by validating the paths of files contained within a zip archive before extracting them: https://github.com/pytorch/serve/pull/2634\n\nTorchServe release 0.9.0 includes fixes to address the ZipSlip vulnerability:\nhttps://github.com/pytorch/serve/releases/tag/v0.9.0\n\n### References\nhttps://github.com/pytorch/serve/pull/2634\nhttps://github.com/pytorch/serve/releases/tag/v0.9.0\n\n### Credit\nWe would like to thank Oligo Security for responsibly disclosing this issue.\n\nIf you have any questions or comments about this advisory, we ask that you contact AWS Security via our [vulnerability reporting page](https://aws.amazon.com/security/vulnerability-reporting) or directly via email to [aws-security@amazon.com](mailto:aws-security@amazon.com). Please do not create a public GitHub issue.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "torchserve"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.1.0"
+            },
+            {
+              "fixed": "0.9.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pytorch/serve/security/advisories/GHSA-m2mj-pr4f-h9jp"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-48299"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pytorch/serve/pull/2634"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pytorch/serve/commit/bfb3d42396727614aef625143b4381e64142f9bb"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pytorch/serve"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pytorch/serve/releases/tag/v0.9.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-21T01:40:20Z",
+    "nvd_published_at": "2023-11-21T21:15:09Z"
+  }
+}

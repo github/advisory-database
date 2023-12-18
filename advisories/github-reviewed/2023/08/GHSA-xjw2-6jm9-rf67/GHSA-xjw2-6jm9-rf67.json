@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xjw2-6jm9-rf67",
+  "modified": "2023-08-30T20:47:58Z",
+  "published": "2023-08-30T20:47:58Z",
+  "aliases": [
+    "CVE-2023-41039"
+  ],
+  "summary": "Sandbox escape via various forms of \"format\".",
+  "details": "### Impact\nPython's \"format\" functionality allows someone controlling the format string to \"read\" all objects accessible through recursive attribute lookup and subscription from objects he can access. This can lead to critical information disclosure.\nWith `RestrictedPython`, the format functionality is available via the `format` and `format_map` methods of `str` (and `unicode`) (accessed either via the class or its instances) and via `string.Formatter`.\nAll known versions of `RestrictedPython` are vulnerable. \n\n### Patches\nThe issue will be fixed in 5.4 and 6.2.\n\n### Workarounds\nThere are no workarounds to fix the issue without upgrading.\n\n### References\n* https://docs.python.org/3/library/stdtypes.html#str.format_map\n* http://lucumr.pocoo.org/2016/12/29/careful-with-str-format/\n* https://www.exploit-db.com/exploits/51580\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n\n* Open an issue in the [RestrictedPython issue tracker](https://github.com/zopefoundation/RestrictedPython/issues)\n* Email us at [security@plone.org](mailto:security@plone.org)\n\n### Credits\n\nThanks for analysing and reporting the go to:\n\n* Abhishek Govindarasu\n* Ankush Menat\n* Ward Theunisse\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:H/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "RestrictedPython"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.4"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 5.3"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "RestrictedPython"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.0"
+            },
+            {
+              "fixed": "6.2"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 6.1"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/zopefoundation/RestrictedPython/security/advisories/GHSA-xjw2-6jm9-rf67"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-41039"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zopefoundation/RestrictedPython/commit/4134aedcff17c977da7717693ed89ce56d54c120"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/zopefoundation/RestrictedPython"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-30T20:47:58Z",
+    "nvd_published_at": "2023-08-30T18:15:09Z"
+  }
+}

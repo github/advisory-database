@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-622h-h2p8-743x",
+  "modified": "2023-10-06T20:43:52Z",
+  "published": "2023-10-06T20:43:52Z",
+  "aliases": [
+    "CVE-2023-32188"
+  ],
+  "summary": "JWT token compromise can allow malicious actions including Remote Code Execution (RCE) ",
+  "details": "### Impact \n\nA user can reverse engineer the JWT token (JSON Web Token) used in authentication for Manager and API access, forging a valid NeuVector Token to perform malicious activity in NeuVector. This can lead to an RCE. \n\n### Patches \n\nUpgrade to NeuVector [version 5.2.2](https://open-docs.neuvector.com/releasenotes/5x) or later and latest Helm chart (2.6.3+). \n+ In 5.2.2 the certificate for JWT-signing is created automatically by controller with validity of 90days and rotated automatically.\n+ Use Helm-based deployment/upgrade to 5.2.2 to generate a unique certificate for Manager, REST API, ahd registry adapter. Helm based installation/upgrade is required in order to automatically generate certificates upon initial installation and each subsequent upgrade. \n+ See [release notes](https://open-docs.neuvector.com/releasenotes/5x) for manual/yaml based deployment advice.\n+ 5.2.2 also implements additional protections against possible RCE for the feature of custom compliance scripts. \n\n### Workarounds \n\nUsers can replace the Manager & Controller certificate manually by following the instructions in documented [here](https://open-docs.neuvector.com/configuration/console/replacecert). However, upgrading to 5.2.2 and replacing Manager/REST API certificate is recommended to provide additional security enhancements to prevent possible attempted exploit and resulting RCE. See [release notes](https://open-docs.neuvector.com/releasenotes/5x) for additional details.\n\n### For More Information \n\nView the NeuVector [Security Policy](https://github.com/neuvector/neuvector/security) \n\nGeneral NeuVector [documentation](https://open-docs.neuvector.com/) ",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/neuvector/neuvector"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.2.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/neuvector/neuvector/security/advisories/GHSA-622h-h2p8-743x"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/neuvector/neuvector"
+    },
+    {
+      "type": "WEB",
+      "url": "https://open-docs.neuvector.com/releasenotes/5x"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-06T20:43:52Z",
+    "nvd_published_at": null
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-72x2-5c85-6wmr",
+  "modified": "2023-11-12T15:53:29Z",
+  "published": "2023-11-12T15:53:29Z",
+  "aliases": [
+    "CVE-2023-46735"
+  ],
+  "summary": "Symfony potential Cross-site Scripting in WebhookController",
+  "details": "### Description\n\nThe error message in WebhookController returns unescaped user-submitted input.\n\n### Resolution\n\nWebhookController now doesn't return any user-submitted input in its response.\n\nThe patch for this issue is available [here](https://github.com/symfony/symfony/commit/8128c302430394f639e818a7103b3f6815d8d962) for branch 6.3.\n\n### Credits\n\nWe would like to thank Maxime Aknin for reporting the issue and to Nicolas Grekas for providing the fix.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/webhook"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.3.0"
+            },
+            {
+              "fixed": "6.3.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/symfony"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.3.0"
+            },
+            {
+              "fixed": "6.3.8"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/symfony/symfony/security/advisories/GHSA-72x2-5c85-6wmr"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-46735"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/symfony/symfony/commit/8128c302430394f639e818a7103b3f6815d8d962"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/symfony/symfony/CVE-2023-46735.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/symfony/symfony"
+    },
+    {
+      "type": "WEB",
+      "url": "https://symfony.com/cve-2023-46735"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-12T15:53:29Z",
+    "nvd_published_at": "2023-11-10T18:15:09Z"
+  }
+}

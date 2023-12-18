@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3wxg-w96j-8hq9",
+  "modified": "2023-05-26T21:50:40Z",
+  "published": "2023-05-26T13:54:11Z",
+  "aliases": [
+    "CVE-2023-33194"
+  ],
+  "summary": "CraftCMS stored XSS in Quick Post widget error message",
+  "details": "### Summary\nThe platform does not filter input and encode output in Quick Post validation error message, which can deliver an XSS payload.\n\n### Details\nOld CVE fixed the XSS in label HTML but didn’t fix it when clicking save.\n\n### PoC\n1. Login at admin\n2. Go to setting\n3. Create a Section\n4. On Entry page, click Edit label\n5. Inject the XSS payload into the label and save\n6. On the admin dashboard choose new widget -> Quick Post\n7. In Quick Post, click save with blank slug; The XSS will be executed\n\n    \"errors\":{\"title\":[\"<script>alert('nono')</script> cannot be blank.\"],\"slug\":[\"Slug cannot be blank.\"]\n\nFixed in https://github.com/craftcms/cms/commit/9d0cd0bda7c8a830a3373f8c0f06943e519ac888\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:R/S:U/C:L/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "craftcms/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0-RC1"
+            },
+            {
+              "fixed": "4.4.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "craftcms/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.8.6"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.8.5"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/craftcms/cms/security/advisories/GHSA-3wxg-w96j-8hq9"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-33194"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/craftcms/cms/commit/9d0cd0bda7c8a830a3373f8c0f06943e519ac888"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/craftcms/cms"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/craftcms/cms/releases/tag/4.4.6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79",
+      "CWE-80"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-26T13:54:11Z",
+    "nvd_published_at": "2023-05-26T21:15:20Z"
+  }
+}

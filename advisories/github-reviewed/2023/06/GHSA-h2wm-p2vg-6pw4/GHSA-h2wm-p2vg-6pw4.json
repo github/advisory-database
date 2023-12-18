@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h2wm-p2vg-6pw4",
+  "modified": "2023-06-20T14:21:48Z",
+  "published": "2023-06-09T22:40:54Z",
+  "aliases": [
+    "CVE-2023-27531"
+  ],
+  "summary": "Kredis JSON Possible Deserialization of Untrusted Data Vulnerability",
+  "details": "There is a deserialization of untrusted data vulnerability in\nthe Kredis JSON deserialization code. This vulnerability has\nbeen assigned the CVE identifier CVE-2023-27531.\n\n'Not affected: None.'\n'Versions Affected: All.'\n'Fixed Versions: 1.3.0.1'\n\nImpact\n  Carefully crafted JSON data processed by Kredis may result in\n  deserialization of untrusted data, potentially leading to\n  deserialization of unexpected objects in the system.\n\n  Any applications using Kredis with JSON are affected.\n\nReleases\n  The fixed releases are available at the normal locations.\n\nWorkarounds\n  There are no feasible workarounds for this issue.\n\nPatches\n  To aid users who aren’t able to upgrade immediately we have\n  provided patches for the two supported release series. They\n  are in git-am format and consist of a single changeset.\n\n  * 1-3-0-1-kredis.patch - Patch for 1.3.0 series\n\nCredits\n  Thank you ooooooo_k 7 for reporting this!\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "kredis"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.3.0.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/rails/kredis/commit/d576b7ae5c8d3d74eeb4bd84cad0aa64ffc299fa"
+    },
+    {
+      "type": "WEB",
+      "url": "https://discuss.rubyonrails.org/t/cve-2023-27531-possible-deserialization-of-untrusted-data-vulnerability-in-kredis-json/82467#post_1"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/rails/kredis"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rails/kredis/releases/tag/v1.3.0.1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/kredis/CVE-2023-27531.yml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-502"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-09T22:40:54Z",
+    "nvd_published_at": null
+  }
+}

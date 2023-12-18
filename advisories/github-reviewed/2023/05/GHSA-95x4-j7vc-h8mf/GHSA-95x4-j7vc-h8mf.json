@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-95x4-j7vc-h8mf",
+  "modified": "2023-05-17T17:07:57Z",
+  "published": "2023-05-17T17:07:57Z",
+  "aliases": [
+    "CVE-2023-26044"
+  ],
+  "summary": "ReactPHP's HTTP server continues parsing unused multipart parts after reaching input field and file upload limits",
+  "details": "### Summary\n\nPrevious versions of ReactPHP's HTTP server component contain a potential DoS vulnerability that can cause high CPU load when processing large HTTP request bodies. This vulnerability has little to no impact on the default configuration, but can be exploited when explicitly using the  `RequestBodyBufferMiddleware` with very large settings. This might lead to consuming large amounts of CPU time for processing requests and significantly delay or slow down the processing of legitimate user requests.\n\n### Patches\n\nThe supplied patch resolves this vulnerability for ReactPHP.\n\n### Workarounds\n\n- Keeping the request body limit using `RequestBodyBufferMiddleware` sensible will mitigate it.\n\n- Infrastructure or DevOps can place a reverse proxy in front of the ReactPHP HTTP server to filter out any excessive HTTP request bodies.\n\n### References\n\nA similar vulnerability was discovered in PHP recently, see also [PHP's security advisory](https://github.com/php/php-src/security/advisories/GHSA-54hq-v5wp-fqgv) (CVE-2023-0662). The fix is based on the [PHP-FPM fix](https://github.com/php/php-src/commit/716de0cff539f46294ef70fe75d548cd66766370#diff-81d659aa9e83177ac08151f99cebf21ab331d22462c72a1039f59947e66f5a35).\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "react/http"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.8.0"
+            },
+            {
+              "fixed": "1.9.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/php/php-src/security/advisories/GHSA-54hq-v5wp-fqgv"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/reactphp/http/security/advisories/GHSA-95x4-j7vc-h8mf"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-26044"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/php/php-src/commit/716de0cff539f46294ef70fe75d548cd66766370#diff-81d659aa9e83177ac08151f99cebf21ab331d22462c72a1039f59947e66f5a35"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/reactphp/http/commit/9681f764b80c45ebfb5fe2ea7da5bd3babfcdcfd"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/react/http/CVE-2023-26044.yaml"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-95x4-j7vc-h8mf"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/reactphp/http"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/reactphp/http/releases/tag/v1.9.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-17T17:07:57Z",
+    "nvd_published_at": "2023-05-17T18:15:09Z"
+  }
+}

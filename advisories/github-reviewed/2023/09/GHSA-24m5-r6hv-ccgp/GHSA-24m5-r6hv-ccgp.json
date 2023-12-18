@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-24m5-r6hv-ccgp",
+  "modified": "2023-09-27T00:33:04Z",
+  "published": "2023-09-27T00:33:04Z",
+  "aliases": [
+    "CVE-2023-41332"
+  ],
+  "summary": "Specific Cilium configurations vulnerable to DoS via Kubernetes annotations",
+  "details": "### Impact\n\nIn Cilium clusters where Cilium's Layer 7 proxy has been disabled, creating workloads with\n\n- `policy.cilium.io/proxy-visibility` annotations (in Cilium >= v1.13)\n- `io.cilium.proxy-visibility` annotations (in Cilium <= v1.12)\n\ncauses the Cilium agent to segfault on the node to which the workload is assigned.\n\nExisting traffic on the affected node will continue to flow, but the Cilium agent on the node will not able to process changes to workloads running on the node. This will also prevent workloads from being able to start on the affected node. The denial of service will be limited to the node on which the workload is scheduled, however an attacker may be able to schedule workloads on the node of their choosing, which could lead to targeted attacks.\n\n### Patches\n\n[Pull request with fix](https://github.com/cilium/cilium/pull/27597)\n\nThis issue affects:\n\nCilium <= v1.14.1\nCilium <= v1.13.6\nCilium <= v1.12.13\n\nThis issue has been resolved in:\n\nCilium v1.14.2\nCilium v1.13.7\nCilium v1.12.14\n\n### Workarounds\n\nUsers can avoid this denial of service attack by enabling the Layer 7 proxy.\n\n### For more information\nIf you have any questions or comments about this advisory, please reach out on [Slack](https://docs.cilium.io/en/latest/community/community/#slack).\n\nAs usual, if you think you found a related vulnerability, we strongly encourage you to report security vulnerabilities to our private security mailing list: [security@cilium.io](mailto:security@cilium.io) - first, before disclosing them in any public forums. This is a private mailing list where only members of the Cilium internal security team are subscribed to, and is treated as top priority.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:A/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cilium/cilium"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.14.0"
+            },
+            {
+              "fixed": "1.14.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cilium/cilium"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.12.14"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cilium/cilium"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.13.0"
+            },
+            {
+              "fixed": "1.13.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/security/advisories/GHSA-24m5-r6hv-ccgp"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-41332"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/pull/27597"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cilium/cilium"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-755"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-27T00:33:04Z",
+    "nvd_published_at": "2023-09-27T15:19:30Z"
+  }
+}

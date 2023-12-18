@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8vx6-69vg-c46f",
+  "modified": "2023-05-12T20:16:38Z",
+  "published": "2023-05-12T20:16:38Z",
+  "aliases": [
+    "CVE-2023-2512"
+  ],
+  "summary": "Buffer under-read in workerd",
+  "details": "### Impact\nPrior to version v1.20230419.0, the FormData API implementation was subject to an integer overflow. If a FormData instance contained more than 2^31 elements, the `forEach()` method could end up reading from the wrong location in memory while iterating over elements. This would most likely lead to a segmentation fault, but could theoretically allow arbitrary undefined behavior.\n\nIn order for the bug to be exploitable, the process would need to be able to allocate 160GB of RAM. Due to this, the bug was never exploitable on the Cloudflare Workers platform, but could theoretically be exploitable on deployments of workerd running on machines with a huge amount of memory. Moreover, in order to be remotely exploited, an attacker would have to upload a single form-encoded HTTP request of at least tens of gigabytes in size. The application code would then have to use `request.formData()` to parse the request and `formData.forEach()` to iterate over this data. Due to these limitations, the exploitation likelihood was considered Low.\n\n### Patches\nA fix that addresses this vulnerability has been released in version v1.20230419.0 and users are encouraged to update to the latest version available.\n\n### References\nRelease - https://github.com/cloudflare/workerd/releases/tag/v1.20230419.0",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "workerd"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.20230419.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudflare/workerd/security/advisories/GHSA-8vx6-69vg-c46f"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-2512"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cloudflare/workerd"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudflare/workerd/releases/tag/v1.20230419.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-125",
+      "CWE-127",
+      "CWE-190"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-12T20:16:38Z",
+    "nvd_published_at": "2023-05-12T11:15:13Z"
+  }
+}

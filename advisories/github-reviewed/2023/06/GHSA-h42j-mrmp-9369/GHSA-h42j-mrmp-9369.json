@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h42j-mrmp-9369",
+  "modified": "2023-06-30T20:32:34Z",
+  "published": "2023-06-28T06:30:22Z",
+  "aliases": [
+    "CVE-2023-26134"
+  ],
+  "summary": "git-commit-info vulnerable to Command Injection",
+  "details": "Versions of the package git-commit-info before 2.0.2 are vulnerable to Command Injection such that the package-exported method gitCommitInfo() fails to sanitize its parameter commit, which later flows into a sensitive command execution API. As a result, attackers may inject malicious commands once they control the hash content.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "git-commit-info"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "(git-commit-info)"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-26134"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/JPeer264/node-git-commit-info/issues/24"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/JPeer264/node-git-commit-info/commit/f7c491ede51f886a988af9b266797cb24591d18c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/JPeer264/node-git-commit-info"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-JS-GITCOMMITINFO-5740174"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-77",
+      "CWE-78"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-30T20:32:34Z",
+    "nvd_published_at": "2023-06-28T05:15:10Z"
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h6jh-cf83-qcq5",
+  "modified": "2023-05-31T15:57:56Z",
+  "published": "2023-05-24T09:30:25Z",
+  "aliases": [
+    "CVE-2023-2859"
+  ],
+  "summary": "Code injection in nilsteampassnet/teampass",
+  "details": "nilsteampassnet/teampass prior to 3.0.9 is vulnerable to code injection. A malicious user could potentially rename a folder with a payload containing malicious code. This could result in an attack on an admin who edits the folder, as the payload could execute upon the admin's interaction with the folder. This attack could potentially allow the attacker to gain unauthorized access to the admin's system or steal sensitive information, or it could force admin to get redirected to a website controlled by the attacker. ",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "nilsteampassnet/teampass"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.0.9"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-2859"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nilsteampassnet/teampass/commit/1f51482a0c4d152ca876844212b0f8f3cb9387af"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/nilsteampassnet/teampass"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.dev/bounties/d7b8ea75-c74a-4721-89bb-12e5c80fb0ba"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-24T17:32:25Z",
+    "nvd_published_at": "2023-05-24T08:15:09Z"
+  }
+}

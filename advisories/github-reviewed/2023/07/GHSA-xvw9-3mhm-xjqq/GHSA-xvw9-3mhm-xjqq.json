@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xvw9-3mhm-xjqq",
+  "modified": "2023-07-20T19:29:48Z",
+  "published": "2023-07-12T12:31:35Z",
+  "aliases": [
+    "CVE-2022-46651"
+  ],
+  "summary": "Apache Airflow information disclosure vulnerability",
+  "details": "Apache Airflow, versions before 2.6.3, is affected by a vulnerability that allows an unauthorized actor to gain access to sensitive information in Connection edit view. This vulnerability is considered low since it requires someone with access to Connection resources specifically updating the connection to exploit it. Users should upgrade to version 2.6.3 or later which has removed the vulnerability.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "apache-airflow"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "airflow.www.views.ConnectionModelView._iter_extra_field_names",
+          "airflow.www.views.ConnectionModelView.add_columns",
+          "airflow.www.views.ConnectionModelView.edit_columns",
+          "airflow.www.views.ConnectionModelView.prefill_form"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.6.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-46651"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/airflow/pull/32309"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/airflow/commit/d01248382fe45a5f5a7fdeed4082a80c5f814ad8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/airflow"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/apache-airflow/PYSEC-2023-103.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/n45h3y82og125rnlgt6rbm9szfb6q24d"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-12T17:30:00Z",
+    "nvd_published_at": "2023-07-12T10:15:09Z"
+  }
+}

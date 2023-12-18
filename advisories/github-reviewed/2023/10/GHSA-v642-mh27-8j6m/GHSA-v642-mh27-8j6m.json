@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v642-mh27-8j6m",
+  "modified": "2023-10-17T14:20:36Z",
+  "published": "2023-10-17T14:20:36Z",
+  "aliases": [
+    "CVE-2023-44394"
+  ],
+  "summary": "MantisBT may disclose project names to unauthorized users ",
+  "details": "### Impact\n\nDue to insufficient access-level checks on the Wiki redirection page, any user can reveal private Projects' names, by accessing wiki.php with sequentially incremented IDs.\n\n### Patches\nPatch under development. The vulnerability will be fixed in MantisBT version 2.25.8.\n\n### Workarounds\nDisable wiki integration ( `$g_wiki_enable = OFF;`)\n\n### References\n- https://mantisbt.org/bugs/view.php?id=32981\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "mantisbt/mantisbt"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.25.8"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.25.7"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/mantisbt/mantisbt/security/advisories/GHSA-v642-mh27-8j6m"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-44394"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mantisbt/mantisbt/commit/65c44883f9d24f3ccef066fb523c93d8fdd7afc1"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mantisbt/mantisbt"
+    },
+    {
+      "type": "WEB",
+      "url": "https://mantisbt.org/bugs/view.php?id=32981"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200",
+      "CWE-668"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-17T14:20:36Z",
+    "nvd_published_at": "2023-10-16T22:15:12Z"
+  }
+}

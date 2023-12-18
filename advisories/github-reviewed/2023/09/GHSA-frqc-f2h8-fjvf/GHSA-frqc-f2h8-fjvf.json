@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-frqc-f2h8-fjvf",
+  "modified": "2023-09-21T16:59:16Z",
+  "published": "2023-09-20T12:30:22Z",
+  "aliases": [
+    "CVE-2023-34047"
+  ],
+  "summary": "Spring for GraphQL may be exposed to GraphQL context with values from a different session",
+  "details": "A batch loader function in Spring for GraphQL versions 1.1.0 - 1.1.5 and 1.2.0 - 1.2.2 may be exposed to GraphQL context with values, including security context values, from a different session. An application is vulnerable if it provides a DataLoaderOptions instance when registering batch loader functions through DefaultBatchLoaderRegistry.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.springframework.graphql:spring-graphql"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.1.0"
+            },
+            {
+              "fixed": "1.1.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.springframework.graphql:spring-graphql"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.2.0"
+            },
+            {
+              "fixed": "1.2.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-34047"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/spring-projects/spring-graphql"
+    },
+    {
+      "type": "WEB",
+      "url": "https://spring.io/security/cve-2023-34047"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-21T16:59:16Z",
+    "nvd_published_at": "2023-09-20T10:15:14Z"
+  }
+}

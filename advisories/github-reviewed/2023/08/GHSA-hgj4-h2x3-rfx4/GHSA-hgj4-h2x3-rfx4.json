@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hgj4-h2x3-rfx4",
+  "modified": "2023-08-09T20:58:47Z",
+  "published": "2023-08-09T20:58:47Z",
+  "aliases": [
+    "CVE-2023-39531"
+  ],
+  "summary": "Sentry vulnerable to incorrect credential validation on OAuth token requests",
+  "details": "### Impact\n\nAn attacker with sufficient client-side exploits could retrieve a valid access token for another user during the OAuth token exchange due to incorrect credential validation. The client ID must be known and the API application must have already been authorized on the targeted user account. \n\n### Remediation\n\n- **Sentry SaaS** customers do not need to take any action. Those with the highest risk will be contacted directly by Sentry.\n- **Self-hosted installations** should upgrade to version 23.7.2 or higher.\n\n### Workarounds\n\nThere are no direct workarounds, but users should review applications authorized on their account (_User Settings > Authorized Applications_) and remove any that are no longer needed.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:R/S:C/C:H/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "sentry"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "10.0.0"
+            },
+            {
+              "fixed": "23.7.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/getsentry/sentry/security/advisories/GHSA-hgj4-h2x3-rfx4"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-39531"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/getsentry/sentry"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-287"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-09T20:58:47Z",
+    "nvd_published_at": "2023-08-09T17:15:09Z"
+  }
+}

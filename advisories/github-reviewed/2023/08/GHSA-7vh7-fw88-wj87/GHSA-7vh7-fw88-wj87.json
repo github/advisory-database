@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7vh7-fw88-wj87",
+  "modified": "2023-08-08T17:12:00Z",
+  "published": "2023-08-08T17:12:00Z",
+  "aliases": [
+
+  ],
+  "summary": "Several quadratic complexity bugs may lead to denial of service in Commonmarker",
+  "details": "## Impact\n\nSeveral quadratic complexity bugs in commonmarker's underlying [`cmark-gfm`](https://github.com/github/cmark-gfm) library may lead to unbounded resource exhaustion and subsequent denial of service.\n\nThe following vulnerabilities were addressed:\n\n* [CVE-2023-37463](https://github.com/github/cmark-gfm/security/advisories/GHSA-w4qg-3vf7-m9x5)\n\nFor more information, consult the release notes for version [`0.29.0.gfm.12`](https://github.com/github/cmark-gfm/releases/tag/0.29.0.gfm.12).\n\n## Mitigation\n\nUsers are advised to upgrade to commonmarker version [`0.23.10`](https://rubygems.org/gems/commonmarker/versions/0.23.10).",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "commonmarker"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.23.10"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/gjtorikian/commonmarker/security/advisories/GHSA-7vh7-fw88-wj87"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/gjtorikian/commonmarker/commit/db8cd377b54541f7fd484d168b7682a282a680f7"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/github/cmark-gfm/releases/tag/0.29.0.gfm.12"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/gjtorikian/commonmarker"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rubygems.org/gems/commonmarker/versions/0.23.10"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-407"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-08T17:12:00Z",
+    "nvd_published_at": null
+  }
+}

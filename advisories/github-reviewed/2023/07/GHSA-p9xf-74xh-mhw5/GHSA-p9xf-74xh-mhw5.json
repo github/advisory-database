@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-p9xf-74xh-mhw5",
+  "modified": "2023-07-27T18:49:02Z",
+  "published": "2023-07-18T19:10:58Z",
+  "aliases": [
+    "CVE-2023-37477"
+  ],
+  "summary": "1Panel command injection vulnerability in Firewall ip functionality",
+  "details": "### Summary\nAn OS command injection vulnerability exists in 1Panel firewall functionality. A specially-crafted HTTP request can lead to arbitrary command execution. An attacker can make an authenticated HTTP request to trigger this vulnerability.\n\n### Details\n1Panel firewall functionality `/hosts/firewall/ip` endpoint read user input without validation, the attacker extends the default functionality of the application, which execute system commands.\n\n### PoC\nthe payload `; sleep 3 #` will lead server response in 3 seconds \n![image](https://user-images.githubusercontent.com/4935500/252299676-bc4a8b92-e475-40ee-a92a-fec9fad7a6c3.png)\n\nthe payload `; sleep 6 #` will lead server response in 6 seconds \n![image](https://user-images.githubusercontent.com/4935500/252299871-766cc411-69e5-4c6c-b4ff-7774fa974ea0.png)\n\n### Impact\nAn attacker can execute arbitrary code on the target system, which can lead to a complete compromise of the system.\n\n### Patches\n\nThe vulnerability has been fixed in v1.4.3.\n\n### Workarounds\n\nIt is recommended to upgrade the version to v1.4.3.\n\n### References\n\nIf you have any questions or comments about this advisory:\n\nOpen an issue in https://github.com/1Panel-dev/1Panel\nEmail us at wanghe@fit2cloud.com\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/1Panel-dev/1Panel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.4.3"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.4.2"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/1Panel-dev/1Panel/security/advisories/GHSA-p9xf-74xh-mhw5"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-37477"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/1Panel-dev/1Panel/commit/e17b80cff4975ee343568ff526b62319f499005d"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/1Panel-dev/1Panel"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/1Panel-dev/1Panel/releases/tag/v1.4.3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-78"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-18T19:10:58Z",
+    "nvd_published_at": "2023-07-18T19:15:09Z"
+  }
+}

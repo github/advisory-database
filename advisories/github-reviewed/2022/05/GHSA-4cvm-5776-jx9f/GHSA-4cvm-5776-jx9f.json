@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4cvm-5776-jx9f",
+  "modified": "2023-08-16T22:07:25Z",
+  "published": "2022-05-14T02:03:45Z",
+  "aliases": [
+    "CVE-2014-3498"
+  ],
+  "summary": "Ansible Arbitrary Code Execution",
+  "details": "User module in ansible before 1.6.6 is vulnerable to command execution. Ansible can get the result of remote command in variable, which may come from untrusted source of input. If the content of variable isn't properly filtered and when attempting to use the variable, it will trigger a function that passes it through jinja 2 template engine that can result into arbitrary command execution. Under certain circumstances, unprivileged user on system that is being managed via ansible can execute code on the managing host under UID of running ansible process.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ansible"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.6.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2014-3498"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ansible/ansible/commit/8ed6350e65c82292a631f08845dfaacffe7f07f5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1335551"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-16T22:07:25Z",
+    "nvd_published_at": "2017-06-08T18:29:00Z"
+  }
+}

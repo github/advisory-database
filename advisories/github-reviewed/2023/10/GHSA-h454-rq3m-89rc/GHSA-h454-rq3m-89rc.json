@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h454-rq3m-89rc",
+  "modified": "2023-10-31T22:07:55Z",
+  "published": "2023-10-22T21:36:10Z",
+  "aliases": [
+    "CVE-2021-46897"
+  ],
+  "summary": "Wagtail CRX CodeRed Extensions vulnerable to Path Traversal",
+  "details": "views.py in Wagtail CRX CodeRed Extensions (formerly CodeRed CMS or coderedcms) before 0.22.3 allows upward protected/..%2f..%2f path traversal when serving protected media.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "coderedcms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.22.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-46897"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/coderedcorp/coderedcms/issues/448"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/coderedcorp/coderedcms/pull/450"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/coderedcorp/coderedcms/commit/06006cec23a723bc7d76df75ce2c2d795a447902"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/coderedcorp/coderedcms"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/coderedcorp/coderedcms/compare/v0.22.2...v0.22.3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/coderedcms/PYSEC-2023-210.yaml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-24T01:45:47Z",
+    "nvd_published_at": "2023-10-22T19:15:08Z"
+  }
+}

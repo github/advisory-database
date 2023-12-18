@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qvxg-wjxc-r4gg",
+  "modified": "2023-06-07T16:11:16Z",
+  "published": "2023-06-07T16:11:16Z",
+  "aliases": [
+    "CVE-2022-31019"
+  ],
+  "summary": "Vapor vulnerable to denial of service in URLEncodedFormDecoder",
+  "details": "Vapor is an HTTP web framework for Swift. Vapor versions earlier than 4.61.1 are vulnerable to a denial of service in the URLEncodedFormDecoder.\n\n### Impact\nWhen using automatic content decoding, e.g. \n\n```swift\napp.post(\"foo\") { request -> String in\n  let foo = try request.content.decode(Foo.self)\n  return \"\\(foo)\"\n}\n```\n\nAn attacker can craft a request body that can make the server crash with the following request:\n\n```\ncurl -d \"array[_0][0][array][_0][0][array]$(for f in $(seq 1100); do echo -n '[_0][0][array]'; done)[string][_0]=hello%20world\" http://localhost:8080/foo\n```\n\nThe issue is unbounded, attacker controlled stack growth which will at some point lead to a stack overflow.\n\n### Patches\nFixed in 4.61.1\n\n### Workarounds\nIf you don't need to decode Form URL Encoded data, you can disable the `ContentConfiguration` so it won't be used. E.g. in **configure.swift**\n\n```swift\nvar contentConfig = ContentConfiguration()\ncontentConfig.use(encoder: JSONEncoder.custom(dates: .iso8601), for: .json)\ncontentConfig.use(decoder: JSONDecoder.custom(dates: .iso8601), for: .json)\ncontentConfig.use(encoder: JSONEncoder.custom(dates: .iso8601), for: .jsonAPI)\ncontentConfig.use(decoder: JSONDecoder.custom(dates: .iso8601), for: .jsonAPI)\nContentConfiguration.global = contentConfig\n```\n\n### For more information\nIf you have any questions or comments about this advisory:\n* Open an issue in [the Vapor repo](https://github.com/vapor/vapor)\n* Ask in [Vapor Discord](http://vapor.team)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "SwiftURL",
+        "name": "github.com/vapor/vapor"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.61.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/vapor/vapor/security/advisories/GHSA-qvxg-wjxc-r4gg"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-31019"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vapor/vapor/commit/6c63226a4ab82ce53730eb1afb9ca63866fcf033"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vapor/vapor"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-120",
+      "CWE-121",
+      "CWE-674"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-07T16:11:16Z",
+    "nvd_published_at": "2022-06-09T13:15:00Z"
+  }
+}

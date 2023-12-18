@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rr46-m366-gm44",
+  "modified": "2023-07-31T19:01:47Z",
+  "published": "2023-07-26T12:30:28Z",
+  "aliases": [
+    "CVE-2023-38670"
+  ],
+  "summary": "Null pointer dereference in PaddlePaddle",
+  "details": "Null pointer dereference in paddle.flip in PaddlePaddle before 2.5.0. This resulted in a runtime crash and denial of service.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "paddlepaddle"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "paddle.flip"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.5.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-38670"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/PaddlePaddle/Paddle/commit/ed96baeed19b4e11b6cbc2dcc6776245ba5fab13"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/PaddlePaddle/Paddle"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/PaddlePaddle/Paddle/blob/develop/security/advisory/pdsa-2023-002.md"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/paddlepaddle/PYSEC-2023-123.yaml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-476"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-26T22:31:53Z",
+    "nvd_published_at": "2023-07-26T11:15:09Z"
+  }
+}

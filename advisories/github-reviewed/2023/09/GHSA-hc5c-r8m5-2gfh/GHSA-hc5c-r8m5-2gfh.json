@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hc5c-r8m5-2gfh",
+  "modified": "2023-09-21T17:16:44Z",
+  "published": "2023-09-21T17:16:44Z",
+  "aliases": [
+
+  ],
+  "summary": "plone.restapi vulnerable to Stored Cross Site Scripting with SVG image in user portrait",
+  "details": "### Impact\nThere is a stored cross site scripting vulnerability for SVG images uploaded in user portraits.\n\nNote that a page that uses an image tag with an SVG image as source is never vulnerable, even when the SVG image contains malicious code. To exploit the vulnerability, an attacker would first need to upload an SVG image as user portrait, and then trick a user into following a link to this portrait.\n\n### Patches\nA patch will be released in `plone.restapi` 8.43.3. This version is good for Plone 6.0, and for Plone 5.2 on Python 3.\n\nIn `plone.restapi` 7 or earlier there was no `@portrait` endpoint yet, so there is nothing to fix in that version. It is still vulnerable to this attack, and needs a [fix in Zope 4](https://github.com/zopefoundation/Zope/security/advisories/GHSA-wm8q-9975-xh5v). These two vulnerabilities share the same CVE: CVE-2023-42458.\n\n### Workarounds\nYou could remove the portrait field from the member data schema, and possibly remove all portraits that are already in the database, but this seems a bit drastic.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:R/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "plone.restapi"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.0.0"
+            },
+            {
+              "fixed": "8.43.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/plone/plone.restapi/security/advisories/GHSA-hc5c-r8m5-2gfh"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zopefoundation/Zope/security/advisories/GHSA-wm8q-9975-xh5v"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/plone/plone.restapi/commit/5f44c23ac69db7d6d933d77f177e07603cf05f8b"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/plone/plone.restapi"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79",
+      "CWE-80"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-21T17:16:44Z",
+    "nvd_published_at": null
+  }
+}

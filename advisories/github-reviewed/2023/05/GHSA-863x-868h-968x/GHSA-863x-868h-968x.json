@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-863x-868h-968x",
+  "modified": "2023-06-02T23:35:19Z",
+  "published": "2023-05-24T18:30:26Z",
+  "aliases": [
+    "CVE-2021-25748"
+  ],
+  "summary": "Ingress-nginx `path` sanitization can be bypassed with newline character",
+  "details": "A security issue was discovered in ingress-nginx where a user that can create or update ingress objects can use a newline character to bypass the sanitization of the `spec.rules[].http.paths[].path` field of an Ingress object (in the `networking.k8s.io` or `extensions` API group) to obtain the credentials of the ingress-nginx controller. In the default configuration, that credential has access to all secrets in the cluster.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "k8s.io/ingress-nginx"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.2.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-25748"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kubernetes/ingress-nginx/issues/8686"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kubernetes/ingress-nginx/pull/8623"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/kubernetes/ingress-nginx"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kubernetes/ingress-nginx/releases/tag/controller-v1.2.1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://groups.google.com/g/kubernetes-security-announce/c/avaRYa9c7I8"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-24T21:55:34Z",
+    "nvd_published_at": "2023-05-24T17:15:09Z"
+  }
+}

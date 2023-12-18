@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-p756-66w2-35g7",
+  "modified": "2023-07-20T13:59:18Z",
+  "published": "2023-07-12T18:30:39Z",
+  "aliases": [
+    "CVE-2023-37961"
+  ],
+  "summary": "Jenkins Assembla Auth Plugin vulnerable to cross-site request forgery",
+  "details": "Jenkins Assembla Auth Plugin 1.14 and earlier does not implement a state parameter in its OAuth flow, a unique and non-guessable value associated with each authentication request.\n\nThis vulnerability allows attackers to trick users into logging in to the attacker’s account.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:assembla-auth"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.14"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-37961"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-07-12/#SECURITY-2988"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2023/07/12/2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-12T22:30:41Z",
+    "nvd_published_at": "2023-07-12T16:15:13Z"
+  }
+}

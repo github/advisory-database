@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v5c9-98f7-2h54",
+  "modified": "2023-08-29T19:54:42Z",
+  "published": "2022-04-23T00:40:07Z",
+  "aliases": [
+    "CVE-2012-2945"
+  ],
+  "summary": "Hadoop symlink vulnerability",
+  "details": "Hadoop 1.0.3 contains a symlink vulnerability as a result of storing pid files in the shared `/tmp` directory by default.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.hadoop:hadoop-main"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.0.4"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.0.3"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2012-2945"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=535861"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/hadoop"
+    },
+    {
+      "type": "WEB",
+      "url": "https://seclists.org/fulldisclosure/2012/Jul/3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security-tracker.debian.org/tracker/CVE-2012-2945"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-377",
+      "CWE-59"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-29T19:54:42Z",
+    "nvd_published_at": "2019-10-29T19:15:00Z"
+  }
+}

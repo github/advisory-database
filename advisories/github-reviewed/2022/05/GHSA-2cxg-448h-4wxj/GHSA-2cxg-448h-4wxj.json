@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2cxg-448h-4wxj",
+  "modified": "2023-10-27T16:00:01Z",
+  "published": "2022-05-24T17:01:41Z",
+  "aliases": [
+    "CVE-2019-16540"
+  ],
+  "summary": "Jenkins Support Core Plugin allowed users with Overall/Read permission to delete arbitrary files",
+  "details": "Jenkins Support Core Plugin did not validate the paths submitted for the \"Delete Support Bundles\" feature. This allowed users to delete arbitrary files on the Jenkins controller file system accessible to the OS user account running Jenkins.\n\nAdditionally, this endpoint did not perform a permission check, allowing users with Overall/Read permission to delete support bundles, and any arbitrary other file, with a known name/path.\n\nSupport Core Plugin now only allows the deletion of support bundles and related files listed on the UI through this feature. It also ensures that only users with \"Download Bundle\" permission are able to delete support bundles.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:support-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.64"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.63"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-16540"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jenkinsci/support-core-plugin/commit/6b177ea7cc7347e13fa87174472400bbbe78d422"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/support-core-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2019-11-21/#SECURITY-1634"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2019/11/21/1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-27T16:00:01Z",
+    "nvd_published_at": "2019-11-21T15:15:00Z"
+  }
+}

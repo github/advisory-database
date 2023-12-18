@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-gh66-fp7j-98v5",
+  "modified": "2023-06-28T22:34:08Z",
+  "published": "2023-06-28T22:34:08Z",
+  "aliases": [
+    "CVE-2023-34099"
+  ],
+  "summary": "Shopware improper mail validation vulnerability",
+  "details": "### Impact\nThe mail validation in the registration process had some flaws, so it was possible to construct different mail addresses, that in the end result in the same address, which is shared by multiple accounts. \n\n### Patches\nWe recommend updating to the current version 5.7.18. You can get the update to 5.7.18 regularly via the Auto-Updater or directly via the release page.\nhttps://github.com/shopware5/shopware/releases/tag/v5.7.18\n\nFor older versions you can use the Security Plugin:\nhttps://store.shopware.com/en/swag575294366635f/shopware-security-plugin.html\n\n\n### References\nhttps://docs.shopware.com/en/shopware-5-en/security-updates/security-update-06-2023",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "shopware/shopware"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.1.4"
+            },
+            {
+              "fixed": "5.7.18"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 5.7.17"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/shopware/shopware/security/advisories/GHSA-gh66-fp7j-98v5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/shopware5/shopware/security/advisories/GHSA-gh66-fp7j-98v5"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-34099"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/shopware5/shopware/commit/39cc714d9a0be33b43877044d0b88ea3c6b43f3d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.shopware.com/en/shopware-5-en/security-updates/security-update-06-2023"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/shopware5/shopware"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.shopware.com/en/changelog-sw5/#5-7-18"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-754"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-28T22:34:08Z",
+    "nvd_published_at": "2023-06-27T17:15:09Z"
+  }
+}

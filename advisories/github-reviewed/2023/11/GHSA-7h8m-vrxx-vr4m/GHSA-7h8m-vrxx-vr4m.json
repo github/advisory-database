@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7h8m-vrxx-vr4m",
+  "modified": "2023-11-09T16:14:18Z",
+  "published": "2023-11-08T17:52:50Z",
+  "aliases": [
+    "CVE-2023-47111"
+  ],
+  "summary": "ZITADEL race condition in lockout policy execution",
+  "details": "### Impact\n\nZITADEL provides administrators the possibility to define a `Lockout Policy` with a maximum amount of failed password check attempts. On every failed password check, the amount of failed checks is compared against the configured maximum.\nExceeding the limit, will lock the user and prevent further authentication.\n\nIn the affected implementation it was possible for an attacker to start multiple parallel password checks, giving him the possibility to try out more combinations than configured in the `Lockout Policy`.\n\n### Patches\n\n2.x versions are fixed on >= [2.40.5](https://github.com/zitadel/zitadel/releases/tag/v2.40.5)\n2.38.x versions are fixed on >= [2.38.3](https://github.com/zitadel/zitadel/releases/tag/v2.38.3)\n\n### Workarounds\n\nThere is no workaround since a patch is already available.\n\n### References\n\nNone\n\n### Questions\n\nIf you have any questions or comments about this advisory, please email us at [security@zitadel.com](mailto:security@zitadel.com)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/zitadel/zitadel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.39.0"
+            },
+            {
+              "fixed": "2.40.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/zitadel/zitadel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.38.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/security/advisories/GHSA-7h8m-vrxx-vr4m"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-47111"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/commit/22e2d5599918864877e054ebe82fb834a5aa1077"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/zitadel/zitadel"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/releases/tag/v2.38.3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/releases/tag/v2.40.5"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-362"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-08T17:52:50Z",
+    "nvd_published_at": "2023-11-08T22:15:10Z"
+  }
+}

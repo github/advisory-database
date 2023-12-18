@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qqh2-wvmv-h72m",
+  "modified": "2023-09-20T19:05:52Z",
+  "published": "2023-09-12T13:52:05Z",
+  "aliases": [
+    "CVE-2023-41886"
+  ],
+  "summary": "OpenRefine vulnerable to arbitrary file read in project import with mysql jdbc url attack",
+  "details": "### Summary\nAn arbitrary file read vulnerability allows any unauthenticated user to read the file on the server._\n\n### Details\nHi,Team,\ni find openrefine support to import data from database,When use mysql jdbc to connect to database,It is vulnerable to jdbc url attacks,for example,unauthenticated attacker can read the file on the server.\nThere are some differences in utilization depending on the version of the mysql-connector dependency on the server side.  \n1.  mysql-connector-java version > 8.14\nThe default value of `allowLoadLocalInfile` on the server side is false in this case.We need to manually set this value to true in the connection string.  \nSince the way to get the databaseurl in `com/google/refine/extension/database/mysql/MySQLConnectionManager.java` is to splice the individual configurations directly, we can set the `allowLoadLocalInfile` parameter after the other parameters(for example the `databaseName` parameter ).  \n![image](https://user-images.githubusercontent.com/24366795/262531956-ef8bb163-6692-4494-92f9-3b9bcffdf503.png)  \n![image](https://user-images.githubusercontent.com/24366795/262531716-95e7c9a6-601d-4157-bce9-c58d17a6e3ea.png)\n![image](https://user-images.githubusercontent.com/24366795/262531614-a34f891f-acd2-4354-bbbe-96447a9dcbd1.png)\n2.  mysql-connector-java version <= 8.14\nThe default value of `allowLoadLocalInfile` on the server side is true in this case.so wo don't need do anything,Just connect to our malicious server.\n\n### PoC\nenv:   \ncentos 7\nopenrefine 3.7.4 \njdk11 \nmysql-connector-java version 8.30.0  \n\nyou can use the tool https://github.com/4ra1n/mysql-fake-server to running a malicious mysql server.  \n![image](https://user-images.githubusercontent.com/24366795/262536594-a62dbc2c-62d2-4b21-a351-5be7f506f852.png)  \nfor example,to read the /etc/passwd file.\n![image](https://user-images.githubusercontent.com/24366795/262539711-f274a396-9c0a-4ace-b3af-3b4e5309ab00.png)\nset the `username` to `base64ZmlsZXJlYWRfL2V0Yy9wYXNzd2Q=` and `Database name` to `test?allowLoadLocalInfile=true#` (for  mysql-connector-java version <= 8.14,just setting the database name normally) and test to connect your malicious mysql server.\nyou can get the file in your fake-server-files directory.\n![image](https://user-images.githubusercontent.com/24366795/262542538-c9f501a4-899f-4b57-89b9-b8dd42f535fb.png)\n\n\n### Impact\n\nAn arbitrary file read vulnerability allows any unauthenticated user to read the file on the server._\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.openrefine:database"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.7.5"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.7.4"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenRefine/OpenRefine/security/advisories/GHSA-qqh2-wvmv-h72m"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-41886"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenRefine/OpenRefine/commit/2de1439f5be63d9d0e89bbacbd24fa28c8c3e29d"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/OpenRefine/OpenRefine"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-89"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-12T13:52:05Z",
+    "nvd_published_at": "2023-09-15T21:15:11Z"
+  }
+}

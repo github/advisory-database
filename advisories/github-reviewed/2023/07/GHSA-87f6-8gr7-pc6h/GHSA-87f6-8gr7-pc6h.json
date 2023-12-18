@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-87f6-8gr7-pc6h",
+  "modified": "2023-07-21T20:18:09Z",
+  "published": "2023-07-21T20:18:09Z",
+  "aliases": [
+    "CVE-2023-37916"
+  ],
+  "summary": "KubePi may leak password hash of any user",
+  "details": "### Summary\nhttp://kube.pi/kubepi/api/v1/users/search?pageNum=1&&pageSize=10 leak password of any user (including admin). This leads to password crack attack\n\n\n### PoC\nhttps://drive.google.com/file/d/1ksdawJ1vShRJyT3wAgpqVmz-Ls6hMA7M/preview\n\n### Impact\n- Leaking confidential information.\n- Can lead to password cracking attacks\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/KubeOperator/kubepi"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.6.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/1Panel-dev/KubePi/security/advisories/GHSA-87f6-8gr7-pc6h"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-37916"
+    },
+    {
+      "type": "WEB",
+      "url": "https://drive.google.com/file/d/1ksdawJ1vShRJyT3wAgpqVmz-Ls6hMA7M/preview"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/1Panel-dev/KubePi"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/1Panel-dev/KubePi/releases/tag/v1.6.5"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-21T20:18:09Z",
+    "nvd_published_at": "2023-07-21T21:15:11Z"
+  }
+}

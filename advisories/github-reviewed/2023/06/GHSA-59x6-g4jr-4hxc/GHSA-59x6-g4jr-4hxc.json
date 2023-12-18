@@ -1,0 +1,225 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-59x6-g4jr-4hxc",
+  "modified": "2023-09-20T14:06:24Z",
+  "published": "2023-06-12T15:30:29Z",
+  "aliases": [
+    "CVE-2023-35042"
+  ],
+  "summary": "GeoServer RCE due to improper control of generation of code in jai-ext`Jiffle` map algebra language",
+  "details": "GeoServer 2, in some configurations, allows remote attackers to execute arbitrary code via `java.lang.Runtime.getRuntime().exec` in `wps:LiteralData` within a `wps:Execute` request, as exploited in the wild in June 2023.\n\n## RCE in Jiffle\n\nThe Jiffle map algebra language, provided by jai-ext, allows efficiently execute map algebra over large images. A vulnerability [CVE-2022-24816](https://nvd.nist.gov/vuln/detail/CVE-2022-24816) has been recently found in Jiffle, that allows a Code Injection to be performed by properly crafting a Jiffle invocation.\n\nIn the case of GeoServer, the injection can be performed from a remote request.\n\n## Assessment\n\nGeoTools includes the Jiffle language as part of the `gt-process-raster-<version>` module, applications using it should check whether it’s possible to provide a Jiffle script from remote, and if so, upgrade or remove the functionality (see also the GeoServer mitigation, below).\n\nThe issue is of particular interest for GeoServer users, as GeoServer embeds Jiffle in the base WAR package. Jiffle is available as a OGC function, for usage in SLD rendering transformations.\n\nThis allows for a Remote Code Execution in properly crafted OGC requests, as well as from the administration console, when editing SLD files.\n\n## Mitigations\n\nIn case you cannot upgrade at once, then the following mitigation is strongly recommended:\n\n1. Stop GeoServer\n2. Open the war file, get into `WEB-INF/lib` and remove the `janino-<version>.jar`\n3. Restart GeoServer.\n\nThis effectively removes the Jiffle ability to compile scripts in Java code, from any of the potential attack vectors (Janino is the library used to turn the Java code generated from the Jiffle script, into executable bytecode).\n\nGeoServer should still work properly after the removal, but any attempt to use Jiffle will result in an exception.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.geoserver:gs-wms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.18.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.geoserver:gs-wfs"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.18.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.geoserver:gs-wms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.19.0"
+            },
+            {
+              "fixed": "2.19.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.geoserver:gs-wfs"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.19.0"
+            },
+            {
+              "fixed": "2.19.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.geoserver:gs-wms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.20.0"
+            },
+            {
+              "fixed": "2.20.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.geoserver:gs-wfs"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.20.0"
+            },
+            {
+              "fixed": "2.20.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.geoserver:gs-wps"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.18.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.geoserver:gs-wps"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.19.0"
+            },
+            {
+              "fixed": "2.19.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.geoserver:gs-wps"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.20.0"
+            },
+            {
+              "fixed": "2.20.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-35042"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.geoserver.org/stable/en/user/services/wps/operations.html#execute"
+    },
+    {
+      "type": "WEB",
+      "url": "https://geoserver.org/vulnerability/2022/04/11/geoserver-2-jiffle-jndi-rce.html"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/geoserver/geoserver"
+    },
+    {
+      "type": "WEB",
+      "url": "https://isc.sans.edu/diary/29936"
+    },
+    {
+      "type": "WEB",
+      "url": "https://osgeo-org.atlassian.net/browse/GEOS-10458"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-19T20:27:27Z",
+    "nvd_published_at": "2023-06-12T15:15:09Z"
+  }
+}

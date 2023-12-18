@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-p3x5-5xpx-9phm",
+  "modified": "2023-10-05T18:45:30Z",
+  "published": "2022-05-24T17:06:10Z",
+  "aliases": [
+    "CVE-2018-1002104"
+  ],
+  "summary": "Kubernetes ingress exposes sensitive information",
+  "details": "Versions < 1.5 of the Kubernetes ingress default backend, which handles invalid ingress traffic, exposed prometheus metrics publicly.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "k8s.io/ingress-nginx"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-1002104"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kubernetes/ingress-nginx/issues/1733"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kubernetes/ingress-nginx/pull/3125"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kubernetes/ingress-nginx/commit/d487a50e399100ad8db12ed1d2f92271f311f676"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/kubernetes/ingress-nginx"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20",
+      "CWE-215"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-20T00:04:43Z",
+    "nvd_published_at": "2020-01-14T21:15:00Z"
+  }
+}

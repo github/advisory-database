@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jgwg-35hf-xqrr",
+  "modified": "2023-09-28T20:29:31Z",
+  "published": "2022-05-13T01:12:23Z",
+  "withdrawn": "2023-09-28T20:29:31Z",
+  "aliases": [
+    "CVE-2019-3876"
+  ],
+  "summary": "Withdrawn Advisory: OpenShift OAuth Server XSS Vulnerability",
+  "details": "## Withdrawn Advisory\n\nThis advisory has been withdrawn because the vulnerability does not affect a package in one of the GitHub Advisory Database's [supported ecosystems](https://github.com/github/advisory-database/blob/main/README.md#supported-ecosystems). This link is maintained to preserve external references.\n\n## Original Description\n\nA flaw was found in the `/oauth/token/request` custom endpoint of the OpenShift OAuth server allowing for XSS generation of CLI tokens due to missing X-Frame-Options and CSRF protections. If not otherwise prevented, a separate XSS vulnerability via JavaScript could further allow for the extraction of these tokens.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/openshift/oauth-apiserver"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0"
+            },
+            {
+              "fixed": "3.11"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-3876"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2019:1851"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/security/cve/CVE-2019-3876"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1691107"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2019-3876"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20210126211309/http://www.securityfocus.com/bid/107664"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-19T19:30:34Z",
+    "nvd_published_at": "2019-04-01T15:29:00Z"
+  }
+}

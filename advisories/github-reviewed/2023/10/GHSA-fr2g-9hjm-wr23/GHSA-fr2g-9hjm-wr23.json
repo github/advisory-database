@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fr2g-9hjm-wr23",
+  "modified": "2023-10-31T22:24:58Z",
+  "published": "2023-10-19T16:13:03Z",
+  "aliases": [
+    "CVE-2023-47090"
+  ],
+  "summary": "NATS.io: Adding accounts for just the system account adds auth bypass",
+  "details": "## Background\n\nNATS.io is a high performance open source pub-sub distributed communication technology, built for the cloud, on-premise, IoT, and edge computing.\n\nNATS users exist within accounts, and once using accounts, the old authorization block is not applicable.\n\n\n## Problem Description\n\nWithout any authorization rules in the nats-server, users can connect without authentication.\n\nBefore nats-server 2.2.0, all authentication and authorization rules for a nats-server lived in an \"authorization\" block, defining users.  With nats-server 2.2.0 all users live inside accounts.  When using the authorization block, whose syntax predates this, those users will be placed into the implicit global account, \"$G\".  Users inside accounts go into the newer \"accounts\" block.\n\nIf an \"accounts\" block is defined, in simple deployment scenarios this is often used only to enable client access to the system account.  When the only account added is the system account \"$SYS\", the nats-server would create an implicit user in \"$G\" and set it as the `no_auth_user` account, enabling the same \"without authentication\" logic as without any rules.\n\nThis preserved the ability to connect simply, and then add one authenticated login for system access.\n\nBut with an \"authorization\" block, this is wrong.  Users exist in the global account, with login rules.  And in simple testing, they might still connect fine without administrators seeing that authentication has been disabled.\n\nThe blind-spot on our part came from encouraging and documenting a switch to using only \"accounts\", instead of \"authorization\".\n\nIn the fixed versions, using an \"authorization\" block will inhibit the implicit creation of a \"$G\" user and setting it as the `no_auth_user` target.  In unfixed versions, just creating a second account, with no users, will also inhibit this behavior.\n\n\n## Affected versions\n\nNATS Server:\n * 2.2.0 up to and including 2.9.22 and 2.10.1\n * Fixed with nats-io/nats-server: 2.10.2 and backported to 2.9.23\n\n\n## Workarounds\n\nIn the \"accounts\" block, define a second non-system account, leave it empty.\n\n    accounts {\n        SYS: {\n            users: [\n                { user: sysuser, password: makemeasandwich }\n            ]\n        }\n        DUMMY: {}  # for security, before 2.10.2\n    }\n    system_account: SYS\n\n\n## Solution\n\nAny one of these:\n\n 1. Upgrade the NATS server to at least 2.10.2 (or 2.9.23)\n 2. Or define a dummy account\n 3. Or complete the migration of authorization entries to be inside a named account in the \"accounts\" block\n\n\n## Credits\n\nProblem reported by Alex Herrington.  \nAddressed publicly in a GitHub Discussion prior to this advisory.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/nats-io/nats-server/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.2.0"
+            },
+            {
+              "fixed": "2.9.23"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/nats-io/nats-server/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.10.0"
+            },
+            {
+              "fixed": "2.10.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/nats-io/nats-server/security/advisories/GHSA-fr2g-9hjm-wr23"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nats-io/nats-server/pull/4605"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nats-io/nats-server/commit/fa5b7afcb64e7e887e49afdd032358802b5c4478"
+    },
+    {
+      "type": "WEB",
+      "url": "https://advisories.nats.io/CVE/secnote-2023-01.txt"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/nats-io/nats-server"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nats-io/nats-server/discussions/4535"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nats-io/nats-server/releases/tag/v2.10.2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nats-io/nats-server/releases/tag/v2.9.23"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-305"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-19T16:13:03Z",
+    "nvd_published_at": null
+  }
+}

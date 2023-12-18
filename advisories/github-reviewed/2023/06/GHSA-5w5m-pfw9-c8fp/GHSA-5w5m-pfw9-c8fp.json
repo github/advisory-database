@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5w5m-pfw9-c8fp",
+  "modified": "2023-06-16T22:09:31Z",
+  "published": "2023-06-09T22:53:14Z",
+  "aliases": [
+    "CVE-2023-34233"
+  ],
+  "summary": "Snowflake Python Connector vulnerable to Command Injection",
+  "details": "### Issue\nSnowflake was informed via our bug bounty program of a command injection vulnerability in the Snowflake Python connector via SSO browser URL authentication. \n\n### Impacted driver package: \nsnowflake-connector-python\n\n### Impacted version range: \nbefore [Version 3.0.2](https://community.snowflake.com/s/article/Snowflake-Connector-for-Python-Release-Notes)\n\n### Attack Scenario\nIn order to exploit the potential for command injection, an attacker would need to be successful in (1) establishing a malicious resource and (2) redirecting users to utilize the resource. The attacker could set up a malicious, publicly accessible server which responds to the SSO URL with an attack payload. If the attacker then tricked a user into visiting the maliciously crafted connection URL, the user’s local machine would render the malicious payload, leading to a remote code execution. \n\nThis attack scenario can be mitigated through URL whitelisting as well as common anti-phishing resources.   \n\n### Solution\nOn March 23rd, 2023, Snowflake merged a patch that fixed a command injection vulnerability in the Snowflake Python connector via SSO browser URL authentication. The vulnerability affected the Snowflake Python connector before Version 3.0.2. We strongly recommend users upgrade to Version 3.0.2 as soon as possible via the following resources: [Snowflake Python Connector](https://docs.snowflake.com/en/developer-guide/python-connector/python-connector)\n\n### Additional Information\nIf you discover a security vulnerability in one of our products or websites, please report the issue to HackerOne. For more information, please see our [Vulnerability Disclosure Policy](https://hackerone.com/snowflake?type=team).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "snowflake-connector-python"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.0.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/snowflakedb/snowflake-connector-python/security/advisories/GHSA-5w5m-pfw9-c8fp"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-34233"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/snowflakedb/snowflake-connector-python/pull/1480"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/snowflakedb/snowflake-connector-python/commit/1cdbd3b1403c5ef520d7f4d9614fe35165e101ac"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/snowflake-connector-python/PYSEC-2023-88.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/snowflakedb/snowflake-connector-python"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-77"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-09T22:53:14Z",
+    "nvd_published_at": "2023-06-08T21:15:17Z"
+  }
+}

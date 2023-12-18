@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-46g3-f9r8-xj4v",
+  "modified": "2023-06-06T01:51:34Z",
+  "published": "2023-06-06T01:51:34Z",
+  "aliases": [
+    "CVE-2023-2984"
+  ],
+  "summary": "Pimcore vulnerable to Pre-Auth Path Traversal in pimcore_log parameter",
+  "details": "### Impact\n\nA path traversal vulnerability exists in the CMS, which allows an attacker to overwrite or modify sensitive files by manipulating the `pimcore_log` parameter.This can lead to potential denial of service---key file overwrite.\n\nThe impact of this vulnerability allows attackers to:\n\n- Overwrite or modify sensitive files, potentially leading to unauthorized access, privilege escalation, or disclosure of confidential information.\n\n- Tamper with system settings by modifying key files, such as the hosts file in Windows or configuration files for other services.\n\n- Cause a denial of service (DoS) if critical system files are overwritten or deleted.\n\nThe consequences of exploiting this vulnerability can be detrimental to the confidentiality, integrity, and availability of the affected system. It's crucial to address this vulnerability to protect sensitive data and ensure the proper functioning of the system.\n\n### Patches\nUpdate to version 10.5.22 or apply this patch manually https://github.com/pimcore/pimcore/commit/e8dbc4da58ae86618bceb67ed35ce23e5e54d2ed.patch\n\n### Workarounds\nApply patch https://github.com/pimcore/pimcore/commit/e8dbc4da58ae86618bceb67ed35ce23e5e54d2ed.patch manually.\n\n### References\nhttps://huntr.dev/bounties/5df8b951-e2f1-4548-a7e3-601186e1b191/",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "pimcore/pimcore"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "10.5.22"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/pimcore/security/advisories/GHSA-46g3-f9r8-xj4v"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-2984"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/pimcore/commit/e8dbc4da58ae86618bceb67ed35ce23e5e54d2ed"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pimcore/pimcore"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.dev/bounties/5df8b951-e2f1-4548-a7e3-601186e1b191"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-29"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-06T01:51:34Z",
+    "nvd_published_at": "2023-05-30T15:15:09Z"
+  }
+}

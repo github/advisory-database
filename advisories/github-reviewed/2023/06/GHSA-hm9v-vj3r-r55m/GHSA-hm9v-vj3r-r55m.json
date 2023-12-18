@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hm9v-vj3r-r55m",
+  "modified": "2023-06-30T22:19:39Z",
+  "published": "2023-06-30T22:19:39Z",
+  "aliases": [
+    "CVE-2023-36807"
+  ],
+  "summary": "PyPDF2 vulnerable to possible Infinite Loop when reading malformed objects",
+  "details": "### Impact\nAn attacker who uses this vulnerability can craft a PDF which leads to an infinite loop.\nThis infinite loop blocks the current process and can utilize a single core of the CPU by 100%. It does not affect memory usage. That is, for example, the case if the user extracted metadata from such a malformed PDF.\n\n### Patches\nThe issue was fixed with https://github.com/py-pdf/pypdf/pull/1331\n\n### Workarounds\nIf you cannot update your version of `PyPDF2` (preferably to `pypdf>3.1.0` as PyPDF2 is deprecated), you should modify `PyPDF2/generic/_data_structures.py::read_object`.\n\nReplace:\n\n```python\n    else:\n        # number object OR indirect reference\n        peek = stream.read(20)\n        stream.seek(-len(peek), 1)  # reset to start\n        if IndirectPattern.match(peek) is not None:\n            return IndirectObject.read_from_stream(stream, pdf)\n        else:\n            return NumberObject.read_from_stream(stream)\n```\n\nby\n\n```python\n    elif tok in b\"0123456789+-.\":\n        # number object OR indirect reference\n        peek = stream.read(20)\n        stream.seek(-len(peek), 1)  # reset to start\n        if IndirectPattern.match(peek) is not None:\n            return IndirectObject.read_from_stream(stream, pdf)\n        else:\n            return NumberObject.read_from_stream(stream)\n    else:\n        raise PdfReadError(\n            f\"Invalid Elementary Object starting with {tok} @{stream.tell()}\"\n        )\n```\n\n### References\n* [pypdf issue #1329](https://github.com/py-pdf/pypdf/issues/1329)\n* [pypdf PR #1331](https://github.com/py-pdf/pypdf/pull/1331)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "PyPDF2"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "PyPDF2._reader.PdfReader.get_object",
+          "PyPDF2.generic._base.NameObject.read_from_stream",
+          "PyPDF2.generic._data_structures.DictionaryObject.read_from_stream",
+          "PyPDF2.generic._data_structures.read_object"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.10.5"
+            },
+            {
+              "fixed": "2.10.6"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "2.10.5"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/py-pdf/pypdf/security/advisories/GHSA-hm9v-vj3r-r55m"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-36807"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/py-pdf/pypdf/issues/1329"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/py-pdf/pypdf/pull/1331"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/py-pdf/pypdf/commit/e6531a25325e7e0174b6a1ba03b57320b5227f6b"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/py-pdf/pypdf"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-835"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-30T22:19:39Z",
+    "nvd_published_at": "2023-06-30T19:15:09Z"
+  }
+}

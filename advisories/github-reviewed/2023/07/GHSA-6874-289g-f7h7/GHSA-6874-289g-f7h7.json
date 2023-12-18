@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6874-289g-f7h7",
+  "modified": "2023-07-06T23:01:29Z",
+  "published": "2023-07-06T19:24:19Z",
+  "aliases": [
+    "CVE-2022-45802"
+  ],
+  "summary": "Apache StreamPark Path Traversal vulnerability",
+  "details": "Streampark allows any users to upload a jar as application, but there is no mandatory verification of the uploaded file type. This means users may upload some high-risk files, and may upload them to any directory. Users of the affected versions should upgrade to Apache StreamPark 2.0.0 or later.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.streampark:streampark-common_2.12"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.streampark:streampark-common_2.11"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-45802"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/incubator-streampark/commit/0c87c6d8cf39ef2c31c1dea1a7df23d76f5e1236"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/incubator-streampark"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/thwl1v2h6r3c21x1qwff08o57qzjnst6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-06T23:01:29Z",
+    "nvd_published_at": "2023-05-01T15:15:08Z"
+  }
+}

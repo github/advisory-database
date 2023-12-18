@@ -1,0 +1,162 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-x5mr-p6v4-wp93",
+  "modified": "2023-07-28T15:35:47Z",
+  "published": "2023-07-28T15:35:47Z",
+  "aliases": [
+    "CVE-2023-38488"
+  ],
+  "summary": "Field injection in the KirbyData text storage handler",
+  "details": "### TL;DR\n\nThis vulnerability affects all Kirby sites that might have potential attackers in the group of authenticated Panel users or that allow external visitors to update a Kirby content file (e.g. via a contact or comment form).\n\nYour Kirby sites are *not* affected if they don't allow write access for untrusted users or visitors.\n\n----\n\n### Introduction\n\nA field injection in a content storage implementation is a type of vulnerability that allows attackers with content write access to overwrite content fields that the site developer didn't intend to be modified.\n\nIn a Kirby site this can be used to alter site content, break site behavior or inject malicious data or code. The exact security risk depends on the field type and usage.\n\n### Impact\n\nKirby stores content of the site, of pages, files and users in text files by default. The text files use Kirby's KirbyData format where each field is separated by newlines and a line with four dashes (`----`).\n\nWhen reading a KirbyData file, the affected code first removed the Unicode BOM sequence from the file contents and afterwards split the content into fields by the field separator.\n\nWhen writing to a KirbyData file, field separators in field data are escaped to prevent user input from interfering with the field structure. However this escaping could be tricked by including a Unicode BOM sequence in a field separator (e.g. `--\\xEF\\xBB\\xBF--`). When writing, this was not detected as a separator, but during the read process the BOM was removed, turning the malicious line into a valid separator. This could be abused by attackers to inject other field data into content files.\n\nBecause each field can only be defined once per content file, this vulnerability only affects fields in the content file that were defined above the vulnerable user-writable field or not at all. Fields that are defined below the vulnerable field override the injected field content and were therefore already protected.\n\n### Patches\n\nThe problem has been patched in [Kirby 3.5.8.3](https://github.com/getkirby/kirby/releases/tag/3.5.8.3), [Kirby 3.6.6.3](https://github.com/getkirby/kirby/releases/tag/3.6.6.3), [Kirby 3.7.5.2](https://github.com/getkirby/kirby/releases/tag/3.7.5.2), [Kirby 3.8.4.1](https://github.com/getkirby/kirby/releases/tag/3.8.4.1) and [Kirby 3.9.6](https://github.com/getkirby/kirby/releases/tag/3.9.6). Please update to one of these or a [later version](https://github.com/getkirby/kirby/releases) to fix the vulnerability.\n\nIn all of the mentioned releases, we have fixed the affected code to only remove the Unicode BOM sequence at the beginning of the file. This fixes this vulnerability both for newly written as well as for existing content files.\n\n### Credits\n\nThanks to Patrick Falb (@dapatrese) at [FORMER 03](https://former03.de/) for responsibly reporting the identified issue.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getkirby/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.5.8.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getkirby/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.6.0"
+            },
+            {
+              "fixed": "3.6.6.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getkirby/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.7.0"
+            },
+            {
+              "fixed": "3.7.5.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getkirby/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.8.0"
+            },
+            {
+              "fixed": "3.8.4.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getkirby/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.9.0"
+            },
+            {
+              "fixed": "3.9.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/getkirby/kirby/security/advisories/GHSA-x5mr-p6v4-wp93"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-38488"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getkirby/kirby/commit/a1e0f81c799ddae1af91cf37216f8ded9cb93540"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/getkirby/kirby"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getkirby/kirby/releases/tag/3.5.8.3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getkirby/kirby/releases/tag/3.6.6.3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getkirby/kirby/releases/tag/3.7.5.2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getkirby/kirby/releases/tag/3.8.4.1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getkirby/kirby/releases/tag/3.9.6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-140",
+      "CWE-863"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-28T15:35:47Z",
+    "nvd_published_at": "2023-07-27T15:15:11Z"
+  }
+}

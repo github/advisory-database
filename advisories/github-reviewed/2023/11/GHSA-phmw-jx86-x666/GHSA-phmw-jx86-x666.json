@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-phmw-jx86-x666",
+  "modified": "2023-11-17T22:04:57Z",
+  "published": "2023-11-16T20:48:46Z",
+  "aliases": [
+    "CVE-2023-48222"
+  ],
+  "summary": "Authenticated Rundeck users can view or delete jobs they do not have authorization for.",
+  "details": "Access to two URLs used in both Rundeck Open Source and Process Automation products could allow authenticated users to access the URL path, which would allow access to view or delete jobs, without the necessary authorization checks.\n\nThe affected URLs are:\n- `http[s]://[host]/context/rdJob/*` \n- `http[s]://[host]/context/api/*/incubator/jobs`\n\n### Impact\n\nRundeck, Process Automation version 4.12.0 up to 4.16.0\n\n### Patches\n\nPatched versions: 4.17.3\n\n### Workarounds\n\nAccess to two URLs used in either Rundeck Open Source or Process Automation products could be blocked at a load balancer level.\n- `http[s]://host/context/rdJob/*` \n- `http[s]://host/context/api/*/incubator/jobs`\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n* Open an issue in [our forums](https://community.pagerduty.com/forum/c/process-automation)\n* Enterprise Customers can open a [Support ticket](https://support.rundeck.com)\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.rundeck:rundeck"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.12.0"
+            },
+            {
+              "fixed": "4.17.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/rundeck/rundeck/security/advisories/GHSA-phmw-jx86-x666"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-48222"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/rundeck/rundeck"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-862"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-16T20:48:46Z",
+    "nvd_published_at": "2023-11-16T22:15:28Z"
+  }
+}

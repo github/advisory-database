@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-j55r-787p-m549",
+  "modified": "2023-09-01T19:46:34Z",
+  "published": "2023-08-22T18:00:04Z",
+  "aliases": [
+    "CVE-2023-40185"
+  ],
+  "summary": "Shescape on Windows escaping may be bypassed in threaded context",
+  "details": "### Impact\n\nThis may impact users that use Shescape on Windows in a threaded context (e.g. using [Worker threads](https://nodejs.org/api/worker_threads.html)). The vulnerability can result in Shescape escaping (or quoting) for the wrong shell, thus allowing attackers to bypass protections depending on the combination of expected and used shell.\n\nThis snippet demonstrates a vulnerable use of Shescape:\n\n```javascript\n// vulnerable.js\n\nimport { exec } from \"node:child_process\";\nimport { Worker, isMainThread } from 'node:worker_threads';\n\nimport * as shescape from \"shescape\";\n\nif (isMainThread) {\n  // 1. Something like a worker thread must be used. The reason being that they\n  // unexpectedly change environment variable names on Windows.\n  new Worker(\"./vulnerable.js\");\n} else {\n  // 2. Example configuration that's problematic. In this setup example the\n  // expected default system shell is CMD. We configure the use of PowerShell.\n  // Shescape will fail to look up PowerShell and default to escaping for CMD\n  // instead, resulting in the vulnerability.\n  const options = {\n    shell: \"powershell\",\n    interpolation: true,\n  };\n\n  // 3. Using shescape to protect against attacks, this is correct.\n  const escaped = shescape.escape(\"&& ls\", options);\n\n  // 4. Invoking a command with the escaped user input, this is vulnerable in\n  // this case.\n  exec(`echo Hello ${escaped}`, options, (error, stdout) => {\n    if (error) {\n      console.error(`An error occurred: ${error}`);\n    } else {\n      console.log(stdout);\n    }\n  });\n}\n```\n\n### Patches\n\nThis bug has been patched in [v1.7.4](https://github.com/ericcornelissen/shescape/releases/tag/v1.7.4) which you can upgrade to now. No further changes are required.\n\n### Workarounds\n\nIf you are impacted there is no workaround possible.\n\n### References\n\n- Shescape Pull Request [#1142](https://github.com/ericcornelissen/shescape/pull/1142)\n- Shescape commit [`0b976da`](https://github.com/ericcornelissen/shescape/commit/0b976dab645abf45ffd85e74a8c6e51ee2f42d63)\n- Shescape release [v1.7.4](https://github.com/ericcornelissen/shescape/releases/tag/v1.7.4)\n\n### For more information\n\n- Comment on Pull Request [#1142](https://github.com/ericcornelissen/shescape/pull/1142)\n- Comment on commit [`0b976da`](https://github.com/ericcornelissen/shescape/commit/0b976dab645abf45ffd85e74a8c6e51ee2f42d63)\n- Open an issue at [https://github.com/ericcornelissen/shescape/issues](https://github.com/ericcornelissen/shescape/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc) (New issue > Question > Get started)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "shescape"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.7.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ericcornelissen/shescape/security/advisories/GHSA-j55r-787p-m549"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-40185"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ericcornelissen/shescape/pull/1142"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ericcornelissen/shescape/commit/0b976dab645abf45ffd85e74a8c6e51ee2f42d63"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ericcornelissen/shescape"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ericcornelissen/shescape/releases/tag/v1.7.4"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-150"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-22T18:00:04Z",
+    "nvd_published_at": "2023-08-23T21:15:09Z"
+  }
+}

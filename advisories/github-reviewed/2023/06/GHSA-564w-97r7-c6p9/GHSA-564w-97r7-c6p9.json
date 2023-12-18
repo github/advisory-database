@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-564w-97r7-c6p9",
+  "modified": "2023-06-22T17:26:28Z",
+  "published": "2023-06-21T22:07:37Z",
+  "aliases": [
+    "CVE-2023-35174"
+  ],
+  "summary": "Livebook Desktop's protocol handler can be exploited to execute arbitrary command on Windows",
+  "details": "On Windows, it is possible to open a `livebook://` link from a browser which opens Livebook Desktop and triggers arbitrary code execution on victim's machine.\n\nAny user using Livebook Desktop on Windows is potentially vulnerable to arbitrary code execution when they expect Livebook to be opened from browser.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Hex",
+        "name": "livebook"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.8.0"
+            },
+            {
+              "fixed": "0.8.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Hex",
+        "name": "livebook"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.9.0"
+            },
+            {
+              "fixed": "0.9.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/livebook-dev/livebook/security/advisories/GHSA-564w-97r7-c6p9"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-35174"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/livebook-dev/livebook/commit/2e11b59f677c6ed3b6aa82dad412a8b3406ffdf1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/livebook-dev/livebook/commit/beb10daaadcc765f0380e436bd7cd5f74cf086c8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/livebook-dev/livebook"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/livebook-dev/livebook/releases/tag/v0.8.2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/livebook-dev/livebook/releases/tag/v0.9.3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-78"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-21T22:07:37Z",
+    "nvd_published_at": "2023-06-22T14:15:09Z"
+  }
+}

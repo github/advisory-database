@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jg7w-cxjv-98c2",
+  "modified": "2023-11-03T15:41:54Z",
+  "published": "2023-10-31T22:23:44Z",
+  "aliases": [
+    "CVE-2023-46255"
+  ],
+  "summary": "SpiceDB leaks information in log files when URI cannot be parsed",
+  "details": "SpiceDB is an open source, Google Zanzibar-inspired database for creating and managing security-critical application permissions. When the provided datastore URI is malformed (e.g. by having a password which contains `:`) the full URI (including the provided password) is printed, so that the password is shown in the logs. Version 1.27.0-rc1 patches this issue.\n\nExample output:\n```\nterminated with errors error=\"unable to create migration driver for postgres: parse \\\"postgres://spicedb:<PASSWORD IN PLAINTEXT>\": invalid port \\\"<PASSWORD IN PLAINTEXT>\\\" after host\"\n```",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:H/UI:R/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/authzed/spicedb"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.27.0-rc1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/authzed/spicedb/security/advisories/GHSA-jg7w-cxjv-98c2"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-46255"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/authzed/spicedb/commit/ae50421b80f895e4c98d999b18e06b6f1e6f1cf8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/authzed/spicedb"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-532"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-31T22:23:44Z",
+    "nvd_published_at": "2023-10-31T16:15:10Z"
+  }
+}

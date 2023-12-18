@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-j9h5-vcgv-2jfm",
+  "modified": "2023-05-09T18:44:13Z",
+  "published": "2023-05-09T17:46:22Z",
+  "aliases": [
+    "CVE-2023-32071"
+  ],
+  "summary": "XWiki Platform vulnerable to RXSS via editor parameter - importinline template",
+  "details": "### Impact\n\nIt's possible to execute javascript with the right of any user by leading him to a special URL on the wiki targeting a page which contains an attachment.\n\nTo reproduce:\n* add an attachment to a page (for example, your user profile)\n* add `?xpage=importinline&editor=%22%3E%3Cimg%20src%20onerror=alert(document.domain)%3E` to the page view URL as in `https://myhost/xwiki/bin/view/XWiki/MyUser?xpage=importinline&editor=%22%3E%3Cimg%20src%20onerror=alert(document.domain)%3E`\n\n### Patches\n\nThis has been patched in XWiki 15.0-rc-1, 14.10.4 and 14.4.8.\n\n### Workarounds\n\nThe easiest is to edit file `<xwiki app>/templates/importinline.vm` and apply the modification described on https://github.com/xwiki/xwiki-platform/commit/28905f7f518cc6f21ea61fe37e9e1ed97ef36f01\n\n### References\n\nhttps://jira.xwiki.org/browse/XWIKI-20340\nhttps://app.intigriti.com/company/submissions/e95a7ad5-7029-4627-abf0-3e3e3ea0b4ce/XWIKI-E93DFEYK\n\n### Attribution\n\nThis vulnerability has been reported on Intigriti by René de Sain @renniepak.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-distribution-war"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.2-milestone-1"
+            },
+            {
+              "fixed": "14.4.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-distribution-war"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.5"
+            },
+            {
+              "fixed": "14.10.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-j9h5-vcgv-2jfm"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-32071"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/28905f7f518cc6f21ea61fe37e9e1ed97ef36f01"
+    },
+    {
+      "type": "WEB",
+      "url": "https://app.intigriti.com/company/submissions/e95a7ad5-7029-4627-abf0-3e3e3ea0b4ce/XWIKI-E93DFEYK"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20340"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-116",
+      "CWE-79"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-09T17:46:22Z",
+    "nvd_published_at": "2023-05-09T16:15:15Z"
+  }
+}

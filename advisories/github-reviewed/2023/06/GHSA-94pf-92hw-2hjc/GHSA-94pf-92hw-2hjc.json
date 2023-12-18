@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-94pf-92hw-2hjc",
+  "modified": "2023-06-30T20:42:02Z",
+  "published": "2023-06-30T20:42:02Z",
+  "aliases": [
+    "CVE-2023-36469"
+  ],
+  "summary": "XWiki Platform vulnerable to  Code injection through NotificationRSSService",
+  "details": "### Impact\n\nAny user who can edit their own user profile and notification settings can execute arbitrary script macros including Groovy and Python macros that allow remote code execution including unrestricted read and write access to all wiki contents. This can be reproduced with the following steps:\n\n1. Login as a user without script or programming right.\n2. Go to the notifications preferences in your user profile.\n3. Disable the \"Own Events Filter\" and enable notifications in the notification menu for \"Like\".\n4. Set your first name to `{{cache id=\"security\" timeToLive=\"1\"}}{{groovy}}println(\"Hello from groovy!\"){{/groovy}}{{/cache}}`\n5. Click on the like button at the bottom left of the user profile.\n6. Click on the notifications bell in the top bar and then on \"RSS Feed\".\n\nIf the text \"Profile of Hello from groovy!\" and/or \"liked by Hello from groovy!\" is displayed, the attack succeeded. The expected result would have been that the entered first name is displayed as-is in the description of the feed.\n\n### Patches\nThis has been patched in XWiki 14.10.6 and 15.2RC1.\n\n### Workarounds\nThe main security fix can be manually applied by patching the affected document `XWiki.Notifications.Code.NotificationRSSService` as shown in the [patch](https://github.com/xwiki/xwiki-platform/commit/217e5bb7a657f2991b154a16ef4d5ae9c29ad39c#diff-7221a548809fa2ba34348556f4b5bd436463c559ebdf691197932ee7ce4478ca). This will break the link to the differences, though as this requires additional changes to Velocity templates as shown in the patch. While the [default](https://github.com/xwiki/xwiki-platform/commit/217e5bb7a657f2991b154a16ef4d5ae9c29ad39c#diff-b261c6eac3108c3e6e734054c28a78f59d3439ab72fe8582dadf87670a0d15a4) template is available in the instance and can be easily patched, the template for mentions is contained in a `.jar`-file and thus cannot be fixed without replacing that jar.\n\n### References\n* https://jira.xwiki.org/browse/XWIKI-20610\n* https://github.com/xwiki/xwiki-platform/commit/217e5bb7a657f2991b154a16ef4d5ae9c29ad39c\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-notifications-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.6-rc-1"
+            },
+            {
+              "fixed": "14.10.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-notifications-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "15.0-rc-1"
+            },
+            {
+              "fixed": "15.2-rc-1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-94pf-92hw-2hjc"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-36469"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/217e5bb7a657f2991b154a16ef4d5ae9c29ad39c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/217e5bb7a657f2991b154a16ef4d5ae9c29ad39c#diff-7221a548809fa2ba34348556f4b5bd436463c559ebdf691197932ee7ce4478ca"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/217e5bb7a657f2991b154a16ef4d5ae9c29ad39c#diff-b261c6eac3108c3e6e734054c28a78f59d3439ab72fe8582dadf87670a0d15a4"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20610"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-30T20:42:02Z",
+    "nvd_published_at": "2023-06-29T21:15:09Z"
+  }
+}

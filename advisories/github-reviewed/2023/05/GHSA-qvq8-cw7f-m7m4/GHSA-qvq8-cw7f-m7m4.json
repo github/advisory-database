@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qvq8-cw7f-m7m4",
+  "modified": "2023-06-03T00:39:55Z",
+  "published": "2023-05-25T09:30:25Z",
+  "aliases": [
+    "CVE-2022-46907"
+  ],
+  "summary": "Apache JSPWiki vulnerable to cross-site scripting on several plugins",
+  "details": "A carefully crafted request on several JSPWiki plugins could trigger an XSS vulnerability on Apache JSPWiki, which could allow the attacker to execute javascript in the victim's browser and get some sensitive information about the victim. Apache JSPWiki users should upgrade to 2.12.0 or later.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.jspwiki:jspwiki-main"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.12.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.jspwiki:jspwiki-war"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.12.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-46907"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/jspwiki/commit/0b9a0149032170063f22d65e335dfd317db815ea"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/jspwiki/commit/46e1ef7a595ca5cabf5ef184139910413f2024fc"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/jspwiki/commit/484c6a133e397693991b7c9a9b62ef3ca48ce707"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/jspwiki/commit/75019d337f1d0033b1f65428e75f43baeffd99dd"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/jspwiki/commit/82be08904a6d8bd22fa2d4e5a7e85f43408724d3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/jspwiki/commit/9d6dbf911d52d724297e4e46c4b80649fb028ff9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/jspwiki/commit/df20770f251a8d7431047e556b144ef24ee6a3a7"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/jspwiki"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/jspwiki/blob/37bf55373ed5a739a388a720163cf51d1104537f/ChangeLog.md?plain=1#L112"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jspwiki-wiki.apache.org/Wiki.jsp?page=CVE-2022-46907"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/1m0mkq2nttx8tn94m11mytn4f0tv1504"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2023/05/25/1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-25T17:38:08Z",
+    "nvd_published_at": "2023-05-25T07:15:08Z"
+  }
+}

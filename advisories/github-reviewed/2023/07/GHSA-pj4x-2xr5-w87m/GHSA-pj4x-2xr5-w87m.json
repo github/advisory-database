@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-pj4x-2xr5-w87m",
+  "modified": "2023-07-28T15:33:38Z",
+  "published": "2023-07-28T15:33:38Z",
+  "aliases": [
+    "CVE-2023-38495"
+  ],
+  "summary": "Possible image tampering from missing image validation for Packages",
+  "details": "### Impact\n\nCrossplanes image backend does not validate the byte contents of Crossplane packages. As such, Crossplane does not detect if an attacker has tampered with a Package.\n\n### Patches\n\nThe problem has been fixed in 1.11.5, 1.12.3 and 1.13.0, all the supported versions of Crossplane at the time of writing.\n\n### Workarounds\n\nOnly using images from trusted sources and keeping Package editing/creating privileges to administrators only, which should be both considered already best practices.\n\n### References\n\nSee `ADA-XP-23-11` in the Security Audit's [report](https://github.com/crossplane/crossplane/blob/ac8b24fe739c5d942ea885157148497f196c3dd3/security/ADA-security-audit-23.pdf).\n\n### Credits\n\nThis was reported as `ADA-XP-23-11` by @AdamKorcz and @DavidKorczynski from Ada Logic and facilitated by OSTIF as part of the Security Audit sponsored by CNCF.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/crossplane/crossplane"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.11.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/crossplane/crossplane"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.12.0"
+            },
+            {
+              "fixed": "1.12.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/crossplane/crossplane/security/advisories/GHSA-pj4x-2xr5-w87m"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-38495"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/crossplane/crossplane"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/crossplane/crossplane/blob/ac8b24fe739c5d942ea885157148497f196c3dd3/security/ADA-security-audit-23.pdf"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-28T15:33:38Z",
+    "nvd_published_at": "2023-07-27T19:15:10Z"
+  }
+}

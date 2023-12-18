@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-phwm-87rg-27qq",
+  "modified": "2023-06-22T19:59:25Z",
+  "published": "2023-06-22T19:59:25Z",
+  "aliases": [
+    "CVE-2023-35157"
+  ],
+  "summary": "XWiki Platform vulnerable to reflected cross-site scripting via delattachment action",
+  "details": "### Impact\nIt's possible to perform an XSS by forging a request to a delete attachment action with a specific attachment name. \nNow this XSS can be exploited only if the attacker knows the CSRF token of the user, or if the user ignores the warning about the missing CSRF token. \n\n### Patches\n\nThe vulnerability has been patched in XWiki 15.1-rc-1 and XWiki 14.10.6.\n\n\n### Workarounds\n\nThere's no workaround for this other than upgrading XWiki. \n\n### References\n\n  * Jira ticket: https://jira.xwiki.org/browse/XWIKI-20339\n  * Commit containing the fix: https://github.com/xwiki/xwiki-platform/commit/35e9073ffec567861e0abeea072bd97921a3decf\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n* Open an issue in [Jira XWiki.org](https://jira.xwiki.org/)\n* Email us at [Security Mailing List](mailto:security@xwiki.org)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-oldcore"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.2-milestone-3"
+            },
+            {
+              "fixed": "14.10.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-oldcore"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "15.0-rc-0"
+            },
+            {
+              "fixed": "15.1-rc-1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-phwm-87rg-27qq"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-35157"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/35e9073ffec567861e0abeea072bd97921a3decf"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20339"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79",
+      "CWE-80"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-22T19:59:25Z",
+    "nvd_published_at": "2023-06-23T19:15:09Z"
+  }
+}

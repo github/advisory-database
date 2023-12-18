@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8jxm-xp43-qh3q",
+  "modified": "2023-06-30T20:22:45Z",
+  "published": "2023-06-21T22:08:34Z",
+  "aliases": [
+    "CVE-2023-34758"
+  ],
+  "summary": "Silver vulnerable to MitM attack against implants due to a cryptography vulnerability",
+  "details": "### Summary\nThe current cryptography implementation in Sliver up to version 1.5.39 allows a MitM with access to the corresponding implant binary to execute arbitrary codes on implanted devices via intercepted and crafted responses. (Reserved CVE ID: CVE-2023-34758)\n\n### Details\nPlease see [the PoC repo](https://github.com/tangent65536/Slivjacker).\n\n### PoC\nPlease also see [the PoC repo](https://github.com/tangent65536/Slivjacker).\nTo setup a simple PoC environment,  \n 1. Generate an implant with its C2 set to the PoC server's address and copy the embedded private implant key and public server key into the config json.  \n 2. Run the implant on a separate VM and a `notepad.exe` window should pop up on the implanted VM.  \n\n### Impact\nA successful attack grants the attacker permission to execute arbitrary code on the implanted device.  \n  \n### References\nhttps://github.com/BishopFox/sliver/blob/master/implant/sliver/cryptography/implant.go  \nhttps://github.com/BishopFox/sliver/blob/master/implant/sliver/cryptography/crypto.go  \nhttps://github.com/tangent65536/Slivjacker  \n\n### Credits\n[Ting-Wei Hsieh](https://github.com/tangent65536) from [CHT Security Co. Ltd.](https://www.chtsecurity.com/?lang=en)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/bishopfox/sliver"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.5.0"
+            },
+            {
+              "fixed": "1.5.40"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/BishopFox/sliver/security/advisories/GHSA-8jxm-xp43-qh3q"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-34758"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-35170"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/BishopFox/sliver/commit/2d1ea6192cac2ff9d6450b2d96043fdbf8561516"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/BishopFox/sliver"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/BishopFox/sliver/blob/master/implant/sliver/cryptography/crypto.go"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/BishopFox/sliver/blob/master/implant/sliver/cryptography/implant.go"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/BishopFox/sliver/releases/tag/v1.5.40"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-8jxm-xp43-qh3q"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tangent65536/Slivjacker"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.chtsecurity.com/news/04f41dcc-1851-463c-93bc-551323ad8091"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-327"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-21T22:08:34Z",
+    "nvd_published_at": "2023-06-26T20:15:10Z"
+  }
+}

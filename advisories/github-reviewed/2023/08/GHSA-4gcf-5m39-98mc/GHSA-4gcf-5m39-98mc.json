@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4gcf-5m39-98mc",
+  "modified": "2023-08-18T14:25:07Z",
+  "published": "2023-08-16T21:02:29Z",
+  "aliases": [
+    "CVE-2023-40034"
+  ],
+  "summary": "Woodpecker does not validate webhook before changing any data",
+  "details": "### Impact\nAn attacker can post malformed webhook data which leads to an update of the repository data that can e.g. allow the takeover of a repository.\nThis is only critical if the CI is configured for public usage and connected to a forge witch is also in public usage.\n\n### Patches\nPlease use either next or the latest v1.0 e.g. v1.0.2\n\n### Workarounds\nSecure the CI system by making it inaccessible to untrusted entities, for example, by placing it behind a firewall.\n\n### References\nFix: https://github.com/woodpecker-ci/woodpecker/pull/2221\nBackport: https://github.com/woodpecker-ci/woodpecker/pull/2222",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/woodpecker-ci/woodpecker"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.0"
+            },
+            {
+              "fixed": "1.0.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/woodpecker-ci/woodpecker/security/advisories/GHSA-4gcf-5m39-98mc"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-40034"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/woodpecker-ci/woodpecker/pull/2221"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/woodpecker-ci/woodpecker/pull/2222"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/woodpecker-ci/woodpecker/commit/6e4c2f84cc84661d58cf1c0e5c421a46070bb105"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/woodpecker-ci/woodpecker"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/woodpecker-ci/woodpecker/releases/tag/v1.0.2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-16T21:02:29Z",
+    "nvd_published_at": "2023-08-16T21:15:10Z"
+  }
+}

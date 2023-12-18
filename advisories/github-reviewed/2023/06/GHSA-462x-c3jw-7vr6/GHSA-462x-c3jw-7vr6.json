@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-462x-c3jw-7vr6",
+  "modified": "2023-06-30T20:41:43Z",
+  "published": "2023-06-30T20:41:43Z",
+  "aliases": [
+    "CVE-2023-36475"
+  ],
+  "summary": "Parse Server vulnerable to remote code execution via MongoDB BSON parser through prototype pollution",
+  "details": "### Impact\n\nAn attacker can use this prototype pollution sink to trigger a remote code execution through the MongoDB BSON parser.\n\n### Patches\n\nPrevent prototype pollution in MongoDB database adapter.\n\n### Workarounds\n\nDisable remote code execution through the MongoDB BSON parser.\n\n### Credits\n\n- Discovered by hir0ot working with Trend Micro Zero Day Initiative\n- Fixed by dbythy\n- Reviewed by mtrezza\n\n### References\n\n- https://github.com/parse-community/parse-server/security/advisories/GHSA-462x-c3jw-7vr6\n- https://github.com/advisories/GHSA-prm5-8g2m-24gg\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "parse-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.5.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "parse-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.0.0"
+            },
+            {
+              "fixed": "6.2.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/parse-community/parse-server/security/advisories/GHSA-462x-c3jw-7vr6"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-36475"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/parse-community/parse-server/issues/8674"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/parse-community/parse-server/issues/8675"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/parse-community/parse-server/commit/3dd99dd80e27e5e1d99b42844180546d90c7aa90"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/parse-community/parse-server/commit/5fad2928fb8ee17304abcdcf259932f827d8c81f"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/parse-community/parse-server"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/parse-community/parse-server/releases/tag/5.5.2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/parse-community/parse-server/releases/tag/6.2.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1321"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-30T20:41:43Z",
+    "nvd_published_at": "2023-06-28T23:15:21Z"
+  }
+}

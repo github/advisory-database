@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-pxv2-mfq7-vhp6",
+  "modified": "2023-10-26T23:03:41Z",
+  "published": "2022-05-24T16:56:45Z",
+  "aliases": [
+    "CVE-2019-10411"
+  ],
+  "summary": "Jenkins Inedo BuildMaster Plugin showed plain text password in configuration form",
+  "details": "Jenkins Inedo BuildMaster Plugin Plugin stores a service password in its global Jenkins configuration.\n\nWhile the password is stored encrypted on disk, it was transmitted in plain text as part of the configuration form. This could result in exposure of the password through browser extensions, cross-site scripting vulnerabilities, and similar situations.\n\nInedo BuildMaster Plugin Plugin now encrypts the password transmitted to administrators viewing the global configuration form.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.inedo.proget:inedo-proget"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.5.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-10411"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jenkinsci/inedo-buildmaster-plugin/commit/cef77a827e92718fc89728397e428872fd2518b1"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/inedo-buildmaster-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2019-09-25/#SECURITY-1513"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2019/09/25/3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-319"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-26T23:03:41Z",
+    "nvd_published_at": "2019-09-25T16:15:00Z"
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-267v-3v32-g6q5",
+  "modified": "2023-10-24T18:32:14Z",
+  "published": "2023-10-17T14:20:59Z",
+  "aliases": [
+    "CVE-2023-45683"
+  ],
+  "summary": "Cross-site Scripting via missing Binding syntax validation",
+  "details": "### Impact\n\nThe package does not validate the ACS Location URI according to the SAML binding being parsed.\n\nIf abused, this flaw allows attackers to register malicious Service Providers at the IdP and inject Javascript in the ACS endpoint definition, achieving Cross-Site-Scripting (XSS) in the IdP context during the redirection at the end of a SAML SSO Flow.\n\nConsequently, an attacker may perform any authenticated action as the victim once the victim’s browser loaded the SAML IdP initiated SSO link for the malicious service provider.\n\nNote: The severity is considered “High” because the SP registration is commonly an unrestricted operation in IdPs, hence not requiring particular permissions or publicly accessible to ease the IdP interoperability.\n\n### Patches\n\nThis issue is fixed in 0.4.14\n\n### Workarounds\n\nUsers of the package can perform external validation of URLs provided in SAML metadata, or restrict the ability for end-users to upload arbitrary metadata. \n\n### References\n\nThis issue was reported by Francesco Lacerenza from Doyensec.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/crewjam/saml"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.4.14"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/crewjam/saml/security/advisories/GHSA-267v-3v32-g6q5"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-45683"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/crewjam/saml/commit/b07b16cf83c4171d16da4d85608cb827f183cd79"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/crewjam/saml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-17T14:20:59Z",
+    "nvd_published_at": "2023-10-16T19:15:11Z"
+  }
+}

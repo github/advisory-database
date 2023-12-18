@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6jmw-6mxw-w4jc",
+  "modified": "2023-09-14T16:41:57Z",
+  "published": "2023-09-13T15:31:14Z",
+  "aliases": [
+    "CVE-2023-39914"
+  ],
+  "summary": "BER/CER/DER decoder panics on invalid input",
+  "details": "NLnet Labs’ bcder library up to and including version 0.7.2 panics while decoding certain invalid input data rather than rejecting the data with an error. This can affect both the actual decoding stage as well as accessing content of types that utilized delayed decoding.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "bcder"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.7.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-39914"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/NLnetLabs/bcder/commit/4da91c3fd853e3d466d8581cf1d82b7f3255de56"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/NLnetLabs/bcder"
+    },
+    {
+      "type": "WEB",
+      "url": "https://nlnetlabs.nl/downloads/bcder/CVE-2023-39914.txt"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2023-0062.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-228"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-14T16:41:57Z",
+    "nvd_published_at": "2023-09-13T15:15:07Z"
+  }
+}

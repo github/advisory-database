@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c647-pxm2-c52w",
+  "modified": "2023-09-22T18:26:05Z",
+  "published": "2023-09-20T23:05:35Z",
+  "aliases": [
+    "CVE-2023-42443"
+  ],
+  "summary": "Vyper vulnerable to memory corruption in certain builtins utilizing `msize`",
+  "details": "### Impact\nIn certain conditions, the memory used by the builtins `raw_call`, `create_from_blueprint` and `create_copy_of` can be corrupted.\n\n- For `raw_call`, the argument buffer of the call can be corrupted, leading to incorrect `calldata` in the sub-context.\n- For  `create_from_blueprint` and `create_copy_of`, the buffer for the to-be-deployed bytecode can be corrupted, leading to deploying incorrect bytecode.\n\nBelow are the conditions that must be fulfilled for the corruption to happen for each builtin:\n\n#### `raw_call`\n- memory is not fully initialized, ex. all parameters to an external function live in calldata\nand\n- The `data` argument of the builtin is `msg.data`.\nand\n- The `to`, `value` or `gas` passed to the builtin is some complex expression that results in writing to uninitialized memory (e.g. calling an internal function)\n\n#### `create_copy_of`\n- memory is not fully initialized, ex. all parameters to an external function live in calldata\nand\n- The `value` or `salt` passed to the builtin is some complex expression that results in writing to  uninitialized memory (e.g. calling an internal function)\n\n#### `create_from_blueprint`\n- memory is not fully initialized, ex. all parameters to an external function live in calldata\nand\n- Either no constructor parameters are passed to the builtin or `raw_args` is set to True.\nand\n- The `value` or `salt` passed to the builtin is some complex expression that results in writing to uninitialized memory (e.g. calling an internal function)\n\nNote: When the builtin is being called from an `internal` function `f` from a function `g`, the issue is not present provided that `g` has written to memory before calling `f`.\n \n#### Examples\n\n\n##### `raw_call`\n\nIn the following contract, calling `bar(1,1)` will return:\n\n``` Python\nae42e95100000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff00000001\n```\ninstead of:\n``` Python\nae42e95100000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000001\n```\n\n```Python\nidentity: constant(address) = 0x0000000000000000000000000000000000000004\n\n@external\ndef foo():\n    pass\n\n@internal\n@view\ndef get_address()->address:\n    a:uint256 = max_value(uint256) # 0xfff...fff\n    return identity\n@external\ndef bar(f:uint256, u:uint256) -> Bytes[100]:\n    a: Bytes[100] = raw_call(self.get_address(), msg.data, max_outsize=100)\n    return a\n```\n\n##### `create_copy_of`\nIn the following contract, after calling `test()`, the code deployed at `self.created_address` does not match the bytecode at `target`.\n\n``` Vyper\ncreated_address: public(address)\n\n@external\ndef test(target: address) -> address:\n    # The expression in salt= is complex and will require to store to memory\n    self.created_address = create_copy_of(target, salt = keccak256(_abi_encode(target)))\n    return self.created_address\n```\n\n##### `create_from_blueprint`\nIn the following contract, after calling `test()`, the init bytecode used to create the contract deployed at the address `self.created_address` will not match the blueprint bytecode stored at `target`.\n\n``` Vyper\ncreated_address: public(address)\n\nsalt: constant(bytes32) = keccak256(\"kebab\")\n\n@external\n@payable\ndef test(target: address):\n    # The expression in salt= is complex and will require to store to memory\n    self.created_address = create_from_blueprint(target, code_offset=0, salt=keccak256(_abi_encode(target)))\n```\n### Patches\nissue tracking in https://github.com/vyperlang/vyper/issues/3609, patched in #3610 \n\n### Workarounds\n\nThe complex expressions that are being passed as kwargs to the builtin should be cached in memory prior to the call to the builtin. For the last example above, it would be:\n\n``` Vyper\ncreated_address: public(address)\n\nsalt: constant(bytes32) = keccak256(\"kebab\")\n\n@external\n@payable\ndef test(target: address):\n    salt: bytes32 = keccak256(_abi_encode(target))\n    self.created_address = create_from_blueprint(target, code_offset=0, salt=salt)\n```\n### References\n_Are there any links users can visit to find out more?_\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "vyper"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.3.4"
+            },
+            {
+              "fixed": "0.3.10"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.3.9"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/vyperlang/vyper/security/advisories/GHSA-c647-pxm2-c52w"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-42443"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vyperlang/vyper/issues/3609"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vyperlang/vyper/pull/3610"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vyperlang/vyper/commit/79303fc4fcba06994ee5c6a7baef57bdb185006c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vyperlang/vyper"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-787"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-20T23:05:35Z",
+    "nvd_published_at": "2023-09-18T21:16:13Z"
+  }
+}

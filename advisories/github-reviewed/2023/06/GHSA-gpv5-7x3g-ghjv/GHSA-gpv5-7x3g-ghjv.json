@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-gpv5-7x3g-ghjv",
+  "modified": "2023-06-15T19:05:13Z",
+  "published": "2023-06-15T19:05:13Z",
+  "aliases": [
+
+  ],
+  "summary": "fast-xml-parser regex vulnerability patch could be improved from a safety perspective",
+  "details": "### Summary\nThis is a comment on https://github.com/NaturalIntelligence/fast-xml-parser/security/advisories/GHSA-6w63-h3fj-q4vw and the patches fixing it.\n\n### Details\nThe code which validates a name calls the validator:\nhttps://github.com/NaturalIntelligence/fast-xml-parser/blob/ecf6016f9b48aec1a921e673158be0773d07283e/src/xmlparser/DocTypeReader.js#L145-L153\nThis checks for the presence of an invalid character.  Such an approach is always risky, as it is so easy to forget to include an invalid character in the list.  A safer approach is to validate entity names against the XML specification: https://www.w3.org/TR/xml11/#sec-common-syn - an ENTITY name is a Name:\n\n```\n[4]   NameStartChar ::= \":\" | [A-Z] | \"_\" | [a-z] | [#xC0-#xD6] | [#xD8-#xF6] | [#xF8-#x2FF] | [#x370-#x37D] |\n                        [#x37F-#x1FFF] | [#x200C-#x200D] | [#x2070-#x218F] | [#x2C00-#x2FEF] | [#x3001-#xD7FF] |\n                        [#xF900-#xFDCF] | [#xFDF0-#xFFFD] | [#x10000-#xEFFFF]\n[4a]  NameChar ::= NameStartChar | \"-\" | \".\" | [0-9] | #xB7 | [#x0300-#x036F] | [#x203F-#x2040]\n[5]   Name ::= NameStartChar (NameChar)*\n```\n\nso the safest way to validate an entity name is to build a regex to represent this expression and check whether the name given matches the regex.  (Something along the lines of `/^[name start char class][name char class]*$/`.)  There's probably a nice way to simplify the explicit list rather than typing it out verbatim using Unicode character properties, but I don't know enough to do so.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "fast-xml-parser"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "(fast-xml-parser).XMLParser"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.2.4"
+            },
+            {
+              "fixed": "4.2.5"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "4.2.4"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/NaturalIntelligence/fast-xml-parser/security/advisories/GHSA-6w63-h3fj-q4vw"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/NaturalIntelligence/fast-xml-parser/security/advisories/GHSA-gpv5-7x3g-ghjv"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/NaturalIntelligence/fast-xml-parser/commit/9a880b887916855c3a510869fd1ee268d7fe58b1"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/NaturalIntelligence/fast-xml-parser"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-15T19:05:13Z",
+    "nvd_published_at": null
+  }
+}

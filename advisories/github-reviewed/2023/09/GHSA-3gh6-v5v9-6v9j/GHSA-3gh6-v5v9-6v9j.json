@@ -1,0 +1,194 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3gh6-v5v9-6v9j",
+  "modified": "2023-10-02T21:03:25Z",
+  "published": "2023-09-14T16:16:00Z",
+  "aliases": [
+    "CVE-2023-36479"
+  ],
+  "summary": "Jetty vulnerable to errant command quoting in CGI Servlet",
+  "details": "If a user sends a request to a `org.eclipse.jetty.servlets.CGI` Servlet for a binary with a space in its name, the servlet will escape the command by wrapping it in quotation marks. This wrapped command, plus an optional command prefix, will then be executed through a call to Runtime.exec. If the original binary name provided by the user contains a quotation mark followed by a space, the resulting command line will contain multiple tokens instead of one. For example, if a request references a binary called file” name “here, the escaping algorithm will generate the command line string “file” name “here”, which will invoke the binary named file, not the one that the user requested.\n\n```java\nif (execCmd.length() > 0 && execCmd.charAt(0) != '\"' && execCmd.contains(\" \"))\nexecCmd = \"\\\"\" + execCmd + \"\\\"\";\n```\n\n### Exploit Scenario\nThe cgi-bin directory contains a binary named exec and a subdirectory named exec” commands, which contains a file called bin1. The user sends to the CGI servlet a request for the filename exec” commands/bin1. This request will pass the file existence check on lines 194 through 205. The servlet will add quotation marks around this filename, resulting in the command line string “exec” commands/bin1”. When this string is passed to Runtime.exec, instead of executing the bin1 binary, the server will execute the exec\nbinary with the argument commands/file1”. In addition to being incorrect, this behavior may bypass alias checks, and it may cause other unintended behaviors if a command prefix is configured.\n\nIf the useFullPath configuration setting is off, the command need not pass the existence check. The attack would not rely on a binary and subdirectory having similar names, and the attack will succeed on a much wider variety of directory structures.\n\n### Impact\nUsers of the `org.eclipse.jetty.servlets.CGI` Servlet with a very specific command structure may have the wrong command executed.\n\n### Patches\nNo patch.\nIn Jetty 9.x, 10.x, and 11.x the `org.eclipse.jetty.servlets.CGI` has been deprecated.\nIn Jetty 12 (all environments) the `org.eclipse.jetty.servlets.CGI` has been entirely removed.\n\n### Workarounds\nThe `org.eclipse.jetty.servlets.CGI` Servlet should not be used. Fast CGI support is available instead.\n\n### References\n* https://github.com/eclipse/jetty.project/pull/9516\n* https://github.com/eclipse/jetty.project/pull/9889\n* https://github.com/eclipse/jetty.project/pull/9888",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:C/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.eclipse.jetty:jetty-servlets"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.0.0"
+            },
+            {
+              "fixed": "9.4.52"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 9.4.51"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.eclipse.jetty:jetty-servlets"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "10.0.0"
+            },
+            {
+              "fixed": "10.0.16"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 10.0.15"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.eclipse.jetty:jetty-servlets"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "11.0.0"
+            },
+            {
+              "fixed": "11.0.16"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 11.0.15"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.eclipse.jetty.ee10:jetty-ee10-servlets"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "12.0.0-beta2"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 12.0.0-beta1"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.eclipse.jetty.ee9:jetty-ee9-servlets"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "12.0.0-beta2"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 12.0.0-beta1"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.eclipse.jetty.ee8:jetty-ee8-servlets"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "12.0.0-beta2"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 12.0.0-beta1"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/eclipse/jetty.project/security/advisories/GHSA-3gh6-v5v9-6v9j"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-36479"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/eclipse/jetty.project/pull/9516"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/eclipse/jetty.project/pull/9888"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/eclipse/jetty.project/pull/9889"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/eclipse/jetty.project"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.debian.org/debian-lts-announce/2023/09/msg00039.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.debian.org/security/2023/dsa-5507"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-149"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-14T16:16:00Z",
+    "nvd_published_at": "2023-09-15T19:15:08Z"
+  }
+}

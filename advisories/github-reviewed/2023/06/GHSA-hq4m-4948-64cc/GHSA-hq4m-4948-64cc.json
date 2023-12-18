@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hq4m-4948-64cc",
+  "modified": "2023-06-05T17:10:13Z",
+  "published": "2023-06-05T17:10:13Z",
+  "aliases": [
+    "CVE-2023-34091"
+  ],
+  "summary": "Kyverno resource with a deletionTimestamp may allow policy circumvention",
+  "details": "### Impact\n\nIn versions of Kyverno prior to 1.10.0, resources which have the `deletionTimestamp` field defined can bypass validate, generate, or mutate-existing policies, even in cases where the `validationFailureAction` field is set to `Enforce`. \n\nThis situation occurs as resources pending deletion were being consciously exempted by Kyverno, as a way to reduce processing load as policies are typically not applied to objects which are being deleted. \n\nHowever, this could potentially result in allowing a malicious user to leverage the [Kubernetes finalizers feature](https://kubernetes.io/docs/concepts/overview/working-with-objects/finalizers/) by setting a finalizer which causes the Kubernetes API server to set the `deletionTimestamp` and then not completing the delete operation as a way to explicitly to bypass a Kyverno policy. \n\nNote that this is not applicable to Kubernetes Pods but, as an example, a Kubernetes Service resource can be manipulated using an indefinite finalizer to bypass policies.\n\n\n### Patches\nThis is resolved in Kyverno 1.10.0.\n\n### Workarounds\nThere is no known workaround.\n\n### References\n_Are there any links users can visit to find out more?_\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/kyverno/kyverno"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.10.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/kyverno/kyverno/security/advisories/GHSA-hq4m-4948-64cc"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-34091"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/kyverno/kyverno"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kyverno/kyverno/releases/tag/v1.10.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-285"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-05T17:10:13Z",
+    "nvd_published_at": "2023-06-01T17:15:10Z"
+  }
+}

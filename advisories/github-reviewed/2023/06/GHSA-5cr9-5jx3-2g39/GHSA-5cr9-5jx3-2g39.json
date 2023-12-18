@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5cr9-5jx3-2g39",
+  "modified": "2023-06-09T15:03:08Z",
+  "published": "2023-06-06T14:13:08Z",
+  "aliases": [
+    "CVE-2023-34103"
+  ],
+  "summary": "avo vulnerable to Stored XSS (Cross Site Scripting) in html content based fields",
+  "details": "### Summary\nSome avo fields are vulnerable to XSS when rendering html based content.\n\n### Details\nDuring the analysis of the web application, a rendered field was discovered that did not filter JS / HTML tags in a safe way and can be abused to execute js code on a client side. The trix field uses the trix editor in the backend to edit rich text data which basically operates with html tags. To display the stored data in a rendered view, the HasHTMLAttributes concern is used. This can be exploited by an attacker to store javascript code in any trix field by intercepting the request and modifying the post data, as the trix editor does not allow adding custom html or js tags on the frontend.\n\n### PoC\n![image](https://user-images.githubusercontent.com/26464774/243434868-47857054-9b20-437f-842f-0750d53c9b0e.png)\n_Adding javascript in the post request which is used when editing a \"post\" resource (body is declared as a trix field)_\n\n![image](https://user-images.githubusercontent.com/26464774/243435009-948593a0-5179-4368-977c-ec36d2373925.png)\n_Successful execution of JS code on live demo environment_\n\n### Impact\nUnlike non-persistent XSS, persistent XSS does not require a social engineering phase. Victims of this attack do not need to be tricked into clicking a link or something like that. However, by exploiting such a vulnerability on this particular target, attackers may be able to gain access to accounts that require special protection, such as administrators of the web service, which is what Avo is primarily intended to be used for.\n\n### Recommendation\nThe content of a field that contains html code should be sanitized using the according rails helper which uses a whitelist of known-safe tags and attributes. Also this security consideration should be applied to the “as_html” attribute as well because it may contain user controlled input as well.\n\nhttps://api.rubyonrails.org/classes/ActionView/Helpers/SanitizeHelper.html\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "avo"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.33.3"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.33.2"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "avo"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0.pre1"
+            },
+            {
+              "last_affected": "3.0.0.pre12"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/avo-hq/avo/security/advisories/GHSA-5cr9-5jx3-2g39"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-34103"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/avo-hq/avo/commit/7891c01e1fba9ca5d7dbccc43d27f385e5d08563"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/avo-hq/avo"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/avo-hq/avo/releases/tag/v2.33.3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/avo/CVE-2023-34103.yml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-06T14:13:08Z",
+    "nvd_published_at": "2023-06-05T23:15:12Z"
+  }
+}

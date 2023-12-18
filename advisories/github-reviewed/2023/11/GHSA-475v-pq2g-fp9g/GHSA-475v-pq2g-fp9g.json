@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-475v-pq2g-fp9g",
+  "modified": "2023-11-08T15:03:09Z",
+  "published": "2023-11-08T15:03:09Z",
+  "aliases": [
+
+  ],
+  "summary": "s2n-quic potential denial of service via crafted stream frames",
+  "details": "### Impact\nAn issue in s2n-quic could result in unnecessary resource utilization when peers open streams beyond advertised limits.\n\nImpacted versions: <= v1.30.0.\n\n### Patches\nThe patch is included in v1.31.0 [1].\n\n### Workarounds\nThere is no workaround. Applications using s2n-quic should upgrade to the most recent release of s2n-quic.\n\nIf you have any questions or comments about this advisory, we ask that you contact AWS Security via our vulnerability reporting page [2] or directly via email to [aws-security@amazon.com](mailto:aws-security@amazon.com). Please do not create a public GitHub issue.\n\n[1] https://github.com/aws/s2n-quic/releases/tag/v1.31.0\n[2] https://aws.amazon.com/security/vulnerability-reporting\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "s2n-quic"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.31.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.30.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/aws/s2n-quic/security/advisories/GHSA-475v-pq2g-fp9g"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/aws/s2n-quic/commit/73e66b066de4940d129dbf33d91c39170eb4c38d"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/aws/s2n-quic"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/aws/s2n-quic/releases/tag/v1.31.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-08T15:03:09Z",
+    "nvd_published_at": null
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cx2q-hfxr-rj97",
+  "modified": "2023-09-27T15:42:42Z",
+  "published": "2023-09-26T19:34:53Z",
+  "aliases": [
+    "CVE-2023-42460"
+  ],
+  "summary": "Vyper's `_abi_decode` input not validated in complex expressions",
+  "details": "### Impact\n`_abi_decode()` does not validate input when it is nested in an expression. the following example gets correctly validated (bounds checked):\n```vyper\nx: int128 = _abi_decode(slice(msg.data, 4, 32), int128)\n```\n\nhowever, the following example is not bounds checked\n```vyper\n@external\ndef abi_decode(x: uint256) -> uint256:\n    a: uint256 = convert(_abi_decode(slice(msg.data, 4, 32), (uint8)), uint256) + 1\n    return a  # abi_decode(256) returns: 257\n```\n\nthe issue can be triggered by constructing an example where the output of `_abi_decode` is not internally passed to `make_setter` (an internal codegen routine) or other input validating routine.\n\n### Patches\nhttps://github.com/vyperlang/vyper/pull/3626\n\n### Workarounds\n_Is there a way for users to fix or remediate the vulnerability without upgrading?_\n\n### References\n_Are there any links users can visit to find out more?_\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "vyper"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.3.4"
+            },
+            {
+              "fixed": "0.3.10"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/vyperlang/vyper/security/advisories/GHSA-cx2q-hfxr-rj97"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-42460"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vyperlang/vyper/pull/3626"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vyperlang/vyper"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-682"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-26T19:34:53Z",
+    "nvd_published_at": "2023-09-27T15:19:32Z"
+  }
+}

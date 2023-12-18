@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8775-5hwv-wr6v",
+  "modified": "2023-05-29T16:13:02Z",
+  "published": "2023-05-22T20:35:03Z",
+  "aliases": [
+    "CVE-2023-32325"
+  ],
+  "summary": "Potential for cross-site scripting in PostHog-js",
+  "details": "### Impact\n\nPotential for cross-site scripting in `posthog-js`.\n\n### Patches\n\nThe problem has been patched in `posthog-js` version 1.57.2.\n\n### Workarounds\n\n- This isn't an issue for sites that have a Content Security Policy in place.\n- Using the HTML tracking snippet on PostHog Cloud always guarantees the latest version of the library – in that case no action is required to upgrade to the patched version.\n\n### References\n\nWe will publish details of the vulnerability in 30 days as per our [security policy](https://posthog.com/handbook/company/security#policies).\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "posthog-js"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.57.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/PostHog/posthog-js/security/advisories/GHSA-8775-5hwv-wr6v"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-32325"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/PostHog/posthog-js/pull/630"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/PostHog/posthog-js/commit/67e07eb8bb271a3a6f4aa251382e4d25abb385a0"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/PostHog/posthog-js"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-22T20:35:03Z",
+    "nvd_published_at": "2023-05-27T00:15:09Z"
+  }
+}

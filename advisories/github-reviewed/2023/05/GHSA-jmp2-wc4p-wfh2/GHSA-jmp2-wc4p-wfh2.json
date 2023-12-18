@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jmp2-wc4p-wfh2",
+  "modified": "2023-05-05T02:25:00Z",
+  "published": "2023-05-05T02:25:00Z",
+  "aliases": [
+    "CVE-2023-30844"
+  ],
+  "summary": "Mutagen list and monitor operations do not neutralize control characters in text controlled by remote endpoints",
+  "details": "### Impact\n\nMutagen command line operations, as well as the log output from `mutagen daemon run`, are susceptible to control characters that could be provided by remote endpoints.  This can cause terminal corruption, either intentional or unintentional, if these characters are present in error messages, file paths/names, and/or log output.  This could be used as an attack vector if synchronizing with an untrusted remote endpoint, synchronizing files not under control of the user, or forwarding to/from an untrusted remote endpoint.  On very old systems with terminals susceptible to issues such as [CVE-2003-0069](https://nvd.nist.gov/vuln/detail/CVE-2003-0069), the issue could theoretically cause code execution.\n\n\n### Patches\n\nThe problem has been patched in Mutagen v0.16.6 and v0.17.1.  Earlier versions of Mutagen are no longer supported and will not be patched.  Versions of Mutagen after v0.18.0 will also have the patch merged.\n\nOne caveat is that the templating functionality of Mutagen's `list` and `monitor` commands has been only partially patched.  In particular, the `json` template function already provided escaping and no patching was necessary.  However, raw template output has been left unescaped because this raw output may be necessary for commands which embed Mutagen.  To aid these commands, a new `shellSanitize` template function has been added which provides control character neutralization in strings.\n\n\n### Workarounds\n\nAvoiding synchronization of untrusted files or interaction with untrusted remote endpoints should mitigate any risk.\n\n\n### References\n\nA similar issue can be seen in kubernetes/kubernetes#101695.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:R/S:C/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/mutagen-io/mutagen"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.16.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/mutagen-io/mutagen-compose"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.17.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/mutagen-io/mutagen"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.17.0"
+            },
+            {
+              "fixed": "0.17.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/mutagen-io/mutagen/security/advisories/GHSA-jmp2-wc4p-wfh2"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-30844"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mutagen-io/mutagen"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mutagen-io/mutagen/releases/tag/v0.16.6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mutagen-io/mutagen/releases/tag/v0.17.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-116",
+      "CWE-150"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-05T02:25:00Z",
+    "nvd_published_at": "2023-05-08T18:15:14Z"
+  }
+}

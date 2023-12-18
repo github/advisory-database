@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hwxf-qxj7-7rfj",
+  "modified": "2023-10-30T15:21:32Z",
+  "published": "2023-10-30T15:18:56Z",
+  "aliases": [
+    "CVE-2023-46240"
+  ],
+  "summary": "CodeIgniter4 vulnerable to information disclosure when detailed error report is displayed in production environment ",
+  "details": "### Impact\nIf an error or exception occurs in CodeIgniter4 v4.4.2 and earlier, a detailed error report is displayed even if in the production environment. As a result, confidential information may be leaked.\n\n### Patches\nUpgrade to v4.4.3 or later. See [upgrading guide](https://codeigniter4.github.io/userguide/installation/upgrade_443.html).\n\n### Workarounds\nReplace `ini_set('display_errors', '0')` with `ini_set('display_errors', 'Off')` in `app/Config/Boot/production.php`.\n\n### For more information\nIf you have any questions or comments about this advisory:\n* Open an issue in [codeigniter4/CodeIgniter4](https://github.com/codeigniter4/CodeIgniter4/issues)\n* Email us at [SECURITY.md](https://github.com/codeigniter4/CodeIgniter4/blob/develop/SECURITY.md)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "codeigniter4/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.4.3"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 4.4.2"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/codeigniter4/CodeIgniter4/security/advisories/GHSA-hwxf-qxj7-7rfj"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-46240"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/codeigniter4/CodeIgniter4/commit/423569fc31e29f51635a2e59c89770333f0e7563"
+    },
+    {
+      "type": "WEB",
+      "url": "https://codeigniter4.github.io/userguide/general/errors.html#error-reporting"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/codeigniter4/CodeIgniter4"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-209"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-30T15:18:56Z",
+    "nvd_published_at": "2023-10-31T16:15:09Z"
+  }
+}

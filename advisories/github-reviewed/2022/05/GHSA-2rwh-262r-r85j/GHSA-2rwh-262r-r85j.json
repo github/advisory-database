@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2rwh-262r-r85j",
+  "modified": "2023-08-25T21:17:37Z",
+  "published": "2022-05-24T16:51:38Z",
+  "aliases": [
+    "CVE-2019-11200"
+  ],
+  "summary": "Dolibarr ERP and CRM malicious executable loading",
+  "details": "Dolibarr ERP/CRM 9.0.1 provides a web-based functionality that backs up the database content to a dump file. However, the application performs insufficient checks on the export parameters to mysqldump, which can lead to execution of arbitrary binaries on the server. (Malicious binaries can be uploaded by abusing other functionalities of the application.)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "dolibarr/dolibarr"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "9.0.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-11200"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Dolibarr/dolibarr/issues/10984#issuecomment-488297419"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Dolibarr/dolibarr/commit/01075081cbcd9130a72115cdb50ee61fc394edc1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Dolibarr/dolibarr/commit/d6ae62478c8841fdfe58971494818b599f396d4f"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Dolibarr/dolibarr"
+    },
+    {
+      "type": "WEB",
+      "url": "https://know.bishopfox.com/advisories/dolibarr-version-9-0-1-vulnerabilities"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-14T22:19:54Z",
+    "nvd_published_at": "2019-07-29T16:15:00Z"
+  }
+}

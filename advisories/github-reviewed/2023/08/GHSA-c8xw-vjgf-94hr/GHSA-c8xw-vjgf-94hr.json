@@ -1,0 +1,106 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c8xw-vjgf-94hr",
+  "modified": "2023-08-31T00:03:04Z",
+  "published": "2023-08-23T17:50:41Z",
+  "aliases": [
+    "CVE-2023-40025"
+  ],
+  "summary": "Argo CD web terminal session doesn't expire",
+  "details": "### Impact\nAll versions of Argo CD starting from v2.6.0 have a bug where open web terminal sessions do not expire. This bug allows users to send any websocket messages even if the token has already expired. The most straightforward scenario is when a user opens the terminal view and leaves it open for an extended period. This allows the user to view sensitive information even when they should have been logged out already.\n\n### Patches\nA patch for this vulnerability has been released in the following Argo CD version:\n\n* v2.6.14\n* v2.7.12\n* v2.8.1\n\n### Workarounds\nThe only way to completely resolve the issue is to upgrade.\n\n#### Mitigations\nDisable web-based terminal or define RBAC rules to it\n[https://argo-cd.readthedocs.io/en/latest/operator-manual/web_based_terminal/](https://argo-cd.readthedocs.io/en/latest/operator-manual/web_based_terminal/)\n\n### For more information\nIf you have any questions or comments about this advisory:\n* Open an issue in [the Argo CD issue tracker](https://github.com/argoproj/argo-cd/issues) or [discussions](https://github.com/argoproj/argo-cd/discussions)\n* Join us on [Slack](https://argoproj.github.io/community/join-slack) in channel #argo-cd\n\n### Credits\n\nThank you to bean.zhang (@zhlu32 ) of HIT-IDS ChunkL Team who discovered the issue and reported it confidentially according to our [guidelines](https://github.com/argoproj/argo-cd/blob/master/SECURITY.md#reporting-a-vulnerability).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/argoproj/argo-cd"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.6.0"
+            },
+            {
+              "fixed": "2.6.14"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/argoproj/argo-cd"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.7.0"
+            },
+            {
+              "fixed": "2.7.12"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/argoproj/argo-cd"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.8.0"
+            },
+            {
+              "fixed": "2.8.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "2.8.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/security/advisories/GHSA-c8xw-vjgf-94hr"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-40025"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/commit/e047efa8f9518c54d00d2e4493b64bc4dba98478"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/argoproj/argo-cd"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-613"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-23T17:50:41Z",
+    "nvd_published_at": "2023-08-23T20:15:08Z"
+  }
+}

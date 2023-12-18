@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-79rc-jjh6-rc89",
+  "modified": "2023-09-14T17:10:01Z",
+  "published": "2023-09-14T17:10:01Z",
+  "aliases": [
+
+  ],
+  "summary": "PocketMine-MP server crash due to incorrect EC curve used for LoginPacket identityPublicKey",
+  "details": "### Impact\nThe server uses ECDH to calculate a shared secret for the symmetric encryption key used to encrypt network packets after logging in. ECDH requires that the keys used must both belong to the same elliptic curve. In Minecraft: Bedrock Edition, the curve used is `secp384r1`.\n\nUsing any other curve (for example `secp256r1`) to sign the `LoginPacket` JWTs would lead to successfully verifying the login chain, but would later crash due to an uncaught exception during ECDH key derivation due to the client-provided key belonging to a different curve than the server's key. It's also theoretically possible that a non-EC key could be used (e.g. RSA or DH), which would also pass login verification as long as SHA384 hashing algorithm was used for the JWT signatures, and also lead to a crash.\n\n### Patches\nThe problem was fixed in 4.23.1 and 5.3.1 in the following commit: 4e646d19a4a1e0d082bd4d1f5a58ae0182a268d9\nWhile 4.x would not have crashed when this was encountered, the faulty validation code has also been corrected there.\n\n### Workarounds\nA plugin could handle `LoginPacket` and check that all of the `identityPublicKey`s provided in the JWT bodies actually belong to `secp384r1`. This can be checked by verifying that `openssl_pkey_get_details($key)[\"ec\"][\"curve_name\"]` is set and equal to `secp384r1`. Beware that this element may not exist if the key is not an EC key at all.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "pocketmine/pocketmine-mp"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.2.0"
+            },
+            {
+              "fixed": "5.3.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pmmp/PocketMine-MP/security/advisories/GHSA-79rc-jjh6-rc89"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pmmp/PocketMine-MP/commit/4e646d19a4a1e0d082bd4d1f5a58ae0182a268d9"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pmmp/PocketMine-MP"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-14T17:10:01Z",
+    "nvd_published_at": null
+  }
+}

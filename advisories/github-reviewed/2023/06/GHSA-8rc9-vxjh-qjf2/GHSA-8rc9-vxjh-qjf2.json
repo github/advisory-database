@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8rc9-vxjh-qjf2",
+  "modified": "2023-06-26T16:32:12Z",
+  "published": "2023-06-20T16:36:18Z",
+  "aliases": [
+    "CVE-2023-35163"
+  ],
+  "summary": "Vega's validators able to submit duplicate transactions ",
+  "details": "A vulnerability exists that allows a malicious validator to trick the Vega network into re-processing past Ethereum events from Vega’s Ethereum bridge. For example, a deposit to the collateral bridge for 100USDT that credits a party’s general account on Vega, can be re-processed 50 times resulting in 5000USDT in that party’s general account. This is without depositing any more than the original 100USDT on the bridge.\n\nDespite this exploit requiring access to a validator's Vega key, a validator key can be obtained at the small cost of 3000VEGA, the amount needed to announce a new node onto the network.\n\nThe steps to carry out this exploit are as follows:\n1. Cause an Ethereum event on one of the bridge contracts e.g a deposit to the collateral bridge, or the staking bridge\n2. This will result in the Ethereum-event-forwarder of each node to submit a ChainEvent transaction to the Vega network corresponding to that event\n3. Scrape the valid chain event transaction from the Tendermint block data using a node’s Tendermint API\n4. Change the value of the `txId` field of the ChainEvent to any valid, but different, value\n5. Bundle the tweaked ChainEvent into a new transaction, sign it with a validator key and resubmit to the Vega network\n6. The fraudulent ChainEvent will be processed by Vega as if it were a new ChainEvent even though it did not occur on Ethereum\n\nThe key to this exploit is in step 4. The `txId` field of the ChainEvent is used when checking for ChainEvent resubmission, but NOT during the subsequent on-chain verification of the event. Therefore changing the `txId` of an existing ChainEvent is enough to by-pass the duplication check and for it to still be verified as a real event.\n\n### Impact\nThe impact of this exploit is dependent on the ChainEvent being manipulated. The below table describes each one:\n\n| Chain Event  | Allows | Consequence |\n| ------------- | ------------- | ------------- |\n| Deposit | Generation of unlimited funds of any asset  | Withdrawal of all assets |\n| Stake Deposit  | Delegate unlimited Vega to a single node  | A single node has controlling amount of voting power  |\n| Stake Removed  | Force a Validator node to drop below self-stake requirements  | Prevents reward payouts  |\n| Bridge Stop  | The Vega network to think the bridge is stopped  | Prevent anyone from withdrawing funds  |\n| Signer Removed  | The Vega network to think a validator nodes is not on the multisig contract  | Prevent reward payouts  |\n\n### Patches\nv0.71.6\n\n### Workarounds\nNo work around known, however there are mitigations in place should this vulnerability be exploited:\n\n- there are monitoring alerts, for `mainnet1`, in place to identify any issues of this nature including this vulnerability being exploited\n- the validators have the ability to stop the bridge thus stopping any withdrawals should this vulnerability be exploited\n\n### References\nN/A\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:P/AC:H/PR:H/UI:R/S:C/C:H/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "code.vegaprotocol.io/vega"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.71.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/vegaprotocol/vega/security/advisories/GHSA-8rc9-vxjh-qjf2"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-35163"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vegaprotocol/vega/commit/56b09bf57af8cd9eca5996252d86f469a3e34c68"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vegaprotocol/vega"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vegaprotocol/vega/releases/tag/v0.71.6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-20T16:36:18Z",
+    "nvd_published_at": "2023-06-23T21:15:09Z"
+  }
+}

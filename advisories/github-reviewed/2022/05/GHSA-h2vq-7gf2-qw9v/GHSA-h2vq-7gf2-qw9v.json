@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h2vq-7gf2-qw9v",
+  "modified": "2023-10-23T17:24:47Z",
+  "published": "2022-05-17T00:30:20Z",
+  "aliases": [
+    "CVE-2017-15280"
+  ],
+  "summary": "Umbraco CMS XXE Vulnerability",
+  "details": "XML external entity (XXE) vulnerability in Umbraco CMS before 7.7.3 allows attackers to obtain sensitive information by reading files on the server or sending TCP requests to intranet hosts (aka SSRF), related to `Umbraco.Web/umbraco.presentation/umbraco/dialogs/importDocumenttype.aspx.cs`.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "UmbracoCms.Web"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "7.7.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-15280"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/umbraco/Umbraco-CMS/commit/5dde2efe0d2b3a47d17439e03acabb7ea2befb64"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/umbraco/Umbraco-CMS"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/umbraco/Umbraco-CMS/blob/release-7.7.3/src/Umbraco.Web/Umbraco.Web.csproj"
+    },
+    {
+      "type": "WEB",
+      "url": "http://issues.umbraco.org/issue/U4-10506"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-611"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-26T23:13:52Z",
+    "nvd_published_at": "2017-10-12T08:29:00Z"
+  }
+}

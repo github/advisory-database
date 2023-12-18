@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-826j-8wp2-4x6q",
+  "modified": "2023-08-25T18:42:53Z",
+  "published": "2023-08-25T18:42:53Z",
+  "aliases": [
+    "CVE-2023-32079"
+  ],
+  "summary": "Netmaker Vulnerable to Privilege Escalation From Non Admin To Admin User",
+  "details": "### Impact\nA Mass assignment vulnerability was found allowing a non-admin user to escalate privileges to admin user.\n\n### Patches\nIssue is patched in 0.17.1, and fixed in 0.18.6+.\n\nIf Users are using 0.17.1, they should run \"docker pull gravitl/netmaker:v0.17.1\" and \"docker-compose up -d\". This will switch them to the patched users\n\nIf users are using v0.18.0-0.18.5, they should upgrade to v0.18.6 or later.\n\n### Workarounds\nIf using 0.17.1, can just pull the latest docker image of backend and restart server.\n\n### References\nCredit to Project Discovery, and in particular https://github.com/rootxharsh , https://github.com/iamnoooob, and https://github.com/projectdiscovery",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/gravitl/netmaker"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.17.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/gravitl/netmaker"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.18.0"
+            },
+            {
+              "fixed": "0.18.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/gravitl/netmaker/security/advisories/GHSA-826j-8wp2-4x6q"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-32079"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/gravitl/netmaker"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-915"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-25T18:42:53Z",
+    "nvd_published_at": "2023-08-24T23:15:08Z"
+  }
+}

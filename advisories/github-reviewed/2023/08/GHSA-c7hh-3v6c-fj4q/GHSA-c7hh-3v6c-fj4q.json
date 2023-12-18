@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c7hh-3v6c-fj4q",
+  "modified": "2023-08-04T17:26:07Z",
+  "published": "2023-08-04T17:26:07Z",
+  "aliases": [
+    "CVE-2023-38700"
+  ],
+  "summary": "matrix-appservice-irc events can be crafted to leak parts of targeted messages from other bridged rooms",
+  "details": "### Impact\n\nIt was possible to craft an event such that it would leak part of a targeted message event from another bridged room. This required knowing an event ID to target.\n\n### Patches\n\nPlease upgrade to 1.0.1.\n\n### Workarounds\n\nYou can set the `matrixHandler.eventCacheSize` config value to `0` to workaround this bug. However, this may impact performance.\n\n### Credits\n\nDiscovered and reported by [Val Lorentz](https://valentin-lorentz.fr/).\n\n### For more information\n\nIf you have any questions or comments about this advisory email us at [security@matrix.org](mailto:security@matrix.org).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:C/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "matrix-appservice-irc"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.0.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.0.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/matrix-org/matrix-appservice-irc/security/advisories/GHSA-c7hh-3v6c-fj4q"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-38700"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/matrix-org/matrix-appservice-irc/commit/8bbd2b69a16cbcbeffdd9b5c973fd89d61498d75"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/matrix-org/matrix-appservice-irc"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/matrix-org/matrix-appservice-irc/releases/tag/1.0.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-04T17:26:07Z",
+    "nvd_published_at": "2023-08-04T19:15:09Z"
+  }
+}

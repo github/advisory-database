@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4xqq-73wg-5mjp",
+  "modified": "2023-06-06T18:45:42Z",
+  "published": "2023-05-15T06:30:19Z",
+  "aliases": [
+    "CVE-2023-32758"
+  ],
+  "summary": "git-url-parse Regular Expression Denial of Service",
+  "details": "giturlparse (aka git-url-parse) through 1.2.2, as used in Semgrep 1.5.2 through 1.24.1, is vulnerable to ReDoS (Regular Expression Denial of Service) if parsing untrusted URLs. This might be relevant if Semgrep is analyzing an untrusted package (for example, to check whether it accesses any Git repository at an http:// URL), and that package's author placed a ReDoS attack payload in a URL used by the package.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "git-url-parse"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.2.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-32758"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/returntocorp/semgrep/pull/7611"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/returntocorp/semgrep/pull/7943"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/returntocorp/semgrep/pull/7955"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/coala/git-url-parse"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/coala/git-url-parse/blob/master/giturlparse/parser.py#L53"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pypi.org/project/git-url-parse"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1333"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-15T20:51:51Z",
+    "nvd_published_at": "2023-05-15T04:15:10Z"
+  }
+}

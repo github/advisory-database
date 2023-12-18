@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4cxr-4vwc-6pg7",
+  "modified": "2023-10-26T13:45:38Z",
+  "published": "2022-05-13T01:17:45Z",
+  "aliases": [
+    "CVE-2019-1003057"
+  ],
+  "summary": "Jenkins Bitbucket Approve Plugin stores credentials in plain text",
+  "details": "Bitbucket Approve Plugin stores credentials unencrypted in its global configuration file `org.jenkinsci.plugins.bitbucket_approve.BitbucketApprover.xml` on the Jenkins controller. These credentials can be viewed by users with access to the Jenkins controller file system.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:bitbucket-approve"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.0.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-1003057"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2019-04-03/#SECURITY-965"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2019/04/12/2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-311"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-26T13:45:38Z",
+    "nvd_published_at": "2019-04-04T16:29:00Z"
+  }
+}

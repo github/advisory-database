@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-m7r6-43v2-49vf",
+  "modified": "2023-09-21T23:19:53Z",
+  "published": "2022-05-01T18:44:39Z",
+  "aliases": [
+    "CVE-2007-6612"
+  ],
+  "summary": "Mongrel vulnerable to directory traversal via double-encoded sequences",
+  "details": "Directory traversal vulnerability in DirHandler (lib/mongrel/handlers.rb) in Mongrel 1.0.4 (1.0.3 and prior are not affected) and 1.1.x before 1.1.3 allows remote attackers to read arbitrary files via an HTTP request containing double-encoded sequences (`.%252e`).",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "mongrel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.4"
+            },
+            {
+              "fixed": "1.0.5"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "1.0.4"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "mongrel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.1.0"
+            },
+            {
+              "fixed": "1.1.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2007-6612"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mongrel/mongrel"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apple.com/archives/security-announce/2008//May/msg00001.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20080111034049/http://rubyforge.org/pipermail/mongrel-users/2007-December/004743.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20200301091534/http://www.securityfocus.com/bid/27133"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-21T23:19:53Z",
+    "nvd_published_at": "2008-01-03T22:46:00Z"
+  }
+}

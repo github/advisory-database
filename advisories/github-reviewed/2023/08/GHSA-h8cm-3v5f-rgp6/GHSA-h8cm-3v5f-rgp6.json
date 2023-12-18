@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h8cm-3v5f-rgp6",
+  "modified": "2023-08-29T22:44:58Z",
+  "published": "2023-08-21T19:59:12Z",
+  "aliases": [
+    "CVE-2023-40176"
+  ],
+  "summary": "XWiki Platform Stored Cross-site Scripting in the user profile via the timezone displayer",
+  "details": "### Impact\n\nAny registered user can exploit a stored XSS through their user profile by setting the payload as the value of the time zone user preference. Even though the time zone is selected from a drop down (no free text value) it can still be set from JavaScript (using the browser developer tools) or by calling the save URL on the user profile with the right query string. Once the time zone is set it is displayed without escaping which means the payload gets executed for any user that visits the malicious user profile, allowing the attacker to steal information and even gain more access rights (escalation to programming rights).\n\nThe problem is present [since version 4.1M2](https://jira.xwiki.org/browse/XWIKI-7847) when the time zone user preference was introduced.\n\n### Patches\n\nThe issue has been fixed in XWiki 14.10.5 and 15.1RC1 by https://github.com/xwiki/xwiki-platform/commit/d11ca5d781f8a42a85bc98eb82306c1431e764d4 . The main fix is in the [``displayer_timezone.vm``](https://github.com/xwiki/xwiki-platform/commit/d11ca5d781f8a42a85bc98eb82306c1431e764d4#diff-57ffb6e10fa8768e59948f2becf755699570d97b78bb12a9623e0de49e6c5c7d) precisely at this [line](https://github.com/xwiki/xwiki-platform/commit/d11ca5d781f8a42a85bc98eb82306c1431e764d4#diff-57ffb6e10fa8768e59948f2becf755699570d97b78bb12a9623e0de49e6c5c7dR40):\n\n    $!escapetool.xml($value)\n\nBy escaping the displayed time zone value we make sure the attacker's payload is not executed.\n\n### Workarounds\n\nIf you want to fix this problem on older versions of XWiki that have not been patched then you need to edit ``displayer_timezone.vm`` and escape the displayed time zone value [here](https://github.com/xwiki/xwiki-platform/blob/xwiki-platform-14.10.4/xwiki-platform-core/xwiki-platform-web/xwiki-platform-web-templates/src/main/resources/templates/displayer_timezone.vm#L32):\n\n```\n- $!value\n+ $!escapetool.xml($value)\n```\n\n### References\n\n* JIRA issue https://jira.xwiki.org/browse/XWIKI-20276\n* Fix https://github.com/xwiki/xwiki-platform/commit/d11ca5d781f8a42a85bc98eb82306c1431e764d4\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n* Open an issue in [Jira XWiki.org](https://jira.xwiki.org/)\n* Email us at [Security Mailing List](mailto:security@xwiki.org)\n\n### Attribution\n\nThis vulnerability has been found and reported by @michitux .",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-web-templates"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.1-milestone-2"
+            },
+            {
+              "fixed": "14.10.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-h8cm-3v5f-rgp6"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-40176"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/d11ca5d781f8a42a85bc98eb82306c1431e764d4"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-7847"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-21T19:59:12Z",
+    "nvd_published_at": "2023-08-23T20:15:08Z"
+  }
+}

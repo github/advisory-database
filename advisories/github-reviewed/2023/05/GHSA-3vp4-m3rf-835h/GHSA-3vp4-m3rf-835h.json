@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3vp4-m3rf-835h",
+  "modified": "2023-05-11T14:03:52Z",
+  "published": "2023-05-04T06:30:12Z",
+  "aliases": [
+    "CVE-2023-26125"
+  ],
+  "summary": "Improper input validation in github.com/gin-gonic/gin",
+  "details": "Versions of the package github.com/gin-gonic/gin before version 1.9.0 are vulnerable to Improper Input Validation by allowing an attacker to use a specially crafted request via the X-Forwarded-Prefix header, potentially leading to cache poisoning.\n\n**Note:** Although this issue does not pose a significant threat on its own it can serve as an input vector for other more impactful vulnerabilities. However, successful exploitation may depend on the server configuration and whether the header is used in the application logic.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/gin-gonic/gin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.9.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-26125"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/gin-gonic/gin/pull/3500"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/gin-gonic/gin/pull/3503"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/t0rchwo0d/gin/commit/fd9f98e70fb4107ee68c783482d231d35e60507b"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/gin-gonic/gin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/gin-gonic/gin/releases/tag/v1.9.0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-GOLANG-GITHUBCOMGINGONICGIN-3324285"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-05T02:20:00Z",
+    "nvd_published_at": "2023-05-04T05:15:09Z"
+  }
+}

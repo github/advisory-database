@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-89qm-hm2x-mxm3",
+  "modified": "2023-10-09T20:17:11Z",
+  "published": "2023-06-12T06:30:17Z",
+  "aliases": [
+    "CVE-2023-26133"
+  ],
+  "summary": "progressbar.js vulnerable to Prototype Pollution",
+  "details": "All versions of the package progressbar.js prior to 1.1.1 are vulnerable to Prototype Pollution via the function extend() in the file utils.js.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "progressbar.js"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.1.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-26133"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kimmobrunfeldt/progressbar.js/commit/97fe68ef4beccfe84b7cba08ea1fc695e38cc04b"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/kimmobrunfeldt/progressbar.js"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kimmobrunfeldt/progressbar.js/blob/74536b9eeeaaf51144706d918ed5a0a679631d96/src/utils.js#L18"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kimmobrunfeldt/progressbar.js/blob/74536b9eeeaaf51144706d918ed5a0a679631d96/src/utils.js#L20"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-JS-PROGRESSBARJS-3184152"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1321"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-12T18:53:32Z",
+    "nvd_published_at": "2023-06-12T05:15:09Z"
+  }
+}

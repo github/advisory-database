@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-773g-x274-8qmf",
+  "modified": "2023-06-07T16:05:48Z",
+  "published": "2023-06-07T16:05:48Z",
+  "aliases": [
+    "CVE-2022-3252"
+  ],
+  "summary": "SwiftNIO Extras vulnerable to improper detection of complete HTTP body decompression",
+  "details": "SwiftNIO Extras provides a pair of helpers for transparently decompressing received HTTP request or response bodies. These two objects (`HTTPRequestDecompressor` and `HTTPResponseDecompressor`) both failed to detect when the decompressed body was considered complete. If trailing junk data was appended to the HTTP message body, the code would repeatedly attempt to decompress this data and fail. This would lead to an infinite loop making no forward progress, leading to livelock of the system and denial-of-service.\n\nThis issue can be triggered by any attacker capable of sending a compressed HTTP message. Most commonly this is HTTP servers, as compressed HTTP messages cannot be negotiated for HTTP requests, but it is possible that users have configured decompression for HTTP requests as well. The attack is low effort, and likely to be reached without requiring any privilege or system access. The impact on availability is high: the process immediately becomes unavailable but does not immediately crash, meaning that it is possible for the process to remain in this state until an administrator intervenes or an automated circuit breaker fires. If left unchecked this issue will very slowly exhaust memory resources due to repeated buffer allocation, but the buffers are not written to and so it is possible that the processes will not terminate for quite some time.\n\nThis risk can be mitigated by removing transparent HTTP message decompression. The issue is fixed by correctly detecting the termination of the compressed body as reported by zlib and refusing to decompress further data.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "SwiftURL",
+        "name": "github.com/apple/swift-nio-extras"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.11.0"
+            },
+            {
+              "fixed": "1.14.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "SwiftURL",
+        "name": "github.com/apple/swift-nio-extras"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.10.0"
+            },
+            {
+              "fixed": "1.10.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "SwiftURL",
+        "name": "github.com/apple/swift-nio-extras"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.9.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/apple/swift-nio-extras/security/advisories/GHSA-773g-x274-8qmf"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-3252"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apple/swift-nio-extras/pull/177"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apple/swift-nio-extras/pull/177/commits/359015de2c49e426c27b1d25dbf599b08a9d3ee6"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apple/swift-nio-extras"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-835"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-07T16:05:48Z",
+    "nvd_published_at": "2022-09-21T19:15:00Z"
+  }
+}

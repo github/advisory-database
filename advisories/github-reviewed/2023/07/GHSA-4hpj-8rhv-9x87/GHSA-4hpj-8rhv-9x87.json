@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4hpj-8rhv-9x87",
+  "modified": "2023-07-05T22:42:09Z",
+  "published": "2023-07-05T22:42:09Z",
+  "aliases": [
+    "CVE-2023-36814"
+  ],
+  "summary": "Products.CMFCore unauthenticated denial of service and crash via unchecked use of input with Python's marshal module",
+  "details": "### Impact\nThe use of Python's marshal module to handle unchecked input in a public method on `PortalFolder` objects can lead to an unauthenticated denial of service and crash situation. The code in question is exposed by all portal software built on top of `Products.CMFCore`, such as Plone. All deployments are vulnerable.\n\n### Patches\nThe code has been fixed in `Products.CMFCore` version 3.2.\n\n### Workarounds\nUsers can make the affected `decodeFolderFilter` method unreachable by editing the `PortalFolder.py` module in `Products.CMFCore` by hand and then restarting Zope. Go to line 233 of `PortalFolder.py` and remove both the `@security.public` decorator for `decodeFolderFilter` as well as the method's entire docstring. This is safe because the method is not actually used by current code.\n\n### References\n- Products.CMFCore security advisory [GHSA-4hpj-8rhv-9x87](https://github.com/zopefoundation/Products.CMFCore/security/advisories/GHSA-4hpj-8rhv-9x87)\n\n### Credits\nThanks go to Nicolas VERDIER from onepoint.\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n\n- Open an issue in the [Products.CMFCore issue tracker](https://github.com/zopefoundation/Products.CMFCore/issues)\n- Email us at [security@plone.org](mailto:security@plone.org)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "Products.CMFCore"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "Products.CMFCore.PortalFolder.PortalFolderBase.encodeFolderFilter",
+          "Products.CMFCore.PortalFolder.PortalFolderBase.decodeFolderFilter"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0"
+            },
+            {
+              "fixed": "3.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "Products.CMFCore"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.7.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/zopefoundation/Products.CMFCore/security/advisories/GHSA-4hpj-8rhv-9x87"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-36814"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zopefoundation/Products.CMFCore/commit/40f03f43a60f28ca9485c8ef429efef729be54e5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zopefoundation/Products.CMFCore/commit/c1847a9042abe7965271fa73762dfe091b576de"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/products-cmfcore/PYSEC-2023-113.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/zopefoundation/Products.CMFCore"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-770"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-05T22:42:09Z",
+    "nvd_published_at": "2023-07-03T17:15:09Z"
+  }
+}

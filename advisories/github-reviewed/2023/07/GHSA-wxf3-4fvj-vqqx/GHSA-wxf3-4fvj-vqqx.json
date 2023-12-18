@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wxf3-4fvj-vqqx",
+  "modified": "2023-09-06T19:20:43Z",
+  "published": "2023-07-27T19:28:02Z",
+  "aliases": [
+
+  ],
+  "summary": "Unsafe plugins can be installed via pack import by tenant admins",
+  "details": "### Summary\nUnsafe plugins (for instance `sql-list`) can be installed in subdomain tenants via pack import even if unsafe plugin installation for tenants is disables\n\n### Details\nI have an example\nhttps://bot20230704.saltcorn.com/view/all_plugins\nIt's publicly accessible (but has not so secure values except list of tenants).\nBut using this mech one can read **any** data from other tenants.\n\n### Impact\nAll tenants of installation (i.e. `saltcorn.com`), can be compromised from tenant user has admin access. If an untrusted user has admin rights to a tenant instance, they will be able to install a plug-in that can access information from other tenants\n\n### Revived after 0.8.7\nAfter patch in 0.8.7 this is not fixed completely.\n\nHere are steps to reproduce:\n1. Publish to NPM plugin that was not approved by admin (in case of saltcorn.com) by @glutamate. I've just published this one: https://www.npmjs.com/package/saltcorn-qrcode\n2. Publish somewhere plugin store that includes plugin from previous step: https://gist.github.com/pyhedgehog/f1fd7cb13f4d0a7ccf6a965748d19bd2\n3. Add plugin store link to tenant store.\n4. Install plugin.\n5. Use it in tenant: https://bot20230704.saltcorn.com/view/testqr_show/1\n\nHere are logic:\nUnsafe plugins checked against this list:\nhttps://github.com/saltcorn/saltcorn/blob/99fe277e497fd193bb070acd8c663aa254a9907c/packages/server/load_plugins.js#L191\nBut it's under control of tenant admin, not server admin.\nProposed login:\n```javascript\nconst safes = getRootState().getConfig(\"available_plugins\",[]).filter(p=>!p.unsafe).map(p=>p.location);\n```\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:H/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@saltcorn/cli"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/saltcorn/saltcorn/security/advisories/GHSA-wxf3-4fvj-vqqx"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/saltcorn/saltcorn/pull/1973"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/saltcorn/saltcorn/commit/0f32a51277a635c814a634bda9b6d358fb8c04ab"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/saltcorn/saltcorn"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/saltcorn/saltcorn/blob/99fe277e497fd193bb070acd8c663aa254a9907c/packages/server/load_plugins.js#L191"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-27T19:28:02Z",
+    "nvd_published_at": null
+  }
+}

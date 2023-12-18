@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rg2c-cfxv-qp6f",
+  "modified": "2023-09-06T15:32:33Z",
+  "published": "2023-08-08T18:30:37Z",
+  "aliases": [
+    "CVE-2023-3894"
+  ],
+  "summary": "Denial of service in jackson-dataformats-text",
+  "details": "Those using jackson-dataformats-text to parse TOML data may be vulnerable to Denial of Service attacks (DOS). If the parser is running on user supplied input, an attacker may supply content that causes the parser to crash by stackoverflow. This effect may support a denial of service attack.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.fasterxml.jackson.dataformat:jackson-dataformats-text"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.15.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-3894"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FasterXML/jackson-dataformats-text/pull/398"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FasterXML/jackson-dataformats-text/commit/5dd5f740aedcf37adad7ffece460e75e54abb0ed"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=50083"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/FasterXML/jackson-dataformats-text"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FasterXML/jackson-dataformats-text/blob/2.16/release-notes/VERSION-2.x"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20",
+      "CWE-400",
+      "CWE-787"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-09T12:52:21Z",
+    "nvd_published_at": "2023-08-08T18:15:24Z"
+  }
+}

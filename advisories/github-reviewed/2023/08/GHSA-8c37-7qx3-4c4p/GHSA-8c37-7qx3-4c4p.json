@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8c37-7qx3-4c4p",
+  "modified": "2023-09-21T14:13:41Z",
+  "published": "2023-08-09T20:57:57Z",
+  "aliases": [
+
+  ],
+  "summary": "Blst has logical error in SigValidate in Go bindings",
+  "details": "### Impact\n\nBlst versions v0.3.0 through 0.3.10 failed to perform a signature group-check if the call to `SigValidate` in the Go bindings was complemented with a check for infinity. Formally speaking, infinity, or the identity element of the elliptic curve group, is a member of the group, and the group-check should allow it. An initial review of blst users on GitHub did not uncover any use of this function with the complementary infinity check. This optional check was added as a convenience feature because despite infinity being a legitimate member of the group, individual signatures should never be infinite (as it is equivalent to having zero for the secret key), and observing one should raise a flag. \n\n### Description\n\nThe vulnerable function is declared as `SigValidate(sigInfcheck bool) bool` and if called with `sigInfcheck` argument set to `true`, the group-check was omitted. The group-check is required to be performed on untrusted input, because the pairing, the corner-stone operation of the signature scheme, is defined only on points that are members of a specific cyclic group, which is a subset of all the possible points on elliptic curves in question. Submitting an untrusted point outside the group opens up the possibility of accepting an alternative signature for a chosen message.\n\nIt should be noted that the SigValidate call is not the only way to perform the group-checks. There are optional checks integrated into various other verification methods, such as `Verify`, `AggregateVerify`, etc., as well as signature aggregation methods, such as `PairingAggregate*`. The reason why there are multiple options is that the group-check is a relatively expensive operation, and application developers are arguably entitled the freedom to choose when it's performed.\n\n### Patches\n\nThis issue has been resolved in the v0.3.11 release and users are advised to update if their application is affected or alternatively omit the complementary infinity check.\n\n### Credits\n\nA special thanks to Yunjong Jeong (@blukat29) for the discovery and disclosure of this vulnerability.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/supranational/blst"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.3.0"
+            },
+            {
+              "fixed": "0.3.11"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/supranational/blst/security/advisories/GHSA-8c37-7qx3-4c4p"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/supranational/blst/commit/fb91221c91c82f65bfc7f243256308977a06d48b"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/supranational/blst"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/supranational/blst/releases/tag/v0.3.11"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-09T20:57:57Z",
+    "nvd_published_at": null
+  }
+}

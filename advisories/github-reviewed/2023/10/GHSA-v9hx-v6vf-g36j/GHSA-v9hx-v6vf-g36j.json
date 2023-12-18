@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v9hx-v6vf-g36j",
+  "modified": "2023-10-17T13:23:20Z",
+  "published": "2023-10-17T13:23:20Z",
+  "aliases": [
+    "CVE-2023-45669"
+  ],
+  "summary": "WebAuthn4J Spring Security Improper signature counter value handling",
+  "details": "Improper signature counter value handling\n\n### Impact\n\nA flaw was found in webauthn4j-spring-security-core. When an authneticator returns an incremented signature counter value during authentication, webauthn4j-spring-security-core does not properly persist the value, which means cloned authenticator detection does not work.\nAn attacker who cloned valid authenticator in some way can use the cloned authenticator without being detected.\n\n### Patches\n\nPlease upgrade to `com.webauthn4j:webauthn4j-spring-security-core:0.9.1.RELEASE`\n\n\n### References\n\nFor more details about WebAuthn signature counters, see [WebAuthn specification 6.1.1. Signature Counter Considerations](https://www.w3.org/TR/2021/REC-webauthn-2-20210408/#sctn-sign-counter).\n\n### Reporter\n\nThis issue was discovered by Michael Budnick (@mbudnick)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.webauthn4j:webauthn4j-spring-security-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.9.1.RELEASE"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/webauthn4j/webauthn4j-spring-security/security/advisories/GHSA-v9hx-v6vf-g36j"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-45669"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/webauthn4j/webauthn4j-spring-security/commit/129700d74d83f9b9a82bf88ebc63707e3cb0a725"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/webauthn4j/webauthn4j-spring-security"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.w3.org/TR/2021/REC-webauthn-2-20210408/#sctn-sign-counter"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-287"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-17T13:23:20Z",
+    "nvd_published_at": "2023-10-16T19:15:11Z"
+  }
+}

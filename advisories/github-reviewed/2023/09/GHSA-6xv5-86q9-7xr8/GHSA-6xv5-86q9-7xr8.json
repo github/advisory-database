@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6xv5-86q9-7xr8",
+  "modified": "2023-09-07T12:58:58Z",
+  "published": "2023-09-07T12:58:58Z",
+  "aliases": [
+
+  ],
+  "summary": "SecureJoin: on windows, paths outside of the rootfs could be inadvertently produced",
+  "details": "### Impact\nFor Windows users of `github.com/cyphar/filepath-securejoin`, until v0.2.4 it was possible for certain rootfs and path combinations (in particular, where a malicious Unix-style `/`-separated unsafe path was used with a Windows-style rootfs path) to result in generated paths that were outside of the provided rootfs.\n\nIt is unclear to what extent this has a practical impact on real users, but given the possible severity of the issue we have released an emergency patch release that resolves this issue.\n\nThanks to  @pjbgf for discovering, debugging, and fixing this issue (as well as writing some tests for it).\n\n### Patches\nc121231e1276e11049547bee5ce68d5a2cfe2d9b is the patch fixing this issue. v0.2.4 contains the fix.\n\n### Workarounds\nUsers could use `filepath.FromSlash()` on all unsafe paths before passing them to `filepath-securejoin`.\n\n### References\nSee #9.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cyphar/filepath-securejoin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.2.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/cyphar/filepath-securejoin/security/advisories/GHSA-6xv5-86q9-7xr8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cyphar/filepath-securejoin/pull/9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cyphar/filepath-securejoin/commit/c121231e1276e11049547bee5ce68d5a2cfe2d9b"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cyphar/filepath-securejoin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cyphar/filepath-securejoin/releases/tag/v0.2.4"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-07T12:58:58Z",
+    "nvd_published_at": null
+  }
+}

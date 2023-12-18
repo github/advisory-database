@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7r88-wjhj-jr8m",
+  "modified": "2023-08-04T13:31:59Z",
+  "published": "2023-08-01T15:30:30Z",
+  "aliases": [
+    "CVE-2022-39987"
+  ],
+  "summary": "RaspAP Command Injection vulnerability",
+  "details": "A Command injection vulnerability in RaspAP 2.8.0 thru 2.9.2 allows an authenticated attacker to execute arbitrary OS commands as root via the `entity` POST parameters in `/ajax/networking/get_wgkey.php`.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "billz/raspap-webgui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.8.0"
+            },
+            {
+              "fixed": "2.9.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-39987"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/RaspAP/raspap-webgui/pull/1395"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/RaspAP/raspap-webgui/commit/e87e7d1d3a61617430851f2a040379de1ff3dd9d"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/RaspAP/raspap-webgui"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/RaspAP/raspap-webgui/blob/master/ajax/networking/get_wgkey.php"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/RaspAP/raspap-webgui/releases/tag/2.9.5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://medium.com/@ismael0x00/multiple-vulnerabilities-in-raspap-3c35e78809f2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-77"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-01T19:57:55Z",
+    "nvd_published_at": "2023-08-01T14:15:09Z"
+  }
+}

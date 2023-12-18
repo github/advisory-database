@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cxvp-82cq-57h2",
+  "modified": "2023-09-21T17:10:22Z",
+  "published": "2023-09-21T17:10:22Z",
+  "aliases": [
+    "CVE-2023-42447"
+  ],
+  "summary": "blurhash panics on parsing crafted inputs",
+  "details": "### Impact\nThe blurhash parsing code may panic due to multiple panic-guarded out-of-bounds accesses on untrusted input.\n\nIn a typical deployment, this may get triggered by feeding a maliciously crafted blurhashes over the network. These may include:\n- UTF-8 compliant strings containing multi-byte UTF-8 characters\n\n### Patches\nThe patches will be released under version 0.2.0, which requires user intervention because of slight API churn.\n\n### Workarounds\nn.a.\n\n### References\nn.a.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "blurhash"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.1.1"
+            },
+            {
+              "fixed": "0.2.0"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "0.1.1"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/whisperfish/blurhash-rs/security/advisories/GHSA-cxvp-82cq-57h2"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-42447"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/whisperfish/blurhash-rs"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/whisperfish/blurhash-rs/releases/tag/v0.2.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1284",
+      "CWE-392"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-21T17:10:22Z",
+    "nvd_published_at": "2023-09-19T15:15:57Z"
+  }
+}

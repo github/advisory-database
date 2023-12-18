@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jqxr-vjvv-899m",
+  "modified": "2023-06-14T14:54:06Z",
+  "published": "2023-06-14T14:54:06Z",
+  "aliases": [
+    "CVE-2023-34247"
+  ],
+  "summary": "@keystone-6/auth Open Redirect vulnerability",
+  "details": "### Summary\nThere is an open redirect in the `@keystone-6/auth` package, where the redirect leading `/` filter can be bypassed.\n\n### Impact\nUsers may be redirected to domains other than the relative host, thereby it might be used by attackers to re-direct users to an unexpected location.\n\n### Mitigations\n- Don't use the `@keystone-6/auth` package\n\n### References\n- [CWE-601: URL Redirection to Untrusted Site ('Open Redirect')](https://cwe.mitre.org/data/definitions/601.html)\n- [OWASP: Unvalidated Redirects and Forwards Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html)\n\n#### Similar Vulnerability Reports\n- [CVE-2023-0748](https://nvd.nist.gov/vuln/detail/CVE-2023-0748)\n- [CVE-2022-2252](https://nvd.nist.gov/vuln/detail/CVE-2022-2252)\n\n#### Credits\nThanks to [morioka12](https://github.com/scgajge12) for reporting this problem.\n\nIf you have any questions around this security advisory, please don't hesitate to contact us at [security@keystonejs.com](mailto:security@keystonejs.com), or [open an issue on GitHub](https://github.com/keystonejs/keystone/issues/new/choose).\n\nIf you have a security flaw to report for any software in this repository, please see our [SECURITY policy](https://github.com/keystonejs/keystone/blob/main/SECURITY.md).\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:A/AC:L/PR:L/UI:R/S:C/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@keystone-6/auth"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "7.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/keystonejs/keystone/security/advisories/GHSA-jqxr-vjvv-899m"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-34247"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/keystonejs/keystone/pull/8626"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/keystonejs/keystone"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-601"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-14T14:54:06Z",
+    "nvd_published_at": "2023-06-13T17:15:14Z"
+  }
+}

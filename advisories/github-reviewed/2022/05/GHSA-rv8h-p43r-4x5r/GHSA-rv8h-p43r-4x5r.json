@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rv8h-p43r-4x5r",
+  "modified": "2023-08-29T18:04:35Z",
+  "published": "2022-05-17T03:46:28Z",
+  "aliases": [
+    "CVE-2013-4347"
+  ],
+  "summary": "SimpleGeo python-oauth2 vulnerable to the use of Insufficiently Random Values to generate nonces",
+  "details": "The (1) make_nonce, (2) generate_nonce, and (3) generate_verifier functions in SimpleGeo python-oauth2 uses weak random numbers to generate nonces, which makes it easier for remote attackers to guess the nonce via a brute force attack.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "oauth2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.9rc1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2013-4347"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/simplegeo/python-oauth2/issues/9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/simplegeo/python-oauth2/pull/146"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/joestump/python-oauth2/commit/82dd2cdd4954cd7b8983d5d64c0dfd9072bf4650"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2015:1591"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2015:1592"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/security/cve/CVE-2013-4347"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1007758"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/joestump/python-oauth2"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2013/09/12/7"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/62388"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-330"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-29T18:04:35Z",
+    "nvd_published_at": "2014-05-20T14:55:00Z"
+  }
+}

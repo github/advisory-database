@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hqxw-f8mx-cpmw",
+  "modified": "2023-05-11T20:37:54Z",
+  "published": "2023-05-11T20:37:54Z",
+  "aliases": [
+    "CVE-2023-2253"
+  ],
+  "summary": "distribution catalog API endpoint can lead to OOM via malicious user input",
+  "details": "### Impact\n\nSystems that run `distribution` built after a specific commit running on memory-restricted environments can suffer from denial of service by a crafted malicious `/v2/_catalog` API endpoint request. \n\n### Patches\n\nUpgrade to at least 2.8.2-beta.1 if you are running `v2.8.x` release. If you use the code from the main branch, update at least to the commit after [f55a6552b006a381d9167e328808565dd2bf77dc](https://github.com/distribution/distribution/commit/f55a6552b006a381d9167e328808565dd2bf77dc).\n\n### Workarounds\n\nThere is no way to work around this issue without patching. Restrict access to the affected API endpoint: see the recommendations section.\n\n### References\n\n`/v2/_catalog` endpoint accepts a parameter to control the maximum amount of records returned (query string: `n`).\n\nWhen not given the default `n=100` is used.  The server trusts that `n` has an acceptable value, however when using a \nmaliciously large value, it allocates an array/slice of `n` of strings before filling the slice with data.\n\nThis behaviour was introduced ~7yrs ago [1].\n\n### Recommendation\n\nThe `/v2/_catalog` endpoint was designed specifically to do registry syncs with search or other API systems. Such an endpoint would create a lot of load on the backend system, due to overfetch required to serve a request in certain implementations.\n\nBecause of this, we strongly recommend keeping this API endpoint behind heightened privilege and avoiding leaving it exposed to the internet.\n\n###  For more information\n\nIf you have any questions or comments about this advisory:\n* Open an issue in [distribution repository](https://github.com/distribution/distribution)\n* Email us at [cncf-distribution-security@lists.cncf.io](mailto:cncf-distribution-security@lists.cncf.io)\n\n[1] [faulty commit](https://github.com/distribution/distribution/blob/b7e26bac741c76cb792f8e14c41a2163b5dae8df/registry/handlers/catalog.go#L45)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/docker/distribution"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.8.2-beta.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/distribution/distribution/security/advisories/GHSA-hqxw-f8mx-cpmw"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-2253"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/distribution/distribution/commit/f55a6552b006a381d9167e328808565dd2bf77dc"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2189886"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/distribution/distribution"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.debian.org/debian-lts-announce/2023/06/msg00035.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-475",
+      "CWE-770"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-11T20:37:54Z",
+    "nvd_published_at": "2023-06-06T20:15:12Z"
+  }
+}

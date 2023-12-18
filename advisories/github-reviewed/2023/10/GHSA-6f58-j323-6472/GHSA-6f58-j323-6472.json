@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6f58-j323-6472",
+  "modified": "2023-10-31T22:23:18Z",
+  "published": "2023-10-31T22:23:18Z",
+  "aliases": [
+    "CVE-2023-5844"
+  ],
+  "summary": "pimcore/admin-ui-classic-bundle Unverified Password Change",
+  "details": "### Impact\nAs old password can be set as new password , it is considered as password policy violation.\n\nPimcore is not enforcing strict password policy which allow attacker to set old password as new password\n\nProof of Concept\n1. Go to Admin link\n2. login and click on -> \"User | My Profile\".\n3. Go to change password now put old password as new password and click save.\n\n### Patches\nhttps://github.com/pimcore/admin-ui-classic-bundle/commit/498ac77e54541177be27b0c710e387c47b3836ea.patch\n\n### Workarounds\nUpdate to version 1.2.0 or apply this patches manually\nhttps://github.com/pimcore/admin-ui-classic-bundle/commit/498ac77e54541177be27b0c710e387c47b3836ea.patch\n\n### References\nhttps://huntr.com/bounties/b031199d-192a-46e5-8c02-f7284ad74021/\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "pimcore/admin-ui-classic-bundle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.2.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/admin-ui-classic-bundle/security/advisories/GHSA-6f58-j323-6472"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-5844"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/admin-ui-classic-bundle/commit/498ac77e54541177be27b0c710e387c47b3836ea"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pimcore/admin-ui-classic-bundle"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.com/bounties/b031199d-192a-46e5-8c02-f7284ad74021"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-287",
+      "CWE-620"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-31T22:23:18Z",
+    "nvd_published_at": "2023-10-30T11:15:39Z"
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jgw5-rp4p-qhp6",
+  "modified": "2023-09-28T16:42:32Z",
+  "published": "2023-09-28T06:30:20Z",
+  "aliases": [
+    "CVE-2023-26149"
+  ],
+  "summary": "quill-mention Cross-site Scripting vulnerability",
+  "details": "Versions of the package quill-mention before 4.0.0 are vulnerable to Cross-site Scripting (XSS) due to improper user-input sanitization, via the renderList function. \n\n**Note:**\n\nIf the mentions list is sourced from unsafe (user-sourced) data, this might allow an injection attack when a Quill user hits @.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "quill-mention"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-26149"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/quill-mention/quill-mention/issues/255"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/quill-mention/quill-mention/pull/341"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/quill-mention/quill-mention/commit/e85262ddced0a7f0b6fc8350d236a68bd1e28385"
+    },
+    {
+      "type": "WEB",
+      "url": "https://codepen.io/ALiangLiang/pen/mdQMJXK"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/quill-mention/quill-mention"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/quill-mention/quill-mention/blob/0aa9847719257496b14ac5401872c4e2ffcbc3d1/src/quill.mention.js%23L391"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-JS-QUILLMENTION-5921549"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-28T16:42:32Z",
+    "nvd_published_at": "2023-09-28T05:15:46Z"
+  }
+}

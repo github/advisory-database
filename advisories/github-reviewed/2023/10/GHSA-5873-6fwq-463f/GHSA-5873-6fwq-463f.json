@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5873-6fwq-463f",
+  "modified": "2023-10-25T14:09:10Z",
+  "published": "2023-10-25T14:09:10Z",
+  "aliases": [
+    "CVE-2023-46135"
+  ],
+  "summary": "stellar-strkey vulnerable to panic in SignedPayload::from_payload",
+  "details": "### Impact\nPanic vulnerability when a specially crafted payload is used. \nThis is because of the following calculation:\n```rust\ninner_payload_len + (4 - inner_payload_len % 4) % 4\n```\nIf `inner_payload_len` is `0xffffffff`, `(4 - inner_payload_len % 4) % 4 = 1` so\n```rust\ninner_payload_len + (4 - inner_payload_len % 4) % 4 = u32::MAX + 1\n```\nwhich overflow.\n\n### Patches\nCheck that `inner_payload_len` is not above 64 which should never be the case.\nPatched in version 0.0.8\n\n### Workarounds\nSanitize input payload before it is passed to the vulnerable function so that bytes in `payload[32..32+4]` and parsed as a `u32` is not above 64.\n\n### References\nGitHub issue #58\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "stellar-strkey"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.0.8"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/stellar/rs-stellar-strkey/security/advisories/GHSA-5873-6fwq-463f"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-46135"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/stellar/rs-stellar-strkey/issues/58"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/stellar/rs-stellar-strkey/pull/59"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/stellar/rs-stellar-strkey/commit/83adad0f5b1cda693c7ba8524d395add8077865f"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/stellar/rs-stellar-strkey"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/stellar/rs-stellar-strkey/releases/tag/v0.0.8"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-248"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-25T14:09:10Z",
+    "nvd_published_at": "2023-10-25T18:17:36Z"
+  }
+}

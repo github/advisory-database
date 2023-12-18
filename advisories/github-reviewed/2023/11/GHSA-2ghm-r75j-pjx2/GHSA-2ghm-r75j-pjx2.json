@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2ghm-r75j-pjx2",
+  "modified": "2023-11-28T23:14:39Z",
+  "published": "2023-11-23T00:30:58Z",
+  "aliases": [
+    "CVE-2023-49146"
+  ],
+  "summary": "Cross-site Scripting in DOMSanitizer",
+  "details": "DOMSanitizer (aka dom-sanitizer) before 1.0.7 allows XSS via an SVG document because of mishandling of comments and greedy regular expressions.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "rhukster/dom-sanitizer"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.0.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-49146"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rhukster/dom-sanitizer/commit/c2a98f27ad742668b254282ccc5581871d0fb601"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/rhukster/dom-sanitizer"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rhukster/dom-sanitizer/compare/1.0.6...1.0.7"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-23T03:36:50Z",
+    "nvd_published_at": "2023-11-22T22:15:08Z"
+  }
+}

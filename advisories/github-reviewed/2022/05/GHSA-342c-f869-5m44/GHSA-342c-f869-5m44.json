@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-342c-f869-5m44",
+  "modified": "2023-08-29T22:53:50Z",
+  "published": "2022-05-17T05:28:00Z",
+  "aliases": [
+    "CVE-2012-2138"
+  ],
+  "summary": "Apache Sling POST Servlets Denial of Service Vulnerability",
+  "details": "The `@CopyFrom` operation in the POST servlet in the `org.apache.sling.servlets.post` bundle before 2.1.2 in Apache Sling does not prevent attempts to copy an ancestor node to a descendant node, which allows remote attackers to cause a denial of service (infinite loop) via a crafted HTTP request.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.sling:org.apache.sling.servlets.post"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.1.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2012-2138"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/sling-org-apache-sling-servlets-post/commit/0205892908d6ea755645be5fc16e9df53e2e7261"
+    },
+    {
+      "type": "WEB",
+      "url": "https://issues.apache.org/jira/browse/SLING-2517"
+    },
+    {
+      "type": "WEB",
+      "url": "http://mail-archives.apache.org/mod_mbox/www-announce/201207.mbox/%3CCAEWfVJ=PwoQmwJg0KmbrC17Gw51kgfKRsqgy=4RpMQsdGh0bVg@mail.gmail.com%3E"
+    },
+    {
+      "type": "WEB",
+      "url": "http://svn.apache.org/viewvc?view=revision&revision=1352865"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-29T22:53:50Z",
+    "nvd_published_at": "2012-07-09T22:55:00Z"
+  }
+}

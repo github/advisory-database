@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6gvj-8vc5-8v3j",
+  "modified": "2023-05-15T20:52:19Z",
+  "published": "2023-05-15T20:52:19Z",
+  "aliases": [
+    "CVE-2023-32068"
+  ],
+  "summary": "org.xwiki.platform:xwiki-platform-oldcore Open Redirect vulnerability",
+  "details": "### Impact\n\nIt's possible to exploit well known parameters in XWiki URLs to perform redirection to untrusted site. This vulnerability was partially fixed in the past for XWiki 12.10.7 and 13.3RC1 but there is still the possibility to force specific URLs to skip some checks, e.g. using URLs like `http:example.com` in the parameter would allow the redirect. \n\n### Patches\n\nThe issue has now been patched against all patterns that we know about for performing redirect. It also performs a real URI parsing that should protect in most cases. This has been patched in XWiki 14.10.4 and 15.0. \n\n### Workarounds\n\nThe only workaround is to upgrade XWiki.\n\n### References\n\n  * JIRA ticket: https://jira.xwiki.org/browse/XWIKI-20096\n  * JIRA ticket about the improvment actually fixing the vulnerability: https://jira.xwiki.org/browse/XWIKI-20549\n  * Previous advisory about open redirect: https://github.com/advisories/GHSA-jp55-vvmf-63mv\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n* Open an issue in [Jira XWiki.org](https://jira.xwiki.org/)\n* Email us at [Security Mailing List](mailto:security@xwiki.org)\n\n## Attribution \n\nThanks to Paulos Mesfin who originally reported the vulnerability. ",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-oldcore"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "14.10.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-6gvj-8vc5-8v3j"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-32068"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/e4f7f68e93cb08c25632c126356d218abf192d1e"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-jp55-vvmf-63mv"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20096"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20549"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-601"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-15T20:52:19Z",
+    "nvd_published_at": "2023-05-15T21:15:09Z"
+  }
+}

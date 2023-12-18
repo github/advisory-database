@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-x49m-3cw7-gq5q",
+  "modified": "2023-06-26T16:31:23Z",
+  "published": "2023-06-23T21:44:35Z",
+  "aliases": [
+    "CVE-2023-35932"
+  ],
+  "summary": "jcvi vulnerable to Configuration Injection due to unsanitized user input ",
+  "details": "### Summary\nA configuration injection happens when user input is considered by the application in an unsanitized format and can reach the configuration file. A malicious user may craft a special payload that may lead to a command injection.\n\n### PoC\n\nThe vulnerable code snippet is [/jcvi/apps/base.py#LL2227C1-L2228C41](https://github.com/tanghaibao/jcvi/blob/cede6c65c8e7603cb266bc3395ac8f915ea9eac7/jcvi/apps/base.py#LL2227C1-L2228C41). Under some circumstances a user input is retrieved and stored within the `fullpath` variable which reaches the configuration file `~/.jcvirc`.\n\n```python\n        fullpath = input(msg).strip()\n        config.set(PATH, name, fullpath)\n```\n\nI ripped a part of the codebase into a runnable PoC as follows. All the PoC does is call the `getpath()` function under some circumstances.\n\n```python\nfrom configparser import (\n    ConfigParser,\n    RawConfigParser,\n    NoOptionError,\n    NoSectionError,\n    ParsingError,\n)\n\nimport errno\nimport os\nimport sys\nimport os.path as op\nimport shutil\nimport signal\nimport sys\nimport logging\n\n\ndef is_exe(fpath):\n    return op.isfile(fpath) and os.access(fpath, os.X_OK)\n\n\ndef which(program):\n    \"\"\"\n    Emulates the unix which command.\n\n    >>> which(\"cat\")\n    \"/bin/cat\"\n    >>> which(\"nosuchprogram\")\n    \"\"\"\n    fpath, fname = op.split(program)\n    if fpath:\n        if is_exe(program):\n            return program\n    else:\n        for path in os.environ[\"PATH\"].split(os.pathsep):\n            exe_file = op.join(path, program)\n            if is_exe(exe_file):\n                return exe_file\n\n    return None\n\n\ndef getpath(cmd, name=None, url=None, cfg=\"~/.jcvirc\", warn=\"exit\"):\n    \"\"\"\n    Get install locations of common binaries\n    First, check ~/.jcvirc file to get the full path\n    If not present, ask on the console and store\n    \"\"\"\n    p = which(cmd)  # if in PATH, just returns it\n    if p:\n        return p\n\n    PATH = \"Path\"\n    config = RawConfigParser()\n    cfg = op.expanduser(cfg)\n    changed = False\n    if op.exists(cfg):\n        config.read(cfg)\n\n    assert name is not None, \"Need a program name\"\n\n    try:\n        fullpath = config.get(PATH, name)\n    except NoSectionError:\n        config.add_section(PATH)\n        changed = True\n\n    try:\n        fullpath = config.get(PATH, name)\n    except NoOptionError:\n        msg = \"=== Configure path for {0} ===\\n\".format(name, cfg)\n        if url:\n            msg += \"URL: {0}\\n\".format(url)\n        msg += \"[Directory that contains `{0}`]: \".format(cmd)\n        fullpath = input(msg).strip()\n        config.set(PATH, name, fullpath)\n        changed = True\n\n    path = op.join(op.expanduser(fullpath), cmd)\n    if warn == \"exit\":\n        try:\n            assert is_exe(path), \"***ERROR: Cannot execute binary `{0}`. \".format(path)\n        except AssertionError as e:\n            sys.exit(\"{0!s}Please verify and rerun.\".format(e))\n\n    if changed:\n        configfile = open(cfg, \"w\")\n        config.write(configfile)\n        logging.debug(\"Configuration written to `{0}`.\".format(cfg))\n\n    return path\n\n\n# Call to getpath\npath = getpath(\"not-part-of-path\", name=\"CLUSTALW2\", warn=\"warn\")\nprint(path)\n\n```\n\nTo run the PoC, you need to remove the config file `~/.jcvirc` to emulate the first run, \n\n```bash\n# Run the PoC with the payload\necho -e \"e\\rvvvvvvvv = zzzzzzzz\\n\" | python3 poc.py\n```\n\n![image](https://user-images.githubusercontent.com/13036531/247852364-f8a384a3-fc62-41ca-b467-877d197ac6ff.png)\n\nYou can notice the random key/value characters `vvvvvvvv = zzzzzzzz` were successfully injected.\n\n### Impact\n\nThe impact of a configuration injection may vary. Under some conditions, it may lead to command injection if there is for instance shell code execution from the configuration file values.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "jcvi"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.3.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/tanghaibao/jcvi/security/advisories/GHSA-x49m-3cw7-gq5q"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-35932"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/tanghaibao/jcvi"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tanghaibao/jcvi/blob/cede6c65c8e7603cb266bc3395ac8f915ea9eac7/jcvi/apps/base.py#LL2227C1-L2228C41"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1284",
+      "CWE-77"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-23T21:44:35Z",
+    "nvd_published_at": "2023-06-23T22:15:08Z"
+  }
+}

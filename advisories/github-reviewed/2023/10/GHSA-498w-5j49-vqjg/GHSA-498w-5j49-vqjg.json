@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-498w-5j49-vqjg",
+  "modified": "2023-10-13T23:13:57Z",
+  "published": "2023-10-04T14:44:08Z",
+  "aliases": [
+    "CVE-2023-44378"
+  ],
+  "summary": "gnark unsoundness in variable comparison / non-unique binary decomposition",
+  "details": "### Impact\n\nFor some in-circuit values, it is possible to construct two valid decomposition to bits. In addition to the canonical decomposition of `a`, for small values there exists a second decomposition for `a+r` (where `r` is the modulus the values are being reduced by). The second decomposition was possible due to overflowing the field where the values are defined.\n\nInternally, the comparison methods `frontend.API.Cmp` and `frontend.API.IsLess` used binary decomposition and checked the bitwise differences. This allows a malicious prover to construct a valid proof for a statement `a < b` even if `a > b`.\n\nThe issue impacts all users using `API.Cmp` or `API.IsLess` methods. Additionally, it impacts the users using `bits.ToBinary` or `API.ToBinary` methods if full-width decomposition is requested (the default behaviour if no options are given).\n\nThe issues does not impact comparison methods in field emulation (package `std/math/emulated`) and dedicated comparison package (`std/math/cmp`).\n\n### Patches\n\nFix has been implemented in pull request #835 and merged in commit 59a4087261a6c73f13e80d695c17b398c3d0934f to master branch. The release v0.9.0 and onwards include the fix.\n\nThe fix added additional comparison of the decomposed bit-vector to the modulus of the in-circuit values.  \n\n### Workarounds\n\nUpgrading to version v0.9.0 should fix the issue without needing to change the calls to value comparison methods.\n\nAlternatively, users can use the `std/math/cmp` gadget, which additionally allows to bound the number of bits being compared, making the comparisons more efficient if the bound on the absolute difference of the values is known.\n\n### References\n\n* https://github.com/Consensys/gnark/pull/835\n* https://github.com/zkopru-network/zkopru/issues/116\n* https://github.com/iden3/circomlib/pull/48\n\n### Acknowledgement\n\nThe vulnerability was reported by [Marcin Kostrzewa](https://github.com/kustosz) @ [Reilabs](https://reilabs.io/).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/consensys/gnark"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.9.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/Consensys/gnark/security/advisories/GHSA-498w-5j49-vqjg"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-44378"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zkopru-network/zkopru/issues/116"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Consensys/gnark/pull/835"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Consensys/gnark/commit/59a4087261a6c73f13e80d695c17b398c3d0934f"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Consensys/gnark"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-498w-5j49-vqjg"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-191",
+      "CWE-697"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-04T14:44:08Z",
+    "nvd_published_at": "2023-10-09T14:15:10Z"
+  }
+}

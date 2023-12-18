@@ -1,0 +1,137 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7x97-j373-85x5",
+  "modified": "2023-09-06T19:51:33Z",
+  "published": "2023-09-06T19:51:33Z",
+  "aliases": [
+    "CVE-2023-39956"
+  ],
+  "summary": "Electron vulnerable to out-of-package code execution when launched with arbitrary cwd",
+  "details": "### Impact\nApps that are launched as command line executables are impacted.  E.g. if your app exposes itself in the path as `myapp --help`\n\nSpecifically this issue can only be exploited if the following conditions are met:\n* Your app is launched with an attacker-controlled working directory\n* The attacker has the ability to write files to that working directory\n\nThis makes the risk quite low, in fact normally issues of this kind are considered outside of our threat model as similar to Chromium we exclude [Physically Local Attacks](https://github.com/electron/electron/security/advisories/GHSA-7x97-j373-85x5#:~:text=Physically%20Local%20Attacks) but given the ability for this issue to bypass certain protections like ASAR Integrity it is being treated with higher importance.  Please bear this in mind when reporting similar issues in the future.\n\n### Workarounds\nThere are no app side workarounds, you must update to a patched version of Electron.\n\n### Fixed Versions\n* `26.0.0-beta.13`\n* `25.5.0`\n* `24.7.1`\n* `23.3.13`\n* `22.3.19`\n\n### For more information\nIf you have any questions or comments about this advisory, email us at [security@electronjs.org](mailto:security@electronjs.org)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:L/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "electron"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "22.3.19"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "electron"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "23.0.0-alpha.1"
+            },
+            {
+              "fixed": "23.3.13"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "electron"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "24.0.0-alpha.1"
+            },
+            {
+              "fixed": "24.7.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "electron"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "25.0.0-alpha.1"
+            },
+            {
+              "fixed": "25.5.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "electron"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "26.0.0-alpha.1"
+            },
+            {
+              "fixed": "26.0.0-beta.13"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/electron/electron/security/advisories/GHSA-7x97-j373-85x5"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-39956"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/electron/electron"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-06T19:51:33Z",
+    "nvd_published_at": "2023-09-06T21:15:13Z"
+  }
+}

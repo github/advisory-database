@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mgc4-wqv7-4pxm",
+  "modified": "2023-05-18T17:29:43Z",
+  "published": "2023-05-18T17:29:43Z",
+  "aliases": [
+
+  ],
+  "summary": "SwiftNIO vulnerable to HTTP request smuggling using malformed Transfer-Encoding header",
+  "details": "### Impact\n\nAffected SwiftNIO systems are vulnerable to request smuggling attacks, in which they parse a given HTTP message differently from other network parties, potentially seeing a different number of requests than other servers. This can lead to failures of authentication, routing, and other issues.\n\nThis vulnerability can be found in the bundled copy of the Node.JS HTTP parser used in the `NIOHTTP1` module.\n\n### Workarounds\n\nNo workaround is available, users must upgrade.\n\n### References\n\nhttps://nodejs.org/en/blog/vulnerability/february-2020-security-releases/#http-request-smuggling-using-malformed-transfer-encoding-header-critical-cve-2019-15605",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "SwiftURL",
+        "name": "github.com/apple/swift-nio"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.0"
+            },
+            {
+              "fixed": "1.14.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "SwiftURL",
+        "name": "github.com/apple/swift-nio"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.13.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/apple/swift-nio/security/advisories/GHSA-mgc4-wqv7-4pxm"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apple/swift-nio/pull/1387"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apple/swift-nio/pull/1388"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apple/swift-nio/commit/8da5c5a4e6c5084c296b9f39dc54f00be146e0fa"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apple/swift-nio/commit/bfde40cac8eca25ce021552513b20ee23fc6e306"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apple/swift-nio/commit/df9390006bce7da1b6273f804d3acbbfdfcc6154"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apple/swift-nio/commit/f94b22b506e3557cb1b325534fa9bbcd39c90246"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apple/swift-nio"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-444"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-18T17:29:43Z",
+    "nvd_published_at": null
+  }
+}

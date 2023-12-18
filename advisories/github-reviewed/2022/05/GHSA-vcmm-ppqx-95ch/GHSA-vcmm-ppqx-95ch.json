@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vcmm-ppqx-95ch",
+  "modified": "2023-07-28T20:52:56Z",
+  "published": "2022-05-14T00:58:12Z",
+  "aliases": [
+    "CVE-2016-1000221"
+  ],
+  "summary": "Logstash Logs Sensitive Information",
+  "details": "Logstash prior to version 2.3.4, Elasticsearch Output plugin would log to file HTTP authorization headers which could contain sensitive information.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "logstash-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.3.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2016-1000221"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/elastic/logstash/commit/0999050144adad7f4d99d43e561c2882fd7c512b"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/elastic/logstash"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20210124065200/http://www.securityfocus.com/bid/99126"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.elastic.co/community/security"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-28T20:52:56Z",
+    "nvd_published_at": "2017-06-16T21:29:00Z"
+  }
+}

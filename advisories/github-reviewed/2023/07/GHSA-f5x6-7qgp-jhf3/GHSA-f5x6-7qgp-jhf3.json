@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f5x6-7qgp-jhf3",
+  "modified": "2023-09-08T21:09:19Z",
+  "published": "2023-07-25T17:46:19Z",
+  "aliases": [
+    "CVE-2023-37902"
+  ],
+  "summary": "ecrecover can return undefined data if signature does not verify",
+  "details": "### Impact\nthe ecrecover precompile does not fill the output buffer if the signature does not verify, see https://github.com/ethereum/go-ethereum/blob/b058cf454b3bdc7e770e2b3cec83a0bcb48f55ee/core/vm/contracts.go#L188. however, the ecrecover builtin will still return whatever is at memory location 0.\n\nthis means that the if the compiler has been convinced to write to the 0 memory location with specially crafted data (generally, this can happen with a hashmap access or immutable read) just before the ecrecover, a signature check might pass on an invalid signature.\n\nA contract search was performed. Most uses of `ecrecover` are used for erc2612-style permit implementations, which typically look like:\n\n```vyper\n    assert _owner != empty(address)\n    assert block.timestamp <= _deadline\n                  \n    nonce: uint256 = self.nonces[_owner]\n    digest: bytes32 = keccak256(\n        concat(   \n            b\"\\x19\\x01\",\n            self.DOMAIN_SEPARATOR,\n            keccak256(_abi_encode(PERMIT_TYPEHASH, _owner, _spender, _value, nonce, _deadline))\n        )         \n    )             \n    assert ecrecover(digest, convert(_v, uint256), convert(_r, uint256), convert(_s, uint256)) == _owner\n```\n\nin this case, the immutable `PERMIT_TYPEHASH` is loaded into `ecrecover`'s output buffer right before `ecrecover()`, and so the output of `ecrecover()` here when the signature is invalid will be the value of `PERMIT_TYPEHASH`. in this case, since `PERMIT_TYPEHASH` is not a valid address, it will never compare `==` to `_owner`, and so the behaviour is exactly the same as if `ecrecover()` returned 0 in this case.\n\nin general, a contract could have unexpected behavior (i.e. mistakenly pass this style of signature check) if an immutable representing a real address (ex. `OWNER`) was read right before the `ecrecover` operation.\n\n### Patches\nv0.3.10 (with 019a37ab98ff53f04fecfadf602b6cd5ac748f7f and #3586)\n\n### Workarounds\n_Is there a way for users to fix or remediate the vulnerability without upgrading?_\n\n### References\n_Are there any links users can visit to find out more?_\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "vyper"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.3.10"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/vyperlang/vyper/security/advisories/GHSA-f5x6-7qgp-jhf3"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-37902"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vyperlang/vyper/commit/019a37ab98ff53f04fecfadf602b6cd5ac748f7f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/vyper/PYSEC-2023-133.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vyperlang/vyper"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-252"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-25T17:46:19Z",
+    "nvd_published_at": "2023-07-25T21:15:10Z"
+  }
+}

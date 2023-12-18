@@ -1,0 +1,146 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-58qw-p7qm-5rvh",
+  "modified": "2023-09-05T22:39:31Z",
+  "published": "2023-07-10T21:52:39Z",
+  "aliases": [
+
+  ],
+  "summary": "Eclipse Jetty XmlParser allows arbitrary DOCTYPE declarations",
+  "details": "### From the reporter\n\n> `XmlParser` is vulnerable to XML external entity (XXE) vulnerability.\n>  XmlParser is being used when parsing Jetty’s xml configuration files. An attacker might exploit\n> this vulnerability in order to achieve SSRF or cause a denial of service.\n> One possible scenario is importing a (remote) malicious WAR into a Jetty’s server, while the\n> WAR includes a malicious web.xml.\n\n### Impact\nThere are no circumstances in a normally deployed Jetty server where potentially hostile XML is given to the XmlParser class without the attacker already having arbitrary access to the server. I.e. in order to exploit `XmlParser` the attacker would already have the ability to deploy and execute hostile code.  Specifically, Jetty has no protection against malicious web application and potentially hostile web applications should only be run on an isolated virtualisation.  \n\nThus this is not considered a vulnerability of the Jetty server itself, as any such usage of the jetty XmlParser is equally vulnerable as a direct usage of the JVM supplied SAX parser.  No CVE will be allocated to this advisory.\n\nHowever, any direct usage of the `XmlParser` class by an application may be vulnerable.  The impact would greatly depend on how the application uses `XmlParser`, but it could be a denial of service due to large entity expansion, or possibly the revealing local files if the XML results are accessible remotely.\n\n### Patches\nAbility to configure the SAXParserFactory to fit the needs of your particular XML parser implementation have been merged as part of PR #10067\n\n### Workarounds\nDon't use `XmlParser` to parse data from users.\n\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:H/PR:H/UI:N/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.eclipse.jetty:jetty-xml"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "10.0.0-alpha0"
+            },
+            {
+              "fixed": "10.0.16"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 10.0.15"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.eclipse.jetty:jetty-xml"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "11.0.0-alpha0"
+            },
+            {
+              "fixed": "11.0.16"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 11.0.15"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.eclipse.jetty:jetty-xml"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "12.0.0.alpha0"
+            },
+            {
+              "fixed": "12.0.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 12.0.0.beta4"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.eclipse.jetty:jetty-xml"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "9.4.52"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 9.4.51"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/eclipse/jetty.project/security/advisories/GHSA-58qw-p7qm-5rvh"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/eclipse/jetty.project/pull/10067"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/eclipse/jetty.project"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/eclipse/jetty.project/releases/tag/jetty-10.0.16"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/eclipse/jetty.project/releases/tag/jetty-11.0.16"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/eclipse/jetty.project/releases/tag/jetty-12.0.0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/eclipse/jetty.project/releases/tag/jetty-9.4.52.v20230823"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-611"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-10T21:52:39Z",
+    "nvd_published_at": null
+  }
+}

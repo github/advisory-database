@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h2rm-29ch-wfmh",
+  "modified": "2023-10-17T12:51:01Z",
+  "published": "2023-10-17T12:51:01Z",
+  "aliases": [
+    "CVE-2023-45144"
+  ],
+  "summary": "XWiki Identity Oauth Privilege escalation (PR)/remote code execution from login screen through unescaped URL parameter",
+  "details": "### Impact\n\nWhen login via the OAuth method, the identityOAuth parameters, sent in a GET request is vulnerable to XSS and XWiki syntax injection. This allows remote code execution via the groovy macro and thus affects the confidentiality, integrity and availability of the whole XWiki installation. \n\nThe vulnerability is in [this part](https://github.com/xwikisas/identity-oauth/blob/master/ui/src/main/resources/IdentityOAuth/LoginUIExtension.vm#L58) of the code.\n\n### Patches\nThe issue has been fixed in Identity OAuth version 1.6 by https://github.com/xwikisas/identity-oauth/commit/d805d3154b17c6bf455ddf5deb0a3461a3833bc6 . The fix is in the content of the [IdentityOAuth/LoginUIExtension](https://github.com/xwikisas/identity-oauth/commit/d805d3154b17c6bf455ddf5deb0a3461a3833bc6#diff-2ab2e0716443d790d7d798320e4a45151661f4eca5440331f4a227b29c87c188) file\n\n### Workarounds\nThere are no known workarounds besides upgrading.\n\n### References\n_Are there any links users can visit to find out more?_\n\n* Original report: https://jira.xwiki.org/browse/XWIKI-20719\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.xwiki.identity-oauth:identity-oauth-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0"
+            },
+            {
+              "fixed": "1.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwikisas/identity-oauth/security/advisories/GHSA-h2rm-29ch-wfmh"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-45144"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwikisas/identity-oauth/commit/d805d3154b17c6bf455ddf5deb0a3461a3833bc6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwikisas/identity-oauth/commit/d805d3154b17c6bf455ddf5deb0a3461a3833bc6#diff-2ab2e0716443d790d7d798320e4a45151661f4eca5440331f4a227b29c87c188"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwikisas/identity-oauth"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwikisas/identity-oauth/blob/master/ui/src/main/resources/IdentityOAuth/LoginUIExtension.vm#L58"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20719"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-17T12:51:01Z",
+    "nvd_published_at": "2023-10-16T21:15:11Z"
+  }
+}

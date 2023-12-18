@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9v3j-4j64-p937",
+  "modified": "2023-11-27T23:28:52Z",
+  "published": "2023-11-27T23:28:52Z",
+  "aliases": [
+    "CVE-2022-41951"
+  ],
+  "summary": "OroPlatform vulnerable to path traversal during temporary file manipulations",
+  "details": "### Impact\nPath Traversal is possible in `Oro\\Bundle\\GaufretteBundle\\FileManager::getTemporaryFileName`. \nWith this method, an attacker can pass the path to a non-existent file, which will allow writing the content to a new file that will be available during script execution. The file will be deleted immediately after the script ends. \n\n### Workarounds\nApply patch\n```patch\n--- a/vendor/oro/platform/src/Oro/Bundle/GaufretteBundle/FileManager.php\n+++ b/vendor/oro/platform/src/Oro/Bundle/GaufretteBundle/FileManager.php\n@@ -614,6 +614,10 @@\n      */\n     public function getTemporaryFileName(string $suggestedFileName = null): string\n     {\n+        if ($suggestedFileName) {\n+            $suggestedFileName = basename($suggestedFileName);\n+        }\n+\n         $tmpDir = ini_get('upload_tmp_dir');\n         if (!$tmpDir || !is_dir($tmpDir) || !is_writable($tmpDir)) {\n             $tmpDir = sys_get_temp_dir();\n\n```\n\nOr decorate `Oro\\Bundle\\GaufretteBundle\\FileManager::getTemporaryFileName` in your customization and clear `$suggestedFileName` argument\n\n```php\n    public function getTemporaryFileName(string $suggestedFileName = null): string\n    {\n        if ($suggestedFileName) {\n            $suggestedFileName = basename($suggestedFileName);\n        }\n\n        return parent::getTemporaryFileName($suggestedFileName);\n    }\n```\n\n### References\n - [Path Traversal](https://owasp.org/www-community/attacks/Path_Traversal)\n - [How to Decorate Services](https://symfony.com/doc/5.4/service_container/service_decoration.html)\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "oro/platform"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.1.0"
+            },
+            {
+              "last_affected": "4.1.13"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "oro/platform"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.2.0"
+            },
+            {
+              "last_affected": "4.2.10"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "oro/platform"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0"
+            },
+            {
+              "fixed": "5.0.8"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/oroinc/platform/security/advisories/GHSA-9v3j-4j64-p937"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-41951"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/oroinc/platform"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-27T23:28:52Z",
+    "nvd_published_at": "2023-11-27T21:15:07Z"
+  }
+}

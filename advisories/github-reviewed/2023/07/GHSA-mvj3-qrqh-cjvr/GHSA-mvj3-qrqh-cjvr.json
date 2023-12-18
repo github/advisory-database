@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mvj3-qrqh-cjvr",
+  "modified": "2023-07-18T19:15:58Z",
+  "published": "2023-07-05T21:33:48Z",
+  "aliases": [
+    "CVE-2023-34450"
+  ],
+  "summary": "CometBFT PeerState JSON serialization deadlock",
+  "details": "### Impact\nAn internal modification to the way struct `PeerState` is serialized to JSON introduced a deadlock when new function MarshallJSON is called. This function can be called from two places:\n\n1. Via logs\n    * Setting the `consensus` logging module to \"debug\" level (should not happen in production), and\n    * Setting the log output format to JSON\n2. Via RPC `dump_consensus_state` \n\nCase 1 above, which should not be hit in production, will eventually hit the deadlock in most goroutines, effectively halting the node.\n\nIn case 2, only the data structures related to the first peer will be deadlocked, together with the thread(s) dealing with the RPC request(s). This means that only one of the channels of communication to the node's peers will be blocked. Eventually the peer will timeout and excluded from the list (typically after 2 minutes). The goroutines involved in the deadlock will not be garbage collected, but they will not interfere with the system after the peer is excluded.\n\nThe theoretical worst case for case 2, is a network with only two validator nodes. In this case, each of the nodes only has one `PeerState` struct. If `dump_consensus_state` is called in either node (or both), the chain will halt until the peer connections time out, after which the nodes will reconnect (with different `PeerState` structs) and the chain will progress again. Then, the same process can be repeated.\n\nAs the number of nodes in a network increases, and thus, the number of peer struct each node maintains, the possibility of reproducing the perturbation visible with 2 nodes decreases. Only the first `PeerState` struct will deadlock, and not the others (RPC `dump_consensus_state` accesses them in a for loop, so the deadlock at the first iteration causes the rest of the iterations of that \"for\" loop to never be reached).\n\nThis regression was introduced in versions `v0.34.28` and `v0.37.1`, and will be fixed in `v0.34.29` and `v0.37.2`.\n\n### Patches\nThe PR containing the fix is [here](https://github.com/cometbft/cometbft/pull/865), and the corresponding issue is [here](https://github.com/cometbft/cometbft/pull/863)\n\n### Workarounds\nFor case 1 (hitting the deadlock via logs)\n* either don't set the log output to \"json\", leave at \"plain\",\n* or don't set the consensus logging module to \"debug\", leave it at \"info\" or higher.\n\nFor case 2 (hitting the deadlock via RPC `dump_consensus_state`)\n* do not expose `dump_consensus_state` RPC endpoint to the public internet (e.g., via rules in your nginx setup)\n\n### References\n\n* [Issue](https://github.com/cometbft/cometbft/pull/863) that introduced the deadlock\n* [Issue](https://github.com/cometbft/cometbft/pull/524) reporting the bug via logs\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cometbft/cometbft"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.34.28"
+            },
+            {
+              "fixed": "0.34.29"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "0.34.28"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cometbft/cometbft"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.37.1"
+            },
+            {
+              "fixed": "0.37.2"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "0.37.1"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/cometbft/cometbft/security/advisories/GHSA-mvj3-qrqh-cjvr"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-34450"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cometbft/cometbft/pull/524"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cometbft/cometbft/pull/863"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cometbft/cometbft/pull/865"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cometbft/cometbft"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-401",
+      "CWE-770"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-05T21:33:48Z",
+    "nvd_published_at": "2023-07-03T17:15:09Z"
+  }
+}

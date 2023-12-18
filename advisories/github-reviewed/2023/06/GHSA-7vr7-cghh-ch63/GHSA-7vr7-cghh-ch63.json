@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7vr7-cghh-ch63",
+  "modified": "2023-06-20T16:45:32Z",
+  "published": "2023-06-20T16:45:32Z",
+  "aliases": [
+    "CVE-2023-34467"
+  ],
+  "summary": "XWiki Platform may retrieve email addresses of all users ",
+  "details": "### Impact\nThe mail obfuscation configuration was not fully taken into account and while the mail displayed to the end user was obfuscated:\n- the rest response was also containing the mail unobfuscated\n- user were able to filter and sort on the unobfuscated (allowing to infer the mail content)\n\nThe consequence was the possibility to retrieve the email addresses of all users even when obfuscated.\n\nSee https://jira.xwiki.org/browse/XWIKI-20333 for the reproduction steps.\n\n### Patches\nThis has been patched in XWiki 14.10.4, XWiki 14.4.8, and XWiki 15.0-rc-1.\n\n### Workarounds\nThe workaround is to modify the page `XWiki.LiveTableResultsMacros` following this [patch](https://github.com/xwiki/xwiki-platform/commit/71f889db9962df2d385f4298e29cfbc9050b828a#diff-5a739e5865b1f1ad9d79b724791be51b0095a0170cc078911c940478b13b949a).\n\n### References\n\nhttps://jira.xwiki.org/browse/XWIKI-20333\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n\n*    Open an issue in [Jira XWiki.org](https://jira.xwiki.org/)\n*    Email us at [Security Mailing List](mailto:security@xwiki.org)\n\n### Attribution\n\nThis vulnerability has been reported on Intigriti by @floerer",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-livetable-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.5-milestone-1"
+            },
+            {
+              "fixed": "14.4.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-livetable-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.5"
+            },
+            {
+              "fixed": "14.10.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-7vr7-cghh-ch63"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-34467"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/71f889db9962df2d385f4298e29cfbc9050b828a#diff-5a739e5865b1f1ad9d79b724791be51b0095a0170cc078911c940478b13b949a"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20333"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-402",
+      "CWE-668"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-20T16:45:32Z",
+    "nvd_published_at": "2023-06-23T17:15:09Z"
+  }
+}

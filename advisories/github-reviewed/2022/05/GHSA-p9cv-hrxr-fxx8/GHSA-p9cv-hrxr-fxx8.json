@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-p9cv-hrxr-fxx8",
+  "modified": "2023-09-01T10:29:38Z",
+  "published": "2022-05-17T01:59:05Z",
+  "aliases": [
+    "CVE-2015-2674"
+  ],
+  "summary": "Restkit Does Not Validate TLS certificates",
+  "details": "Restkit allows man-in-the-middle attackers to spoof TLS servers by leveraging use of the `ssl.wrap_socket` function in Python with the default CERT_NONE value for the cert_reqs argument.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "restkit"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "4.2.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2015-2674"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/benoitc/restkit/issues/140"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1202837"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/benoitc/restkit"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2015/03/23/7"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-295"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-03T21:27:58Z",
+    "nvd_published_at": "2017-08-09T18:29:00Z"
+  }
+}

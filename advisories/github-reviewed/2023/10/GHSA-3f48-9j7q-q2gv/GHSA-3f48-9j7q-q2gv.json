@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3f48-9j7q-q2gv",
+  "modified": "2023-10-05T20:56:37Z",
+  "published": "2023-10-05T20:56:37Z",
+  "aliases": [
+    "CVE-2023-4570"
+  ],
+  "summary": "NI MeasurementLink Python Services Improper Access Restriction vulnerability",
+  "details": "### Impact\nAn improper access restriction in NI MeasurementLink Python services could allow an attacker on an adjacent network to reach services exposed on localhost.  These services were previously thought to be unreachable outside of the node.  This affects measurement plug-ins written in Python using version 1.1.0 of the `ni-measurementlink-service` Python package and all previous versions.\n\n### Patches\nUpgrade all Python measurement plug-ins to use `ni-measurementlink-service` version 1.1.1 or later.\n\n### References\nVisit [ni.com/info](http://www.ni.com/info) and enter the info code `cve-2023-4570` for more information.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ni-measurementlink-service"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.1.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ni-measurementlink-service"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.2.0.dev0"
+            },
+            {
+              "fixed": "1.2.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ni/measurementlink-python/security/advisories/GHSA-3f48-9j7q-q2gv"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-4570"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ni/measurementlink-python/commit/3e9d45147befc9a151fca5582c64fa77c7ba1980"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ni/measurementlink-python/commit/d2c73b1e0252081e1b89767aa916d73772d04dd9"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ni/measurementlink-python"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.ni.com/en/support/documentation/supplemental/23/improper-restriction-in-ni-measurementlink-python-services.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-420"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-05T20:56:37Z",
+    "nvd_published_at": "2023-10-05T16:15:12Z"
+  }
+}

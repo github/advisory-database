@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hq8w-9w8w-pmx7",
+  "modified": "2023-09-07T21:26:41Z",
+  "published": "2023-09-06T20:51:42Z",
+  "aliases": [
+    "CVE-2023-41327"
+  ],
+  "summary": "WireMock Controlled Server Side Request Forgery vulnerability through URL",
+  "details": "### Impact\n\nWireMock can be configured to only permit proxying (and therefore recording) to certain addresses. This is achieved via a list of allowed address rules and a list of denied address rules, where the allowed list is evaluated first. [Documentation](https://wiremock.org/docs/configuration/#preventing-proxying-to-and-recording-from-specific-target-addresses). \n\nUntil WireMock Webhooks Extension [3.0.0-beta-15](https://github.com/wiremock/wiremock/releases/tag/3.0.0-beta-15), the filtering of target addresses from the proxy mode DID NOT work for Webhooks, so the users were potentially vulnerable regardless of the `limitProxyTargets` settings. \n\nVia the WireMock webhooks configuration, POST requests from a webhook might be forwarded to an arbitrary service reachable from WireMock’s instance. For example, If someone is running the WireMock docker Container inside a private cluster, they can trigger internal POST requests against unsecured APIs or even against secure ones by passing a token, discovered using another exploit, via authentication headers.\n\n### Affected  components\n\n- WireMock Webhooks Extension 2.x versions until 2.35.1 (security patch)\n- WireMock 3.x version until 3.0.3 (security patch)\n- All versions of WireMock Studio (discontinued). This distribution bundles the WireMock Webhooks Extension and activates it by default\n\n### Patches and Mitigation\n\n- For WireMock 2.x and 3.x - upgrade to the versions with the security patches\n- Setup network restrictions similarly to https://wiremock.org/docs/configuration/#preventing-proxying-to-and-recording-from-specific-target-addresses \n- For WireMock Studio: Stop using discontinued WireMock Studio, migrate to other distributions. The vendor of WireMock Studio recommends migration to [WireMock Cloud](https://www.wiremock.io/product)\n\nNOTE: It was confirmed that [WireMock Cloud](https://www.wiremock.io/product) does not expose sensitive internal APIs and hence not vulnerable to the issue. No action is needed if you use this SaaS distribution.\n\n### Workarounds\n\n- Use external firewall rules to define the list of permitted destinations\n\n### References\n\n- CVE-2023-39967\n- [Preventing proxying to and recording from specific target addresses](https://wiremock.org/docs/configuration/#preventing-proxying-to-and-recording-from-specific-target-addresses)\n\n### Credits\n\n- @W0rty for reporting CVE-2023-39967 in WireMock Studio\n- WireMock Inc. team for discovering similar exploits in Webhooks and the risk in the Proxy mode defaults for WireMock\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:A/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.wiremock:wiremock-webhooks-extension"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.0.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.wiremock:wiremock-webhooks-extension"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.35.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/wiremock/wiremock/security/advisories/GHSA-hq8w-9w8w-pmx7"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-41327"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/wiremock/wiremock"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/wiremock/wiremock/releases/tag/2.35.1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/wiremock/wiremock/releases/tag/3.0.0-beta-15"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/wiremock/wiremock/releases/tag/3.0.3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://wiremock.org/docs/configuration/#preventing-proxying-to-and-recording-from-specific-target-addresses"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-918"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-06T20:51:42Z",
+    "nvd_published_at": "2023-09-06T21:15:14Z"
+  }
+}

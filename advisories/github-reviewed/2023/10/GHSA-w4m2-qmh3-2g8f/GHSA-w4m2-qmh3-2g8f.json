@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w4m2-qmh3-2g8f",
+  "modified": "2023-10-25T16:57:27Z",
+  "published": "2023-10-19T18:30:30Z",
+  "aliases": [
+    "CVE-2023-45277"
+  ],
+  "summary": "Yamcs Path Traversal vulnerability",
+  "details": "Yamcs 5.8.6 is vulnerable to directory traversal (issue 1 of 2). The vulnerability is in the storage functionality of the API and allows one to escape the base directory of the buckets, freely navigate system directories, and read arbitrary files.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.yamcs:yamcs"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.8.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-45277"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/yamcs/yamcs"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/yamcs/yamcs/compare/yamcs-5.8.6...yamcs-5.8.7"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.linkedin.com/pulse/yamcs-vulnerability-assessment-visionspace-technologies"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-19T20:02:23Z",
+    "nvd_published_at": "2023-10-19T17:15:10Z"
+  }
+}

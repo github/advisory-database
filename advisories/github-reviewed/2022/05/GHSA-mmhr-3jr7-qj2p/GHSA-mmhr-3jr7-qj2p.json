@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mmhr-3jr7-qj2p",
+  "modified": "2023-05-24T14:56:44Z",
+  "published": "2022-05-14T02:01:18Z",
+  "aliases": [
+    "CVE-2018-15121"
+  ],
+  "summary": "Auth0-ASPNET and Auth0-ASPNET-Owin vulnerable to Cross-Site Request Forgery",
+  "details": "An issue was discovered in Auth0 auth0-aspnet and auth0-aspnet-owin. Affected packages do not use or validate the state parameter of the OAuth 2.0 and OpenID Connect protocols. This leaves applications vulnerable to CSRF attacks during authentication and authorization operations.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Auth0-ASPNET-Owin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "2.3.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "auth0-aspnet"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "2.1.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-15121"
+    },
+    {
+      "type": "WEB",
+      "url": "https://auth0.com/docs/security/bulletins/cve-2018-15121"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/auth0/auth0-aspnet-owin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.nuget.org/packages/Auth0-ASPNET-Owin"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-24T14:56:44Z",
+    "nvd_published_at": "2018-08-29T03:29:00Z"
+  }
+}

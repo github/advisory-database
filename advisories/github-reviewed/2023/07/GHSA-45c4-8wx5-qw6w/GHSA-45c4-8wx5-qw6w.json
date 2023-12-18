@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-45c4-8wx5-qw6w",
+  "modified": "2023-07-20T14:52:00Z",
+  "published": "2023-07-20T14:52:00Z",
+  "aliases": [
+    "CVE-2023-37276"
+  ],
+  "summary": "aiohttp.web.Application vulnerable to HTTP request smuggling via llhttp HTTP request parser",
+  "details": "### Impact\n\naiohttp v3.8.4 and earlier are [bundled with llhttp v6.0.6](https://github.com/aio-libs/aiohttp/blob/v3.8.4/.gitmodules) which is vulnerable to CVE-2023-30589. The vulnerable code is used by aiohttp for its HTTP request parser when available which is the default case when installing from a wheel.\n\nThis vulnerability only affects users of aiohttp as an HTTP server (ie `aiohttp.Application`), you are not affected by this vulnerability if you are using aiohttp as an HTTP client library (ie `aiohttp.ClientSession`).\n\n### Reproducer\n\n```python\nfrom aiohttp import web\n\nasync def example(request: web.Request):\n    headers = dict(request.headers)\n    body = await request.content.read()\n    return web.Response(text=f\"headers: {headers} body: {body}\")\n\napp = web.Application()\napp.add_routes([web.post('/', example)])\nweb.run_app(app)\n```\n\nSending a crafted HTTP request will cause the server to misinterpret one of the HTTP header values leading to HTTP request smuggling.\n\n```console\n$ printf \"POST / HTTP/1.1\\r\\nHost: localhost:8080\\r\\nX-Abc: \\rxTransfer-Encoding: chunked\\r\\n\\r\\n1\\r\\nA\\r\\n0\\r\\n\\r\\n\" \\\n  | nc localhost 8080\n\nExpected output:\n  headers: {'Host': 'localhost:8080', 'X-Abc': '\\rxTransfer-Encoding: chunked'} body: b''\n\nActual output (note that 'Transfer-Encoding: chunked' is an HTTP header now and body is treated differently)\n  headers: {'Host': 'localhost:8080', 'X-Abc': '', 'Transfer-Encoding': 'chunked'} body: b'A'\n```\n\n### Patches\n\nUpgrade to the latest version of aiohttp to resolve this vulnerability. It has been fixed in v3.8.5: [`pip install aiohttp >= 3.8.5`](https://pypi.org/project/aiohttp/3.8.5/)\n\n### Workarounds\n\nIf you aren't able to upgrade you can reinstall aiohttp using `AIOHTTP_NO_EXTENSIONS=1` as an environment variable to disable the llhttp HTTP request parser implementation. The pure Python implementation isn't vulnerable to request smuggling:\n\n```console\n$ python -m pip uninstall --yes aiohttp\n$ AIOHTTP_NO_EXTENSIONS=1 python -m pip install --no-binary=aiohttp --no-cache aiohttp\n```\n\n### References\n\n* https://nvd.nist.gov/vuln/detail/CVE-2023-30589\n* https://hackerone.com/reports/2001873\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "aiohttp"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.8.5"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.8.4"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/aio-libs/aiohttp/security/advisories/GHSA-45c4-8wx5-qw6w"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-37276"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/aio-libs/aiohttp/commit/9337fb3f2ab2b5f38d7e98a194bde6f7e3d16c40"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/aio-libs/aiohttp/commit/9c13a52c21c23dfdb49ed89418d28a5b116d0681"
+    },
+    {
+      "type": "WEB",
+      "url": "https://hackerone.com/reports/2001873"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/aio-libs/aiohttp"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/aio-libs/aiohttp/blob/v3.8.4/.gitmodules"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/aiohttp/PYSEC-2023-120.yaml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-444"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-20T14:52:00Z",
+    "nvd_published_at": "2023-07-19T20:15:10Z"
+  }
+}

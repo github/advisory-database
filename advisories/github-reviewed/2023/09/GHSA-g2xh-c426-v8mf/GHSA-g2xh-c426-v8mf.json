@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g2xh-c426-v8mf",
+  "modified": "2023-09-20T19:21:12Z",
+  "published": "2023-09-04T16:39:00Z",
+  "aliases": [
+    "CVE-2023-40015"
+  ],
+  "summary": "Vyper: reversed order of side effects for some operations",
+  "details": "### Impact\n\nFor the following (probably non-exhaustive) list of expressions, the compiler evaluates the arguments from right to left instead of left to right.\n\n```\n- unsafe_add\n- unsafe_sub\n- unsafe_mul\n- unsafe_div\n- pow_mod256\n- |, &, ^ (bitwise operators)\n- bitwise_or (deprecated)\n- bitwise_and (deprecated)\n- bitwise_xor (deprecated)\n- raw_call\n- <, >, <=, >=, ==, !=\n- in, not in (when lhs and rhs are enums)\n```\n\nThis behaviour becomes a problem when the evaluation of one of the arguments produces side effects that other arguments depend on. The following expressions can produce side-effect:\n\n- state modifying external call \n- state modifying internal call\n- `raw_call`\n- `pop()` when used on a Dynamic Array stored in the storage\n- `create_minimal_proxy_to`\n- `create_copy_of`\n- `create_from_blueprint`\n\nFor example:\n\n```Vyper\nf:uint256\n\n@internal\ndef side_effect() -> uint256:\n    self.f = 12\n    return 1\n\n@external\ndef foo() -> uint256:\n    return unsafe_add(self.f,self.side_effect()) # returns 13 instead of 1\n```\n\n```Vyper\na:DynArray[uint256, 12]\n@external\ndef bar() -> bool:\n    self.a = [1,2,3]\n    return len(self.a) == self.a.pop() # return false instead of true\n```\n\n### Patches\nnot yet patched, will address in a future release. tracking in https://github.com/vyperlang/vyper/issues/3604.\n\n### Workarounds\n\nWhen using expressions from the list above, make sure that the arguments of the expression do not produce side effects or, if one does, that no other argument is dependent on those side effects.\n\n### References\n_Are there any links users can visit to find out more?_\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "vyper"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.3.9"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/vyperlang/vyper/security/advisories/GHSA-g2xh-c426-v8mf"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-40015"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/vyper/PYSEC-2023-167.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vyperlang/vyper"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-670"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-04T16:39:00Z",
+    "nvd_published_at": "2023-09-04T18:15:07Z"
+  }
+}

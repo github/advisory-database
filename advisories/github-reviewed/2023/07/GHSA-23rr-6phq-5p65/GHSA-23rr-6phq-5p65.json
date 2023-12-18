@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-23rr-6phq-5p65",
+  "modified": "2023-07-12T22:31:19Z",
+  "published": "2023-07-12T18:30:38Z",
+  "aliases": [
+    "CVE-2023-37950"
+  ],
+  "summary": "Jenkins mabl Plugin missing permission check",
+  "details": "Jenkins mabl Plugin 0.0.46 and earlier does not perform a permission check in an HTTP endpoint.\n\nThis allows attackers with Overall/Read permission to enumerate credentials IDs of credentials stored in Jenkins. Those can be used as part of an attack to capture the credentials using another vulnerability.\n\nAn enumeration of credentials IDs in mabl Plugin 0.0.47 requires the appropriate permissions.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.mabl.integration.jenkins:mabl-integration"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.0.47"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-37950"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-07-12/#SECURITY-3137%20(1)"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2023/07/12/2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-862"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-12T22:31:19Z",
+    "nvd_published_at": "2023-07-12T16:15:13Z"
+  }
+}

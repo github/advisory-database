@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7xgj-j9hp-c692",
+  "modified": "2023-05-30T15:40:49Z",
+  "published": "2023-05-16T18:30:16Z",
+  "aliases": [
+    "CVE-2023-33006"
+  ],
+  "summary": "Jenkins WSO2 Oauth Plugin cross-site request forgery vulnerability",
+  "details": "Jenkins WSO2 Oauth Plugin 1.0 and earlier does not implement a state parameter in its OAuth flow, a unique and non-guessable value associated with each authentication request. \n\nThis vulnerability allows attackers to trick users into logging in to the attacker’s account.\n\nAs of publication of this advisory, there is no fix.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:wso2id-oauth"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-33006"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-05-16/#SECURITY-2990"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-17T03:46:11Z",
+    "nvd_published_at": "2023-05-16T17:15:12Z"
+  }
+}

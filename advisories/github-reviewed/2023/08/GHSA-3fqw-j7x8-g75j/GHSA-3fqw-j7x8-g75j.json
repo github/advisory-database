@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3fqw-j7x8-g75j",
+  "modified": "2023-08-16T21:11:04Z",
+  "published": "2023-08-16T15:30:18Z",
+  "aliases": [
+    "CVE-2023-40344"
+  ],
+  "summary": "Jenkins Delphix Plugin missing permission check",
+  "details": "Jenkins Delphix Plugin 3.0.2 and earlier does not perform a permission check in an HTTP endpoint.\n\nThis allows attackers with Overall/Read permission to enumerate credentials IDs of credentials stored in Jenkins. Those can be used as part of an attack to capture the credentials using another vulnerability.\n\nAn enumeration of credentials IDs in Delphix Plugin 3.0.3 requires the appropriate permissions.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:delphix"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.0.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-40344"
+    },
+    {
+      "type": "WEB",
+      "url": "https://support.delphix.com/Support_Policies_and_Technical_Bulletins/Technical_Bulletins/TB111_Delphix_Plugin_for_Jenkins_Vulnerable_to_Credential_Enumeration_and_Capture"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-08-16/#SECURITY-3214%20(1)"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2023/08/16/3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-862"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-16T21:11:04Z",
+    "nvd_published_at": "2023-08-16T15:15:11Z"
+  }
+}

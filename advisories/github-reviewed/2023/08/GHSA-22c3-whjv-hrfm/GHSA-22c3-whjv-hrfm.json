@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-22c3-whjv-hrfm",
+  "modified": "2023-08-16T21:14:04Z",
+  "published": "2023-08-16T15:30:17Z",
+  "aliases": [
+    "CVE-2023-40337"
+  ],
+  "summary": "Jenkins Folders Plugin cross-site request forgery vulnerability",
+  "details": "Jenkins Folders Plugin 6.846.v23698686f0f6 and earlier does not require POST requests for an HTTP endpoint, resulting in a cross-site request forgery (CSRF) vulnerability.\n\nThis vulnerability allows attackers to copy a view inside a folder.\n\nFolders Plugin 6.848.ve3b_fd7839a_81 requires POST requests for the affected HTTP endpoint.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:cloudbees-folder"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.848.ve3b"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-40337"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-08-16/#SECURITY-3105"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2023/08/16/3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-16T21:14:04Z",
+    "nvd_published_at": "2023-08-16T15:15:11Z"
+  }
+}

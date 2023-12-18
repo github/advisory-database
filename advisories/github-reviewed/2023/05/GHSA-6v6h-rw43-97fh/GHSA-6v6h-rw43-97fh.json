@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6v6h-rw43-97fh",
+  "modified": "2023-05-17T02:52:42Z",
+  "published": "2023-05-16T18:30:16Z",
+  "aliases": [
+    "CVE-2023-32993"
+  ],
+  "summary": "Jenkins SAML Single Sign On(SSO) Plugin missing hostname validation",
+  "details": "Jenkins SAML Single Sign On(SSO) Plugin 2.0.2 and earlier does not perform hostname validation when connecting to miniOrange or the configured IdP to retrieve SAML metadata.\n\nThis lack of validation could be abused using a man-in-the-middle attack to intercept these connections.\n\nSAML Single Sign On(SSO) Plugin 2.1.0 performs hostname validation when connecting to miniOrange or the configured IdP to retrieve SAML metadata.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.jenkins.plugins:miniorange-saml-sp"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.1.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-32993"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-05-16/#SECURITY-3001%20(1)"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-345"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-17T02:52:42Z",
+    "nvd_published_at": "2023-05-16T17:15:11Z"
+  }
+}

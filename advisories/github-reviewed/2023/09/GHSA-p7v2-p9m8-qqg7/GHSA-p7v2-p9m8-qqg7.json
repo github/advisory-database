@@ -1,0 +1,122 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-p7v2-p9m8-qqg7",
+  "modified": "2023-09-06T19:50:58Z",
+  "published": "2023-09-06T19:50:58Z",
+  "aliases": [
+    "CVE-2023-29198"
+  ],
+  "summary": "Electron context isolation bypass via nested unserializable return value",
+  "details": "### Impact\nApps using `contextIsolation` and `contextBridge` are affected.\n\nThis is a context isolation bypass, meaning that code running in the main world context in the renderer can reach into the isolated Electron context and perform privileged actions.\n\n### Workarounds\nThis issue is exploitable under either of two conditions:\n* If an API exposed to the main world via `contextBridge` can return an object or array that contains a JS object which cannot be serialized, for instance, a canvas rendering context. This would normally result in an exception being thrown `Error: object could not be cloned`.\n* If an API exposed to the main world via `contextBridge` has a return value that throws a user-generated exception while being sent over the bridge, for instance a dynamic getter property on an object that throws an error when being computed.\n\nThe app side workaround is to ensure that such a case is not possible. Ensure all values returned from a function exposed over the context bridge are [supported](https://www.electronjs.org/docs/latest/api/context-bridge#parameter--error--return-type-support) and that any objects returned from functions do not have dynamic getters that can throw exceptions.\n\nAuditing your exposed API is likely to be quite difficult so we strongly recommend you update to a patched version of Electron.\n\n### Fixed Versions\n* `25.0.0-alpha.2`\n* `24.0.1`\n* `23.2.3`\n* `22.3.6`\n\n### For more information\nIf you have any questions or comments about this advisory, email us at [security@electronjs.org](mailto:security@electronjs.org)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:C/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "electron"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "22.3.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "electron"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "23.0.0-alpha.1"
+            },
+            {
+              "fixed": "23.2.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "electron"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "24.0.0-alpha.1"
+            },
+            {
+              "fixed": "24.0.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "electron"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "25.0.0-alpha.1"
+            },
+            {
+              "fixed": "25.0.0-alpha.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/electron/electron/security/advisories/GHSA-p7v2-p9m8-qqg7"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-29198"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/electron/electron"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.electronjs.org/docs/latest/api/context-bridge#parameter--error--return-type-support"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-754"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-06T19:50:58Z",
+    "nvd_published_at": "2023-09-06T21:15:11Z"
+  }
+}

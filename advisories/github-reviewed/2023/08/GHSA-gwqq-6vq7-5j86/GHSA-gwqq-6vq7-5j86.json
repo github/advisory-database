@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-gwqq-6vq7-5j86",
+  "modified": "2023-08-09T20:37:47Z",
+  "published": "2023-08-05T03:30:19Z",
+  "aliases": [
+    "CVE-2023-36095"
+  ],
+  "summary": "langchain Code Injection vulnerability",
+  "details": "An issue in Harrison Chase langchain allows an attacker to execute arbitrary code via the PALChain,from_math_prompt(llm).run in the python exec method.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "langchain"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.0.236"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-36095"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/langchain-ai/langchain/issues/5872"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/langchain-ai/langchain/pull/6003"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/langchain-ai/langchain/pull/7870"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/langchain-ai/langchain/commit/8ba9835b925473655914f63822775679e03ea137"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/langchain-ai/langchain/commit/e294ba475a355feb95003ed8f1a2b99942509a9e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hwchase17/langchain"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/langchain-ai/langchain"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/langchain-ai/langchain/commits/v0.0.236?after=4d8b48bdb3f17c764c5c2e3c7140071603869e74+34&branch=v0.0.236&qualified_name=refs%2Ftags%2Fv0.0.236"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/langchain/PYSEC-2023-138.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "http://langchain.com"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-09T14:11:52Z",
+    "nvd_published_at": "2023-08-05T03:15:13Z"
+  }
+}

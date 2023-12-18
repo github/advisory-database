@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8wgf-3mrj-73x7",
+  "modified": "2023-07-31T19:01:10Z",
+  "published": "2023-07-26T15:30:57Z",
+  "aliases": [
+    "CVE-2023-39154"
+  ],
+  "summary": "Incorrect permission checks in Qualys Web App Scanning Connector Plugin allow capturing credentials ",
+  "details": "Qualys Web App Scanning Connector Plugin 2.0.10 and earlier does not correctly perform permission checks in several HTTP endpoints.\n\nThis allows attackers with global Item/Configure permission to connect to an attacker-specified URL using attacker-specified credentials IDs obtained through another method, capturing credentials stored in Jenkins.\n\nQualys Web App Scanning Connector Plugin 2.0.11 requires the appropriate permissions for the affected HTTP endpoints.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.qualys.plugins:qualys-was"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.11"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-39154"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-07-26/#SECURITY-3012"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2023/07/26/2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-863"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-26T22:37:36Z",
+    "nvd_published_at": "2023-07-26T14:15:10Z"
+  }
+}

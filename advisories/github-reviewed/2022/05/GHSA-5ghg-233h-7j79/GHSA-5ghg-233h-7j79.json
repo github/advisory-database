@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5ghg-233h-7j79",
+  "modified": "2023-08-24T12:59:15Z",
+  "published": "2022-05-24T16:46:57Z",
+  "aliases": [
+    "CVE-2019-10047"
+  ],
+  "summary": "PyDio Stored XSS Vulnerability",
+  "details": "A stored XSS vulnerability exists in the web application of Pydio through 8.2.2 that can be exploited by levering the file upload and file preview features of the application. An authenticated attacker can upload an HTML file containing JavaScript code and afterwards a file preview URL can be used to access the uploaded file. If a malicious user shares an uploaded HTML file containing JavaScript code with another user of the application, and tricks an authenticated victim into accessing a URL that results in the HTML code being interpreted by the web browser, then the included JavaScript code is executed under the context of the victim user session.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "pydio"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "8.2.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-10047"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mwiatrzyk/pydio"
+    },
+    {
+      "type": "WEB",
+      "url": "https://packetstormsecurity.com/files/152292/Pydio-8-Command-Execution-Cross-Site-Scripting.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.secureauth.com/labs/advisories/pydio-8-multiple-vulnerabilities"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-14T19:39:29Z",
+    "nvd_published_at": "2019-05-31T22:29:00Z"
+  }
+}

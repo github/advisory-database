@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f776-w9v2-7vfj",
+  "modified": "2023-10-17T02:19:16Z",
+  "published": "2023-10-17T02:19:16Z",
+  "aliases": [
+    "CVE-2023-45138"
+  ],
+  "summary": "XWiki Change Request Application UI XSS and remote code execution through change request title",
+  "details": "### Impact\n\nIt's possible for a user without any specific right to perform script injection and remote code execution just by inserting an appropriate title when creating a new Change Request. \nThis vulnerability is particularly critical as Change Request aims at being created by user without any particular rights.\n\n### Patches\n\nThe vulnerability has been fixed in Change Request 1.9.2. \n\n### Workarounds\n\nIt's possible to workaround the issue without upgrading by editing the document `ChangeRequest.Code.ChangeRequestSheet` and by performing the same change as in the commit: https://github.com/xwiki-contrib/application-changerequest/commit/7565e720117f73102f5a276239eabfe85e15cff4. \n\n### References\n\n  * JIRA ticket: https://jira.xwiki.org/browse/CRAPP-298\n  * Commit of the fix: https://github.com/xwiki-contrib/application-changerequest/commit/7565e720117f73102f5a276239eabfe85e15cff4\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n* Open an issue in [Jira XWiki.org](https://jira.xwiki.org/)\n* Email us at [Security Mailing List](mailto:security@xwiki.org)\n\n### Attribution\n\nThanks Michael Hamann for the report.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.contrib.changerequest:application-changerequest-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.11"
+            },
+            {
+              "fixed": "1.9.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki-contrib/application-changerequest/security/advisories/GHSA-f776-w9v2-7vfj"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-45138"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki-contrib/application-changerequest/commit/7565e720117f73102f5a276239eabfe85e15cff4"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki-contrib/application-changerequest"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/CRAPP-298"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-17T02:19:16Z",
+    "nvd_published_at": "2023-10-12T17:15:09Z"
+  }
+}

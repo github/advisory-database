@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2hm9-h873-pgqh",
+  "modified": "2023-09-28T21:27:04Z",
+  "published": "2023-09-28T21:27:04Z",
+  "aliases": [
+    "CVE-2023-43645"
+  ],
+  "summary": "OpenFGA Vulnerable to DoS from circular relationship definitions",
+  "details": "## Overview\nOpenFGA is vulnerable to a DoS attack when certain Check calls are executed against authorization models that contain circular relationship definitions. When the call is made, it's possible for the server to exhaust resources and die.\n\n## Am I Affected?\nYes, if your store contains an authorization model that allows circular relationships. For example, with this model:\n\n```\nmodel\n  schema 1.1\n\ntype user\n\ntype group\n  relations\n    define memberA: [user] or memberB or memberC or memberD or memberE\n    define memberB: [user] or memberA or memberC or memberD or memberE\n    define memberC: [user] or memberA or memberB or memberD or memberE\n    define memberD: [user] or memberA or memberB or memberC or memberE\n    define memberE: [user] or memberA or memberB or memberC or memberD\n```\n\nThis Check: `(user:anne, memberA, group:X)` can exhaust memory in the server.\n\n## Fix\nUpgrade to v1.3.2 and update any offending models.\n\n  **[BREAKING]** If your model contained cycles or a relation definition that has the relation itself in its evaluation path, then Checks and queries that require evaluation will no longer be evaluated on v1.3.2+ and will return errors instead. You will need to update your models to remove the cycles.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/openfga/openfga"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.3.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/openfga/openfga/security/advisories/GHSA-2hm9-h873-pgqh"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-43645"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openfga/openfga/commit/725296025fd81227c89525808652c6acd4a605f6"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openfga/openfga"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-835"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-28T21:27:04Z",
+    "nvd_published_at": "2023-09-27T15:19:34Z"
+  }
+}

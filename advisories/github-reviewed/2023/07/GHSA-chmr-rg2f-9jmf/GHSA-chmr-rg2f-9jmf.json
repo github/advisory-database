@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-chmr-rg2f-9jmf",
+  "modified": "2023-07-25T17:17:12Z",
+  "published": "2023-07-25T17:17:12Z",
+  "aliases": [
+    "CVE-2023-34093"
+  ],
+  "summary": "Making all attributes on a content-type public without noticing it",
+  "details": "### Summary\nAnyone (Strapi developers, users, plugins) can make every attribute of a Content-Type public without knowing it.\n\n### Details\nWhen dealing with content-types inside a Strapi instance, we can extend those using the appropriate container:\n```javascript\nstrapi.container.get('content-types').extend(contentTypeUID, (contentType) => newContentType);\n```\nThe vulnerability only affects the handling of content types by Strapi, not the actual content types themselves. Users can use plugins or modify their own content types without realizing that the `privateAttributes` getter is being removed, which can result in any attribute becoming public. This can lead to sensitive information being exposed or the entire system being taken control of by an attacker(having access to password hashes).\n\n### PoC\nExtend any content type on runtime (like in the bootstrap functions) and do a copy of the content-type object.\n```javascript\nstrapi.container.get('content-types').extend(contentTypeUID, (contentType) => {\n  const newCT = { ... contentType, attributes: { ...contentType.attributes, newAttr: {} } };\n  return newCT;\n});\n```\nThis will have as effect to remove the getter and as we rely on it in sanitization, every attributes will be considered as public.\n\n### Impact\nEveryone can be impacted. Depending on how people are using/extending content-types. If the users are mutating the content-type, they will not be affected.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:U/C:H/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@strapi/strapi"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.10.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@strapi/utils"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.10.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@strapi/database"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.10.8"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/strapi/strapi/security/advisories/GHSA-chmr-rg2f-9jmf"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-34093"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/strapi/strapi/commit/2fa8f30371bfd1db44c15e5747860ee5789096de"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/strapi/strapi"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/strapi/strapi/releases/tag/v4.10.8"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-25T17:17:12Z",
+    "nvd_published_at": "2023-07-25T15:15:13Z"
+  }
+}

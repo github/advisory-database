@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g6pq-x539-7w4j",
+  "modified": "2023-10-19T19:35:35Z",
+  "published": "2023-10-19T17:04:50Z",
+  "aliases": [
+    "CVE-2023-45821"
+  ],
+  "summary": "Artifact Hub has Incorrect Docker Hub registry check",
+  "details": "### Impact\n\nDuring a security audit of Artifact Hub's code base, a security researcher at [OffSec](https://www.offsec.com/) identified a bug in which the `registryIsDockerHub` function was only checking that the registry domain had the `docker.io` suffix.\n\nArtifact Hub allows providing some Docker credentials that are used to increase the rate limit applied when interacting with the Docker Hub registry API to read publicly available content. Due to the incorrect check described above, it'd be possible to hijack those credentials by purchasing a domain which ends with `docker.io` and deploying a fake OCI registry on it.\n\n<https://artifacthub.io/> uses some credentials that only have permissions to read public content available in the Docker Hub. However, even though credentials for private repositories (disabled on `artifacthub.io`) are handled in a different way, other Artifact Hub deployments could have been using them for a different purpose.\n\n### Patches\n\nThis issue has been resolved in version [1.16.0](https://artifacthub.io/packages/helm/artifact-hub/artifact-hub?modal=changelog&version=1.16.0).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/artifacthub/hub"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.16.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/artifacthub/hub/security/advisories/GHSA-g6pq-x539-7w4j"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-45821"
+    },
+    {
+      "type": "WEB",
+      "url": "https://artifacthub.io/packages/helm/artifact-hub/artifact-hub?modal=changelog&version=1.16.0"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/artifacthub/hub"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-494"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-19T17:04:50Z",
+    "nvd_published_at": "2023-10-19T21:15:08Z"
+  }
+}

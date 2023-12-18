@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6f4m-j56w-55c3",
+  "modified": "2023-09-25T17:43:43Z",
+  "published": "2023-09-23T21:30:17Z",
+  "aliases": [
+    "CVE-2022-3962"
+  ],
+  "summary": "Kiali content spoofing vulnerability",
+  "details": "A content spoofing vulnerability was found in Kiali. It was discovered that Kiali does not implement error handling when the page or endpoint being accessed cannot be found. This issue allows an attacker to perform arbitrary text injection when an error response is retrieved from the URL being accessed.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/kiali/kiali"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.57.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-3962"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kiali/kiali/commit/aab7694f850f04d7fd875fac5f720a93ccdf01ad"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2023:0542"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/security/cve/CVE-2022-3962"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2148661"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/kiali/kiali"
+    },
+    {
+      "type": "WEB",
+      "url": "https://issues.redhat.com/browse/OSSM-2251?attachmentViewMode=list"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-25T17:43:43Z",
+    "nvd_published_at": "2023-09-23T20:15:10Z"
+  }
+}

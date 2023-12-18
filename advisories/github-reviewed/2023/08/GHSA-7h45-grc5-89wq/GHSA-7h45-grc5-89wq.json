@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7h45-grc5-89wq",
+  "modified": "2023-08-14T21:14:08Z",
+  "published": "2023-08-14T21:14:08Z",
+  "aliases": [
+    "CVE-2023-38687"
+  ],
+  "summary": "Svelecte item names vulnerable to execution of arbitrary JavaScript",
+  "details": "### Summary\n\nSvelecte item names are rendered as raw HTML with no escaping. This allows the injection of arbitrary HTML into the Svelecte dropdown. This can be exploited to execute arbitrary JavaScript whenever a Svelecte dropdown is opened.\n\n### Details\n\nItem names given to Svelecte appear to be directly rendered as HTML by the default item renderer. This means that any HTML tags in the name are rendered as HTML elements not as text.\n\nNote that the custom item renderer shown in https://mskocik.github.io/svelecte/#item-rendering is also vulnerable to the same exploit.\n\nTo prevent this all special HTML characters in item names should be escaped (for example using `document.createTextNode()`).\n\n### PoC\n```svelte\n<script>\n    import Svelecte from 'svelecte';\n    \n    const list = [\n        { id: 1, name: `Item 1` },\n        { id: 2, name: `Item 2<img style=\"display:none;\" src=1 onerror=\"alert('JavaScript executed!');\"/>` },\n        { id: 3, name: 'Item 3'}\n    ];\n</script>\n    \n<Svelecte options={list}></Svelecte>\n```\n\nThis code snippet demonstrates how the vulnerability can be used to execute arbitrary JavaScript without the user's knowledge when the Svelecte dropdown is opened (note that visually item 2 appears identical to other items).\nIn this case the script is hardcoded, but in practice the real danger is that some applications may use Svelecte with items that are created by users or come from low-trust sources where someone else could add a malicious script to the item name.\n\n### Impact\n\nAny site that uses Svelecte with dynamically created items either from an external source or from user-created content could be vulnerable to an XSS attack (execution of untrusted JavaScript), clickjacking or any other attack that can be performed with arbitrary HTML injection.\nThe actual impact of this vulnerability for a specific application depends on how trustworthy the sources that provide Svelecte items are and the steps that the application has taken to mitigate XSS attacks. XSS attacks using this vulnerability are mostly mitigated by a Content Security Policy that blocks inline JavaScript.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "svelecte"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.16.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/mskocik/svelecte/security/advisories/GHSA-7h45-grc5-89wq"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-38687"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mskocik/svelecte"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-14T21:14:08Z",
+    "nvd_published_at": "2023-08-14T21:15:12Z"
+  }
+}

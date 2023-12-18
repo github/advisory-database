@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4vvc-r4p4-qgrr",
+  "modified": "2023-12-01T22:49:24Z",
+  "published": "2023-11-24T09:30:28Z",
+  "aliases": [
+    "CVE-2023-48796"
+  ],
+  "summary": "Apache DolphinScheduler sensitive information disclosure",
+  "details": "Exposure of Sensitive Information to an Unauthorized Actor vulnerability in Apache DolphinScheduler.\n\nThe information exposed to unauthorized actors may include sensitive data such as database credentials.\n\nUsers who can't upgrade to the fixed version can also set environment variable `MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE=health,metrics,prometheus` to workaround this, or add the following section in the `application.yaml` file\n\n```\nmanagement:\n  endpoints:\n    web:\n      exposure:\n        include: health,metrics,prometheus\n```\n\nThis issue affects Apache DolphinScheduler: from 3.0.0 before 3.0.2.\n\nUsers are recommended to upgrade to version 3.0.2, which fixes the issue.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.dolphinscheduler:dolphinscheduler"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.0.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-48796"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/dolphinscheduler"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/ffrmkcwgr2lcz0f5nnnyswhpn3fytsvo"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2023/11/24/1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-27T23:27:35Z",
+    "nvd_published_at": "2023-11-24T08:15:20Z"
+  }
+}

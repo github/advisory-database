@@ -1,0 +1,119 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6fq2-x65v-v9h7",
+  "modified": "2023-10-19T18:03:19Z",
+  "published": "2022-05-24T17:02:07Z",
+  "aliases": [
+    "CVE-2019-14856"
+  ],
+  "summary": "Ansible password prompts could expose passwords",
+  "details": "A data disclosure flaw was found in ansible. Password prompts in ansible-playbook and ansible-cli tools could expose passwords with special characters as they are not properly wrapped. A password with special characters is exposed starting with the first of these special characters. The highest threat from this vulnerability is to data confidentiality.\n\nThis CVE exists due to an incomplete fix for CVE-2019-10206.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ansible"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.8.0"
+            },
+            {
+              "fixed": "2.8.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ansible"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.7.0"
+            },
+            {
+              "fixed": "2.7.14"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ansible"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.6.20"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-14856"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ansible/ansible/pull/63351"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ansible/ansible/commit/7f4befdea77045fa83b5f2b304bd5e16b219f74c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2020:0756"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2019-14856"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ansible/ansible"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.opensuse.org/opensuse-security-announce/2020-04/msg00021.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.opensuse.org/opensuse-security-announce/2020-04/msg00026.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-287"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-19T18:03:19Z",
+    "nvd_published_at": "2019-11-26T14:15:00Z"
+  }
+}

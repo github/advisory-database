@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-j2r7-3rvw-g7gx",
+  "modified": "2023-07-12T17:30:13Z",
+  "published": "2023-07-12T12:31:36Z",
+  "aliases": [
+    "CVE-2023-30428"
+  ],
+  "summary": "Apache Pulsar Broker's Rest Producer vulnerable to Incorrect Authorization",
+  "details": "Incorrect Authorization vulnerability in Apache Software Foundation Apache Pulsar Broker's Rest Producer allows authenticated user with a custom HTTP header to produce a message to any topic using the broker's admin role.\nThis issue affects Apache Pulsar Brokers: from 2.9.0 through 2.9.5, from 2.10.0 before 2.10.4, 2.11.0.\n\nThe vulnerability is exploitable when an attacker can connect directly to the Pulsar Broker. If an attacker is connecting through the Pulsar Proxy, there is no known way to exploit this authorization vulnerability.\n\nThere are two known risks for affected users. First, an attacker could produce garbage messages to any topic in the cluster. Second, an attacker could produce messages to the topic level policies topic for other tenants and influence topic settings that could lead to exfiltration and/or deletion of messages for other tenants.\n\n2.8 Pulsar Broker users and earlier are unaffected.\n2.9 Pulsar Broker users should upgrade to one of the patched versions.\n2.10 Pulsar Broker users should upgrade to at least 2.10.4.\n2.11 Pulsar Broker users should upgrade to at least 2.11.1.\n3.0 Pulsar Broker users are unaffected.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:C/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.pulsar:pulsar-broker"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.9.0"
+            },
+            {
+              "fixed": "2.10.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.pulsar:pulsar-broker"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.11.0"
+            },
+            {
+              "fixed": "2.11.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "2.11.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-30428"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/pulsar"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/v39hqtgrmyxr85rmofwvgrktnflbq3q5"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-863"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-12T17:30:13Z",
+    "nvd_published_at": "2023-07-12T10:15:09Z"
+  }
+}

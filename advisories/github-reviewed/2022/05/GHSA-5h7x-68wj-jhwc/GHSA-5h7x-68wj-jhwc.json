@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5h7x-68wj-jhwc",
+  "modified": "2023-10-19T18:36:33Z",
+  "published": "2022-05-24T17:46:27Z",
+  "aliases": [
+    "CVE-2021-30074"
+  ],
+  "summary": "Docsify vulnerable to cross-site scripting due to mishandled encoding",
+  "details": "docsify versions 4.12.1 and earlier are vulnerable to cross-site scripting (XSS) because the search component does not appropriately encode Code Blocks and mishandles the `\"` character.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "docsify"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.12.2"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 4.12.1"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-30074"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/docsifyjs/docsify/issues/1549"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/docsifyjs/docsify/pull/1551"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/docsifyjs/docsify/commit/c24f7f6f0b87a87f6dd3755f69eb0969ebb029c9"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/docsifyjs/docsify"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-19T18:36:33Z",
+    "nvd_published_at": "2021-04-02T21:15:00Z"
+  }
+}

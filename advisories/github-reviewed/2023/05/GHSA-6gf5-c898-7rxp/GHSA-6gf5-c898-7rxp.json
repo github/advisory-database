@@ -1,0 +1,184 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6gf5-c898-7rxp",
+  "modified": "2023-05-11T20:37:30Z",
+  "published": "2023-05-11T20:37:30Z",
+  "aliases": [
+    "CVE-2023-32070"
+  ],
+  "summary": "Improper Neutralization of Script in Attributes in XWiki (X)HTML renderers",
+  "details": "### Impact\n\nHTML rendering didn't check for dangerous attributes/attribute values. This allowed cross-site scripting (XSS) attacks via attributes and link URLs, e.g., supported in XWiki syntax.\n\n### Patches\nThis has been patched in XWiki 14.6 RC1.\n\n### Workarounds\nThere are no known workarounds apart from upgrading to a fixed version.\n\n### References\n* https://github.com/xwiki/xwiki-rendering/commit/c40e2f5f9482ec6c3e71dbf1fff5ba8a5e44cdc1\n* https://jira.xwiki.org/browse/XRENDERING-663\n\n### For more information\nIf you have any questions or comments about this advisory:\n* Open an issue in [Jira XWiki.org](https://jira.xwiki.org/)\n* Email us at [Security Mailing List](mailto:security@xwiki.org)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.rendering:xwiki-rendering-syntax-xhtml"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "14.6-rc-1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-core-rendering-api"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "3.0-milestone-2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.rendering:xwiki-rendering-syntax-html"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "14.6-rc-1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.rendering:xwiki-rendering-syntax-html5"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "14.6-rc-1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.rendering:xwiki-rendering-syntax-annotatedxhtml"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "14.6-rc-1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.rendering:xwiki-rendering-syntax-annotatedhtml5"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "14.6-rc-1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-annotation-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "14.6-rc-1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-rendering/security/advisories/GHSA-6gf5-c898-7rxp"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-32070"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-rendering/commit/c40e2f5f9482ec6c3e71dbf1fff5ba8a5e44cdc1"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-rendering"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XRENDERING-663"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79",
+      "CWE-83"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-11T20:37:30Z",
+    "nvd_published_at": "2023-05-10T18:15:10Z"
+  }
+}

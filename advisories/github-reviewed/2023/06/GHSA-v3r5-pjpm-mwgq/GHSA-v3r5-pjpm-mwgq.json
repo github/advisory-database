@@ -1,0 +1,139 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v3r5-pjpm-mwgq",
+  "modified": "2023-06-07T15:52:55Z",
+  "published": "2023-06-07T15:52:55Z",
+  "aliases": [
+    "CVE-2023-0040"
+  ],
+  "summary": "Async HTTP Client has CRLF Injection vulnerability in HTTP request headers",
+  "details": "Versions of Async HTTP Client prior to 1.13.2 are vulnerable to a form of targeted request manipulation called CRLF injection. This vulnerability was the result of insufficient validation of HTTP header field values before sending them to the network. Users are vulnerable if they pass untrusted data into HTTP header field values without prior sanitisation. Common use-cases here might be to place usernames from a database into HTTP header fields.\n\nThis vulnerability allows attackers to inject new HTTP header fields, or entirely new requests, into the data stream. This can cause requests to be understood very differently by the remote server than was intended. In general, this is unlikely to result in data disclosure, but it can result in a number of logical errors and other misbehaviours.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "SwiftURL",
+        "name": "github.com/swift-server/async-http-client"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.13.0"
+            },
+            {
+              "fixed": "1.13.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "SwiftURL",
+        "name": "github.com/swift-server/async-http-client"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.10.0"
+            },
+            {
+              "fixed": "1.12.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "SwiftURL",
+        "name": "github.com/swift-server/async-http-client"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.5.0"
+            },
+            {
+              "fixed": "1.9.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "SwiftURL",
+        "name": "github.com/swift-server/async-http-client"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.4.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/swift-server/async-http-client/security/advisories/GHSA-v3r5-pjpm-mwgq"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-0040"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/swift-server/async-http-client/commit/7f05a8da46cc2a4ab43218722298b81ac7a08031"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/swift-server/async-http-client"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/swift-server/async-http-client/releases/tag/1.12.1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/swift-server/async-http-client/releases/tag/1.13.2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/swift-server/async-http-client/releases/tag/1.4.1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/swift-server/async-http-client/releases/tag/1.9.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74",
+      "CWE-93"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-07T15:52:55Z",
+    "nvd_published_at": "2023-01-18T19:15:00Z"
+  }
+}

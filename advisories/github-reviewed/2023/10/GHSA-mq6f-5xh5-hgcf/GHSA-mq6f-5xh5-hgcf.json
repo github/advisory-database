@@ -1,0 +1,116 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mq6f-5xh5-hgcf",
+  "modified": "2023-11-09T16:38:40Z",
+  "published": "2023-10-10T21:29:02Z",
+  "aliases": [
+    "CVE-2023-20902"
+  ],
+  "summary": "Harbor timing attack risk",
+  "details": "In the Harbor jobservice container, the comparison of secrets in the authenticator type is prone to timing attacks. The vulnerability occurs due to the following code: https://github.com/goharbor/harbor/blob/aaea068cceb4063ab89313d9785f2b40f35b0d63/src/jobservice/api/authenticator.go#L69-L69\nTo avoid this issue, constant time comparison should be used.\n```\nsubtle.ConstantTimeCompare([]byte(expectedSecret), []byte(secret)) == 0\n```\n\n### Impact\nThis attack might be possible theoretically, but no workable proof of concept is available, and access complexity is set at High.\nThe jobservice exposes these APIs\n```\nCreate a job task --- POST /api/v1/jobs    \nGet job task information --- GET /api/v1/jobs/{job_id}\nStop job task ---  POST /api/v1/jobs/{job_id}\nGet job log task ---  GET /api/v1/jobs/{job_id}/log\nGet job execution --- GET /api/v1/jobs/{job_id}/executions\nGet job stats ---  GET /api/v1/stats\nGet job service configuration ---  GET /api/v1/config\n```\nIt is used to create jobs/stop job tasks and retrieve job task information.  If an attacker obtains the secrets, it is possible to retrieve the job information, create a job, or stop a job task. \n\nThe following versions of Harbor are involved:\n<=Harbor 2.8.2, <=Harbor 2.7.2, <= Harbor 2.6.x, <=Harbor 1.10.17\n\n\n### Patches\nHarbor 2.8.3, Harbor 2.7.3, Harbor 1.10.18\n\n### Workarounds\nBecause the jobservice only exposes HTTP service to harbor-core containers, blocking any inbound traffic from the external network to the jobservice container can reduce the risk.\n\n### Credits\nThanks to Porcupiney Hairs for reporting this issue.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/goharbor/harbor"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.10.18"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/goharbor/harbor"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.7.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/goharbor/harbor"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.8.0"
+            },
+            {
+              "fixed": "2.8.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/goharbor/harbor/security/advisories/GHSA-mq6f-5xh5-hgcf"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-20902"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/goharbor/harbor"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/goharbor/harbor/blob/aaea068cceb4063ab89313d9785f2b40f35b0d63/src/jobservice/api/authenticator.go#L69-L69"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/goharbor/harbor/releases/tag/v1.10.18"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/goharbor/harbor/releases/tag/v2.7.3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/goharbor/harbor/releases/tag/v2.8.3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-208",
+      "CWE-362"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-10T21:29:02Z",
+    "nvd_published_at": "2023-11-09T01:15:07Z"
+  }
+}

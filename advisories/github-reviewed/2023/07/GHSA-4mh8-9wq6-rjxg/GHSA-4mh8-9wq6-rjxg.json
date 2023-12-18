@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4mh8-9wq6-rjxg",
+  "modified": "2023-07-20T18:54:13Z",
+  "published": "2023-07-20T18:54:13Z",
+  "aliases": [
+    "CVE-2023-37471"
+  ],
+  "summary": "OpenAM vulnerable to user impersonation using SAMLv1.x SSO process",
+  "details": "### Impact\nOpenAM up to version 14.7.2 does not properly validate the signature of SAML responses received as part of the SAMLv1.x Single Sign-On process. Attackers can use this fact to impersonate any OpenAM user, including the administrator, by sending a specially crafted SAML response to the SAMLPOSTProfileServlet servlet.\n\n### Patches\nThis problem has been patched in  OpenAM 14.7.3-SNAPSHOT and later\n\n### Workarounds\nOne should comment servlet `SAMLPOSTProfileServlet` in web.xml or disable SAML in OpenAM\n```xml\n<servlet>\n    <description>SAMLPOSTProfileServlet</description>\n    <servlet-name>SAMLPOSTProfileServlet</servlet-name>\n    <servlet-class>com.sun.identity.saml.servlet.SAMLPOSTProfileServlet</servlet-class>\n</servlet>\n...\n<servlet-mapping>\n    <servlet-name>SAMLSOAPReceiver</servlet-name>\n    <url-pattern>/SAMLSOAPReceiver</url-pattern>\n</servlet-mapping>\n```\n\n### References\n#624\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.openidentityplatform.openam:openam-federation-library"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "14.7.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenIdentityPlatform/OpenAM/security/advisories/GHSA-4mh8-9wq6-rjxg"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-37471"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenIdentityPlatform/OpenAM/pull/624"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenIdentityPlatform/OpenAM/commit/7c18543d126e8a567b83bb4535631825aaa9d742"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/OpenIdentityPlatform/OpenAM"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-287"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-20T18:54:13Z",
+    "nvd_published_at": "2023-07-20T17:15:10Z"
+  }
+}

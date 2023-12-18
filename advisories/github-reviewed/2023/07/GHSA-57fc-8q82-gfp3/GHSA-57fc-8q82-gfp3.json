@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-57fc-8q82-gfp3",
+  "modified": "2023-10-18T19:51:56Z",
+  "published": "2023-07-06T15:30:33Z",
+  "aliases": [
+    "CVE-2023-36188"
+  ],
+  "summary": "langchain vulnerable to arbitrary code execution",
+  "details": "An issue in langchain allows a remote attacker to execute arbitrary code via the PALChain parameter in the Python exec method.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "langchain"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "langchain.chains.PALChain"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.0.236"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-36188"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/langchain-ai/langchain/issues/5872"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/langchain-ai/langchain/pull/6003"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/langchain-ai/langchain/pull/8425"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/langchain-ai/langchain/commit/e294ba475a355feb95003ed8f1a2b99942509a9e"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/langchain-ai/langchain"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/langchain/PYSEC-2023-109.yaml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-06T21:08:40Z",
+    "nvd_published_at": "2023-07-06T14:15:10Z"
+  }
+}

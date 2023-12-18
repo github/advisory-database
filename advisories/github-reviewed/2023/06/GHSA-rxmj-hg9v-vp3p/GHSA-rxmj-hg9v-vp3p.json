@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rxmj-hg9v-vp3p",
+  "modified": "2023-06-09T19:32:11Z",
+  "published": "2023-06-09T19:32:11Z",
+  "aliases": [
+    "CVE-2021-36155"
+  ],
+  "summary": "Uncontrolled Resource Consumption in LengthPrefixedMessageReader",
+  "details": "### Impact\n\nAffected gRPC Swift clients and servers are vulnerable to uncontrolled resource consumption attacks. Excessive memory may be allocated when parsing messages. This can lead to a denial of service.\n\n### Patches\n\nThe problem has been fixed in 1.2.0.\n\n### Workarounds\n\nNo workaround is available. Users must upgrade.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "SwiftURL",
+        "name": "github.com/grpc/grpc-swift"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.2.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/grpc/grpc-swift/security/advisories/GHSA-rxmj-hg9v-vp3p"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-36155"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=35303"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/grpc/grpc-swift"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/grpc/grpc-swift/releases/tag/1.2.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-120",
+      "CWE-770"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-09T19:32:11Z",
+    "nvd_published_at": "2021-07-09T12:15:00Z"
+  }
+}

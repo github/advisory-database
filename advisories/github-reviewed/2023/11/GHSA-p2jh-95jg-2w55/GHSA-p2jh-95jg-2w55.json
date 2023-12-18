@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-p2jh-95jg-2w55",
+  "modified": "2023-11-14T21:37:14Z",
+  "published": "2023-11-14T20:34:26Z",
+  "aliases": [
+    "CVE-2023-47126"
+  ],
+  "summary": "Information Disclosure in typo3/cms-install tool",
+  "details": "> ### CVSS: `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N/E:F/RL:O/RC:C` (3.5)\n\n### Problem\nThe login screen of the standalone install tool discloses the full path of the transient data directory (e.g. _/var/www/html/var/transient/_). This applies to composer-based scenarios only - “classic” non-composer installations are not affected.\n\n### Solution\nUpdate to TYPO3 version 12.4.8 that fixes the problem described above.\n\n### Credits\nThanks to Markus Klein who reported and fixed the issue.\n\n### References\n* [TYPO3-CORE-SA-2023-005](https://typo3.org/security/advisory/typo3-core-sa-2023-005)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms-install"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "12.2.0"
+            },
+            {
+              "fixed": "12.4.8"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/TYPO3/typo3/security/advisories/GHSA-p2jh-95jg-2w55"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-47126"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/TYPO3/typo3/commit/1a735dac01ec7b337ed0d80c738caa8967dea423"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/TYPO3/typo3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://typo3.org/security/advisory/typo3-core-sa-2023-005"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-14T20:34:26Z",
+    "nvd_published_at": "2023-11-14T20:15:08Z"
+  }
+}

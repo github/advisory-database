@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-m4hc-m2v6-hfw8",
+  "modified": "2023-07-25T17:19:48Z",
+  "published": "2023-07-25T17:19:48Z",
+  "aliases": [
+    "CVE-2023-36826"
+  ],
+  "summary": "Improper authorization on debug and artifact file downloads",
+  "details": "### Impact\n\nAn authenticated user can download a debug or artifact bundle from arbitrary organizations and projects with a known bundle ID. The user does not need to be a member of the organization or have permissions on the project.\n\n### Patches\n\nA patch was issued to ensure authorization checks are properly scoped on requests to retrieve debug or artifact bundles. Authenticated users who do not have the necessary permissions on the particular project are no longer able to download them.\n\n**Sentry SaaS users do not need to take any action. [Self-Hosted Sentry](https://github.com/getsentry/self-hosted) users should upgrade to version 23.5.2 or higher.**\n\n### References\n\n- [Restrict file downloads to Project](https://github.com/getsentry/sentry/pull/49680)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "sentry"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "sentry.api.endpoints.artifact_lookup.ProjectArtifactLookupEndpoint.download_file",
+          "sentry.api.endpoints.artifact_lookup.ProjectArtifactLookupEndpoint.get",
+          "sentry.api.endpoints.artifact_lookup.update_bundles",
+          "sentry.api.endpoints.artifact_lookup.get_legacy_release_bundles",
+          "sentry.api.endpoints.artifact_lookup.UrlConstructor.url_for_file_id",
+          "sentry.api.endpoints.debug_files.DebugFilesEndpoint.download"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.21.0"
+            },
+            {
+              "fixed": "23.5.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/getsentry/sentry/security/advisories/GHSA-m4hc-m2v6-hfw8"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-36826"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getsentry/sentry/pull/49680"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getsentry/sentry/commit/e932b15435bf36239431eaa3790a6bcfa47046a9"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/getsentry/sentry"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-285"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-25T17:19:48Z",
+    "nvd_published_at": "2023-07-25T19:15:11Z"
+  }
+}

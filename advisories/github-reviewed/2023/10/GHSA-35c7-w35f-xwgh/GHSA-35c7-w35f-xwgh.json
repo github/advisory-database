@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-35c7-w35f-xwgh",
+  "modified": "2023-10-31T22:23:04Z",
+  "published": "2023-10-30T03:30:15Z",
+  "aliases": [
+    "CVE-2021-25736"
+  ],
+  "summary": "Kube-proxy may unintentionally forward traffic",
+  "details": "Kube-proxy on Windows can unintentionally forward traffic to local processes listening on the same port (`spec.ports[*].port`) as a LoadBalancer Service when the LoadBalancer controller does not set the `status.loadBalancer.ingress[].ip` field. Clusters \nwhere the LoadBalancer controller sets the `status.loadBalancer.ingress[].ip` field are unaffected.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:C/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "k8s.io/kubernetes"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.21"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-25736"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kubernetes/kubernetes/pull/99958"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kubernetes/kubernetes/commit/b014610de3e5cf1bb0f7844b5758d29fc18b75e6"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/kubernetes/kubernetes"
+    },
+    {
+      "type": "WEB",
+      "url": "https://groups.google.com/g/kubernetes-security-announce/c/lIoOPObO51Q/m/O15LOazPAgAJ"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-31T22:23:04Z",
+    "nvd_published_at": "2023-10-30T03:15:07Z"
+  }
+}

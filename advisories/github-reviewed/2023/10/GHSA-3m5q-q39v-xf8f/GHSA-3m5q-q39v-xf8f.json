@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3m5q-q39v-xf8f",
+  "modified": "2023-10-17T13:52:09Z",
+  "published": "2023-10-17T13:52:09Z",
+  "aliases": [
+    "CVE-2023-43794"
+  ],
+  "summary": "nocodb SQL Injection vulnerability",
+  "details": "## Summary\n\nNocodb contains SQL injection vulnerability, that allows an authenticated attacker with creator access to query the underlying database.\n\n## Product\n\nnocodb/nocodb\n\n## Tested Version\n\n[0.109.2](https://github.com/nocodb/nocodb/releases/tag/0.109.2)\n\n## Details\n\n### SQL injection in `SqliteClient.ts` (`GHSL-2023-141`)\nBy supplying a specially crafted payload to the given below parameter and endpoint, an attacker can inject arbitrary SQL queries to be executed. Since this is a blind SQL injections, an attacker may need to use time-based payloads which would include a function to delay execution for a given number of seconds. The response time indicates, whether the result of the query execution was true or false. Depending on the result, the HTTP response will be returned after a given number of seconds, indicating TRUE, or immediately, indicating FALSE. In that way, an attacker can reveal the data present in the database.\n\nThe [`triggerList`](https://github.com/nocodb/nocodb/blob/3ec82824eeb2295f6b67fd67e7d6049784b41221/packages/nocodb/src/db/sql-client/lib/sqlite/SqliteClient.ts#L628-L654) method creates a SQL query using the user-controlled [`table_name`](https://github.com/nocodb/nocodb/blob/3ec82824eeb2295f6b67fd67e7d6049784b41221/packages/nocodb/src/db/sql-client/lib/sqlite/SqliteClient.ts#L637) parameter value from the [`tableCreate`](https://github.com/nocodb/nocodb/blob/3ec82824eeb2295f6b67fd67e7d6049784b41221/packages/nocodb/src/controllers/tables.controller.ts#L63) endpoint.\n\n```javascript\nasync triggerList(args: any = {}) {\n  const _func = this.triggerList.name;\n  const result = new Result();\n  log.api(`${_func}:args:`, args);\n\n  try {\n    args.databaseName = this.connectionConfig.connection.database;\n\n    const response = await this.sqlClient.raw(\n      `select *, name as trigger_name from sqlite_master where type = 'trigger' and tbl_name='${args.tn}';`,\n    );\n[...]\n```\n\n#### Impact\n\nThis issue may lead to `Information Disclosure`.\n\n## Credit\n\nThis issue was discovered and reported by GHSL team member [@sylwia-budzynska (Sylwia Budzynska)](https://github.com/sylwia-budzynska).\n\n\n## Disclosure Policy\n\nThis report is subject to our [coordinated disclosure policy](https://securitylab.github.com/advisories#policy).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "nocodb"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.111.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/nocodb/nocodb/security/advisories/GHSA-3m5q-q39v-xf8f"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-43794"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/nocodb/nocodb"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nocodb/nocodb/blob/3ec82824eeb2295f6b67fd67e7d6049784b41221/packages/nocodb/src/controllers/tables.controller.ts#L63"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nocodb/nocodb/blob/3ec82824eeb2295f6b67fd67e7d6049784b41221/packages/nocodb/src/db/sql-client/lib/sqlite/SqliteClient.ts#L628-L654"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nocodb/nocodb/blob/3ec82824eeb2295f6b67fd67e7d6049784b41221/packages/nocodb/src/db/sql-client/lib/sqlite/SqliteClient.ts#L637"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-89"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-17T13:52:09Z",
+    "nvd_published_at": "2023-10-17T21:15:46Z"
+  }
+}

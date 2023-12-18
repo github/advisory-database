@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qgp8-h5cp-r75r",
+  "modified": "2023-10-26T23:06:14Z",
+  "published": "2022-05-24T16:58:49Z",
+  "aliases": [
+    "CVE-2019-10444"
+  ],
+  "summary": "Jenkins Bumblebee HP ALM Plugin unconditionally disabled SSL/TLS certificate validation",
+  "details": "Jenkins Bumblebee HP ALM Plugin unconditionally disabled SSL/TLS certificate validation for connections to the HP ALM service.\n\nBumblebee HP ALM Plugin no longer does that. Instead, it now allows users to opt out of certificate validation.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:bumblebee"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.1.4"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 4.1.3"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-10444"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2019-10-16/#SECURITY-1481"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-295"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-26T23:06:14Z",
+    "nvd_published_at": "2019-10-16T14:15:00Z"
+  }
+}

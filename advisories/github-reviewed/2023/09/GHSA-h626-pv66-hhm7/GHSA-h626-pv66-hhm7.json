@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h626-pv66-hhm7",
+  "modified": "2023-09-08T19:43:48Z",
+  "published": "2023-09-08T18:30:29Z",
+  "aliases": [
+    "CVE-2023-4782"
+  ],
+  "summary": "Terraform allows arbitrary file write during the `init` operation",
+  "details": "Terraform version 1.0.8 through 1.5.6 allows arbitrary file write during the `init` operation if run on maliciously crafted Terraform configuration. This vulnerability is fixed in Terraform 1.5.7.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:H/UI:R/S:C/C:L/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/hashicorp/terraform"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.8"
+            },
+            {
+              "fixed": "1.5.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-4782"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hashicorp/terraform/pull/33745"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hashicorp/terraform/commit/0f2314fb62193c4be94328cc026fcb7ec1e9b893"
+    },
+    {
+      "type": "WEB",
+      "url": "https://discuss.hashicorp.com/t/hcsec-2023-27-terraform-allows-arbitrary-file-write-during-init-operation/58082"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/hashicorp/terraform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hashicorp/terraform/releases/tag/v1.5.7"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-08T19:43:48Z",
+    "nvd_published_at": "2023-09-08T18:15:07Z"
+  }
+}

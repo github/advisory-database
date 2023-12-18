@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9358-cpvx-c2qp",
+  "modified": "2023-09-12T13:34:48Z",
+  "published": "2023-09-11T20:45:02Z",
+  "aliases": [
+    "CVE-2023-41879"
+  ],
+  "summary": "Magento LTS's guest order \"protect code\" can be brute-forced too easily",
+  "details": "# Impact\n\nGuest orders may be viewed without authentication using a \"guest-view\" cookie which contains the order's \"protect_code\". This code is 6 hexadecimal characters which is arguably not enough to prevent a brute-force attack. Exposing each order would require a separate brute force attack.\n\n# Patches\n\nNone.\n\n# Workarounds\n\nImplementing rate-limiting at the web server would help mitigate the issue. In particular, a very strict rate limit (e.g. 1 per minute per IP) for the specific route (`sales/guest/view/`) would effectively mitigate the issue.\n\n# References\n\nEmail from Frank Rochlitzer (f.rochlitzer@b3-it.de) to security@openmage.org:\n\n## Summary\n\nThe German Federal Office for Information Security (BSI) found the following flaw in OpenMage through a commissioned pen test:\nThe web application was found to accept certain requests even without prior strong authentication if the person making the request has data that is non-public but also not secret, such as easily\neasily guessed transaction numbers or names.\nAttacking entities could possibly exploit this to retrieve sensitive information using this easier-to-obtain data and by trying random numbers.\n\n## Details\n\nCustomers who place an order without an account can subsequently retrieve the order data or invoice data by specifying individual information.\nTechnically, the access is realized by specifying the cookie guest-view. The value of the cookie is Base64 encoded and contains a random value and the order number. The random value consists of six characters, where these are taken from the alphabet [0-9a-f]. In the best case, i.e. when using a cryptographically secure random number generator, this corresponds to an entropy of 24 bits. Furthermore, the order numbers are assigned incrementally, so that the number range can be narrowed down or an upper limit determined by placing an order.\nSpecifically, this results in the risk that an attacking entity can iterate over all possible values of the cookie's random value. If successful, the billing address, shipping address, payment details and the ordered items can be viewed. The attack only works for orders made as a guest.\n\n## PoC\n\nThe request/response pair shows the retrieval of an order. It should be noted in particular, that the cookie is not bound to a session. The response has been formatted for formatted for readability.\n\nRequest:\n```\n1 GET /magento19/index.php/default/sales/guest/view/ HTTP/1.1\n2 Host: localhost.local\n3 Cookie: guest-view=MzYyYzI4OjEwMDAwMDQzMQ%3D%3D;\n4 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0\n5 Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8\n6 Accept-Language: en-US,en;q=0.5\n7 Accept-Encoding: gzip, deflate\n8 Referer: https://localhost.local/magento19/index.php/default/egovs_checkout/multipage/successview/\n9 Upgrade-Insecure-Requests: 1\n10 Sec-Fetch-Dest: document\n11 Sec-Fetch-Mode: navigate\n12 Sec-Fetch-Site: same-origin\n13 Sec-Fetch-User: ?1\n14 Te: trailers\n15 Connection: close\n```\n\nResponse:\n\n```\n1 HTTP/1.1 200 OK\n2 Date: Tue, 13 Dec 2022 14:06:13 GMT\n3 Server: Apache\n4 Strict-Transport-Security: max-age=31536000; includeSubDomains\n5 X-Powered-By: PHP/7.4.6\n6 Set-Cookie: om_frontend=id7v84a05u8mm1j32t2kj5rbjl; expires=Tue, 13-Dec-2022 15:06:13 GMT; Max-Age=3600; path=/magento19/; domain=localhost.local; secure; HttpOnly\n7 Expires: Thu, 19 Nov 1981 08:52:00 GMT\n8 Cache-Control: no-store, no-cache, must-revalidate\n9 Pragma: no-cache\n10 Set-Cookie: om_frontend=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/magento19/; domain=localhost.local; secure; HttpOnly; SameSite=None\n11 Set-Cookie: om_frontend=o42vttknheaj0sr3q0381jipdp; expires=Tue, 13-Dec-2022 15:06:13 GMT; Max-Age=3600; path=/magento19/; domain=localhost.local; secure; HttpOnly\n12 Set-Cookie: guest-view=MzYyYzI4OjEwMDAwMDQzMQ%3D%3D; expires=Tue, 13-Dec-2022 14:16:13 GMT; Max-Age=600; path=/; domain=localhost.local; secure; HttpOnly; SameSite=None\n13 X-Frame-Options: SAMEORIGIN\n14 X-Content-Type-Options: nosniff\n15 X-XSS-Protection: 1; mode=block\n16 Referrer-Policy: same-origin\n17 Feature-Policy: geolocation 'self'; vibrate 'none'\n18 Content-Security-Policy: default-src 'self';script-src 'self' 'unsafe-inline' 'unsafeeval';\nstyle-src 'self' 'unsafe-inline';\n19 Connection: close\n20 Content-Type: text/html; charset=UTF-8\n21 Content-Length: 47876\n22\n23 <!DOCTYPE html>\n24 <html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"de\" lang=\"de\">\n25 […]\n26 <div class=\"page-title\">\n27 <h1>Bestellung #100000431 - Ausstehende Überweisung</h1>\n28 </div>\n29 […]\n30 <h2 class=\"feature-headline\">Versandadresse</h2>\n31 <div class=\"feature-content\">\n32 <address>\n33 Herr Vorname Nachname<br>\n34 Straße<br>\n35 Dresden, Brandenburg, 01067<br>\n36 Deutschland<br>\n37 </address>\n38 </div>\n39 […]\n40 <h2 class=\"feature-headline\">Rechnungsadresse</h2>\n41 <div class=\"feature-content\">\n42 <address>\n43 [color]Herr Vorname Nachname<br>\n44 Straße<br>\n45 Dresden, Brandenburg, 01067<br>\n46 Deutschland<br>[/color]\n47 </address>\n48 </div>\n49 […]\n50 <h2 class=\"feature-headline\">Zahlungsart</h2>\n51 <div class=\"feature-content\">\n52 <div class=\"block-content\">\n53 Vorkasse<br>\n54 <div id=\"bankpayment_account_info\" style=\"font-style: italic;\">Bankverbindung</div>\n55 <table class=\"data-table fieldset\">\n56 […]\n57 <h2 class=\"sub-title\">\n58 <span>Kassenzeichen: WS1712000349</span>\n59 </h2>\n60 <h2 class=\"sub-title\">Bestellte Artikel</h2>\n61 […]\n62 <td class=\"order-item-product\">\n63 <h3 class=\"product-name ellipsis-multi-line\">Testprodukt Kreditkarte</h3>\n64 […]\n65 <span class=\"price\">100,23 €</span>\n66 […]\n67 </html>\n```\n\n## Impact\n\nInformation disclosure.\nRead as well as write access to sensitive information of persons or accounts and the execution of actions on their behalf must always be secured by strong authentication. This can be ensured, for example, by enforcing strong passwords or MFA.\nFor temporary accesses to sensitive information, temporary passwords or\nauthentication tokens or comparable data that an attacking entity cannot easily guess or determine should be used. Random values should have sufficient entropy so that searching the number space is impractical for attacking entities.\nFurthermore, such queries should be limited by rate limiting.\nThe exact attack effort cannot be determined, since this requires the proportion of\nthe proportion of orders that were placed without an account and since the performance of the\nperformance of the production system is likely to differ from that of the test system.\nIn a test run, 1000 requests could be made within 36 seconds. Part of the execution is shown in the screenshot. The complete search of the number space for the random value would take 6 days 23 hours 46 minutes. Accordingly, the expected value is about 3.5 days. If every third order is executed without an account, the effort must be multiplied by a factor of 3.\n\nMit freundlichen Grüßen\n\nFrank Rochlitzer (github: theroch)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "openmage/magento-lts"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "19.5.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 19.5.0"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "openmage/magento-lts"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "20.0.0"
+            },
+            {
+              "fixed": "20.1.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 20.1.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenMage/magento-lts/security/advisories/GHSA-9358-cpvx-c2qp"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-41879"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenMage/magento-lts/commit/2a2a2fb504247e8966f8ffc2e17d614be5d43128"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenMage/magento-lts/commit/31e74ac5d670b10001f88f038046b62367f15877"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/OpenMage/magento-lts"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenMage/magento-lts/releases/tag/v19.5.1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenMage/magento-lts/releases/tag/v20.1.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-330"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-11T20:45:02Z",
+    "nvd_published_at": "2023-09-11T22:15:08Z"
+  }
+}

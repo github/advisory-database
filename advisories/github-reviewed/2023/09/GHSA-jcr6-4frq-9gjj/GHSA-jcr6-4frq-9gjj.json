@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jcr6-4frq-9gjj",
+  "modified": "2023-09-13T14:04:07Z",
+  "published": "2023-09-11T20:43:31Z",
+  "aliases": [
+
+  ],
+  "summary": "Users vulnerable to unaligned read of `*const *const c_char` pointer",
+  "details": "Affected versions dereference a potentially unaligned pointer. The pointer is commonly unaligned in practice, resulting in undefined behavior.\n\nIn some build modes, this is observable as a panic followed by abort. In other build modes the UB may manifest in some other way, including the possibility of working correctly in some architectures.\n\nThe crate is not currently maintained, so a patched version is not available.\n\n## Recommended alternatives\n- [`uzers`](https://crates.io/crates/uzers) (an actively maintained fork of the `users` crate)\n- [`sysinfo`](https://crates.io/crates/sysinfo)\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "users"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.11.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ogham/rust-users/issues/55"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ogham/rust-users"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2023-0059.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-11T20:43:31Z",
+    "nvd_published_at": null
+  }
+}

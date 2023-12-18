@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8mjr-6c96-39w8",
+  "modified": "2023-09-28T16:42:16Z",
+  "published": "2023-09-28T06:30:20Z",
+  "aliases": [
+    "CVE-2023-26145"
+  ],
+  "summary": "pydash Command Injection vulnerability",
+  "details": "This affects versions of the package pydash before 6.0.0. A number of pydash methods such as pydash.objects.invoke() and pydash.collections.invoke_map() accept dotted paths (Deep Path Strings) to target a nested Python object, relative to the original source object. These paths can be used to target internal class attributes and dict items, to retrieve, modify or invoke nested Python objects.\n\n**Note:**\n\nThe pydash.objects.invoke() method is vulnerable to Command Injection when the following prerequisites are satisfied:\n\n1) The source object (argument 1) is not a built-in object such as list/dict (otherwise, the __init__.__globals__ path is not accessible)\n\n2) The attacker has control over argument 2 (the path string) and argument 3 (the argument to pass to the invoked method)\n\n\nThe pydash.collections.invoke_map() method is also vulnerable, but is harder to exploit as the attacker does not have direct control over the argument to be passed to the invoked function.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "pydash"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-26145"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dgilland/pydash/commit/6ff0831ad285fff937cafd2a853f20cc9ae92021"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gist.github.com/CalumHutton/45d33e9ea55bf4953b3b31c84703dfca"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/dgilland/pydash"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/pydash/PYSEC-2023-179.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-PYTHON-PYDASH-5916518"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-77"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-28T16:42:16Z",
+    "nvd_published_at": "2023-09-28T05:15:45Z"
+  }
+}

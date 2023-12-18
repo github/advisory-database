@@ -1,0 +1,161 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3v6j-v3qc-cxff",
+  "modified": "2023-07-28T15:34:13Z",
+  "published": "2023-07-28T15:34:13Z",
+  "aliases": [
+    "CVE-2023-38492"
+  ],
+  "summary": "Denial of service from unlimited password lengths",
+  "details": "### TL;DR\n\nThis vulnerability affects all Kirby sites with user accounts (unless Kirby's API and Panel are disabled in the config). The real-world impact of this vulnerability is limited, however we still recommend to update to one of the patch releases because they also fix more severe vulnerabilities.\n\n----\n\n### Introduction\n\nDenial of service (DoS) is a type of attack in which an attacker floods a service with the intention to limit performance or availability for legitimate users of the service.\n\nIn the variation described in this advisory (a so called application layer denial of service attack), it is performed by causing a computationally expensive task to be run on the server. This may then cause a performance bottleneck.\n\n### Impact\n\nKirby's authentication endpoint did not limit the password length. This allowed attackers to provide a password with a length up to the server's maximum request body length. Validating that password against the user's actual password requires hashing the provided password, which requires more CPU and memory resources (and therefore processing time) the longer the provided password gets. This could be abused by an attacker to cause the website to become unresponsive or unavailable.\n\nBecause Kirby comes with a built-in brute force protection, the impact of this vulnerability is limited to 10 failed logins from each IP address and 10 failed logins for each existing user per hour.\n\n### Patches\n\nThe problem has been patched in [Kirby 3.5.8.3](https://github.com/getkirby/kirby/releases/tag/3.5.8.3), [Kirby 3.6.6.3](https://github.com/getkirby/kirby/releases/tag/3.6.6.3), [Kirby 3.7.5.2](https://github.com/getkirby/kirby/releases/tag/3.7.5.2), [Kirby 3.8.4.1](https://github.com/getkirby/kirby/releases/tag/3.8.4.1) and [Kirby 3.9.6](https://github.com/getkirby/kirby/releases/tag/3.9.6). Please update to one of these or a [later version](https://github.com/getkirby/kirby/releases) to fix the vulnerability.\n\nIn all of the mentioned releases, we have added password length limits in the affected code so that passwords longer than 1000 bytes are immediately blocked, both when setting a password and when logging in.\n\n### Credits\n\nThanks to Shankar Acharya (@5hank4r) for responsibly reporting the identified issue.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getkirby/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.5.8.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getkirby/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.6.0"
+            },
+            {
+              "fixed": "3.6.6.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getkirby/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.7.0"
+            },
+            {
+              "fixed": "3.7.5.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getkirby/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.8.0"
+            },
+            {
+              "fixed": "3.8.4.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getkirby/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.9.0"
+            },
+            {
+              "fixed": "3.9.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/getkirby/kirby/security/advisories/GHSA-3v6j-v3qc-cxff"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-38492"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getkirby/kirby/commit/0e10ce3b0c2b88656564b8ff518ddc99136ac43e"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/getkirby/kirby"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getkirby/kirby/releases/tag/3.5.8.3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getkirby/kirby/releases/tag/3.6.6.3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getkirby/kirby/releases/tag/3.7.5.2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getkirby/kirby/releases/tag/3.8.4.1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getkirby/kirby/releases/tag/3.9.6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-770"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-28T15:34:13Z",
+    "nvd_published_at": "2023-07-27T16:15:11Z"
+  }
+}

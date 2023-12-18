@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7gf7-jv65-wjmh",
+  "modified": "2023-06-13T22:40:01Z",
+  "published": "2023-06-05T06:30:15Z",
+  "aliases": [
+    "CVE-2023-34411"
+  ],
+  "summary": "xml-rs vulnerable to denial of service via invalid token in XML document",
+  "details": "The xml-rs crate >= 0.8.9 and < 0.8.14 for Rust and Crab allows a denial of service (panic) via an invalid <! token (such as <!DOCTYPEs/%<!A nesting) in an XML document.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "xml-rs"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.8.9"
+            },
+            {
+              "fixed": "0.8.14"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-34411"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/netvl/xml-rs/pull/226"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/00xc/xml-rs/commit/0f084d45aa53e4a27476961785f59f2bd7d59a9f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/netvl/xml-rs/commit/014d808be900c85a0afc5ccdfe668be040d175aa"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/netvl/xml-rs/commit/c09549a187e62d39d40467f129e64abf32efc35c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/netvl/xml-rs"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/netvl/xml-rs/compare/0.8.13...0.8.14"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-617"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-06T02:06:58Z",
+    "nvd_published_at": "2023-06-05T04:15:11Z"
+  }
+}

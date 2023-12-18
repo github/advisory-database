@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-853p-5678-hv8f",
+  "modified": "2023-06-16T17:57:43Z",
+  "published": "2023-06-14T20:11:38Z",
+  "aliases": [
+    "CVE-2023-34449"
+  ],
+  "summary": "ink! vulnerable to incorrect decoding of storage value when using `DelegateCall`",
+  "details": "### Summary\nThe return value when using delegate call mechanics, either through [`CallBuilder::delegate`](https://docs.rs/ink_env/4.2.0/ink_env/call/struct.CallBuilder.html#method.delegate) or [`ink_env::invoke_contract_delegate`](https://docs.rs/ink_env/4.2.0/ink_env/fn.invoke_contract_delegate.html), is being decoded incorrectly.\n\n### Description\nConsider this minimal example:\n\n```rust\n// First contract, this will be performing a delegate call to the `Callee`.\n#[ink(storage)]\npub struct Caller {\n    value: u128,\n}\n\n#[ink(message)]\npub fn get_value(&self, callee_code_hash: Hash) -> u128 {\n    let result = build_call::<DefaultEnvironment>()\n        .delegate(callee_code_hash)\n        .exec_input(ExecutionInput::new(Selector::new(ink::selector_bytes!(\n            \"get_value\"\n        ))))\n        .returns::<u128>()\n        .invoke();\n\n    result\n}\n\n// Different contract, using this code hash for the delegate call.\n#[ink(storage)]\npub struct Callee {\n    value: u128,\n}\n\n#[ink(message)]\npub fn get_value(&self) -> u128 {\n    self.value\n}\n```\n\nIn this example we are executing the `Callee` code in the context of the `Caller` contract. This means we'll be using the storage values of the `Caller` contract.\n\nRunning this code we expect the delegate call to return `value` as it was stored in the `Caller` contract. However, due to the reported bug a different value is returned (for the case of `uint`s it is `256` times the expected value).\n\n### Impact\nAfter conducting an analysis of the on-chain deployments of ink! contracts on Astar, Shiden, Aleph Zero, Amplitude and Pendulum, we have found that no contracts on those chains have been affected by the issue.\n\nThis bug was related to the mechanics around decoding a call's return buffer, which was changed as part of https://github.com/paritytech/ink/pull/1450. Since this feature was only released in ink! 4.0.0 no previous versions are affected.\n\n### Mitigations\nIf you have an ink! 4.x series contract, please update it to the [4.2.1](https://github.com/paritytech/ink/releases/tag/v4.2.1) patch release that we just published. \n\n### Credits\nThank you Facundo Lerena from [CoinFabrik](https://www.coinfabrik.com) for reporting this problem in a well-structured and responsible way.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "ink"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0"
+            },
+            {
+              "fixed": "4.2.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "ink_env"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0"
+            },
+            {
+              "fixed": "4.2.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/paritytech/ink/security/advisories/GHSA-853p-5678-hv8f"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-34449"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/paritytech/ink/pull/1450"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/paritytech/ink/commit/f1407ee9f87e5f64d467a22d26ee88f61db7f3db"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.rs/ink_env/4.2.0/ink_env/call/struct.CallBuilder.html#method.delegate"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.rs/ink_env/4.2.0/ink_env/fn.invoke_contract_delegate.html"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/paritytech/ink"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-253",
+      "CWE-754"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-14T20:11:38Z",
+    "nvd_published_at": "2023-06-14T21:15:09Z"
+  }
+}

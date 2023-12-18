@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-p76j-h4m8-hx5c",
+  "modified": "2023-09-29T20:14:00Z",
+  "published": "2023-09-27T15:30:40Z",
+  "aliases": [
+    "CVE-2023-5192"
+  ],
+  "summary": "Pimcore Demo Allows GraphQL Introspection",
+  "details": "Introspection is enabled on `demo.pimcore.fun`. The demo site has graphql as a feature for users, but allows users to run instropection queries, which presents a potential schema information disclosure vulnerability.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "pimcore/demo"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "10.3.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-5192"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/demo/pull/437"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/demo/commit/a2a7ff3b565882aefb759804aac4a51afb458f1f"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pimcore/demo"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.dev/bounties/65c954f2-79c3-4672-8846-a3035e7a1db7"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1049",
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-27T20:24:29Z",
+    "nvd_published_at": "2023-09-27T15:19:42Z"
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-crqf-q9fp-hwjw",
+  "modified": "2023-08-29T22:17:18Z",
+  "published": "2023-08-24T15:31:10Z",
+  "aliases": [
+    "CVE-2023-34040"
+  ],
+  "summary": "Spring-Kafka has Java Deserialization vulnerability When Improperly Configured",
+  "details": "In Spring for Apache Kafka 3.0.9 and earlier and versions 2.9.10 and earlier, a possible deserialization attack vector existed, but only if unusual configuration was applied. An attacker would have to construct a malicious serialized object in one of the deserialization exception record headers.\n\nSpecifically, an application is vulnerable when all of the following are true:\n\n  *  The user does not configure an ErrorHandlingDeserializer for the key and/or value of the record\n  *  The user explicitly sets container properties checkDeserExWhenKeyNull and/or checkDeserExWhenValueNull container properties to true.\n  *  The user allows untrusted sources to publish to a Kafka topic\n\n\nBy default, these properties are false, and the container only attempts to deserialize the headers if an ErrorHandlingDeserializer is configured. The ErrorHandlingDeserializer prevents the vulnerability by removing any such malicious headers before processing the record.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.springframework.kafka:spring-kafka"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.8.0"
+            },
+            {
+              "fixed": "2.9.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.springframework.kafka:spring-kafka"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.0.10"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-34040"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/spring-projects/spring-kafka/commit/25ac793a78725e2ca4a3a2888a1506a4bfcf0c9d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/spring-projects/spring-kafka/commit/eb779679812f61a8553ced3d0e4069dca65560ed"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/spring-projects/spring-kafka"
+    },
+    {
+      "type": "WEB",
+      "url": "https://spring.io/security/cve-2023-34040"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-502"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-24T22:28:48Z",
+    "nvd_published_at": "2023-08-24T13:15:07Z"
+  }
+}

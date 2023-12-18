@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8q2m-pwxf-jc7g",
+  "modified": "2023-08-04T21:53:49Z",
+  "published": "2022-05-17T00:55:33Z",
+  "aliases": [
+    "CVE-2013-2013"
+  ],
+  "summary": "python-keystoneclient unsecure user password update",
+  "details": "The user-password-update command in python-keystoneclient before 0.2.4 accepts the new password in the --password argument, which allows local users to obtain sensitive information by listing the process.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "python-keystoneclient"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.2.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2013-2013"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/python-keystoneclient/commit/f2e0818bc97bfbeba83f6abbb07909a8debcad77"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.launchpad.net/python-keystoneclient/+bug/938315"
+    },
+    {
+      "type": "WEB",
+      "url": "https://oval.cisecurity.org/repository/search/definition/oval%3Aorg.mitre.oval%3Adef%3A16937"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2013/05/23/4"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-04T21:53:49Z",
+    "nvd_published_at": "2013-10-01T20:55:00Z"
+  }
+}

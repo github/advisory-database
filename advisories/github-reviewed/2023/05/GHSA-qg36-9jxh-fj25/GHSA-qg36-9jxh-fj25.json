@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qg36-9jxh-fj25",
+  "modified": "2023-05-26T21:50:46Z",
+  "published": "2023-05-22T19:41:56Z",
+  "aliases": [
+    "CVE-2023-33185"
+  ],
+  "summary": "Incorrect signature verification in django-ses",
+  "details": "The django_ses library implements a mail backend for Django using AWS Simple Email Service. The library exports the `SESEventWebhookView class` intended to receive signed requests from AWS to handle email bounces, subscriptions, etc. These requests are signed by AWS and are verified by django_ses, however the verification of this signature was found to be flawed as it allowed users to specify arbitrary public certificates.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:R/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "django-ses"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "django_ses.utils.EventMessageVerifier._get_cert_url"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.5.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/django-ses/django-ses/security/advisories/GHSA-qg36-9jxh-fj25"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-33185"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/django-ses/django-ses/commit/b71b5f413293a13997b6e6314086cb9c22629795"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/django-ses/django-ses"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/django-ses/django-ses/blob/3d627067935876487f9938310d5e1fbb249a7778/CVE/001-cert-url-signature-verification.md"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/django-ses/PYSEC-2023-82.yaml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-347"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-22T19:41:56Z",
+    "nvd_published_at": "2023-05-26T21:15:20Z"
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rrxv-q8m4-wch3",
+  "modified": "2023-08-10T22:10:22Z",
+  "published": "2023-08-01T19:48:31Z",
+  "aliases": [
+    "CVE-2023-38698"
+  ],
+  "summary": ".eth registrar controller can shorten the duration of registered names",
+  "details": "### Description\nAccording to the documentation, controllers are allowed to register new domains and extend the expiry of existing domains, but they cannot change the ownership or reduce the expiration time of existing domains. However, a preliminary analysis suggests that an attacker-controlled controller may be able to reduce the expiration time of existing domains due to an integer overflow in the renew function.\n\nThe vulnerability resides in the following GitHub repository: https://github.com/ensdomains/ens-contracts/blob/master/contracts/ethregistrar/BaseRegistrarImplementation.sol#L171 \n\nThe vulnerable line of code is:\n```js\nrequire(\n            expiries[id] + duration + GRACE_PERIOD > duration + GRACE_PERIOD\n        ); // Prevent future overflow\n```\n\nIn this code snippet, the `duration` variable is user-supplied, making it possible to provide a value that would cause an overflow on both sides of the '>' expression, ultimately rendering the condition true. Specifically, when the duration is set to `2^256 - GRACE_PERIOD`, the subsequent line `expiries[id] += duration;` also experiences an overflow, as `expiries[id]` is greater than `GRACE_PERIOD`. This results in the reduction of `expiries[id]` by `GRACE_PERIOD`. By repeatedly calling the renew function, an attacker could potentially force the expiration of an ENS record.\n\nYou can find the PoC included in the attached document. To execute the test, please use the following command:\n```\nforge test -vvv --match-contract RegistrarExploit --fork-url <alchemy_url>\n```\n\nReplace `<alchemy_url>` with your Alchemy API URL. This command will run the Foundry test file and demonstrate the potential vulnerability.\n\n### Impact\nIf successfully exploited, this vulnerability would enable attackers to force the expiration of any ENS record, ultimately allowing them to claim the affected domains for themselves.\n\nCurrently, it would require a malicious DAO to exploit it. Nevertheless, any vulnerability present in the controllers could potentially render this issue exploitable in the future.\n\nAn additional concern is the possibility of renewal discounts. Should ENS decide to implement a system that offers unlimited .eth domains for a fixed fee in the future, the vulnerability could become exploitable by any user due to the reduced attack cost.\n\n### Patches\nA mitigation is being developed.\n\n### Workarounds\nAs long as registration cost remains linear or superlinear based on registration duration, or limited to a reasonable maximum (eg, 1 million years), this vulnerability could only be exploited by a malicious DAO. The interim workaround is thus to take no action.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@ensdomains/ens-contracts"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.0.22"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.0.21"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ensdomains/ens-contracts/security/advisories/GHSA-rrxv-q8m4-wch3"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-38698"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ensdomains/ens-contracts/commit/e6b136e979084de3761c125142620304173990ca"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ensdomains/ens-contracts"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ensdomains/ens-contracts/blob/master/contracts/ethregistrar/BaseRegistrarImplementation.sol#L171"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-190"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-01T19:48:31Z",
+    "nvd_published_at": "2023-08-04T18:15:15Z"
+  }
+}

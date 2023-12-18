@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-j9rc-w3wv-fv62",
+  "modified": "2023-11-08T14:51:37Z",
+  "published": "2023-11-08T14:51:37Z",
+  "aliases": [
+    "CVE-2023-46732"
+  ],
+  "summary": "XWiki Platform vulnerable to  reflected cross-site scripting through revision parameter in content menu",
+  "details": "### Impact\n\nXWiki is vulnerable to reflected cross-site scripting (RXSS) via the `rev` parameter that is used in the content of the content menu without escaping. If an attacker can convince a user to visit a link with a crafted parameter, this allows the attacker to execute arbitrary actions in the name of the user, including remote code (Groovy) execution in the case of a user with programming right, compromising the confidentiality, integrity and availability of the whole XWiki installation.\n\nThe vulnerability can be demonstrated by opening `<xwiki-host>/xwiki/bin/view/Main/?rev=xar%3Aorg.xwiki.platform%3Axwiki-platform-distribution-flavor-common%2F15.5%25%25%22%3e%3cscript%3ealert(1)%3c%2fscript%3e` where `<xwiki-host>` is the URL of your XWiki installation. If an alert is displayed, the installation is vulnerable.\n\n### Patches\nThis has been patched in XWiki 15.6 RC1, 15.5.1 and 14.10.14.\n\n### Workarounds\nThe [patch](https://github.com/xwiki/xwiki-platform/commit/04e325d57d4bcb6ab79bddcafbb19032474c2a55) can be manually applied without upgrading (or restarting) the instance.\n\n### References\n* https://jira.xwiki.org/browse/XWIKI-21095\n* https://github.com/xwiki/xwiki-platform/commit/04e325d57d4bcb6ab79bddcafbb19032474c2a55\n\n### Attribution\n\nWe thank Agostino Parentela, Vulnerability Management Engineer of TicketOne S.p.A., [agostino.parentela@ticketone.it](mailto:agostino.parentela@ticketone.it) for reporting this vulnerability.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-flamingo-skin-resources"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.7-rc-1"
+            },
+            {
+              "fixed": "14.10.14"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-flamingo-skin-resources"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "15.0-rc-1"
+            },
+            {
+              "fixed": "15.5.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-j9rc-w3wv-fv62"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-46732"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/04e325d57d4bcb6ab79bddcafbb19032474c2a55"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-21095"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79",
+      "CWE-80"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-08T14:51:37Z",
+    "nvd_published_at": "2023-11-06T19:15:09Z"
+  }
+}

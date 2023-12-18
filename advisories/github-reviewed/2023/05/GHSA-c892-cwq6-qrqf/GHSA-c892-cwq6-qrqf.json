@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c892-cwq6-qrqf",
+  "modified": "2023-06-30T20:30:22Z",
+  "published": "2023-05-26T18:30:21Z",
+  "withdrawn": "2023-06-30T20:30:22Z",
+  "aliases": [
+
+  ],
+  "summary": "Duplicate Advisory: Keycloak vulnerable to untrusted certificate validation",
+  "details": "## Duplicate Advisory\nThis advisory has been withdrawn because it is a duplicate of GHSA-5cc8-pgp5-7mpm. This link is maintained to preserve external references.\n\n## Original Advisory\nA flaw was found in Keycloak. This flaw depends on a non-default configuration \"Revalidate Client Certificate\" to be enabled and the reverse proxy is not validating the certificate before Keycloak. Using this method an attacker may choose the certificate which will be validated by the server. If this happens and the KC_SPI_TRUSTSTORE_FILE_FILE variable is missing/misconfigured, any trustfile may be accepted with the logging information of \"Cannot validate client certificate trust: Truststore not available\". This may not impact availability as the attacker would have no access to the server, but consumer applications Integrity or Confidentiality may be impacted considering a possible access to them. Considering the environment is correctly set to use \"Revalidate Client Certificate\" this flaw is avoidable.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.keycloak:keycloak-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "21.1.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-1664"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/security/cve/CVE-2023-1664"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2182196&comment#0"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/keycloak/keycloak"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-295"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-26T21:24:14Z",
+    "nvd_published_at": "2023-05-26T18:15:09Z"
+  }
+}

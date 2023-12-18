@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3cjh-p6pw-jhv9",
+  "modified": "2023-09-19T17:00:08Z",
+  "published": "2023-09-19T17:00:08Z",
+  "aliases": [
+    "CVE-2023-42446"
+  ],
+  "summary": "Pow Mnesia cache doesn't invalidate all expired keys on startup",
+  "details": "Use of `Pow.Store.Backend.MnesiaCache` is susceptible to session hijacking as expired keys are not being invalidated correctly on startup. A cache key may become expired when all `Pow.Store.Backend.MnesiaCache` instances have been shut down for a period that is longer than the keys' remaining TTL and the expired key won't be invalidated on startups.\n\n### Workarounds\n\nThe expired keys, including all expired sessions, can be manually invalidated by running:\n\n```elixir\n:mnesia.sync_transaction(fn ->\n  Enum.each(:mnesia.dirty_select(Pow.Store.Backend.MnesiaCache, [{{Pow.Store.Backend.MnesiaCache, :_, :_}, [], [:\"$_\"]}]), fn {_, key,  {_value, expire}} ->\n    ttl = expire - :os.system_time(:millisecond)\n    if ttl < 0, do: :mnesia.delete({Pow.Store.Backend.MnesiaCache, key})\n  end)\nend)\n```\n\n### References\nhttps://github.com/pow-auth/pow/commit/15dc525be03c466daa5d2119ca7acdec7b24ed17\nhttps://github.com/pow-auth/pow/issues/713\nhttps://github.com/pow-auth/pow/pull/714\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Hex",
+        "name": "pow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.14"
+            },
+            {
+              "fixed": "1.0.34"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pow-auth/pow/security/advisories/GHSA-3cjh-p6pw-jhv9"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-42446"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pow-auth/pow/issues/713"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pow-auth/pow/pull/714"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pow-auth/pow/commit/15dc525be03c466daa5d2119ca7acdec7b24ed17"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pow-auth/pow"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-298",
+      "CWE-672"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-19T17:00:08Z",
+    "nvd_published_at": "2023-09-18T22:15:47Z"
+  }
+}

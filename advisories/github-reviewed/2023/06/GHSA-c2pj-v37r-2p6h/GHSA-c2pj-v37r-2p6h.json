@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c2pj-v37r-2p6h",
+  "modified": "2023-08-25T21:35:14Z",
+  "published": "2023-06-26T15:48:33Z",
+  "aliases": [
+    "CVE-2023-40586"
+  ],
+  "summary": "Coraza has potential denial of service vulnerability",
+  "details": "### Summary\n\nDue to the misuse of `log.Fatalf`, the application using coraza crashed after receiving crafted requests from attackers.\n\n### Details\n\nhttps://github.com/corazawaf/coraza/blob/82157f85f24c6107667bf0f686b71a72aafdf8a5/internal/bodyprocessors/multipart.go#L26-L29\nThe bodyprocessors of multipart uses `log.Fatalf` to handle errors from the `mime.ParseMediaType`, but `log.Fatalf` calls `os.Exit` directly after logging the error.\nhttps://github.com/golang/go/blob/a031f4ef83edc132d5f49382bfef491161de2476/src/log/log.go#L288-L291\nThis means that the application will immediately crash after receiving a malicious request that triggers an error in `mime.ParseMediaType`.\n\n### PoC\n\nThe server can be demonstrated by https://github.com/corazawaf/coraza/tree/main/examples/http-server\n\nAfter sending this request\n```\nPOST / HTTP/1.1\nHost: 127.0.0.1:8090\nUser-Agent: curl/8.1.2\nAccept: */*\nContent-Length: 199\nContent-Type: multipart/form-data; boundary=------------------------5fa6351b877326a1; a=1; a=2\nConnection: close\n\n--------------------------5fa6351b877326a1\nContent-Disposition: form-data; name=\"file\"; filename=\"123\"\nContent-Type: application/octet-stream\n\n123\n\n--------------------------5fa6351b877326a1--\n\n```\nThe server will crash immediately. The `a=1; a=2` in `Content-Type` makes `mime: duplicate parameter name` error.\n\n### Impact\n\nI believe the vulnerability was introduced by the following commit: https://github.com/corazawaf/coraza/commit/24af0c8cf4f10bab558740b595712be3b85493ec.\n\n### Mitigation\n\nThe error from `mime.ParseMediaType` should return directly.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/corazawaf/coraza/v3"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.0.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/corazawaf/coraza/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "last_affected": "2.0.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/corazawaf/coraza/security/advisories/GHSA-c2pj-v37r-2p6h"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-40586"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/corazawaf/coraza-caddy/issues/48"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/corazawaf/coraza/commit/24af0c8cf4f10bab558740b595712be3b85493ec"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/corazawaf/coraza/commit/a5239ba3ce839e14d9b4f9486e1b4a403dcade8c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/corazawaf/coraza/commit/e1b119b83e12c64f0957e00e8cad45a1b5f012f8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/corazawaf/coraza"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/corazawaf/coraza/blob/82157f85f24c6107667bf0f686b71a72aafdf8a5/internal/bodyprocessors/multipart.go#L26-L29"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/corazawaf/coraza/releases/tag/v3.0.1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/golang/go/blob/a031f4ef83edc132d5f49382bfef491161de2476/src/log/log.go#L288-L291"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-26T15:48:33Z",
+    "nvd_published_at": "2023-08-25T21:15:09Z"
+  }
+}

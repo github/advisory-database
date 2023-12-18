@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7mcw-xmx3-7p8m",
+  "modified": "2023-06-21T17:18:42Z",
+  "published": "2023-06-13T18:30:39Z",
+  "aliases": [
+    "CVE-2023-33695"
+  ],
+  "summary": "Insecure Temporary File in HuTool",
+  "details": "Hutool v5.8.17 and below was discovered to contain an information disclosure vulnerability via the `File.createTempFile()` function at `/core/io/FileUtil.java`.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "cn.hutool:hutool-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.8.19"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-33695"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dromara/hutool/issues/3103"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dromara/hutool/commit/c33550f703f5d1d7dd71ad2992d79a5e5532ce2c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/dromara/hutool"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-377",
+      "CWE-732"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-14T16:38:27Z",
+    "nvd_published_at": "2023-06-13T16:15:13Z"
+  }
+}

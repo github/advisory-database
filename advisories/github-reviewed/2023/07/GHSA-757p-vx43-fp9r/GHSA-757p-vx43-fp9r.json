@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-757p-vx43-fp9r",
+  "modified": "2023-07-21T20:18:00Z",
+  "published": "2023-07-21T20:18:00Z",
+  "aliases": [
+    "CVE-2023-37917"
+  ],
+  "summary": "KubePi Privilege Escalation vulnerability",
+  "details": "### Summary\nA normal user has permission to create/update users, they can become admin by editing the `isadmin` value in the request\n\n\n### PoC\nChange the value of the `isadmin` field in the request to true:\nhttps://drive.google.com/file/d/1e8XJbIFIDXaFiL-dqn0a0b6u7o3CwqSG/preview\n\n### Impact\nElevate user privileges\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:L/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/KubeOperator/kubepi"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.6.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/1Panel-dev/KubePi/security/advisories/GHSA-757p-vx43-fp9r"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-37917"
+    },
+    {
+      "type": "WEB",
+      "url": "https://drive.google.com/file/d/1e8XJbIFIDXaFiL-dqn0a0b6u7o3CwqSG/preview"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/1Panel-dev/KubePi"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/1Panel-dev/KubePi/releases/tag/v1.6.5"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-269"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-21T20:18:00Z",
+    "nvd_published_at": "2023-07-21T21:15:11Z"
+  }
+}

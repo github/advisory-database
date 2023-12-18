@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-pqr6-cmr2-h8hf",
+  "modified": "2023-06-27T21:57:08Z",
+  "published": "2023-06-15T16:13:20Z",
+  "aliases": [
+    "CVE-2023-34453"
+  ],
+  "summary": "snappy-java's Integer Overflow vulnerability in shuffle leads to DoS",
+  "details": "## Summary\nDue to unchecked multiplications, an integer overflow may occur, causing a fatal error.\n## Impact\nDenial of Service\n## Description\nThe function [shuffle(int[] input)](https://github.com/xerial/snappy-java/blob/05c39b2ca9b5b7b39611529cc302d3d796329611/src/main/java/org/xerial/snappy/BitShuffle.java#L107) in the file [BitShuffle.java](https://github.com/xerial/snappy-java/blob/master/src/main/java/org/xerial/snappy/BitShuffle.java) receives an array of integers and applies a bit shuffle on it. It does so by multiplying the length by 4 and passing it to the natively compiled shuffle function.\n\n```java\npublic static byte[] shuffle(int[] input) throws IOException {\n        byte[] output = new byte[input.length * 4];\n        int numProcessed = impl.shuffle(input, 0, 4, input.length * 4, output, 0);\n        assert(numProcessed == input.length * 4);\n        return output;\n    }\n\n```\n\nSince the length is not tested, the multiplication by four can cause an integer overflow and become a smaller value than the true size, or even zero or negative. In the case of a negative value, a “java.lang.NegativeArraySizeException” exception will raise, which can crash the program. In a case of a value that is zero or too small, the code that afterwards references the shuffled array will assume a bigger size of the array, which might cause exceptions such as “java.lang.ArrayIndexOutOfBoundsException”.\nThe same issue exists also when using the “shuffle” functions that receive a double, float, long and short, each using a different multiplier that may cause the same issue.\n\n## Steps To Reproduce\nCompile and run the following code:\n\n```java\npackage org.example;\nimport org.xerial.snappy.BitShuffle;\n\nimport java.io.*;\n\n\npublic class Main {\n\n    public static void main(String[] args) throws IOException {\n        int[] original = new int[0x40000000];\n        byte[] shuffled = BitShuffle.shuffle(original);\n        System.out.println(shuffled[0]);\n    }\n}\n\n```\nThe program will crash, showing the following error (or similar):\n\n```\nException in thread \"main\" java.lang.ArrayIndexOutOfBoundsException: Index 0 out of bounds for length 0\n\tat org.example.Main.main(Main.java:12)\n\nProcess finished with exit code 1\n\n```\n\nAlternatively - compile and run the following code:\n\n```java\npackage org.example;\nimport org.xerial.snappy.BitShuffle;\n\nimport java.io.*;\n\n\npublic class Main {\n\n    public static void main(String[] args) throws IOException {\n        int[] original = new int[0x20000000];\n        byte[] shuffled = BitShuffle.shuffle(original);\n    }\n}\n\n```\nThe program will crash with the following error (or similar):\n\n```\nException in thread \"main\" java.lang.NegativeArraySizeException: -2147483648\n\tat org.xerial.snappy.BitShuffle.shuffle(BitShuffle.java:108)\n\tat org.example.Main.main(Main.java:11)\n```",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xerial.snappy:snappy-java"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.1.10.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.1.10.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xerial/snappy-java/security/advisories/GHSA-pqr6-cmr2-h8hf"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-34453"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xerial/snappy-java/commit/820e2e074c58748b41dbd547f4edba9e108ad905"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xerial/snappy-java"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xerial/snappy-java/blob/05c39b2ca9b5b7b39611529cc302d3d796329611/src/main/java/org/xerial/snappy/BitShuffle.java#L107"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xerial/snappy-java/blob/master/src/main/java/org/xerial/snappy/BitShuffle.java"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-190"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-15T16:13:20Z",
+    "nvd_published_at": "2023-06-15T17:15:09Z"
+  }
+}

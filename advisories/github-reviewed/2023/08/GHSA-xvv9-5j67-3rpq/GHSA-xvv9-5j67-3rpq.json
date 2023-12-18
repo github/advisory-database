@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xvv9-5j67-3rpq",
+  "modified": "2023-08-22T18:39:53Z",
+  "published": "2023-08-14T03:30:32Z",
+  "aliases": [
+    "CVE-2023-40274"
+  ],
+  "summary": "zola Path Traversal vulnerability",
+  "details": "An issue was discovered in zola 0.13.0 through 0.17.2. The custom implementation of a web server, available via the \"zola serve\" command, allows directory traversal. The `handle_request` function, used by the server to process HTTP requests, does not account for sequences of special path control characters (`../`) in the URL when serving a file, which allows one to escape the webroot of the server and read arbitrary files from the filesystem.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "zola"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.13.0"
+            },
+            {
+              "last_affected": "0.17.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-40274"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getzola/zola/issues/2257"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getzola/zola/pull/2258"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/getzola/zola"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-14T21:33:07Z",
+    "nvd_published_at": "2023-08-14T01:15:47Z"
+  }
+}

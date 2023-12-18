@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g9mr-9xfc-4gf7",
+  "modified": "2023-05-24T21:53:45Z",
+  "published": "2023-05-24T18:30:26Z",
+  "aliases": [
+    "CVE-2023-33949"
+  ],
+  "summary": "Insecure Default Initialization In Liferay Portal",
+  "details": "In Liferay Portal 7.3.0 and earlier, and Liferay DXP 7.2 and earlier the default configuration does not require users to verify their email address, which allows remote attackers to create accounts using fake email addresses or email addresses which they don't control. The portal property `company.security.strangers.verify` should be set to true.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.liferay.portal:release.portal.bom"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.0.0"
+            },
+            {
+              "fixed": "7.3.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-33949"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/liferay/liferay-portal"
+    },
+    {
+      "type": "WEB",
+      "url": "https://liferay.dev/portal/security/known-vulnerabilities/-/asset_publisher/jekt/content/cve-2023-33949"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1188"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-24T21:53:45Z",
+    "nvd_published_at": "2023-05-24T17:15:09Z"
+  }
+}

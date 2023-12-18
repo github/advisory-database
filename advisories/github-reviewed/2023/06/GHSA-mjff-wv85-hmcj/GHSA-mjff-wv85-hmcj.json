@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mjff-wv85-hmcj",
+  "modified": "2023-06-27T20:28:27Z",
+  "published": "2023-06-19T09:30:17Z",
+  "aliases": [
+    "CVE-2023-35005"
+  ],
+  "summary": "Apache Airflow vulnerable to exposure of sensitive information",
+  "details": "In Apache Airflow, some potentially sensitive values were being shown to the user in certain situations.\n\nThis vulnerability is mitigated by the fact configuration is not shown in the UI by default (only if `[webserver] expose_config` is set to `non-sensitive-only`), and not all uncensored values are actually sentitive.\n\nThis issue affects Apache Airflow: from 2.5.0 before 2.6.2. Users are recommended to update to version 2.6.2 or later.\n\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "apache-airflow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.5.0"
+            },
+            {
+              "fixed": "2.6.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-35005"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/airflow/pull/31788"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/airflow/pull/31820"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/airflow"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/apache-airflow/PYSEC-2023-89.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/o4f2cxh0054m9tlxpb81c1yhylor5gjd"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-19T22:47:45Z",
+    "nvd_published_at": "2023-06-19T09:15:09Z"
+  }
+}

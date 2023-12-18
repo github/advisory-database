@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-gwvm-45gx-3cf8",
+  "modified": "2023-10-19T19:26:56Z",
+  "published": "2023-10-15T21:30:26Z",
+  "aliases": [
+    "CVE-2018-25091"
+  ],
+  "summary": "Authorization Header forwarded on redirect",
+  "details": "urllib3 before 1.24.2 does not remove the authorization HTTP header when following a cross-origin redirect (i.e., a redirect that differs in host, port, or scheme). This can allow for credentials in the authorization header to be exposed to unintended hosts or transmitted in cleartext. NOTE: this issue exists because of an incomplete fix for CVE-2018-20060 (which was case-sensitive).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "urllib3"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.24.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-25091"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/urllib3/urllib3/issues/1510"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/urllib3/urllib3/commit/adb358f8e06865406d1f05e581a16cbea2136fbc"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/urllib3/PYSEC-2023-207.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/urllib3/urllib3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/urllib3/urllib3/compare/1.24.1...1.24.2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200",
+      "CWE-601"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-17T14:21:39Z",
+    "nvd_published_at": "2023-10-15T19:15:09Z"
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f2wx-xjfw-xjv6",
+  "modified": "2023-07-17T18:21:58Z",
+  "published": "2023-07-17T18:21:58Z",
+  "aliases": [
+
+  ],
+  "summary": "topgrade Time-of-check Time-of-use (TOCTOU) Race Condition in remove_dir_all",
+  "details": "### Summary\nhttps://github.com/advisories/GHSA-mc8h-8q98-g5hr\nhttps://github.com/XAMPPRocky/remove_dir_all/commit/7247a8b6ee59fc99bbb69ca6b3ca4bfd8c809ead\n\n`tempfile` v0.4.26 ships with affected `remove_dir_all` v0.5.3 and so blocks my deployment of v12 to openSUSE distribution because it imposes a clean `cargo audit`\n\nUpdating `tempfile` is warranted",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "topgrade"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "12.0.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 12.0.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/topgrade-rs/topgrade/security/advisories/GHSA-f2wx-xjfw-xjv6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/XAMPPRocky/remove_dir_all/commit/7247a8b6ee59fc99bbb69ca6b3ca4bfd8c809ead"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-mc8h-8q98-g5hr"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/topgrade-rs/topgrade"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/topgrade-rs/topgrade/releases/tag/v12.0.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-367"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-17T18:21:58Z",
+    "nvd_published_at": null
+  }
+}

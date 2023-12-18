@@ -1,0 +1,134 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-x3cq-8f32-5f63",
+  "modified": "2023-07-12T14:46:52Z",
+  "published": "2023-07-06T21:15:04Z",
+  "aliases": [
+    "CVE-2023-33246"
+  ],
+  "summary": "Apache RocketMQ may have remote code execution vulnerability when using update configuration function",
+  "details": "For RocketMQ versions 5.1.0 and below, under certain conditions, there is a risk of remote command execution. \n\nSeveral components of RocketMQ, including NameServer, Broker, and Controller, are leaked on the extranet and lack permission verification, an attacker can exploit this vulnerability by using the update configuration function to execute commands as the system users that RocketMQ is running as. Additionally, an attacker can achieve the same effect by forging the RocketMQ protocol content. \n\nTo prevent these attacks, users are recommended to upgrade to version 5.1.1 or above for using RocketMQ 5.x or 4.9.6 or above for using RocketMQ 4.x .",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.rocketmq:rocketmq-broker"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0"
+            },
+            {
+              "fixed": "5.1.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.rocketmq:rocketmq-namesrv"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0"
+            },
+            {
+              "fixed": "4.9.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.rocketmq:rocketmq-controller"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0"
+            },
+            {
+              "fixed": "5.1.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.rocketmq:rocketmq-namesrv"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0"
+            },
+            {
+              "fixed": "5.1.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-33246"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/rocketmq/commit/9d411cf04a695e7a3f41036e8377b0aa544d754d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/rocketmq/commit/c3ada731405c5990c36bf58d50b3e61965300703"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/rocketmq"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/1s8j2c8kogthtpv3060yddk03zq0pxyp"
+    },
+    {
+      "type": "WEB",
+      "url": "http://packetstormsecurity.com/files/173339/Apache-RocketMQ-5.1.0-Arbitrary-Code-Injection.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2023/07/12/1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-06T23:48:22Z",
+    "nvd_published_at": "2023-05-24T15:15:09Z"
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-j494-7x2v-vvvp",
+  "modified": "2023-07-14T13:28:34Z",
+  "published": "2023-07-13T17:02:12Z",
+  "aliases": [
+    "CVE-2023-34458"
+  ],
+  "summary": "mx-chain-go's relayed transactions always increment nonce",
+  "details": "### Impact\nWhen executing a relayed transaction, if the inner transaction failed, it would have increased the inner transaction's sender account nonce. This could have contributed to a limited DoS attack on a targeted account. The fix is a breaking change so a new flag `RelayedNonceFixEnableEpoch` was needed. This was a strict processing issue while validating blocks on a chain.\n\n### Patches\nv1.4.17 and later versions contain the fix for this issue\n\n### Workarounds\nthere were no workarounds for this issue. The affected account could only wait for the DoS attack to finish as the attack was not free or to attempt to send transactions in a very fast manner so as to compete on the same nonce with the attacker.\n\n### References\nFor the future understanding of this issue, on v1.4.17 and onwards versions, we have this integration test that addresses the issue and tests the fix. \nhttps://github.com/multiversx/mx-chain-go/blob/babdb144f1316ab6176bf3dbd7d4621120414d43/integrationTests/vm/txsFee/relayedMoveBalance_test.go#LL165C14-L165C14\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:L/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/multiversx/mx-chain-go"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.4.17"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/multiversx/mx-chain-go/security/advisories/GHSA-j494-7x2v-vvvp"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-34458"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/multiversx/mx-chain-go/commit/babdb144f1316ab6176bf3dbd7d4621120414d43"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/multiversx/mx-chain-go"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/multiversx/mx-chain-go/blob/babdb144f1316ab6176bf3dbd7d4621120414d43/integrationTests/vm/txsFee/relayedMoveBalance_test.go#LL165C14-L165C14"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/multiversx/mx-chain-go/releases/tag/v1.4.17"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-13T17:02:12Z",
+    "nvd_published_at": "2023-07-13T19:15:09Z"
+  }
+}

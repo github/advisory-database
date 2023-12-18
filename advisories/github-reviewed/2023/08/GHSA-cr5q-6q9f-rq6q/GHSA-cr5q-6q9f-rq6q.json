@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cr5q-6q9f-rq6q",
+  "modified": "2023-08-23T20:36:24Z",
+  "published": "2023-08-23T20:36:24Z",
+  "aliases": [
+    "CVE-2023-38037"
+  ],
+  "summary": "Active Support Possibly Discloses Locally Encrypted Files",
+  "details": "There is a possible file disclosure of locally encrypted files in Active Support. This vulnerability has been assigned the CVE identifier CVE-2023-38037.\n\nVersions Affected: >= 5.2.0 Not affected: < 5.2.0 Fixed Versions: 7.0.7.1, 6.1.7.5\n\n# Impact\nActiveSupport::EncryptedFile writes contents that will be encrypted to a temporary file. The temporary file’s permissions are defaulted to the user’s current umask settings, meaning that it’s possible for other users on the same system to read the contents of the temporary file.\n\nAttackers that have access to the file system could possibly read the contents of this temporary file while a user is editing it.\n\nAll users running an affected release should either upgrade or use one of the workarounds immediately.\n\n# Releases\nThe fixed releases are available at the normal locations.\n\n# Workarounds\nTo work around this issue, you can set your umask to be more restrictive like this:\n\n```ruby\n$ umask 0077\n```\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "activesupport"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.2.0"
+            },
+            {
+              "fixed": "6.1.7.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "activesupport"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.0.0"
+            },
+            {
+              "fixed": "7.0.7.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/rails/rails/commit/a21d6edf35a60383dfa6c4da49e4b1aef5f00731"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/rails/rails"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rails/rails/releases/tag/v7.0.7.1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/activesupport/CVE-2023-38037.yml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-377"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-23T20:36:24Z",
+    "nvd_published_at": null
+  }
+}

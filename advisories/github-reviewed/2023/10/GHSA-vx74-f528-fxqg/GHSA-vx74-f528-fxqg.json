@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vx74-f528-fxqg",
+  "modified": "2023-10-10T18:23:21Z",
+  "published": "2023-10-10T18:23:21Z",
+  "aliases": [
+
+  ],
+  "summary": "github.com/nghttp2/nghttp2 has HTTP/2 Rapid Reset",
+  "details": "### Impact\n\nRapidly creating and cancelling streams (HEADERS frame immediately followed by RST_STREAM) without bound cause denial of service.\n\nSee https://www.cve.org/CVERecord?id=CVE-2023-44487 for details.\n\n### Patches\n\nnghttp2 v1.57.0 mitigates this vulnerability by default.\n\n### Workarounds\n\nIf upgrading to nghttp2 v1.57.0 is not possible, implement `nghttp2_on_frame_recv_callback`, and check and count RST_STREAM frames.  If excessive number of RST_STREAM are received, then take action, such as dropping connection silently, or call `nghttp2_submit_goaway` and gracefully terminate the connection.\n\n### References\n\nThe following commit mitigates this vulnerability:\n\n- https://github.com/nghttp2/nghttp2/commit/72b4af6143681f528f1d237b21a9a7aee1738832\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/nghttp2/nghttp2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.57.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/nghttp2/nghttp2/security/advisories/GHSA-vx74-f528-fxqg"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nghttp2/nghttp2/commit/72b4af6143681f528f1d237b21a9a7aee1738832"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/nghttp2/nghttp2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nghttp2/nghttp2/releases/tag/v1.57.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-10T18:23:21Z",
+    "nvd_published_at": null
+  }
+}

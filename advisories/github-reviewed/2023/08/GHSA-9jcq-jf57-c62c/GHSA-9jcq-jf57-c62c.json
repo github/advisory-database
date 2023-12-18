@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9jcq-jf57-c62c",
+  "modified": "2023-08-08T20:46:12Z",
+  "published": "2023-08-08T20:46:12Z",
+  "aliases": [
+    "CVE-2023-39349"
+  ],
+  "summary": "Privilege escalation via ApiTokensEndpoint",
+  "details": "### Impact\nAn attacker with access to a token with few or no scopes can query `/api/0/api-tokens/` for a list of all tokens created by a user, including tokens with greater scopes, and use those tokens in other requests.\n\nThere is no evidence that the issue was exploited on https://sentry.io. For self-hosted users, it is advised to rotate user auth tokens via `https://your-self-hosted-sentry-installation/settings/account/api/auth-tokens/`.\n\n### Patches\nThe issue was fixed in https://github.com/getsentry/sentry/pull/53850 and is available in the release 23.7.2 of [sentry](https://github.com/getsentry/sentry/releases/tag/23.7.2) and [self-hosted](https://github.com/getsentry/self-hosted/releases/tag/23.7.2).\n\n### Workarounds\nThere are no known workarounds.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "sentry"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "22.1.0"
+            },
+            {
+              "fixed": "23.7.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/getsentry/sentry/security/advisories/GHSA-9jcq-jf57-c62c"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-39349"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getsentry/sentry/pull/53850"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getsentry/sentry/commit/fad12c1150d1135edf9666ea72ca11bc110c1083"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getsentry/self-hosted/releases/tag/23.7.2"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/getsentry/sentry"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getsentry/sentry/releases/tag/23.7.2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-284"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-08T20:46:12Z",
+    "nvd_published_at": "2023-08-07T19:15:11Z"
+  }
+}

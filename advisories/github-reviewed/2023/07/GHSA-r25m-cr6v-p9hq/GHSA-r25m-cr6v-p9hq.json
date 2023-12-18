@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r25m-cr6v-p9hq",
+  "modified": "2023-07-06T20:40:17Z",
+  "published": "2023-07-06T20:40:17Z",
+  "aliases": [
+    "CVE-2023-36827"
+  ],
+  "summary": "ethyca-fides Webserver API Path Traversal vulnerability",
+  "details": "### Impact\nA path traversal (directory traversal) vulnerability affects fides versions lower than `2.15.1`, allowing remote attackers to access arbitrary files on the fides webserver container's filesystem.\n\n### Patches\nThe vulnerability is patched in fides `2.15.1`. Users should upgrade to this version.\n\n### Workarounds\nIf the Fides webserver API is not directly accessible to attackers and is instead deployed behind a reverse proxy as recommended in Ethyca's [security best practice documentation](https://docs.ethyca.com/docs/configuration/security-practices#reverse-proxy), and the reverse proxy is an AWS application load balancer, the vulnerability can't be exploited by these attackers. An AWS application load balancer will reject this attack with a 400 error.\n\nAdditionally, any secrets supplied to the container using environment variables rather than a `fides.toml` configuration file are not affected by this vulnerability.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ethyca-fides"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.15.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ethyca/fides/security/advisories/GHSA-r25m-cr6v-p9hq"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-36827"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ethyca/fides/commit/f526d9ffb176006d701493c9d0eff6b4884e811f"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ethyca/fides"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ethyca/fides/releases/tag/2.15.1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/ethyca-fides/PYSEC-2023-107.yaml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-06T20:40:17Z",
+    "nvd_published_at": "2023-07-05T22:15:10Z"
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9pv7-vfvm-6vr7",
+  "modified": "2023-09-21T17:03:11Z",
+  "published": "2023-09-20T06:30:50Z",
+  "aliases": [
+    "CVE-2023-26144"
+  ],
+  "summary": "graphql Uncontrolled Resource Consumption vulnerability",
+  "details": "Versions of the package graphql from 16.3.0 and before 16.8.1 are vulnerable to Denial of Service (DoS) due to insufficient checks in the OverlappingFieldsCanBeMergedRule.ts file when parsing large queries. This vulnerability allows an attacker to degrade system performance.\n\n**Note:** It was not proven that this vulnerability can crash the process.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "graphql"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "16.3.0"
+            },
+            {
+              "fixed": "16.8.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-26144"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/graphql/graphql-js/issues/3955"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/graphql/graphql-js/pull/3972"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/graphql/graphql-js/commit/8f4c64eb6a7112a929ffeef00caa67529b3f2fcf"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/graphql/graphql-js"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/graphql/graphql-js/releases/tag/v16.8.1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-JS-GRAPHQL-5905181"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-21T17:03:11Z",
+    "nvd_published_at": "2023-09-20T05:15:39Z"
+  }
+}

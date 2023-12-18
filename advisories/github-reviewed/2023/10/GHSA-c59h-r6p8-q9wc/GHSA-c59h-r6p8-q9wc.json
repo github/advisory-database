@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c59h-r6p8-q9wc",
+  "modified": "2023-10-24T19:18:58Z",
+  "published": "2023-10-22T03:30:23Z",
+  "aliases": [
+    "CVE-2023-46298"
+  ],
+  "summary": "Next.js missing cache-control header may lead to CDN caching empty reply",
+  "details": "Next.js before 13.4.20-canary.13 lacks a cache-control header and thus empty prefetch responses may sometimes be cached by a CDN, causing a denial of service to all users requesting the same URL via that CDN. Cloudflare considers these requests cacheable assets.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "next"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.9.9"
+            },
+            {
+              "fixed": "13.4.20-canary.13"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-46298"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vercel/next.js/issues/45301"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vercel/next.js/pull/54732"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vercel/next.js/commit/20d05958ff853e9c9e42139ffec294336881c648"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vercel/next.js"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vercel/next.js/compare/v13.4.20-canary.12...v13.4.20-canary.13"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-24T19:18:58Z",
+    "nvd_published_at": "2023-10-22T03:15:07Z"
+  }
+}

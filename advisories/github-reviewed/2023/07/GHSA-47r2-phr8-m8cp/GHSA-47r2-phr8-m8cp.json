@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-47r2-phr8-m8cp",
+  "modified": "2023-07-20T19:03:59Z",
+  "published": "2023-07-12T12:31:36Z",
+  "aliases": [
+    "CVE-2023-31007"
+  ],
+  "summary": "Apache Pulsar Broker Improper Authentication vulnerability",
+  "details": "Improper Authentication vulnerability in Apache Software Foundation Apache Pulsar Broker allows a client to stay connected to a broker after authentication data expires if the client connected through the Pulsar Proxy when the broker is configured with authenticateOriginalAuthData=false or if a client connects directly to a broker with a specially crafted connect command when the broker is configured with authenticateOriginalAuthData=false.\n\nThis issue affects Apache Pulsar: through 2.9.4, from 2.10.0 through 2.10.3, 2.11.0.\n\n2.9 Pulsar Broker users should upgrade to at least 2.9.5.\n2.10 Pulsar Broker users should upgrade to at least 2.10.4.\n2.11 Pulsar Broker users should upgrade to at least 2.11.1.\n3.0 Pulsar Broker users are unaffected.\nAny users running the Pulsar Broker for 2.8.* and earlier should upgrade to one of the above patched versions.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.pulsar:pulsar-broker"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.9.0"
+            },
+            {
+              "fixed": "2.10.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.pulsar:pulsar-broker"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.11.0"
+            },
+            {
+              "fixed": "2.11.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "2.11.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-31007"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/pulsar"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/qxn99xxyp0zv6jchjggn3soyo5gvqfxj"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-287"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-12T17:30:17Z",
+    "nvd_published_at": "2023-07-12T10:15:10Z"
+  }
+}

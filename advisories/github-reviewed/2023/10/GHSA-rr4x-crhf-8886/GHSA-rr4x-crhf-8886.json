@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rr4x-crhf-8886",
+  "modified": "2023-10-10T21:29:50Z",
+  "published": "2023-10-10T21:29:50Z",
+  "aliases": [
+
+  ],
+  "summary": "Cache variables with the operations when transforms exist on the root level even if variables change in the further requests with the same operation",
+  "details": "When you have transforms on the root level or single source with transforms, and the client sends the same query with different variables, the initial variables are used in all following requests until the cache evicts DocumentNode.\n\nLet's say if a token is sent via variables, the following requests will act like the same token is sent even if the following requests have different tokens.\n\nThis can cause a short memory leak but it won't grow per each request but per different operation until the cache evicts DocumentNode by LRU mechanism.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@graphql-mesh/runtime"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.96.5"
+            },
+            {
+              "fixed": "0.96.9"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/Urigo/graphql-mesh/security/advisories/GHSA-rr4x-crhf-8886"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Urigo/graphql-mesh/commit/482d813a9f75935024aa77872125d197f5fca3d0"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Urigo/graphql-mesh"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Urigo/graphql-mesh/releases/tag/release-1696859949678"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-10T21:29:50Z",
+    "nvd_published_at": null
+  }
+}

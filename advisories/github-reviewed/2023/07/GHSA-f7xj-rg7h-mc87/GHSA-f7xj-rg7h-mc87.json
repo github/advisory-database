@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f7xj-rg7h-mc87",
+  "modified": "2023-07-13T16:49:53Z",
+  "published": "2023-07-07T20:32:55Z",
+  "withdrawn": "2023-07-13T16:49:53Z",
+  "aliases": [
+
+  ],
+  "summary": "Stylelint has vulnerability in semver dependency",
+  "details": "### Summary\n\nOur `meow` dependency (which we use for our CLI) depended on `semver@5.7.1 `. A vulnerability in this version of `semver` was recently identified and surfaced by `npm audit`:\n\nRegular Expression Denial of Service - https://github.com/advisories/GHSA-c2qf-rxjj-qqgw\n\n### Details\n\nOriginal post by the reporter:\n\n\"my npm audit show the report\n\nsemver  <7.5.2\nSeverity: moderate\nsemver vulnerable to Regular Expression Denial of Service - https://github.com/advisories/GHSA-c2qf-rxjj-qqgw\nNo fix available\n\nAnd my dependencies tree for semver show your package\n\n├─┬ stylelint@15.9.0\n│   └─┬ meow@9.0.0\n│        └─┬ read-pkg-up@7.0.1\n│             └─┬ read-pkg@5.2.0\n│                  └─┬ normalize-package-data@2.5.0\n│                       └── semver@5.7.1 deduped\n\nI found that meow@10.x.x contains normalize-package-data@5 and I can fix this vulnerability because it uses semver@7.  But I can't update meow to the new major version because your package doesn't allow it.\"\n\nUpdate your package to use the 'meow' version >=10\"\n\n### PoC\n\nN/A\n\n### Impact\n\nWe anticipate the impact to be low as Stylelint is a dev tool and `meow` is only used on the CLI pathway. \n\n---\n\n⬇️  EDITED AFTER PUBLISHED ⬇️ \n\n### Security fix backported to older `semver` versions\n\nThe same security fix has been backported to older `semver` versions of 5.x and 6.x. See the [CVE-2022-25883](https://github.com/advisories/GHSA-c2qf-rxjj-qqgw) details.\n\nSo, you can fix this vulnerability by just updating `semver` in your project's dependency tree, instead of updating `stylelint`. For details, see the example:\n\n`package.json`:\n\n```json\n{\n  \"dependencies\": {\n    \"stylelint\": \"15.10.0\"\n  }\n}\n```\n\nRun `npm audit` (here is no alert for `semver`):\n\n```console\n$ npm ci\n...\n\n$ npm audit\n...\nstylelint  8.0.0 - 15.10.0\nStylelint has vulnerability in semver dependency - https://github.com/advisories/GHSA-f7xj-rg7h-mc87\nfix available via `npm audit fix --force`\nWill install stylelint@15.10.1, which is outside the stated dependency range\nnode_modules/stylelint\n\n1 low severity vulnerability\n...\n\n$ npm ls semver\n...\n└─┬ stylelint@15.10.0\n  └─┬ meow@9.0.0\n    ├─┬ normalize-package-data@3.0.3\n    │ └── semver@7.5.4\n    └─┬ read-pkg-up@7.0.1\n      └─┬ read-pkg@5.2.0\n        └─┬ normalize-package-data@2.5.0\n          └── semver@5.7.2\n```\n\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "stylelint"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.0.0"
+            },
+            {
+              "fixed": "15.10.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/stylelint/stylelint/security/advisories/GHSA-f7xj-rg7h-mc87"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/stylelint/stylelint/pull/7043"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-c2qf-rxjj-qqgw"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/stylelint/stylelint"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/stylelint/stylelint/releases/tag/15.10.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-07T20:32:55Z",
+    "nvd_published_at": null
+  }
+}

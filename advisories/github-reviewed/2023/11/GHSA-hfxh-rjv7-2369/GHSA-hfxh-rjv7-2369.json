@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hfxh-rjv7-2369",
+  "modified": "2023-11-27T17:25:11Z",
+  "published": "2023-11-27T17:25:11Z",
+  "aliases": [
+
+  ],
+  "summary": "Uptime Kuma Authenticated remote code execution via TailscalePing",
+  "details": "### Summary\n\nThe `runTailscalePing` method of the `TailscalePing` class injects the `hostname` parameter inside a shell command, leading to a command injection and the possibility to run arbitrary commands on the server.\n\n### Details\n\nWhen adding a new monitor on Uptime Kuma, we can select the \"Tailscale Ping\" type. Then we can add a hostname and insert a command injection payload into it. The front-end application requires that the field follow a specific pattern, this validation only happens on the front-end and can be removed by removing the attribute `pattern` on the `input` element.\n\nhttps://github.com/louislam/uptime-kuma/blob/dc4242019331e65a79ac16deef97510144e01b12/server/monitor-types/tailscale-ping.js#L40-L46\n\nWe can finally add the new monitor and observe that our command is being executed.\n\n**NOTE:** When using Uptime Kuma inside a container, the \"TailScale Ping\" type is not visible. We can fake this information by intercepting WebSocket messages and set the `isContainer` option to `false`.\n\n### PoC\n\n* Authenticate.\n* Create a new monitor.\n* Select the TailScale Ping type (if not visible, see the note in the details section).\n* Insert the command injection payload inside the `hostname` field. (for example `$(id >&2)`)\n* Remove the `pattern` requirement on the field.\n* Save and start the monitor.\n\n### Impact\n\nAn authenticated user can execute arbitrary command on the server running Uptime Kuma.\n\n### Remediation\n\nThere are other command execution in the codebase, they use a method `spawn` from the `child_process` module which does not interpret the command as a shell command, the same thing should be done here.\n\n**NOTE:** The Tailscale CLI seems to support the `--` sequence. It should be used between the `ping` subcommand and the `hostname` argument to avoid argument injection.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "uptime-kuma"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.23.0"
+            },
+            {
+              "fixed": "1.23.7"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.23.6"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/louislam/uptime-kuma/security/advisories/GHSA-hfxh-rjv7-2369"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/louislam/uptime-kuma"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-27T17:25:11Z",
+    "nvd_published_at": null
+  }
+}

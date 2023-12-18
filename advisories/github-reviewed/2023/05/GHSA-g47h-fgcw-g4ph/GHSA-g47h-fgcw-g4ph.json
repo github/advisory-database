@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g47h-fgcw-g4ph",
+  "modified": "2023-06-07T16:00:36Z",
+  "published": "2023-05-31T06:30:39Z",
+  "aliases": [
+    "CVE-2023-26131"
+  ],
+  "summary": "Algernon engine and themes vulnerable to Cross-site Scripting",
+  "details": "All versions of the package github.com/xyproto/algernon/engine; all versions of the package github.com/xyproto/algernon/themes are vulnerable to Cross-site Scripting (XSS) via the `themes.NoPage(filename, theme)` function due to improper user input sanitization. Exploiting this vulnerability is possible when a file/resource is not found.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/xyproto/algernon"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.15.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-26131"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xyproto/algernon"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xyproto/algernon/blob/aab484608651852d02a8a93f40baf53ed93e639a/engine/handlers.go#L512"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xyproto/algernon/blob/aab484608651852d02a8a93f40baf53ed93e639a/engine/handlers.go#L514"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xyproto/algernon/blob/aab484608651852d02a8a93f40baf53ed93e639a/themes/html.go#L145"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-GOLANG-GITHUBCOMXYPROTOALGERNONENGINE-3312111"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-GOLANG-GITHUBCOMXYPROTOALGERNONTHEMES-3312112"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-06T01:56:53Z",
+    "nvd_published_at": "2023-05-31T05:15:10Z"
+  }
+}

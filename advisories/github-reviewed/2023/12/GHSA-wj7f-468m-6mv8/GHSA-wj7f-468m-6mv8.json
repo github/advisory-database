@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wj7f-468m-6mv8",
+  "modified": "2023-12-01T22:46:37Z",
+  "published": "2023-12-01T22:46:37Z",
+  "aliases": [
+
+  ],
+  "summary": "Environment variables still accessible through /proc",
+  "details": "### Impact\n\nEnvironment variables can be read from procfs unless a new process is started.\n\n### PoC\n\n```\nuse birdcage::{Birdcage, Sandbox};\nuse std::{env, fs};\n\nfn main() {\n    Birdcage::new().lock().unwrap();\n\n    assert_eq!(env::var_os(\"SECRET\"), None);\n\n    let environ = fs::read_to_string(\"/proc/self/environ\").unwrap();\n    assert!(!environ.contains(\"SECRET\"), \"ENVIRON CONTAINS SECRET:\\n{environ}\");\n}\n```\n\n```\n$  SECRET=test cargo run\nthread 'main' panicked at src/main.rs:10:5:\nENVIRON CONTAINS SECRET:\n [truncated]\n ```\n\n### Possible Solutions\n\nThe simplest solution would be relying on the ptrace isolation and **always** spawning a new process by changing birdcage's API to create a new command. With an additional PID namespace the guarantees could be even further reinforced.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "birdcage"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.7.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/phylum-dev/birdcage/security/advisories/GHSA-wj7f-468m-6mv8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/phylum-dev/birdcage"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-12-01T22:46:37Z",
+    "nvd_published_at": null
+  }
+}

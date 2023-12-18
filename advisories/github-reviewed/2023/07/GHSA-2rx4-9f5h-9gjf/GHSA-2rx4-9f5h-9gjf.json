@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2rx4-9f5h-9gjf",
+  "modified": "2023-07-06T23:54:53Z",
+  "published": "2023-07-06T21:15:06Z",
+  "aliases": [
+    "CVE-2023-33234"
+  ],
+  "summary": "Apache Airflow CNCF Kubernetes Provider: KubernetesPodOperator RCE via connection configuration",
+  "details": "Arbitrary code execution in Apache Airflow CNCF Kubernetes provider version 5.0.0 allows user to change xcom sidecar image and resources via Airflow connection.\n\nIn order to exploit this weakness, a user would already need elevated permissions (Op or Admin) to change the connection object in this manner. Operators should upgrade to provider version 7.0.0 which has removed the vulnerability.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "apache-airflow-providers-cncf-kubernetes"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0"
+            },
+            {
+              "fixed": "7.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-33234"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/airflow"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/n1vpgl6h2qsdm52o9m2tx1oo86tl4gnq"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-06T23:54:53Z",
+    "nvd_published_at": "2023-05-30T11:15:09Z"
+  }
+}

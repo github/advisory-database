@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cv2j-922j-hr56",
+  "modified": "2023-07-31T19:02:24Z",
+  "published": "2023-07-26T12:30:28Z",
+  "aliases": [
+    "CVE-2023-38672"
+  ],
+  "summary": "Float point exception (FPE) in paddlepaddle",
+  "details": "FPE in paddle.linalg.matrix_power in PaddlePaddle before 2.5.0. This flaw can cause a runtime crash and a denial of service.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "paddlepaddle"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "paddle.linalg.matrix_power"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.5.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-38672"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/PaddlePaddle/Paddle/commit/09926af166b060c9a9845c309110d3baa82921fd"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/PaddlePaddle/Paddle"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/PaddlePaddle/Paddle/blob/develop/security/advisory/pdsa-2023-004.md"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/paddlepaddle/PYSEC-2023-125.yaml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-369"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-26T22:34:20Z",
+    "nvd_published_at": "2023-07-26T12:15:09Z"
+  }
+}

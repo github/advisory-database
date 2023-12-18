@@ -1,0 +1,114 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xfjq-9rxq-ph6m",
+  "modified": "2023-08-29T18:25:40Z",
+  "published": "2022-05-17T04:49:45Z",
+  "aliases": [
+    "CVE-2013-4199"
+  ],
+  "summary": "Plone Denial of Service vulnerability via decompressing large zip archives",
+  "details": "(1) cb_decode.py and (2) linkintegrity.py in Plone 2.1 through 4.1, 4.2.x through 4.2.5, and 4.3.x through 4.3.1 allow remote authenticated users to cause a denial of service (resource consumption) via a large zip archive, which is expanded (decompressed).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "plone"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.3"
+            },
+            {
+              "fixed": "4.3.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "plone"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.2"
+            },
+            {
+              "fixed": "4.2.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "plone"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.1"
+            },
+            {
+              "fixed": "4.1.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 4.1"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2013-4199"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=978482"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/plone/Plone"
+    },
+    {
+      "type": "WEB",
+      "url": "http://plone.org/products/plone-hotfix/releases/20130618"
+    },
+    {
+      "type": "WEB",
+      "url": "http://plone.org/products/plone/security/advisories/20130618-announcement"
+    },
+    {
+      "type": "WEB",
+      "url": "http://seclists.org/oss-sec/2013/q3/261"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-29T18:25:40Z",
+    "nvd_published_at": "2014-03-11T19:37:00Z"
+  }
+}

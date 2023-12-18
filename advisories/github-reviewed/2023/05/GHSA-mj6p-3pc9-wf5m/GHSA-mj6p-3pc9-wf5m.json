@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mj6p-3pc9-wf5m",
+  "modified": "2023-06-06T01:52:50Z",
+  "published": "2023-05-30T18:30:23Z",
+  "aliases": [
+    "CVE-2023-2968"
+  ],
+  "summary": "proxy denial of service vulnerability",
+  "details": "A remote attacker can trigger a denial of service in the `socket.remoteAddress` variable, by sending a crafted HTTP request. Usage of the undefined variable raises a TypeError exception.\n\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "proxy"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.1.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-2968"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/TooTallNate/proxy-agents/pull/178"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/TooTallNate/proxy-agents/commit/25e0c931390eb8f41c5ceaca72820de9198ece39"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/TooTallNate/proxy-agents"
+    },
+    {
+      "type": "WEB",
+      "url": "https://research.jfrog.com/vulnerabilities/undefined-variable-usage-in-proxy-leads-to-remote-denial-of-service-xray-520917"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-232"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-06T01:52:50Z",
+    "nvd_published_at": "2023-05-30T18:15:09Z"
+  }
+}

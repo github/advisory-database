@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mv77-fj63-q5w8",
+  "modified": "2023-11-02T16:47:35Z",
+  "published": "2023-10-25T18:32:25Z",
+  "aliases": [
+    "CVE-2023-46650"
+  ],
+  "summary": "Stored XSS vulnerability in Jenkins GitHub Plugin",
+  "details": "Jenkins GitHub Plugin 1.37.3 and earlier does not escape the GitHub project URL on the build page when showing changes.\n\nThis results in a stored cross-site scripting (XSS) vulnerability exploitable by attackers with Item/Configure permission.\n\nGitHub Plugin 1.37.3.1 escapes GitHub project URL on the build page when showing changes.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.coravy.hudson.plugins.github:github"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.37.3.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-46650"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jenkinsci/github-plugin/commit/9e09678c445613521c45acce0ce525160747ff3e"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/github-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-10-25/#SECURITY-3246"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2023/10/25/2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-30T15:18:01Z",
+    "nvd_published_at": "2023-10-25T18:17:39Z"
+  }
+}

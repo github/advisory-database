@@ -1,0 +1,259 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qw22-8w9r-864h",
+  "modified": "2023-10-13T22:11:53Z",
+  "published": "2023-10-05T20:55:14Z",
+  "aliases": [
+    "CVE-2023-36820"
+  ],
+  "summary": "io.micronaut.security:micronaut-security-oauth2 has invalid IdTokenClaimsValidator logic on aud",
+  "details": "### Summary\n\nIdTokenClaimsValidator skips `aud` claim validation if token is issued by same identity issuer/provider.\n\n### Details\n\nSee https://github.com/micronaut-projects/micronaut-security/blob/master/security-oauth2/src/main/java/io/micronaut/security/oauth2/client/IdTokenClaimsValidator.java#L202\n\nThis logic violates point 3 of https://openid.net/specs/openid-connect-core-1_0.html#IDTokenValidation. \n\nWorkaround exists by setting `micronaut.security.token.jwt.claims-validators.audience` with valid values. \n `micronaut.security.token.jwt.claims-validators.openid-idtoken` can be kept as default on.\n\n### PoC\n\nShould probably be:\n\n```java\n                return issuer.equalsIgnoreCase(iss) &&\n                        audiences.contains(clientId) &&\n                                validateAzp(claims, clientId, audiences);\n```\n\n### Impact\n\nAny OIDC setup using Micronaut where multiple OIDC applications exists for the same issuer but token auth are not meant to be shared.\n\n\n### Mitigation\n\nPlease upgrade to a patched `micronaut-security-oauth2` release as soon as possible.  \n\nIf you cannot upgrade, for example, if you are still using Micronaut Framework 2, you can patch your application by creating a replacement of `IdTokenClaimsValidatorReplacement`\n\n```java\npackage cve;\n\nimport io.micronaut.context.annotation.Replaces;\nimport io.micronaut.context.annotation.Requires;\nimport io.micronaut.core.annotation.NonNull;\nimport io.micronaut.core.util.StringUtils;\nimport io.micronaut.security.config.SecurityConfigurationProperties;\nimport io.micronaut.security.oauth2.client.IdTokenClaimsValidator;\nimport io.micronaut.security.oauth2.configuration.OauthClientConfiguration;\nimport io.micronaut.security.oauth2.configuration.OpenIdClientConfiguration;\nimport io.micronaut.security.token.jwt.generator.claims.JwtClaims;\nimport io.micronaut.security.token.jwt.validator.JwtClaimsValidatorConfigurationProperties;\n\nimport javax.inject.Singleton;\nimport java.net.URL;\nimport java.util.Collection;\nimport java.util.List;\nimport java.util.Optional;\n\n@Requires(property = SecurityConfigurationProperties.PREFIX + \".authentication\", value = \"idtoken\")\n@Requires(property = JwtClaimsValidatorConfigurationProperties.PREFIX + \".openid-idtoken\", notEquals = StringUtils.FALSE)\n@Singleton\n@Replaces(IdTokenClaimsValidator.class)\npublic class IdTokenClaimsValidatorReplacement extends IdTokenClaimsValidator {\n    public IdTokenClaimsValidatorReplacement(Collection<OauthClientConfiguration> oauthClientConfigurations) {\n        super(oauthClientConfigurations);\n    }\n\n    @Override\n    protected boolean validateIssuerAudienceAndAzp(@NonNull JwtClaims claims,\n                                                   @NonNull String iss,\n                                                   @NonNull List<String> audiences,\n                                                   @NonNull String clientId,\n                                                   @NonNull OpenIdClientConfiguration openIdClientConfiguration) {\n        if (openIdClientConfiguration.getIssuer().isPresent()) {\n            Optional<URL> issuerOptional = openIdClientConfiguration.getIssuer();\n            if (issuerOptional.isPresent()) {\n                String issuer = issuerOptional.get().toString();\n                return issuer.equalsIgnoreCase(iss) &&\n                        audiences.contains(clientId) &&\n                                validateAzp(claims, clientId, audiences);\n            }\n        }\n        return false;\n    }\n}\n``",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.micronaut.security:micronaut-security-oauth2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.11.0"
+            },
+            {
+              "fixed": "3.11.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.micronaut.security:micronaut-security-oauth2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.10.0"
+            },
+            {
+              "fixed": "3.10.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.micronaut.security:micronaut-security-oauth2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.9.0"
+            },
+            {
+              "fixed": "3.9.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.micronaut.security:micronaut-security-oauth2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.8.0"
+            },
+            {
+              "fixed": "3.8.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.micronaut.security:micronaut-security-oauth2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.7.0"
+            },
+            {
+              "fixed": "3.7.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.micronaut.security:micronaut-security-oauth2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.6.0"
+            },
+            {
+              "fixed": "3.6.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.micronaut.security:micronaut-security-oauth2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.5.0"
+            },
+            {
+              "fixed": "3.5.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.micronaut.security:micronaut-security-oauth2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.4.0"
+            },
+            {
+              "fixed": "3.4.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.micronaut.security:micronaut-security-oauth2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.3.0"
+            },
+            {
+              "fixed": "3.3.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.micronaut.security:micronaut-security-oauth2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.2.0"
+            },
+            {
+              "fixed": "3.2.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.micronaut.security:micronaut-security-oauth2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.1.0"
+            },
+            {
+              "fixed": "3.1.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/micronaut-projects/micronaut-security/security/advisories/GHSA-qw22-8w9r-864h"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-36820"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/micronaut-projects/micronaut-security/commit/9728b925221a0d87798ccf250657a3c214b7e980"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/micronaut-projects/micronaut-security"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/micronaut-projects/micronaut-security/blob/master/security-oauth2/src/main/java/io/micronaut/security/oauth2/client/IdTokenClaimsValidator.java#L202"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-284"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-05T20:55:14Z",
+    "nvd_published_at": "2023-10-09T14:15:10Z"
+  }
+}

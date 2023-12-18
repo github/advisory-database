@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3pmj-jqqp-2mj3",
+  "modified": "2023-08-04T17:26:45Z",
+  "published": "2023-08-04T17:26:45Z",
+  "aliases": [
+    "CVE-2023-38690"
+  ],
+  "summary": "matrix-appservice-irc IRC command injection via admin commands containing newlines ",
+  "details": "### Impact\n\nIt is possible to craft a command with newlines which would not be properly parsed. This would mean you could pass a string of commands as a channel name, which would then be run by the IRC bridge bot. \n\n### Patches\n\nVersions 1.0.1 and above are patched.\n\n### Workarounds\n\nThere are no robust workarounds to the bug. You can disable dynamic channels in the config to disable the most common execution method but others may exist. It is highly recommended to upgrade the bridge.\n\n### Credits\n\nDiscovered and reported by [Val Lorentz](https://valentin-lorentz.fr/).\n\n### For more information\n\nIf you have any questions or comments about this advisory email us at [security@matrix.org](mailto:security@matrix.org).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "matrix-appservice-irc"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.0.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.0.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/matrix-org/matrix-appservice-irc/security/advisories/GHSA-3pmj-jqqp-2mj3"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-38690"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/matrix-org/matrix-appservice-irc/commit/0afb064635d37e039067b5b3d6423448b93026d3"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/matrix-org/matrix-appservice-irc"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/matrix-org/matrix-appservice-irc/releases/tag/1.0.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-04T17:26:45Z",
+    "nvd_published_at": "2023-08-04T17:15:10Z"
+  }
+}

@@ -1,0 +1,154 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hhr9-rh25-hvf9",
+  "modified": "2023-07-20T14:54:30Z",
+  "published": "2023-07-20T14:54:30Z",
+  "aliases": [
+    "CVE-2023-37899"
+  ],
+  "summary": "Feathers socket handler allows abusing implicit toString",
+  "details": "### Impact\n\nFeathers socket handler did not catch invalid string conversion errors like:\n\n```ts\nconst message = `${{ toString: '' }}`\n```\n\nCausing the NodeJS process to crash when sending an unexpected Socket.io message like\n\n```ts\nsocket.emit('find', { toString: '' })\n```\n\n### Patches\n\nA fix has been released in\n\n- `v5.0.8` via #3241\n- `v4.5.18` via #3242\n\n### Workarounds\n\nSince it is in the core Socket handling code upgrading to the latest version is necessary.\n### References\n\n- [v5.0.8 Changelog](https://github.com/feathersjs/feathers/blob/dove/CHANGELOG.md#508-2023-07-19)\n- [v4.5.18 Changelog](https://github.com/feathersjs/feathers/blob/crow/CHANGELOG.md#4518-2023-07-19)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@feathersjs/socketio"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.5.18"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 4.5.17"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@feathersjs/socketio"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0"
+            },
+            {
+              "fixed": "5.0.8"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 5.0.7"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@feathersjs/transport-commons"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.5.18"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 4.5.17"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@feathersjs/transport-commons"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0"
+            },
+            {
+              "fixed": "5.0.8"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 5.0.7"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/feathersjs/feathers/security/advisories/GHSA-hhr9-rh25-hvf9"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-37899"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/feathersjs/feathers/pull/3241"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/feathersjs/feathers/pull/3242"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/feathersjs/feathers/commit/0b9a6b19b12ad05934e4c8bd9917448ed39d1ed8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/feathersjs/feathers/commit/c397ab3a0cd184044ae4f73540549b30a396821c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/feathersjs/feathers"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/feathersjs/feathers/blob/crow/CHANGELOG.md#4518-2023-07-19"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/feathersjs/feathers/blob/dove/CHANGELOG.md#508-2023-07-19"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-754"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-20T14:54:30Z",
+    "nvd_published_at": "2023-07-19T20:15:10Z"
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c2ff-88x2-x9pg",
+  "modified": "2023-11-20T20:58:56Z",
+  "published": "2023-11-20T20:58:56Z",
+  "aliases": [
+    "CVE-2023-48223"
+  ],
+  "summary": "JWT Algorithm Confusion",
+  "details": "### Summary\nThe fast-jwt library does not properly prevent JWT algorithm confusion for all public key types.\n\n### Details\nThe 'publicKeyPemMatcher' in 'fast-jwt/src/crypto.js' does not properly match all common PEM formats for public keys. To exploit this vulnerability, an attacker needs to craft a malicious JWT token containing the HS256 algorithm, signed with the public RSA key of the victim application. This attack will only work if the victim application utilizes a public key containing the `BEGIN RSA PUBLIC KEY` header.\n\n### PoC\nTake a server running the following code:\n```javascript\nconst express = require('express');\nconst { createSigner, createVerifier } = require('fast-jwt')\nconst fs = require('fs');\nconst path = require('path');\n\nconst app = express();\nconst port = 3000;\n\n// Load the keys from the file\nconst publicKeyPath = path.join(__dirname, 'public_key.pem');\nconst publicKey = fs.readFileSync(publicKeyPath, 'utf8');\nconst privateKeyPath = path.join(__dirname, 'key');\nconst privateKey = fs.readFileSync(privateKeyPath, 'utf8');\n\napp.use(express.json());\n\n// Endpoint to generate a JWT token with admin: False\napp.get('/generateToken', async (req, res) => {\n  const payload = { admin: false, name: req.query.name };\n\n  const signSync = createSigner({ algorithm: 'RS256', key: privateKey });\n  const token = signSync(payload);\n  \n  res.json({ token });\n});\n\n// Middleware to verify the JWT token\nfunction verifyToken(req, res, next) {\n  const token = req.query.token;\n\n  const verifySync = createVerifier({ key: publicKey });\n  const payload = verifySync(token);\n\n  req.decoded = payload;\n  next();\n}\n\n// Endpoint to check if you are the admin or not\napp.get('/checkAdmin', verifyToken, (req, res) => {\n  res.json(req.decoded);\n});\n\napp.listen(port, () => {\n  console.log(`Server is running on port ${port}`);\n});\n```\n\nAssume the server generated their keys like follows:\n```\nssh-keygen -t rsa -b 2048 -m PEM\nssh-keygen -f key.pub -e -m PEM > public_key.pem\n```\n\n**Public key recovery**\nFirst, an attacker needs to recover the public key from the server in any way possible. It is possible to extract this from just two JWT tokens as shown below.\nGrab two different JWT tokens and utilize the following tool: `https://github.com/silentsignal/rsa_sign2n/blob/release/standalone/jwt_forgery.py`\n```\npython3 jwt_forgery.py token1 token2\n```\nThe tool will generate 4 different public keys, all in different formats. Try the following for all 4 formats.\n\n**Algorithm confusion**\nChange the JWT to the HS256 algorithm and modify any of the contents to your liking at `https://jwt.io/`.\nCopy the resulting JWT token and use with the following tool: `https://github.com/ticarpi/jwt_tool`\n```\npython /opt/jwt_tool/jwt_tool.py --exploit k -pk public_key token\n```\nYou will now get a resulting JWT token that is validly signed.\n\n### Impact\nApplications using the RS256 algorithm, a public key with a `BEGIN RSA PUBLIC KEY` header, and calling the verify function without explicitly providing an algorithm, are vulnerable to this algorithm confusion attack which allows attackers to sign arbitrary payloads which will be accepted by the verifier.\n\n### Solution\n\nChange https://github.com/nearform/fast-jwt/blob/master/src/crypto.js#L29\n\n```javascript\nconst publicKeyPemMatcher = '-----BEGIN PUBLIC KEY-----'\n```\n\nto be regex: \n\n```javascript\nconst publicKeyPemMatcher = /^-----BEGIN( RSA)? PUBLIC KEY-----/\n```",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "fast-jwt"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.3.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/nearform/fast-jwt/security/advisories/GHSA-c2ff-88x2-x9pg"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-48223"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nearform/fast-jwt/commit/15a6e92c9adb39acde41a9b11cec0cbde8ad763b"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/nearform/fast-jwt"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nearform/fast-jwt/blob/master/src/crypto.js#L29"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nearform/fast-jwt/releases/tag/v3.3.2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-20T20:58:56Z",
+    "nvd_published_at": "2023-11-20T18:15:07Z"
+  }
+}

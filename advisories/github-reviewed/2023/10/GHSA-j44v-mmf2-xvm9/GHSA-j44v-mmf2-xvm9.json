@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-j44v-mmf2-xvm9",
+  "modified": "2023-10-20T22:59:02Z",
+  "published": "2023-10-20T19:30:23Z",
+  "aliases": [
+    "CVE-2023-45805"
+  ],
+  "summary": "PDM Trojan Lockfile",
+  "details": "### Summary\nIt's possible to craft a malicious `pdm.lock` file that could allow e.g. an insider or a malicious open source project to appear to depend on a trusted PyPI project, but actually install another project.\n\n### Details\nProject `foo` can be targeted by creating the project `foo-2` and uploading the file `foo-2-2.tar.gz` to pypi.org. PyPI will see this as project `foo-2` version `2`, while PDM will see this as project `foo` version `2-2`. The version must only be [parseable as a version](https://github.com/frostming/unearth/blob/eca170d9370ac5032f2e497ee9b1b63823d3fe0f/src/unearth/evaluator.py#L215-L229) (and the filename must be a prefix of the project name), but it's [not verified to match the version being installed](https://github.com/pdm-project/pdm/blob/45d1dfa47d4900c14a31b9bb761e4c46eb5c9442/src/pdm/models/candidates.py#L98-L99). (Version `2-2` is also not a valid [normalized version per PEP 440](https://peps.python.org/pep-0440/#post-release-spelling).)\n\nMatching the project name exactly (not just prefix) would fix the issue. The version should also be verified to avoid version downgrade attacks.\n\n### PoC\nExample `pdm.lock` snippet to appear to depend on `foo` but actually install `foo-2`\n```\n\"foo 2.2.0\" = [\n  url = \"https://files.pythonhosted.org/.../foo-2-2.tar.gz\n]\n```\n\n### Impact\nWhen installing dependencies with PDM, what's actually installed could differ from what's listed in `pyproject.toml` (including arbitrary code execution on install). It could also be used for downgrade attacks by only changing the version.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "pdm"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "2.9.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pdm-project/pdm/security/advisories/GHSA-j44v-mmf2-xvm9"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-45805"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pdm-project/pdm/commit/6853e2642dfa281d4a9958fbc6c95b7e32d84831"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/frostming/unearth/blob/eca170d9370ac5032f2e497ee9b1b63823d3fe0f/src/unearth/evaluator.py#L215-L229"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pdm-project/pdm"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pdm-project/pdm/blob/45d1dfa47d4900c14a31b9bb761e4c46eb5c9442/src/pdm/models/candidates.py#L98-L99"
+    },
+    {
+      "type": "WEB",
+      "url": "https://peps.python.org/pep-0440/#post-release-spelling"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-20T19:30:23Z",
+    "nvd_published_at": "2023-10-20T19:15:08Z"
+  }
+}

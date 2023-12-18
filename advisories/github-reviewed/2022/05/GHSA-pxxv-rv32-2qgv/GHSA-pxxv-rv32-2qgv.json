@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-pxxv-rv32-2qgv",
+  "modified": "2023-08-28T23:51:10Z",
+  "published": "2022-05-17T04:44:52Z",
+  "aliases": [
+    "CVE-2013-2030"
+  ],
+  "summary": "OpenStack Nova uses insecure keystone middleware tmpdir by default",
+  "details": "keystone/middleware/auth_token.py in OpenStack Nova Folsom, Grizzly, and Havana uses an insecure temporary directory for storing signing certificates, which allows local users to spoof servers by pre-creating this directory, which is reused by Nova, as demonstrated using /tmp/keystone-signing-nova on Fedora.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:C/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "python-keystoneclient"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.2.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2013-2030"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/58d6879b1caaa750c39c8e452a0634c24ffef2ce"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/74aa04e2ca7942cb1e1a86dcbaffeb72d260ccd7"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/7bf3e8d3e254d817ff5ae7ef1f2884b10410ca60"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/python-keystoneclient/commit/1736e2ffb12f70eeebed019448bc14def48aa036"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.launchpad.net/nova/+bug/1174608"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=958285"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openstack/nova"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.fedoraproject.org/pipermail/package-announce/2013-May/105916.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.openstack.org/pipermail/openstack-announce/2013-May/000098.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2013/05/09/2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1188"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-28T23:51:10Z",
+    "nvd_published_at": "2013-12-27T01:55:00Z"
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mjqh-v5f2-g2mw",
+  "modified": "2023-09-13T14:09:30Z",
+  "published": "2023-09-12T19:25:08Z",
+  "aliases": [
+    "CVE-2023-40712"
+  ],
+  "summary": "Apache Airflow information exposure vulnerability",
+  "details": "Apache Airflow, versions before 2.7.1, is affected by a vulnerability that allows authenticated users who have access to see the task/dag in the UI, to craft a URL, which could lead to unmasking the secret configuration of the task that otherwise would be masked in the UI.\n\nUsers are strongly advised to upgrade to version 2.7.1 or later which has removed the vulnerability.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "apache-airflow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.7.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-40712"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/airflow/pull/33512"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/airflow/pull/33516"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/airflow/commit/4390524a41fdfd2d57f1d2dc98ad7b4009c8399e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/airflow/commit/d9814eb3a2fc1dbbb885a0a2c1b7a23ce1cfa148"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/airflow"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/apache-airflow/PYSEC-2023-171.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/jw1yv4lt6hpowqbb0x4o3tdp0jhx2bts"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-12T19:25:08Z",
+    "nvd_published_at": "2023-09-12T12:15:08Z"
+  }
+}

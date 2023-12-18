@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vjr2-wpfh-5r9p",
+  "modified": "2023-05-11T20:56:09Z",
+  "published": "2023-05-05T09:30:15Z",
+  "aliases": [
+    "CVE-2021-40331"
+  ],
+  "summary": "Apache Ranger Hive Plugin missing permissions check",
+  "details": "An Incorrect Permission Assignment for Critical Resource vulnerability was found in the Apache Ranger Hive Plugin. Any user with SELECT privilege on a database can alter the ownership of the table in Hive when Apache Ranger Hive Plugin is enabled\nThis issue affects Apache Ranger Hive Plugin: from 2.0.0 through 2.3.0. Users are recommended to upgrade to version 2.4.0 or later.\n\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.ranger:ranger-hive-plugin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.4.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-40331"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/ranger/commit/7dec3015ec82b69ba8f724410f12dfce2480cccd"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/ranger/commit/9115a20d524ba9173ce5db3e270c385d58d8aeab"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/ranger"
+    },
+    {
+      "type": "WEB",
+      "url": "https://issues.apache.org/jira/browse/RANGER-3357"
+    },
+    {
+      "type": "WEB",
+      "url": "https://issues.apache.org/jira/browse/RANGER-3474"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/s68yls6cnkdmzn1k4hqt50vs6wjvt2rn"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-732"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-05T22:53:57Z",
+    "nvd_published_at": "2023-05-05T08:15:08Z"
+  }
+}

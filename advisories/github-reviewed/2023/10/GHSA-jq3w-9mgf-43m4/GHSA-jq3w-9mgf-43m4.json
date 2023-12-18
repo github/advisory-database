@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jq3w-9mgf-43m4",
+  "modified": "2023-10-31T21:20:15Z",
+  "published": "2023-10-24T02:14:30Z",
+  "aliases": [
+    "CVE-2023-46124"
+  ],
+  "summary": "Fides Server-Side Request Forgery Vulnerability in Custom Integration Upload",
+  "details": "### Impact\n\nThe Fides web application allows a custom integration to be uploaded as a ZIP file containing configuration and dataset definitions in YAML format. \n\nIt was discovered that specially crafted YAML dataset and config files allow a malicious user to perform arbitrary requests to internal systems and exfiltrate data outside the environment (also known as a Server-Side Request Forgery). The application does not perform proper validation to block attempts to connect to internal (including localhost) resources.\n\nExploitation is limited to API clients with the `CONNECTOR_TEMPLATE_REGISTER` authorization scope. In the Fides Admin UI this scope is restricted to highly privileged users, specifically root users and users with the owner role.\n\n### Patches\nThe vulnerability has been patched in Fides version `2.22.1`. Users are advised to upgrade to this version or later to secure their systems against this threat.\n\n### Workarounds\nThere are no workarounds.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:H/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ethyca-fides"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.22.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ethyca/fides/security/advisories/GHSA-jq3w-9mgf-43m4"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-46124"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ethyca/fides/commit/cd344d016b1441662a61d0759e7913e8228ed1ee"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ethyca/fides"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ethyca/fides/releases/tag/2.22.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-918"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-24T02:14:30Z",
+    "nvd_published_at": "2023-10-25T18:17:36Z"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jxcx-3h54-qqxx",
+  "modified": "2023-08-23T19:43:56Z",
+  "published": "2023-08-23T19:43:56Z",
+  "aliases": [
+
+  ],
+  "summary": "SilverStripe CMS Cross-site Scripting vulnerabilities inherited from TinyMCE",
+  "details": "TinyMCE 4.x is vulnerable to several XSS vectors, which had been patched in later versions. Two of these have been identified as affecting silverstripe/admin.\n\nOnly Silverstripe CMS 4 is affected by these vulnerabilities. It's not possible to upgrade Silverstripe CMS 4 to use a more recent release of TinyMCE without introducing breaking changes. Instead, the security patches that shipped in later releases of TinyMCE have been backported to the TinyMCE version bundled in silverstripe/admin.\n\nSilverstripe CMS 5 is not affected by these vulnerabilities because it uses TinyMCE 6.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/admin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.0"
+            },
+            {
+              "fixed": "1.13.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/silverstripe/admin/SS-2023-002.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/silverstripe/silverstripe-admin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.silverstripe.org/download/security-releases/SS-2023-002"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-23T19:43:56Z",
+    "nvd_published_at": null
+  }
+}

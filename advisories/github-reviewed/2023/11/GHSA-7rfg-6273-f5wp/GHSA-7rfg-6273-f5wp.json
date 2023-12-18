@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7rfg-6273-f5wp",
+  "modified": "2023-11-20T21:00:05Z",
+  "published": "2023-11-20T21:00:05Z",
+  "aliases": [
+    "CVE-2023-48240"
+  ],
+  "summary": "Cookies are sent to external images in rendered diff (and server side request forgery)",
+  "details": "### Impact\nThe rendered diff in XWiki embeds images to be able to compare the contents and not display a difference for an actually unchanged image. For this, XWiki requests all embedded images on the server side. These requests are also sent for images from other domains and include all cookies that were sent in the original request to ensure that images with restricted view right can be compared. This allows an attacker to steal login and session cookies that allow impersonating the current user who views the diff. The attack can be triggered with an image that references the rendered diff, thus making it easy to trigger.\n\nMore concretely, to reproduce, add 101 different images with references to the attacker's server. In any place add an image with a reference to `/xwiki/bin/view/Image%20Cookie%20Test/?xpage=changes&rev1=1.1&rev2=2.1&include=renderedChanges` where `Image%20Cookie%20Test` needs to be replaced by the path to the document with the images and the two revisions should match the revision before/after adding the images. Whenever a user views that image, the user's login cookies should be sent to the attacker's server. The 101 images are to circumvent the cache that has a default maximum size of 100 entries.\n\nApart from stealing login cookies, this also allows server-side request forgery (the result of any successful request is returned in the image's source) and viewing protected content as once a resource is cached, it is returned for all users. As only successful requests are cached, the cache will be filled by the first user who is allowed to access the resource.\n\n### Patches\nThis has been patched in XWiki 14.10.15, 15.5.1 and 15.6. The rendered diff now only downloads images from trusted domains. Further, cookies are only sent when the image's domain is the same the requested domain. The cache has been changed to be specific for each user.\n\n### Workarounds\nAs a workaround, the image embedding feature can be disabled by deleting `xwiki-platform-diff-xml-<version>.jar` in `WEB-INF/lib/`.\n\n### References\n* https://jira.xwiki.org/browse/XWIKI-20818\n* https://github.com/xwiki/xwiki-platform/commit/bff0203e739b6e3eb90af5736f04278c73c2a8bb",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-diff-xml"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "11.10.1"
+            },
+            {
+              "fixed": "14.10.15"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-diff-xml"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "15.0-rc-1"
+            },
+            {
+              "fixed": "15.5.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-diff-xml"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "15.6-rc-1"
+            },
+            {
+              "fixed": "15.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-7rfg-6273-f5wp"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-48240"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/bff0203e739b6e3eb90af5736f04278c73c2a8bb"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20818"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-201",
+      "CWE-918"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-20T21:00:05Z",
+    "nvd_published_at": "2023-11-20T18:15:07Z"
+  }
+}

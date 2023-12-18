@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4m7v-wr6v-2mw5",
+  "modified": "2023-05-11T21:00:20Z",
+  "published": "2023-05-05T03:30:22Z",
+  "aliases": [
+    "CVE-2023-2531"
+  ],
+  "summary": "AzuraCast missing brute force prevention",
+  "details": "The request rate limiting feature on the login page of AzuraCast before version 0.18.3 can be bypassed, which could allow an attacker to brute force login credentials.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "azuracast/azuracast"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.18.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-2531"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/azuracast/azuracast/commit/bdb23594ad3e0c47c8568ce028a7c244a406cf9d"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/azuracast/azuracast"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.dev/bounties/20463eb2-0f9d-4ea3-a2c8-93f80e7aca02"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-307"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-05T22:33:46Z",
+    "nvd_published_at": "2023-05-05T01:15:08Z"
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rf54-7qrr-96j6",
+  "modified": "2023-10-16T14:31:39Z",
+  "published": "2023-10-16T14:31:39Z",
+  "aliases": [
+    "CVE-2023-41881"
+  ],
+  "summary": "vantage6 does not properly delete linked resources when deleting a collaboration",
+  "details": "When a collaboration is deleted in vantage6, the linked resources (such as tasks from that collaboration) are not properly deleted.\n\nThis is partly to manage data properly, but also to prevent a potential (but unlikely) side-effect, where if a collaboration with id=10 is deleted, and subsequently a new collaboration is created with id=10, the authenticated users in that collaboration could potentially see results of the deleted collaboration in some cases, resulting in information disclosure.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:H/PR:H/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "vantage6"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/vantage6/vantage6/security/advisories/GHSA-rf54-7qrr-96j6"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-41881"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vantage6/vantage6/pull/748"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vantage6/vantage6/commit/cce9538f8b70e814c080dd0ae43b297f3af8a732"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/vantage6/PYSEC-2023-200.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vantage6/vantage6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vantage6/vantage6/blob/0682c4288f43fee5bcc72dc448cdd99bd7e57f76/docs/release_notes.rst#400"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-16T14:31:39Z",
+    "nvd_published_at": "2023-10-11T20:15:10Z"
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3g7p-8qhx-mc8r",
+  "modified": "2023-06-26T16:35:03Z",
+  "published": "2023-06-22T20:01:39Z",
+  "aliases": [
+    "CVE-2023-35931"
+  ],
+  "summary": "Shescape potential environment variable exposure on Windows with CMD",
+  "details": "### Impact\n\nThis impact users of Shescape:\n\n1. On Windows using the Windows Command Prompt (i.e. `cmd.exe`), and\n2. Using `quote`/`quoteAll` or `escape`/`escapeAll` with the `interpolation` option set to `true`.\n\nAn attacker may be able to get read-only access to environment variables. Example:\n\n```javascript\nimport * as cp from \"node:child_process\";\nimport * as shescape from \"shescape\";\n\n// 1. Prerequisites\nconst options = {\n    shell: \"cmd.exe\",\n    // Or\n    shell: undefined, // Only if the default shell is CMD\n\n    // And\n    interpolation: true, // Only applies to `escape` and `escapeAll` usage\n}\n\n// 2. Attack (one of many)\nconst payload = \"%PATH%\";\n\n// 3. Usage\nlet escapedPayload;\n\nescapedPayload = shescape.quote(payload, options);\n// Or\nescapedPayload = shescape.quoteAll([payload], options);\n// Or\nescapedPayload = shescape.escape(payload, options);\n// Or\nescapedPayload = shescape.escapeAll([payload], options);\n\n// And (example)\nconst result = cp.execSync(`echo Hello ${escapedPayload}`, options);\n\n// 4. Impact\nconsole.log(result.toString());\n// Outputs \"Hello\" followed by the contents of the PATH environment variable\n```\n\n### Patches\n\nThis bug has been patched in [v1.7.1](https://github.com/ericcornelissen/shescape/releases/tag/v1.7.1) which you can upgrade to now. No further changes are required.\n\n### Workarounds\n\nAlternatively, users can remove all instances of `%` from user input, either before or after using Shescape.\n\n### References\n\n- Shescape Pull request [#982](https://github.com/ericcornelissen/shescape/pull/982)\n- Shescape commit [`d0fce70`](https://github.com/ericcornelissen/shescape/commit/d0fce70f987ac0d8331f93cb45d47e79436173ac)\n- Shescape Release [v1.7.1](https://github.com/ericcornelissen/shescape/releases/tag/v1.7.1)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "shescape"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.7.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ericcornelissen/shescape/security/advisories/GHSA-3g7p-8qhx-mc8r"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-35931"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ericcornelissen/shescape/pull/982"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ericcornelissen/shescape/commit/d0fce70f987ac0d8331f93cb45d47e79436173ac"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ericcornelissen/shescape"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ericcornelissen/shescape/releases/tag/v1.7.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-526"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-22T20:01:39Z",
+    "nvd_published_at": "2023-06-23T20:15:09Z"
+  }
+}

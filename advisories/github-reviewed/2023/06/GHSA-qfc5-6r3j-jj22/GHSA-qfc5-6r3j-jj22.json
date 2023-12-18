@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qfc5-6r3j-jj22",
+  "modified": "2023-07-05T19:52:13Z",
+  "published": "2023-06-02T17:11:58Z",
+  "aliases": [
+
+  ],
+  "summary": "Go package github.com/cosmos/cosmos-sdk module x/crisis does NOT cause chain halt",
+  "details": "# x/crisis does NOT cause chain halt\n\n### Impact\nIf an invariant check fails on a Cosmos SDK network and a transaction is sent to the `x/crisis` module to halt the chain, the chain does not halt. All versions of the `x/crisis` module is affected on all versions of the Cosmos SDK.\n\n### Details\nThe `x/crisis` module is supposed to allow anyone to halt a chain in the event of a violated invariant by sending a `MsgVerifyInvariant` with the name of the invariant. Processing this message is supposed to cause the nodes to panic. However, because the panic is within a transaction, it is caught by the SDK’s built-in panic-recovery machinery and just treated as a normal “invalid” transaction (ie. it returns a non-zero abci Code). Thus the `x/crisis` transactions don’t actually cause chains to halt. If there is an invariant violation, it can be confirmed with an `x/crisis` transaction, but it won’t cause any nodes to halt, they will just continue processing blocks.\n\nThat said, any node running with `start --inv-check-period X` will actually panic when it runs the periodic check (though it will still not panic just by processing an `x/crisis` transaction). Since this panic is located in EndBlock, it is not caught by the panic-recovery machinery and does actually crash the node. Presumably few if any nodes actually run with this in production because of how long the invariant checks take, and this runs all of them every `X` blocks.\n\n### Patches\nNo patches will be released.\n\nThe `x/crisis` module was originally intended to allow chains to halt rather than continue with some unknown behaviour in the case of an invariant violation (safety over liveness). However, as chains mature, and especially as the potential [cost of halting increases](https://github.com/osmosis-labs/osmosis/issues/570), chains should consider carefully what invariants they really want to halt for, and what invariants are just sort of helpful sanity checks, but may not be worth halting for.\n\nIn some cases, chains have already broken the invariant calculations but have dealt with the consequences off-chain or during development. Halting these chains would be counter-productive.\n\nThe SDK team is working on new modules that allow chain developers to fine-tune the chain invariants and the necessary actions.\n\nHence, the decision was made that the `x/crisis` module will not be patched for chain halts. The module will be deprecated when new modules take over its responsibilities.\n\n### Workarounds\nIn case of a valid invariant check failure that requires a chain halt, the network validators are encouraged to coordinate off-chain for network halts. This has been an already established process for security patches.\n\n### References\nSDK developer epic about invariant checking: https://github.com/cosmos/cosmos-sdk/issues/15706\nPublic report: https://github.com/cosmos/cosmos-sdk/issues/15325",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cosmos/cosmos-sdk"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.47.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/cosmos/cosmos-sdk/security/advisories/GHSA-qfc5-6r3j-jj22"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cosmos/cosmos-sdk/issues/15325"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cosmos/cosmos-sdk/issues/15706"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cosmos/cosmos-sdk"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-02T17:11:58Z",
+    "nvd_published_at": null
+  }
+}

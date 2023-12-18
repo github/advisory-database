@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9g4f-5rpg-4948",
+  "modified": "2023-08-04T23:16:44Z",
+  "published": "2022-05-17T00:47:33Z",
+  "aliases": [
+    "CVE-2015-3296"
+  ],
+  "summary": "NodeBB Cross-site Scripting Vulnerability in Markdown Processing",
+  "details": "Multiple cross-site scripting (XSS) vulnerabilities in NodeBB before 0.7 allow remote attackers to inject arbitrary web script or HTML via vectors related to (1) javascript: or (2) data: URLs.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "nodebb"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.70"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "nodebb-plugin-markdown"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.1.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2015-3296"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/NodeBB/NodeBB/issues/2273"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/NodeBB/nodebb-plugin-markdown/commit/ab7f2684750882f7baefbfa31db8d5aac71e6ec3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/markdown-it/markdown-it/commit/f76d3beb46abd121892a2e2e5c78376354c214e3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20200228230630/http://www.securityfocus.com/bid/71824"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2015/04/10/10"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-04T23:16:44Z",
+    "nvd_published_at": "2017-09-21T14:29:00Z"
+  }
+}

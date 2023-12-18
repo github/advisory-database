@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qpgm-gjgf-8c2x",
+  "modified": "2023-06-02T23:52:23Z",
+  "published": "2023-05-26T13:55:00Z",
+  "aliases": [
+    "CVE-2023-33195"
+  ],
+  "summary": "Craft CMS XSS in RSS widget feed",
+  "details": "### Summary\nA malformed RSS feed can deliver an XSS payload\n\n### PoC\nCreate an RSS widget and add the domain https://blog.whitebear.vn/file/rss-xss2.rss\nThe XSS payload will be triggered by the title in tag `<item>`\n\nResolved in https://github.com/craftcms/cms/commit/b77cb3023bed4f4a37c11294c4d319ff9f598e1f\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "craftcms/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.3.0"
+            },
+            {
+              "fixed": "4.4.6"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 4.4.5"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/craftcms/cms/security/advisories/GHSA-qpgm-gjgf-8c2x"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-33195"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/craftcms/cms/commit/b77cb3023bed4f4a37c11294c4d319ff9f598e1f"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/craftcms/cms"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/craftcms/cms/releases/tag/4.4.6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-26T13:55:00Z",
+    "nvd_published_at": "2023-05-27T04:15:25Z"
+  }
+}

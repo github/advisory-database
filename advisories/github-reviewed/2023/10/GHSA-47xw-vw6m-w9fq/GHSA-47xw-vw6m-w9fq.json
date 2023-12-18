@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-47xw-vw6m-w9fq",
+  "modified": "2023-10-31T21:35:21Z",
+  "published": "2023-10-28T00:30:31Z",
+  "aliases": [
+    "CVE-2023-5834"
+  ],
+  "summary": "HashiCorp Vagrant Insecure Operation on Windows Junction / Mount Point vulnerability",
+  "details": "HashiCorp Vagrant's Windows installer targeted a custom location with a non-protected path that could be junctioned, introducing potential for unauthorized file system writes. Fixed in Vagrant 2.4.0.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/hashicorp/vagrant"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.4.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-5834"
+    },
+    {
+      "type": "WEB",
+      "url": "https://discuss.hashicorp.com/t/hcsec-2023-31-vagrant-s-windows-installer-allowed-directory-junction-write/59568"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/hashicorp/vagrant"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1386",
+      "CWE-59"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-31T21:35:21Z",
+    "nvd_published_at": "2023-10-27T22:15:09Z"
+  }
+}

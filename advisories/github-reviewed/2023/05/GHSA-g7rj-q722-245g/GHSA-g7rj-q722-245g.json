@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g7rj-q722-245g",
+  "modified": "2023-05-15T13:43:15Z",
+  "published": "2023-05-08T18:30:17Z",
+  "aliases": [
+    "CVE-2023-2583"
+  ],
+  "summary": "jsreport vulnerable to code injection",
+  "details": "jsreport prior to 3.11.3 had a version of vm2 vulnerable to CVE-2023-29017 hard coded in the package.json of the jsreport-core component. An attacker can use this vulnerability to obtain the authority of the jsreport playground server, or construct a malicious webpage/html file and send it to the user to attack the installed jsreport client.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "jsreport"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.11.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-2583"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jsreport/jsreport/commit/afaff3804b34b38e959f5ae65f9e672088de13d7"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jsreport/jsreport"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jsreport/jsreport/releases/tag/3.11.3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.dev/bounties/397ea68d-1e28-44ff-b830-c8883d067d96"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-09T19:16:18Z",
+    "nvd_published_at": "2023-05-08T17:15:11Z"
+  }
+}

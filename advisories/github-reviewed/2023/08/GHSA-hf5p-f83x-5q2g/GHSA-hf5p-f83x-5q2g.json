@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hf5p-f83x-5q2g",
+  "modified": "2023-08-23T22:14:55Z",
+  "published": "2023-08-17T21:30:54Z",
+  "aliases": [
+    "CVE-2023-40315"
+  ],
+  "summary": "OpenNMS privilege escalation vulnerability",
+  "details": "In OpenNMS Horizon 31.0.8 and versions earlier than 32.0.2 and related Meridian versions, any user that has the ROLE_FILESYSTEM_EDITOR can easily escalate their privileges to ROLE_ADMIN or any other role. The solution is to upgrade to Meridian 2023.1.5 or Horizon 32.0.2 or newer. Meridian and Horizon installation instructions state that they are intended for installation within an organization's private networks and should not be directly accessible from the Internet. OpenNMS thanks Erik Wynter for reporting this issue.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:A/AC:H/PR:H/UI:N/S:U/C:L/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.opennms:opennms-webapp-rest"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "31.0.8"
+            },
+            {
+              "fixed": "32.0.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-40315"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenNMS/opennms/pull/6250"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenNMS/opennms/commit/f2caf7d0b9db58b59e98506490aaca37fbf243b6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.opennms.com/meridian/2023/releasenotes/changelog.html#releasenotes-changelog-Meridian-2023.1.5"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/OpenNMS/opennms"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-18T21:51:28Z",
+    "nvd_published_at": "2023-08-17T20:15:11Z"
+  }
+}

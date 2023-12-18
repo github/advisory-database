@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-gqxr-hvrw-6hfh",
+  "modified": "2023-05-17T03:37:48Z",
+  "published": "2023-05-16T18:30:16Z",
+  "aliases": [
+    "CVE-2023-33000"
+  ],
+  "summary": "Jenkins NS-ND Integration Performance Publisher Plugin displays credentials without masking",
+  "details": "Jenkins NS-ND Integration Performance Publisher Plugin stores credentials in job config.xml files on the Jenkins controller as part of its configuration.\n\nWhile these credentials are stored encrypted on disk, in NS-ND Integration Performance Publisher Plugin 4.8.0.149 and earlier, the job configuration form does not mask these credentials, increasing the potential for attackers to observe and capture them.\n\nNS-ND Integration Performance Publisher Plugin 4.11.0.48 masks credentials displayed on the configuration form.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.jenkins.plugins:cavisson-ns-nd-integration"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.11.0.48"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-33000"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-05-16/#SECURITY-2962"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-522"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-17T03:37:48Z",
+    "nvd_published_at": "2023-05-16T17:15:12Z"
+  }
+}

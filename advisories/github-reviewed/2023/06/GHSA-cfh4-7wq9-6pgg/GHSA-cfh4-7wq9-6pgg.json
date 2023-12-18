@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cfh4-7wq9-6pgg",
+  "modified": "2023-11-17T22:31:01Z",
+  "published": "2023-06-30T20:35:37Z",
+  "aliases": [
+    "CVE-2023-23684"
+  ],
+  "summary": "WPGraphQL Plugin vulnerable to Server Side Request Forgery (SSRF)",
+  "details": "### Impact\nUsers with capabilities to upload media (editors and above) are succeptible to SSRF (Server-Side Request Forgery) when executing the `createMediaItem` Mutation. \n\nAuthenticated users making GraphQL requests that execute the `createMediaItem` could pass executable paths in the mutations `filePath` argument that could give them unwarranted access to the server. \n\nIt's recommended to update to WPGraphQL v1.14.6 or newer. If you're unable to do so, below is a snippet you can add to your functions.php (or similar) that filters the `createMediaItem` mutation's resolver. \n\n### Patches\n\n- [v1.14.6](https://github.com/wp-graphql/wp-graphql/releases/tag/v1.14.6)\n- https://github.com/wp-graphql/wp-graphql/pull/2840\n\n### Workarounds\nIf you're unable to upgrade to v1.14.6 or higher, you should be able to use the following snippet in your functions.php to override the vulnerable resolver. \n\nThis snippet has been tested as far back as WPGraphQL v0.15\n\n```php\nadd_filter( 'graphql_pre_resolve_field', function( $nil, $source, $args, $context, \\GraphQL\\Type\\Definition\\ResolveInfo $info, $type_name, $field_key, $field, $field_resolver ) {\n\n\tif ( $info->fieldName !== 'createMediaItem' ) {\n\t\treturn $nil;\n\t}\n\n\t$input = $args['input'] ?? null;\n\n        if ( ! isset( $input['filePath'] ) ) {\n\t\treturn $nil;\n\t}\n\n\t$uploaded_file_url   = $input['filePath'];\n\n\t// Check that the filetype is allowed\n\t$check_file = wp_check_filetype( $uploaded_file_url );\n\n\t// if the file doesn't pass the check, throw an error\n\tif ( ! $check_file['ext'] || ! $check_file['type'] || ! wp_http_validate_url( $uploaded_file_url ) ) {\n\t\tthrow new \\GraphQL\\Error\\UserError( sprintf( __( 'Invalid filePath \"%s\"', 'wp-graphql' ), $input['filePath'] ) );\n\t}\n\n\t$protocol = wp_parse_url( $input['filePath'], PHP_URL_SCHEME );\n\n\t// prevent the filePath from being submitted with a non-allowed protocols\n\t$allowed_protocols = [ 'https', 'http', 'file' ];\n\n\tif ( ! in_array( $protocol, $allowed_protocols, true ) ) {\n\t\tthrow new \\GraphQL\\Error\\UserError( sprintf( __( 'Invalid protocol. \"%1$s\". Only \"%2$s\" allowed.', 'wp-graphql' ), $protocol, implode( '\", \"', $allowed_protocols ) ) );\n\t}\n\n\treturn $nil;\n\n}, 10, 9 );\n```\n\n### References\n\n- https://patchstack.com/database/vulnerability/wp-graphql/wordpress-wp-graphql-plugin-1-14-5-server-side-request-forgery-ssrf-vulnerability\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "wp-graphql/wp-graphql"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.14.6"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.14.5"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/wp-graphql/wp-graphql/security/advisories/GHSA-cfh4-7wq9-6pgg"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-23684"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/wp-graphql/wp-graphql/pull/2840"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/wp-graphql/wp-graphql"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/wp-graphql/wp-graphql/releases/tag/v1.14.6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://patchstack.com/database/vulnerability/wp-graphql/wordpress-wp-graphql-plugin-1-14-5-server-side-request-forgery-ssrf-vulnerability?_s_id=cve"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-918"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-30T20:35:37Z",
+    "nvd_published_at": "2023-11-13T03:15:07Z"
+  }
+}

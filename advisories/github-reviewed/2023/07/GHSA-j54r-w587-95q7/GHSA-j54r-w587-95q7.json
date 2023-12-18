@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-j54r-w587-95q7",
+  "modified": "2023-07-12T22:31:07Z",
+  "published": "2023-07-12T18:30:38Z",
+  "aliases": [
+    "CVE-2023-37948"
+  ],
+  "summary": "Jenkins Oracle Cloud Infrastructure Compute Plugin missing SSH host key validation",
+  "details": "Jenkins Oracle Cloud Infrastructure Compute Plugin 1.0.16 and earlier does not perform SSH host key validation when connecting to OCI clouds.\n\nThis lack of validation could be abused using a man-in-the-middle attack to intercept these connections to OCI clouds.\n\nOracle Cloud Infrastructure Compute Plugin 1.0.17 provides strategies for performing host key validation for administrators to select the one that meets their security needs.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:oracle-cloud-infrastructure-compute"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.0.17"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-37948"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-07-12/#SECURITY-3044"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2023/07/12/2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-12T22:31:07Z",
+    "nvd_published_at": "2023-07-12T16:15:13Z"
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-m284-85mf-cgrc",
+  "modified": "2023-09-13T16:31:43Z",
+  "published": "2023-09-13T16:31:43Z",
+  "aliases": [
+    "CVE-2023-37263"
+  ],
+  "summary": "Strapi's field level permissions not being respected in relationship title",
+  "details": "### Summary\nField level permissions not being respected in relationship title.\nIf I have a  relationship title and the relationship shows a field I don't have permission to see I will still be visible.\n\n### Details\nNo RBAC checks on on the relationship the relation endpoint returns\n\n### PoC\n#### Setup\nCreate a fresh strapi instance\nCreate a new content type\nin the newly created content type add a relation to the users-permissions user.\nSave.\nCreate a users-permissions user\nUse your created  content type and create an entry in it related to the users-permisisons user\n\nGo to settings -> Admin panel -> Roles -> Author\nGive the author role full permissions on the content type your created.\nMake sure they don't have any permission to see User\nSave\n\nCreate a new admin account with only the author role\n#### CVE\nlogin on the newly created author acount.\ngo to the content manager to the colection type you created with the relationship to users_permissions_user\nYou now see a field you don't have permissions to view.\n\n### Impact\nRBAC field level checks leaks data selected by the admin user as relationship title\nWhat could be sensitive fields that they should not be allowed to see. by the person having this specific role.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@strapi/plugin-content-manager"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.12.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/strapi/strapi/security/advisories/GHSA-m284-85mf-cgrc"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-37263"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/strapi/strapi"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/strapi/strapi/releases/tag/v4.12.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-13T16:31:43Z",
+    "nvd_published_at": "2023-09-15T19:15:08Z"
+  }
+}

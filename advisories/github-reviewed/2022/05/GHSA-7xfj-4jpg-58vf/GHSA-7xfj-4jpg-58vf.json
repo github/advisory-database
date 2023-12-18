@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7xfj-4jpg-58vf",
+  "modified": "2023-07-25T17:52:15Z",
+  "published": "2022-05-14T01:53:42Z",
+  "aliases": [
+    "CVE-2018-18530"
+  ],
+  "summary": "ThinkPHP SQLi Vulnerability",
+  "details": "ThinkPHP 5.1.25 has SQL Injection via the count parameter because the library/think/db/Query.php aggregate function mishandles the aggregate variable. NOTE: a backquote character is required in the attack URI.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "topthink/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "5.1.25"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-18530"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/top-think/framework/issues/2613"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.kingkk.com/2018/10/Thinkphp-%E8%81%9A%E5%90%88%E6%9F%A5%E8%AF%A2%E6%BC%8F%E6%B4%9E/#ThinkPHP5-lt-5-1-25"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-89"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-25T17:52:15Z",
+    "nvd_published_at": "2018-10-19T20:29:00Z"
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g75c-cjr6-39mc",
+  "modified": "2023-06-20T16:44:55Z",
+  "published": "2023-06-20T16:44:55Z",
+  "aliases": [
+    "CVE-2023-34465"
+  ],
+  "summary": "XWiki Platform's Mail.MailConfig can be edited by any user with edit rights",
+  "details": "### Impact\n\n`Mail.MailConfig` can be edited by any logged-in user by default. Consequently, they can:\n- change the mail obfuscation configuration\n- view and edit the mail sending configuration, including the smtp domain name and credentials.\n\n### Patches\nThe problem has been patched on XWiki 14.4.8, 15.1, and 14.10.6.\n\n### Workarounds\nThe rights of the `Mail.MailConfig` page can be manually updated so that only a set of trusted users can view, edit and delete it (e.g., the `XWiki.XWikiAdminGroup` group).\nOn 14.4.8+, 15.1-rc-1+, or 14.10.5+, if at startup `Mail.MailConfig` does not have any rights defined, `view`, `edit ` and `delete` rights are automatically granted to the `XWiki.XWikiAdminGroup` group.\nSee the corresponding [patch](https://github.com/xwiki/xwiki-platform/commit/d28d7739089e1ae8961257d9da7135d1a01cb7d4).\n\n### References\n- https://jira.xwiki.org/browse/XWIKI-20519 + https://jira.xwiki.org/browse/XWIKI-20671\n- https://github.com/xwiki/xwiki-platform/commit/d28d7739089e1ae8961257d9da7135d1a01cb7d4\n- https://github.com/xwiki/xwiki-platform/commit/8910b8857d3442d2e8142f655fdc0512930354d1\n\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n\n*    Open an issue in [Jira XWiki.org](https://jira.xwiki.org/)\n*    Email us at [Security Mailing List](mailto:security@xwiki.org)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-mail-send-default"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "11.8-rc-1"
+            },
+            {
+              "fixed": "14.4.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-mail-send-default"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.5"
+            },
+            {
+              "fixed": "14.10.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-mail-send-default"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "15.0-rc-1"
+            },
+            {
+              "fixed": "15.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-g75c-cjr6-39mc"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-34465"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/8910b8857d3442d2e8142f655fdc0512930354d1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/d28d7739089e1ae8961257d9da7135d1a01cb7d4"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20519"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20671"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-269"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-20T16:44:55Z",
+    "nvd_published_at": "2023-06-23T16:15:09Z"
+  }
+}

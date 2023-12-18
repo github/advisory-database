@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g4rw-82hq-8jpr",
+  "modified": "2023-10-10T15:59:48Z",
+  "published": "2022-05-13T01:54:14Z",
+  "aliases": [
+    "CVE-2017-1000426"
+  ],
+  "summary": "MapProxy vulnerable to cross-site scripting in demo service",
+  "details": "MapProxy version 1.11.1 and older are vulnerable to cross-site scripting in the demo service resulting in possible information disclosure. An incomplete fix was released in v[1.10.4](https://github.com/mapproxy/mapproxy/issues/322#issuecomment-518573169), and a complete fix was released in v[1.11.1](https://github.com/mapproxy/mapproxy/commit/436c8f489761d1b4ee22b2440b53cc96bbc28aea).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "MapProxy"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "escape"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.11.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-1000426"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mapproxy/mapproxy/issues/322"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mapproxy/mapproxy/commit/420412aad45171e05752007a0a2350c03c28dfd8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mapproxy/mapproxy/commit/436c8f489761d1b4ee22b2440b53cc96bbc28aea"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mapproxy/mapproxy"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-26T20:22:18Z",
+    "nvd_published_at": "2018-01-02T21:29:00Z"
+  }
+}

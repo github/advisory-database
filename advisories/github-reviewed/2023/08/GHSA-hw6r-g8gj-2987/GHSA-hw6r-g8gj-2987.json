@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hw6r-g8gj-2987",
+  "modified": "2023-08-30T20:47:13Z",
+  "published": "2023-08-30T20:47:13Z",
+  "aliases": [
+
+  ],
+  "summary": "Actions expression injection in `filter-test-configs` (`GHSL-2023-181`)",
+  "details": "The `pytorch/pytorch` `filter-test-configs` workflow is vulnerable to an expression injection in Actions, allowing an attacker to potentially leak secrets and alter the repository using the workflow.\n\n### Details\n\nThe [`filter-test-configs`](https://github.com/pytorch/pytorch/blob/ec26947c586dd323d741da80008403664c533f65/.github/actions/filter-test-configs/action.yml) workflow is using the raw `github.event.workflow_run.head_branch` value inside the `filter` step:\n\n```yaml\n- name: Select all requested test configurations\n  shell: bash\n  env:\n    GITHUB_TOKEN: ${{ inputs.github-token }}\n    JOB_NAME: ${{ steps.get-job-name.outputs.job-name }}\n  id: filter\n  run: |\n    ...\n    python3 \"${GITHUB_ACTION_PATH}/../../scripts/filter_test_configs.py\" \\\n      ...\n      --branch \"${{ github.event.workflow_run.head_branch }}\"\n```\n\nIn the event of a repository using `filter-test-configs` in a `pull_request_target`-triggered workflow, an attacker could use a malicious branch name to gain command execution in the step and potentially leak secrets.\n\n```yml\nname: Example\n\non: pull_request_target\n\njobs:\n  example:\n    runs-on: ubuntu-latest\n    steps:\n      - name: Filter\n        uses: pytorch/pytorch/.github/actions/filter-test-configs@v2\n```\n\n#### Impact\n\nThis issue may lead to stealing workflow secrets.\n\n#### Remediation\n\n1. Use an intermediate environment variable for potentially attacker-controlled values such as `github.event.workflow_run.head_branch`:\n```yaml\n- name: Select all requested test configurations\n  shell: bash\n  env:\n    GITHUB_TOKEN: ${{ inputs.github-token }}\n    JOB_NAME: ${{ steps.get-job-name.outputs.job-name }}\n    HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}\n  id: filter\n  run: |\n    ...\n    python3 \"${GITHUB_ACTION_PATH}/../../scripts/filter_test_configs.py\" \\\n      ...\n      --branch \"$HEAD_BRANCH\"\n```\n\n#### Resources\n\n* [CodeQL for JavaScript - Expression injection in Actions](https://codeql.github.com/codeql-query-help/javascript/js-actions-command-injection/)\n* [Keeping your GitHub Actions and workflows secure Part 2: Untrusted input](https://securitylab.github.com/research/github-actions-untrusted-input/)\n* [Keeping your GitHub Actions and workflows secure Part 1: Preventing pwn requests](https://securitylab.github.com/research/github-actions-preventing-pwn-requests/)\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "GitHub Actions",
+        "name": "https://github.com/pytorch/pytorch/.github/actions/filter-test-configs"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "< 2.0.1"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pytorch/pytorch/security/advisories/GHSA-hw6r-g8gj-2987"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pytorch/pytorch"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-30T20:47:13Z",
+    "nvd_published_at": null
+  }
+}

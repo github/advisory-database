@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fcv6-fg5r-jm9q",
+  "modified": "2023-09-04T22:40:41Z",
+  "published": "2023-09-04T22:40:41Z",
+  "aliases": [
+    "CVE-2023-41058"
+  ],
+  "summary": "Trigger `beforeFind` not invoked in internal query pipeline when fetching pointer",
+  "details": "### Impact\n\nA Parse Pointer can be used to access internal Parse Server classes. It can also be used to circumvent the `beforeFind` query trigger which can be an additional vulnerability for deployments where the `beforeFind` trigger is used as a security layer to modify an incoming query.\n\n### Patches\n\nThe vulnerability was fixed by implementing a patch in the internal query pipeline to prevent a Parse Pointer to be used to access internal Parse Server classes or circumvent the `beforeFind` trigger.\n\n### Workarounds\n\nThere is no known workaround to prevent a Parse Pointer to be used to access internal Parse Server classes. A workaround if a `beforeFind` trigger is used as a security layer is to instead use the Parse Server provided [security layers](https://docs.parseplatform.org/parse-server/guide/#security) to manage access levels with Class-Level Permissions and Object-Level Access Control.\n\n### References\n\n- GitHub security advisory: https://github.com/parse-community/parse-server/security/advisories/GHSA-fcv6-fg5r-jm9q\n- Patched in Parse Server 6.x: https://github.com/parse-community/parse-server/releases/tag/6.2.2\n- Patched in Parse Server 5.x (LTS): https://github.com/parse-community/parse-server/releases/tag/5.5.5",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "parse-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.0"
+            },
+            {
+              "fixed": "5.5.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "parse-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.0.0"
+            },
+            {
+              "fixed": "6.2.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/parse-community/parse-server/security/advisories/GHSA-fcv6-fg5r-jm9q"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-41058"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/parse-community/parse-server/commit/be4c7e23c63a2fb690685665cebed0de26be05c5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.parseplatform.org/parse-server/guide/#security"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/parse-community/parse-server"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/parse-community/parse-server/releases/tag/5.5.5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/parse-community/parse-server/releases/tag/6.2.2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-670"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-04T22:40:41Z",
+    "nvd_published_at": "2023-09-04T23:15:47Z"
+  }
+}

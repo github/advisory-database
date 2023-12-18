@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xq59-7jf3-rjc6",
+  "modified": "2023-11-12T15:57:28Z",
+  "published": "2023-11-12T15:57:28Z",
+  "aliases": [
+    "CVE-2023-47128"
+  ],
+  "summary": "piccolo SQL Injection via named transaction savepoints",
+  "details": "### Summary\nThe handling of named transaction savepoints in all database implementations is vulnerable to [SQL Injection](https://owasp.org/www-community/attacks/SQL_Injection) as user provided input is passed directly to `connection.execute(...)` via f-strings.\n\n### Details\n\nAn excerpt of the Postgres savepoint handling:\n```python\n    async def savepoint(self, name: t.Optional[str] = None) -> Savepoint:\n        name = name or f\"savepoint_{self.get_savepoint_id()}\"\n        await self.connection.execute(f\"SAVEPOINT {name}\")\n        return Savepoint(name=name, transaction=self)\n```\n\nIn this example, we can see user input is directly passed to `connection.execute` without being properly escaped. \n\nAll implementations of savepoints and savepoint methods directly pass this `name` parameter to `connection.execute` and are vulnerable to this. A non-exhaustive list can be found below:\n- Postgres\n- - [One](https://github.com/piccolo-orm/piccolo/blob/master/piccolo/engine/postgres.py#L239)\n- - [Two](https://github.com/piccolo-orm/piccolo/blob/master/piccolo/engine/postgres.py#L133)\n- - [Three](https://github.com/piccolo-orm/piccolo/blob/master/piccolo/engine/postgres.py#L138)\n- Sqlite\n- - [One](https://github.com/piccolo-orm/piccolo/blob/master/piccolo/engine/sqlite.py#L416)\n- - [Two](https://github.com/piccolo-orm/piccolo/blob/master/piccolo/engine/sqlite.py#L313)\n- - [Three](https://github.com/piccolo-orm/piccolo/blob/master/piccolo/engine/sqlite.py#L318)\n\nCare should be given to ensuring all strings passed to `connection.execute` are properly escaped, regardless of how end user facing they may be.\n\nFurther to this, the [following method](https://github.com/piccolo-orm/piccolo/blob/master/piccolo/engine/postgres.py#L404) also passes user input directly to an execution context however I have been unable to abuse this functionality at the time of writing. This method also has a far lower chance of being exposed to an end user as it relates to database init functionality.\n\n### PoC\n\nThe following FastAPI route can be used in conjunction with [sqlmap](https://github.com/sqlmapproject/sqlmap) to easily demonstrate the SQL injection.\n\n```python\nDB = ...\n\n@app.get(\"/test\")\nasync def test(name):\n    async with DB.transaction() as transaction:\n        await transaction.savepoint(name)\n```\n\n##### Steps\n\n1. Create a standard Piccolo application with Postgres as a database backend\n2. Add the route shown previously\n3. Run your application, making a note of the URL it is served on\n4. Install [sqlmap](https://github.com/sqlmapproject/sqlmap)\n5. In a terminal, run the following command substituting URL with your applications URL: `sqlmap -u \"http://URL/test?name=a\" --batch`\n6. Observe sqlmap identifying the vulnerability\n\nFor sqlmap help, [this usage guide](https://github.com/sqlmapproject/sqlmap/wiki/Usage) may be useful. The following commands may also be helpful to see the impact.\n\n###### Dumping all tables\n\nThe `--tables` flag will enumerate all tables accessible from within the exposed database session.\n\n`sqlmap -u \"http://URL/test?name=a\" --batch --tables`\n\nAn example output of this can be seen in the following screenshot.\n![Screenshot from 2023-11-06 23-10-30](https://user-images.githubusercontent.com/47520067/280669236-5be9dc0f-4d2c-4bad-a1ba-fc1eb43fdb34.png)\n\n\n###### OS Shell\n\nThe `--os-shell` will drop the user into an OS shell on the underlying system if permissions permit. This can be seen in the attached screenshot which prints the databases current working directory. \n![Screenshot from 2023-11-06 22-43-50](https://user-images.githubusercontent.com/47520067/280668670-0a152589-5f4c-468d-99b9-045226934007.png)\n\n\n### Impact\n\nWhile the likelihood of an end developer exposing a savepoints `name` parameter to a user is highly unlikely, it would not be unheard of. If a malicious user was able to abuse this functionality they would have essentially direct access to the database and the ability to modify data to the level of permissions associated with the database user. \n\nA non exhaustive list of actions possible based on database permissions is:\n- Read all data stored in the database, including usernames and password hashes\n- Insert arbitrary data into the database, including modifying existing records \n- Gain a shell on the underlying server",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "piccolo"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.1.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/piccolo-orm/piccolo/security/advisories/GHSA-xq59-7jf3-rjc6"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-47128"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/piccolo-orm/piccolo/commit/82679eb8cd1449cf31d87c9914a072e70168b6eb"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/piccolo-orm/piccolo"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/piccolo/PYSEC-2023-241.yaml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-89"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-12T15:57:28Z",
+    "nvd_published_at": "2023-11-10T18:15:09Z"
+  }
+}

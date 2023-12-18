@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4wc6-hqv9-qc97",
+  "modified": "2023-06-23T19:41:52Z",
+  "published": "2023-06-20T16:47:13Z",
+  "aliases": [
+    "CVE-2023-35153"
+  ],
+  "summary": "XWiki Platform vulnerable to stored cross-site scripting in ClassEditSheet page via name parameters",
+  "details": "### Impact\nA stored XSS can be exploited by users with edit rights by adding a `AppWithinMinutes.FormFieldCategoryClass` class on a page and setting the payload on the page title.\nThen, any user visiting `/xwiki/bin/view/AppWithinMinutes/ClassEditSheet` executes the payload.\n\nSee https://jira.xwiki.org/browse/XWIKI-20365 for me details.\n\n### Patches\nThe issue has been patched on XWiki 14.4.8, 14.10.4, and 15.0 ?\n\n### Workarounds\nThe issue can be fixed by updating `AppWithinMinutes.ClassEditSheet` with this [patch](https://github.com/xwiki/xwiki-platform/commit/1b87fec1e5b5ec00b7a8c3c3f94f6c5e22547392#diff-79e725ec7125cced7d302e1a1f955a76745af26ef28a148981b810e85335d302).\n\n### References\n- https://github.com/xwiki/xwiki-platform/commit/1b87fec1e5b5ec00b7a8c3c3f94f6c5e22547392#diff-79e725ec7125cced7d302e1a1f955a76745af26ef28a148981b810e85335d302\n- https://jira.xwiki.org/browse/XWIKI-20365\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n\n*    Open an issue in [Jira XWiki.org](https://jira.xwiki.org/)\n*    Email us at [Security Mailing List](mailto:security@xwiki.org)\n\n### Attribution\n\nThis vulnerability has been reported on Intigriti by René de Sain @renniepak.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-appwithinminutes-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.4.4"
+            },
+            {
+              "fixed": "14.4.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-appwithinminutes-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.5"
+            },
+            {
+              "fixed": "14.10.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-appwithinminutes-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "15.0-rc-1"
+            },
+            {
+              "fixed": "15.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-4wc6-hqv9-qc97"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-35153"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/1b87fec1e5b5ec00b7a8c3c3f94f6c5e22547392#diff-79e725ec7125cced7d302e1a1f955a76745af26ef28a148981b810e85335d302"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20365"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79",
+      "CWE-80"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-20T16:47:13Z",
+    "nvd_published_at": "2023-06-23T18:15:13Z"
+  }
+}

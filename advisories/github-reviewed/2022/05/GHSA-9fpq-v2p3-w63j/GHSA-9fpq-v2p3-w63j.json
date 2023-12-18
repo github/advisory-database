@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9fpq-v2p3-w63j",
+  "modified": "2023-10-26T14:32:04Z",
+  "published": "2022-05-13T01:15:02Z",
+  "aliases": [
+    "CVE-2019-10281"
+  ],
+  "summary": "Jenkins Relution Enterprise Appstore Publisher Plugin stores credentials in plain text",
+  "details": "Jenkins Relution Enterprise Appstore Publisher Plugin stores credentials unencrypted in its global configuration file `org.jenkinsci.plugins.relution_publisher.configuration.global.StoreConfiguration.xml` on the Jenkins controller. These credentials can be viewed by users with access to the Jenkins controller file system.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:relution-publisher"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.24"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-10281"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2019-04-03/#SECURITY-828"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2019/04/12/2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-522"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-26T14:32:04Z",
+    "nvd_published_at": "2019-04-04T16:29:00Z"
+  }
+}

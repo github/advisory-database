@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7954-6m9q-gpvf",
+  "modified": "2023-08-18T21:50:33Z",
+  "published": "2023-08-18T21:50:33Z",
+  "aliases": [
+    "CVE-2023-37914"
+  ],
+  "summary": "XWiki Platform privilege escalation (PR)/RCE from account through Invitation subject/message",
+  "details": "### Impact\nAny user who can view `Invitation.WebHome` can execute arbitrary script macros including Groovy and Python macros that allow remote code execution including unrestricted read and write access to all wiki contents. This can be reproduced with the following steps:\n\n\n1.    Open the invitation application (Invitation.WebHome).\n1.    Set the subject to `{{cache}}{{groovy}}new File(\"/tmp/exploit.txt\").withWriter { out -> out.println(\"Attacked from invitation!\"); }{{/groovy}}{{/cache}}`\n1.    Click \"Preview\"\n\n\n### Patches\nThe vulnerability has been patched on XWiki 14.4.8, 15.2-rc-1, and 14.10.6.\n\n### Workarounds\nThe vulnerability can be patched manually by applying the [patch](https://github.com/xwiki/xwiki-platform/commit/ff1d8a1790c6ee534c6a4478360a06efeb2d3591) on `Invitation.InvitationCommon` and `Invitation.InvitationConfig`.\n\n### References\n- https://jira.xwiki.org/browse/XWIKI-20421\n- https://github.com/xwiki/xwiki-platform/commit/ff1d8a1790c6ee534c6a4478360a06efeb2d3591\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n* Open an issue in [Jira XWiki.org](https://jira.xwiki.org/)\n* Email us at [Security Mailing List](mailto:security@xwiki.org)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-invitation-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.5-m-1"
+            },
+            {
+              "fixed": "14.4.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-invitation-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.5"
+            },
+            {
+              "fixed": "14.10.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-invitation-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "15.0-rc-1"
+            },
+            {
+              "fixed": "15.2-rc-1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-7954-6m9q-gpvf"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-37914"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/ff1d8a1790c6ee534c6a4478360a06efeb2d3591"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20421"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94",
+      "CWE-95"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-18T21:50:33Z",
+    "nvd_published_at": "2023-08-17T18:15:14Z"
+  }
+}

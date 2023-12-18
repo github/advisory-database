@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-q24m-6h38-5xj8",
+  "modified": "2023-10-24T22:48:40Z",
+  "published": "2023-10-19T17:10:00Z",
+  "aliases": [
+    "CVE-2023-45825"
+  ],
+  "summary": "ydb-go-sdk token in custom credentials object can leak through logs",
+  "details": "### Impact\nSince [ydb-go-sdk/v3.48.6](https://github.com/ydb-platform/ydb-go-sdk/blob/v3.48.6/internal/balancer/balancer.go#L71) if you use a custom credentials object (implementation of interface [Credentials](https://github.com/ydb-platform/ydb-go-sdk/blob/master/credentials/credentials.go#L10)) it may leak into logs. This happens because this object could be serialized into an error message using `fmt.Errorf(\"something went wrong (credentials: %q)\", credentials)` during connection to the YDB server. Printf func use placeholder `%q` for string representation of argument with quotes. If an argument implements interface `fmt.Stringer`, it will used through `String()` func. In other cases used fallback - serialization with reflection.\n\nIf such logging occurred, a  malicious user with access to logs could read sensitive information (i.e. credentials) information and use it to get access to the database.\n\nWho is impacted: applications with custom credentials object with an explicit token field.\n\nA leak could have occurred if all of these conditions were met simultaneously:\n1) The credentials object does not implement the `fmt.Stringer` interface (does not have a `String()` method) - potentially these are custom credentials. Official credentials have a `String()` method.\n2) There was an error connecting to YDB during driver creation via `ydb.Open(...)`.\n3) Some logging system was configured (`ydb-go-sdk` does not log such errors by default).\n4) The connection error was logged into a system that a malicious user had access to.\n\n### Patches\n`ydb-go-sdk` contains this problem in versions from v3.48.6 to v3.53.2. The fix for this problem has been released in version v3.53.3 ([PR](https://github.com/ydb-platform/ydb-go-sdk/pull/859)).\n\n### Workarounds\nImplement the `fmt.Stringer` interface in your custom credentials type with explicit stringify of object state.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/ydb-platform/ydb-go-sdk/v3"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.48.6"
+            },
+            {
+              "fixed": "3.53.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ydb-platform/ydb-go-sdk/security/advisories/GHSA-q24m-6h38-5xj8"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-45825"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ydb-platform/ydb-go-sdk/pull/859"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ydb-platform/ydb-go-sdk/commit/a0d92057c4e1bbdc5e85ae8d649edb0232b8fd4c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ydb-platform/ydb-go-sdk"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ydb-platform/ydb-go-sdk/blob/master/credentials/credentials.go#L10"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ydb-platform/ydb-go-sdk/blob/v3.48.6/internal/balancer/balancer.go#L71"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-532"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-19T17:10:00Z",
+    "nvd_published_at": "2023-10-19T19:15:16Z"
+  }
+}

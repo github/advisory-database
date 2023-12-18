@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-x7fr-pg8f-93f5",
+  "modified": "2023-05-30T20:06:02Z",
+  "published": "2023-05-30T20:06:02Z",
+  "aliases": [
+    "CVE-2023-1521"
+  ],
+  "summary": "sccache vulnerable to privilege escalation if server is run as root",
+  "details": "### Impact\n\nOn Linux the `sccache` client can execute arbitrary code with the privileges of a local `sccache` server, by preloading the code in a shared library passed to `LD_PRELOAD`.\n\nIf the server is run as root (which is the default when installing the [snap package](https://snapcraft.io/sccache)), this means a user running the `sccache` client can get root privileges.\n\n\n### Patches\nUpgrade to 0.4.0\n\n### Workarounds\nDon't run sccache server as root. \n\n###  GitHub Security Lab number\n\nGHSL-2023-046",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "sccache"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.4.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/mozilla/sccache/security/advisories/GHSA-x7fr-pg8f-93f5"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mozilla/sccache"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mozilla/sccache/releases/tag/v0.4.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-30T20:06:02Z",
+    "nvd_published_at": null
+  }
+}

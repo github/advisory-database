@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5m3w-rvvh-8fx6",
+  "modified": "2023-09-28T20:28:22Z",
+  "published": "2022-05-13T01:22:55Z",
+  "aliases": [
+    "CVE-2019-7743"
+  ],
+  "summary": "Joomla! Object Injection Vulnerability",
+  "details": "An issue was discovered in Joomla! before 3.9.3. The phar:// stream wrapper can be used for object injection attacks because there is no protection mechanism (such as the TYPO3 PHAR stream wrapper) to prevent use of the phar:// handler for non .phar-files.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "joomla/joomla-cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.5.0"
+            },
+            {
+              "fixed": "3.9.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-7743"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/joomla/joomla-cms/issues/23907"
+    },
+    {
+      "type": "WEB",
+      "url": "https://developer.joomla.org/security-centre/770-20190206-core-implement-the-typo3-phar-stream-wrapper"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/joomla/joomla-cms"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20210730211655/https://www.securityfocus.com/bid/107050"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-502"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-19T18:33:32Z",
+    "nvd_published_at": "2019-02-12T18:29:00Z"
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-pxfv-7rr3-2qjg",
+  "modified": "2023-11-14T19:04:47Z",
+  "published": "2023-07-14T21:59:23Z",
+  "aliases": [
+    "CVE-2023-37474"
+  ],
+  "summary": "copyparty vulnerable to path traversal attack",
+  "details": "# Summary\nAll versions before 1.8.2 have a path traversal vulnerability, allowing an attacker to download unintended files from the server.\n\n# Details\nUnauthenticated users were able to retrieve any files which are accessible (according to OS-level permissions) from the copyparty process. Usually, this is all files that are readable by the OS account which is used to run copyparty.\n\nThe vulnerability did not make it possible to list the contents of folders, so an attacker needs to know the full absolute path to the file, or the relative path from where copyparty is installed.\n\nSome methods of running copyparty ([prisonparty](https://github.com/9001/copyparty/tree/hovudstraum/bin#prisonpartysh), the [nix package](https://github.com/9001/copyparty#nix-package), and [docker](https://github.com/9001/copyparty/tree/hovudstraum/scripts/docker)) had a mitigating effect, mostly reducing the attack scope to files inside copyparty volumes, and possibly the copyparty config file.\n\n# Checking for attacks\nPlease keep in mind that, if an attacker were to find a way to overwrite the logs, for example by discovering the password to another service with sufficient privileges, then the following approaches cannot be trusted.\n\nif copyparty was only accessible through a reverse proxy, then all attacks would be visible in the webserver access-log as URLs which contain both `.cpr/` and `%2F`\n* nginx:\n  ```bash\n  (gzip -dc access.log*.gz; cat access.log) | sed -r 's/\" [0-9]+ .*//' | grep -E 'cpr/.*%2[^0]' | grep -vF data:image/svg\n  ```\n\nHowever, if copyparty was directly accessible from the internet, then any successful attacks (file retrievals) would unfortunately leave no trace. That said, it is very probable that an attacker would make at least one invalid attempt, which would become apparent in the copyparty server log, detectable with `grep -aE '(Errno|Permission).*\\.cpr/'` revealing the following:\n* python2 example: `[IOError] [Errno 13] Permission denied: '/etc/shadow', .cpr//etc/shadow`\n* python3 example: `[PermissionError] [Errno 13] Permission denied: b'/etc/shadow', .cpr//etc/shadow`\n \n\nProviding an exact command for this approach is difficult, as it depends on how copyparty is deployed;\n* if copyparty was running as a systemd service: `journalctl -am | grep -aE '(Errno|Permission).*\\.cpr/'`\n* if copyparty was logging to a compressed file: `xz -kdc thefilename.xz | grep -aE '(Errno|Permission).*\\.cpr/'`\n* if the copyparty log is available in a plaintext file: `grep -aE '(Errno|Permission).*\\.cpr/' thefilename.txt`\n\n# PoC / attack example\n```bash\ncurl -sik http://127.0.0.1:3923/.cpr/%2Fetc%2Fpasswd\ncurl -sik http://127.0.0.1:3923/.cpr/..%2F..%2F..%2F..%2F..%2Fetc%2Fpasswd\n```\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "copyparty"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "copyparty.httpcli.HttpCli.handle_get"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.8.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/9001/copyparty/security/advisories/GHSA-pxfv-7rr3-2qjg"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-37474"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/9001/copyparty/commit/043e3c7dd683113e2b1c15cacb9c8e68f76513ff"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/9001/copyparty"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/9001/copyparty/releases/tag/v1.8.2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/copyparty/PYSEC-2023-127.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "http://packetstormsecurity.com/files/173822/Copyparty-1.8.2-Directory-Traversal.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-14T21:59:23Z",
+    "nvd_published_at": "2023-07-14T20:15:09Z"
+  }
+}

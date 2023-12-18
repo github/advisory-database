@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6452-jr93-r5qm",
+  "modified": "2023-08-25T21:47:54Z",
+  "published": "2022-05-24T16:50:40Z",
+  "aliases": [
+    "CVE-2019-13915"
+  ],
+  "summary": "b3log Wide unauthenticated file access",
+  "details": "b3log Wide before 1.6.0 allows three types of attacks to access arbitrary files. First, the attacker can write code in the editor, and compile and run it approximately three times to read an arbitrary file. Second, the attacker can create a symlink, and then place the symlink into a ZIP archive. An unzip operation leads to read access, and write access (depending on file permissions), to the symlink target. Third, the attacker can import a Git repository that contains a symlink, similarly leading to read and write access.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/b3log/wide"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.6.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-13915"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/b3log/wide/issues/355"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/b3log/wide"
+    },
+    {
+      "type": "WEB",
+      "url": "https://sca.analysiscenter.veracode.com/vulnerability-database/security/arbitrary-file-reads-and-writes/go/sid-20862"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20190522035724/https://github.com/b3log/wide"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-59",
+      "CWE-74"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-14T21:08:41Z",
+    "nvd_published_at": "2019-07-18T15:15:00Z"
+  }
+}

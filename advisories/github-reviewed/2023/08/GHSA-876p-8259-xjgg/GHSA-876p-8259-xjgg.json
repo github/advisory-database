@@ -1,0 +1,134 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-876p-8259-xjgg",
+  "modified": "2023-09-11T18:32:44Z",
+  "published": "2023-08-09T13:18:18Z",
+  "aliases": [
+    "CVE-2023-39533"
+  ],
+  "summary": "libp2p nodes vulnerable to attack using large RSA keys",
+  "details": "### Impact\nA malicious peer can use large RSA keys to run a resource exhaustion attack & force a node to spend time doing signature verification of the large key. This vulnerability is present in the core/crypto module of go-libp2p and can occur during the Noise handshake and the libp2p x509 extension verification step.\nTo prevent this attack, go-libp2p now restricts RSA keys to <= 8192 bits.\n\n### Patches\nUsers should upgrade their go-libp2p versions to >=v0.27.8, >= v0.28.2, or >=v0.29.1\nTo protect your application, it's necessary to update to these patch releases **AND** to use the updated Go compiler (1.20.7 or 1.19.12, respectively)\n\n### Workarounds\nThere are no known workarounds\n\n### References\nThe Golang crypto/tls package also had this vulnerability (\"verifying certificate chains containing large RSA keys is slow” https://github.com/golang/go/issues/61460)\nFix in golang/go crypto/tls: https://github.com/golang/go/commit/2350afd2e8ab054390e284c95d5b089c142db017\nFix in quic-go https://github.com/quic-go/quic-go/pull/4012\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/libp2p/go-libp2p"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.27.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/libp2p/go-libp2p"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.28.0"
+            },
+            {
+              "fixed": "0.28.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/libp2p/go-libp2p"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.29.0"
+            },
+            {
+              "fixed": "0.29.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "0.29.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/libp2p/go-libp2p/security/advisories/GHSA-876p-8259-xjgg"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-39533"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/golang/go/issues/61460"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/libp2p/go-libp2p/pull/2454"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/quic-go/quic-go/pull/4012"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/golang/go/commit/2350afd2e8ab054390e284c95d5b089c142db017"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/libp2p/go-libp2p/commit/0cce607219f3710addc7e18672cffd1f1d912fbb"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/libp2p/go-libp2p/commit/445be526aea4ee0b1fa5388aa65d32b2816d3a00"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/libp2p/go-libp2p/commit/e30fcf7dfd4715ed89a5e68d7a4f774d3b9aa92d"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/libp2p/go-libp2p"
+    },
+    {
+      "type": "WEB",
+      "url": "https://go.dev/issue/61460"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-770"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-09T13:18:18Z",
+    "nvd_published_at": "2023-08-08T19:15:10Z"
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6qjx-787v-6pxr",
+  "modified": "2023-05-26T21:50:24Z",
+  "published": "2023-05-26T13:56:26Z",
+  "aliases": [
+    "CVE-2023-33197"
+  ],
+  "summary": "Craft CMS stored XSS in indexedVolumes",
+  "details": "### Summary\nXSS can be triggered via the Update Asset Index utility\n\n### PoC\n1. Access setting tab\n2. Create new assets\n3. In assets name inject payload: \"<script>alert(26)</script>\n4. Click Utilities tab\n5. Choose all volumes, or volume trigger xss\n7. Click Update asset indexes.\n\nXSS will be triggered\n\nJson response volumes name makes triggers the payload\n\n    \"session\":{\"id\":1,\"indexedVolumes\":{\"1\":\"\\\"<script>alert(26)</script>\"},\n\nIt’s run on every POST request in the utility.\n\nResolved in https://github.com/craftcms/cms/commit/8c2ad0bd313015b8ee42326af2848ee748f1d766\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "craftcms/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0-RC1"
+            },
+            {
+              "fixed": "4.4.6"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 4.4.5"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/craftcms/cms/security/advisories/GHSA-6qjx-787v-6pxr"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-33197"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/craftcms/cms/commit/8c2ad0bd313015b8ee42326af2848ee748f1d766"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/craftcms/cms"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/craftcms/cms/releases/tag/4.4.6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79",
+      "CWE-80"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-26T13:56:26Z",
+    "nvd_published_at": "2023-05-26T20:15:48Z"
+  }
+}

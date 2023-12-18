@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jj32-3pf5-5mv5",
+  "modified": "2023-10-31T21:10:35Z",
+  "published": "2023-10-19T12:30:23Z",
+  "aliases": [
+    "CVE-2023-46227"
+  ],
+  "summary": "Apache InLong Deserialization of Untrusted Data Vulnerability",
+  "details": "Deserialization of Untrusted Data Vulnerability in Apache Software Foundation Apache InLong.\n\nThis issue affects Apache InLong: from 1.4.0 through 1.8.0, the attacker can use \\t to bypass. Users are advised to upgrade to Apache InLong's 1.9.0 or cherry-pick [1] to solve it.\n\n[1]  https://github.com/apache/inlong/pull/8814",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.inlong:manager-common"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.4.0"
+            },
+            {
+              "fixed": "1.9.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.inlong:manager-pojo"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.4.0"
+            },
+            {
+              "fixed": "1.9.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-46227"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/inlong/pull/8814"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/inlong"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/m8txor4f76tmrxksrmc87tw42g57nz33"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-502"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-19T17:07:01Z",
+    "nvd_published_at": "2023-10-19T10:15:10Z"
+  }
+}

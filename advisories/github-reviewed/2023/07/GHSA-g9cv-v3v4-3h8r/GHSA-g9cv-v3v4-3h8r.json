@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g9cv-v3v4-3h8r",
+  "modified": "2023-07-12T17:30:06Z",
+  "published": "2023-07-12T12:31:36Z",
+  "aliases": [
+    "CVE-2023-30429"
+  ],
+  "summary": "Apache Pulsar Incorrect Authorization vulnerability",
+  "details": "Incorrect Authorization vulnerability in Apache Software Foundation Apache Pulsar.\n\nThis issue affects Apache Pulsar: before 2.10.4, and 2.11.0.\n\nWhen a client connects to the Pulsar Function Worker via the Pulsar Proxy where the Pulsar Proxy uses mTLS authentication to authenticate with the Pulsar Function Worker, the Pulsar Function Worker incorrectly performs authorization by using the Proxy's role for authorization instead of the client's role, which can lead to privilege escalation, especially if the proxy is configured with a superuser role.\n\nThe recommended mitigation for impacted users is to upgrade the Pulsar Function Worker to a patched version.\n\n2.10 Pulsar Function Worker users should upgrade to at least 2.10.4.\n2.11 Pulsar Function Worker users should upgrade to at least 2.11.1.\n3.0 Pulsar Function Worker users are unaffected.\nAny users running the Pulsar Function Worker for 2.9.* and earlier should upgrade to one of the above patched versions.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.pulsar:pulsar"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.10.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.pulsar:pulsar"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.11.0"
+            },
+            {
+              "fixed": "2.11.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "2.11.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-30429"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/pulsar"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/v0gcvvxswr830314q4b1kybsfmcf3jf8"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-863"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-12T17:30:06Z",
+    "nvd_published_at": "2023-07-12T10:15:09Z"
+  }
+}

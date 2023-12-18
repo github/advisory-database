@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-28xp-g7f6-7mhf",
+  "modified": "2023-10-10T16:33:31Z",
+  "published": "2022-05-14T03:49:59Z",
+  "aliases": [
+    "CVE-2017-1000420"
+  ],
+  "summary": "Syncthing vulnerable to symlink traversal and arbitrary file overwrite",
+  "details": "Syncthing version 0.14.33 and older erronously versions symlinks when they are deleted. If a directory is then created with the same name, a file created in that directory, and the file deleted, it is moved into the symlink target. This can lead to symlink traversal resulting in arbitrary file overwrite.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/syncthing/syncthing"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.14.33"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-1000420"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/syncthing/syncthing/issues/4286"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/syncthing/syncthing/commit/f1f21bf22020d9b881478c2e942ba6943c8da2f3"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/syncthing/syncthing"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-59"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-26T22:17:40Z",
+    "nvd_published_at": "2018-01-02T19:29:00Z"
+  }
+}

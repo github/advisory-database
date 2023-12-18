@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3hfq-cx9j-923w",
+  "modified": "2023-11-14T22:20:09Z",
+  "published": "2023-11-14T22:20:09Z",
+  "aliases": [
+    "CVE-2023-47630"
+  ],
+  "summary": "Attacker can cause Kyverno user to unintentionally consume insecure image",
+  "details": "An issue was found in Kyverno that allowed an attacker to control the digest of images used by Kyverno users. The issue would require the attacker to compromise the registry that the Kyverno fetch their images from. The attacker could then return a vulnerable image to the the user and leverage that to further escalate their position. As such, the attacker would need to know which images the Kyverno user consumes and know of one of multiple exploitable vulnerabilities in previous digests of the images. Alternatively, if the attacker has compromised the registry, they could craft a malicious image with a different digest with intentionally placed vulnerabilities and deliver the image to the user. \n\nAn attacker was not be able to control other parameters of the image than the digest by exploiting this vulnerability.\n\nUsers pulling their images from trusted registries are not impacted by this vulnerability. There is no evidence of this being exploited in the wild.\n\nThe issue has been patched in 1.11.0. \n\nThe vulnerability was found during an ongoing security audit of Kyverno conducted by Ada Logics, facilitated by OSTIF and funded by the CNCF.\n\nMembers of the community have raised concerns over the similarity between this vulnerability and the one identified with CVE-2023-46737; They are two different issues with two different root causes and different levels of impact. Some differences are:\n\n- The current advisory (GHSA-3hfq-cx9j-923w) has its root cause in Kyverno whereas the root cause of CVE-2023-46737 is in Cosigns code base. \n- The impact of the current advisory (GHSA-3hfq-cx9j-923w) is that an attacker can trick Kyverno into consuming a different image than the one the user requested; The impact of CVE-2023-46737 is an endless data attack resulting in a denial-of-service.\n- The fix of the current advisory (GHSA-3hfq-cx9j-923w) does not result in users being secure from CVE-2023-46737 and vice versa.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/kyverno/kyverno"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.10.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/kyverno/kyverno/security/advisories/GHSA-3hfq-cx9j-923w"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-47630"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/kyverno/kyverno"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kyverno/kyverno/releases/tag/v1.11.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200",
+      "CWE-345"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-14T22:20:09Z",
+    "nvd_published_at": "2023-11-14T21:15:13Z"
+  }
+}

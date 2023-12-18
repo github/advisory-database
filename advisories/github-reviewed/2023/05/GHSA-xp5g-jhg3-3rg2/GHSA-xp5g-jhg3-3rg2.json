@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xp5g-jhg3-3rg2",
+  "modified": "2023-05-30T23:12:12Z",
+  "published": "2023-05-22T00:30:20Z",
+  "aliases": [
+    "CVE-2023-33252"
+  ],
+  "summary": "Double spend in snarkjs",
+  "details": "iden3 snarkjs through 0.6.11 allows double spending because there is no validation that the publicSignals length is less than the field modulus.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "snarkjs"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.6.11"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-33252"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/iden3/snarkjs"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/iden3/snarkjs/commits/master/src/groth16_verify.js"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/iden3/snarkjs/tags"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-22T19:37:12Z",
+    "nvd_published_at": "2023-05-21T22:15:14Z"
+  }
+}

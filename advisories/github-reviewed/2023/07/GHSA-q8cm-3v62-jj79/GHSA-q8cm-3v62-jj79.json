@@ -1,0 +1,168 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-q8cm-3v62-jj79",
+  "modified": "2023-08-03T17:59:54Z",
+  "published": "2023-07-25T15:30:26Z",
+  "aliases": [
+    "CVE-2023-37895"
+  ],
+  "summary": "Remote code execution in Apache Jackrabbit",
+  "details": "Java object deserialization issue in Jackrabbit webapp/standalone on all platforms allows attacker to remotely execute code via RMIVersions up to (including) 2.20.10 (stable branch) and 2.21.17 (unstable branch) use the component \"commons-beanutils\", which contains a class that can be used for remote code execution over RMI.\n\nUsers are advised to immediately update to versions 2.20.11 or 2.21.18. Note that earlier stable branches (1.0.x .. 2.18.x) have been EOLd already and do not receive updates anymore.\n\nIn general, RMI support can expose vulnerabilities by the mere presence of an exploitable class on the classpath. Even if Jackrabbit itself does not contain any code known to be exploitable anymore, adding other components to your server can expose the same type of problem. We therefore recommend to disable RMI access altogether (see further below), and will discuss deprecating RMI support in future Jackrabbit releases.\n\nHow to check whether RMI support is enabledRMI support can be over an RMI-specific TCP port, and over an HTTP binding. Both are by default enabled in Jackrabbit webapp/standalone.\n\nThe native RMI protocol by default uses port 1099. To check whether it is enabled, tools like \"netstat\" can be used to check.\n\nRMI-over-HTTP in Jackrabbit by default uses the path \"/rmi\". So when running standalone on port 8080, check whether an HTTP GET request on localhost:8080/rmi returns 404 (not enabled) or 200 (enabled). Note that the HTTP path may be different when the webapp is deployed in a container as non-root context, in which case the prefix is under the user's control.\n\nTurning off RMIFind web.xml (either in JAR/WAR file or in unpacked web application folder), and remove the declaration and the mapping definition for the RemoteBindingServlet:\n\n        <servlet>\n            <servlet-name>RMI</servlet-name>\n            <servlet-class>org.apache.jackrabbit.servlet.remote.RemoteBindingServlet</servlet-class>\n        </servlet>\n\n        <servlet-mapping>\n            <servlet-name>RMI</servlet-name>\n            <url-pattern>/rmi</url-pattern>\n        </servlet-mapping>\n\nFind the bootstrap.properties file (in $REPOSITORY_HOME), and set\n\n         rmi.enabled=false\n\n    and also remove\n\n         rmi.host\n         rmi.port\n         rmi.url-pattern\n\n If there is no file named bootstrap.properties in $REPOSITORY_HOME, it is located somewhere in the classpath. In this case, place a copy in $REPOSITORY_HOME and modify it as explained.\n\n \n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.jackrabbit:jackrabbit-webapp"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.21.0"
+            },
+            {
+              "fixed": "2.21.18"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.jackrabbit:jackrabbit-webapp"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.0"
+            },
+            {
+              "fixed": "2.20.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.jackrabbit:jackrabbit-standalone"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.21.0"
+            },
+            {
+              "fixed": "2.21.18"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.jackrabbit:jackrabbit-standalone"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.0"
+            },
+            {
+              "fixed": "2.20.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.jackrabbit:jackrabbit-standalone-components"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.21.0"
+            },
+            {
+              "fixed": "2.21.18"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.jackrabbit:jackrabbit-standalone-components"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.0"
+            },
+            {
+              "fixed": "2.20.11"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-37895"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/jackrabbit"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/list.html?users@jackrabbit.apache.org"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/j03b3qdhborc2jrhdc4d765d3jkh8bfw"
+    },
+    {
+      "type": "WEB",
+      "url": "http://seclists.org/fulldisclosure/2023/Jul/43"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2023/07/25/8"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-502"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-25T19:25:30Z",
+    "nvd_published_at": "2023-07-25T15:15:13Z"
+  }
+}

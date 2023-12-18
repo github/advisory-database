@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2mw4-wj8c-7f93",
+  "modified": "2023-11-03T19:46:48Z",
+  "published": "2023-11-03T09:32:49Z",
+  "aliases": [
+    "CVE-2023-5763"
+  ],
+  "summary": "Eclipse Glassfish remote code execution issue",
+  "details": "In Eclipse Glassfish 5 or 6, running with old versions of JDK (lower than 6u211, or < 7u201, or < 8u191), allows remote attackers to load malicious code on the server via access to insecure ORB listeners.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.glassfish.main.orb:orb-connector"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0"
+            },
+            {
+              "fixed": "7.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-5763"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gitlab.eclipse.org/security/cve-assignement/-/issues/14"
+    },
+    {
+      "type": "WEB",
+      "url": "https://glassfish.org/docs/latest/security-guide.html#securing-glassfish-server"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20",
+      "CWE-913"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-03T19:46:48Z",
+    "nvd_published_at": "2023-11-03T07:15:14Z"
+  }
+}

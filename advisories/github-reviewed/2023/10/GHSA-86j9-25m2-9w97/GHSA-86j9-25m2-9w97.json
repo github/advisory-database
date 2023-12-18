@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-86j9-25m2-9w97",
+  "modified": "2023-11-02T17:12:46Z",
+  "published": "2023-10-25T18:32:25Z",
+  "aliases": [
+    "CVE-2023-46660"
+  ],
+  "summary": "Non-constant time webhook token hash comparison in Jenkins Zanata Plugin",
+  "details": "Jenkins Zanata Plugin 0.6 and earlier does not use a constant-time comparison when checking whether the provided and expected webhook token hashes are equal.\n\nThis could potentially allow attackers to use statistical methods to obtain a valid webhook token.\n\nAs of publication of this advisory, there is no fix.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:zanata"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-46660"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/zanata-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-10-25/#SECURITY-2879"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2023/10/25/2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-208",
+      "CWE-697"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-30T14:50:44Z",
+    "nvd_published_at": "2023-10-25T18:17:40Z"
+  }
+}

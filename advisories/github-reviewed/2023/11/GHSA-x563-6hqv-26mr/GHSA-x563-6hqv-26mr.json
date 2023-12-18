@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-x563-6hqv-26mr",
+  "modified": "2023-11-17T21:47:11Z",
+  "published": "2023-11-17T21:47:11Z",
+  "aliases": [
+
+  ],
+  "summary": "Ibis PyArrow dependency allows arbitrary code execution when loading a malicious data file",
+  "details": "### Impact\n\nDeserialization of untrusted data in IPC and Parquet readers in PyArrow versions 0.14.0 to 14.0.0 allows arbitrary code execution. An application is vulnerable if it reads Arrow IPC, Feather or Parquet data from untrusted sources (for example user-supplied input files). This vulnerability only affects PyArrow, not other Apache Arrow implementations or bindings.\n\nNote that Ibis itself makes **extremely limited** use of `pyarrow.parquet.read_table`:\n\n1. `read_table` is used in tests, where the input file is entirely controlled by the Ibis developers\n2. `read_table` is used in the `ibis/examples/__init__.py` as a fallback for backends that don't support reading Parquet directly. Parquet data used in `ibis.examples` are also managed by the Ibis developers. This Parquet data is generated from CSV files and SQLite databases.\n3. The Pandas and Dask backends both use PyArrow to read Parquet files and are therefore affected.\n\nIbis **does not** make use of APIs that directly read from either Arrow IPC files or Feather files.\n\n### Patches\n\nIbis imports the `pyarrow_hotfix` package wherever pyarrow is used, as of version 7.1.0.\n\nUpgrading to Arrow 14.0.1 is also a possible solution, starting in Ibis 7.1.0.\n\n### Workarounds\n\nInstall [`pyarrow_hotfix`](https://pypi.org/project/pyarrow-hotfix/) and run `import pyarrow_hotfix` ahead of any and all `import ibis` statements.\n\nFor example:\n\n```python\nimport ibis\n```\n\nbecomes\n\n```python\nimport pyarrow_hotfix\nimport ibis\n```\n\n### References\n\nhttps://www.cve.org/CVERecord?id=CVE-2023-47248\nhttps://nvd.nist.gov/vuln/detail/CVE-2023-47248",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ibis-framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "7.1.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ibis-project/ibis/security/advisories/GHSA-x563-6hqv-26mr"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ibis-project/ibis/commit/0fa1e5dc06783c01e912e8de4d7e10186ca0e364"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ibis-project/ibis"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ibis-project/ibis/releases/tag/7.1.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-502"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-17T21:47:11Z",
+    "nvd_published_at": null
+  }
+}

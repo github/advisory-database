@@ -1,0 +1,130 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h9mw-grgx-2fhf",
+  "modified": "2023-11-01T05:51:17Z",
+  "published": "2023-10-24T01:51:04Z",
+  "aliases": [
+    "CVE-2023-46122"
+  ],
+  "summary": "sbt vulnerable to arbitrary file write via archive extraction (Zip Slip)",
+  "details": "### Impact\n\nGiven specially crafted zip or JAR file, `IO.unzip` allows writing of arbitrary file. The follow is an example of a malicious entry:\n\n```\n+2018-04-15 22:04:42 ..... 20 20 ../../../../../../root/.ssh/authorized_keys\n```\n\nThis would have a potential to overwrite `/root/.ssh/authorized_keys`. Within sbt's main code, `IO.unzip` is used in `pullRemoteCache` task and `Resolvers.remote`; however many projects use `IO.unzip(...)` directly to implement custom tasks - https://github.com/search?q=IO.unzip+language%3AScala&type=code&l=Scala&p=1\n\n### Patches\n\nThe problem has been patched in https://github.com/sbt/io/pull/360\nsbt 1.9.7 is available with the fix.\n\n### Workarounds\nA workaround might be use some other library to unzip.\n\n### References\n\n- https://github.com/snyk/zip-slip-vulnerability\n- https://security.snyk.io/vuln/SNYK-JAVA-ORGCODEHAUSPLEXUS-31680\n- https://github.com/sbt/io/issues/358",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:N/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.scala-sbt:sbt"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.3.4"
+            },
+            {
+              "fixed": "1.9.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.scala-sbt:io_2.12"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.0"
+            },
+            {
+              "fixed": "1.9.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.scala-sbt:io_2.13"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.0"
+            },
+            {
+              "fixed": "1.9.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.scala-sbt:io_3"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.0"
+            },
+            {
+              "fixed": "1.9.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/sbt/sbt/security/advisories/GHSA-h9mw-grgx-2fhf"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-46122"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sbt/io/issues/358"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sbt/io/pull/360"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sbt/io/commit/124538348db0713c80793cb57b915f97ec13188a"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/sbt/sbt"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-24T01:51:04Z",
+    "nvd_published_at": "2023-10-23T16:15:09Z"
+  }
+}

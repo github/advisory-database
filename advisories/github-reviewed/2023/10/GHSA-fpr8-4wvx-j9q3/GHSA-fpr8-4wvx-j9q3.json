@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fpr8-4wvx-j9q3",
+  "modified": "2023-10-17T02:11:20Z",
+  "published": "2023-10-14T06:30:54Z",
+  "aliases": [
+    "CVE-2023-26155"
+  ],
+  "summary": "node-qpdf vulnerable to command injection ",
+  "details": "All versions of the package node-qpdf are vulnerable to Command Injection such that the package-exported method encrypt() fails to sanitize its parameter input, which later flows into a sensitive command execution API. As a result, attackers may inject malicious commands once they can specify the input pdf file path.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "node-qpdf"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.0.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-26155"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nrhirani/node-qpdf/issues/23"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/nrhirani/node-qpdf"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-JS-NODEQPDF-5747918"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-77",
+      "CWE-94"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-17T02:11:20Z",
+    "nvd_published_at": "2023-10-14T05:15:55Z"
+  }
+}

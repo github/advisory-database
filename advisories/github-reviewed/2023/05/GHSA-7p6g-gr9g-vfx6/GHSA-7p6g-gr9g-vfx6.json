@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7p6g-gr9g-vfx6",
+  "modified": "2023-05-17T03:43:22Z",
+  "published": "2023-05-16T18:30:16Z",
+  "aliases": [
+    "CVE-2023-33007"
+  ],
+  "summary": "Jenkins LoadComplete support Plugin Cross-site Scripting vulnerability",
+  "details": "Jenkins LoadComplete support Plugin 1.0 and earlier does not escape the LoadComplete test name in its test result page.\n\nThis results in a stored cross-site scripting (XSS) vulnerability exploitable by attackers with Item/Configure permission.\n\nAs of publication of this advisory, there is no fix.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:loadcomplete"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-33007"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-05-16/#SECURITY-2903"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-17T03:43:22Z",
+    "nvd_published_at": "2023-05-16T17:15:12Z"
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vj2m-9f5j-mpr5",
+  "modified": "2023-06-07T16:26:25Z",
+  "published": "2023-06-07T16:26:25Z",
+  "aliases": [
+    "CVE-2022-31005"
+  ],
+  "summary": "Vapor vulnerable to denial of service in HTTP Range Request of FileMiddleware",
+  "details": "Vapor is an HTTP web framework for Swift and [middleware](https://docs.vapor.codes/advanced/middleware/) is a logic chain between the client and a Vapor route handler. [FileMiddleware](https://docs.vapor.codes/advanced/middleware/#file-middleware) enables the serving of assets from the Public folder of a project to the client. \n\nVapor before 4.60.3 is vulnerable to denial of service due to an integer overflow when given invalid range headers while using FileMiddleware. This is patched in 4.60.3.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "SwiftURL",
+        "name": "github.com/vapor/vapor"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.60.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/vapor/vapor/security/advisories/GHSA-vj2m-9f5j-mpr5"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-31005"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vapor/vapor/commit/953a349b539b3e0d3653585c8ffb50c427986df1"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vapor/vapor"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vapor/vapor/releases/tag/4.60.3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-190"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-07T16:26:25Z",
+    "nvd_published_at": "2022-05-31T20:15:00Z"
+  }
+}

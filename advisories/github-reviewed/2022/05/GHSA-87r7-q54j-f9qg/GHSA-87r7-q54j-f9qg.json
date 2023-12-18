@@ -1,0 +1,157 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-87r7-q54j-f9qg",
+  "modified": "2023-07-31T23:11:19Z",
+  "published": "2022-05-17T03:48:22Z",
+  "aliases": [
+    "CVE-2016-4972"
+  ],
+  "summary": "OpenStack Murano Code Execution",
+  "details": "OpenStack Murano before 1.0.3 (liberty) and 2.x before 2.0.1 (mitaka), Murano-dashboard before 1.0.3 (liberty) and 2.x before 2.0.1 (mitaka), and python-muranoclient before 0.7.3 (liberty) and 0.8.x before 0.8.5 (mitaka) improperly use loaders inherited from yaml.Loader when parsing MuranoPL and UI files, which allows remote attackers to create arbitrary Python objects and execute arbitrary code via crafted extended YAML tags in UI definitions in packages.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "murano"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.0.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "murano-dashboard"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.0.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "murano-dashboard"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.0.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "python-muranoclient"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.7.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "python-muranoclient"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.8.0"
+            },
+            {
+              "fixed": "0.8.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2016-4972"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/murano/commit/28de8c36c9dbe4aaf4d062e6fb6099afd437f49b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.launchpad.net/murano/+bug/1586079"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.launchpad.net/python-muranoclient/+bug/1586078"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openstack/murano"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/murano/blob/c898a310afbc27f12190446ef75d8b0bd12115eb/releasenotes/notes/safeloader-cve-2016-4972-19035a2a091ec30a.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/murano/blob/c898a310afbc27f12190446ef75d8b0bd12115eb/releasenotes/source/locale/en_GB/LC_MESSAGES/releasenotes.po"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2016/06/23/8"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-31T23:11:19Z",
+    "nvd_published_at": "2016-09-26T16:59:00Z"
+  }
+}

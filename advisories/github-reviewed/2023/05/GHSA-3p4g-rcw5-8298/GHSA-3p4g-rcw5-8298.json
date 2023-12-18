@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3p4g-rcw5-8298",
+  "modified": "2023-05-12T20:19:50Z",
+  "published": "2023-05-12T20:19:50Z",
+  "aliases": [
+    "CVE-2023-32082"
+  ],
+  "summary": "etcd Key name can be accessed via LeaseTimeToLive API",
+  "details": "### Impact\nLeaseTimeToLive API allows access to key names (not value) associated to a lease when `Keys` parameter is true, even a user doesn't have read permission to the keys. The impact is limited to a cluster which enables auth (RBAC).\n\n### Patches\n< v3.4.26 and < v3.5.9 are affected.\n\n### Workarounds\nNo.\n\n### Reporter\nYoni Rozenshein",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/etcd-io/etcd"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.4.26"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/etcd-io/etcd"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.5.0"
+            },
+            {
+              "fixed": "3.5.9"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/etcd-io/etcd/security/advisories/GHSA-3p4g-rcw5-8298"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-32082"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/etcd-io/etcd/pull/15656"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/etcd-io/etcd"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/etcd-io/etcd/blob/main/CHANGELOG/CHANGELOG-3.4.md"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/etcd-io/etcd/blob/main/CHANGELOG/CHANGELOG-3.5.md"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-12T20:19:50Z",
+    "nvd_published_at": "2023-05-11T20:15:09Z"
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3q5p-3558-364f",
+  "modified": "2023-09-11T14:39:57Z",
+  "published": "2023-09-08T13:27:21Z",
+  "aliases": [
+    "CVE-2023-41338"
+  ],
+  "summary": "Fiber unauthorized access vulnerability in `ctx.IsFromLocal()`",
+  "details": "### Impact\nThis vulnerability can be categorized as a security misconfiguration. It impacts users of our project who rely on the [ctx.IsFromLocal()](https://docs.gofiber.io/api/ctx#isfromlocal) method to restrict access to localhost requests. If exploited, it could allow unauthorized access to resources intended only for localhost.\n\nIn it's implementation it uses c.IPs():\n\n```go\n// IPs returns a string slice of IP addresses specified in the X-Forwarded-For request header.\n// When IP validation is enabled, only valid IPs are returned.\nfunc (c *Ctx) IPs() []string {\n    return c.extractIPsFromHeader(HeaderXForwardedFor)\n}\n```\n\nThereby, setting `X-Forwarded-For: 127.0.0.1` in a request from a foreign host, will result in true for [ctx.IsFromLocal()](https://docs.gofiber.io/api/ctx#isfromlocal) \n\n### Patches\nThis issue has been patched in `v2.49.2` with commit [b8c9ede6efa231116c4bd8bb9d5e03eac1cb76dc](https://github.com/gofiber/fiber/commit/b8c9ede6efa231116c4bd8bb9d5e03eac1cb76dc)\n\n### Workarounds\nCurrently, there are no known workarounds to remediate this vulnerability without upgrading to the patched version. We strongly advise users to apply the patch as soon as it is released.\n\n### References\nFor further information and context regarding this security issue, please refer to the following resources:\n\n- [Mozilla Developer Network - X-Forwarded-For](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For)\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/gofiber/fiber"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.14.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/gofiber/fiber/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.49.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/gofiber/fiber/security/advisories/GHSA-3q5p-3558-364f"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-41338"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/gofiber/fiber/commit/b8c9ede6efa231116c4bd8bb9d5e03eac1cb76dc"
+    },
+    {
+      "type": "WEB",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.gofiber.io/api/ctx#isfromlocal"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/gofiber/fiber"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-670"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-08T13:27:21Z",
+    "nvd_published_at": "2023-09-08T19:15:43Z"
+  }
+}

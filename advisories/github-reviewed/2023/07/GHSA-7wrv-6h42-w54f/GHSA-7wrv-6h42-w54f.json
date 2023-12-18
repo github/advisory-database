@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7wrv-6h42-w54f",
+  "modified": "2023-07-14T21:50:42Z",
+  "published": "2023-07-14T21:50:42Z",
+  "aliases": [
+
+  ],
+  "summary": "PocketMine-MP vulnerable to server crash using badly formatted sign NBT in BlockActorDataPacket",
+  "details": "### Summary\nA player sending a packet can cause the server to crash by providing incorrect sign data in NBT in `BlockActorDataPacket`.\n\n### Details\nThis vulnerability was discovered using the `BlockActorDataPacket`, but other packets may also be affected. The player would seem to just need to send an NBT with an incorrect type to throw this error.\n\n```\n[Server thread/CRITICAL]: pocketmine\\nbt\\UnexpectedTagTypeException: \"Expected a tag of type pocketmine\\nbt\\tag\\CompoundTag, got pocketmine\\nbt\\tag\\ByteTag\" (EXCEPTION) in \"pmsrc/vendor/pocketmine/nbt/src/tag/CompoundTag\" at line 107\n--- Stack trace ---\n  #0 pmsrc/src/network/mcpe/handler/InGamePacketHandler(751): pocketmine\\nbt\\tag\\CompoundTag->getCompoundTag(string[9] FrontText)\n  #1 pmsrc/vendor/pocketmine/bedrock-protocol/src/BlockActorDataPacket(50): pocketmine\\network\\mcpe\\handler\\InGamePacketHandler->handleBlockActorData(object pocketmine\\network\\mcpe\\protocol\\BlockActorDataPacket#220241)\n  #2 pmsrc/src/network/mcpe/NetworkSession(433): pocketmine\\network\\mcpe\\protocol\\BlockActorDataPacket->handle(object pocketmine\\network\\mcpe\\handler\\InGamePacketHandler#190572)\n```\n\n### PoC\nUse a bot or proxy to send a packet when editing a sign. This packet should contain an NBT with incorrect types but correct architecture.\n\n### Impact\nThis makes it possible to shutdown a server for someone who knows how to operate it. As this was discovered in 4.22.1, everyone with at least this version is affected.\n\n### Patches\nThis bug was fixed by 0c250a2ef09627b48aa52302f6cc7e1f2afb70ea in the 4.22.3 and 5.2.1 releases.\n\n### Workarounds\nA plugin may be able to handle `DataPacketReceiveEvent` for `BlockActorDataPacket`, and verify that the `FrontText` tag is a `TAG_Compound`.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "pocketmine/pocketmine-mp"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.20.0"
+            },
+            {
+              "fixed": "4.22.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "pocketmine/pocketmine-mp"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0"
+            },
+            {
+              "fixed": "5.2.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pmmp/PocketMine-MP/security/advisories/GHSA-7wrv-6h42-w54f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pmmp/PocketMine-MP/commit/0c250a2ef09627b48aa52302f6cc7e1f2afb70ea"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pmmp/PocketMine-MP"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-14T21:50:42Z",
+    "nvd_published_at": null
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xhg5-42rf-296r",
+  "modified": "2023-06-16T17:53:30Z",
+  "published": "2023-06-06T16:45:29Z",
+  "aliases": [
+    "CVE-2023-33959"
+  ],
+  "summary": "notation-go's verification bypass can cause users to verify the wrong artifact",
+  "details": "### Impact\nAn attacker who controls or compromises a registry can lead a user to verify the wrong artifact.\n\n### Patches\nThe problem has been fixed in the release [v1.0.0-rc.6](https://github.com/notaryproject/notation-go/releases/tag/v1.0.0-rc.6). Users should upgrade their notation-go library to [v1.0.0-rc.6](https://github.com/notaryproject/notation-go/releases/tag/v1.0.0-rc.6) or above.\n\n### Workarounds\nUser should use secure and trusted container registries.\n\n### Credits\nThe `notation` project would like to thank Adam Korczynski (@AdamKorcz) for responsibly disclosing the issue found during an security audit (facilitated by OSTIF and sponsored by CNCF) and Shiwei Zhang (@shizhMSFT), Pritesh Bandi (@priteshbandi)  for root cause analysis.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/notaryproject/notation-go"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.0.0-rc.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/notaryproject/notation-go/security/advisories/GHSA-xhg5-42rf-296r"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-33959"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/notaryproject/notation-go/commit/39c8ed050a65cca3f3f308534acb612096735a64"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/notaryproject/notation-go/commit/eba60f5aed9c9e05dee55324423c95fe34700b4c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/notaryproject/notation-go"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/notaryproject/notation-go/releases/tag/v1.0.0-rc.6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-347"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-06T16:45:29Z",
+    "nvd_published_at": "2023-06-06T19:15:12Z"
+  }
+}

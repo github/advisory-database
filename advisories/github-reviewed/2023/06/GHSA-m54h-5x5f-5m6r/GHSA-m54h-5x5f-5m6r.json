@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-m54h-5x5f-5m6r",
+  "modified": "2023-06-30T20:25:41Z",
+  "published": "2023-06-28T22:48:50Z",
+  "aliases": [
+    "CVE-2023-35930"
+  ],
+  "summary": "SpiceDB's LookupResources may return partial results",
+  "details": "### Impact\nAny user making a negative authorization decision based on the results of a LookupResources request with 1.22.0 is affected.\n\nFor example, using `LookupResources` to find a list of resources to allow access to be okay: some subjects that should have access to a resource may not. But if using `LookupResources` to find a list of banned resources instead, then some users that shouldn't have access may.\n\nGenerally, `LookupResources` is not and should not be used to gate access in this way - that's what the `Check` API is for. Additionally, version 1.22.0 has included a warning about this bug since its initial release.\n\n### Workarounds\nAvoid using `LookupResources` for negative authorization decisions if using `1.22.0`. \n\n### Patches\nThe only affected release is [v1.22.0](https://github.com/authzed/spicedb/releases/tag/v1.22.0), and it is patched in [v1.22.2](https://github.com/authzed/spicedb/releases/tag/v1.22.2) (there is no v1.22.1 release, though there is a git tag).\n\n### References\n- https://github.com/authzed/spicedb/pull/1397\n\n### For more information\nIf you have any questions or comments about this advisory:\n* Open an issue in [SpiceDB](https://github.com/authzed/spicedb)\n* Ask a question in the [SpiceDB Discord](https://authzed.com/discord)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/authzed/spicedb"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.22.0"
+            },
+            {
+              "fixed": "1.22.2"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "1.22.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/authzed/spicedb/security/advisories/GHSA-m54h-5x5f-5m6r"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-35930"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/authzed/spicedb/pull/1397"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/authzed/spicedb"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/authzed/spicedb/releases/tag/v1.22.2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-913"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-28T22:48:50Z",
+    "nvd_published_at": "2023-06-26T20:15:10Z"
+  }
+}

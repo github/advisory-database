@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-75j7-w798-cwwx",
+  "modified": "2023-11-02T17:32:41Z",
+  "published": "2023-10-18T18:21:37Z",
+  "aliases": [
+    "CVE-2023-43802"
+  ],
+  "summary": "Arduino Create Agent path traversal - local privilege escalation vulnerability",
+  "details": "### Impact\nThe vulnerability affects the endpoint `/upload` which handles request with the `filename` parameter.\nA user who has the ability to perform HTTP requests to the localhost interface, or is able to bypass the CORS configuration, can escalate his privileges to those of the user running the Arduino Create Agent service via a crafted HTTP POST request.\nFurther details are available in the references.\n\n### Fixed Version\n* `1.3.3`\n\n\n### References\nThe issue was reported by Nozomi Networks Labs. Further details are available at the following URL:\n* https://www.nozominetworks.com/blog/security-flaws-affect-a-component-of-the-arduino-create-cloud-ide\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/arduino/arduino-create-agent"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.3.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/arduino/arduino-create-agent/security/advisories/GHSA-75j7-w798-cwwx"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-43802"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/arduino/arduino-create-agent"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/arduino/arduino-create-agent/releases/tag/1.3.3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.nozominetworks.com/blog/security-flaws-affect-a-component-of-the-arduino-create-cloud-ide"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22",
+      "CWE-35"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-18T18:21:37Z",
+    "nvd_published_at": "2023-10-18T21:15:09Z"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-36xm-35qq-795w",
+  "modified": "2023-09-11T20:43:41Z",
+  "published": "2023-09-11T20:43:41Z",
+  "aliases": [
+
+  ],
+  "summary": "Inventory exposes reference to non-Sync data to an arbitrary thread",
+  "details": "Affected versions do not enforce a `Sync` bound on the type of caller-provided value held in the plugin registry. References to these values are made accessible to arbitrary threads other than the one that constructed them.\n\nA caller could use this flaw to submit thread-unsafe data into inventory, then access it as a reference simultaneously from multiple threads.\n\nThe flaw was corrected by enforcing that data submitted by the caller into inventory is `Sync`.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "inventory"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.2.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/dtolnay/inventory/pull/42"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dtolnay/inventory/commit/e1e347d2725b9c9dd4a70b63eb08532ca9687652"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/dtolnay/inventory"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2023-0058.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-11T20:43:41Z",
+    "nvd_published_at": null
+  }
+}

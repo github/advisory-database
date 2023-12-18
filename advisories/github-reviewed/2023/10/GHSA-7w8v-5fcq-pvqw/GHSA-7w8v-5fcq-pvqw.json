@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7w8v-5fcq-pvqw",
+  "modified": "2023-10-27T23:13:39Z",
+  "published": "2023-10-19T09:30:18Z",
+  "aliases": [
+    "CVE-2023-25753"
+  ],
+  "summary": "Apache Shenyu Server Side Request Forgery vulnerability",
+  "details": "There exists an SSRF (Server-Side Request Forgery) vulnerability located at the `/sandbox/proxyGateway` endpoint. This vulnerability allows us to manipulate arbitrary requests and retrieve corresponding responses by inputting any URL into the requestUrl parameter.\n\nOf particular concern is our ability to exert control over the HTTP method, cookies, IP address, and headers. This effectively grants us the capability to dispatch complete HTTP requests to hosts of our choosing.\n\nThis issue affects Apache ShenYu: 2.5.1.\n\nUpgrade to Apache ShenYu 2.6.0 or apply patch  https://github.com/apache/shenyu/pull/4776  .",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.shenyu:shenyu-admin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.6.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.shenyu:shenyu-common"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.6.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-25753"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/shenyu/pull/4776"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/shenyu"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/chprswxvb22z35vnoxv9tt3zknsm977d"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-918"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-19T17:03:21Z",
+    "nvd_published_at": "2023-10-19T09:15:08Z"
+  }
+}

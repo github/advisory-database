@@ -1,0 +1,174 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h8wc-r4jh-mg7m",
+  "modified": "2023-07-13T17:02:07Z",
+  "published": "2023-07-13T17:02:07Z",
+  "aliases": [
+    "CVE-2023-37267"
+  ],
+  "summary": "Umbraco allows possible Admin-level access to backoffice without Auth under rare conditions",
+  "details": "Under rare conditions, a restart of Umbraco can allow unauthorized users to gain admin-level permissions.\n\n### Impact\nAn unauthorized user gaining admin-level access and permissions to the backoffice.\n\n### Patches\n10.6.1, 11.4.2, 12.0.1\n\n### Workarounds\n* Enabling the [Unattended Install](https://docs.umbraco.com/umbraco-cms/reference/configuration/unattendedsettings) feature will mean the vulnerability is not exploitable.\n* Enabling IP restrictions to `*/install/*` and `*/umbraco/*` will limit the exposure to allowed IP addresses.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Umbraco.Cms.Infrastructure"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.0.0"
+            },
+            {
+              "fixed": "10.6.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Umbraco.Cms.Infrastructure"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "11.0.0"
+            },
+            {
+              "fixed": "11.4.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Umbraco.Cms.Infrastructure"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "12.0.0"
+            },
+            {
+              "fixed": "12.0.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "12.0.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Umbraco.Cms.Web.BackOffice"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.0.0"
+            },
+            {
+              "fixed": "10.6.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Umbraco.Cms.Web.BackOffice"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "11.0.0"
+            },
+            {
+              "fixed": "11.4.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Umbraco.Cms.Web.BackOffice"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "12.0.0"
+            },
+            {
+              "fixed": "12.0.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "12.0.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/umbraco/Umbraco-CMS/security/advisories/GHSA-h8wc-r4jh-mg7m"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-37267"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/umbraco/Umbraco-CMS/commit/1f26f2c6f3428833892cde5c6d8441fb041e410e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/umbraco/Umbraco-CMS/commit/20a4e475c8d7b91d263e4e103ef19f3644e7b569"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/umbraco/Umbraco-CMS/commit/82eae48d098b9deecbdf86cf288b2b18020e1fed"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/umbraco/Umbraco-CMS"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-284"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-13T17:02:07Z",
+    "nvd_published_at": "2023-07-13T14:15:09Z"
+  }
+}

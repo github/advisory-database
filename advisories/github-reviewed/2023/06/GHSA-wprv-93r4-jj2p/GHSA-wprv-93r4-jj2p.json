@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wprv-93r4-jj2p",
+  "modified": "2023-06-19T19:46:37Z",
+  "published": "2023-06-19T19:46:37Z",
+  "aliases": [
+    "CVE-2023-34459"
+  ],
+  "summary": "OpenZeppelin Contracts using MerkleProof multiproofs may allow proving arbitrary leaves for specific trees",
+  "details": "### Impact\n\nWhen the `verifyMultiProof`, `verifyMultiProofCalldata`, `processMultiProof`, or `processMultiProofCalldata` functions are in use, it is possible to construct merkle trees that allow forging a valid multiproof for an arbitrary set of leaves.\n\nA contract may be vulnerable if it uses multiproofs for verification and the merkle tree that is processed includes a node with value 0 at depth 1 (just under the root). This could happen inadvertently for balanced trees with 3 leaves or less, if the leaves are not hashed. This could happen deliberately if a malicious tree builder includes such a node in the tree.\n\nA contract is not vulnerable if it uses single-leaf proving (`verify`, `verifyCalldata`, `processProof`, or `processProofCalldata`), or if it uses multiproofs with a known tree that has hashed leaves. Standard merkle trees produced or validated with the [@openzeppelin/merkle-tree](https://github.com/OpenZeppelin/merkle-tree) library are safe.\n\n### Patches\n\nThe problem has been patched in 4.9.2.\n\n### Workarounds\n\nIf you are using multiproofs: When constructing merkle trees hash the leaves and do not insert empty nodes in your trees. Using the [@openzeppelin/merkle-tree](https://www.npmjs.com/package/@openzeppelin/merkle-tree) package eliminates this issue. Do not accept user-provided merkle roots without reconstructing at least the first level of the tree. Verify the merkle tree structure by reconstructing it from the leaves.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@openzeppelin/contracts"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.7.0"
+            },
+            {
+              "fixed": "4.9.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@openzeppelin/contracts-upgradeable"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.7.0"
+            },
+            {
+              "fixed": "4.9.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenZeppelin/openzeppelin-contracts/security/advisories/GHSA-wprv-93r4-jj2p"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-34459"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenZeppelin/openzeppelin-contracts/commit/4d2383e17186be3e8ccf5a442e9686ecc7de1c55"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/OpenZeppelin/openzeppelin-contracts"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenZeppelin/openzeppelin-contracts/releases/tag/v4.9.2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-354"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-19T19:46:37Z",
+    "nvd_published_at": "2023-06-16T23:15:08Z"
+  }
+}

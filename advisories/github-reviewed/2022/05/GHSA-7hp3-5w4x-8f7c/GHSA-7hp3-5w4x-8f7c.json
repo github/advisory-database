@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7hp3-5w4x-8f7c",
+  "modified": "2023-10-27T15:46:33Z",
+  "published": "2022-05-24T16:58:50Z",
+  "aliases": [
+    "CVE-2019-10451"
+  ],
+  "summary": "Jenkins SOASTA CloudTest Plugin stores API token in plain text",
+  "details": "Jenkins SOASTA CloudTest Plugin stores credentials unencrypted in its global configuration file `com.soasta.jenkins.CloudTestServer.xml` on the Jenkins controller. These credentials could be viewed by users with access to the Jenkins controller file system.\n\nAs of publication of this advisory there is no fix.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.soasta.jenkins:cloudtest"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "2.25"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-10451"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2019-10-16/#SECURITY-1439"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-312"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-27T15:46:33Z",
+    "nvd_published_at": "2019-10-16T14:15:00Z"
+  }
+}

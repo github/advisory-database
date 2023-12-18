@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g2qq-c5j9-5w5w",
+  "modified": "2023-11-15T18:32:54Z",
+  "published": "2023-11-07T23:02:57Z",
+  "aliases": [
+    "CVE-2023-46243"
+  ],
+  "summary": "XWiki Platform vulnerable to privilege escalation and remote code execution via the edit action",
+  "details": "### Impact\n\nIn XWiki Platform, it's possible for a user to execute any content with the right of an existing document's content author, provided the user have edit right on it. The reason for this is that the edit action sets the content without modifying the content author.\n\nTo reproduce:\n* Log in as a user without programming or script right.\n* Open the URL `<xwiki-host>/xwiki/bin/edit/<document>/?content=%7B%7Bgroovy%7D%7Dprintln%28%22Hello+from+Groovy%21%22%29%7B%7B%2Fgroovy%7D%7D&xpage=view`, where `<xwiki-host>` is the URL of your XWiki installation and `<document>` is the path to a document whose content author has programming right (or script right) and on which the current user has edit right.\n\nThe text \"Hello from Groovy!\" is displayed in the page content, showing that the Groovy macro has been executed, which should not be the case for a user without programming right.\n\n### Patches\n\nThis has been patched in XWiki 14.10.6 and 15.2RC1.\n\n### Workarounds\n\nThere are no known workarounds for it.\n\n### References\n\n* https://jira.xwiki.org/browse/XWIKI-20385\n* https://github.com/xwiki/xwiki-platform/commit/a0e6ca083b36be6f183b9af33ae735c1e02010f4\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n* Open an issue in [Jira XWiki.org](https://jira.xwiki.org/)\n* Email us at [Security Mailing List](mailto:security@xwiki.org)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-oldcore"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "15.0"
+            },
+            {
+              "fixed": "15.2-rc-1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-oldcore"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0"
+            },
+            {
+              "fixed": "14.10.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-g2qq-c5j9-5w5w"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-46243"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/a0e6ca083b36be6f183b9af33ae735c1e02010f4"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20385"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-07T23:02:57Z",
+    "nvd_published_at": "2023-11-07T20:15:08Z"
+  }
+}

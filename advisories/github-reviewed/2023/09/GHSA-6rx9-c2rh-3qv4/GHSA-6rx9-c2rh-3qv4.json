@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6rx9-c2rh-3qv4",
+  "modified": "2023-09-25T18:34:33Z",
+  "published": "2023-09-24T03:30:20Z",
+  "aliases": [
+    "CVE-2023-1636"
+  ],
+  "summary": "OpenStack Barbican information disclosure vulnerability",
+  "details": "A vulnerability was found in OpenStack Barbican containers. This vulnerability is only applicable to deployments that utilize an all-in-one configuration. Barbican containers share the same CGROUP, USER, and NET namespace with the host system and other OpenStack services. If any service is compromised, it could gain access to the data transmitted to and from Barbican.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:C/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "barbican"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "16.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-1636"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/security/cve/CVE-2023-1636"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2181765"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openstack/barbican"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-25T18:34:33Z",
+    "nvd_published_at": "2023-09-24T01:15:43Z"
+  }
+}

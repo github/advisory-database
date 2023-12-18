@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6gp4-2f92-j2w5",
+  "modified": "2023-05-17T02:59:02Z",
+  "published": "2023-05-16T18:30:16Z",
+  "aliases": [
+    "CVE-2023-32979"
+  ],
+  "summary": "Jenkins Email Extension Plugin missing permission check",
+  "details": "Jenkins Email Extension Plugin 2.96 and earlier does not perform a permission check in a method implementing form validation.\n\nThis allows attackers with Overall/Read permission to check for the existence of files in the `email-templates/` directory in the Jenkins home directory on the controller file system.\n\nThis form validation method requires the appropriate permission in Email Extension Plugin 2.96.1.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:email-ext"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.96.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-32979"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-05-16/#SECURITY-3088%20(1)"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-732"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-17T02:59:02Z",
+    "nvd_published_at": "2023-05-16T16:15:10Z"
+  }
+}

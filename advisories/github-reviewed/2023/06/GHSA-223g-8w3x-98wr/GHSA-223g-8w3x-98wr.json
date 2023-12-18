@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-223g-8w3x-98wr",
+  "modified": "2023-06-09T22:40:23Z",
+  "published": "2023-06-09T22:40:23Z",
+  "aliases": [
+    "CVE-2023-34230"
+  ],
+  "summary": "Snowflake Connector .Net Command Injection",
+  "details": "### Issue\nSnowflake was informed via our bug bounty program of a command injection vulnerability in the Snowflake .NET driver via SSO URL authentication.\n\n### Impacted driver package: \nsnowflake-connector-net\n\n### Impacted version range: \nbefore [Version 2.0.18](https://community.snowflake.com/s/article/Dot-NET-Driver-Release-Notes)\n\n### Attack Scenario\nIn order to exploit the potential for command injection, an attacker would need to be successful in (1) establishing a malicious resource and (2) redirecting users to utilize the resource. The attacker could set up a malicious, publicly accessible server which responds to the SSO URL with an attack payload. If the attacker then tricked a user into visiting the maliciously crafted connection URL, the user’s local machine would render the malicious payload, leading to a remote code execution. \n\nThis attack scenario can be mitigated through URL whitelisting as well as common anti-phishing resources.  \n\n### Solution\nOn December 2nd, 2022, Snowflake merged a patch that fixed a command injection vulnerability in the Snowflake .NET driver via SSO URL authentication. The vulnerability affected the Snowflake .NET driver before Version 2.0.18. We strongly recommend upgrading to the latest driver version as soon as possible via the following resources: [Snowflake .NET Driver](https://docs.snowflake.com/en/developer-guide/dotnet/dotnet-driver).\n\n### Additional Information\nIf you discover a security vulnerability in one of our products or websites, please report the issue to HackerOne. For more information, please see our [Vulnerability Disclosure Policy](https://hackerone.com/snowflake?type=team).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Snowflake.Data"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.18"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/snowflakedb/snowflake-connector-net/security/advisories/GHSA-223g-8w3x-98wr"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-34230"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/snowflakedb/snowflake-connector-net"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-77"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-09T22:40:23Z",
+    "nvd_published_at": "2023-06-08T21:15:17Z"
+  }
+}

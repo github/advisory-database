@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xqcq-j8w9-3pxv",
+  "modified": "2023-08-01T19:53:16Z",
+  "published": "2023-08-01T19:53:16Z",
+  "aliases": [
+
+  ],
+  "summary": "Jettison parser crash by stackoverflow",
+  "details": "Those using Jettison to parse untrusted XML or JSON data may be vulnerable to Denial of Service attacks (DOS). If the parser is running on user supplied input, an attacker may supply content that causes the parser to crash by stackoverflow. This effect may support a denial of service attack.\n\n### References\n\n- https://nvd.nist.gov/vuln/detail/CVE-2022-40149\n- https://github.com/jettison-json/jettison/issues/45\n- https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=46538\n- https://github.com/jettison-json/jettison/pull/49/files\n- https://github.com/jettison-json/jettison/releases/tag/jettison-1.5.1\n- https://lists.debian.org/debian-lts-announce/2022/11/msg00011.html\n- https://www.debian.org/security/2023/dsa-5312",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.tencyle.fixes:org.codehaus.jettison--jettison"
+      },
+      "versions": [
+        "1.1-tencyle-2.1.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/tencyle-fixes/jettison/security/advisories/GHSA-xqcq-j8w9-3pxv"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-40149"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jettison-json/jettison/issues/45"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jettison-json/jettison/pull/49"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=46538"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jettison-json/jettison/releases/tag/jettison-1.5.1"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/tencyle-fixes/jettison"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tencyle-fixes/jettison#jettison-backports-repository-by-tencyle"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.debian.org/debian-lts-announce/2022/11/msg00011.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.debian.org/security/2023/dsa-5312"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-121",
+      "CWE-787"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-01T19:53:16Z",
+    "nvd_published_at": null
+  }
+}

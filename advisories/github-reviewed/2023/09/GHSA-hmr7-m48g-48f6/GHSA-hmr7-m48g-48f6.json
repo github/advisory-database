@@ -1,0 +1,142 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hmr7-m48g-48f6",
+  "modified": "2023-10-02T21:03:21Z",
+  "published": "2023-09-14T16:17:27Z",
+  "aliases": [
+    "CVE-2023-40167"
+  ],
+  "summary": "Jetty accepts \"+\" prefixed value in Content-Length",
+  "details": "### Impact\n\nJetty accepts the '+' character proceeding the content-length value in a HTTP/1 header field.  This is more permissive than allowed by the RFC and other servers routinely reject such requests with 400 responses.  There is no known exploit scenario, but it is conceivable that request smuggling could result if jetty is used in combination with a server that does not close the connection after sending such a 400 response.\n\n### Workarounds\n\nThere is no workaround as there is no known exploit scenario.   \n\n### Original Report \n\n[RFC 9110 Secion 8.6](https://www.rfc-editor.org/rfc/rfc9110#section-8.6) defined the value of Content-Length header should be a string of 0-9 digits. However we found that Jetty accepts \"+\" prefixed Content-Length, which could lead to potential HTTP request smuggling.\n\nPayload:\n\n```\n POST / HTTP/1.1\n Host: a.com\n Content-Length: +16\n Connection: close\n ​\n 0123456789abcdef\n```\n\nWhen sending this payload to Jetty, it can successfully parse and identify the length.\n\nWhen sending this payload to NGINX, Apache HTTPd or other HTTP servers/parsers, they will return 400 bad request.\n\nThis behavior can lead to HTTP request smuggling and can be leveraged to bypass WAF or IDS.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.eclipse.jetty:jetty-http"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.0.0"
+            },
+            {
+              "fixed": "9.4.52"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 9.4.51"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.eclipse.jetty:jetty-http"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "10.0.0"
+            },
+            {
+              "fixed": "10.0.16"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 10.0.15"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.eclipse.jetty:jetty-http"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "11.0.0"
+            },
+            {
+              "fixed": "11.0.16"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 11.0.15"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.eclipse.jetty:jetty-http"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "12.0.0"
+            },
+            {
+              "fixed": "12.0.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "12.0.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/eclipse/jetty.project/security/advisories/GHSA-hmr7-m48g-48f6"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-40167"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/eclipse/jetty.project"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.debian.org/debian-lts-announce/2023/09/msg00039.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.debian.org/security/2023/dsa-5507"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.rfc-editor.org/rfc/rfc9110#section-8.6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-130"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-14T16:17:27Z",
+    "nvd_published_at": "2023-09-15T20:15:09Z"
+  }
+}

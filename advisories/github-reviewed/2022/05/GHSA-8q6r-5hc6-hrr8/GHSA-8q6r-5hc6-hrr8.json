@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8q6r-5hc6-hrr8",
+  "modified": "2023-10-26T22:08:56Z",
+  "published": "2022-05-24T22:00:02Z",
+  "aliases": [
+    "CVE-2019-10321"
+  ],
+  "summary": "Jenkins Artifactory Plugin cross-site request forgery vulnerability",
+  "details": "Jenkins Artifactory Plugin does not perform permission checks on a method implementing form validation. This allows users with Overall/Read access to Jenkins to connect to an attacker-specified URL using attacker-specified credentials IDs obtained through another method, capturing credentials stored in Jenkins.\n\nAdditionally, this form validation method does not require POST requests, resulting in a cross-site request forgery vulnerability.\n\nAs of publication of this advisory, no release containing a fix is available.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:artifactory"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "3.2.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-10321"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2019-05-31/#SECURITY-1015%20(1)"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20200227054747/http://www.securityfocus.com/bid/108540"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.talosintelligence.com/vulnerability_reports/TALOS-2019-0787"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2019/05/31/2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-26T22:08:56Z",
+    "nvd_published_at": "2019-05-31T15:29:00Z"
+  }
+}

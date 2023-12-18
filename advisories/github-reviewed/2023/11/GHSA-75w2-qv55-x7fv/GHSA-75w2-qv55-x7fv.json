@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-75w2-qv55-x7fv",
+  "modified": "2023-11-30T22:05:44Z",
+  "published": "2023-11-23T21:30:18Z",
+  "aliases": [
+    "CVE-2023-49210"
+  ],
+  "summary": "openssl npm package vulnerable to command execution",
+  "details": "The openssl (aka node-openssl) NPM package through 2.0.0 was characterized as \"a nonsense wrapper with no real purpose\" by its author, and accepts an opts argument that contains a verb field (used for command execution). NOTE: This vulnerability only affects products that are no longer supported by the maintainer.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "openssl"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "2.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-49210"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gist.github.com/mcoimbra/b05a55a5760172dccaa0a827647ad63e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ossf/malicious-packages/tree/main/malicious/npm"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.npmjs.com/package/openssl"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-77"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-27T23:23:40Z",
+    "nvd_published_at": "2023-11-23T20:15:07Z"
+  }
+}

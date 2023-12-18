@@ -1,0 +1,169 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9wmc-rg4h-28wv",
+  "modified": "2023-10-17T12:41:55Z",
+  "published": "2023-10-17T12:41:55Z",
+  "aliases": [
+
+  ],
+  "summary": "github.com/kumahq/kuma affected by CVE-2023-44487",
+  "details": "### Impact\nEnvoy and Go HTTP/2 protocol stack is vulnerable to the \"Rapid Reset\" class of exploits, which send a sequence of HEADERS frames optionally followed by RST_STREAM frames.\n\nThis can be exercised if you use the builtin gateway and receive untrusted http2 traffic.\n\n### Patches\n\nhttps://github.com/kumahq/kuma/pull/8023\nhttps://github.com/kumahq/kuma/pull/8001\nhttps://github.com/kumahq/kuma/pull/8034\n\n### Workarounds\nDisable http2 on the gateway listener with a MeshProxyPatch or ProxyTemplate.\n\n### References\nhttps://github.com/advisories/GHSA-qppj-fm5r-hxr3\nhttps://github.com/golang/go/issues/63417\nhttps://github.com/envoyproxy/envoy/security/advisories/GHSA-jhv4-f7mr-xx76\nhttps://cloud.google.com/blog/products/identity-security/how-it-works-the-novel-http2-rapid-reset-ddos-attack\nhttps://www.nginx.com/blog/http-2-rapid-reset-attack-impacting-f5-nginx-products/?sf269548684=1\nhttps://www.envoyproxy.io/docs/envoy/latest/configuration/best_practices/edge",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/kumahq/kuma"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.4.0"
+            },
+            {
+              "fixed": "2.4.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/kumahq/kuma"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.3.0"
+            },
+            {
+              "fixed": "2.3.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/kumahq/kuma"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.2.0"
+            },
+            {
+              "fixed": "2.2.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/kumahq/kuma"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.1.0"
+            },
+            {
+              "fixed": "2.1.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/kumahq/kuma"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.8"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/envoyproxy/envoy/security/advisories/GHSA-jhv4-f7mr-xx76"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kumahq/kuma/security/advisories/GHSA-9wmc-rg4h-28wv"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/golang/go/issues/63417"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kumahq/kuma/pull/8001"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kumahq/kuma/pull/8023"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kumahq/kuma/pull/8034"
+    },
+    {
+      "type": "WEB",
+      "url": "https://cloud.google.com/blog/products/identity-security/how-it-works-the-novel-http2-rapid-reset-ddos-attack"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-qppj-fm5r-hxr3"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/kumahq/kuma"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.envoyproxy.io/docs/envoy/latest/configuration/best_practices/edge"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.nginx.com/blog/http-2-rapid-reset-attack-impacting-f5-nginx-products/?sf269548684=1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-17T12:41:55Z",
+    "nvd_published_at": null
+  }
+}

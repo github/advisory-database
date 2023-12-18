@@ -1,0 +1,143 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jj7c-jrv4-c65x",
+  "modified": "2023-09-21T17:14:58Z",
+  "published": "2023-09-21T17:14:58Z",
+  "aliases": [
+    "CVE-2023-41048"
+  ],
+  "summary": "plone.namedfile vulnerable to Stored Cross Site Scripting with SVG images",
+  "details": "### Impact\nThere is a stored cross site scripting vulnerability for SVG images. A [security hotfix from 2021](https://github.com/plone/Products.PloneHotfix20210518) already partially fixed this,  by making sure SVG images are always downloaded instead of shown inline. But the same problem still exists for scales of SVG images.\n\nNote that an image tag with an SVG image as source is not vulnerable, even when the SVG image contains malicious code. To exploit the vulnerability, an attacker would first need to upload an image, and then trick a user into following a specially crafted link.\n\nAll versions of `plone.namedfile` are impacted.\n\n### Patches\nPatches will be released in various `plone.namedfile` releases:\n\n* 5.6.1 (for Plone 5.2)\n* 6.0.3 (for Plone 6.0.0-6.0.4)\n* 6.1.3 (for Plone 6.0.5-6.0.6)\n* 6.2.1 (for Plone 6.0.7)\n\n### Workarounds\nThere is no workaround.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:R/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "plone.namedfile"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.6.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "plone.namedfile"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.0.0"
+            },
+            {
+              "fixed": "6.0.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "plone.namedfile"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.1.0"
+            },
+            {
+              "fixed": "6.1.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "plone.namedfile"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.2.0"
+            },
+            {
+              "fixed": "6.2.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/plone/plone.namedfile/security/advisories/GHSA-jj7c-jrv4-c65x"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-41048"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/plone/plone.namedfile/commit/188f66a4577021cf8f2bf7c0f5150f9b9573f167"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/plone/plone.namedfile/commit/217d6ce847b7171bf1b73fcb6c08010eb449216a"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/plone/plone.namedfile/commit/f0f911f2a72b2e5c923dc2ab9179319cc47788f9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/plone/plone.namedfile/commit/ff5269fb4c79f4eb91dd934561b8824a49a03b60"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/plone/Products.PloneHotfix20210518"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/plone/plone.namedfile"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2023/09/22/2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79",
+      "CWE-80"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-21T17:14:58Z",
+    "nvd_published_at": "2023-09-21T15:15:10Z"
+  }
+}

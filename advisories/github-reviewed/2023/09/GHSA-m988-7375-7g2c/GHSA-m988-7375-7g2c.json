@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-m988-7375-7g2c",
+  "modified": "2023-09-26T13:57:38Z",
+  "published": "2023-09-25T17:34:11Z",
+  "aliases": [
+    "CVE-2023-42817"
+  ],
+  "summary": "pimcore/admin-ui-classic-bundle Cross-site Scripting vulnerability in Translations",
+  "details": "### Impact\nThe translation value with text including “%s” (from “%suggest%) is parsed by sprintf() even though it’s supposed to be output literally to the user.\n\nThe translations may be accessible by a user with comparatively lower overall access (as the translation permission cannot be scoped to certain “modules”) and a skilled attacker might be able to exploit the parsing of the translation string in the dialog box.\n\n### Patches\nhttps://github.com/pimcore/admin-ui-classic-bundle/commit/abd7739298f974319e3cac3fd4fcd7f995b63e4c.patch\n\n### Workarounds\nUpdate to version 1.1.2 or apply this patches manually\nhttps://github.com/pimcore/admin-ui-classic-bundle/commit/abd7739298f974319e3cac3fd4fcd7f995b63e4c.patch\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "pimcore/admin-ui-classic-bundle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.1.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/admin-ui-classic-bundle/security/advisories/GHSA-m988-7375-7g2c"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-42817"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/admin-ui-classic-bundle/commit/abd7739298f974319e3cac3fd4fcd7f995b63e4c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pimcore/admin-ui-classic-bundle"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-25T17:34:11Z",
+    "nvd_published_at": "2023-09-25T19:15:10Z"
+  }
+}

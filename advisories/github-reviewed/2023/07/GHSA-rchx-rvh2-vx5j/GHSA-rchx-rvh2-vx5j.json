@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rchx-rvh2-vx5j",
+  "modified": "2023-08-01T21:40:55Z",
+  "published": "2023-07-26T21:30:18Z",
+  "aliases": [
+    "CVE-2023-3414"
+  ],
+  "summary": "Credential leakage in Jenkins Plug-in for ServiceNow ",
+  "details": "A cross-site request forgery vulnerability exists in versions of the Jenkins Plug-in for ServiceNow DevOps prior to 1.38.1 that, if exploited successfully, could cause the unwanted exposure of sensitive information. To address this issue, apply the 1.38.1 version of the Jenkins plug-in for ServiceNow DevOps on your Jenkins server.  No changes are required on your instances of the Now Platform. \n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.jenkins.plugins:servicenow-devops"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.38.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-3414"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jenkinsci/servicenow-devops-plugin/commit/67192e24099787ad732b41d581f20714d4253921"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jenkinsci/servicenow-devops-plugin/commit/d7d2422b016995402dd245d9c9c5c2f4cf00c691"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/servicenow-devops-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jenkinsci/servicenow-devops-plugin/releases/tag/v1.38.1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://support.servicenow.com/kb?id=kb_article_view&sysparm_article=KB1434118"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200",
+      "CWE-352"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-26T22:39:17Z",
+    "nvd_published_at": "2023-07-26T19:15:09Z"
+  }
+}

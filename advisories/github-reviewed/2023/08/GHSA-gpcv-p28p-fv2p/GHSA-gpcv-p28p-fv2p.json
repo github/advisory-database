@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-gpcv-p28p-fv2p",
+  "modified": "2023-08-03T16:35:20Z",
+  "published": "2023-08-03T16:35:20Z",
+  "aliases": [
+    "CVE-2023-3766"
+  ],
+  "summary": "odoh-rs's Invalid Slice Split Results in Server Panic",
+  "details": "A vulnerability was discovered in the odoh-rs rust crate that stems from faulty logic during the parsing of encrypted queries. This issue specifically occurs when processing encrypted query data received from remote clients.\n\n### Impact\nAn attacker with knowledge of this vulnerability could craft and send specially designed encrypted queries to targeted ODOH servers running with odoh-rs. Upon successful exploitation, the server will crash abruptly, disrupting its normal operation and rendering the service temporarily unavailable.\n\n### Patches\nUsers are encouraged to update their odoh-rs's rust crate to v1.0.2.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "odoh-rs"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.0.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudflare/odoh-rs/security/advisories/GHSA-gpcv-p28p-fv2p"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-3766"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudflare/odoh-rs/pull/28"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudflare/odoh-rs/commit/c1bc4ed71dcc9842b7dc1ea26f278f105074bbaa"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cloudflare/odoh-rs"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-120"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-03T16:35:20Z",
+    "nvd_published_at": "2023-08-03T15:15:32Z"
+  }
+}

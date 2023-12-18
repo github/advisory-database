@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wx79-r3q8-fq9h",
+  "modified": "2023-07-06T23:28:55Z",
+  "published": "2023-07-06T21:14:59Z",
+  "aliases": [
+    "CVE-2023-31066"
+  ],
+  "summary": "Apache InLong has Files or Directories Accessible to External Parties in Apache InLong",
+  "details": "Files or Directories Accessible to External Parties vulnerability in Apache Software Foundation Apache InLong. This issue affects Apache InLong: from 1.4.0 through 1.6.0. Different users in InLong could delete, edit, stop, and start others' sources. Users are advised to upgrade to Apache InLong's 1.7.0 or cherry-pick https://github.com/apache/inlong/pull/7775 to solve it.\n\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.inlong:manager-service"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.4.0"
+            },
+            {
+              "fixed": "1.7.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.inlong:manager-web"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.4.0"
+            },
+            {
+              "fixed": "1.7.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-31066"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/inlong/pull/7775"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/inlong"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/x7y05wo37sq5l9fnmmsjh2dr9kcjrcxf"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-552"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-06T23:28:55Z",
+    "nvd_published_at": "2023-05-22T16:15:10Z"
+  }
+}

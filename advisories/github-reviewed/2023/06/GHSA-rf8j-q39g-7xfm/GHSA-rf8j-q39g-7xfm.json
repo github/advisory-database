@@ -1,0 +1,116 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rf8j-q39g-7xfm",
+  "modified": "2023-06-20T16:46:53Z",
+  "published": "2023-06-20T16:46:53Z",
+  "aliases": [
+    "CVE-2023-35152"
+  ],
+  "summary": "XWiki Platform vulnerable to privilege escalation (PR) from account through like LiveTableResults",
+  "details": "### Impact\nAny logged in user can add dangerous content in their first name field and see it executed with programming rights. Leading to rights escalation.\n\n### Patches\nThe vulnerability has been fixed on XWiki 14.4.8, 14.10.6, and 15.1.\n\n### Workarounds\nThe vulnerability can be fixed by applying this [patch](https://github.com/xwiki/xwiki-platform/commit/6ce2d04a5779e07f6d3ed3f37d4761049b4fc3ac#diff-ef7f8b911bb8e584fda22aac5876a329add35ca0d1d32e0fdb62a439b78cfa49).\n\nOn versions before 13.4-rc-1, the fix needs to be applied on [XWiki.Like.Code.LiveTableResultPage](https://github.com/xwiki/xwiki-platform/commit/0993a7ab3c102f9ac37ffe361a83a3dc302c0e45#diff-0b51114cb27f7a5c599cf40c59d658eae6ddc5c0836532c3b35e163f40a4854fR39).\n\n### References\n- The reported issue https://jira.xwiki.org/browse/XWIKI-20611, fixed by https://jira.xwiki.org/browse/XWIKI-19900\n- The patch https://github.com/xwiki/xwiki-platform/commit/6ce2d04a5779e07f6d3ed3f37d4761049b4fc3ac#diff-ef7f8b911bb8e584fda22aac5876a329add35ca0d1d32e0fdb62a439b78cfa49\n### For more information\n\nIf you have any questions or comments about this advisory:\n* Open an issue in [Jira XWiki.org](https://jira.xwiki.org/)\n* Email us at [Security Mailing List](mailto:security@xwiki.org)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-like-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "12.9-rc-1"
+            },
+            {
+              "fixed": "14.4.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-like-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.5"
+            },
+            {
+              "fixed": "14.10.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-like-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "15.0-rc-1"
+            },
+            {
+              "fixed": "15.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-rf8j-q39g-7xfm"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-35152"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/0993a7ab3c102f9ac37ffe361a83a3dc302c0e45#diff-0b51114cb27f7a5c599cf40c59d658eae6ddc5c0836532c3b35e163f40a4854fR39"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/6ce2d04a5779e07f6d3ed3f37d4761049b4fc3ac#diff-ef7f8b911bb8e584fda22aac5876a329add35ca0d1d32e0fdb62a439b78cfa49"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-19900"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20611"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94",
+      "CWE-95"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-20T16:46:53Z",
+    "nvd_published_at": "2023-06-23T17:15:09Z"
+  }
+}

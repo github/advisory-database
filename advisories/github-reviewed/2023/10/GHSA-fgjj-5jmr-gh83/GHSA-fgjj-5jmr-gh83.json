@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fgjj-5jmr-gh83",
+  "modified": "2023-10-31T21:21:23Z",
+  "published": "2023-10-24T02:45:31Z",
+  "aliases": [
+    "CVE-2023-46126"
+  ],
+  "summary": "Fides JavaScript Injection Vulnerability in Privacy Center URL",
+  "details": "### Impact\nThe Fides web application allows users to edit consent and privacy notices such as cookie banners. These privacy notices can then be served by other integrated websites, for example in cookie consent banners. One of the editable fields is a privacy policy URL and this input was found to not be validated.\n\nThe vulnerability makes it possible to craft a payload in the privacy policy URL which triggers JavaScript execution when the privacy notice is served by an integrated website. The domain scope of the executed JavaScript is that of the integrated website.\n\nExploitation is limited to Admin UI users with the contributor role or higher.\n\n### Patches\nThe vulnerability has been patched in Fides version `2.22.1`. Users are advised to upgrade to this version or later to secure their systems against this threat.\n\n### Workarounds\nThere are no workarounds.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ethyca-fides"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "fides.api.schemas.privacy_experience.ExperienceConfigSchema"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.22.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ethyca/fides/security/advisories/GHSA-fgjj-5jmr-gh83"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-46126"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ethyca/fides/commit/3231d19699f9c895c986f6a967a64d882769c506"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ethyca/fides"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ethyca/fides/releases/tag/2.22.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-24T02:45:31Z",
+    "nvd_published_at": "2023-10-25T18:17:36Z"
+  }
+}

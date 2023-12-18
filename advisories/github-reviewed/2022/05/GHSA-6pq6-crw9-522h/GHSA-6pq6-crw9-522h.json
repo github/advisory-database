@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6pq6-crw9-522h",
+  "modified": "2023-09-26T16:56:00Z",
+  "published": "2022-05-24T17:00:04Z",
+  "aliases": [
+    "CVE-2019-18608"
+  ],
+  "summary": "Cezerin Unauthorized Acces",
+  "details": "Cezerin v0.33.0 allows unauthorized order-information modification because certain internal attributes can be overwritten via a conflicting name when processing order requests. Hence, a malicious customer can manipulate an order (e.g., its payment status or shipping fee) by adding additional attributes to user-input during the PUT `/ajax/cart` operation for a checkout, because of `getValidDocumentForUpdate` in `api/server/services/orders/orders.js`.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "cezerin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.33.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-18608"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cezerin/cezerin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cl0udz/vulnerabilities/blob/master/cezerin-manipulate_order_information/README.md"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-18T20:46:17Z",
+    "nvd_published_at": "2019-10-29T19:15:00Z"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vpxf-q44g-w34w",
+  "modified": "2023-07-03T18:38:23Z",
+  "published": "2023-06-30T20:36:55Z",
+  "aliases": [
+    "CVE-2023-36815"
+  ],
+  "summary": "Sealos billing system permission control defect",
+  "details": "### Summary\n\nThere is a permission flaw in the Sealos billing system, which allows users to control the recharge resource account. sealos. io/v1/Payment, resulting in the ability to recharge any amount of 1 RMB.\n\n### Details\n\nThe reason is that sealos is in arrears. Egg pain, we can't create a terminal anymore. Let's charge for it:\n\nThen it was discovered that the charging interface had returned all resource information. Unfortunately, based on previous vulnerability experience, the namespace of this custom resource is still under the current user's control and may have permission to correct it.\n\n### PoC\ndisable by publish\n\n### Impact\n\n+ sealos public cloud user\n+ CWE-287 Improper Authentication",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/labring/sealos"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "4.2.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/labring/sealos/security/advisories/GHSA-vpxf-q44g-w34w"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-36815"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/labring/sealos"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-287",
+      "CWE-862"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-30T20:36:55Z",
+    "nvd_published_at": "2023-07-03T18:15:09Z"
+  }
+}

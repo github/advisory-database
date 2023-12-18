@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-22xp-7rcx-xp34",
+  "modified": "2023-10-26T14:30:24Z",
+  "published": "2022-05-13T01:15:08Z",
+  "aliases": [
+    "CVE-2019-1003043"
+  ],
+  "summary": "Jenkins Slack Notification Plugin missing permission check",
+  "details": "Jenkins Slack Notification Plugin did not perform permission checks on a method implementing form validation. This allowed users with Overall/Read access to Jenkins to connect to an attacker-specified URL using attacker-specified credentials IDs obtained through another method, capturing credentials stored in Jenkins.\n\nAdditionally, this form validation method did not require POST requests, resulting in a cross-site request forgery vulnerability.\n\nThis form validation method now requires POST requests and Overall/Administer (for global configuration) or Item/Configure permissions (for job configuration).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:H/PR:L/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:slack"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.20"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.19"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-1003043"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jenkinsci/slack-plugin/commit/0268bbefdcc283effd27be5318770f7e75c6f102"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/slack-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2019-03-25/#SECURITY-976"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20200227082607/http://www.securityfocus.com/bid/107628"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2019/03/28/2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-862"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-26T14:30:24Z",
+    "nvd_published_at": "2019-03-28T18:29:00Z"
+  }
+}

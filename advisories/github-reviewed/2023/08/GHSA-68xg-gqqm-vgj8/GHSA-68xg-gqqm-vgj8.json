@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-68xg-gqqm-vgj8",
+  "modified": "2023-08-24T22:34:11Z",
+  "published": "2023-08-18T21:50:05Z",
+  "aliases": [
+    "CVE-2023-40175"
+  ],
+  "summary": "Puma HTTP Request/Response Smuggling vulnerability",
+  "details": "### Impact\nPrior to version 6.3.1, puma exhibited incorrect behavior when parsing chunked transfer encoding bodies and zero-length Content-Length headers in a way that allowed HTTP request smuggling.\n\nThe following vulnerabilities are addressed by this advisory:\n\n* Incorrect parsing of trailing fields in chunked transfer encoding bodies\n* Parsing of blank/zero-length Content-Length headers\n\n### Patches\nThe vulnerability has been fixed in 6.3.1 and 5.6.7.\n\n### Workarounds\nNo known workarounds.\n\n### References\n[HTTP Request Smuggling](https://portswigger.net/web-security/request-smuggling)\n\n### For more information\nIf you have any questions or comments about this advisory:\n\nOpen an issue in [Puma](https://github.com/puma/puma)\nSee our [security policy](https://github.com/puma/puma/security/policy)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "puma"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.6.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "puma"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.0.0"
+            },
+            {
+              "fixed": "6.3.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/puma/puma/security/advisories/GHSA-68xg-gqqm-vgj8"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-40175"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/puma/puma/commit/690155e7d644b80eeef0a6094f9826ee41f1080a"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/puma/puma/commit/7405a219801dcebc0ad6e0aa108d4319ca23f662"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/puma/puma/commit/ed0f2f94b56982c687452504b95d5f1fbbe3eed1"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/puma/puma"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/puma/puma/releases/tag/v5.6.7"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/puma/puma/releases/tag/v6.3.1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/puma/CVE-2023-40175.yml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-444"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-18T21:50:05Z",
+    "nvd_published_at": "2023-08-18T22:15:11Z"
+  }
+}

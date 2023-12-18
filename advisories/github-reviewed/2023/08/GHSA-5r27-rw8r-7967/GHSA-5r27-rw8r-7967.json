@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5r27-rw8r-7967",
+  "modified": "2023-08-14T13:14:54Z",
+  "published": "2023-08-08T19:26:40Z",
+  "aliases": [
+    "CVE-2023-38704"
+  ],
+  "summary": "import-in-the-middle has unsanitized user controlled input in module generation",
+  "details": "### Impact\nThe `import-in-the-middle` loader works by generating a wrapper module on the fly. The wrapper uses the module specifier to load the original module and add some wrapping code. It allows for remote code execution in cases where an application passes user-supplied input directly to an import() function.\n\n### Patches\nThis vulnerability has been patched in `import-in-the-middle` version 1.4.2\n\n### Workarounds\n* Do not pass any user-supplied input to `import()`. Instead, verify it against a set of allowed values.\n* If using `import-in-the-middle` and support for EcmaScript Modules is not needed, ensure that none of the following options are set (either via command-line or the `NODE_OPTIONS` environment variable):\n```\n--loader=import-in-the-middle/hook.mjs\n--loader import-in-the-middle/hook.mjs\n```\n\n### References\nIf you have any questions or comments about this advisory, email us at [security@datadoghq.com](mailto:security@datadoghq.com)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "import-in-the-middle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.4.2"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.4.1"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/DataDog/import-in-the-middle/security/advisories/GHSA-5r27-rw8r-7967"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-38704"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/DataDog/import-in-the-middle/commit/2531cdd9d1d73f9eaa87c16967f60cb276c1971b"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/DataDog/import-in-the-middle"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-08T19:26:40Z",
+    "nvd_published_at": "2023-08-07T20:15:09Z"
+  }
+}

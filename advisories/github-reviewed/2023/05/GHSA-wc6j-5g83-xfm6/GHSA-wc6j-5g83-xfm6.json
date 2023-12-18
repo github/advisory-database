@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wc6j-5g83-xfm6",
+  "modified": "2023-05-22T21:31:35Z",
+  "published": "2023-05-11T03:30:15Z",
+  "aliases": [
+    "CVE-2023-30172"
+  ],
+  "summary": "mflow vulnerable to directory traversal",
+  "details": "A directory traversal vulnerability in the /get-artifact API method of the mlflow platform prior to v2.0.0 allows attackers to read arbitrary files on the server via the path parameter.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "mlflow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.0rc0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-30172"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mlflow/mlflow/issues/7166"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mlflow/mlflow/issues/7166#issuecomment-1541543234"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mlflow/mlflow/pull/7170"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mlflow/mlflow/commit/ac4b697bb0bb8a331944dca63f4235b4bf602ab8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mlflow/mlflow"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mlflow/mlflow/commits/v2.0.0?after=00c3b0a350a28c25b16fbb7feddb8147a919ce18+69&branch=v2.0.0&qualified_name=refs%2Ftags%2Fv2.0.0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/mlflow/PYSEC-2023-70.yaml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-11T20:11:04Z",
+    "nvd_published_at": "2023-05-11T02:15:08Z"
+  }
+}

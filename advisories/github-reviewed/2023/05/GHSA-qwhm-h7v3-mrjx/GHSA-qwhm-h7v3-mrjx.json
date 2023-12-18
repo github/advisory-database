@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qwhm-h7v3-mrjx",
+  "modified": "2023-05-30T09:05:58Z",
+  "published": "2023-05-25T17:01:12Z",
+  "aliases": [
+    "CVE-2023-33192"
+  ],
+  "summary": "Improper handling of NTS cookie length that could crash the ntpd-rs server",
+  "details": "### Impact\nntpd-rs does not validate the length of NTS cookies in received NTP packets to the server. An attacker can crash the server by sending a specially crafted NTP packet containing a cookie shorter than what the server expects. The server also crashes when it is not configured to handle NTS packets.\n\nntpd-rs running purely as an ntp client is not affected.\n\n### Patches\nThe issue was caused by improper slice indexing. The indexing operations were replaced by safer alternatives that do not crash the ntpd-rs server process but instead properly handle the error condition. A patch was released in version 0.3.3\n\n### Workarounds\nntpd-rs running purely as an ntp client is not affected. By default, ntpd-rs packages are not configured to run as a server.\n\nFor machines where serving the time is required, there is no known workaround. Users are recommended to upgrade ntpd-rs as soon as possible.\n\n### References\nhttps://github.com/pendulum-project/ntpd-rs/pull/752\n\nWe would like to thank @mlichvar for identifying this issue\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "ntpd"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.3.0"
+            },
+            {
+              "fixed": "0.3.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pendulum-project/ntpd-rs/security/advisories/GHSA-qwhm-h7v3-mrjx"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-33192"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pendulum-project/ntpd-rs/pull/752"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pendulum-project/ntpd-rs"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pendulum-project/ntpd-rs/releases/tag/v0.3.3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-130"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-25T17:01:12Z",
+    "nvd_published_at": "2023-05-27T04:15:25Z"
+  }
+}

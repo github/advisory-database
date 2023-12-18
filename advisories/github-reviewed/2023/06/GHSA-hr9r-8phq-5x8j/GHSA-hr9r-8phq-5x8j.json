@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hr9r-8phq-5x8j",
+  "modified": "2023-07-03T18:39:26Z",
+  "published": "2023-06-28T22:49:49Z",
+  "aliases": [
+    "CVE-2023-35933"
+  ],
+  "summary": "OpenFGA vulnerable to denial of service due to circular relationship",
+  "details": "### Overview\n\nOpenFGA versions v1.1.0 and prior are vulnerable to a DoS attack when certain Check and ListObjects calls are executed against authorization models that contain circular relationship definitions.\n\n### Am I Affected?\n\nYou are affected by this vulnerability if you are using OpenFGA v1.1.0 or earlier, and if you are executing certain [Check](https://openfga.dev/api/service#/Relationship%20Queries/Check) or [ListObjects](https://openfga.dev/api/service#/Relationship%20Queries/ListObjects) calls against a vulnerable authorization model. To see which of your models could be vulnerable to this attack, download OpenFGA v1.2.0 and run the following command: \n\n```\n./openfga validate-models --datastore-engine <ENGINE> --datastore-uri <URI> | jq .[] | select(.Error | contains(\"loop\"))\n```\n\nreplacing the variables `<ENGINE>` and `<URI>` as needed.\n\n### Fix\n\nUpgrade to v1.1.1.\n\n### Backward Compatibility\n\nIf you are not passing an invalid authorization model (as identified by running `./openfga validate-models`) as a parameter of your Check and ListObjects calls, this upgrade is backwards compatible. \n\nOtherwise, OpenFGA v1.1.1 will start returning HTTP 400 status codes on those calls.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/openfga/openfga"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.1.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/openfga/openfga/security/advisories/GHSA-hr9r-8phq-5x8j"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-35933"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openfga/openfga/commit/087ce392595f3c319ab3028b5089118ea4063452"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openfga/openfga"
+    },
+    {
+      "type": "WEB",
+      "url": "https://openfga.dev/api/service#/Relationship%20Queries/Check"
+    },
+    {
+      "type": "WEB",
+      "url": "https://openfga.dev/api/service#/Relationship%20Queries/ListObjects"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-835"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-28T22:49:49Z",
+    "nvd_published_at": "2023-06-26T20:15:10Z"
+  }
+}

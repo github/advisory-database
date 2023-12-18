@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9xg4-3qfm-9w8f",
+  "modified": "2023-07-25T17:17:37Z",
+  "published": "2023-07-25T17:17:37Z",
+  "aliases": [
+    "CVE-2023-34235"
+  ],
+  "summary": "Leaking sensitive user information still possible by filtering on private with prefix fields",
+  "details": "### Summary\nStill able to leak private fields if using the t(number) prefix \n\n### Details\nKnex query allows you to change there default prefix \n```SqliteError: select distinct `t0`.* from `pages` as `t0` left join `admin_users` as `t1` on `t0`.`updated_by_id` = `t1`.`id` where (`t1`.`password` = 1)```\nso if you change the prefix to the same as it was before or to an other table you want to query you query changes from password to t1.password password is protected by filtering protections but t1.password is not protected\n### PoC\n1 Create a contentType\n2 add to its options \"populateCreatorFields\"\n3 create 1 entity in your new content type\n4 in settings enable the find route in settings for the content type you created for public\n5 /api/(Your contenttype)?filters%5BupdatedBy%5D%5Bt1.password%5D%5B%24startsWith%5D=a%24\nAnd now the api returns noting if you were to do\n/api/(Your contenttype)?filters%5BupdatedBy%5D%5Bt1.password%5D%5B%24startsWith%5D=%24 it would return your entity\n\n### Impact\nYou can do filtering attacks on everything related to the object again including admin passwords and reset-tokens.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@strapi/database"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.10.8"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 4.10.7"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@strapi/utils"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.10.8"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 4.10.7"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/strapi/strapi/security/advisories/GHSA-9xg4-3qfm-9w8f"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-34235"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/strapi/strapi"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/strapi/strapi/releases/tag/v4.10.8"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-25T17:17:37Z",
+    "nvd_published_at": "2023-07-25T18:15:10Z"
+  }
+}

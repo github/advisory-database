@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h4vp-69r8-gvjg",
+  "modified": "2023-07-14T21:53:52Z",
+  "published": "2023-07-14T21:53:52Z",
+  "aliases": [
+    "CVE-2023-37462"
+  ],
+  "summary": "org.xwiki.platform:xwiki-platform-skin-ui Eval Injection vulnerability",
+  "details": "### Impact\n\nImproper escaping in the document `SkinsCode.XWikiSkinsSheet` leads to a possible privilege escalation from view right on that document to programming rights, or in other words, it is possible to execute arbitrary script macros including Groovy and Python macros that allow remote code execution including unrestricted read and write access to all wiki contents.\n\nThe attack works by opening a non-existing page with a name crafted to contain a dangerous payload.\n\nIt is possible to check if an existing installation is vulnerable by opening `<xwiki-host>/xwiki/bin/view/%22%5D%5D%20%7B%7Basync%20async%3D%22true%22%20cached%3D%22false%22%20context%3D%22doc.reference%22%7D%7D%7B%7Bgroovy%7D%7Dprintln(%22Hello%20%22%20%2B%20%22from%20groovy!%22)%7B%7B%2Fgroovy%7D%7D%7B%7B%2Fasync%7D%7D?sheet=SkinsCode.XWikiSkinsSheet&xpage=view` where <xwiki-host is the URL of the XWiki installation. The expected result are two list items with \"Edit this skin\" and \"Test this skin\" without any further text. If the installation is vulnerable, the second list item is \"Test this skin Hello from groovy!.WebHome\"]]\". This shows that the Groovy macro has been executed.\n\n### Patches\n\nThis has been patched in XWiki 14.4.8, 14.10.4 and 15.0-rc-1.\n\n### Workarounds\n\nThe [fix](https://github.com/xwiki/xwiki-platform/commit/d9c88ddc4c0c78fa534bd33237e95dea66003d29) can also be applied manually to the impacted document `SkinsCode.XWikiSkinsSheet`.\n\n### References\n\n* https://jira.xwiki.org/browse/XWIKI-20457\n* https://github.com/xwiki/xwiki-platform/commit/d9c88ddc4c0c78fa534bd33237e95dea66003d29\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n* Open an issue in [Jira XWiki.org](https://jira.xwiki.org/)\n* Email us at [Security Mailing List](mailto:security@xwiki.org)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-skin-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.0-rc-1"
+            },
+            {
+              "fixed": "14.4.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-skin-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.5"
+            },
+            {
+              "fixed": "14.10.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-h4vp-69r8-gvjg"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-37462"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/d9c88ddc4c0c78fa534bd33237e95dea66003d29"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20457"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74",
+      "CWE-95"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-14T21:53:52Z",
+    "nvd_published_at": "2023-07-14T21:15:08Z"
+  }
+}

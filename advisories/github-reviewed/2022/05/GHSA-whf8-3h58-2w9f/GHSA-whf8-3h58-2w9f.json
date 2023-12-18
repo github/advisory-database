@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-whf8-3h58-2w9f",
+  "modified": "2023-10-25T23:03:12Z",
+  "published": "2022-05-13T01:31:35Z",
+  "aliases": [
+    "CVE-2019-1003008"
+  ],
+  "summary": "Jenkins Warnings Next Generation Plugin cross-site request forgery vulnerability",
+  "details": "Jenkins Warnings Next Generation Plugin has a form validation HTTP endpoint used to validate a Groovy script through compilation, which was not subject to sandbox protection. The endpoint checked for the Overall/RunScripts permission, but did not require POST requests, so it was vulnerable to cross-site request forgery (CSRF). This allowed attackers to execute arbitrary code on the Jenkins controller by applying AST transforming annotations such as `@Grab` to source code elements.\n\nThe affected HTTP endpoint now applies a safe Groovy compiler configuration preventing the use of unsafe AST transforming annotations. Additionally, the form validation HTTP endpoint now requires that requests be sent via POST to prevent CSRF.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.jenkins.plugins:warnings-ng"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "2.1.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-1003008"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2019-01-28/#SECURITY-1295%20(2)"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-25T23:03:12Z",
+    "nvd_published_at": "2019-02-06T16:29:00Z"
+  }
+}

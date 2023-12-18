@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4xm7-5q79-3fch",
+  "modified": "2023-06-22T20:00:00Z",
+  "published": "2023-06-22T20:00:00Z",
+  "aliases": [
+    "CVE-2023-35161"
+  ],
+  "summary": "XWiki Platform vulnerable to reflected cross-site scripting via xredirect parameter in DeleteApplication page",
+  "details": "### Impact\nUsers are able to forge an URL with a payload allowing to inject Javascript in the page (XSS).\nIt's possible to exploit the DeleteApplication page to perform a XSS, e.g. by using URL such as:\n\n> xwiki/bin/view/AppWithinMinutes/DeleteApplication?appName=Menu&resolve=true&xredirect=javascript:alert(document.domain)\n\nThis vulnerability exists since XWiki 6.2-milestone-1.\n\n### Patches\n\nThe vulnerability has been patched in XWiki 14.10.5 and 15.1-rc-1.\n\n### Workarounds\n\nIt's possible to workaround the vulnerability by editing the page AppWithinMinutes.DeleteApplication to perform checks on it, but note that the appropriate fix involves new APIs that have been recently introduced in XWiki. See the referenced jira tickets.\n\n### References\n\n  * Jira ticket about the vulnerability: https://jira.xwiki.org/browse/XWIKI-20614\n  * Introduction of the macro used for fixing all those vulnerabilities: https://jira.xwiki.org/browse/XWIKI-20583\n  * Commit containing the actual fix in the page: https://github.com/xwiki/xwiki-platform/commit/8f5a889b7cd140770e54f5b4195d88058790e305\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n* Open an issue in [Jira XWiki.org](https://jira.xwiki.org/)\n* Email us at [Security Mailing List](mailto:security@xwiki.org)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-appwithinminutes-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.2-milestone-1"
+            },
+            {
+              "fixed": "14.10.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-appwithinminutes-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "15.0-rc-1"
+            },
+            {
+              "fixed": "15.1-rc-1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-4xm7-5q79-3fch"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-35161"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/8f5a889b7cd140770e54f5b4195d88058790e305"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20583"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20614"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79",
+      "CWE-87"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-22T20:00:00Z",
+    "nvd_published_at": "2023-06-23T19:15:09Z"
+  }
+}

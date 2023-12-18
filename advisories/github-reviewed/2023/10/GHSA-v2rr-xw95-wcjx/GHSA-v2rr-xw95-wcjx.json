@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v2rr-xw95-wcjx",
+  "modified": "2023-11-01T05:55:39Z",
+  "published": "2023-10-25T21:03:11Z",
+  "aliases": [
+    "CVE-2023-37909"
+  ],
+  "summary": "Privilege escalation (PR)/remote code execution from account through Menu.UIExtensionSheet",
+  "details": "### Impact\nAny user who can edit their own user profile can execute arbitrary script macros including Groovy and Python macros that allow remote code execution including unrestricted read and write access to all wiki contents. This can be reproduced with the following steps:\n\n1. As an advanced user, use the object editor to add an object of type `UIExtensionClass` to your user profile. Set the value \"Extension Point ID\" to `{{/html}}{{async async=false cache=false}}{{groovy}}println(\"Hello from Groovy!\"){{/groovy}}{{/async}}`\n2. Open `<xwiki-host>/xwiki/bin/edit/XWiki/<username>?sheet=Menu.UIExtensionSheet` where `<xwiki-host>` is the URL of your XWiki installation and `<username>` is your user name.\n\nIf the text `Hello from Groovy!\" selected=\"selected\">` is displayed in the output, the attack succeeded.\n\n### Patches\n\nThis has been patched in XWiki 14.10.8 and 15.3 RC1 by adding proper escaping.\n\n### Workarounds\nThe [patch](https://github.com/xwiki/xwiki-platform/commit/9e8f080094333dec63a8583229a3799208d773be#diff-47a5652d0c8e4601dac12bd9ab34b8bd688cb22a1b758ce7b774043658834662) can be manually applied to the document `Menu.UIExtensionSheet`, only three lines need to be changed.\n\n### References\n\n* https://jira.xwiki.org/browse/XWIKI-20746\n* https://github.com/xwiki/xwiki-platform/commit/9e8f080094333dec63a8583229a3799208d773be",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-menu"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.1-rc-1"
+            },
+            {
+              "fixed": "14.10.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-menu-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.1-rc-1"
+            },
+            {
+              "fixed": "14.10.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-menu-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "15.0-rc-1"
+            },
+            {
+              "fixed": "15.3-rc-1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-v2rr-xw95-wcjx"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-37909"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/9e8f080094333dec63a8583229a3799208d773be"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20746"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94",
+      "CWE-95"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-25T21:03:11Z",
+    "nvd_published_at": "2023-10-25T18:17:28Z"
+  }
+}

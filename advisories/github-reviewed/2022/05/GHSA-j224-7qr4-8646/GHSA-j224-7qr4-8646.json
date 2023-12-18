@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-j224-7qr4-8646",
+  "modified": "2023-09-25T19:37:21Z",
+  "published": "2022-05-24T16:58:02Z",
+  "aliases": [
+    "CVE-2019-17104"
+  ],
+  "summary": "Centreon Does Not Set HTTPOnly Flag",
+  "details": "In Centreon VM through 19.04.3, the cookie configuration within the Apache HTTP Server does not protect against theft because the HTTPOnly flag is not set.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "centreon/centreon"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "19.04.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-17104"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/centreon/centreon-archived/issues/7097"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.centreon.com/current/en/administration/secure-platform.html#securing-the-apache-web-server"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/centreon/centreon-archived"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.openwall.com/lists/oss-security/2019/10/08/1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-565"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-17T22:14:43Z",
+    "nvd_published_at": "2019-10-08T13:15:00Z"
+  }
+}

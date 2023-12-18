@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-gw5p-q8mj-p7gh",
+  "modified": "2023-09-14T19:33:17Z",
+  "published": "2023-09-14T19:33:17Z",
+  "aliases": [
+    "CVE-2023-41880"
+  ],
+  "summary": "Miscompilation of wasm `i64x2.shr_s` instruction with constant input on x86_64",
+  "details": "### Impact\n\nWasmtime versions from 10.0.0 to 12.0.1 contain a miscompilation of the WebAssembly `i64x2.shr_s` instruction on x86_64 platforms when the shift amount is a constant value that is larger than 32. Only x86_64 is affected so all other targets are not affected by this. The miscompilation results in the instruction producing an incorrect result, namely the low 32-bits of the second lane of the vector are derived from the low 32-bits of the second lane of the input vector instead of the high 32-bits. The primary impact of this issue is that any WebAssembly program using the `i64x2.shr_s` with a constant shift amount larger than 32 may produce an incorrect result.\n\nThis issue is not an escape from the WebAssembly sandbox. Execution of WebAssembly guest programs will still behave correctly with respect to memory sandboxing and isolation from the host. Wasmtime considers non-spec-compliant behavior as a security issue nonetheless.\n\nThis issue was discovered through fuzzing of Wasmtime's code generator Cranelift.\n\n### Patches\n\nWasmtime versions 10.0.2, 11.0.2, and 12.0.2 are all patched to no longer have this miscompilation.\n\n### Workarounds\n\nThis issue only affects x86_64 hosts and the only workaround is to either scan for this pattern in wasm modules which is nontrivial or to [disable the SIMD proposal for WebAssembly](https://docs.rs/wasmtime/latest/wasmtime/struct.Config.html#method.wasm_simd). Users prior to 10.0.0 are unaffected by this vulnerability.\n\n### References\n\n* [PR which introduced this bug to Wasmtime](https://github.com/bytecodealliance/wasmtime/pull/6372)\n* [Mailing list announcement](https://groups.google.com/a/bytecodealliance.org/g/sec-announce/c/B8PJgg6bEdg)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "wasmtime"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "10.0.0"
+            },
+            {
+              "fixed": "10.0.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "wasmtime"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "11.0.0"
+            },
+            {
+              "fixed": "11.0.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "wasmtime"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "12.0.0"
+            },
+            {
+              "fixed": "12.0.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/bytecodealliance/wasmtime/security/advisories/GHSA-gw5p-q8mj-p7gh"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/bytecodealliance/wasmtime/security/advisories/GHSA-gw5p-q8mj-p7gh#:~:text=Mailing%20list%20announcement"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-41880"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/bytecodealliance/wasmtime/pull/6372"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/bytecodealliance/wasmtime/commit/8d7eda15b0badcbea83a7aac2d08f80788b59240"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.rs/wasmtime/latest/wasmtime/struct.Config.html#method.wasm_simd"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/bytecodealliance/wasmtime"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-193"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-14T19:33:17Z",
+    "nvd_published_at": "2023-09-15T20:15:11Z"
+  }
+}

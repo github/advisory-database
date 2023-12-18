@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-46v3-ggjg-qq3x",
+  "modified": "2023-06-06T01:59:54Z",
+  "published": "2023-06-06T01:59:54Z",
+  "aliases": [
+    "CVE-2022-43760"
+  ],
+  "summary": "Rancher UI has multiple Cross-Site Scripting (XSS) issues",
+  "details": "### Impact\nMultiple Cross-Site Scripting (XSS) vulnerabilities have been identified in the Rancher UI. \nCross-Site scripting allows a malicious user to inject code that is executed within another user's browser, allowing the attacker to steal sensitive information, manipulate web content, or perform other malicious activities on behalf of the victims. This could result in a user with write access to the affected areas being able to act on behalf of an administrator, once an administrator opens the affected web page.\n\nThe affected areas include the Projects/Namespaces and Auth Provider sections. The attacker needs to be authenticated and have write access to those features in order to exploit the vulnerabilities. Some of the permissions (roles) required are:\n\n- Project Owner.\n- Restricted Admin.\n- Configure Authentication.\n- Administrator.\n- Custom RBAC Role that provides write access on Projects or External Authentication Providers.\n\nFor users that suspect this vulnerability may have targeted their Rancher instance, we recommend rotating all API Keys and Kubeconfig tokens.\n\nIt's also advised to review logs and possibly rotate credentials stored as secrets in Rancher and downstream cluster, if you believe that users' credentials to access Rancher and its clusters might have been compromised.\n\n### Patches\nPatched versions include releases `2.6.13`, `2.7.4` and later versions.\n\n### Workarounds\nThere is no direct mitigation besides updating Rancher to a patched version.\n\n### Credits\nWe would like to recognize and thank @bybit-sec for the responsible disclosure of this security issue.\n\n### For more information\nIf you have any questions or comments about this advisory:\n\n- Reach out to the [SUSE Rancher Security team](https://github.com/rancher/rancher/security/policy) for security related inquiries.\n- Open an issue in the [Rancher](https://github.com/rancher/rancher/issues/new/choose) repository.\n- Verify with our [support matrix](https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/) and [product support lifecycle](https://www.suse.com/lifecycle/).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "rancher/rancher"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.6.0"
+            },
+            {
+              "fixed": "2.6.13"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "rancher/rancher"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.7.0"
+            },
+            {
+              "fixed": "2.7.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/rancher/rancher/security/advisories/GHSA-46v3-ggjg-qq3x"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-43760"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.suse.com/show_bug.cgi?id=CVE-2022-43760"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/rancher/rancher"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rancher/rancher/releases/tag/v2.6.13"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rancher/rancher/releases/tag/v2.7.4"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-06T01:59:54Z",
+    "nvd_published_at": "2023-06-01T13:15:10Z"
+  }
+}

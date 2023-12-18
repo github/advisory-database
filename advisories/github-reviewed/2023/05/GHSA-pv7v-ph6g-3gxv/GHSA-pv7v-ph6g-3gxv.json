@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-pv7v-ph6g-3gxv",
+  "modified": "2023-05-09T19:59:31Z",
+  "published": "2023-05-09T19:59:31Z",
+  "aliases": [
+    "CVE-2023-31126"
+  ],
+  "summary": "Improper Neutralization of Invalid Characters in Data Attribute Names in org.xwiki.commons:xwiki-commons-xml",
+  "details": "### Impact\nThe HTML sanitizer, introduced in version 14.6-rc-1, allowed the injection of arbitrary HTML code and thus cross-site scripting via invalid data attributes. This can be exploited, e.g., via the link syntax in any content that supports XWiki syntax like comments in XWiki: \n\n```\n[[Link1>>https://XWiki.example.com||data-x/onmouseover=\"alert('XSS1')\"]].\n```\n\nWhen a user moves the mouse over this link, the malicious JavaScript code is executed in the context of the user session. When this user is a privileged user who has programming rights, this allows server-side code execution with programming rights, impacting the confidentiality, integrity and availability of the XWiki instance.\n\nNote that this vulnerability does not affect restricted cleaning in HTMLCleaner as there attributes are cleaned and thus characters like `/` and `>` are removed in all attribute names.\n\n### Patches\nThis problem has been patched in XWiki 14.10.4 and 15.0 RC1 by making sure that data attributes only contain allowed characters.\n\n### Workarounds\nThere are no known workarounds apart from upgrading to a version including the fix.\n\n### References\n* https://jira.xwiki.org/browse/XCOMMONS-2606\n* https://github.com/xwiki/xwiki-commons/commit/0b8e9c45b7e7457043938f35265b2aa5adc76a68\n\n### For more information\nIf you have any questions or comments about this advisory:\n* Open an issue in [Jira XWiki](https://jira.xwiki.org/)\n* Email us at [XWiki Security mailing-list](mailto:security@xwiki.org)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.commons:xwiki-commons-xml"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.6-rc-1"
+            },
+            {
+              "fixed": "14.10.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-commons/security/advisories/GHSA-pv7v-ph6g-3gxv"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-31126"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-commons/commit/0b8e9c45b7e7457043938f35265b2aa5adc76a68"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-commons"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XCOMMONS-2606"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79",
+      "CWE-86"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-09T19:59:31Z",
+    "nvd_published_at": "2023-05-09T13:15:18Z"
+  }
+}

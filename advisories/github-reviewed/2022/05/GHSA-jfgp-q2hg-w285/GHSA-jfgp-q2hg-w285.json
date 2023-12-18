@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jfgp-q2hg-w285",
+  "modified": "2023-08-21T18:37:50Z",
+  "published": "2022-05-24T17:18:11Z",
+  "aliases": [
+    "CVE-2020-13226"
+  ],
+  "summary": "WSO2 API Manager vulnerable to SSRF",
+  "details": "WSO2 API Manager 3.0.0 does not properly restrict outbound network access from a Publisher node, opening up the possibility of SSRF to this node's entire intranet.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.wso2.am:am-parent"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "3.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-13226"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/wso2/docs-apim/issues/816"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/wso2/product-apim/issues/7677"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.wso2.com/display/Security/Security+Advisories"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.wso2.com/display/Security/WSO2+Security+Vulnerability+Management+Process"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/wso2/product-apim"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-918"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-13T00:30:32Z",
+    "nvd_published_at": "2020-05-20T12:15:00Z"
+  }
+}

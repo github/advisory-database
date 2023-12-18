@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qx3p-9mmp-4v8h",
+  "modified": "2023-08-23T13:48:00Z",
+  "published": "2022-05-24T17:35:40Z",
+  "aliases": [
+    "CVE-2020-27822"
+  ],
+  "summary": "Wildfly has a memory leak vulnerability",
+  "details": "A flaw was found in Wildfly affecting versions 19.0.0.Final, 19.1.0.Final, 20.0.0.Final, 20.0.1.Final, and 21.0.0.Final. When an application uses the OpenTracing API's java-interceptors, there is a possibility of a memory leak. This flaw allows an attacker to impact the availability of the server. The highest threat from this vulnerability is to system availability.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.wildfly:wildfly-parent"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "19.0.0.Final"
+            },
+            {
+              "fixed": "21.0.2.Final"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.wildfly:wildfly-parent"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "22.0.0.Alpha1"
+            },
+            {
+              "fixed": "22.0.0.Beta1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "22.0.0.Alpha1"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-27822"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/wildfly/wildfly/pull/13749"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/wildfly/wildfly/pull/13779"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/wildfly/wildfly/commit/67ef84fd7aab789a535b137e5e506fd29d212455"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/wildfly/wildfly/commit/c8b02f6a0605f4e2abfeaf21d28b7fe76171004b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1904060"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/wildfly/wildfly"
+    },
+    {
+      "type": "WEB",
+      "url": "https://issues.redhat.com/browse/WFLY-14094"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-401"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-13T22:38:36Z",
+    "nvd_published_at": "2020-12-08T01:15:00Z"
+  }
+}

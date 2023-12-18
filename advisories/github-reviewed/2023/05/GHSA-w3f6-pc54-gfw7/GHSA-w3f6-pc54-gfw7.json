@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w3f6-pc54-gfw7",
+  "modified": "2023-06-19T16:55:05Z",
+  "published": "2023-05-18T17:28:39Z",
+  "aliases": [
+    "CVE-2022-24667"
+  ],
+  "summary": "swift-nio-http2 vulnerable to denial of service via mishandled HPACK variable length integer encoding",
+  "details": "A program using swift-nio-http2 is vulnerable to a denial of service attack, caused by a network peer sending a specially crafted HPACK-encoded header block. This attack affects all swift-nio-http2 versions from 1.0.0 to 1.19.1. It is fixed in 1.19.2 and later releases.\n\nThere are a number of implementation errors in the parsing of HPACK-encoded header blocks that allow maliciously crafted HPACK header blocks to cause crashes in processes using swift-nio-http2. Each of these crashes is triggered instead of an integer overflow.\n\nA malicious HPACK header block could be sent on any of the HPACK-carrying frames in a HTTP/2 connection (HEADERS and PUSH_PROMISE), at any position.\n\nSending a HPACK header block does not require any special permission, so any HTTP/2 connection peer may send one. For clients, this means any server to which they connect may launch this attack. For servers, anyone they allow to connect to them may launch such an attack.\n\nThe attack is low-effort: it takes very little resources to send an appropriately crafted field block. The impact on availability is high: receiving a frame carrying this field block immediately crashes the server, dropping all in-flight connections and causing the service to need to restart. It is straightforward for an attacker to repeatedly send appropriately crafted field blocks, so attackers require very few resources to achieve a substantial denial of service.\n\nThe attack does not have any confidentiality or integrity risks in and of itself: swift-nio-http2 is parsing the field block in memory-safe code and the crash is triggered instead of an integer overflow. However, sudden process crashes can lead to violations of invariants in services, so it is possible that this attack can be used to trigger an error condition that has confidentiality or integrity risks.\n\nThe risk can be mitigated if untrusted peers can be prevented from communicating with the service. This mitigation is not available to many services.\n\nThe issue is fixed by rewriting the parsing code to correctly handle all conditions in the function. The principal issue was found by automated fuzzing by oss-fuzz, but several associated bugs in the same code were found by code audit and fixed at the same time.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "SwiftURL",
+        "name": "github.com/apple/swift-nio-http2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.0"
+            },
+            {
+              "fixed": "1.19.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/apple/swift-nio-http2/security/advisories/GHSA-w3f6-pc54-gfw7"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-24667"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apple/swift-nio-http2/commit/56c60a29b1207a731be62fb68cc98246942145ed"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apple/swift-nio-http2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apple/swift-nio-http2/releases/tag/1.19.2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-190"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-18T17:28:39Z",
+    "nvd_published_at": null
+  }
+}

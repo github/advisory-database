@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7xpv-4pm9-xch2",
+  "modified": "2023-06-02T19:41:31Z",
+  "published": "2023-06-02T19:41:31Z",
+  "aliases": [
+    "CVE-2023-33964"
+  ],
+  "summary": "mx-chain-go does not treat invalid transaction with wrong username correctly",
+  "details": "### Impact\nMetachain cannot process a cross-shard miniblock.\nAn invalid transaction with the wrong username on metachain is not treated correctly on the metachain transaction processor. This is strictly a processing issue that could have happened on MultiversX chain. If an error like this had occurred, the metachain would have stopped notarizing blocks from the shard chains. The resuming of notarization is possible only after applying a patched binary version. \n \n### Patches\nIntroduce processIfTxErrorCrossShard for metachain transaction processor. \n\n### Workarounds\nNo\n\n### References\nNo\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/multiversx/mx-chain-go"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.4.16"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/multiversx/mx-chain-go/security/advisories/GHSA-7xpv-4pm9-xch2"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-33964"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/multiversx/mx-chain-go/commit/97295471465f4b5f79e51b32f8b7111f8d921606"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/multiversx/mx-chain-go"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-02T19:41:31Z",
+    "nvd_published_at": "2023-05-31T18:15:09Z"
+  }
+}

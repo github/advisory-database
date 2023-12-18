@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vfrj-fv6p-3cpf",
+  "modified": "2023-06-06T01:38:11Z",
+  "published": "2023-06-06T01:38:11Z",
+  "aliases": [
+    "CVE-2023-33965"
+  ],
+  "summary": "Brook's tproxy server is vulnerable to a drive-by command injection.",
+  "details": "The `tproxy` server is vulnerable to a drive-by command injection. An attacker may fool a victim into visiting a malicious web page which will trigger requests to the local `tproxy` service leading to remote code execution.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/txthinking/brook"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "20230606"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/txthinking/brook/security/advisories/GHSA-vfrj-fv6p-3cpf"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-33965"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/txthinking/brook/commit/314d7070c37babf6c38a0fe1eada872bb74bf03e"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/txthinking/brook"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-78"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-06T01:38:11Z",
+    "nvd_published_at": "2023-06-01T15:15:09Z"
+  }
+}

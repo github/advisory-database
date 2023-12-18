@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qhqv-q4xg-f6g7",
+  "modified": "2023-09-18T23:43:12Z",
+  "published": "2022-05-01T02:15:08Z",
+  "aliases": [
+    "CVE-2005-3164"
+  ],
+  "summary": "Apache Tomcat AJP Connector Information Leak",
+  "details": "The AJP connector in Apache Tomcat 4.0.1 through 4.0.6 and 4.1.0 through 4.1.36, as used in Hitachi Cosminexus Application Server and standalone, does not properly handle when a connection is broken before request body data is sent in a POST request, which can lead to an information leak when \"unsuitable request body data\" is used for a different request, possibly related to Java Servlet pages.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.tomcat:tomcat"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.1"
+            },
+            {
+              "last_affected": "4.0.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.tomcat:tomcat"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.1.0"
+            },
+            {
+              "last_affected": "4.1.36"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2005-3164"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread.html/29dc6c2b625789e70a9c4756b5a327e6547273ff8bde7e0327af48c5@%3Cdev.tomcat.apache.org%3E"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread.html/c62b0e3a7bf23342352a5810c640a94b6db69957c5c19db507004d74@%3Cdev.tomcat.apache.org%3E"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread.html/rb71997f506c6cc8b530dd845c084995a9878098846c7b4eacfae8db3@%3Cdev.tomcat.apache.org%3E"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20051215074217/http://www.hitachi-support.com/security_e/vuls_e/HS05-019_e/01-e.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20081202183445/http://www.securityfocus.com/bid/15003"
+    },
+    {
+      "type": "WEB",
+      "url": "http://jvn.jp/jp/JVN%2379314822/index.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.apple.com/archives/security-announce/2008//Jun/msg00002.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://support.apple.com/kb/HT2163"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.hitachi-support.com/security_e/vuls_e/HS05-019_e/01-e.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-18T23:43:12Z",
+    "nvd_published_at": "2005-10-06T10:02:00Z"
+  }
+}

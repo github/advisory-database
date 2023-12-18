@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w2pm-fr62-jgv4",
+  "modified": "2023-05-25T19:07:51Z",
+  "published": "2023-05-16T21:30:23Z",
+  "aliases": [
+    "CVE-2021-27131"
+  ],
+  "summary": "Moodle vulnerable to stored Cross-site Scripting",
+  "details": "Moodle 3.10.1 is vulnerable to persistent/stored cross-site scripting (XSS) due to the improper input sanitization on the \"Additional HTML Section\" via \"Header and Footer\" parameter in `/admin/settings.php`. This vulnerability may lead an attacker to steal admin and all user account cookies by storing the malicious XSS payload in Header and Footer.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "moodle/moodle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "3.10.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-27131"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.moodle.org/402/en/Risks"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/moodle/moodle"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/p4nk4jv/CVEs-Assigned/blob/master/Moodle-3.10.1-CVE-2021-27131.md"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-17T17:05:54Z",
+    "nvd_published_at": "2023-05-16T20:15:08Z"
+  }
+}

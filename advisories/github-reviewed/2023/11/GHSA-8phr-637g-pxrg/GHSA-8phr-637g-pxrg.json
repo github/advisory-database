@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8phr-637g-pxrg",
+  "modified": "2023-11-17T21:51:24Z",
+  "published": "2023-11-17T21:51:24Z",
+  "aliases": [
+    "CVE-2023-48295"
+  ],
+  "summary": "LibreNMS Cross-site Scripting at Device groups Deletion feature",
+  "details": "### Summary\nXSS attacks occurs when application is not sanitising inputs properly and rendering the code from user input to browser which could allow an attacker to execute malicious javascript code.\n\n### PoC\n1. Login\n2. Create a device group in /device-groups\n3. Name it as `\"><img src=x onerror=alert(1);>`\n4. save it\n5. Go to services and create a service template and add that device group into that and save it\n6. After that go back to device groups and delete that device, you will see XSS payload popup in message\n<img width=\"1043\" alt=\"Screenshot 2023-11-08 at 9 15 56 PM\" src=\"https://user-images.githubusercontent.com/31764504/281489434-9beaebd6-b9ce-4098-a8e0-d67b185062b5.png\">\n\n\n### Vulnerable code:\nhttps://github.com/librenms/librenms/blob/63eeeb71722237d1461a37bb6da99fda25e02c91/app/Http/Controllers/DeviceGroupController.php#L173C21-L173C21\n\nLine 173 is not sanitizing device name properly\n<img width=\"793\" alt=\"Screenshot 2023-11-08 at 9 26 14 PM\" src=\"https://user-images.githubusercontent.com/31764504/281490570-5ae6e73a-37ce-4683-8bc8-81655abd8d09.png\">\n\n### Impact\nCross site scripting can lead to cookie stealing attacks",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "librenms/librenms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "23.11.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/librenms/librenms/security/advisories/GHSA-8phr-637g-pxrg"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-48295"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/librenms/librenms/commit/faf66035ea1f4c1c4f34559b9d0ed40ee4a19f90"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/librenms/librenms"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/librenms/librenms/blob/63eeeb71722237d1461a37bb6da99fda25e02c91/app/Http/Controllers/DeviceGroupController.php#L173C21-L173C21"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-17T21:51:24Z",
+    "nvd_published_at": "2023-11-17T21:15:07Z"
+  }
+}

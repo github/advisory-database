@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9x43-5qcq-h79q",
+  "modified": "2023-10-31T22:10:27Z",
+  "published": "2023-10-22T21:36:10Z",
+  "aliases": [
+    "CVE-2021-46898"
+  ],
+  "summary": "Django Grappelli Open Redirect vulnerability",
+  "details": "views/switch.py in django-grappelli (aka Django Grappelli) before 2.15.2 attempts to prevent external redirection with startswith(\"/\") but this does not consider a protocol-relative URL (e.g., //example.com) attack.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "django-grappelli"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.15.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-46898"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sehmaschine/django-grappelli/issues/975"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sehmaschine/django-grappelli/pull/976"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sehmaschine/django-grappelli/commit/4ca94bcda0fa2720594506853d85e00c8212968f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/django-grappelli/PYSEC-2023-211.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/sehmaschine/django-grappelli"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sehmaschine/django-grappelli/compare/2.15.1...2.15.2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-601"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-24T01:46:26Z",
+    "nvd_published_at": "2023-10-22T19:15:08Z"
+  }
+}

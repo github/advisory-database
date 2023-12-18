@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2xx4-jj5v-6mff",
+  "modified": "2023-10-20T17:45:19Z",
+  "published": "2023-08-04T17:27:00Z",
+  "aliases": [
+    "CVE-2023-37896"
+  ],
+  "summary": "Nuclei Path Traversal vulnerability",
+  "details": "## Overview\n\nWe have identified and addressed a security issue in the Nuclei project that affected users utilizing Nuclei as **Go code (SDK)** running **custom templates**. This issue did not affect CLI users. The problem was related to sanitization issues with payloads loading in `sandbox` mode.\n\n## Details\n\nIn the previous versions, there was a potential risk with payloads loading in sandbox mode. The issue occurred due to relative paths not being converted to absolute paths before doing the check for `sandbox` flag allowing arbitrary files to be read on the filesystem in certain cases when using Nuclei from `Go` SDK implementation. \n\nThis issue has been fixed in the latest release, v2.9.9. We have also enabled sandbox by default for filesystem loading. This can be optionally disabled if required.\n\nThe `-sandbox` option has been **deprecated** and is now divided into two new options: `-lfa` (allow local file access) which is disabled by default and `-lna` (restrict local network access) which can be optionally disabled by user. The `-lfa` allows file (payload) access anywhere on the system (disabling sandbox effectively), and `-lna` blocks connections to the local/private network.\n\n## Affected Versions\n\nThis issue affected all versions of Nuclei prior to v2.9.9.\n\n## Patches\n\nWe recommend all users upgrade to the latest version, [v2.9.9](https://github.com/projectdiscovery/nuclei/releases/tag/v2.9.9), which includes the security fix.\n\n### References\n\n- [patch](https://github.com/projectdiscovery/nuclei/pull/3927)\n- [releases](https://github.com/projectdiscovery/nuclei/releases/tag/v2.9.9)\n\n## Acknowledgments\n\nWe would like to thank **keomutchoiboi** who reported this issue to us via our security email, [security@projectdiscovery.io](mailto:security@projectdiscovery.io). We appreciate the responsible disclosure of this issue.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/projectdiscovery/nuclei/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.9.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/projectdiscovery/nuclei"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.9.9"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/projectdiscovery/nuclei/security/advisories/GHSA-2xx4-jj5v-6mff"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-37896"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/projectdiscovery/nuclei/pull/3927"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/projectdiscovery/nuclei"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/projectdiscovery/nuclei/releases/tag/v2.9.9"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-04T17:27:00Z",
+    "nvd_published_at": "2023-08-04T16:15:09Z"
+  }
+}

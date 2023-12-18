@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r2hw-74xv-4gqp",
+  "modified": "2023-10-27T20:46:48Z",
+  "published": "2023-10-24T19:25:24Z",
+  "aliases": [
+    "CVE-2023-46128"
+  ],
+  "summary": "Nautobot vulnerable to exposure of hashed user passwords via REST API",
+  "details": "### Impact\n\nIn Nautobot 2.0.x, certain REST API endpoints, in combination with the `?depth=<N>` query parameter, can expose hashed user passwords as stored in the database to any authenticated user with access to these endpoints. \n\n> The passwords are *not* exposed in plaintext. \n> Nautobot 1.x is *not* affected by this vulnerability.\n\nExample:\n\n```\nGET /api/users/permissions/?depth=1\n\nHTTP 200 OK\nAPI-Version: 2.0\nAllow: GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS\nContent-Type: application/json\nVary: Accept\n```\n\n```json\n{\n    \"count\": 1,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"id\": \"28ea85e4-5039-4389-94f1-9a3e1c787149\",\n            \"object_type\": \"users.objectpermission\",\n            \"display\": \"Run Job\",\n            \"url\": \"http://localhost:8080/api/users/permissions/28ea85e4-5039-4389-94f1-9a3e1c787149/\",\n            \"natural_slug\": \"run-job_28ea\",\n            \"object_types\": [\n                \"extras.job\"\n            ],\n            \"name\": \"Run Job\",\n            \"description\": \"\",\n            \"enabled\": true,\n            \"actions\": [\n                \"run\",\n                \"view\"\n            ],\n            \"constraints\": null,\n            \"groups\": [\n                {\n                    \"id\": 1,\n                    \"object_type\": \"auth.group\",\n                    \"display\": \"A Group\",\n                    \"url\": \"http://localhost:8080/api/users/groups/1/\",\n                    \"natural_slug\": \"a-group_1\",\n                    \"name\": \"A Group\"\n                }\n            ],\n            \"users\": [\n                {\n                    \"id\": \"e73288e2-1326-4bfb-8fea-041290dd7473\",\n                    \"object_type\": \"users.user\",\n                    \"display\": \"admin\",\n                    \"url\": \"http://localhost:8080/api/users/users/e73288e2-1326-4bfb-8fea-041290dd7473/\",\n                    \"natural_slug\": \"admin_e732\",\n                    \"password\": \"pbkdf2_sha256$260000$jQb7hA48HYJ0MLWQgOZiBl$b72+gz6SpZiRpxceRQfT5Zv/aUac0eJ4NdBTZ8ECOow=\",\n                    \"last_login\": \"2023-10-18T14:19:08.780857Z\",\n                    \"is_superuser\": true,\n                    \"username\": \"admin\",\n                    \"first_name\": \"\",\n                    \"last_name\": \"\",\n                    \"email\": \"\",\n                    \"is_staff\": true,\n                    \"is_active\": true,\n                    \"date_joined\": \"2023-10-18T14:18:55.854023Z\",\n                    \"config_data\": {}\n                }\n            ]\n        }\n    ]\n}\n```\n\n> Note the \"password\" field present in the nested `\"users\"` data.\n\nThis information is not exposed during direct access to the `/api/users/users/` endpoint, but can be exposed through any endpoint which contains a nested reference to User object(s) when an appropriate `?depth=<N>` query parameter is specified. Known impacted endpoints include:\n\n- `/api/dcim/rack-reservations/?depth=1`(or any greater `depth` value)\n- `/api/extras/job-results/?depth=1` (or any greater `depth` value)\n- `/api/extras/notes/?depth=1` (or any greater `depth` value)\n- `/api/extras/object-changes/?depth=1` (or any greater `depth` value)\n- `/api/extras/scheduled-jobs/?depth=1` (or any greater `depth` value)\n- `/api/users/permissions/?depth=1` (or any greater `depth` value)\n\nbut this is not necessarily an exhaustive list. \n\n> Plugin REST API endpoints for any models with a foreign key to the User model may also be impacted by this issue.\n\n> The patch identified below mitigates the issue for both Nautobot core REST APIs and plugin REST APIs; no code change in plugins is required to address this issue.\n\n### Patches\n\nRefer to https://github.com/nautobot/nautobot/pull/4692 for the patch that resolved this issue.\n\n### Workarounds\n\nUpgrading to v2.0.3 or later, or applying the above patch, is the preferred workaround for this issue; while it could also be partially mitigated by updating permissions to deny user access to the above list of impacted REST API endpoints, that is not recommended as other endpoints may also expose this issue until patched.\n\n### References\n\nhttps://github.com/nautobot/nautobot/pull/4692\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "nautobot"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.0.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/nautobot/nautobot/security/advisories/GHSA-r2hw-74xv-4gqp"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-46128"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nautobot/nautobot/pull/4692"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nautobot/nautobot/commit/1ce8e5c658a075c29554d517cd453675e5d40d71"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/nautobot/nautobot"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/nautobot/PYSEC-2023-220.yaml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200",
+      "CWE-312",
+      "CWE-359"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-24T19:25:24Z",
+    "nvd_published_at": "2023-10-25T18:17:36Z"
+  }
+}

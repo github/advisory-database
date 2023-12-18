@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7jrr-fwhw-762v",
+  "modified": "2023-07-20T14:29:55Z",
+  "published": "2023-07-12T18:30:39Z",
+  "aliases": [
+    "CVE-2023-37958"
+  ],
+  "summary": "Jenkins Sumologic Publisher Plugin vulnerable to cross-site request forgery",
+  "details": "Jenkins Sumologic Publisher Plugin 2.2.1 and earlier does not perform a permission check in a method implementing form validation.\n\nThis allows attackers with Overall/Read permission to connect to an attacker-specified URL.\n\nAdditionally, this form validation method does not require POST requests, resulting in a cross-site request forgery (CSRF) vulnerability.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:sumologic-publisher"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "2.2.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-37958"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-07-12/#SECURITY-3117"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2023/07/12/2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-12T22:30:57Z",
+    "nvd_published_at": "2023-07-12T16:15:13Z"
+  }
+}

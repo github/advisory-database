@@ -1,0 +1,135 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-639h-86hw-qcjq",
+  "modified": "2023-10-13T22:47:57Z",
+  "published": "2023-10-05T20:52:46Z",
+  "aliases": [
+    "CVE-2023-36465"
+  ],
+  "summary": "Decidim has broken access control in templates",
+  "details": "### Impact\n\nThe `templates` module doesn't enforce the correct permissions, allowing any logged-in user to access to this functionality in the administration panel. An attacker could use this vulnerability to change, create or delete templates of surveys.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "decidim"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.23.2"
+            },
+            {
+              "fixed": "0.26.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "decidim-templates"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.23.2"
+            },
+            {
+              "fixed": "0.26.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "decidim-templates"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.27.0"
+            },
+            {
+              "fixed": "0.27.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "decidim"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.27.0"
+            },
+            {
+              "fixed": "0.27.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/decidim/decidim/security/advisories/GHSA-639h-86hw-qcjq"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-36465"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/decidim/decidim"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/decidim/decidim/releases/tag/v0.26.8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/decidim/decidim/releases/tag/v0.27.4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/decidim-templates/CVE-2023-36465.yml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/decidim/CVE-2023-36465.yml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-284",
+      "CWE-732"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-05T20:52:46Z",
+    "nvd_published_at": "2023-10-06T12:15:11Z"
+  }
+}

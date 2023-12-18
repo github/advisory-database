@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-frqx-jfcm-6jjr",
+  "modified": "2023-05-26T19:39:03Z",
+  "published": "2023-05-26T19:39:03Z",
+  "aliases": [
+    "CVE-2023-33199"
+  ],
+  "summary": "malformed proposed intoto entries can cause a panic",
+  "details": "### Impact\nA malformed proposed entry of the `intoto/v0.0.2` type can cause a panic on a thread within the Rekor process. The thread is recovered so the client receives a 500 error message and service still continues, so the availability impact of this is minimal.\n\n### Patches\nThis is fixed in v1.2.0 of Rekor.\n\n### Workarounds\nNo\n\n### References\nDiscovered by OSS-Fuzz",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/sigstore/rekor"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.2.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/sigstore/rekor/security/advisories/GHSA-frqx-jfcm-6jjr"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-33199"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sigstore/rekor/commit/140c5add105179e5ffd9e3e114fd1b6b93aebbd4"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/sigstore/rekor"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-617"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-26T19:39:03Z",
+    "nvd_published_at": "2023-05-26T23:15:18Z"
+  }
+}

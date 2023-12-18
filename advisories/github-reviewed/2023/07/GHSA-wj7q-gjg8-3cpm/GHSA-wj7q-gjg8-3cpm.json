@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wj7q-gjg8-3cpm",
+  "modified": "2023-08-03T16:56:42Z",
+  "published": "2023-07-06T21:07:27Z",
+  "aliases": [
+    "CVE-2023-37260"
+  ],
+  "summary": "league/oauth2-server key exposed in exception message when passing as a string and providing an invalid pass phrase",
+  "details": "### Impact\nServers that passed their keys to the CryptKey constructor as as string instead of a file path will have had that key included in a LogicException message if they did not provide a valid pass phrase for the key where required. \n\n### Patches\nThis issue has been patched so that the provided key is no longer exposed in the exception message in the scenario outlined above. Users should upgrade to version 8.5.3 or 8.4.2 to receive the patch.\n\n### Workarounds\nWe recommend upgrading the oauth2-server to one of the patched releases (8.5.3 or 8.4.2). If you are unable to upgrade you can avoid this security issue by passing your key as a file instead of a string.\n\n### References\n* [Fix for 8.4.x](https://github.com/thephpleague/oauth2-server/pull/1359)\n* [Fix for 8.5.x](https://github.com/thephpleague/oauth2-server/pull/1353)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "league/oauth2-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.3.2"
+            },
+            {
+              "fixed": "8.4.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "league/oauth2-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.5.0"
+            },
+            {
+              "fixed": "8.5.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/thephpleague/oauth2-server/security/advisories/GHSA-wj7q-gjg8-3cpm"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-37260"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/thephpleague/oauth2-server/pull/1353"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/thephpleague/oauth2-server/pull/1359"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/thephpleague/oauth2-server"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/thephpleague/oauth2-server/releases/tag/8.5.3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200",
+      "CWE-209"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-06T21:07:27Z",
+    "nvd_published_at": "2023-07-06T16:15:10Z"
+  }
+}

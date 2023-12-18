@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w5vr-6qhr-36cc",
+  "modified": "2023-08-14T21:10:29Z",
+  "published": "2023-08-14T21:10:29Z",
+  "aliases": [
+
+  ],
+  "summary": "`ed25519-dalek` Double Public Key Signing Function Oracle Attack",
+  "details": "Versions of `ed25519-dalek` prior to v2.0 model private and public keys as separate types which can be assembled into a `Keypair`, and also provide APIs for serializing and deserializing 64-byte private/public keypairs.\n\nSuch APIs and serializations are inherently unsafe as the public key is one of the inputs used in the deterministic computation of the `S` part of the signature, but not in the `R` value. An adversary could somehow use the signing function as an oracle that allows arbitrary public keys as input can obtain two signatures for the same message sharing the same `R` and only differ on the `S` part.\n\nUnfortunately, when this happens, one can easily extract the private key.\n\nRevised public APIs in v2.0 of `ed25519-dalek` do NOT allow a decoupled private/public keypair as signing input, except as part of specially labeled \"hazmat\" APIs which are clearly labeled as being dangerous if misused.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "ed25519-dalek"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/MystenLabs/ed25519-unsafe-libs"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/dalek-cryptography/ed25519-dalek"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2022-0093.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-14T21:10:29Z",
+    "nvd_published_at": null
+  }
+}

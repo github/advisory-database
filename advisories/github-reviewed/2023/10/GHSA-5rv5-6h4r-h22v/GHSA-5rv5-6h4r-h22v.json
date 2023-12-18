@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5rv5-6h4r-h22v",
+  "modified": "2023-10-03T18:15:32Z",
+  "published": "2023-10-02T23:29:42Z",
+  "aliases": [
+    "CVE-2023-43810"
+  ],
+  "summary": "opentelemetry-instrumentation Denial of Service vulnerability due to unbound cardinality metrics",
+  "details": "### Summary\nAutoinstrumentation out of the box adds the label `http_method` that has unbound cardinality. It leads to the server's potential memory exhaustion when many malicious requests are sent.\n\n### Details\nHTTP method for requests can be easily set by an attacker to be random and long.\n\n### PoC\nSend many requests with long randomly generated HTTP methods and observe how memory consumption increases during it. The app can be like [this example from the official docs](https://opentelemetry-python-contrib.readthedocs.io/en/latest/instrumentation/flask/flask.html#id1).\n\n### Impact\nIn order to be affected program has to be instrumented for HTTP handlers and does not filter any unknown HTTP methods on the level of CDN, LB, previous middleware, etc.\n\n### Proposed solution\nFor convenience and safe usage of this library, it should by default mark with the label `UNKNOWN` non-standard HTTP methods to show that such requests were made (and this way does not increase cardinality). In case someone wants to stay with the current behavior, library API should allow it. The mechanism with environment variables can be reused - introduce the variable `OTEL_INSTRUMENTATION_HTTP_CAPTURE_ALL_METHODS` that will allow enabling current behavior when someone really wants it. \n\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "opentelemetry-instrumentation"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.41b0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/open-telemetry/opentelemetry-python-contrib/security/advisories/GHSA-5rv5-6h4r-h22v"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-43810"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/open-telemetry/opentelemetry-python-contrib/commit/6007e0c013071e7f8b9612d3bc68aeb9d600d74e"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/open-telemetry/opentelemetry-python-contrib"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/open-telemetry/opentelemetry-python-contrib/releases/tag/v0.41b0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-02T23:29:42Z",
+    "nvd_published_at": "2023-10-06T14:15:12Z"
+  }
+}

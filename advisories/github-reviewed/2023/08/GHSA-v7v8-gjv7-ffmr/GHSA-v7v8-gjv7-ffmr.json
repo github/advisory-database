@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v7v8-gjv7-ffmr",
+  "modified": "2023-08-16T21:00:33Z",
+  "published": "2023-08-16T21:00:33Z",
+  "aliases": [
+    "CVE-2023-26140"
+  ],
+  "summary": "@excalidraw/excalidraw Cross-site Scripting vulnerability",
+  "details": "### Impact\n\nXSS vulnerability due to improperly sanitizing URLs of links that can be attached on canvas elements. This affects users of the npm package `@excalidraw/excalidraw` provided it was deployed in environments where untrusted user input in drawings that are then shared with third parties is a concern. If you only hosted the editor in trusted environments, or sharing didn't take place, the impact is minimized.\n\n### Patches\n\nPatch is available on version 0.15.3 and up (stable), or latest `@excalidraw/excalidraw@next` (unstable releases).\n\n### Workarounds\n\nNo workaround without upgrading unless deployed in environments without untrusted user input.\n\n### References\n\nhttps://security.snyk.io/vuln/SNYK-JS-EXCALIDRAWEXCALIDRAW-5841658\nhttps://github.com/excalidraw/excalidraw/pull/6728",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@excalidraw/excalidraw"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.15.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/excalidraw/excalidraw/security/advisories/GHSA-v7v8-gjv7-ffmr"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-26140"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/excalidraw/excalidraw/pull/6728"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/excalidraw/excalidraw/commit/b33fa6d6f64d27adc3a47b25c0aa55711740d0af"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/excalidraw/excalidraw"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-JS-EXCALIDRAWEXCALIDRAW-5841658"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-16T21:00:33Z",
+    "nvd_published_at": null
+  }
+}

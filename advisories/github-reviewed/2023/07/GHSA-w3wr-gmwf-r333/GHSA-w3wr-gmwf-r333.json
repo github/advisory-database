@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w3wr-gmwf-r333",
+  "modified": "2023-07-06T23:43:59Z",
+  "published": "2023-07-06T21:14:59Z",
+  "aliases": [
+    "CVE-2023-31098"
+  ],
+  "summary": "Apache InLong has Weak Password Requirements in Apache InLong",
+  "details": "Weak Password Requirements vulnerability in Apache Software Foundation Apache InLong. This issue affects Apache InLong from 1.1.0 through 1.6.0. When users change their password to a simple password (with any character or symbol), attackers can easily guess the user's password and access the account. Users are advised to upgrade to Apache InLong 1.7.0 or cherry-pick https://github.com/apache/inlong/pull/7805 to solve it.\n\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.inlong:manager-pojo"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.1.0"
+            },
+            {
+              "fixed": "1.47.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "< 1.7.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-31098"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/inlong/pull/7805"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/inlong"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/1fvloc3no1gbffzrcsx9ltsg08wr2d1w"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-521"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-06T23:43:59Z",
+    "nvd_published_at": "2023-05-22T16:15:10Z"
+  }
+}

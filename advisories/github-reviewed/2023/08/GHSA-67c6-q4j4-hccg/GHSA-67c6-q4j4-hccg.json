@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-67c6-q4j4-hccg",
+  "modified": "2023-08-16T21:02:52Z",
+  "published": "2023-08-16T21:02:52Z",
+  "aliases": [
+    "CVE-2023-40033"
+  ],
+  "summary": "Flarum vulnerable to LFI and Blind SSRF via Avatar upload",
+  "details": "## Impact\nThe Flarum forum software is affected by a vulnerability that allows an attacker to conduct a Blind SSRF attack or disclose any file on the server, even with a basic user account on any Flarum forum. By uploading a file containing a URL and spoofing the MIME type, an attacker can manipulate the application to execute unintended actions. The vulnerability is due to the behavior of the `intervention/image` package, which attempts to interpret the supplied file contents as a URL, which then fetches its contents. This allows an attacker to exploit the vulnerability to perform SSRF attacks, disclose local file contents, or conduct a blind oracle attack.\n\n### Patches\nThis has been patched in Flarum **v1.8**.\n\n## Workarounds\nAs a temporary workaround for the SSRF aspect of the vulnerability, one can disable PHP's `allow_url_fopen` which will prevent the fetching of external files via URLs.\n\n### Credits\nAdam Kues - [Assetnote](https://assetnote.io/)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "flarum/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.8.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "flarum/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.8.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/flarum/framework/security/advisories/GHSA-67c6-q4j4-hccg"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-40033"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/flarum/framework/commit/d1059c1cc79fe61f9538f3da55e8f42abbede570"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/flarum/framework"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-918",
+      "CWE-98"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-16T21:02:52Z",
+    "nvd_published_at": "2023-08-16T21:15:09Z"
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g4c3-4f3v-84x8",
+  "modified": "2023-07-20T14:15:36Z",
+  "published": "2023-07-12T18:30:38Z",
+  "aliases": [
+    "CVE-2023-37942"
+  ],
+  "summary": "Jenkins External Monitor Job Type Plugin XML external entity vulnerability",
+  "details": "Jenkins External Monitor Job Type Plugin 206.v9a_94ff0b_4a_10 and earlier does not configure its XML parser to prevent XML external entity (XXE) attacks.\n\nThis allows attackers with Item/Build permission to have Jenkins parse a crafted HTTP request with XML data that uses external entities for extraction of secrets from the Jenkins controller or server-side request forgery.\n\nExternal Monitor Job Type Plugin 207.v98a_a_37a_85525 disables external entity resolution for its XML parser.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:external-monitor-job"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "207.v98a"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-37942"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-07-12/#SECURITY-3133"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2023/07/12/2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-611"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-12T19:49:45Z",
+    "nvd_published_at": "2023-07-12T16:15:13Z"
+  }
+}

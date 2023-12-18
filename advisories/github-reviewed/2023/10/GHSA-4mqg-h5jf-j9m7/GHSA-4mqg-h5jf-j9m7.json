@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4mqg-h5jf-j9m7",
+  "modified": "2023-10-02T20:38:07Z",
+  "published": "2023-10-02T20:38:07Z",
+  "aliases": [
+
+  ],
+  "summary": "TorchServe Pre-Auth Remote Code Execution",
+  "details": "## Impact\n\n**Use of Open Source Library potentially exposed to RCE**\n    **Issue**: Use of a version of the SnakeYAML `v1.31 `open source library with multiple issues that potentially exposes the user to unsafe deserialization of Java objects. This could allow third parties to execute arbitrary code on the target system. This issue is present in versions `0.3.0` to `0.8.1`.\n    **Mitigation**: A pull request to address this issue has been merged - https://github.com/pytorch/serve/pull/2523. TorchServe release `0.8.2` includes this fix.\n\n## Patches\n\n## TorchServe release 0.8.2 includes fixes to address the previously listed issue:\n\nhttps://github.com/pytorch/serve/releases/tag/v0.8.2\n\n**Tags for upgraded DLC release**\nUser can use the following new image tags to pull DLCs that ship with patched TorchServe version 0.8.2:\nx86 GPU\n\n* v1.9-pt-ec2-2.0.1-inf-gpu-py310\n* v1.8-pt-sagemaker-2.0.1-inf-gpu-py310\n\nx86 CPU\n\n* v1.8-pt-ec2-2.0.1-inf-cpu-py310\n* v1.7-pt-sagemaker-2.0.1-inf-cpu-py310\n\nGraviton\n\n* v1.7-pt-graviton-ec2-2.0.1-inf-cpu-py310\n* v1.5-pt-graviton-sagemaker-2.0.1-inf-cpu-py310\n\nNeuron\n\n* 1.13.1-neuron-py310-sdk2.13.2-ubuntu20.04\n* 1.13.1-neuronx-py310-sdk2.13.2-ubuntu20.04\n* 1.13.1-neuronx-py310-sdk2.13.2-ubuntu20.04\n\nThe full DLC image URI details can be found at: https://github.com/aws/deep-learning-containers/blob/master/available_images.md#available-deep-learning-containers-images\n\n## References\nhttps://github.com/pytorch/serve/pull/2523\nhttps://github.com/pytorch/serve/releases/tag/v0.8.2\nhttps://github.com/aws/deep-learning-containers/blob/master/available_images.md#available-deep-learning-containers-images\n\n## Credit\nWe would like to thank Oligo Security for responsibly disclosing this issue and working with us on its resolution.\nIf you have any questions or comments about this advisory, we ask that you contact AWS/Amazon Security via our [vulnerability reporting page](https://aws.amazon.com/security/vulnerability-reporting[)](https://aws.amazon.com/security/vulnerability-reporting)) or directly via email to [aws-security@amazon.com](mailto:aws-security@amazon.com). Please do not create a public GitHub issue.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "torchserve"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.3.0"
+            },
+            {
+              "fixed": "0.8.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pytorch/serve/security/advisories/GHSA-4mqg-h5jf-j9m7"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pytorch/serve/pull/2523"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pytorch/serve"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-913"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-02T20:38:07Z",
+    "nvd_published_at": null
+  }
+}

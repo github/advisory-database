@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v8gg-4mq2-88q4",
+  "modified": "2023-09-13T16:31:31Z",
+  "published": "2023-09-13T16:31:31Z",
+  "aliases": [
+    "CVE-2023-36472"
+  ],
+  "summary": "Strapi may leak sensitive user information, user reset password, tokens via content-manager views",
+  "details": "### Summary\nI can get access to user  reset password tokens if I have the configure view permissions\n![b37a6fd9eae06027e7d91266f1908a3d](https://user-images.githubusercontent.com/34578426/246782921-fbc007d3-ffec-45de-a1f1-a4287cd507ac.png)\n![6c1da5b3bfbb3bca97c8d064be0ecb05](https://user-images.githubusercontent.com/34578426/246783044-7d716dde-6f27-4d01-9521-42720c6ce92e.gif)\n\n### Details\n/content-manager/relations route does not remove private fields or ensure that they can't be selected\n\n### PoC\nInstall fresh strapi instance\nstart up strapi and create an account\ncreate a new content-type\ngive the content-type a relation with admin users and save\ngo to Admin panel roles Author and then plugins.\nEnable for content-manager collection types the configure view\nIn the collection time now only give them access to the collection you created for this.\nCreate a new admin user account with the Author role\nLog out and request a password reset for the main admin user.\nLogin on the newly created account\ngo to the collection type you created for this test and click the create new entry button,\nclick in the create new entry view on configure view.\nselect the admin user relation we created click on resetPasswordToken\nNow go back to the create an entry view and when selection the relation we created we now see the reset tokken\n\n### Impact\nImpact is that the none admin user now has the reset token of the admin users account and can resets its password using that to escalate his privilege's\n\nStill you need the configure view permission to be able to escalate your privilege's ",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:R/S:C/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@strapi/plugin-content-manager"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.11.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@strapi/admin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.11.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@strapi/utils"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.11.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/strapi/strapi/security/advisories/GHSA-v8gg-4mq2-88q4"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-36472"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/strapi/strapi"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/strapi/strapi/releases/tag/v4.11.7"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-13T16:31:31Z",
+    "nvd_published_at": "2023-09-15T19:15:08Z"
+  }
+}

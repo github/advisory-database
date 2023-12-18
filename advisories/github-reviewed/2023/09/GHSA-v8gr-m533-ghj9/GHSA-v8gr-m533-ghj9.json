@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v8gr-m533-ghj9",
+  "modified": "2023-09-21T17:07:01Z",
+  "published": "2023-09-21T17:07:01Z",
+  "aliases": [
+
+  ],
+  "summary": "Vulnerable OpenSSL included in cryptography wheels",
+  "details": "pyca/cryptography's wheels include a statically linked copy of OpenSSL. The versions of OpenSSL included in cryptography 2.5-41.0.3 are vulnerable to several security issues. More details about the vulnerabilities themselves can be found in https://www.openssl.org/news/secadv/20230908.txt.\n\nIf you are building cryptography source (\"sdist\") then you are responsible for upgrading your copy of OpenSSL. Only users installing from wheels built by the cryptography project (i.e., those distributed on PyPI) need to update their cryptography versions.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "cryptography"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.5"
+            },
+            {
+              "fixed": "41.0.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pyca/cryptography/security/advisories/GHSA-v8gr-m533-ghj9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pyca/cryptography/commit/fc11bce6930e591ce26a2317b31b9ce2b3e25512"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pyca/cryptography"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-21T17:07:01Z",
+    "nvd_published_at": null
+  }
+}

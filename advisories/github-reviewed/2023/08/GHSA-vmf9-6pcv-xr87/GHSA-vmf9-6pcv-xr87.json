@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vmf9-6pcv-xr87",
+  "modified": "2023-08-29T23:34:51Z",
+  "published": "2023-08-29T23:34:51Z",
+  "aliases": [
+    "CVE-2023-39522"
+  ],
+  "summary": "Username enumeration attack in goauthentik",
+  "details": "## Summary\nUsing a recovery flow with an identification stage an attacker is able to determine if a username exists.\n\n## Impact\nOnly setups configured with a recovery flow are impacted by this. Anyone with a user account on a system with the recovery flow described above is susceptible to having their username/email revealed as existing.\n\n## Details\n\nAn attacker can easily enumerate and check users' existence using the recovery flow, as a clear message is shown when a user doesn't exist. Depending on configuration this can either be done by username, email, or both.\n\nThe invalid and valid usernames should both show the same message and always send an email. Article for reference here: https://postmarkapp.com/guides/password-reset-email-best-practices#how-to-make-sure-your-password-reset-emails-are-secure\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n\n-   Email us at [security@goauthentik.io](mailto:security@goauthentik.io)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@goauthentik/api"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2023.6.0"
+            },
+            {
+              "fixed": "2023.6.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@goauthentik/api"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2023.5.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/goauthentik/authentik/security/advisories/GHSA-vmf9-6pcv-xr87"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-39522"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/goauthentik/authentik/commit/aa874dd92a770d5f8cd8f265b7cdd31cd73a4599"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/goauthentik/authentik"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-203"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-29T23:34:51Z",
+    "nvd_published_at": "2023-08-29T18:15:08Z"
+  }
+}

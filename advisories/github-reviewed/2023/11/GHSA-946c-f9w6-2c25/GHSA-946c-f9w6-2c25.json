@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-946c-f9w6-2c25",
+  "modified": "2023-11-03T18:45:11Z",
+  "published": "2023-11-03T18:45:11Z",
+  "aliases": [
+
+  ],
+  "summary": "Download route allows filename change in eZpublish kernel",
+  "details": "### Impact\nThe route used for file downloads allows specifying the name of the downloaded file. This is an unintended side effect of the implementation, and means one could construct download URLs with filenames that have no relation to the actual file, which could lead to misunderstandings and confusion, and possibly other harm. As such it is a low severity vulnerability. It affects all supported versions of Ibexa DXP and eZ Platform, in installations where downloadable files exist.\n\n### Patches\nThe issue is fixed in all supported versions of ezsystems/ezpublish-kernel, see \"Patched versions\".\nAn advisory is also published for ezsystems/ezplatform-kernel and ibexa/core, please see those repositories.\nCommit: https://github.com/ezsystems/ezpublish-kernel/commit/142152f9bae4c4835713df0bdfe22bc98d03f9a1\n\n### Workarounds\nNone, other than blocking all downloads.\n\n### References\nhttps://developers.ibexa.co/security-advisories/ibexa-sa-2023-005-vulnerabilities-in-solr-search-and-file-downloads\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "ezsystems/ezpublish-kernel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.5.0"
+            },
+            {
+              "fixed": "7.5.31"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ezsystems/ezpublish-kernel/security/advisories/GHSA-946c-f9w6-2c25"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ezsystems/ezpublish-kernel/commit/142152f9bae4c4835713df0bdfe22bc98d03f9a1"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ezsystems/ezpublish-kernel"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-03T18:45:11Z",
+    "nvd_published_at": null
+  }
+}

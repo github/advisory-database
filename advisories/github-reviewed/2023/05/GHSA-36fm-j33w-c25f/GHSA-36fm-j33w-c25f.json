@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-36fm-j33w-c25f",
+  "modified": "2023-05-11T20:36:59Z",
+  "published": "2023-05-11T20:36:59Z",
+  "aliases": [
+    "CVE-2023-32069"
+  ],
+  "summary": "Privilege escalation (PR)/RCE from account through class sheet",
+  "details": "### Impact\n\nIt's possible for a user to execute anything with the right of the author of the XWiki.ClassSheet document.\n\n**Steps to Reproduce:**\n\n1. Edit your user profile with the object editor and add an object of type `DocumentSheetBinding` with value `Default Class Sheet`\n1. Edit your user profile with the wiki editor and add the syntax `{{async}}{{groovy}}println(\"Hello \" + \"from groovy!\"){{/groovy}}{{/async}}`\n1. Click \"Save & View\"\n\n**Expected result:**\n\nAn error is displayed as the user doesn't have the right to execute the Groovy macro.\n\n**Actual result:**\n\nThe text \"Hello from groovy!\" is displayed at the top of the document.\n\n### Patches\n\nThis has been patched in XWiki 15.0-rc-1 and 14.10.4.\n\n### Workarounds\n\nThere are no known workarounds for it.\n\n### References\n\nhttps://jira.xwiki.org/browse/XWIKI-20566\nhttps://github.com/xwiki/xwiki-platform/commit/de72760d4a3e1e9be64a10660a0c19e9534e2ec4\n\n### For more information\nIf you have any questions or comments about this advisory:\n*    Open an issue in [Jira XWiki.org](https://jira.xwiki.org/)\n*    Email us at [Security Mailing List](mailto:security@xwiki.org)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-test-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.3-milestone-3"
+            },
+            {
+              "fixed": "14.10.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-36fm-j33w-c25f"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-32069"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/de72760d4a3e1e9be64a10660a0c19e9534e2ec4"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20566"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-863"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-11T20:36:59Z",
+    "nvd_published_at": "2023-05-09T16:15:15Z"
+  }
+}

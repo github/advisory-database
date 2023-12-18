@@ -1,0 +1,161 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5mvj-rvp8-rf45",
+  "modified": "2023-07-28T15:35:25Z",
+  "published": "2023-07-28T15:35:25Z",
+  "aliases": [
+    "CVE-2023-38489"
+  ],
+  "summary": "Insufficient Session Expiration after a password change",
+  "details": "### TL;DR\n\nThis vulnerability affects all Kirby sites with user accounts (unless Kirby's API and Panel are disabled in the config).\n\nIt can only be abused if a Kirby user is logged in on a device or browser that is shared with potentially untrusted users or if an attacker already maliciously used a previous password to log in to a Kirby site as the affected user.\n\n----\n\n### Introduction\n\nInsufficient Session Expiration is when a web site permits an attacker to reuse old session credentials or session IDs for authorization.\n\nIn the variation described in this advisory, it allows attackers to stay logged in to a Kirby site on another device or browser even if the logged in user has since changed their password.\n\n### Impact\n\nKirby did not invalidate old user sessions after the user password was changed by the user or by a site admin.\n\nIf a user changed their password to lock out an attacker who was already in possession of the previous password or of a login session on another device or browser, the attacker would not be reliably prevented from accessing the Kirby site as the affected user.\n\n### Patches\n\nThe problem has been patched in [Kirby 3.5.8.3](https://github.com/getkirby/kirby/releases/tag/3.5.8.3), [Kirby 3.6.6.3](https://github.com/getkirby/kirby/releases/tag/3.6.6.3), [Kirby 3.7.5.2](https://github.com/getkirby/kirby/releases/tag/3.7.5.2), [Kirby 3.8.4.1](https://github.com/getkirby/kirby/releases/tag/3.8.4.1) and [Kirby 3.9.6](https://github.com/getkirby/kirby/releases/tag/3.9.6). Please update to one of these or a [later version](https://github.com/getkirby/kirby/releases) to fix the vulnerability.\n\nIn all of the mentioned releases, we have updated the authentication implementation to keep track of the last time the password was changed. If a new password was set since the login, the session is invalidated. To enforce this fix even if the vulnerability was previously abused, all users are logged out from the Kirby site after updating to one of the patched releases.\n\n### Credits\n\nThanks to Shankar Acharya (@5hank4r) for responsibly reporting the identified issue.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getkirby/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.5.8.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getkirby/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.6.0"
+            },
+            {
+              "fixed": "3.6.6.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getkirby/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.7.0"
+            },
+            {
+              "fixed": "3.7.5.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getkirby/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.8.0"
+            },
+            {
+              "fixed": "3.8.4.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getkirby/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.9.0"
+            },
+            {
+              "fixed": "3.9.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/getkirby/kirby/security/advisories/GHSA-5mvj-rvp8-rf45"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-38489"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getkirby/kirby/commit/7a0a2014c69fdb925ea02f30e7793bb50115e931"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/getkirby/kirby"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getkirby/kirby/releases/tag/3.5.8.3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getkirby/kirby/releases/tag/3.6.6.3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getkirby/kirby/releases/tag/3.7.5.2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getkirby/kirby/releases/tag/3.8.4.1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getkirby/kirby/releases/tag/3.9.6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-613"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-28T15:35:25Z",
+    "nvd_published_at": "2023-07-27T15:15:12Z"
+  }
+}

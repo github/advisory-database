@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-262f-77q5-rqv6",
+  "modified": "2023-09-21T21:37:54Z",
+  "published": "2023-09-20T18:30:21Z",
+  "aliases": [
+    "CVE-2023-43499"
+  ],
+  "summary": "Jenkins Build Failure Analyzer Plugin Cross-site Scripting vulnerability",
+  "details": "Jenkins Build Failure Analyzer Plugin 2.4.1 and earlier does not escape Failure Cause names in build logs.\n\nThis results in a stored cross-site scripting (XSS) vulnerability exploitable by attackers able to create or update Failure Causes.\n\nBuild Failure Analyzer Plugin 2.4.2 escapes Failure Cause names in build logs.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.sonyericsson.jenkins.plugins.bfa:build-failure-analyzer"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.4.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-43499"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-09-20/#SECURITY-3244"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2023/09/20/5"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-21T21:37:54Z",
+    "nvd_published_at": "2023-09-20T17:15:11Z"
+  }
+}

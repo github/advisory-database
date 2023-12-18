@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rc33-44qp-vpvq",
+  "modified": "2023-08-16T21:04:57Z",
+  "published": "2023-08-16T15:30:18Z",
+  "aliases": [
+    "CVE-2023-40349"
+  ],
+  "summary": "Jenkins Gogs Plugin vulnerable to unsafe default behavior and information disclosure",
+  "details": "Jenkins Gogs Plugin provides a webhook endpoint at /gogs-webhook that can be used to trigger builds of jobs. In Gogs Plugin 1.0.15 and earlier, an option to specify a Gogs secret for this webhook is provided, but not enabled by default.\n\nThis allows unauthenticated attackers to trigger builds of jobs corresponding to the attacker-specified job name.\n\nAdditionally, the output of the webhook endpoint includes whether a job corresponding to the attacker-specified job name exists, even if the attacker has no permission to access it.\n\nAs of publication of this advisory, there is no fix.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:gogs-webhook"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.0.15"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-40349"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-08-16/#SECURITY-2894"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2023/08/16/3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-665"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-16T21:04:57Z",
+    "nvd_published_at": "2023-08-16T15:15:12Z"
+  }
+}

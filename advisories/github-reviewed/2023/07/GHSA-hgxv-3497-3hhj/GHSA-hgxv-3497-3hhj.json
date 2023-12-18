@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hgxv-3497-3hhj",
+  "modified": "2023-07-06T20:39:13Z",
+  "published": "2023-07-04T18:30:58Z",
+  "withdrawn": "2023-07-06T20:38:21Z",
+  "aliases": [
+
+  ],
+  "summary": "Duplicate Advisory: @fastify/oauth2 Oauth2 state parameter reuse",
+  "details": "## Duplicate Advisory\nThis advisory has been withdrawn because it is a duplicate of GHSA-g8x5-p9qc-cf95. This link is maintained to preserve external references.\n\n## Original Description\nAll versions of @fastify/oauth2 used a statically generated state parameter at startup time and were used across all requests for all users. The purpose of the Oauth2 state parameter is to prevent Cross-Site-Request-Forgery attacks. As such, it should be unique per user and should be connected to the user's session in some way that will allow the server to validate it.\n\nv7.2.0 changes the default behavior to store the state in a cookie with the http-only and same-site=lax attributes set. The state is now by default generated for every user. Note that this contains a breaking change in the checkStateFunction function, which now accepts the full Request object.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@fastify/oauth2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "7.2.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-31999"
+    },
+    {
+      "type": "WEB",
+      "url": "https://hackerone.com/reports/2020418"
+    },
+    {
+      "type": "WEB",
+      "url": "https://auth0.com/docs/secure/attack-protection/state-parameters"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/fastify/fastify-oauth2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/fastify/fastify-oauth2/releases/tag/v7.2.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-06T20:38:21Z",
+    "nvd_published_at": "2023-07-04T17:15:10Z"
+  }
+}

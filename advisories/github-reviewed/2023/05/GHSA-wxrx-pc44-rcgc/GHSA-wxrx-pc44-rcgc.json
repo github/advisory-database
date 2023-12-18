@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wxrx-pc44-rcgc",
+  "modified": "2023-05-30T20:07:35Z",
+  "published": "2023-05-27T06:30:41Z",
+  "aliases": [
+    "CVE-2023-26128"
+  ],
+  "summary": "keep-module-latest vulnerable to Command Injection due to missing input sanitization ",
+  "details": "All versions of the package keep-module-latest are vulnerable to Command Injection due to missing input sanitization or other checks and sandboxes being employed to the installModule function.\n\n**Note:**\n\nTo execute the code snippet and potentially exploit the vulnerability, the attacker needs to have the ability to run Node.js code within the target environment. This typically requires some level of access to the system or application hosting the Node.js environment.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "keep-module-latest"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.0.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-26128"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/liujunyang/keep-module-latest"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/liujunyang/keep-module-latest/blob/master/index.js%23L50"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-JS-KEEPMODULELATEST-3157165"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20",
+      "CWE-77"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-30T20:07:35Z",
+    "nvd_published_at": "2023-05-27T05:15:09Z"
+  }
+}

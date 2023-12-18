@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w24w-wp77-qffm",
+  "modified": "2023-07-05T21:34:45Z",
+  "published": "2023-07-05T21:34:45Z",
+  "aliases": [
+    "CVE-2023-34451"
+  ],
+  "summary": "CometBFT may duplicate transactions in the mempool's data structures",
+  "details": "### Impact\n\nThe mempool maintains two data structures to keep track of outstanding transactions: a list and a map.\nThese two data structures are supposed to be in sync all the time in the sense that the map tracks the index (if any) of the transaction in the list. \n\nUnfortunately, it is possible to have them out of sync. When this happens, the list may contain several copies of the same transaction.\nBecause the map tracks a single index, it is then no longer possible to remove all the copies of the transaction from the list.\nThis happens  even if the duplicated transaction is later committed in a block.\nThe only way to remove the transaction is by restarting the node.\n\nThese are the steps to cause the above duplication problem. Everything should happen within one height, that is no `FinalizeBlock` or `BeginBlock` ABCI calls should happen while these steps are reproduced:\n\n1. send transaction tx1 to the target full node via RPC\n2. send N more different transactions to the target full node, where N should be higher than the node's configured value for `cache_size` in `config.toml`\n3. send transaction tx1 again to the target full node\n\nOne of the copies of tx1 is now _stuck_ in the mempool's data structures. Effectively causing a memory leak, and having that node gossiping that transaction to its peers forever.\n\nThe above problem can be repeated on and on until a sizable number of transactions are stuck in the mempool, in order to try to bring down the target node.\n\nThis problem is present in releases: `v0.37.0`, and `v0.37.1`, as well as in `v0.34.28`, and all previous releases of the CometBFT repo. It will be fixed in releases `v0.34.29` and `v0.37.2`.\n\n### Patches\n\nThe PR containing the fix is [here](https://github.com/cometbft/cometbft/pull/890).\n\n\n### Workarounds\n\n* Increasing the value of `cache_size` in `config.toml` makes it very difficult to effectively attack a full node.\n* Not exposing the transaction submission RPC's would mitigate the probability of a successful attack, as the attacker would then have to create a modified (byzantine) full node to be able to perform the attack via p2p.\n\n### References\n\n* [PR](https://github.com/tendermint/tendermint/pull/2778) that introduced the map to track transactions in the mempool.\n* [PR](https://github.com/cometbft/cometbft/pull/890) containing the fix.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cometbft/cometbft"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.34.29"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cometbft/cometbft"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.37.0"
+            },
+            {
+              "fixed": "0.37.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/cometbft/cometbft/security/advisories/GHSA-w24w-wp77-qffm"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-34451"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cometbft/cometbft/pull/890"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tendermint/tendermint/pull/2778"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cometbft/cometbft"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-401"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-05T21:34:45Z",
+    "nvd_published_at": "2023-07-03T17:15:09Z"
+  }
+}

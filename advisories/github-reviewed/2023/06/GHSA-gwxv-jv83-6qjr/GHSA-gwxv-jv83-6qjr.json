@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-gwxv-jv83-6qjr",
+  "modified": "2023-06-06T00:45:18Z",
+  "published": "2023-06-06T00:45:18Z",
+  "aliases": [
+    "CVE-2023-33962"
+  ],
+  "summary": "JStachio XSS vulnerability: Unescaped single quotes",
+  "details": "### Impact\n\n#### Description:\nJStachio fails to escape single quotes `'` in HTML, allowing an attacker to inject malicious code.\n\n#### Reproduction Steps:\nUse the following template code:\n```html\n<div attr='{{value}}'></div>\n```\n\nSet the value variable to `' onblur='alert(1)`.\n\n```java\npublic class Escaping {\n\n    public static void main(String[] args) {\n        Model model = new Model(\"' onblur='alert(1)\");\n        String result = AttributeTemplate.of().execute(model);\n        System.out.println(result);\n    }\n\n    @JStache(template = \"<div attr='{{value}}'></div>\",\n            name=\"AttributeTemplate\")\n    @JStacheConfig(contentType= Html.class)\n    public static class Model {\n\n        public final String value;\n\n        public Model(String value) {\n            this.value = value;\n        }\n\n        public String getValue() {\n            return value;\n        }\n    }\n}\n```\n\nExpected Result:\nThe resulting output should have properly escaped the single quotes and not execute the injected JavaScript code.\n\nActual Result:\nThe resulting output is vulnerable and renders as follows:\n```html\n<div attr='' onblur='alert(1)'></div>\n```\n\n#### Impact and Risk:\nThis vulnerability can be exploited by an attacker to execute arbitrary JavaScript code in the context of other users visiting pages that use this template engine. This can lead to various consequences, including session hijacking, defacement of web pages, theft of sensitive information, or even the propagation of malware.\n\n#### Proposed Solution:\nTo mitigate this vulnerability, the template engine should properly escape special characters, including single quotes. Common practice is to escape `'` as `&#39`.\n\n### Patches\n-\n\n### Workarounds\nAs long as users stick with double quotes `\"` for HTML attributes, they should not be affected.\n\n### References\nFor instance, [Rocker's general purpose HTML escaping](https://github.com/fizzed/rocker/blob/d749fbf68179b31a64d541f5e18e0e25bc5c2d1b/rocker-runtime/src/main/java/com/fizzed/rocker/runtime/DefaultHtmlStringify.java#L64)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.jstach:jstachio"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.0.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/jstachio/jstachio/security/advisories/GHSA-gwxv-jv83-6qjr"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-33962"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jstachio/jstachio/issues/157"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jstachio/jstachio/pull/158"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jstachio/jstachio/commit/7b2f78377d1284df14c580be762a25af5f8dcd66"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jstachio/jstachio"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jstachio/jstachio/releases/tag/v1.0.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-06T00:45:18Z",
+    "nvd_published_at": "2023-05-30T22:15:10Z"
+  }
+}

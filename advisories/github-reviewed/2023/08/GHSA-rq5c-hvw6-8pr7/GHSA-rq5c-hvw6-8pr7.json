@@ -1,0 +1,122 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rq5c-hvw6-8pr7",
+  "modified": "2023-08-29T17:35:55Z",
+  "published": "2023-08-29T17:35:55Z",
+  "aliases": [
+    "CVE-2023-39348"
+  ],
+  "summary": "Improper log output when using GitHub Status Notifications in spinnaker",
+  "details": "### Impact\nONLY IMPACTS those use GitHub Status Notifications\n\nLog output when updating GitHub status is improperly set to FULL always.  It's recommended to apply the patch and rotate the GitHub token used for github status notifications.  Given that this would output github tokens to a log system, the risk is slightly higher than a \"low\" since token exposure could grant elevated access to repositories outside of control.  If using READ restricted tokens, the exposure is such that the token itself could be used to access resources otherwise restricted from reads.\n\n### Patches\nPatch is in progress.  https://github.com/spinnaker/echo/pull/1316\n\n### Workarounds\nDisable GH Status Notifications.  Filter your logs for Echo log data.  Use read-only tokens that are limited in scope.\n\n### References\nsig-security in slack: https://spinnakerteam.slack.com/archives/CFN8F5UR2\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:P/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/spinnaker/spinnaker"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "< 1.28.8"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/spinnaker/spinnaker"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.29.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "< 1.29.6"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/spinnaker/spinnaker"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.30.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "< 1.30.3"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/spinnaker/spinnaker"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.31.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "< 1.31.1"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/spinnaker/spinnaker/security/advisories/GHSA-rq5c-hvw6-8pr7"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-39348"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/spinnaker/echo/pull/1316"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/spinnaker/spinnaker"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-532"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-29T17:35:55Z",
+    "nvd_published_at": "2023-08-28T20:15:08Z"
+  }
+}

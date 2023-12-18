@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r7wr-4w5q-55m6",
+  "modified": "2023-06-16T17:47:56Z",
+  "published": "2023-06-16T17:47:56Z",
+  "aliases": [
+    "CVE-2023-34242"
+  ],
+  "summary": "Cilium vulnerable to information leakage via incorrect ReferenceGrant handling",
+  "details": "### Impact\n\nWhen the [Gateway API](https://docs.cilium.io/en/v1.13/network/servicemesh/gateway-api/gateway-api/) is enabled in Cilium, the absence of a check on the namespace in which a [ReferenceGrant](https://gateway-api.sigs.k8s.io/api-types/referencegrant/) is created could result in Cilium gaining visibility of secrets (including certificates) and services across namespaces.\n\nAn attacker on an affected cluster can configure Cilium to use cluster secrets or communicate with services that it should not have access to.\n\nGateway API functionality is disabled by default.\n\n### Patches\n\nThis vulnerability is fixed in Cilium release 1.13.4.\n\nCilium versions <1.13 are not affected.\n\n### Workarounds\n\nThere is no workaround to this issue.\n\n### Acknowledgements\nThe Cilium community has worked together with members of Isovalent to prepare these mitigations. Special thanks to @meyskens for investigating and fixing the issue.\n\n### For more information\nIf you have any questions or comments about this advisory, please reach out on [Slack](https://docs.cilium.io/en/latest/community/community/#slack).\n\nAs usual, if you think you found a related vulnerability, we strongly encourage you to report security vulnerabilities to our private security mailing list: [security@cilium.io](mailto:security@cilium.io) - first, before disclosing them in any public forums. This is a private mailing list where only members of the Cilium internal security team are subscribed to, and is treated as top priority.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:A/AC:L/PR:H/UI:N/S:C/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cilium/cilium"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.13.0"
+            },
+            {
+              "fixed": "1.13.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/security/advisories/GHSA-r7wr-4w5q-55m6"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-34242"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cilium/cilium"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/releases/tag/v1.13.4"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-16T17:47:56Z",
+    "nvd_published_at": "2023-06-15T20:15:09Z"
+  }
+}

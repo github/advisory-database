@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hh7p-hvm3-rg88",
+  "modified": "2023-07-31T19:02:00Z",
+  "published": "2023-07-26T12:30:28Z",
+  "aliases": [
+    "CVE-2023-38671"
+  ],
+  "summary": "Heap buffer overflow in PaddlePaddle",
+  "details": "Heap buffer overflow in paddle.trace in PaddlePaddle before 2.5.0. This flaw can lead to a denial of service, information disclosure, or more damage is possible.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "paddlepaddle"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "paddle.trace"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.5.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-38671"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/PaddlePaddle/Paddle/commit/12549dfe3e87a4c30f852d2eca81d7f67c8daa87"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/PaddlePaddle/Paddle"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/PaddlePaddle/Paddle/blob/develop/security/advisory/pdsa-2023-003.md"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/paddlepaddle/PYSEC-2023-124.yaml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-120",
+      "CWE-787"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-26T22:32:20Z",
+    "nvd_published_at": "2023-07-26T11:15:09Z"
+  }
+}

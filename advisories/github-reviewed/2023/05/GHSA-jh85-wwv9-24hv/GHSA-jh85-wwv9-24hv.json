@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jh85-wwv9-24hv",
+  "modified": "2023-08-24T20:43:46Z",
+  "published": "2023-05-15T20:50:23Z",
+  "aliases": [
+    "CVE-2023-32309"
+  ],
+  "summary": "Any file can be included with the pymdown-snippets extension",
+  "details": "### Summary\n\nArbitrary file read when using include file syntax.\n\n### Details\n\nBy using the syntax `--8<--\"/etc/passwd\"` or `--8<--\"/proc/self/environ\"` the content of these files will be rendered in the generated documentation. Additionally, a path relative to a specified, allowed base path can also be used to render the content of a file outside the specified base paths: `--8<-- \"../../../../etc/passwd\"`.\n\nWithin the Snippets extension, there exists a `base_path` option but the implementation is vulnerable to Directory Traversal.\nThe vulnerable section exists in `get_snippet_path(self, path)` lines 155 to 174 in snippets.py.\n\n```\nbase = \"docs\"\npath = \"/etc/passwd\"\nfilename = os.path.join(base,path) # Filename is now /etc/passwd\n```\n\n### PoC\n\n```py\nimport markdown\n\npayload = \"--8<-- \\\"/etc/passwd\\\"\"\nhtml = markdown.markdown(payload, extensions=['pymdownx.snippets'])\n\nprint(html)\n```\n\n### Impact\n\nAny readable file on the host where the plugin is executing may have its content exposed. This can impact any use of Snippets that exposes the use of Snippets to external users. \n\nIt is never recommended to use Snippets to process user-facing, dynamic content. It is designed to process known content on the backend under the control of the host, but if someone were to accidentally enable it for user-facing content, undesired information could be exposed.\n\n### Suggestion\n\nSpecified snippets should be restricted to the configured, specified base paths as a safe default. Allowing relative or absolute paths that escape the specified base paths would need to be behind a feature switch that must be opt-in and would be at the developer's own risk.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "pymdown-extensions"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "pymdownx.snippets.SnippetPreprocessor",
+          "pymdownx.snippets.SnippetPreprocessor.get_snippet_path",
+          "pymdownx.snippets.SnippetExtension"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.5"
+            },
+            {
+              "fixed": "10.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/facelessuser/pymdown-extensions/security/advisories/GHSA-jh85-wwv9-24hv"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-32309"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/facelessuser/pymdown-extensions/commit/b7bb4878d6017c03c8dc97c42d8d3bb6ee81db9d"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/facelessuser/pymdown-extensions"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/facelessuser/pymdown-extensions/releases/tag/10.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-15T20:50:23Z",
+    "nvd_published_at": "2023-05-15T21:15:09Z"
+  }
+}

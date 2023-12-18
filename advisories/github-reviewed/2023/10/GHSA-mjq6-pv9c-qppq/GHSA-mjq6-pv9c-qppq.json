@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mjq6-pv9c-qppq",
+  "modified": "2023-11-02T17:34:21Z",
+  "published": "2023-10-18T17:34:46Z",
+  "aliases": [
+    "CVE-2023-43801"
+  ],
+  "summary": "Arduino Create Agent path traversal - arbitrary file deletion vulnerability",
+  "details": "### Impact\nThe vulnerability affects the endpoint `/v2/pkgs/tools/installed` and the way it handles plugin names supplied as user input.\nA user who has the ability to perform HTTP requests to the localhost interface, or is able to bypass the CORS configuration, can delete arbitrary files or folders belonging to the user that runs the Arduino Create Agent via a crafted HTTP DELETE request.\nFurther details are available in the references.\n\n### Fixed Version\n* `1.3.3`\n\n### References\nThe issue was reported by Nozomi Networks Labs. Further details on the issue are available at the following URL:\n* https://www.nozominetworks.com/blog/security-flaws-affect-a-component-of-the-arduino-create-cloud-ide\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/arduino/arduino-create-agent"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.3.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/arduino/arduino-create-agent/security/advisories/GHSA-mjq6-pv9c-qppq"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-43801"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/arduino/arduino-create-agent"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/arduino/arduino-create-agent/releases/tag/1.3.3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.nozominetworks.com/blog/security-flaws-affect-a-component-of-the-arduino-create-cloud-ide"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22",
+      "CWE-35"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-18T17:34:46Z",
+    "nvd_published_at": "2023-10-18T22:15:09Z"
+  }
+}

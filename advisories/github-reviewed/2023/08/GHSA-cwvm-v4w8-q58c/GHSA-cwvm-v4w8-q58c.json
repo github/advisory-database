@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cwvm-v4w8-q58c",
+  "modified": "2023-09-06T17:28:06Z",
+  "published": "2023-08-30T20:09:36Z",
+  "aliases": [
+    "CVE-2023-41040"
+  ],
+  "summary": "Blind local file inclusion",
+  "details": "### Summary\n\nIn order to resolve some git references, GitPython reads files from the `.git` directory, in some places the name of the file being read is provided by the user, GitPython doesn't check if this file is located outside the `.git` directory. This allows an attacker to make GitPython read any file from the system.\n\n### Details\n\nThis vulnerability is present in\n\nhttps://github.com/gitpython-developers/GitPython/blob/1c8310d7cae144f74a671cbe17e51f63a830adbf/git/refs/symbolic.py#L174-L175\n\nThat code joins the base directory with a user given string without checking if the final path is located outside the base directory.\n\nI was able to exploit it from three places, but there may be more code paths that lead to it:\n\nhttps://github.com/gitpython-developers/GitPython/blob/1c8310d7cae144f74a671cbe17e51f63a830adbf/git/repo/base.py#L605\n\nhttps://github.com/gitpython-developers/GitPython/blob/1c8310d7cae144f74a671cbe17e51f63a830adbf/git/repo/base.py#L620\n\nhttps://github.com/gitpython-developers/GitPython/blob/1c8310d7cae144f74a671cbe17e51f63a830adbf/git/index/base.py#L1353\n\n### PoC\n\nRunning GitPython within any repo should work, here is an example with the GitPython repo.\n\n```python\nimport git\n\nr = git.Repo(\".\")\n\n# This will make GitPython read the README.md file from the root of the repo\nr.commit(\"../README.md\")\nr.tree(\"../README.md\")\nr.index.diff(\"../README.md\")\n\n# Reading /etc/random\n# WARNING: this will probably halt your system, run with caution\n# r.commit(\"../../../../../../../../../dev/random\")\n```\n\n### Impact\n\nI wasn't able to show the contents of the files (that's why \"blind\" local file inclusion), depending on how GitPython is being used, this can be used by an attacker for something _inoffensive_ as checking if a file exits, or cause a DoS by making GitPython read a big/infinite file (like `/dev/random` on Linux systems).\n\n### Possible solutions\n\nA solution would be to check that the final path isn't located outside the `repodir` path (maybe even after resolving symlinks). Maybe there could be other checks in place to make sure that the reference names are valid.\n\n---\n\n> [!NOTE]\n> This vulnerability was reported via email, and it was decided to publish it here and make it public, so the community is aware of it, and a fix can be provided.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "GitPython"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.1.37"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.1.36"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/gitpython-developers/GitPython/security/advisories/GHSA-cwvm-v4w8-q58c"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-41040"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/gitpython-developers/GitPython/pull/1672"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/gitpython-developers/GitPython/commit/74e55ee4544867e1bd976b7df5a45869ee397b0b"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/gitpython-developers/GitPython"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/gitpython-developers/GitPython/blob/1c8310d7cae144f74a671cbe17e51f63a830adbf/git/refs/symbolic.py#L174-L175"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/gitpython-developers/GitPython/releases/tag/3.1.37"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/gitpython/PYSEC-2023-165.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.debian.org/debian-lts-announce/2023/09/msg00036.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-30T20:09:36Z",
+    "nvd_published_at": "2023-08-30T22:15:09Z"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w5w5-2882-47pc",
+  "modified": "2023-06-30T22:13:02Z",
+  "published": "2023-06-30T22:13:02Z",
+  "aliases": [
+
+  ],
+  "summary": "github.com/cosmos/cosmos-sdk's x/crisis does not charge ConstantFee",
+  "details": "# x/crisis does not charge ConstantFee\n### Impact\nIf a transaction is sent to the `x/crisis` module to check an invariant, the ConstantFee parameter of the chain is NOT charged. All versions of the `x/crisis` module are affected on all versions of the Cosmos SDK.\n\n### Details\nThe `x/crisis` module is supposed to allow anyone to halt a chain in the event of a violated invariant by sending a `MsgVerifyInvariant` with the name of the invariant. Processing this message takes extra processing power hence a `ConstantFee` was introduced on the chain that is charged as extra from the reporter for the extra computational work. This is supposed to avert spammers on the chain making nodes do extra computations using this transaction. By not charging the `ConstantFee`, the transactions related to invariant checking are relatively cheaper compared to the computational need and other transactions.\n\nThat said, the submitter still has to pay the transaction fee to put the transaction on the network, hence using this weakness for spamming is limited by the usual mechanisms.\n\nSynthetic testing showed up to a 20% increase in CPU usage on a validator node that is spammed by hundreds of `MsgVerifyInvariant` messages which still makes this an expensive operation to carry out on a live blockchain network.\n\n### Patches\nThe `ConstantFee` charge of the `x/crisis` module will either be fixed or disabled in an upcoming regular release of the Cosmos SDK.\n\nThe `x/crisis` module was originally intended to allow chains to halt rather than continue with some unknown behavior in the case of an invariant violation (safety over liveness). However, as chains mature, and especially as the potential [cost of halting increases](https://github.com/osmosis-labs/osmosis/issues/570), chains should consider carefully what invariants they really want to halt for, and what invariants are just sort of helpful sanity checks.\n\nThe SDK team is working on new modules that allow chain developers to fine-tune the chain invariants and the necessary actions.\n\nHence, the decision was made that the `x/crisis` module will be deprecated when new modules take over its responsibilities.\n\n### Workarounds\nThere is no workaround posted. Validators are advised to leave some extra computing room on their servers for possible spamming scenarios. (This is a good measure in any case.)\n\n### References\nSDK developer epic about invariant checking: https://github.com/cosmos/cosmos-sdk/issues/15706\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cosmos/cosmos-sdk"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.50.0-alpha.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/cosmos/cosmos-sdk/security/advisories/GHSA-w5w5-2882-47pc"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cosmos/cosmos-sdk/issues/15706"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cosmos/cosmos-sdk"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-30T22:13:02Z",
+    "nvd_published_at": null
+  }
+}

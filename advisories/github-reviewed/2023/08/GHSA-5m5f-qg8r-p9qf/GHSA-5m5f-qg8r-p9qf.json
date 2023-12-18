@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5m5f-qg8r-p9qf",
+  "modified": "2023-08-18T21:51:39Z",
+  "published": "2023-08-17T21:30:53Z",
+  "aliases": [
+    "CVE-2023-40313"
+  ],
+  "summary": "OpenNMS vulnerable to remote code execution",
+  "details": "A BeanShell interpreter in remote server mode runs in OpenNMS Horizon versions earlier than 32.0.2 and in related Meridian versions which could allow arbitrary remote Java code execution. The solution is to upgrade to Meridian 2023.1.6, 2022.1.19, 2021.1.30, 2020.1.38 or Horizon 32.0.2 or newer. Meridian and Horizon installation instructions state that they are intended for installation within an organization's private networks and should not be directly accessible from the Internet.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:A/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.opennms:opennms-base-assembly"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "32.0.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-40313"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenNMS/opennms/pull/6368"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenNMS/opennms/commit/2909448b039bd46241efa52c450ffdb4f5a7dee1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.opennms.com/horizon/32/releasenotes/changelog.html"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/OpenNMS/opennms"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-18T21:51:39Z",
+    "nvd_published_at": "2023-08-17T19:15:13Z"
+  }
+}

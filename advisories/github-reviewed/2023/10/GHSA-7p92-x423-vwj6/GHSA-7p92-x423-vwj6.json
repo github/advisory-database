@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7p92-x423-vwj6",
+  "modified": "2023-10-17T14:24:16Z",
+  "published": "2023-10-17T14:24:16Z",
+  "aliases": [
+
+  ],
+  "summary": "Plonk verifier KZG multi point verification",
+  "details": "### Impact\n\nThe vulnerability allows a third party to derive a valid proof from a valid initial tuple {proof, public_inputs}, corresponding to the same public inputs as the initial proof. It is due to a randomness being generated using a small part of the scratch memory describing the state, allowing for degrees of freedom in the transcript.\n\nNote that the impact is limited to the PlonK verifier smart contract.\n\n### Patches\n\nWe still use a hash function on some data to have a pseudo rng, but instead of hashing the first 32 bytes of the state (\n` let random := mod(keccak256(state, 0x20), r_mod)` )\n\nwe hash the whole state at this point of the verifier as if it was a Fiat Shamir transcript:\n```\n        mstore(mPtr, mload(add(state, STATE_FOLDED_DIGESTS_X)))\n        mstore(add(mPtr, 0x20), mload(add(state, STATE_FOLDED_DIGESTS_Y)))\n        mstore(add(mPtr, 0x40), calldataload(add(aproof, PROOF_BATCH_OPENING_AT_ZETA_X)))\n        mstore(add(mPtr, 0x60), calldataload(add(aproof, PROOF_BATCH_OPENING_AT_ZETA_Y)))\n        mstore(add(mPtr, 0x80), calldataload(add(aproof, PROOF_GRAND_PRODUCT_COMMITMENT_X)))\n        mstore(add(mPtr, 0xa0), calldataload(add(aproof, PROOF_GRAND_PRODUCT_COMMITMENT_Y)))\n        mstore(add(mPtr, 0xc0), calldataload(add(aproof, PROOF_OPENING_AT_ZETA_OMEGA_X)))\n        mstore(add(mPtr, 0xe0), calldataload(add(aproof, PROOF_OPENING_AT_ZETA_OMEGA_Y)))\n        mstore(add(mPtr, 0x100), mload(add(state, STATE_ZETA)))\n        mstore(add(mPtr, 0x120), mload(add(state, STATE_GAMMA_KZG)))\n        let random := staticcall(gas(), 0x2, mPtr, 0x140, mPtr, 0x20)\n```\n\n### Workarounds\n\nIn the function `batch_verify_multi_points`, the variable `random` (corresponding to `u` in the paper, step 12 of the [plonk](https://eprint.iacr.org/2019/953.pdf) verification process) should depend on `state_folded_digests_x`, `state_folded_digests_y`, `proof_grand_product_commitment_x`, `proof_grand_product_commitment_y` and `state_zeta` (by hashing those values for instance).\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/consensys/gnark"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.9.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/Consensys/gnark/security/advisories/GHSA-7p92-x423-vwj6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Consensys/gnark/commit/3421eaa7d544286abf3de8c46282b8d4da6d5da0"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Consensys/gnark"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-17T14:24:16Z",
+    "nvd_published_at": null
+  }
+}

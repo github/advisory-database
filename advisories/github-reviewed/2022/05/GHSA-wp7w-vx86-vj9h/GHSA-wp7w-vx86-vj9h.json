@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wp7w-vx86-vj9h",
+  "modified": "2023-07-21T21:42:33Z",
+  "published": "2022-05-13T01:34:58Z",
+  "aliases": [
+    "CVE-2018-10856"
+  ],
+  "summary": "Podman Elevated Container Privileges",
+  "details": "It has been discovered that podman before version 0.6.1 does not drop capabilities when executing a container as a non-root user. This results in unnecessary privileges being granted to the container.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/containers/podman/v4"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.6.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-10856"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/projectatomic/libpod/commit/bae80a0b663925ec751ad2784ca32989403cdc24"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2018:2037"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2018-10856"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-732"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-21T21:42:33Z",
+    "nvd_published_at": "2018-07-03T01:29:00Z"
+  }
+}

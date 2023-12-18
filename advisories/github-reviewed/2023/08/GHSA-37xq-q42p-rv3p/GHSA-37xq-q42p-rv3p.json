@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-37xq-q42p-rv3p",
+  "modified": "2023-08-24T22:18:39Z",
+  "published": "2023-08-24T22:18:39Z",
+  "aliases": [
+
+  ],
+  "summary": "ntpd has Dependency on Vulnerable Third-Party Component",
+  "details": "### During startup, an attacker that can man-in-the-middle traffic to and from NTS key exchange servers can trigger a very expensive key validation process due to a vulnerability in webpki.\n\n### Impact\nThis vulnerability can lead to excessive cpu usage on startup on clients configured to use NTS\n\n### Patches\nAffected users are recommended to upgrade to version 0.3.7\n\n### References\nSee also https://github.com/rustsec/advisory-db/blob/main/crates/rustls-webpki/RUSTSEC-2023-0053.md\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:A/AC:H/PR:N/UI:R/S:U/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "ntpd"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.3.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pendulum-project/ntpd-rs/security/advisories/GHSA-37xq-q42p-rv3p"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pendulum-project/ntpd-rs/commit/927952a440176a18f3ded132eb831ae7f7ac5c00"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pendulum-project/ntpd-rs"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rustsec/advisory-db/blob/main/crates/rustls-webpki/RUSTSEC-2023-0053.md"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1395"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-24T22:18:39Z",
+    "nvd_published_at": null
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hgpw-6p4h-j6h5",
+  "modified": "2023-11-07T22:53:08Z",
+  "published": "2023-11-07T22:35:24Z",
+  "aliases": [
+    "CVE-2023-46242"
+  ],
+  "summary": "XWiki Platform vulnerable to remote code execution via the edit action because it lacks CSRF token",
+  "details": "### Impact\n\nIn XWiki Platform, it's possible to execute content with the right of any user if you can make this user follow a crafted URL. This is possible because edit action sets and thereby executes the page content without checking for a cross-site request forgert (CSRF) token.\n\nTo reproduce:\nGet a user with programming rights to visit the URL `<xwiki-host>/xwiki/bin/edit/Main/?content=%7B%7Bgroovy%7D%7Dprintln%28%22Hello+from+Groovy%21%22%29%7B%7B%2Fgroovy%7D%7D&xpage=view`, where `<xwiki-host>` is the URL of your XWiki installation. This can be done by embedding an image with this URL.\n\nThe text \"Hello from Groovy!\" is displayed in the page content, showing that the Groovy macro has been executed. \n\n### Patches\n\nThis has been patched in XWiki 14.10.7 and 15.2-RC-1.\n\n### Workarounds\nThere are no known workarounds for it.\n\n### References\n\n* https://jira.xwiki.org/browse/XWIKI-20386\n* https://github.com/xwiki/xwiki-platform/commit/cf8eb861998ea423c3645d2e5e974420b0e882be\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n* Open an issue in [Jira XWiki.org](https://jira.xwiki.org/)\n* Email us at [Security Mailing List](mailto:security@xwiki.org)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-oldcore"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0"
+            },
+            {
+              "fixed": "14.10.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-oldcore"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "15.0"
+            },
+            {
+              "fixed": "15.2-rc-1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-hgpw-6p4h-j6h5"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-46242"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/cf8eb861998ea423c3645d2e5e974420b0e882be"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20386"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352",
+      "CWE-94"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-07T22:35:24Z",
+    "nvd_published_at": "2023-11-07T19:15:10Z"
+  }
+}

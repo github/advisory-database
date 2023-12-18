@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-22rr-f3p8-5gf8",
+  "modified": "2023-09-15T17:12:42Z",
+  "published": "2023-09-15T17:12:42Z",
+  "aliases": [
+
+  ],
+  "summary": "Directus affected by VM2 sandbox escape vulnerability",
+  "details": "### Impact\nIn vm2 for versions up to 3.9.19, Promise handler sanitization can be bypassed, allowing attackers to escape the sandbox and run arbitrary code. Within Directus this applies to the \"Run Script\" operation in flows being able to escape the sandbox running code in the main nodejs context.\n\n### Patches\nPatched in v10.6.0 by replacing `vm2` with `isolated-vm`\n\n### Workarounds\nNone\n\n### References\nhttps://github.com/patriksimek/vm2/security/advisories/GHSA-cchq-frgv-rjh5",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "directus"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "10.6.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/directus/directus/security/advisories/GHSA-22rr-f3p8-5gf8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/patriksimek/vm2/security/advisories/GHSA-cchq-frgv-rjh5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/directus/directus/pull/19332"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/directus/directus/commit/284156426fa94f688e8d65a7a4f34f9e6705f058"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/directus/directus"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-15T17:12:42Z",
+    "nvd_published_at": null
+  }
+}

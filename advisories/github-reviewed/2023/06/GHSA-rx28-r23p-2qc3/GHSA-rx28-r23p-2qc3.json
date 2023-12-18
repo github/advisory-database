@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rx28-r23p-2qc3",
+  "modified": "2023-06-20T18:06:03Z",
+  "published": "2023-06-19T22:47:26Z",
+  "aliases": [
+    "CVE-2023-35165"
+  ],
+  "summary": "AWS CDK EKS overly permissive trust policies",
+  "details": "If you are using the `eks.Cluster` or `eks.FargateCluster` construct we need you to take action. Other users are not affected and can stop reading.\n\n### Impact \n\nThe AWS Cloud Development Kit (CDK) allows for the definition of Amazon Elastic Container Service for Kubernetes (EKS) clusters. `eks.Cluster` and `eks.FargateCluster` constructs create two roles that have an overly permissive trust policy. \n \nThe first, referred to as the _CreationRole_, is used by lambda handlers to create the cluster and deploy Kubernetes resources (e.g `KubernetesManifest`, `HelmChart`, ...) onto it. Users with CDK version higher or equal to  [1.62.0](https://github.com/aws/aws-cdk/releases/tag/v1.62.0) (including v2 users) will be affected.\n \nThe second, referred to as the _default MastersRole_, is provisioned only if the `mastersRole` property isn't provided and has permissions to execute `kubectl` commands on the cluster. Users with CDK version higher or equal to [1.57.0](https://github.com/aws/aws-cdk/releases/tag/v1.57.0) (including v2 users) will be affected.\n \nBoth these roles use the account root principal in their trust policy, which allows any identity in the account with the appropriate `sts:AssumeRole `permissions to assume it. For example, this can happen if another role in your account has `sts:AssumeRole` permissions on `Resource: \"*\"`.\n\n#### CreationRole \n\nUsers with CDK version higher or equal to [1.62.0](https://github.com/aws/aws-cdk/releases/tag/v1.62.0) (including v2 users). The role in question can be located in the IAM console. It will have the following name pattern: \n\n```console \n*-ClusterCreationRole-* \n```\n\n#### MastersRole \n\nUsers with CDK version higher or equal to [1.57.0](https://github.com/aws/aws-cdk/releases/tag/v1.57.0) (including v2 users) that are not specifying the `mastersRole` property. The role in question can be located in the IAM console. It will have the following name pattern: \n\n```console\n*-MastersRole-*\n```\n\n### Patches \n\nThe issue has been fixed in versions [v1.202.0](https://github.com/aws/aws-cdk/releases/tag/v1.202.0), [v2.80.0](https://github.com/aws/aws-cdk/releases/tag/v2.80.0). We recommend you upgrade to a fixed version as soon as possible. See [Managing Dependencies](https://docs.aws.amazon.com/cdk/v2/guide/manage-dependencies.html) in the CDK Developer Guide for instructions on how to do this.  \n \nThe new versions no longer use the account root principal. Instead, they restrict the trust policy to the specific roles of lambda handlers that need it. This introduces some breaking changes that might require you to perform code changes. Refer to https://github.com/aws/aws-cdk/issues/25674 for a detailed discussion of options. \n\n### Workarounds \n\n#### CreationRole \n\nThere is no workaround available for CreationRole. \n\n#### MastersRole \n\nTo avoid creating the _default MastersRole_, use the `mastersRole` property to explicitly provide a role. For example: \n\n```ts \nnew eks.Cluster(this, 'Cluster', { \n  ... \n  mastersRole: iam.Role.fromRoleArn(this, 'Admin', 'arn:aws:iam::xxx:role/Admin') \n}); \n```\n\n### References\n\n[https://github.com/aws/aws-cdk/issues/25674](https://github.com/aws/aws-cdk/issues/25674)\n\nIf you have any questions or comments about this advisory we ask that you contact AWS/Amazon Security via our [vulnerability reporting page](https://aws.amazon.com/security/vulnerability-reporting) or directly via email to [aws-security@amazon.com](mailto:aws-security@amazon.com). Please do not create a public GitHub issue.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "aws-cdk-lib"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.80.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@aws-cdk/aws-eks"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.57.0"
+            },
+            {
+              "fixed": "1.202.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/aws/aws-cdk/security/advisories/GHSA-rx28-r23p-2qc3"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-35165"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/aws/aws-cdk/issues/25674"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/aws/aws-cdk"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-266",
+      "CWE-863"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-19T22:47:26Z",
+    "nvd_published_at": "2023-06-23T21:15:09Z"
+  }
+}

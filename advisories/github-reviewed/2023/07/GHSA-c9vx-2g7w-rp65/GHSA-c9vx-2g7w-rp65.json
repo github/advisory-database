@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c9vx-2g7w-rp65",
+  "modified": "2023-07-19T20:04:38Z",
+  "published": "2023-07-18T16:58:01Z",
+  "aliases": [
+    "CVE-2023-37259"
+  ],
+  "summary": "matrix-react-sdk vulnerable to XSS in Export Chat feature",
+  "details": "### Description\n\nThe Export Chat feature includes certain attacker-controlled elements in the generated document without sufficient escaping, leading to stored XSS.\n\n### Impact\n\nSince the Export Chat feature generates a separate document, an attacker can only inject code run from the `null` origin, restricting the impact.\n\nHowever, the attacker can still potentially use the XSS to leak message contents. A malicious homeserver is a potential attacker since the affected inputs are controllable server-side.\n\n### Patches\nThis was patched in matrix-react-sdk 3.76.0.\n\n### Workarounds\nNone, other than not using the Export Chat feature.\n\n### References\nN/A\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:A/AC:L/PR:L/UI:R/S:C/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "matrix-react-sdk"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.32.0"
+            },
+            {
+              "fixed": "3.76.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/matrix-org/matrix-react-sdk/security/advisories/GHSA-c9vx-2g7w-rp65"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-37259"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/matrix-org/matrix-react-sdk/commit/22fcd34c606f32129ebc967fc21f24fb708a98b8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/matrix-org/matrix-react-sdk"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/matrix-org/matrix-react-sdk/releases/tag/v3.76.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79",
+      "CWE-80"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-18T16:58:01Z",
+    "nvd_published_at": "2023-07-18T17:15:11Z"
+  }
+}

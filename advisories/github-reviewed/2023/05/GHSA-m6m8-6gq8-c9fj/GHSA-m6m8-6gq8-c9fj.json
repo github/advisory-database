@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-m6m8-6gq8-c9fj",
+  "modified": "2023-10-24T22:50:57Z",
+  "published": "2023-05-22T19:49:11Z",
+  "aliases": [
+    "CVE-2023-32692"
+  ],
+  "summary": "Remote Code Execution Vulnerability in Validation Placeholders in CodeIgniter4",
+  "details": "### Impact\nThis vulnerability allows attackers to execute arbitrary code when you use Validation Placeholders.\n\nThe vulnerability exists in the Validation library, and validation methods in the controller and in-model validation are also vulnerable because they use the Validation library internally.\n\n### Patches\nUpgrade to v4.3.5 or later.\n\n### Workarounds\nSetting validation rules with an array.\n\nE.g.:\n```php\n$validation->setRules([\n    'email' => ['required', 'valid_email, 'is_unique[users.email,id,{id}]'],\n]);\n```\n\n### References\n- https://codeigniter4.github.io/userguide/libraries/validation.html#validation-placeholders\n- https://codeigniter4.github.io/userguide/incoming/controllers.html#validating-data\n- https://codeigniter4.github.io/userguide/models/model.html#in-model-validation\n\n### For more information\nIf you have any questions or comments about this advisory:\n* Open an issue in [codeigniter4/CodeIgniter4](https://github.com/codeigniter4/CodeIgniter4/issues)\n* Email us at [SECURITY.md](https://github.com/codeigniter4/CodeIgniter4/blob/develop/SECURITY.md)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "codeigniter4/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.3.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/codeigniter4/CodeIgniter4/security/advisories/GHSA-m6m8-6gq8-c9fj"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-32692"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/codeigniter4/CodeIgniter4/commit/6af677177fa1d9ad62f7a793bc96cba3068632ba"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/codeigniter4/CodeIgniter4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/codeigniter4/CodeIgniter4/blob/develop/CHANGELOG.md"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/codeigniter4/CodeIgniter4/blob/develop/CHANGELOG.md#v435-2023-05-21"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-22T19:49:11Z",
+    "nvd_published_at": "2023-05-30T04:15:10Z"
+  }
+}

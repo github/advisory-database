@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4rhq-vq24-88gw",
+  "modified": "2023-05-22T20:29:44Z",
+  "published": "2023-05-22T20:29:44Z",
+  "aliases": [
+    "CVE-2021-36154"
+  ],
+  "summary": "Uncontrolled Recursion in HTTP2ToRawGRPCServerCodec",
+  "details": "### Impact\n\nAffected gRPC Swift servers are vulnerable to uncontrolled recursion and stack consumption when parsing certain payloads. This may lead to a denial of service.\n\n### Patches\n\nThe problem has been fixed in 1.2.0.\n\n### Workarounds\n\nNo workaround is available. Users must upgrade.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "SwiftURL",
+        "name": "github.com/grpc/grpc-swift"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.2.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/grpc/grpc-swift/security/advisories/GHSA-4rhq-vq24-88gw"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-36154"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=35274"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/grpc/grpc-swift"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/grpc/grpc-swift/releases/tag/1.2.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-674"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-22T20:29:44Z",
+    "nvd_published_at": "2021-07-09T12:15:00Z"
+  }
+}

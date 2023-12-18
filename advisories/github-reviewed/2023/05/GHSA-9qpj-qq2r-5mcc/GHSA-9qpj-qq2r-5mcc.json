@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9qpj-qq2r-5mcc",
+  "modified": "2023-05-26T13:52:19Z",
+  "published": "2023-05-26T13:52:19Z",
+  "aliases": [
+    "CVE-2023-33187"
+  ],
+  "summary": "html inputs of type password recorded in plaintext when converted to text inputs",
+  "details": "### Impact\nHighlight may record passwords on customer deployments when a password html input is switched to `type=\"text\"` via a javascript \"Show Password\" button. This differs from the expected behavior which always obfuscates `type=\"password\"` inputs. A customer may assume that switching to `type=\"text\"` would also not record this input; hence, they would not add additional `highlight-mask` css-class obfuscation to this part of the DOM, resulting in unintentional recording of a password value when a `Show Password` button is used.\n\n### Patches\n`highlight.run@6.0.0` resolves the issue via https://github.com/rrweb-io/rrweb/pull/1184\nThis patch tracks changes to the `type` attribute of an input to ensure an input that used to be a `type=\"password\"` continues to be obfuscated. \n\n### Workarounds\nWe have deployed a change to our data ingest to obfuscate passwords server side from older clients.\nThis means that upgrading to the latest version of highlight.run is not necessary but recommended to prevent potential network transfer of recorded password data to our backend.\n\n### References\nhttps://github.com/rrweb-io/rrweb/pull/1184\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:C/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "highlight.run"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/highlight/highlight/security/advisories/GHSA-9qpj-qq2r-5mcc"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-33187"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rrweb-io/rrweb/pull/1184"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/highlight/highlight"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-319"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-26T13:52:19Z",
+    "nvd_published_at": "2023-05-26T21:15:20Z"
+  }
+}

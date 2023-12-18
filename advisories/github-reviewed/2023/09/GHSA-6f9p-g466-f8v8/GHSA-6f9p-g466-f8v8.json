@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6f9p-g466-f8v8",
+  "modified": "2023-09-22T18:48:49Z",
+  "published": "2023-09-19T06:30:17Z",
+  "aliases": [
+    "CVE-2023-26143"
+  ],
+  "summary": " blamer vulnerable to Arbitrary Argument Injection via the blameByFile() API",
+  "details": "Versions of the package blamer before 1.0.4 are vulnerable to Arbitrary Argument Injection via the blameByFile() API. The library does not sanitize for user input or validate the given file path conforms to a specific schema, nor does it properly pass command-line flags to the git binary using the double-dash POSIX characters (--) to communicate the end of options.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "blamer"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.0.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-26143"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kucherenko/blamer/commit/0965877f115753371a2570f10a63c455d2b2cde3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gist.github.com/lirantal/14c3686370a86461f555d3f0703e02f9"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/kucherenko/blamer"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-JS-BLAMER-5731318"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-88"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-21T17:07:40Z",
+    "nvd_published_at": "2023-09-19T05:17:10Z"
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f5ww-cq3m-q3g7",
+  "modified": "2023-07-06T19:45:44Z",
+  "published": "2023-07-06T19:45:44Z",
+  "aliases": [
+    "CVE-2023-36823"
+  ],
+  "summary": "Sanitize vulnerable to Cross-site Scripting via insufficient neutralization of `style` element content",
+  "details": "### Impact\n\nUsing carefully crafted input, an attacker may be able to sneak arbitrary HTML and CSS through Sanitize `>= 3.0.0, < 6.0.2` when Sanitize is configured to use the built-in \"relaxed\" config or when using a custom config that allows `style` elements and one or more CSS at-rules. This could result in XSS (cross-site scripting) or other undesired behavior when the malicious HTML and CSS are rendered in a browser.\n\n### Patches\n\nSanitize `>= 6.0.2` performs additional escaping of CSS in `style` element content, which fixes this issue.\n\n### Workarounds\n\nUsers who are unable to upgrade can prevent this issue by using a Sanitize config that doesn't allow `style` elements, using a Sanitize config that doesn't allow CSS at-rules, or by manually escaping the character sequence `</` as `<\\/` in `style` element content.\n\n### Credit\n\nThis issue was found by @cure53 during an audit of a project that uses Sanitize and was reported by one of that project's maintainers. Thank you!",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "sanitize"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "6.0.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/rgrove/sanitize/security/advisories/GHSA-f5ww-cq3m-q3g7"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-36823"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rgrove/sanitize/commit/76ed46e6dc70820f38efe27de8dabd54dddb5220"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/rgrove/sanitize"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rgrove/sanitize/releases/tag/v6.0.2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/sanitize/CVE-2023-36823.yml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.debian.org/debian-lts-announce/2023/11/msg00008.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-06T19:45:44Z",
+    "nvd_published_at": "2023-07-06T16:15:10Z"
+  }
+}

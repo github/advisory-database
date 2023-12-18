@@ -1,0 +1,176 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-q847-2q57-wmr3",
+  "modified": "2023-11-12T15:52:51Z",
+  "published": "2023-11-12T15:52:51Z",
+  "aliases": [
+    "CVE-2023-46734"
+  ],
+  "summary": "Symfony potential Cross-site Scripting vulnerabilities in CodeExtension filters",
+  "details": "### Description\n\nSome Twig filters in CodeExtension use \"is_safe=html\" but don't actually ensure their input is safe.\n\n### Resolution\n\nSymfony now escapes the output of the affected filters.\n\nThe patch for this issue is available [here](https://github.com/symfony/symfony/commit/9da9a145ce57e4585031ad4bee37c497353eec7c) for branch 4.4.\n\n### Credits\n\nWe would like to thank Pierre Rudloff for reporting the issue and to Nicolas Grekas for providing the fix.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/twig-bridge"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "4.4.51"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/twig-bridge"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0"
+            },
+            {
+              "fixed": "5.4.31"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/twig-bridge"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.0.0"
+            },
+            {
+              "fixed": "6.3.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/symfony"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "4.4.51"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/symfony"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0"
+            },
+            {
+              "fixed": "5.4.31"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/symfony"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.0.0"
+            },
+            {
+              "fixed": "6.3.8"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/symfony/symfony/security/advisories/GHSA-q847-2q57-wmr3"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-46734"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/symfony/symfony/commit/5d095d5feb1322b16450284a04d6bb48d1198f54"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/symfony/symfony/commit/9da9a145ce57e4585031ad4bee37c497353eec7c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/symfony/symfony/CVE-2023-46734.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/symfony/symfony"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.debian.org/debian-lts-announce/2023/11/msg00019.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://symfony.com/cve-2023-46734"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-12T15:52:51Z",
+    "nvd_published_at": "2023-11-10T18:15:09Z"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5jc5-m87x-88fj",
+  "modified": "2023-08-01T21:39:57Z",
+  "published": "2023-07-26T15:30:57Z",
+  "aliases": [
+    "CVE-2023-39155"
+  ],
+  "summary": "Secret displayed without masking by Chef Identity Plugin ",
+  "details": "Chef Identity Plugin stores the user.pem key in its global configuration file `io.chef.jenkins.ChefIdentityBuildWrapper.xml` on the Jenkins controller as part of its configuration.\n\nWhile this key is stored encrypted on disk, in Chef Identity Plugin 2.0.3 and earlier the global configuration form does not mask the user.pem key form field, increasing the potential for attackers to observe and capture it.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:chef-identity"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "2.0.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-39155"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-07-26/#SECURITY-3192"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2023/07/26/2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200",
+      "CWE-668"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-26T22:37:00Z",
+    "nvd_published_at": "2023-07-26T14:15:10Z"
+  }
+}

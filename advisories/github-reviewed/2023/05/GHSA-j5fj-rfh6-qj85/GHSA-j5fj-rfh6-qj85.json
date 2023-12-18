@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-j5fj-rfh6-qj85",
+  "modified": "2023-05-26T19:10:03Z",
+  "published": "2023-05-12T20:55:36Z",
+  "aliases": [
+    "CVE-2023-32303"
+  ],
+  "summary": "Planet's secret file is created with excessive permissions",
+  "details": "### Impact\nThe secret file stores the user's Planet API authentication information. It should only be accessible by the user, but its permissions allowed the user's group and non-group to read the file as well. \n\n### Validation\nCheck the permissions on the secret file with `ls -l ~/.planet.json` and ensure that they read as `-rw-------`\n\n### Patches\n[d71415a8](https://github.com/planetlabs/planet-client-python/commit/d71415a83119c5e89d7b80d5f940d162376ee3b7)\n\n### Workarounds\nSet the secret file permissions to only user read/write by hand:\n```\nchmod 600 ~/.planet.json\n```\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "planet"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/planetlabs/planet-client-python/security/advisories/GHSA-j5fj-rfh6-qj85"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-32303"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/planetlabs/planet-client-python/commit/d71415a83119c5e89d7b80d5f940d162376ee3b7"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/planetlabs/planet-client-python"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/planetlabs/planet-client-python/releases/tag/2.0.1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/planet/PYSEC-2023-71.yaml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-732"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-12T20:55:36Z",
+    "nvd_published_at": "2023-05-12T21:15:09Z"
+  }
+}

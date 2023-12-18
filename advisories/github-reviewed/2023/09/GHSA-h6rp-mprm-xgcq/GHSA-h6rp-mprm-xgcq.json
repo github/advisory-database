@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h6rp-mprm-xgcq",
+  "modified": "2023-09-21T17:06:37Z",
+  "published": "2023-09-21T17:06:37Z",
+  "aliases": [
+    "CVE-2023-42457"
+  ],
+  "summary": "plone.rest vulnerable to Denial of Service when ++api++ is used many times",
+  "details": "### Impact\nWhen the `++api++` traverser is accidentally used multiple times in a url, handling it takes increasingly longer, making the server less responsive.\n\n### Patches\nPatches will be released in `plone.rest` 2.0.1 and 3.0.1.  Series 1.x is not affected.\n\n### Workarounds\nIn your frontend web server (nginx, Apache) you can redirect `/++api++/++api++` to `/++api++`.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "plone.rest"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0a1"
+            },
+            {
+              "fixed": "2.0.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "plone.rest"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.0.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "3.0.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/plone/plone.rest/security/advisories/GHSA-h6rp-mprm-xgcq"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-42457"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/plone/plone.rest/commit/43b4a7e86206e237e1de5ca3817ed071575882f7"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/plone/plone.rest/commit/77846a9842889b24f35e8bedc2e9d461388d3302"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/plone/plone.rest"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/plone-rest/PYSEC-2023-178.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2023/09/22/2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400",
+      "CWE-770"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-21T17:06:37Z",
+    "nvd_published_at": "2023-09-21T15:15:10Z"
+  }
+}

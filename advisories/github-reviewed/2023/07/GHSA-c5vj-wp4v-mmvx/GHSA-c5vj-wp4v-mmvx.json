@@ -1,0 +1,190 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c5vj-wp4v-mmvx",
+  "modified": "2023-07-19T22:08:40Z",
+  "published": "2023-07-19T22:08:40Z",
+  "aliases": [
+    "CVE-2023-33265"
+  ],
+  "summary": "Hazelcast Executor Services don't check client permissions properly",
+  "details": "### Impact\nIn Hazelcast Platform, 5.0 through 5.0.4, 5.1 through 5.1.6, and 5.2 through 5.2.3, and Hazelcast IMDG (all versions up to 4.2.z), Executor Services don't check client permissions properly, allowing authenticated users to execute tasks on members without the required permissions granted.\n\n### Patches\nFix versions: 5.3.0, 5.2.4, 5.1.7, 5.0.5\n\n### Workarounds\nUsers are only affected when they already use executor services (i.e., an instance exists as a distributed data structure).\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.hazelcast:hazelcast"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.2.0"
+            },
+            {
+              "fixed": "5.2.4"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 5.2.3"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.hazelcast:hazelcast"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.1.0"
+            },
+            {
+              "fixed": "5.1.7"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 5.1.6"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.hazelcast:hazelcast"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.0.5"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 5.0.4"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.hazelcast:hazelcast-enterprise"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.2.0"
+            },
+            {
+              "fixed": "5.2.4"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 5.2.3"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.hazelcast:hazelcast-enterprise"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.1.0"
+            },
+            {
+              "fixed": "5.1.7"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 5.1.6"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.hazelcast:hazelcast-enterprise"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.0.5"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 5.0.4"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/hazelcast/hazelcast/security/advisories/GHSA-c5vj-wp4v-mmvx"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-33265"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/hazelcast/hazelcast"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hazelcast/hazelcast/releases/tag/v5.0.5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hazelcast/hazelcast/releases/tag/v5.1.7"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hazelcast/hazelcast/releases/tag/v5.2.4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://support.hazelcast.com/s/article/Security-Advisory-for-CVE-2023-33265"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-862"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-19T22:08:40Z",
+    "nvd_published_at": "2023-07-18T16:15:11Z"
+  }
+}

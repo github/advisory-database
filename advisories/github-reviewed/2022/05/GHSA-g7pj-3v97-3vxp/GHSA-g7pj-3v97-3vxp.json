@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g7pj-3v97-3vxp",
+  "modified": "2023-08-16T23:23:36Z",
+  "published": "2022-05-17T04:46:09Z",
+  "aliases": [
+    "CVE-2014-2921"
+  ],
+  "summary": "Pimcore Vulnerable to PHP Object Injection Attacks",
+  "details": "The `getObjectByToken` function in `Newsletter.php` in the `Pimcore_Tool_Newsletter` module in pimcore 1.4.9 through 2.0.0 does not properly handle an object obtained by unserializing Lucene search data, which allows remote attackers to conduct PHP object injection attacks and execute arbitrary code via vectors involving a `Zend_Pdf_ElementFactory_Proxy` object and a pathname with a trailing `\\0` character.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "pimcore/pimcore"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.4.9"
+            },
+            {
+              "fixed": "2.2.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2014-2921"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/pimcore/commit/3cb2683e669b5644f180d362cfa9614c09bef280"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pedrib/PoC/blob/caa03645e256a8b50f1101c983d39586ebc467ee/advisories/pimcore-2.1.0.txt"
+    },
+    {
+      "type": "WEB",
+      "url": "http://openwall.com/lists/oss-security/2014/04/21/1"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.pimcore.org/en/resources/blog/pimcore+2.2+released_b442"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-16T23:23:36Z",
+    "nvd_published_at": "2014-04-21T22:55:00Z"
+  }
+}

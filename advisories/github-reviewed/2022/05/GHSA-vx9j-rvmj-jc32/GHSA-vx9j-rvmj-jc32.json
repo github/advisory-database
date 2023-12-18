@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vx9j-rvmj-jc32",
+  "modified": "2023-10-10T14:31:11Z",
+  "published": "2022-05-13T01:28:41Z",
+  "aliases": [
+    "CVE-2017-3200"
+  ],
+  "summary": "GraniteDS Insecure Deserialization",
+  "details": "The Java implementation of AMF3 deserializers used in GraniteDS, version 3.1.1.GA, may allow instantiation of arbitrary classes via their public parameter-less constructor and subsequently call arbitrary Java Beans setter methods. The ability to exploit this vulnerability depends on the availability of classes in the class path that make use of deserialization. A remote attacker with the ability to spoof or control information may be able to send serialized Java objects with pre-set properties that result in arbitrary code execution when deserialized.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.graniteds:granite-server-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "3.1.1.GA"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-3200"
+    },
+    {
+      "type": "WEB",
+      "url": "https://codewhitesec.blogspot.com/2017/04/amf.html"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/graniteds/graniteds"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20210124021547/http://www.securityfocus.com/bid/97382"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.kb.cert.org/vuls/id/307983"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityweek.com/flaws-java-amf-libraries-allow-remote-code-execution"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-502"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-25T23:01:36Z",
+    "nvd_published_at": "2018-06-11T17:29:00Z"
+  }
+}

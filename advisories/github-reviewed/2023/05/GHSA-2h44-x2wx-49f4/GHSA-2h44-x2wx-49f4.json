@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2h44-x2wx-49f4",
+  "modified": "2023-06-02T23:57:03Z",
+  "published": "2023-05-22T20:33:15Z",
+  "aliases": [
+    "CVE-2023-30851"
+  ],
+  "summary": "Potential HTTP policy bypass when using header rules in Cilium",
+  "details": "### Impact\n\nThis issue only impacts users who:\n\n- Have a HTTP policy that applies to multiple `toEndpoints` AND\n- Have an allow-all rule in place that affects only one of those endpoints\n\nIn such cases, a wildcard rule will be appended to the set of HTTP rules, which could cause bypass of HTTP policies.\n\n### Patches\n\nThis issue has been patched in Cilium 1.11.16, 1.12.9, and 1.13.2.\n\n### Workarounds\n\nRewrite HTTP rules for each endpoint separately. For example, if the initial rule looks like:\n\n```\n  egress:\n    - toEndpoints:\n        - matchLabels:\n            k8s:kind: echo\n        - matchLabels:\n            k8s:kind: example\n      toPorts:\n        - ports:\n            - port: \"8080\"\n              protocol: TCP\n          rules:\n            http:\n              - method: \"GET\"\n```\n\nIt should be rewritten to:\n \n```\n  egress:\n    - toEndpoints:\n        - matchLabels:\n            k8s:kind: echo\n      toPorts:\n        - ports:\n            - port: \"8080\"\n              protocol: TCP\n          rules:\n            http:\n              - method: \"GET\"\n    - toEndpoints:\n        - matchLabels:\n            k8s:kind: example\n      toPorts:\n        - ports:\n            - port: \"8080\"\n              protocol: TCP\n          rules:\n            http:\n              - method: \"GET\"\n```     \n\n### Acknowledgements\n\nThe Cilium community has worked together with members of Isovalent to prepare these mitigations. Special thanks to @jrajahalme for investigating and fixing the issue.\n\n### For more information\n\nIf you have any questions or comments about this advisory, please reach out on [Slack](https://docs.cilium.io/en/latest/community/community/#slack).\n\nAs usual, if you think you found a related vulnerability, we strongly encourage you to report security vulnerabilities to our private security mailing list: [security@cilium.io](mailto:security@cilium.io) - first, before disclosing them in any public forums. This is a private mailing list where only members of the Cilium internal security team are subscribed to, and is treated as top priority.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cilium/cilium"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.11.16"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cilium/cilium"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.12.0"
+            },
+            {
+              "fixed": "1.12.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cilium/cilium"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.13.0"
+            },
+            {
+              "fixed": "1.13.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/security/advisories/GHSA-2h44-x2wx-49f4"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-30851"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cilium/cilium"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/releases/tag/v1.11.16"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/releases/tag/v1.12.9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/releases/tag/v1.13.2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-693"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-22T20:33:15Z",
+    "nvd_published_at": "2023-05-25T18:15:10Z"
+  }
+}

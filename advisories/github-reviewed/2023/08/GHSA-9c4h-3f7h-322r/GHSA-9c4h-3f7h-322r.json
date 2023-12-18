@@ -1,0 +1,166 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9c4h-3f7h-322r",
+  "modified": "2023-08-09T14:43:20Z",
+  "published": "2023-08-09T14:43:20Z",
+  "aliases": [
+    "CVE-2023-39532"
+  ],
+  "summary": "SES's dynamic import and spread operator provides possible path to arbitrary exfiltration and execution",
+  "details": "### Impact\n\nThis is a hole in the confinement of guest applications under SES that may manifest as either the ability to exfiltrate information or execute arbitrary code depending on the configuration and implementation of the surrounding host.\n\nGuest program running inside a Compartment with as few as no endowments can gain access to the surrounding host’s dynamic import by using dynamic import after the spread operator, like `{...import(arbitraryModuleSpecifier)}`.\n\nOn the web or in web extensions, a Content-Security-Policy following ordinary best practices likely mitigates both the risk of exfiltration and execution of arbitrary code, at least limiting the modules that the attacker can import to those that are already part of the application. However, without a Content-Security-Policy, dynamic import can be used to issue HTTP requests for either communication through the URL or for the execution of code reachable from that origin.\n\nWithin an XS worker, an attacker can use the host’s module system to the extent that the host has been configured. This typically only allows access to module code on the host’s file system and is of limited use to an attacker.\n\nWithin Node.js, the attacker gains access to Node.js’s module system. Importing the powerful builtins is not useful except insofar as there are side-effects and tempered because dynamic import returns a promise. Spreading a promise into an object renders the promises useless. However, Node.js allows importing data URLs, so this is a clear path to arbitrary execution.\n\n### Patches\n\nAll affected `0.*` version trains have the following patch. Running `npm update` will obtain the patch on all affected projects using `^0.*` style dependency constraints in their `package.json`.\n\n```diff\nFrom 33469e88bfb2bf34a161c265f10f808ce354a700 Mon Sep 17 00:00:00 2001\nFrom: Kris Kowal <kris@agoric.com>\nDate: Thu, 27 Jul 2023 13:25:13 -0700\nSubject: [PATCH] fix(fix): Censor spread import\n\n---\n packages/ses/src/transforms.js       |  2 +-\n packages/ses/test/test-transforms.js | 22 +++++++++++++++++++++-\n 2 files changed, 22 insertions(+), 2 deletions(-)\n\ndiff --git a/packages/ses/src/transforms.js b/packages/ses/src/transforms.js\nindex a0fc8d0ef..64a46cb53 100644\n--- a/packages/ses/src/transforms.js\n+++ b/packages/ses/src/transforms.js\n@@ -106,7 +106,7 @@ export const evadeHtmlCommentTest = src => {\n // /////////////////////////////////////////////////////////////////////////////\n \n const importPattern = new FERAL_REG_EXP(\n-  '(^|[^.])\\\\bimport(\\\\s*(?:\\\\(|/[/*]))',\n+  '(^|[^.]|\\\\.\\\\.\\\\.)\\\\bimport(\\\\s*(?:\\\\(|/[/*]))',\n   'g',\n );\n \ndiff --git a/packages/ses/test/test-transforms.js b/packages/ses/test/test-transforms.js\nindex cef0c02c1..8f6818b83 100644\n--- a/packages/ses/test/test-transforms.js\n+++ b/packages/ses/test/test-transforms.js\n@@ -6,7 +6,7 @@ import {\n } from '../src/transforms.js';\n \n test('no-import-expression regexp', t => {\n-  t.plan(9);\n+  t.plan(13);\n \n   // Note: we cannot define these as regular functions (and then stringify)\n   // because the 'esm' module loader that we use for running the tests (i.e.\n@@ -20,6 +20,7 @@ test('no-import-expression regexp', t => {\n   const safe = 'const a = 1';\n   const safe2 = \"const a = notimport('evil')\";\n   const safe3 = \"const a = importnot('evil')\";\n+  const safe4 = \"const a = compartment.import('name')\";\n \n   const obvious = \"const a = import('evil')\";\n   const whitespace = \"const a = import ('evil')\";\n@@ -27,10 +28,14 @@ test('no-import-expression regexp', t => {\n   const doubleSlashComment = \"const a = import // hah\\n('evil')\";\n   const newline = \"const a = import\\n('evil')\";\n   const multiline = \"\\nimport('a')\\nimport('b')\";\n+  const spread = \"{...import('exfil')}\";\n+  const spread2 = \"{\\n...\\nimport\\n('exfil')}\";\n+  const spread3 = \"{\\n...\\nimport/**/\\n('exfil')}\";\n \n   t.is(rejectImportExpressions(safe), safe, 'safe');\n   t.is(rejectImportExpressions(safe2), safe2, 'safe2');\n   t.is(rejectImportExpressions(safe3), safe3, 'safe3');\n+  t.is(rejectImportExpressions(safe4), safe4, 'safe4');\n   t.throws(\n     () => rejectImportExpressions(obvious),\n     { instanceOf: SyntaxError },\n@@ -62,6 +67,21 @@ test('no-import-expression regexp', t => {\n     'possible import expression rejected around line 2',\n     'multiline',\n   );\n+  t.throws(\n+    () => rejectImportExpressions(spread),\n+    { instanceOf: SyntaxError },\n+    'spread',\n+  );\n+  t.throws(\n+    () => rejectImportExpressions(spread2),\n+    { instanceOf: SyntaxError },\n+    'spread2',\n+  );\n+  t.throws(\n+    () => rejectImportExpressions(spread3),\n+    { instanceOf: SyntaxError },\n+    'spread3',\n+  );\n });\n \n test('no-html-comment-expression regexp', t => {\n-- \n2.40.1\n```\n\n### Workarounds\n\nOn the web, providing a suitably constrained Content-Security-Policy mitigates most of the threat.\n\nWith XS, building a binary that lacks the ability to load modules at runtime mitigates the entirety of the threat. That will look like an implementation of `fxFindModule` in a file like `xsPlatform.c` that calls `fxRejectModuleFile`.\n\nWe highly advise applying the above patch for Node.js as there is no known work-around and Node.js’s module specifiers are exceedingly powerful, including support for `data:text/javascript,` style module specifier URLs.\n\n### References\n\nNo references at this time.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "ses"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.13.0"
+            },
+            {
+              "fixed": "0.13.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "ses"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.14.0"
+            },
+            {
+              "fixed": "0.14.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "ses"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.15.0"
+            },
+            {
+              "fixed": "0.15.24"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "ses"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.16.0"
+            },
+            {
+              "fixed": "0.16.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "0.16.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "ses"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.17.0"
+            },
+            {
+              "fixed": "0.17.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "0.17.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "ses"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.18.0"
+            },
+            {
+              "fixed": "0.18.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/endojs/endo/security/advisories/GHSA-9c4h-3f7h-322r"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-39532"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/endojs/endo/commit/fc90c6429604dc79ce8e3355e236ccce2bada041"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/endojs/endo"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-08-09T14:43:20Z",
+    "nvd_published_at": "2023-08-08T17:15:09Z"
+  }
+}

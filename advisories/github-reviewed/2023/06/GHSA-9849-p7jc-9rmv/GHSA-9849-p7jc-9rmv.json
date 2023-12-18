@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9849-p7jc-9rmv",
+  "modified": "2023-06-22T19:58:54Z",
+  "published": "2023-06-22T19:58:54Z",
+  "aliases": [
+    "CVE-2022-24839"
+  ],
+  "summary": "org.nokogiri:nekohtml vulnerable to Uncontrolled Resource Consumption",
+  "details": "## Summary\n\nThe fork of `org.cyberneko.html` used by Nokogiri (Rubygem) raises a `java.lang.OutOfMemoryError` exception when parsing ill-formed HTML markup.\n\n## Severity\n\nThe maintainers have evaluated this as [**High Severity** 7.5 (CVSS3.1)](https://www.first.org/cvss/calculator/3.1#CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H).\n\n## Mitigation\n\nUpgrade to `>= 1.9.22.noko2`.\n\n## Credit\n\nThis vulnerability was reported by [이형관 (windshock)](https://www.linkedin.com/in/windshock/).\n\n## References\n\n[CWE-400](https://cwe.mitre.org/data/definitions/400.html) Uncontrolled Resource Consumption\n\n## Notes\n\nThe upstream library `org.cyberneko.html` is no longer maintained. Nokogiri uses its own fork of this library located at https://github.com/sparklemotion/nekohtml and this CVE applies only to that fork. Other forks of nekohtml may have a similar vulnerability.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.nokogiri:nekohtml"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.9.22.noko2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/sparklemotion/nekohtml/security/advisories/GHSA-9849-p7jc-9rmv"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-24839"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sparklemotion/nekohtml/commit/a800fce3b079def130ed42a408ff1d09f89e773d"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/sparklemotion/nekohtml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.oracle.com/security-alerts/cpujul2022.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-22T19:58:54Z",
+    "nvd_published_at": "2022-04-11T22:15:07Z"
+  }
+}

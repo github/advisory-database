@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fmrf-p77g-vv5c",
+  "modified": "2023-07-07T16:30:42Z",
+  "published": "2023-06-30T18:31:02Z",
+  "aliases": [
+    "CVE-2023-37302"
+  ],
+  "summary": "MediaWiki Cross-site Scripting vulnerability",
+  "details": "An issue was discovered in SiteLinksView.php in Wikibase in MediaWiki through 1.39.3. There is XSS via a crafted badge title attribute. This is also related to lack of escaping in wbTemplate (from resources/wikibase/templates.js) for quotes (which can be in a title attribute).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "wikibase/wikibase"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.39.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-37302"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gerrit.wikimedia.org/r/c/mediawiki/extensions/Wikibase/+/933649"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gerrit.wikimedia.org/r/c/mediawiki/extensions/Wikibase/+/933650"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/wikimedia/mediawiki"
+    },
+    {
+      "type": "WEB",
+      "url": "https://phabricator.wikimedia.org/T339111"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-06-30T20:25:26Z",
+    "nvd_published_at": "2023-06-30T17:15:09Z"
+  }
+}

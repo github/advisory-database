@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-79xr-v794-wq35",
+  "modified": "2023-11-15T20:24:43Z",
+  "published": "2022-05-24T17:24:15Z",
+  "aliases": [
+    "CVE-2020-15883"
+  ],
+  "summary": "MunkiReport Managed Installs module Reflected Cross-Site Scripting (XSS) vulnerability",
+  "details": "A Cross-Site Scripting (XSS) vulnerability in the managedinstalls module before 2.6 for MunkiReport allows remote attackers to inject arbitrary web script or HTML via the last two URL parameters (through which installed packages names and versions are reported).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "munkireport/managedinstalls"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "munkireport/munkireport"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.5.3"
+            },
+            {
+              "fixed": "5.6.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-15883"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/munkireport/managedinstalls/commit/708f6a2abc4b80a3751bcc9cf896f80d84250c55"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/munkireport/managedinstalls/releases/tag/v2.6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/munkireport/munkireport-php"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/munkireport/munkireport-php/releases/tag/v5.6.3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/munkireport/munkireport-php/wiki/20200722-Reflected-XSS-In-Managedinstalls-Module"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-15T20:24:43Z",
+    "nvd_published_at": "2020-07-23T14:15:00Z"
+  }
+}

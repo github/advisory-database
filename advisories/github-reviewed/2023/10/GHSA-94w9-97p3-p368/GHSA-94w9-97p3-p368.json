@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-94w9-97p3-p368",
+  "modified": "2023-10-23T21:09:50Z",
+  "published": "2023-10-17T12:40:37Z",
+  "aliases": [
+    "CVE-2023-45128"
+  ],
+  "summary": "CSRF Token Reuse Vulnerability",
+  "details": "A Cross-Site Request Forgery (CSRF) vulnerability has been identified in the application, which allows an attacker to inject arbitrary values and forge malicious requests on behalf of a user. This vulnerability can allow an attacker to inject arbitrary values without any authentication, or perform various malicious actions on behalf of an authenticated user, potentially compromising the security and integrity of the application.\n\n## Vulnerability Details\n\nThe vulnerability is caused by improper validation and enforcement of CSRF tokens within the application. The following issues were identified:\n\n1. **Token Injection**: For 'safe' methods, the token was extracted from the cookie and saved to storage without further validation or sanitization.\n\n2. **Lack of Token Association**: The CSRF token was validated against tokens in storage but not associated with a session, nor by using a Double Submit Cookie Method, allowing for token reuse.\n\n### Specific Go Packages Affected\ngithub.com/gofiber/fiber/v2/middleware/csrf\n\n## Remediation\n\nTo remediate this vulnerability, it is recommended to take the following actions:\n\n1. **Update the Application**: Upgrade the application to a fixed version with a patch for the vulnerability.\n\n2. **Implement Proper CSRF Protection**: Review the updated documentation and ensure your application's CSRF protection mechanisms follow best practices.\n\n4. **Choose CSRF Protection Method**: Select the appropriate CSRF protection method based on your application's requirements, either the Double Submit Cookie method or the Synchronizer Token Pattern using sessions.\n\n5. **Security Testing**: Conduct a thorough security assessment, including penetration testing, to identify and address any other security vulnerabilities.\n\n## Defence-in-depth\n\nUsers should take additional security measures like captchas or Two-Factor Authentication (2FA) and set Session cookies with SameSite=Lax or SameSite=Secure, and the Secure and HttpOnly attributes.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/gofiber/fiber/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.50.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/gofiber/fiber/security/advisories/GHSA-94w9-97p3-p368"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-45128"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/gofiber/fiber/commit/8c3916dbf4ad2ed427d02c6eb63ae8b2fa8f019a"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/gofiber/fiber/commit/b50d91d58ecdff2a330bf07950244b6c4caf65b1"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/gofiber/fiber"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-17T12:40:37Z",
+    "nvd_published_at": "2023-10-16T21:15:11Z"
+  }
+}

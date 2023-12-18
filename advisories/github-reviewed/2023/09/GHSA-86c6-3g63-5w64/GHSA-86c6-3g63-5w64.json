@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-86c6-3g63-5w64",
+  "modified": "2023-09-29T20:38:23Z",
+  "published": "2023-09-29T00:30:16Z",
+  "aliases": [
+    "CVE-2023-5077"
+  ],
+  "summary": "Hashicorp Vault Incorrect Permission Assignment for Critical Resource vulnerability",
+  "details": "The Vault and Vault Enterprise (\"Vault\") Google Cloud secrets engine did not preserve existing Google Cloud IAM Conditions upon creating or updating rolesets. Fixed in Vault 1.13.0.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/hashicorp/vault"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.13.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-5077"
+    },
+    {
+      "type": "WEB",
+      "url": "https://discuss.hashicorp.com/t/hcsec-2023-30-vault-s-google-cloud-secrets-engine-removed-existing-iam-conditions-when-creating-updating-rolesets/58654"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/hashicorp/vault"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-732"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-09-29T20:38:23Z",
+    "nvd_published_at": "2023-09-29T00:15:12Z"
+  }
+}

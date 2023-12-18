@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-59jf-3q9v-rh6g",
+  "modified": "2023-07-25T18:27:16Z",
+  "published": "2023-07-25T18:27:16Z",
+  "aliases": [
+    "CVE-2023-38500"
+  ],
+  "summary": "By-passing Cross-Site Scripting Protection in HTML Sanitizer",
+  "details": "> ### CVSS: `CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:L/I:L/A:N/E:F/RL:O/RC:C` (4.4)\n\n### Problem\nDue to an encoding issue in the serialization layer, malicious markup nested in a `noscript` element was not encoded correctly. `noscript` is disabled in the default configuration, but might have been enabled in custom scenarios. This allows bypassing the cross-site scripting mechanism of [`typo3/html-sanitizer`](https://packagist.org/packages/typo3/html-sanitizer).\n\n### Solution\nUpdate to `typo3/html-sanitizer` versions 1.5.1 or 2.1.2 that fix the problem described.\n\n### Credits\nThanks to David Klein and Yaniv Nizry who reported this issue, and to TYPO3 security team members Oliver Hader and Benjamin Franzke who fixed the issue.\n\n### References\n* [TYPO3-CORE-SA-2023-002](https://typo3.org/security/advisory/typo3-core-sa-2023-002)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/html-sanitizer"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.0"
+            },
+            {
+              "fixed": "1.5.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/html-sanitizer"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.1.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/TYPO3/html-sanitizer/security/advisories/GHSA-59jf-3q9v-rh6g"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-38500"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/TYPO3/html-sanitizer/commit/e3026f589fef0be8c3574ee3f0a0bfbe33d7ebdb"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/TYPO3/html-sanitizer"
+    },
+    {
+      "type": "WEB",
+      "url": "https://typo3.org/security/advisory/typo3-core-sa-2023-002"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-25T18:27:16Z",
+    "nvd_published_at": "2023-07-25T21:15:11Z"
+  }
+}

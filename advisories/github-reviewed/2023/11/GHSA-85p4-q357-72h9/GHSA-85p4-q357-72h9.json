@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-85p4-q357-72h9",
+  "modified": "2023-11-27T22:50:42Z",
+  "published": "2023-11-23T12:30:23Z",
+  "aliases": [
+    "CVE-2023-43123"
+  ],
+  "summary": "Apache Storm Local Information Disclosure Vulnerability in Storm-core on Unix-Like systems due temporary files ",
+  "details": "On unix-like systems, the temporary directory is shared between all user. As such, writing to this directory using APIs that do not explicitly set the file/directory permissions can lead to information disclosure. Of note, this does not impact modern MacOS Operating Systems.\n\nThe method File.createTempFile on unix-like systems creates a file with predefined name (so easily identifiable) and by default will create this file with the permissions -rw-r--r--. Thus, if sensitive information is written to this file, other local users can read this information.\n\nFile.createTempFile(String, String) will create a temporary file in the system temporary directory if the 'java.io.tmpdir' system property is not explicitly set. \n\nThis affects the class  https://github.com/apache/storm/blob/master/storm-core/src/jvm/org/apache/storm/utils/TopologySpoutLag.java#L99  and was introduced by  https://issues.apache.org/jira/browse/STORM-3123 \n\nIn practice, this has a very limited impact as this class is used only if ui.disable.spout.lag.monitoring\n\n is set to false, but its value is true by default.\nMoreover, the temporary file gets deleted soon after its creation.\n\nThe solution is to use  Files.createTempFile https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/nio/file/Files.html#createTempFile(java.lang.String,java.lang.String,java.nio.file.attribute.FileAttribute...)  instead.\n\nWe recommend that all users upgrade to the latest version of Apache Storm.\n\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.storm:storm-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.6.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-43123"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/storm/pull/3582"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/storm/commit/b778125a17ce7497d80aea1e339f3a282aeeb65a"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/storm"
+    },
+    {
+      "type": "WEB",
+      "url": "https://issues.apache.org/jira/browse/STORM-3123"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/88oc1vqfjtr29cz5xts0v2wm5pmhbm0l"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.openwall.com/lists/oss-security/2023/11/23/1"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2023/11/23/1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-24T16:53:46Z",
+    "nvd_published_at": "2023-11-23T10:15:07Z"
+  }
+}

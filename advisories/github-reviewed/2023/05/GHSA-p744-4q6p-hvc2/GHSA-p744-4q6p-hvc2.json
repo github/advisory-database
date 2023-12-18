@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-p744-4q6p-hvc2",
+  "modified": "2023-05-11T19:54:17Z",
+  "published": "2023-05-11T19:54:17Z",
+  "aliases": [
+    "CVE-2023-32080"
+  ],
+  "summary": "Wings vulnerable to escape to host from installation container",
+  "details": "### Impact\n\nThis vulnerability impacts anyone running the affected versions of Wings.  This vulnerability can be used to gain access to the host system running Wings if a user is able to modify an server's install script or the install script executes code supplied by the user (either through environment variables, or commands that execute commands based off of user data).\n\n### Patches\n\nThis vulnerability has been resolved in version `v1.11.6` of Wings, and has been back-ported to the 1.7 release series in `v1.7.5`.\n\nAnyone running `v1.11.x` should upgrade to `v1.11.6` and anyone running `v1.7.x` should upgrade to `v1.7.5`.\n\n### Workarounds\n\nRunning Wings with a rootless container runtime may mitigate the severity of any attacks, however the majority of users are using container runtimes that run as root as per our documentation.\n\nSELinux may prevent attackers from performing certain operations against the host system, however privileged containers have a lot of freedom even on systems with SELinux enabled.\n\nTL;DR: None at this time.\n\n### Extra details\n\nIt should be noted that this was a known attack vector, for attackers to easily exploit this attack it would require compromising an administrator account on a Panel.  However, certain eggs (the data structure that holds the install scripts that get passed to Wings) have an issue where they are unknowingly executing shell commands with escalated privileges provided by untrusted user data.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/pterodactyl/wings"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.7.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/pterodactyl/wings"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.11.0"
+            },
+            {
+              "fixed": "1.11.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pterodactyl/wings/security/advisories/GHSA-p744-4q6p-hvc2"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-32080"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pterodactyl/wings"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pterodactyl/wings/releases/tag/v1.11.6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pterodactyl/wings/releases/tag/v1.17.5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pterodactyl/wings/releases/tag/v1.7.5"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-250"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-11T19:54:17Z",
+    "nvd_published_at": "2023-05-10T21:15:08Z"
+  }
+}

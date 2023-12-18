@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rc94-7v55-wmg6",
+  "modified": "2023-07-26T20:38:29Z",
+  "published": "2022-05-14T02:01:19Z",
+  "aliases": [
+    "CVE-2017-15063"
+  ],
+  "summary": "Subrion CMS CSRF Vulnerability",
+  "details": "There are CSRF vulnerabilities in Subrion CMS 4.1.x through 4.1.5, and before 4.2.0, because of a logic error. Although there is functionality to detect CSRF, it is called too late in the ia.core.php code, allowing (for example) an attack against the query parameter to panel/database.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "intelliants/subrion"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.1"
+            },
+            {
+              "fixed": "4.2.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-15063"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/intelliants/subrion/issues/547"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/intelliants/subrion/issues/570"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/intelliants/subrion/commit/5fdf03af1a7d89c3692faa155e17457153020dca"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/intelliants/subrion/commit/65fb937a588d730e57da0c2c5ca3bc4b9c2b5628"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-26T20:38:29Z",
+    "nvd_published_at": "2017-10-06T07:29:00Z"
+  }
+}

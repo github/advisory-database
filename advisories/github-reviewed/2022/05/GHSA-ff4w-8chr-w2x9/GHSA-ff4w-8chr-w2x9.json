@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-ff4w-8chr-w2x9",
+  "modified": "2023-08-25T21:15:54Z",
+  "published": "2022-05-24T16:44:03Z",
+  "aliases": [
+    "CVE-2019-11401"
+  ],
+  "summary": "SiteServer CMS RCE via unsafe file upload",
+  "details": "A issue was discovered in SiteServer CMS prior to version 6.12. It allows remote attackers to execute arbitrary code because an administrator can add the permitted file extension `.aassp`, which is converted to `.asp` because the \"as\" substring is deleted.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "sscms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.12"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-11401"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/siteserver/cms/issues/1858"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/siteserver/cms/commit/a7edb9ce3f9b52be3d18fa8a0e44931264e22436#diff-c8a06aaffb97eb2f4c587c1786906edd49dea574d063f74a59d9653ee0d5718b"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/siteserver/cms"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-434"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-14T20:14:41Z",
+    "nvd_published_at": "2019-04-22T11:29:00Z"
+  }
+}

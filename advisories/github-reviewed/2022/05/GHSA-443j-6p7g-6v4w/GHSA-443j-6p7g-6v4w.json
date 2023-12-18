@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-443j-6p7g-6v4w",
+  "modified": "2023-07-19T23:24:06Z",
+  "published": "2022-05-24T17:20:25Z",
+  "aliases": [
+    "CVE-2018-16848"
+  ],
+  "summary": "OpenStack Mistral DoS",
+  "details": "A Denial of Service (DoS) condition is possible in OpenStack Mistral in versions up to and including 7.0.3. Submitting a specially crafted workflow definition YAML file containing nested anchors can lead to resource exhaustion culminating in a denial of service.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "mistral"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "7.0.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-16848"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.launchpad.net/mistral/+bug/1785657"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1645332"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openstack/mistral"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-19T23:24:06Z",
+    "nvd_published_at": "2020-06-15T15:15:00Z"
+  }
+}

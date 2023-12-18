@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g9v2-wqcj-j99g",
+  "modified": "2023-10-13T22:04:34Z",
+  "published": "2023-10-10T21:29:23Z",
+  "aliases": [
+    "CVE-2023-44400"
+  ],
+  "summary": "Uptime Kuma has Persistentent User Sessions",
+  "details": "# Summary\n\nAttackers with access to a users' device can gain persistent account access.\nThis is caused by missing verification of Session Tokens after password changes and/or elapsed inactivity-periods.\n\n# Details\n\n`uptime-kuma` sets JWT tokens for users after successful authentication.\n\nThese tokens have the following design flaws:\n- After successful login, a JWT token and it is stored in `sessionStorage` or `localStorage`. \n  Which of the two is decided based on the `Remember Me` button. \n  The users' token is valid without any time limitation, even after long periods of inactivity. \n  This increases the risk of session hijacking if, for example, a user forgets to log off and leaves the PC.\n- sessions are only deleted on the client side after a user loggs out, meaning a local attacker could reuse said token with deep system access over the browser\n- If a user changes a password\n  - any previously logged in clients are not logged out\n  - previously issued tokens remained valid forever\n\nThese flaws allow user cookies to remain valid even after changing passwords or being inactive, posing a high security risk.\n\n# POC\n### Password resets not deactivating cookies\n- Log in.\n- Note the user cookie.\n- Change your password.\n- Attempt to log in again with the same cookie.\n- The cookie remains valid despite the password change.\n\n### Inactivity not deactivating sessions\n In testing, even after a period of over a day of inactivity, the session was still valid\n\n# Impact\n\nAnother person with local access to the device could take over the session permanently, even after hours of previous inactivity or a password change.\nSuch activity would not be obvious to the user (see https://github.com/louislam/uptime-kuma/issues/3481 if you want to help with this).\n\nWith this gained account access, an attacker can cause:\n\n## confidentially loss\n- monitors (including private ones not shared on public status pages)\n- notification providers \n- settings like `api-keys` (only used for accessing `/metrics`)\n- settings like secrets like the `Steam API Key`\n- maintenance periods\n\n## availability loss \n\n- by creating a lot of monitors and setting the retention policy very high leading to degraded database performance or out of storage\n- by creating a lot of `HTTP(s) - Browser Engine (Chrome/Chromium) (Beta)` leading to RAM exhaustion\n\n## integrity loss\n- by the attacker deleting a monitor\n- by the attacker deleting a monitor's history\n- by the atacker changing the meaning of a monitor (changing where it points)\n\n## scope creep\nIf operated in some restricted network, access to monitors may provide the ability to change the scope of the attack to a different piece of infrastructure, for example via SQL commands to a database server.\nWe have not classified this as `changed scope` because credentials stored in the application for accessing other systems are existing valid paths across the trust boundary, and the user should be aware of that.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "uptime-kuma"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.23.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/louislam/uptime-kuma/security/advisories/GHSA-g9v2-wqcj-j99g"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-44400"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/louislam/uptime-kuma/issues/3481"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/louislam/uptime-kuma/commit/88afab6571ef7d4d41bb395cdb6ecd3968835a4a"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/louislam/uptime-kuma"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-384"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-10T21:29:23Z",
+    "nvd_published_at": "2023-10-09T16:15:10Z"
+  }
+}

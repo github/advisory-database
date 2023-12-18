@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-j927-w6g7-7c7w",
+  "modified": "2023-07-20T14:57:59Z",
+  "published": "2023-07-12T09:30:53Z",
+  "aliases": [
+    "CVE-2023-32200"
+  ],
+  "summary": "Apache Jena Expression Language Injection vulnerability",
+  "details": "There is insufficient restrictions of called script functions in Apache Jena versions 4.8.0 and earlier. It allows a remote user to execute javascript via a SPARQL query. This issue affects Apache Jena from 3.7.0 through 4.8.0.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.jena:jena"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.7.0"
+            },
+            {
+              "fixed": "4.9.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-32200"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/jena"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jena.apache.org/about_jena/security-advisories.html#cve-2023-32200---exposure-of-execution-in-script-engine-expressions"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/7hg0t2kws3fyr75dl7lll8389xzzc46z"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.cve.org/CVERecord?id=CVE-2023-22665"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-917"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-12T17:29:39Z",
+    "nvd_published_at": "2023-07-12T08:15:10Z"
+  }
+}

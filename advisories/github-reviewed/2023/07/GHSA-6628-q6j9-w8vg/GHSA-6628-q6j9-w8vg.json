@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6628-q6j9-w8vg",
+  "modified": "2023-07-14T05:11:55Z",
+  "published": "2023-07-06T21:15:08Z",
+  "aliases": [
+    "CVE-2023-1428"
+  ],
+  "summary": "gRPC Reachable Assertion issue",
+  "details": "There exists an vulnerability causing an abort() to be called in gRPC. \nThe following headers cause gRPC's C++ implementation to abort() when called via http2:\n\nte: x (x != trailers)\n\n:scheme: x (x != http, https)\n\ngrpclb_client_stats: x (x == anything)\n\nOn top of sending one of those headers, a later header must be sent that gets the total header size past 8KB. We recommend upgrading past git commit 2485fa94bd8a723e5c977d55a3ce10b301b437f8 or v1.53 and above.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.grpc:grpc-protobuf"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.53.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "grpcio"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.53.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "grpc"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.53.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-1428"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/grpc/grpc/issues/33463"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/grpc/grpc/commit/2485fa94bd8a723e5c977d55a3ce10b301b437f8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/grpc/CVE-2023-1428.yml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-617"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-06T23:56:28Z",
+    "nvd_published_at": "2023-06-09T11:15:09Z"
+  }
+}

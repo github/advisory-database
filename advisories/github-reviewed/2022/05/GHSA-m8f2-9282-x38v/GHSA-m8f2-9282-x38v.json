@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-m8f2-9282-x38v",
+  "modified": "2023-10-26T22:17:17Z",
+  "published": "2022-05-24T16:47:43Z",
+  "aliases": [
+    "CVE-2019-10333"
+  ],
+  "summary": "Jenkins ElectricFlow Plugin Missing permission checks",
+  "details": "Various form validation and form autocompletion methods in CloudBees CD Plugin lacked permission checks. This allowed attackers with Overall/Read access to obtain information about the configuration of CloudBees CD Plugin, as well as the configuration and data of connected ElectricFlow servers.\n\nThese form validation and autocompletion methods now require Overall/Administer or Job/Configure permission, as appropriate for the given method.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:electricflow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.1.7"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.1.6"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-10333"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2019-06-11/#SECURITY-1410%20(2)"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20200227033720/http://www.securityfocus.com/bid/108747"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2019/06/11/1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-862"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-26T22:17:17Z",
+    "nvd_published_at": "2019-06-11T14:29:00Z"
+  }
+}

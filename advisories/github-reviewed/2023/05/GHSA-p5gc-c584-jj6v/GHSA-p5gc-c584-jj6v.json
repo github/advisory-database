@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-p5gc-c584-jj6v",
+  "modified": "2023-05-17T03:49:37Z",
+  "published": "2023-05-17T03:49:37Z",
+  "aliases": [
+    "CVE-2023-32313"
+  ],
+  "summary": "vm2 vulnerable to Inspect Manipulation",
+  "details": "In versions 3.9.17 and lower of vm2 it was possible to get a read-write reference to the node `inspect` method and edit options for `console.log`.\n\n### Impact\nA threat actor can edit options for `console.log`.\n\n### Patches\nThis vulnerability was patched in the release of version `3.9.18` of `vm2`.\n\n### Workarounds\nAfter creating a vm make the `inspect` method readonly with `vm.readonly(inspect)`.\n\n### References\nPoC - https://gist.github.com/arkark/c1c57eaf3e0a649af1a70c2b93b17550\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n\n- Open an issue in [VM2](https://github.com/patriksimek/vm2)\n\nThanks to @arkark (Takeshi Kaneko) of GMO Cybersecurity by Ierae, Inc. for disclosing this vulnerability.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "vm2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.9.18"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/patriksimek/vm2/security/advisories/GHSA-p5gc-c584-jj6v"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-32313"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/patriksimek/vm2/commit/5206ba25afd86ef547a2c9d48d46ca7a9e6ec238"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gist.github.com/arkark/c1c57eaf3e0a649af1a70c2b93b17550"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/patriksimek/vm2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/patriksimek/vm2/releases/tag/3.9.18"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-17T03:49:37Z",
+    "nvd_published_at": "2023-05-15T20:15:09Z"
+  }
+}

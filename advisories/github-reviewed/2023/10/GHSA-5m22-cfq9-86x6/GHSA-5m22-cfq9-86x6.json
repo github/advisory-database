@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5m22-cfq9-86x6",
+  "modified": "2023-10-13T21:48:51Z",
+  "published": "2023-10-13T19:25:39Z",
+  "aliases": [
+    "CVE-2023-23930"
+  ],
+  "summary": "Pickle serialization vulnerable to Deserialization of Untrusted Data",
+  "details": "### What\nWe are using pickle as default serialization module but that has known security issues (see e.g. https://medium.com/ochrona/python-pickle-is-notoriously-insecure-d6651f1974c9). \n\nIn summary, it is not advisable to open Pickles that you create yourself locally. In vantage6, algorithms use pickles to send aggregated data around and to pack algorithm input or output. All of the Python algorithms that use the wrappers with default serialization are therefore vulnerable to this issue.\n\nSolution: we should use JSON instead\n\n### Impact\nAll users of vantage6 that post tasks with algorithms that use the default serialization. The default serialization is used by default with all algorithm wrappers.\n\n### Patches\nNot yet\n\n### Workarounds\nSpecify JSON serialization\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "vantage6"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.0.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/vantage6/vantage6/security/advisories/GHSA-5m22-cfq9-86x6"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-23930"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vantage6/vantage6/commit/e62f03bacf2247bd59eed217e2e7338c3a01a5f0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/vantage6/PYSEC-2023-196.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vantage6/vantage6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vantage6/vantage6/blob/0682c4288f43fee5bcc72dc448cdd99bd7e57f76/docs/release_notes.rst#400"
+    },
+    {
+      "type": "WEB",
+      "url": "https://medium.com/ochrona/python-pickle-is-notoriously-insecure-d6651f1974c9"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-502"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-13T19:25:39Z",
+    "nvd_published_at": "2023-10-11T18:15:10Z"
+  }
+}

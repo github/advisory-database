@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f9g6-fp84-fv92",
+  "modified": "2023-07-19T22:09:38Z",
+  "published": "2023-07-19T22:09:38Z",
+  "aliases": [
+
+  ],
+  "summary": "impl `FromMdbValue` for bool is unsound",
+  "details": "The implementation of `FromMdbValue` has several unsoundness issues. First of all, it allows to reinterpret arbitrary bytes as a bool and could make undefined behavior happen with safe function. Secondly, it allows transmuting pointer without taking memory layout into consideration. The details of reproducing the bug are available [here](https://github.com/vhbit/lmdb-rs/issues/67).\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "lmdb-rs"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.7.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/vhbit/lmdb-rs/issues/67"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vhbit/lmdb-rs"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2023-0047.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-07-19T22:09:38Z",
+    "nvd_published_at": null
+  }
+}

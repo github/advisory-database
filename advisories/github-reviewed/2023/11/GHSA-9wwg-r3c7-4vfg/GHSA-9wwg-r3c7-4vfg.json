@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9wwg-r3c7-4vfg",
+  "modified": "2023-11-28T17:44:12Z",
+  "published": "2023-11-27T23:23:02Z",
+  "aliases": [
+    "CVE-2023-49075"
+  ],
+  "summary": "Pimcore Admin UI has Two Factor Authentication disabled for non admin security firewalls",
+  "details": "### Impact\n`AdminBundle\\Security\\PimcoreUserTwoFactorCondition` introduced in v11 disable the two factor authentication for all non-admin security firewalls.\n\nAn authenticated user can access the system without having to provide the 2 factor credentials.\n\n### Patches\nApply patch https://patch-diff.githubusercontent.com/raw/pimcore/admin-ui-classic-bundle/pull/345.patch \n\n### Workarounds\nUpgrade to version 1.2.2 or apply the [patch](https://patch-diff.githubusercontent.com/raw/pimcore/admin-ui-classic-bundle/pull/345.patch) manually.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "pimcore/admin-ui-classic-bundle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.2.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/admin-ui-classic-bundle/security/advisories/GHSA-9wwg-r3c7-4vfg"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-49075"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/admin-ui-classic-bundle/pull/345"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/admin-ui-classic-bundle/commit/e412b0597830ae564a604e2579eb40e76f7f0628"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pimcore/admin-ui-classic-bundle"
+    },
+    {
+      "type": "WEB",
+      "url": "https://patch-diff.githubusercontent.com/raw/pimcore/admin-ui-classic-bundle/pull/345.patch"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-308"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-11-27T23:23:02Z",
+    "nvd_published_at": "2023-11-28T05:15:08Z"
+  }
+}

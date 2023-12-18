@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mq3x-qgwx-3rfw",
+  "modified": "2023-05-17T18:48:07Z",
+  "published": "2023-05-11T20:41:24Z",
+  "aliases": [
+    "CVE-2023-2629"
+  ],
+  "summary": "Embedding untrusted input inside CSV files leads to Formula Injection/CSV Injection",
+  "details": "### Impact\nThe pimcore application is vulnerable to Formula Injection/CSV Injection via the Firstname, Lastname, Street, Zip & City input fields. These vulnerabilities allow unauthenticated attackers to execute arbitrary code via a crafted excel file.\n\nSuccessful exploitation can lead to impacts such as client-sided command injection, code execution, or remote ex-filtration of contained confidential data.\n\n### Patches\nUpdate to version 3.3.9 or apply this patch manually https://github.com/pimcore/customer-data-framework/commit/4e0105c3a78d20686a0c010faef27d2297b98803.patch\n\n### Workarounds\nApply patch https://github.com/pimcore/customer-data-framework/commit/4e0105c3a78d20686a0c010faef27d2297b98803.patch manually.\n\n### References\nhttps://huntr.dev/bounties/821ff465-4754-42d1-9376-813c17f16a01/\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "pimcore/customer-management-framework-bundle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.3.9"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/customer-data-framework/security/advisories/GHSA-mq3x-qgwx-3rfw"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-2629"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/customer-data-framework/commit/4e0105c3a78d20686a0c010faef27d2297b98803"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pimcore/customer-data-framework"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.dev/bounties/821ff465-4754-42d1-9376-813c17f16a01"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1236"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-05-11T20:41:24Z",
+    "nvd_published_at": "2023-05-10T16:15:10Z"
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9ggw-h9mf-4jh7",
+  "modified": "2023-11-02T16:50:54Z",
+  "published": "2023-10-25T18:32:25Z",
+  "aliases": [
+    "CVE-2023-46655"
+  ],
+  "summary": "Jenkins CloudBees CD Plugin vulnerable to arbitrary file read",
+  "details": "Jenkins CloudBees CD Plugin temporarily copies files from an agent workspace to the controller in preparation for publishing them in the 'CloudBees CD - Publish Artifact' post-build step.\n\nCloudBees CD Plugin 1.1.32 and earlier follows symbolic links to locations outside of the temporary directory on the controller when collecting the list of files to publish.\n\nThis allows attackers able to configure jobs to publish arbitrary files from the Jenkins controller file system to the previously configured CloudBees CD server.\n\nCloudBees CD Plugin 1.1.33 ensures that only files located within the expected directory are published.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:electricflow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.1.33"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-46655"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jenkinsci/electricflow-plugin/commit/e45ca8428ae45f45ca07611e802eaa0f1484ab50"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/electricflow-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-10-25/#SECURITY-3238"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2023/10/25/2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22",
+      "CWE-59"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-30T15:02:06Z",
+    "nvd_published_at": "2023-10-25T18:17:40Z"
+  }
+}

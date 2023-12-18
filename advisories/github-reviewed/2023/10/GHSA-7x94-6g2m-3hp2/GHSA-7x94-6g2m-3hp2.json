@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7x94-6g2m-3hp2",
+  "modified": "2023-10-13T19:30:40Z",
+  "published": "2023-10-13T19:30:40Z",
+  "aliases": [
+    "CVE-2023-28635"
+  ],
+  "summary": "Defining resource name as integer may give unintended access in vantage6",
+  "details": "### Impact\nMalicious users may try to get access to resources they are not allowed to see, by creating resources with integers as names.\n\nOne example where this is a risk, is when users define which users are allowed to run algorithms on their node. This may be defined by username or user id. Now, for example, if user id 13 is allowed to run tasks, and an attacker creates a username with username '13', they would be wrongly allowed to run an algorithm.\n\nThere may also be other places in the code where such a mixup of resource ID or name leads to issues. The best solution we see is therefore to check when resources are created or modified, that the resource name always starts with a character.\n\n### Patches\nTo be done, probably in v3.9\n\n### Workarounds\nNone\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "vantage6"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.0.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "vantage6-node"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/vantage6/vantage6/security/advisories/GHSA-7x94-6g2m-3hp2"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-28635"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vantage6/vantage6/pull/744"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vantage6/vantage6/commit/aacfc24548cbf168579d2e13b2ddaf8ded715d36"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/vantage6-node/PYSEC-2023-198.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vantage6/vantage6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vantage6/vantage6/blob/0682c4288f43fee5bcc72dc448cdd99bd7e57f76/docs/release_notes.rst#400"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-863"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-10-13T19:30:40Z",
+    "nvd_published_at": "2023-10-11T20:15:09Z"
+  }
+}
