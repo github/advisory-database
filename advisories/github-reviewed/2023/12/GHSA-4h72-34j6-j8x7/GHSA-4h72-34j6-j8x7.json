@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4h72-34j6-j8x7",
+  "modified": "2023-12-18T19:31:12Z",
+  "published": "2023-12-18T19:31:12Z",
+  "aliases": [
+
+  ],
+  "summary": "Maloja error page XSS vulnerability",
+  "details": "### Impact\nThe error page for a missing path echoes the path back to the user. If this contains HTML, an attacker could execute a script on the user's machine inside the Maloja context and perform authorized actions like scrobbling or deleting scrobbles.\nThis does not affect the security of your server. The exploit is purely client-side.\nSince there is very little incentive to mess with your scrobble data and it requires very specific targeting (an attacker would have to send a user a link to their own server),  the severity rating might be misleading.\n\n### Patches\nThe Vulnerability is patched in 3.2.2\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "malojaserver"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.2.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/krateng/maloja/security/advisories/GHSA-4h72-34j6-j8x7"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/krateng/maloja/commit/febaff97228b37a192f2630aa331cac5e5c3e98e"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/krateng/maloja"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-12-18T19:31:12Z",
+    "nvd_published_at": null
+  }
+}
