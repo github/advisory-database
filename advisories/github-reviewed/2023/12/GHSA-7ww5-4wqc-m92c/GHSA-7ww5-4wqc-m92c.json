@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7ww5-4wqc-m92c",
+  "modified": "2023-12-19T21:17:06Z",
+  "published": "2023-12-19T21:17:06Z",
+  "aliases": [
+
+  ],
+  "summary": "containerd allows RAPL to be accessible to a container",
+  "details": "# /sys/devices/virtual/powercap accessible by default to containers\n\nIntel's RAPL (Running Average Power Limit) feature, introduced by the Sandy Bridge microarchitecture, provides software insights into hardware energy consumption. To facilitate this, Intel introduced the powercap framework in Linux kernel 3.13, which reads values via relevant MSRs (model specific registers) and provides unprivileged userspace access via `sysfs`. As RAPL is an interface to access a hardware feature, it is only available when running on bare metal with the module compiled into the kernel.\n\nBy 2019, it was realized that in some cases unprivileged access to RAPL readings could be exploited as a power-based side-channel against security features including AES-NI (potentially inside a SGX enclave) and KASLR (kernel address space layout randomization). Also known as the [PLATYPUS attack](https://platypusattack.com/), Intel assigned [CVE-2020-8694](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-8694) and [CVE-2020-8695](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-8695), and AMD assigned [CVE-2020-12912](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-12912).\n\nSeveral mitigations were applied; Intel reduced the sampling resolution via a microcode update, and the Linux kernel [prevents access by non-root users](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=949dd0104c496fa7c14991a23c03c62e44637e71) since 5.10. However, this kernel-based mitigation does not apply to many container-based scenarios:\n* Unless using user namespaces, root inside a container has the same level of privilege as root outside the container, but with a slightly more narrow view of the system\n* `sysfs` is mounted inside containers read-only; however only read access is needed to carry out this attack on an unpatched CPU\n\nWhile this is not a direct vulnerability in container runtimes, defense in depth and safe defaults are valuable and preferred, especially as this poses a risk to multi-tenant container environments. This is provided by masking `/sys/devices/virtual/powercap` in the default mount configuration, and adding an additional set of rules to deny it in the default AppArmor profile.\n\nWhile `sysfs` is not the only way to read from the RAPL subsystem, other ways of accessing it require additional capabilities such as `CAP_SYS_RAWIO` which is not available to containers by default, or `perf` paranoia level less than 1, which is a non-default kernel tunable.\n\n## References\n\n* https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-8694\n* https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-8695\n* https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-12912\n* https://platypusattack.com/\n* https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=949dd0104c496fa7c14991a23c03c62e44637e71\n* https://web.eece.maine.edu/~vweaver/projects/rapl/",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/containerd/containerd"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.6.26"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.6.25"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/containerd/containerd"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.7.0"
+            },
+            {
+              "fixed": "1.7.11"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.7.10"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/containerd/containerd/security/advisories/GHSA-7ww5-4wqc-m92c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/containerd/containerd/commit/67d356cb3095f3e8f8ad7d36f9a733fea1e7e28c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/containerd/containerd/commit/746b910f05855c8bfdb4415a1c0f958b234910e5"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/containerd/containerd"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-12-19T21:17:06Z",
+    "nvd_published_at": null
+  }
+}
