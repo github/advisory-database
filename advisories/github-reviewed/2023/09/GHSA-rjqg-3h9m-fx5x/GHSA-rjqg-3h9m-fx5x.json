@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rjqg-3h9m-fx5x",
+  "modified": "2023-12-20T21:01:00Z",
+  "published": "2023-09-28T21:30:58Z",
+  "aliases": [
+    "CVE-2023-5256"
+  ],
+  "summary": "Cache poisoning in drupal/core",
+  "details": "In certain scenarios, Drupal's JSON:API module will output error backtraces. With some configurations, this may cause sensitive information to be cached and made available to anonymous users, leading to privilege escalation.\n\nThis vulnerability only affects sites with the JSON:API module enabled, and can be mitigated by uninstalling JSON:API.\n\nThe core REST and contributed GraphQL modules are not affected.\n\n\n\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "drupal/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.7.0"
+            },
+            {
+              "fixed": "9.5.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "drupal/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "10.0.0"
+            },
+            {
+              "fixed": "10.0.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "drupal/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "10.1.0"
+            },
+            {
+              "fixed": "10.1.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-5256"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/drupal/core/commit/1cd2741c2b43f6ad1bdfc121b8d9ec3b87e70742"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/drupal/core/commit/5495dc530e3acd056478245bfe1828210c6da7dc"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/drupal/core/commit/d4fe67562ee3ea0d9ecb9672d2945d94c5633d24"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/drupal/core"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.drupal.org/sa-core-2023-006"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-12-20T21:01:00Z",
+    "nvd_published_at": "2023-09-28T19:15:10Z"
+  }
+}
