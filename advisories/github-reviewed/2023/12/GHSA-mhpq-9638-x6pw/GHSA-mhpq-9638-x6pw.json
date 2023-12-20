@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mhpq-9638-x6pw",
+  "modified": "2023-12-20T20:31:57Z",
+  "published": "2023-12-20T20:31:57Z",
+  "aliases": [
+
+  ],
+  "summary": "Denial of service when decrypting attack controlled input in github.com/dvsekhvalnov/jose2go",
+  "details": "An attacker controlled input of a PBES2 encrypted JWE blob can have a very large p2c value that, when decrypted, produces a denial-of-service.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/dvsekhvalnov/jose2go"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.5.1-0.20231206184617-48ba0b76bc88"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/dvsekhvalnov/jose2go/issues/31"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dvsekhvalnov/jose2go/commit/a4584e9dd7128608fedbc67892eba9697f0d5317"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/dvsekhvalnov/jose2go"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.blackhat.com/us-23/briefings/schedule/#three-new-attacks-against-json-web-tokens-31695"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-12-20T20:31:57Z",
+    "nvd_published_at": null
+  }
+}
