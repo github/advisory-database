@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r24f-hg58-vfrw",
+  "modified": "2023-12-21T18:14:34Z",
+  "published": "2023-12-21T18:14:34Z",
+  "aliases": [
+
+  ],
+  "summary": "unsafe-libyaml unaligned write of u64 on 32-bit and 16-bit platforms",
+  "details": "Affected versions allocate memory using the alignment of `usize` and write data to it of type `u64`, without using `core::ptr::write_unaligned`. In platforms with sub-64bit alignment for `usize` (including wasm32 and x86) these writes are insufficiently aligned some of the time.\n\nIf using an ordinary optimized standard library, the bug exhibits Undefined Behavior so may or may not behave in any sensible way, depending on optimization settings and hardware and other things. If using a Rust standard library built with debug assertions enabled, the bug manifests deterministically in a crash (non-unwinding panic) saying _\"ptr::write requires that the pointer argument is aligned and non-null\"_.\n\nNo 64-bit platform is impacted by the bug.\n\nThe flaw was corrected by allocating with adequately high alignment on all\nplatforms.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "unsafe-libyaml"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.2.10"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/dtolnay/unsafe-libyaml/issues/21"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dtolnay/unsafe-libyaml/commit/7755559145c9cf5573639bfecc557893d4a46b0d"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/dtolnay/unsafe-libyaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2023-0075.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-12-21T18:14:34Z",
+    "nvd_published_at": null
+  }
+}
