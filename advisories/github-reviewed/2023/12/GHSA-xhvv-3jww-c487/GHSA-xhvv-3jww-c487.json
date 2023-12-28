@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xhvv-3jww-c487",
+  "modified": "2023-12-28T18:45:30Z",
+  "published": "2023-12-28T18:45:30Z",
+  "aliases": [
+    "CVE-2023-51763"
+  ],
+  "summary": "ActiveAdmin CSV Injection leading to sensitive information disclosure",
+  "details": "### Impact\n\nIn ActiveAdmin versions prior to 3.2.0, maliciously crafted spreadsheet formulas could be uploaded as part of admin data that, when exported to a CSV file and the imported to a spreadsheet program like libreoffice, could lead to remote code execution and private data exfiltration.\n\nThe attacker would need privileges to upload data to the same ActiveAdmin application as the victim, and would need the victim to possibly ignore security warnings from their spreadsheet program.\n\n### Patches\n\nVersions 3.2.0 and above fixed the problem by escaping any data starting with `=` and other characters used by spreadsheet programs.\n\n### Workarounds\n\nOnly turn on formula evaluation in spreadsheet programs when importing CSV after explicitly reviewing the file.  \n\n### References\n\nhttps://owasp.org/www-community/attacks/CSV_Injection\nhttps://github.com/activeadmin/activeadmin/pull/8167",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "activeadmin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.2.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/activeadmin/activeadmin/security/advisories/GHSA-xhvv-3jww-c487"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-51763"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/activeadmin/activeadmin/pull/8167"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/activeadmin/activeadmin/commit/7af735cf657c73734fca1900cd6a5adac4ee706e"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/activeadmin/activeadmin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/activeadmin/activeadmin/releases/tag/v3.2.0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/activeadmin/CVE-2023-51763.yml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1236"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-12-28T18:45:30Z",
+    "nvd_published_at": null
+  }
+}
