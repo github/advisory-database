@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7j9h-ch38-474r",
+  "modified": "2023-12-29T19:28:58Z",
+  "published": "2023-12-21T15:30:33Z",
+  "aliases": [
+    "CVE-2023-7035"
+  ],
+  "summary": "Stored Cross-site scripting affecting automad/automad",
+  "details": "automad up to 1.10.9 is vulnerable to stored cross-site scripting in the `sitename` argument because the `SharedController` class that handles form data and saving shared information does not properly sanitize the user input on the client side when rendering the data. The attack may be launched remotely and an exploit has been disclosed publicly.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "automad/automad"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.10.9"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-7035"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/marcantondahmen/automad"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/screetsec/VDD/tree/main/Automad%20CMS/Stored%20Cross%20Site%20Scripting%20(XSS)"
+    },
+    {
+      "type": "WEB",
+      "url": "https://vuldb.com/?ctiid.248684"
+    },
+    {
+      "type": "WEB",
+      "url": "https://vuldb.com/?id.248684"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-12-29T19:28:58Z",
+    "nvd_published_at": "2023-12-21T15:15:13Z"
+  }
+}
