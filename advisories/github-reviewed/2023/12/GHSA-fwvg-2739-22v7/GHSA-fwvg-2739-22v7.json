@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fwvg-2739-22v7",
+  "modified": "2023-12-29T19:36:41Z",
+  "published": "2023-12-29T19:36:41Z",
+  "aliases": [
+    "CVE-2023-7078"
+  ],
+  "summary": "Miniflare vulnerable to Server-Side Request Forgery (SSRF)",
+  "details": "### Impact\nSending specially crafted HTTP requests to Miniflare's server could result in arbitrary HTTP and WebSocket requests being sent from the server. If Miniflare was configured to listen on external network interfaces (as was the default in `wrangler` until `3.19.0`), an attacker on the local network could access other local servers.\n\n### Patches\nThe issue was fixed in `miniflare@3.20231030.2`.\n\n### Workarounds\nEnsure Miniflare is configured to listen on just local interfaces. This is the default behaviour, but can also be configured with the `host: \"127.0.0.1\"` option.\n\n### References\n- https://github.com/cloudflare/workers-sdk/pull/4532\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:A/AC:H/PR:N/UI:R/S:C/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "miniflare"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.20230821.0"
+            },
+            {
+              "fixed": "3.20231030.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudflare/workers-sdk/security/advisories/GHSA-fwvg-2739-22v7"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-7078"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudflare/workers-sdk/pull/4532"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cloudflare/workers-sdk"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-918"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2023-12-29T19:36:41Z",
+    "nvd_published_at": "2023-12-29T12:15:47Z"
+  }
+}
