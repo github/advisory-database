@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2x7r-93ww-cxrq",
+  "modified": "2024-01-02T14:10:26Z",
+  "published": "2024-01-02T14:10:26Z",
+  "aliases": [
+    "CVE-2023-52085"
+  ],
+  "summary": "Winter CMS Local File Inclusion through Server Side Template Injection ",
+  "details": "### Impact\nUsers with access to backend forms that include a [ColorPicker FormWidget](https://wintercms.com/docs/v1.2/docs/backend/forms#color-picker) can provide a value that would then be included without further processing in the compilation of custom stylesheets via LESS. This had the potential to lead to a Local File Inclusion vulnerability.\n\nBy default, only the Brand Settings (backend.manage_branding) and Mail Brand Settings (system.manage_mail_templates) forms both include the colorpicker formwidget and pass the provided value to be compiled in LESS, however it is also common for themes to include it on their Theme Customization (cms.manage_theme_options) form and it is technically possible for the values on that form to also be used in LESS compilation: https://wintercms.com/docs/v1.2/docs/themes/development#asset-compiler-variables.\n\n### Patches\nThis issue has been patched in v1.2.4.\n\n### Workarounds\nApply https://github.com/wintercms/winter/commit/5bc9257fe2bc47d8b786a1b1bf96bafad23d8ddd manually if unable to upgrade to v1.2.4.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "winter/wn-backend-module"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.2.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/wintercms/winter/security/advisories/GHSA-2x7r-93ww-cxrq"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-52085"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/wintercms/winter/commit/5bc9257fe2bc47d8b786a1b1bf96bafad23d8ddd"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/wintercms/winter"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-02T14:10:26Z",
+    "nvd_published_at": "2023-12-29T00:15:50Z"
+  }
+}
