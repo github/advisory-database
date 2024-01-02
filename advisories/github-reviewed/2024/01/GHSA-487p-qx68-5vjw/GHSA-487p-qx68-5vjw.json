@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-487p-qx68-5vjw",
+  "modified": "2024-01-02T16:40:58Z",
+  "published": "2024-01-02T16:40:58Z",
+  "aliases": [
+    "CVE-2023-51663"
+  ],
+  "summary": "Hail relies on OIDC email claims to verify the validity of a user's domain.",
+  "details": "### Impact\n\nAll Hail Batch clusters are affected. An attacker is able to:\n\n1. Create one or more accounts with Hail Batch without corresponding real accounts in the organization.\n\nFor example, a user could create a Microsoft or Google account and then change their email to \"inconspicuous@example.org\". This Microsoft or Google account can then be used to create a Hail Batch account in Hail Batch clusters whose organization domain is \"example.org\".\n\nIn Google, this attack is partially mitigated because Google requires users to verify ownership of their Google account. However, a valid user is able to create multiple distinct Hail Batch accounts by creating multiple distinct Google accounts using email addresses of the form \"real_user_email_name+random_id@example.org\".\n\nIn Microsoft, this attack requires Azure AD Administrator access to an Azure AD Tenant. The Azure AD Administrator is permitted to change the email address of an account to any other email address without verification. An attacker can create an Azure Tenant for free.\n\n1. The attacker *does not* have access to any private data (because the new service principals or service accounts are not granted any privileges).\n3. If trial Hail Batch billing projects are enabled, the attacker *does* have the ability to run jobs and thus spend money. An attacker can create as many accounts as Microsoft or Google permit.\n4. The attacker *cannot* impersonate another user because, in Azure, we use the `sub` from the OAuth2 response, and, in Google, Google does an email verification.\n\n### Remediation\n\n1. Apply this patch to prevent third-party attackers from creating accounts.\n2. Audit your users list https://auth.example.org/users for user accounts whose login ids are not valid login ids with your identity provider. Delete such users.\n\nA forthcoming change will prevent users from creating multiple accounts using Google's `+` email redirection.\n\n### Workarounds\nNone.\n\n### References\n1. https://trufflesecurity.com/blog/google-oauth-is-broken-sort-of/\n2. https://www.descope.com/blog/post/noauth\n4. https://developers.google.com/identity/openid-connect/openid-connect#an-id-tokens-payload\n5. https://learn.microsoft.com/en-us/entra/identity-platform/access-token-claims-reference#payload-claims\n\n[1] Hail Batch must separately stop using emails and start using the OAuth2 `sub` in Google. This is a known deficiency. In particular, if an email is re-used by the organization for a new user, the new user could access the old user's Hail Batch account.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "hail"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.2.127"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/hail-is/hail/security/advisories/GHSA-487p-qx68-5vjw"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-51663"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hail-is/hail/commit/0dcc17ff24564b6f5592261d7975e8afd0f95de7"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/hail-is/hail"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-289"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-02T16:40:58Z",
+    "nvd_published_at": "2023-12-29T17:16:07Z"
+  }
+}
