@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5g66-628f-7cvj",
+  "modified": "2024-01-03T21:46:46Z",
+  "published": "2024-01-03T21:46:46Z",
+  "aliases": [
+    "CVE-2024-21632"
+  ],
+  "summary": "Omniauth::MicrosoftGraph Account takeover (nOAuth)",
+  "details": "### Summary\nThe implementation did not validate the legitimacy of the `email` attribute of the user nor did it give/document an option to do so, making it susceptible to [nOAuth](https://www.descope.com/blog/post/noauth) misconfiguration in cases when the `email` is used as a trusted user identifier\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "omniauth-microsoft_graph"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/synth/omniauth-microsoft_graph/security/advisories/GHSA-5g66-628f-7cvj"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-21632"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/synth/omniauth-microsoft_graph/commit/5ffd62690ca0e46978f2fc7d83b18d28edde7795"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/synth/omniauth-microsoft_graph/commit/f132078389612b797c872b45bd0e0b47382414c1"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/synth/omniauth-microsoft_graph"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.descope.com/blog/post/noauth"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-287"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-03T21:46:46Z",
+    "nvd_published_at": "2024-01-02T22:15:10Z"
+  }
+}
