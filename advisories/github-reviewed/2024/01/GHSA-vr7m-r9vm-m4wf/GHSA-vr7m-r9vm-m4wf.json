@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vr7m-r9vm-m4wf",
+  "modified": "2024-01-03T21:48:56Z",
+  "published": "2024-01-03T21:48:56Z",
+  "aliases": [
+    "CVE-2024-21628"
+  ],
+  "summary": "PrestaShop XSS can be stored in DB from \"add a message form\" in order detail page (FO)",
+  "details": "### Impact\nThe isCleanHtml method is not used on this this form, which makes it possible to store an xss in DB.\nThe impact is low because the html is not interpreted in BO, thanks to twig's escape mechanism.\nIn FO, the xss is effective, but only impacts the customer sending it, or the customer session from which it was sent.\n\nBe careful if you have a module fetching these messages from the DB and displaying it without escaping html.\n\n### Patches\n8.1.x\n\n### Reporter\nReported by Rona Febriana (linkedin: https://www.linkedin.com/in/rona-febriana/)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "prestashop/prestashop"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "8.1.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/PrestaShop/PrestaShop/security/advisories/GHSA-vr7m-r9vm-m4wf"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-21628"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/PrestaShop/PrestaShop/commit/afc45b93b3cc33be0e571559d2838c6960d98856"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/PrestaShop/PrestaShop/commit/c3d78b7e49f5fe49a9d07725c3174d005deaa597"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/PrestaShop/PrestaShop"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-03T21:48:56Z",
+    "nvd_published_at": "2024-01-02T22:15:09Z"
+  }
+}

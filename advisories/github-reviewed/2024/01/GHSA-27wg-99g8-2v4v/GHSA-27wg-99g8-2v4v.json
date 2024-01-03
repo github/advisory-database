@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-27wg-99g8-2v4v",
+  "modified": "2024-01-03T21:48:34Z",
+  "published": "2024-01-03T21:48:34Z",
+  "aliases": [
+    "CVE-2024-21629"
+  ],
+  "summary": "Rust EVM erroneousle handles `record_external_operation` error return",
+  "details": "### Impact\n\nIn `rust-evm`, a feature called `record_external_operation` was introduced, allowing library users to record custom gas changes. This feature can have some bogus interactions with the call stack.\n\nIn particular, during finalization of a `CREATE` or `CREATE2`, in the case that [the substack execution happens successfully](https://github.com/rust-ethereum/evm/blob/release-v041/src/executor/stack/executor.rs#L1012C25-L1012C69), `rust-evm` will first commit the substate, and then call `record_external_operation(Write(out_code.len()))`. If `record_external_operation` later fails, this error is returned to the parent call stack, instead of `Succeeded`. Yet, the substate commitment already happened. This causes smart contracts able to commit state changes, when the parent caller contract receives zero address (which usually indicates that the execution has failed).\n\nThis issue only impacts library users with custom `record_external_operation` that returns errors.\n\n### Patches\n\nThe issue is patched in release 0.41.1. The commit can be seem [here](https://github.com/rust-ethereum/evm/commit/d8991ec727ad0fb64fe9957a3cd307387a6701e4).\n\n### Workarounds\n\nNone.\n\n### References\n\nPatch PR [#264](https://github.com/rust-ethereum/evm/pull/264).\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "evm"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.41.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.41.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/rust-ethereum/evm/security/advisories/GHSA-27wg-99g8-2v4v"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-21629"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rust-ethereum/evm/pull/264"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rust-ethereum/evm/commit/d8991ec727ad0fb64fe9957a3cd307387a6701e4"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/rust-ethereum/evm"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rust-ethereum/evm/blob/release-v041/src/executor/stack/executor.rs#L1012C25-L1012C69"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-703"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-03T21:48:34Z",
+    "nvd_published_at": "2024-01-02T22:15:09Z"
+  }
+}
