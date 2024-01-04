@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7c44-7j7v-w554",
+  "modified": "2024-01-03T21:45:42Z",
+  "published": "2023-12-22T12:31:50Z",
+  "aliases": [
+    "CVE-2023-43116"
+  ],
+  "summary": "Buildkite Elastic CI for AWS symbolic link following vulnerability",
+  "details": "A symbolic link following vulnerability in Buildkite Elastic CI for AWS versions prior to 6.7.1 and 5.22.5 allows the buildkite-agent user to change ownership of arbitrary directories via the PIPELINE_PATH variable in the fix-buildkite-agent-builds-permissions script.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/buildkite/elastic-ci-stack-for-aws/v6"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.7.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-43116"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/buildkite/elastic-ci-stack-for-aws/commit/8f79882b6aa18fb8fc61f10c7047d2907b7a2f69"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/atredispartners/advisories/blob/master/ATREDIS-2023-0003.md"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/buildkite/elastic-ci-stack-for-aws"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-59"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-03T21:45:42Z",
+    "nvd_published_at": "2023-12-22T10:15:11Z"
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qc6v-g3xw-grmx",
+  "modified": "2024-01-03T19:17:46Z",
+  "published": "2024-01-03T16:13:33Z",
+  "aliases": [
+    "CVE-2023-46738"
+  ],
+  "summary": "Authenticated users can crash the CubeFS servers with maliciously crafted requests",
+  "details": "A security vulnerability was found in CubeFS HandlerNode that could allow authenticated users to send maliciously-crafted requests that would crash the ObjectNode and deny other users from using it. The root cause was improper handling of incoming HTTP requests that could allow an attacker to control the ammount of memory that the ObjectNode would allocate. A malicious request could make the ObjectNode allocate more memory that the machine had available, and the attacker could exhaust memory by way of a single malicious request.\n\nAn attacker would need to be authenticated in order to invoke the vulnerable code with their malicious request and have permissions to delete objects. In addition, the attacker would need to know the names of existing buckets of the CubeFS deployment - otherwise the request would be rejected before it reached the vulnerable code. As such, the most likely attacker is an inside user or an attacker that has breached the account of an existing user in the cluster. There is no evidence of this attack being exploited in the wild. The vulnerability was found during a security audit carried out by [Ada Logics](https://adalogics.com/) in collaboration with [OSTIF](https://ostif.org/) and the [CNCF](https://www.cncf.io/).\n\nThe issue has been patched in v3.3.1. There is no other mitigation besides upgrading. ",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cubefs/cubefs"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.3.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/cubefs/cubefs/security/advisories/GHSA-qc6v-g3xw-grmx"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-46738"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cubefs/cubefs/commit/dd46c24873c8f3df48d0a598b704ef9bd24b1ec1"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cubefs/cubefs"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-770"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-03T16:13:33Z",
+    "nvd_published_at": "2024-01-03T16:15:08Z"
+  }
+}

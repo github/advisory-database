@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cfph-4qqh-w828",
+  "modified": "2024-01-03T21:24:56Z",
+  "published": "2024-01-03T21:24:56Z",
+  "aliases": [
+    "CVE-2023-7079"
+  ],
+  "summary": "Arbitrary remote file read in Wrangler dev server",
+  "details": "### Impact\nSending specially crafted HTTP requests and inspector messages to Wrangler's dev server could result in any file on the user's computer being accessible over the local network. An attacker that could trick any user on the local network into opening a malicious website could also read any file.\n\n### Patches\nThis issue was fixed in `wrangler@3.19.0`. Wrangler will now only serve files that are part of your bundle, or referenced by your bundle's source maps.\n\n### Workarounds\nConfigure Wrangler to listen on local interfaces instead with `wrangler dev --ip 127.0.0.1`. This is the [default as of `wrangler@3.16.0`](https://github.com/cloudflare/workers-sdk/security/advisories/GHSA-f8mp-x433-5wpf), and removes the local network as an attack vector, but does not prevent an attack from visiting a malicious website.\n\n### References\n- https://github.com/cloudflare/workers-sdk/pull/4532\n- https://github.com/cloudflare/workers-sdk/pull/4535\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:A/AC:H/PR:N/UI:N/S:C/C:H/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "wrangler"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.9.0"
+            },
+            {
+              "fixed": "3.19.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudflare/workers-sdk/security/advisories/GHSA-cfph-4qqh-w828"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-7079"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudflare/workers-sdk/pull/4532"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudflare/workers-sdk/pull/4535"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudflare/workers-sdk/commit/29df8e17545bf3926b6d61678b596be809d40c6d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudflare/workers-sdk/commit/311ffbd5064f8301ac6f0311bbe5630897923b93"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cloudflare/workers-sdk"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-287"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-03T21:24:56Z",
+    "nvd_published_at": "2023-12-29T12:15:47Z"
+  }
+}

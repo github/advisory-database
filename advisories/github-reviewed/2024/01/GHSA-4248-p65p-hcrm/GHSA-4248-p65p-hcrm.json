@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4248-p65p-hcrm",
+  "modified": "2024-01-03T19:23:42Z",
+  "published": "2024-01-03T16:14:08Z",
+  "aliases": [
+    "CVE-2023-46740"
+  ],
+  "summary": "Insecure random string generator used for sensitive data",
+  "details": "CubeFS used an insecure random string generator to generate user-specific, sensitive keys used to authenticate users in a CubeFS deployment. This could allow an attacker to predict and/or guess the generated string and impersonate a user thereby obtaining higher privileges.\n\nWhen CubeFS creates new users, it creates a piece of sensitive information for the user called the “accessKey”. To create the \"accesKey\", CubeFS uses an insecure string generator which makes it easy to guess and thereby impersonate the created user. \n\nAn attacker could leverage the predictable random string generator and guess a users access key and impersonate the user to obtain higher privileges.\n\nThere is no evidence of this vulnerability being exploited in the wild. It was found during a security audit carried out by [Ada Logics](https://adalogics.com/) in collaboration with [OSTIF](https://ostif.org/) and the [CNCF](https://www.cncf.io/).\n\nThe issue has been fixed in v3.3.1. There is no other mitigation than to upgrade.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cubefs/cubefs"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.3.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/cubefs/cubefs/security/advisories/GHSA-4248-p65p-hcrm"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-46740"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cubefs/cubefs/commit/8555c6402794cabdf2cc025c8bea1576122c07ba"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cubefs/cubefs"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-330"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-03T16:14:08Z",
+    "nvd_published_at": "2024-01-03T17:15:10Z"
+  }
+}

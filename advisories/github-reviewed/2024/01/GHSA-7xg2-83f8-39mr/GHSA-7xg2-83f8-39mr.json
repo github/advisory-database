@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7xg2-83f8-39mr",
+  "modified": "2024-01-03T20:06:51Z",
+  "published": "2024-01-03T20:06:51Z",
+  "aliases": [
+
+  ],
+  "summary": "The DES/3DES cipher was used as part of the TLS protocol by installation tools",
+  "details": "### Impact\n_What kind of vulnerability is it? Who is impacted?_\n\nThe Karmada components deployed with `karmadactl`, `karma-operator`, and `helm chart` take Golang default cipher suites as part of the TLS protocol, which includes the insecure algorithm. Referring to https://github.com/golang/go/issues/41476#issuecomment-694914728, the 3DES algorithm vulnerability is very unlikely to be attacked. However, to address the concerns and to avoid being disturbed by the security scanner, Karmada has decided to limit the cipher suites to exclude the insecure 3DES algorithm and accordingly release this security advisory.\n\nThe components affected are：\n- karmada-apiserver\n- karmada-aggregated-apiserver\n- karmada-search\n- karmada-metrics-adapter\n- etcd\n\n### Patches\n_Has the problem been patched? What versions should users upgrade to?_\n\nFrom Karmada v1.8.0, when deploying Karmada with `karmadactl`, `karma-operator`, and `helm chart`, the default minimum TLS version of components(include `karmada-apiserver`, `karmada-aggregated-apiserver`, `karmada-search`, and `karmada-metrics-adapter`) would be set to `TLS1.3` to get rid of the insecure algorithm, and set default cipher suites(`TLS_RSA_WITH_AES_128_CBC_SHA,TLS_RSA_WITH_AES_256_CBC_SHA,TLS_RSA_WITH_AES_128_GCM_SHA256,TLS_RSA_WITH_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256,TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305`) for `etcd`.\n\n### Workarounds\n_Is there a way for users to fix or remediate the vulnerability without upgrading?_\n\nBy setting the `--tls-min-version` for the affected components to TLS 1.3, or explicitly setting the `--cipher-suites` to secure algorithms.\n\n### References\n_Are there any links users can visit to find out more?_\n\n1. Enhancements made from the Karmada community: https://github.com/karmada-io/karmada/issues/4191\n2. Impact discussions from the Golang community: https://github.com/golang/go/issues/41476",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/karmada-io/karmada"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.8.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/karmada-io/karmada/security/advisories/GHSA-7xg2-83f8-39mr"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/golang/go/issues/41476"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/karmada-io/karmada/issues/4191"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/karmada-io/karmada/commit/98e655fc552b2987c3f2d2a061007889ce8be536"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/karmada-io/karmada/commit/c3c376605403e07ca0ed2dc39c9e0f3c38f8e29d"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/karmada-io/karmada"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-03T20:06:51Z",
+    "nvd_published_at": null
+  }
+}
