@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-625g-fm5w-w7w4",
+  "modified": "2024-01-04T17:20:03Z",
+  "published": "2024-01-04T17:20:03Z",
+  "aliases": [
+    "CVE-2023-50256"
+  ],
+  "summary": "Froxlor username/surname AND company field Bypass",
+  "details": "Dear Sirs and Madams,\n\nI would like to report a business logic error vulnerability that I discovered during my recent penetration test on Froxlor.\n\nSpecifically, I identified an issue where it was possible to submit the registration form with the essential fields, such as the username and password, left intentionally blank. This inadvertent omission allowed for a bypass of the mandatory field requirements established by the system.\n\nThe surname, family name AND company name all of them can be left blank.\n\nI believe addressing this vulnerability is crucial to ensure the security and integrity of the Froxlor platform.\n\nThank you for your attention to this matter.\n\nThis action served as a means to bypass the mandatory field requirements.\n\nLets see (please have a look at the Video -> attachment).\n\n----------------\n\nas you can see i was able to let the username and second name blank. \n\nhttps://user-images.githubusercontent.com/80028768/289675319-81ae8ebe-1308-4ee3-bedb-43cdc40da474.mp4\n\n\nLets see again.\n\nOnly the company name is set. \n\nThank you for your time\n\n![Froxlor 2](https://user-images.githubusercontent.com/80028768/289685700-73936e19-befa-4442-a258-7814f2ec4598.png)\n![Froxlor 1](https://user-images.githubusercontent.com/80028768/289685710-a5785f49-d2b2-40d4-bf8f-a286df48dd36.png)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "froxlor/froxlor"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.1.2"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.1.1"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/Froxlor/Froxlor/security/advisories/GHSA-625g-fm5w-w7w4"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-50256"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Froxlor/Froxlor/commit/4b1846883d4828962add91bd844596d89a9c7cac"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Froxlor/Froxlor"
+    },
+    {
+      "type": "WEB",
+      "url": "https://user-images.githubusercontent.com/80028768/289675319-81ae8ebe-1308-4ee3-bedb-43cdc40da474.mp4"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-04T17:20:03Z",
+    "nvd_published_at": "2024-01-03T23:15:08Z"
+  }
+}
