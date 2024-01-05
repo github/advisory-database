@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c2v4-chx5-vff6",
+  "modified": "2024-01-05T15:31:42Z",
+  "published": "2024-01-04T21:30:24Z",
+  "withdrawn": "2024-01-05T15:31:42Z",
+  "aliases": [
+
+  ],
+  "summary": "Duplicate Advisory: Integer overflow in cmark-gfm table parsing extension leads to heap memory corruption",
+  "details": "### Duplicate Advisory\nThis advisory has been withdrawn because it is a duplicate of GHSA-fmx4-26r3-wxpf. This link is maintained to preserve external references.\n\n### Original Description\nCommonMarker versions prior to 0.23.4 are at risk of an integer overflow vulnerability. This vulnerability can result in possibly unauthenticated remote attackers to cause heap memory corruption, potentially leading to an information leak or remote code execution, via parsing tables with marker rows that contain more than UINT16_MAX columns.\n\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "commonmarker"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "< 0.23.4"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/github/cmark-gfm/security/advisories/GHSA-mc3g-88wq-6f4x"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/gjtorikian/commonmarker/security/advisories/GHSA-fmx4-26r3-wxpf"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-22051"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/gjtorikian/commonmarker/commit/ab4504fd17460627a6ab255bc3c63e8e5fc6aed3"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-fmx4-26r3-wxpf"
+    },
+    {
+      "type": "WEB",
+      "url": "https://vulncheck.com/advisories/vc-advisory-GHSA-fmx4-26r3-wxpf"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-190"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-05T15:31:42Z",
+    "nvd_published_at": "2024-01-04T21:15:10Z"
+  }
+}
