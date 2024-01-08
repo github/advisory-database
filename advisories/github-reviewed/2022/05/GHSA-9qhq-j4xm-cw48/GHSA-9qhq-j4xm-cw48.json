@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9qhq-j4xm-cw48",
+  "modified": "2024-01-05T20:18:20Z",
+  "published": "2022-05-17T04:09:07Z",
+  "aliases": [
+    "CVE-2015-3158"
+  ],
+  "summary": "PicketLink does not properly check role based authorization",
+  "details": "The `invokeNextValve` function in `identity/federation/bindings/tomcat/idp/AbstractIDPValve.java` in PicketLink before 2.7.1.Final does not properly check role based authorization, which allows remote authenticated users to gain access to restricted application resources via a (1) direct request or (2) request through an SP initiated flow.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.picketlink:picketlink-tomcat-common"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.7.1.Final"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2015-3158"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/picketlink/picketlink-bindings/pull/124"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/picketlink/picketlink-bindings/commit/ae6ff4adfc562880e714a089983054b47610ecec"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1216123"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/picketlink/picketlink-bindings"
+    },
+    {
+      "type": "WEB",
+      "url": "https://issues.jboss.org/browse/PLINK-708"
+    },
+    {
+      "type": "WEB",
+      "url": "http://rhn.redhat.com/errata/RHSA-2015-1669.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://rhn.redhat.com/errata/RHSA-2015-1670.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://rhn.redhat.com/errata/RHSA-2015-1671.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://rhn.redhat.com/errata/RHSA-2015-1672.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://rhn.redhat.com/errata/RHSA-2015-1673.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-05T20:18:20Z",
+    "nvd_published_at": "2015-08-26T19:59:00Z"
+  }
+}

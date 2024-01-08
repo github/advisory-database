@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4cj8-779h-r25h",
+  "modified": "2024-01-05T22:29:27Z",
+  "published": "2022-05-13T01:33:25Z",
+  "aliases": [
+    "CVE-2018-1229"
+  ],
+  "summary": "Cross-site Scripting in Pivotal Spring Batch Admin",
+  "details": "Pivotal Spring Batch Admin, all versions, contains a stored XSS vulnerability in the file upload feature. An unauthenticated malicious user with network access to Spring Batch Admin could store an arbitrary web script that would be executed by other users. This issue has not been patched because Spring Batch Admin has reached end of life.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.springframework.batch:spring-batch-admin-manager"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "2.0.0.M1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-1229"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pivotal.io/security/cve-2018-1229"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/103462"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-05T22:29:27Z",
+    "nvd_published_at": "2018-03-21T20:29:00Z"
+  }
+}
