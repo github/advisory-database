@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mqpq-2p68-46fv",
+  "modified": "2024-01-08T15:40:39Z",
+  "published": "2024-01-08T15:40:39Z",
+  "aliases": [
+    "CVE-2024-21644"
+  ],
+  "summary": "pyload Unauthenticated Flask Configuration Leakage vulnerability",
+  "details": "### Summary\nAny unauthenticated user can browse to a specific URL to expose the Flask config, including the `SECRET_KEY` variable.\n\n### Details\nAny unauthenticated user can browse to a specific URL to expose the Flask config, including the `SECRET_KEY` variable.\n\n### PoC\nRun `pyload` in the default configuration by running the following command\n```\npyload\n```\n\nNow browse to `http://localhost:8000/render/info.html`. Notice how the Flask configuration gets displayed.\n![PoC](https://user-images.githubusercontent.com/44903767/294522246-4cc19c49-b315-4926-8fd6-ec3c3fdb7c1f.png)\n\nI was quite amused by this finding. I think it's a very interesting coming together of things that is so unlikely to happen. Below I will detail my process a bit more.\n\nI was looking through the code to see how the authorization mechanism is implemented when I spotted this route, which can be accessed by any unauthenticated actor\n- https://github.com/pyload/pyload/blob/57d81930edb59177c60830ad8ac36a91d0ec4c4e/src/pyload/webui/app/blueprints/app_blueprint.py#L33C1-L37C51\n```python\n@bp.route(\"/render/<path:filename>\", endpoint=\"render\")\ndef render(filename):\n    mimetype = mimetypes.guess_type(filename)[0] or \"text/html\"\n    data = render_template(filename)\n    return flask.Response(data, mimetype=mimetype)\n ```\n\nThis route allows me to load in any of the predefined templates. However, these templates will be lacking any form of context, and as such it doesn't seem too useful. That is until I loaded the `info.html` template and scrolled down, revealing the Flask config. This was purely accidental, and I did not understand why it happened, until I looked at the template\n\n- https://github.com/pyload/pyload/blob/57d81930edb59177c60830ad8ac36a91d0ec4c4e/src/pyload/webui/app/templates/info.html#L64C1-L67C10\n```python\n    <tr>\n        <td>{{ _(\"Config folder:\") }}</td>\n        <td>{{ config }}</td>\n    </tr>\n```\n\nIn Flask, every template always gets the Flask config passed to it as the `config` variable. In the normal execution of this template, this value gets overwritten in the function below, but since we're calling it and bypassing this function altogether, it doesn't get overwritten. Would this variable not be named config and named `configuration` or `Config` instead, then this exploit wouldn't work. The likelihood of this occurring is so small, but it seems to have happened here.\n\n- https://github.com/pyload/pyload/blob/57d81930edb59177c60830ad8ac36a91d0ec4c4e/src/pyload/webui/app/blueprints/app_blueprint.py#L450C1-L461C51\n```python\n    context = {\n        \"python\": sys.version,\n        \"os\": \" \".join((os.name, sys.platform) + extra),\n        \"version\": api.get_server_version(),\n        \"folder\": PKGDIR,\n        \"config\": api.get_userdir(),\n        \"download\": conf[\"general\"][\"storage_folder\"][\"value\"],\n        \"freespace\": format.size(api.free_space()),\n        \"webif\": conf[\"webui\"][\"port\"][\"value\"],\n        \"language\": conf[\"general\"][\"language\"][\"value\"],\n    }\n    return render_template(\"info.html\", **context)\n ```\n\n### Impact\nDepending on the how the Flask config data is used, it could have detrimental consequences for the security. It's crucial to keep the `SECRET_KEY` secret and never expose it in your code or configuration files.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "pyload-ng"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.5.0b3.dev77"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pyload/pyload/security/advisories/GHSA-mqpq-2p68-46fv"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-21644"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pyload/pyload/commit/bb22063a875ffeca357aaf6e2edcd09705688c40"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pyload/pyload"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-284"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-08T15:40:39Z",
+    "nvd_published_at": "2024-01-08T14:15:47Z"
+  }
+}
