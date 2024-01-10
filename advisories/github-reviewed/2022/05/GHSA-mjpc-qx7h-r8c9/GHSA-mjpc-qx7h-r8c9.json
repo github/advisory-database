@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mjpc-qx7h-r8c9",
+  "modified": "2024-01-08T21:22:42Z",
+  "published": "2022-05-13T01:32:17Z",
+  "aliases": [
+    "CVE-2018-3824"
+  ],
+  "summary": "Elasticsearch subject to cross site scripting",
+  "details": "X-Pack Machine Learning versions before 6.2.4 and 5.6.9 had a cross-site scripting (XSS) vulnerability. If an attacker is able to inject data into an index that has a ML job running against it, then when another user views the results of the ML job it could allow the attacker to obtain sensitive information from or perform destructive actions on behalf of that other ML user.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.elasticsearch:elasticsearch"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.6.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.elasticsearch:elasticsearch"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.0.0"
+            },
+            {
+              "fixed": "6.2.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-3824"
+    },
+    {
+      "type": "WEB",
+      "url": "https://discuss.elastic.co/t/elastic-stack-6-2-4-and-5-6-9-security-update/128422"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.elastic.co/community/security"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-08T21:22:42Z",
+    "nvd_published_at": "2018-09-19T19:29:00Z"
+  }
+}

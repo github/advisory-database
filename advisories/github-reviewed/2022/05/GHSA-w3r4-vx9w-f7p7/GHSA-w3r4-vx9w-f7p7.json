@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w3r4-vx9w-f7p7",
+  "modified": "2024-01-09T22:44:14Z",
+  "published": "2022-05-14T00:53:49Z",
+  "aliases": [
+    "CVE-2018-1000416"
+  ],
+  "summary": "Jenkins Job Config History Plugin reflected XSS vulnerability",
+  "details": "A reflected cross-site scripting vulnerability exists in Jenkins Job Config History Plugin 2.18 and earlier in all Jelly files that shows arbitrary attacker-specified HTML in Jenkins to users with Job/Configure access.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:jobConfigHistory"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.18.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.18"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-1000416"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jenkinsci/job-config-history-plugin/commit/38ea4ed7e3527c2ce525dacf578036adffbf430e"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/job-config-history-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2018-09-25/#SECURITY-1130"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/106532"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-09T22:44:14Z",
+    "nvd_published_at": "2019-01-09T23:29:00Z"
+  }
+}

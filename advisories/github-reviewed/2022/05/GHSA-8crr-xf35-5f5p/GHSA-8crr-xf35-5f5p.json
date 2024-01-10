@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8crr-xf35-5f5p",
+  "modified": "2024-01-09T18:53:39Z",
+  "published": "2022-05-13T01:31:34Z",
+  "aliases": [
+    "CVE-2019-1003017"
+  ],
+  "summary": "Jenkins Job Import Plugin CSRF vulnerability",
+  "details": "A data modification vulnerability exists in Jenkins Job Import Plugin 3.0 and earlier in JobImportAction.java that allows attackers to copy jobs from a preconfigured other Jenkins instance, potentially installing additional plugins necessary to load the imported job's configuration.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:H/PR:N/UI:R/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:job-import-plugin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-1003017"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jenkinsci/job-import-plugin/commit/8f826a684ba0969697d2a92a6f448aef8f03b66c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/job-import-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2019-01-28/#SECURITY-1302"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-09T18:53:39Z",
+    "nvd_published_at": "2019-02-06T16:29:00Z"
+  }
+}

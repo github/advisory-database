@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v2v2-hph8-q5xp",
+  "modified": "2024-01-08T15:55:16Z",
+  "published": "2024-01-08T15:22:40Z",
+  "aliases": [
+    "CVE-2023-51701"
+  ],
+  "summary": "@fastify/reply-from JSON Content-Type parsing confusion",
+  "details": "### Impact\n\nThe main repo of fastify use [fast-content-type-parse](https://github.com/fastify/fast-content-type-parse) to parse request Content-Type, which will [trim after split](https://github.com/fastify/fast-content-type-parse/blob/2776d054dd48e9ce40b8d5e5ff9b46fee82b95f1/index.js#L59).\n\nThe [fastify-reply-from](https://github.com/fastify/fastify-reply-from/blob/b79a22d6eb9a0b52cfbe8eb2cb22ad65f5a39e64/index.js#L118C14-L118C14) have not use this repo to unify the parse of Content-Type, which [won't trim](https://github.com/fastify/fastify-reply-from/blob/b79a22d6eb9a0b52cfbe8eb2cb22ad65f5a39e64/index.js#L118C14-L118C14).\n\nAs a result, a reverse proxy server built with `@fastify/reply-from` could misinterpret the incoming body by passing an header `ContentType: application/json ; charset=utf-8`. This can lead to bypass of security checks.\n\n### Patches\n\n`@fastify/reply-from` v9.6.0 include the fix. \n\n### Workarounds\n\nThere are no known workarounds.\n\n### References\n\nHackerone Report: https://hackerone.com/reports/2295770.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@fastify/reply-from"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "9.6.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/fastify/fastify-reply-from/security/advisories/GHSA-v2v2-hph8-q5xp"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-51701"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/fastify/fastify-reply-from/commit/cbd7c17c09e6476268e34f5e499a6b923e8acc18"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/fastify/fastify-reply-from"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/fastify/fastify-reply-from/releases/tag/v9.6.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-444"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-08T15:22:40Z",
+    "nvd_published_at": "2024-01-08T14:15:46Z"
+  }
+}
