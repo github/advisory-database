@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mp46-7x6q-f28m",
+  "modified": "2024-01-10T18:33:55Z",
+  "published": "2022-05-24T19:02:37Z",
+  "aliases": [
+    "CVE-2021-24323"
+  ],
+  "summary": "Woocommerce Cross-site Scripting via Additional tax classes field when taxes are enabled",
+  "details": "When taxes are enabled, the \"Additional tax classes\" field was not properly sanitised or escaped before being output back in the admin dashboard, allowing high privilege users such as admin to use XSS payloads even when the unfiltered_html is disabled",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "woocommerce/woocommerce"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.2.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-24323"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/woocommerce/woocommerce/commit/6ede8c5f59aec3ca70aa27d1ffd5a6574473f2ce"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/woocommerce/woocommerce"
+    },
+    {
+      "type": "WEB",
+      "url": "https://wpscan.com/vulnerability/6d262555-7ae4-4e36-add6-4baa34dc3010"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-10T18:33:55Z",
+    "nvd_published_at": "2021-05-17T17:15:00Z"
+  }
+}
