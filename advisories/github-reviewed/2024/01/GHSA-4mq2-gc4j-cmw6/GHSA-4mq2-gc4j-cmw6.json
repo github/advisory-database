@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4mq2-gc4j-cmw6",
+  "modified": "2024-01-11T19:00:53Z",
+  "published": "2024-01-11T16:41:42Z",
+  "aliases": [
+    "CVE-2024-22199"
+  ],
+  "summary": "Django Template Engine Vulnerable to XSS",
+  "details": "### Impact\n\n**Vulnerability Type:** Cross-Site Scripting (XSS)  \n**Affected Users:** All users of the Django template engine for Fiber prior to the patch. This vulnerability specifically impacts web applications that render user-supplied data through this template engine, potentially leading to the execution of malicious scripts in users' browsers when visiting affected web pages.\n\n### Patches\n\nThe vulnerability has been addressed. The template engine now defaults to having autoescape set to `true`, effectively mitigating the risk of XSS attacks. Users are advised to upgrade to the latest version of the Django template engine for Fiber, where this security update is implemented. Ensure that the version of the template engine being used is the latest, post-patch version.\n\n### Workarounds\n\nFor users unable to upgrade immediately to the patched version, a workaround involves manually implementing autoescaping within individual Django templates. This method includes adding specific tags in the template to control autoescape behavior:\n```django\n{% autoescape on %}\n{{ \"<script>alert('xss');</script>\" }}\n{% endautoescape %}\n```\n\n### References\n\n- Official documentation of the Django template engine for Fiber: https://docs.gofiber.io/template/django/\n- Django built-in template tags: https://docs.djangoproject.com/en/5.0/ref/templates/builtins/\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/gofiber/template/django/v3"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.1.9"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/gofiber/template/security/advisories/GHSA-4mq2-gc4j-cmw6"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-22199"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/gofiber/template/commit/28cff3ac4d4c117ab25b5396954676d624b6cb46"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/gofiber/template"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-116",
+      "CWE-20",
+      "CWE-79"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-11T16:41:42Z",
+    "nvd_published_at": "2024-01-11T18:15:45Z"
+  }
+}

@@ -1,0 +1,337 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rgrf-6mf5-m882",
+  "modified": "2024-01-11T15:18:51Z",
+  "published": "2024-01-11T15:18:51Z",
+  "aliases": [
+    "CVE-2024-22194"
+  ],
+  "summary": "cdo-local-uuid vulnerable to insertion of artifact derived from developer's Present Working Directory into demonstration code",
+  "details": "### Impact\n_What kind of vulnerability is it? Who is impacted?_\n\nAn information leakage vulnerability is present in [`cdo-local-uuid`](https://pypi.org/project/cdo-local-uuid/) at version `0.4.0`, and in [`case-utils`](https://pypi.org/project/case-utils/) in unpatched versions (matching the pattern `0.x.0`) at and since `0.5.0`, before `0.15.0`.\n\nThe vulnerability stems from a Python function, `cdo_local_uuid.local_uuid()`, and its original implementation `case_utils.local_uuid()`.  Henceforth, both will be called `local_uuid()`.\n\n`local_uuid()` generates UUIDv5s using a deterministic pseudorandom number stream.  This was written to make graph application demonstrations generate consistent, version-controllable output with minimal noise caused by demonstration re-runs.  Part of the information used to keep individual examples' generated output distinct from one another is seed information from the caller's environment, particularly the program's argument vector.  The present working directory is also included as part of the seed information, but for reasons including maintaining user environment privacy, as well as keeping generated identifiers consistent regardless of where a source tree is housed on a user's file system, the present working directory is trimmed from the left to exclude path information outside of a supplied \"Top\" source directory.  (In context of the Make scripting language, this \"top\" directory is typically in a variable called `top_srcdir`.  In context of Git-based project management, this directory is expected to be the root directory of a freshly \"Cloned\" project, e.g., where `.git` is stored.)\n\nUnder certain conditions, a user's present working directory, as an absolute path, was incorporated into seed data for the `local_uuid()` deterministic pseudorandom number stream.  This violates an expectation made in the documented purpose of the `local_uuid()` function, and leaks information about a calling user's environment.\n\nThe conditions are:\n\n* Given a project with top source directory `top_srcdir`, for instance `/home/user1/Documents/Project1`;\n* Given a Python script housed directly in `top_srcdir`, for instance at `${top_srcdir}/example.py`, written to support the deterministic mode of `local_uuid()`;\n* Given a call to that Python script that follows the documentation for `local_uuid()`;\n\nThe absolute path for `top_srcdir` was then included in the seed information for the UUIDv5 stream, when what was intended was a relative path spelling.  That is, instead of `./example.py` being in the seed data, `/home/user1/Documents/Project1/example.py` was in the seed data.\n\nThis does not leak the present working directory directly.  But, given other knowledge of how a program had been called to generate data using `local_uuid()` under these conditions, it becomes possible to determine that a chosen path can lead to a known UUIDv5 value.  Note that it is not necessarily knowable that the chosen path is the *only* solution to a sequence reconstruction; but, the path can be confirmed to be *a* solution.\n\n\n### Patches\n_Has the problem been patched? What versions should users upgrade to?_\n\nThe issue has been patched, in the `cdo-local-uuid` source repository and the `case-utils` source repository.\n\nUsers should upgrade to any of these versions minimally:\n\n* `case-utils == 0.5.1`\n* `case-utils == 0.6.1`\n* `case-utils == 0.7.1`\n* `case-utils == 0.8.1`\n* `case-utils == 0.9.1`\n* `case-utils == 0.10.1`\n* `case-utils == 0.11.1`\n* `case-utils == 0.12.1`\n* `case-utils == 0.13.1`\n* `case-utils == 0.14.1`\n* `case-utils >= 0.15.0`\n* `cdo-local-uuid == 0.5.0`\n\nAll `case-utils` releases that contain the patch have the commit `ea630cce66b26dae6d7fa7e02451d6e25456a5f2` in their Git history.  Anyone interested in confirming the presence of this commit in a certain branch or tag can run the following test (written in Bash), substituting the desired branch name for the assigned value of `my_git_ref_of_interest`:\n\n```bash\n#!/bin/bash\n# Present working directory ($PWD) should be in a clone of this repository:\n# https://github.com/casework/CASE-Utilities-Python\nmy_git_ref_of_interest=main\ntest \\\n  \"xea630cce66b26dae6d7fa7e02451d6e25456a5f2\" \\\n  == \\\n  \"x$(git merge-base ea630cc ${my_git_ref_of_interest})\"\necho $?  # Should print '0'\n```\n\nNote that other releases have been posted atop some of those minimal versions recommended for upgrading, named, e.g., `0.5.1.post0`.  These releases were posted to update internal library version numbers, and otherwise contain no functional changes, in accordance with Python Packaging guidance:\n\n* https://packaging.python.org/en/latest/specifications/version-specifiers/#post-release-separators\n\n\n### Workarounds\n_Is there a way for users to fix or remediate the vulnerability without upgrading?_\n\nIf the script calling `cdo_local_uuid.local_uuid()` is moved out of the \"Top\" source directory, the issue is addressed.\n\n\n### References\n_Are there any links users can visit to find out more?_\n\nThe issue is addressed in this Pull Request:\n\n* https://github.com/Cyber-Domain-Ontology/CDO-Utility-Local-UUID/pull/3\n\nTests to reproduce the issue's conditions and confirm it has been addressed are in this Pull Requested:\n\n* https://github.com/Cyber-Domain-Ontology/CDO-Utility-Local-UUID/pull/4\n\n<!--\nCVSS3.1 vector determined by rubric diagrams at this page:\nhttps://www.first.org/cvss/v3.1/user-guide\n-->",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:H/PR:L/UI:R/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "cdo-local-uuid"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.4.0"
+            },
+            {
+              "fixed": "0.5.0"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "0.4.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "case-utils"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.5.0"
+            },
+            {
+              "fixed": "0.5.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "0.5.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "case-utils"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.6.0"
+            },
+            {
+              "fixed": "0.6.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "0.6.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "case-utils"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.7.0"
+            },
+            {
+              "fixed": "0.7.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "0.7.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "case-utils"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.8.0"
+            },
+            {
+              "fixed": "0.8.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "0.8.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "case-utils"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.9.0"
+            },
+            {
+              "fixed": "0.9.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "0.9.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "case-utils"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.10.0"
+            },
+            {
+              "fixed": "0.10.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "0.10.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "case-utils"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.11.0"
+            },
+            {
+              "fixed": "0.11.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "0.11.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "case-utils"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.12.0"
+            },
+            {
+              "fixed": "0.12.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "0.12.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "case-utils"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.13.0"
+            },
+            {
+              "fixed": "0.13.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "0.13.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "case-utils"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.14.0"
+            },
+            {
+              "fixed": "0.14.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "0.14.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/Cyber-Domain-Ontology/CDO-Utility-Local-UUID/security/advisories/GHSA-rgrf-6mf5-m882"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-22194"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Cyber-Domain-Ontology/CDO-Utility-Local-UUID/pull/3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Cyber-Domain-Ontology/CDO-Utility-Local-UUID/pull/4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Cyber-Domain-Ontology/CDO-Utility-Local-UUID/commit/9e78f7cb1075728d0aafc918514f32a1392cd235"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/casework/CASE-Utilities-Python/commit/00864cd12de7c50d882dd1a74915d32e939c25f9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/casework/CASE-Utilities-Python/commit/1cccae8eb3cf94b3a28f6490efa0fbf5c82ebd6b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/casework/CASE-Utilities-Python/commit/5acb929dfb599709d1c8c90d1824dd79e0fd9e10"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/casework/CASE-Utilities-Python/commit/7e02d18383eabbeb9fb4ec97d81438c9980a4790"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/casework/CASE-Utilities-Python/commit/80551f49241c874c7c50e14abe05c5017630dad2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/casework/CASE-Utilities-Python/commit/939775f956796d0432ecabbf62782ed7ad1007b5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/casework/CASE-Utilities-Python/commit/db428a0745dac4fdd888ced9c52f617695519f9d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/casework/CASE-Utilities-Python/commit/e4ffadc3d56fd303b8f465d727c4a58213d311a1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/casework/CASE-Utilities-Python/commit/fca7388f09feccd3b9ea88e6df9c7a43a5349452"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/casework/CASE-Utilities-Python/commit/fdc32414eccfcbde6be0fd91b7f491cc0779b02d#diff-e60b9cb8fb480ed27283a030a0898be3475992d78228f4045b12ce5cbb2f0509"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Cyber-Domain-Ontology/CDO-Utility-Local-UUID"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-215",
+      "CWE-337"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-11T15:18:51Z",
+    "nvd_published_at": "2024-01-11T03:15:10Z"
+  }
+}

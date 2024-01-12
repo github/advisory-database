@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g273-wppx-82w4",
+  "modified": "2024-01-11T15:41:51Z",
+  "published": "2024-01-10T15:24:08Z",
+  "aliases": [
+    "CVE-2024-21667"
+  ],
+  "summary": "Pimcore Customer Data Framework Improper Access Control allows unprivileged user to access GDPR extracts",
+  "details": "### Summary\nAn authenticated and unauthorized user can access the GDPR data extraction feature and query over the information returned, leading to customer data exposure.\n\n### Details\nPermissions do not seem to be enforced when reaching the `/admin/customermanagementframework/gdpr-data/search-data-objects` endpoint allowing an authenticated user without the permissions to access the endpoint and query the data available there. It seems that the access control is not enforced in this place : <https://github.com/pimcore/customer-data-framework/blob/b4af625ef327c58d05ef7cdf145fa749d2d4195e/src/Controller/Admin/GDPRDataController.php#L38>\n\n### PoC\n\nIn order to reproduce the issue, the following steps can be followed: \n\n1. As an administrator : \n  a. Create a role without any permission through Settings → User & Roles → Roles in the administration panel\n  b. Create an user through Settings → User & Roles → Users and assign it the unprivileged role previously created\n2. Log out the current administrator and log in with this new user\n3. Access to the following endpoint `https://pimcore_instance/admin/customermanagementframework/gdpr-data/search-data-objects?id=&firstname=&lastname=&email=&page=1&start=0&limit=50` and the results will be returned to this unauthorized user.\n\n### Impact\nAn unauthorized user can access PII data from customers without being authorized to. \n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "pimcore/customer-management-framework-bundle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.0.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/customer-data-framework/security/advisories/GHSA-g273-wppx-82w4"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-21667"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/customer-data-framework/commit/6c34515be2ba39dceee7da07a1abf246309ccd77"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pimcore/customer-data-framework"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/customer-data-framework/blob/b4af625ef327c58d05ef7cdf145fa749d2d4195e/src/Controller/Admin/GDPRDataController.php#L38"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-284"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-10T15:24:08Z",
+    "nvd_published_at": "2024-01-11T01:15:45Z"
+  }
+}

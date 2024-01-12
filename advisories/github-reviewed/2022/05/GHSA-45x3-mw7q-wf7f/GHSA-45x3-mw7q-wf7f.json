@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-45x3-mw7q-wf7f",
+  "modified": "2024-01-10T19:31:43Z",
+  "published": "2022-05-13T01:06:16Z",
+  "aliases": [
+    "CVE-2018-9109"
+  ],
+  "summary": "elFinder Path Traversal vulnerability",
+  "details": "Studio 42 elFinder before 2.1.36 has a directory traversal vulnerability in `elFinder.class.php` with the `zipdl()` function that can allow a remote attacker to download files accessible by the web server process and delete files owned by the account running the web server process.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "studio-42/elfinder"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.1.36"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-9109"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Studio-42/elFinder/commit/157f471d7e48f190f74e66eb5bc73360b5352fd3"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Studio-42/elFinder"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Studio-42/elFinder/releases/tag/2.1.36"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Studio-42/elFinder/wiki/Advisory-about-vulnerability-of-CVE-2018-9109-and-CVE-2018-9110"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-10T19:31:43Z",
+    "nvd_published_at": "2018-03-28T06:29:00Z"
+  }
+}
