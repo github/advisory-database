@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-q6w5-jg5q-47vg",
+  "modified": "2024-01-12T22:33:02Z",
+  "published": "2024-01-12T20:27:29Z",
+  "aliases": [
+    "CVE-2024-22206"
+  ],
+  "summary": "@clerk/nextjs auth() and getAuth() methods vulnerable to insecure direct object reference (IDOR) ",
+  "details": "### Impact\nUnauthorized access or privilege escalation due to a logic flaw in `auth()` in the App Router or `getAuth()` in the Pages Router.\n\n### Affected Versions\nAll applications that that use `@clerk/nextjs` versions in the range of `>= 4.7.0`,`< 4.29.3` in a Next.js backend to authenticate API Routes, App Router, or Route handlers. Specifically, those that call `auth()` in the App Router or `getAuth()` in the Pages Router. Only the `@clerk/nextjs` SDK is impacted. Other SDKs, including other Javascript-based SDKs, are not impacted.\n\n### Patches\nFix included in `@clerk/nextjs@4.29.3`.\n\n### References\n- https://clerk.com/changelog/2024-01-12\n- https://github.com/clerk/javascript/releases/tag/%40clerk%2Fnextjs%404.29.3",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@clerk/nextjs"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.7.0"
+            },
+            {
+              "fixed": "4.29.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/clerk/javascript/security/advisories/GHSA-q6w5-jg5q-47vg"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-22206"
+    },
+    {
+      "type": "WEB",
+      "url": "https://clerk.com/changelog/2024-01-12"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/clerk/javascript"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/clerk/javascript/releases/tag/%40clerk%2Fnextjs%404.29.3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-284",
+      "CWE-287",
+      "CWE-639"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-12T20:27:29Z",
+    "nvd_published_at": "2024-01-12T20:15:47Z"
+  }
+}

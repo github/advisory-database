@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wqcc-qf63-c2x4",
+  "modified": "2024-01-12T23:23:08Z",
+  "published": "2024-01-10T18:30:27Z",
+  "aliases": [
+    "CVE-2023-49599"
+  ],
+  "summary": "WWBN AVideo Insufficient Entropy vulnerbaility",
+  "details": "An insufficient entropy vulnerability exists in the salt generation functionality of WWBN AVideo dev master commit 15fed957fb. A specially crafted series of HTTP requests can lead to privilege escalation. An attacker can gather system information via HTTP requests and bruteforce the salt offline, leading to forging a legitimate password recovery code for the admin user.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "wwbn/avideo"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "12.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-49599"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/WWBN/AVideo/commit/15fed957fb64b4055158acfc449bd7974346edb5"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/WWBN/AVideo"
+    },
+    {
+      "type": "WEB",
+      "url": "https://talosintelligence.com/vulnerability_reports/TALOS-2023-1900"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-331"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-12T23:23:08Z",
+    "nvd_published_at": "2024-01-10T16:15:48Z"
+  }
+}
