@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qmp9-2xwj-m6m9",
+  "modified": "2024-01-17T20:28:50Z",
+  "published": "2024-01-17T20:28:50Z",
+  "aliases": [
+    "CVE-2024-22406"
+  ],
+  "summary": "Blind SQL injection in shopware",
+  "details": "### Impact\nThe Shopware application API contains a search functionality which enables users to search through information stored within their Shopware instance. The searches performed by this function can be aggregated using the parameters in the “aggregations”\nobject. The ‘name’ field in this “aggregations” object is vulnerable SQL-injection and can be exploited using time-based SQL-queries. \n\n### Patches\nUpdate to Shopware 6.5.7.4\n\n### Workarounds\nFor older versions of 6.1, 6.2, 6.3 and 6.4 corresponding security measures are also available via a plugin. For the full range of functions, we recommend updating to the latest Shopware version.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "shopware/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.5.7.4"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 6.5.7.3"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "shopware/platform"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.5.7.4"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 6.5.7.3"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/shopware/shopware/security/advisories/GHSA-qmp9-2xwj-m6m9"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-22406"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/shopware/core/commit/e2256ec81e56f792623e90d89786d8a9fcad28bf"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/shopware/shopware/commit/5005213e609f5a4423fcfa92f105c3de8ab35100"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/shopware/shopware"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/shopware/shopware/releases/tag/v6.5.7.4"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-89"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-17T20:28:50Z",
+    "nvd_published_at": "2024-01-16T23:15:08Z"
+  }
+}
