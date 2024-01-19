@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8r5v-vm4m-4g25",
+  "modified": "2024-01-19T15:24:56Z",
+  "published": "2024-01-19T15:24:56Z",
+  "aliases": [
+
+  ],
+  "summary": "Resource exhaustion vulnerability in h2 may lead to Denial of Service (DoS)",
+  "details": "An attacker with an HTTP/2 connection to an affected endpoint can send a steady stream of invalid frames to force the\ngeneration of reset frames on the victim endpoint.\nBy closing their recv window, the attacker could then force these resets to be queued in an unbounded fashion,\nresulting in Out Of Memory (OOM) and high CPU usage.\n\nThis fix is corrected in [hyperium/h2#737](https://github.com/hyperium/h2/pull/737), which limits the total number of\ninternal error resets emitted by default before the connection is closed.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "h2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.3.24"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "h2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.4.0"
+            },
+            {
+              "fixed": "0.4.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/hyperium/h2/pull/737"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hyperium/h2/commit/59570e11ccddbec85f67a0c7aa353f7730c68854"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hyperium/h2/commit/d919cd6fd8e0f4f5d1f6282fab0b38a1b4bf999c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/hyperium/h2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2024-0003.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-19T15:24:56Z",
+    "nvd_published_at": null
+  }
+}
