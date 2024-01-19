@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2h3q-v47h-f4rc",
+  "modified": "2024-01-19T19:14:32Z",
+  "published": "2022-05-17T05:32:37Z",
+  "aliases": [
+    "CVE-2011-4320"
+  ],
+  "summary": "Ejabberd DoS via malformed stanza",
+  "details": "The `mod_pubsub` module (mod_pubsub.erl) in ejabberd 2.1.8 and 3.0.0-alpha-3 allows remote authenticated users to cause a denial of service (infinite loop) via a stanza with a publish tag that lacks a node attribute.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Hex",
+        "name": "ejabberd"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.1.9"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.1.8"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Hex",
+        "name": "ejabberd"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0-alpha-1"
+            },
+            {
+              "fixed": "3.0.0-alpha-4"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.0.0-alpha-3"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2011-4320"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/processone/ejabberd/commit/d3c4eab46f3cd54f7686cfed740d9c130b6801cf"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/processone/ejabberd/commit/d5b4d6785879f0a5192c26f5b5e218aec8104798"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/processone/ejabberd"
+    },
+    {
+      "type": "WEB",
+      "url": "https://support.process-one.net/browse/EJAB-1498"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2011/11/19/1"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2011/11/19/2"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.process-one.net/en/ejabberd/release_notes/release_note_ejabberd_2.1.9"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-19T19:14:32Z",
+    "nvd_published_at": "2012-02-18T00:55:00Z"
+  }
+}
