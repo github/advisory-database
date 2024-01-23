@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f9m9-494r-w36p",
+  "modified": "2024-01-23T17:51:44Z",
+  "published": "2022-05-13T01:12:50Z",
+  "aliases": [
+    "CVE-2014-0122"
+  ],
+  "summary": "Moodle allows bypass of intended access restrictions",
+  "details": "mod/chat/chat_ajax.php in Moodle through 2.3.11, 2.4.x before 2.4.9, 2.5.x before 2.5.5, and 2.6.x before 2.6.2 does not properly check for the mod/chat:chat capability during chat sessions, which allows remote authenticated users to bypass intended access restrictions in opportunistic circumstances by remaining in a chat session after an intra-session capability removal by an administrator.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "moodle/moodle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.4.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "moodle/moodle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.5.0"
+            },
+            {
+              "fixed": "2.5.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "moodle/moodle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.6.0"
+            },
+            {
+              "fixed": "2.6.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2014-0122"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moodle/moodle/commit/3d7810ab3d67a423a760ba89ae75de81d940b236"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moodle/moodle/commit/4d4867503c2467cb04660d9cb314d22f56004054"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moodle/moodle/commit/5c45ea0c6bf2fdf4dddfaef9fc5ff12e6b426a3f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moodle/moodle/commit/7748e17207b1a28118d9dc622878da22f956d3fe"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/moodle/moodle"
+    },
+    {
+      "type": "WEB",
+      "url": "https://moodle.org/mod/forum/discuss.php?d=256418"
+    },
+    {
+      "type": "WEB",
+      "url": "http://git.moodle.org/gw?p=moodle.git&a=search&h=HEAD&st=commit&s=MDL-44082"
+    },
+    {
+      "type": "WEB",
+      "url": "http://openwall.com/lists/oss-security/2014/03/17/1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-23T17:51:44Z",
+    "nvd_published_at": "2014-03-24T14:20:00Z"
+  }
+}
