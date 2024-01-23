@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rjq5-w47x-x359",
+  "modified": "2024-01-23T14:42:51Z",
+  "published": "2024-01-23T14:42:51Z",
+  "aliases": [
+    "CVE-2024-23340"
+  ],
+  "summary": "@hono/node-server cannot handle \"double dots\" in URL",
+  "details": "### Impact\n\nSince v1.3.0, we use our own Request object. This is great, but the `url` behavior is unexpected.\n\nIn the standard API, if the URL contains `..`, here called \"double dots\", the URL string returned by Request will be in the resolved path.\n\n```ts\nconst req = new Request('http://localhost/static/../foo.txt') // Web-standards\nconsole.log(req.url) // http://localhost/foo.txt\n```\n\nHowever, the `url` in our Request does not resolve double dots, so `http://localhost/static/.. /foo.txt` is returned.\n\n```ts\nconst req = new Request('http://localhost/static/../foo.txt')\nconsole.log(req.url) // http://localhost/static/../foo.txt\n```\n\nIt will pass unresolved paths to the web application. This causes vulnerabilities like #123 when using `serveStatic`.\n\nNote: Modern web browsers and a latest `curl` command resolve double dots on the client side, so it does not affect you if the user uses them. However, problems may occur if accessed by a client that does not resolve them.\n\n### Patches\n\n\"v1.4.1\" includes the change to fix this issue.\n\n### Workarounds\n\nDon't use `serveStatic`.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@hono/node-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.3.0"
+            },
+            {
+              "fixed": "1.4.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/honojs/node-server/security/advisories/GHSA-rjq5-w47x-x359"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23340"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/honojs/node-server/commit/dd9b9a9b23e3896403c90a740e7f1f0892feb402"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/honojs/node-server"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/honojs/node-server/blob/8cea466fd05e6d2e99c28011fc0e2c2d3f3397c9/src/request.ts#L43-L45"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-23T14:42:51Z",
+    "nvd_published_at": "2024-01-22T23:15:08Z"
+  }
+}
