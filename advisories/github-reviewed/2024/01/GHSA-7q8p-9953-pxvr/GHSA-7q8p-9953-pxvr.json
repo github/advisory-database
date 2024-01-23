@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7q8p-9953-pxvr",
+  "modified": "2024-01-23T20:10:20Z",
+  "published": "2024-01-23T20:10:20Z",
+  "aliases": [
+    "CVE-2024-23636"
+  ],
+  "summary": "Remote Command Execution in SOFARPC",
+  "details": "Impact\nSOFARPC defaults to using the SOFA Hessian protocol to deserialize received data, while the SOFA Hessian protocol uses a blacklist mechanism to restrict deserialization of potentially dangerous classes for security protection. But there is a gadget chain that can bypass the SOFA Hessian blacklist protection mechanism, and this gadget chain only relies on JDK and does not rely on any third-party components.\n\nPatches\nFixed this issue by adding a blacklist, users can upgrade to sofarpc version 5.12.0 to avoid this issue.\n\nWorkarounds\nSOFARPC also provides a way to add additional blacklist. Users can add some class like -Drpc_serialize_blacklist_override=org.apache.xpath. to avoid this issue.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.alipay.sofa:rpc-sofa-boot-starter"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.12.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/sofastack/sofa-rpc/security/advisories/GHSA-7q8p-9953-pxvr"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23636"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sofastack/sofa-rpc/commit/42d19b1b1d14a25aafd9ef7c219c04a19f90fc76"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sofastack/sofa-rpc/commit/d08e25824ae9feaf0876adba9acd2938f34759b1"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/sofastack/sofa-rpc"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-502"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-23T20:10:20Z",
+    "nvd_published_at": "2024-01-23T18:15:19Z"
+  }
+}
