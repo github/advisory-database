@@ -1,0 +1,307 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4jwq-572w-4388",
+  "modified": "2024-01-30T23:55:38Z",
+  "published": "2024-01-30T23:55:38Z",
+  "aliases": [
+    "CVE-2021-29511"
+  ],
+  "summary": "Memory over-allocation in evm crate",
+  "details": "### Impact\nPrior to the patch, when executing specific EVM opcodes related to memory operations that use `evm_core::Memory::copy_large`, the crate can over-allocate memory when it is not needed, making it possible for an attacker to perform denial-of-service attack.\n\n### Patches\nThe flaw was corrected in commit `19ade85`. Users should upgrade to `==0.21.1, ==0.23.1, ==0.24.1, ==0.25.1, >=0.26.1`.\n\n### Workarounds\nNone. Please upgrade your `evm` crate version\n\n### References\nFix commit: https://github.com/rust-blockchain/evm/commit/19ade858c430ab13eb562764a870ac9f8506f8dd\n\n### For more information\nIf you have any questions or comments about this advisory:\n* Open an issue in [evm repo](https://github.com/rust-blockchain/evm)\n* Email [Wei](mailto:wei@that.world)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "evm"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.21.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.21.0"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "evm-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.21.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.21.0"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "evm"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.22.0"
+            },
+            {
+              "fixed": "0.22.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "0.22.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "evm"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.23.0"
+            },
+            {
+              "fixed": "0.23.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "0.23.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "evm"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.24.0"
+            },
+            {
+              "fixed": "0.24.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "0.24.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "evm"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.25.0"
+            },
+            {
+              "fixed": "0.25.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "0.25.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "evm"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.26.0"
+            },
+            {
+              "fixed": "0.26.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "0.26.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "evm-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.22.0"
+            },
+            {
+              "fixed": "0.22.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "0.22.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "evm-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.23.0"
+            },
+            {
+              "fixed": "0.23.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "0.23.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "evm-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.24.0"
+            },
+            {
+              "fixed": "0.24.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "0.24.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "evm-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.25.0"
+            },
+            {
+              "fixed": "0.25.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "0.25.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "evm-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.26.0"
+            },
+            {
+              "fixed": "0.26.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "0.26.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/rust-blockchain/evm/security/advisories/GHSA-4jwq-572w-4388"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-29511"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rust-blockchain/evm/commit/19ade858c430ab13eb562764a870ac9f8506f8dd"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-770",
+      "CWE-787"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-30T23:55:38Z",
+    "nvd_published_at": "2021-05-12T18:15:00Z"
+  }
+}
