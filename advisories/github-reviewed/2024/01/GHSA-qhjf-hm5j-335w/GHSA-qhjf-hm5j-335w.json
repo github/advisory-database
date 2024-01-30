@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qhjf-hm5j-335w",
+  "modified": "2024-01-30T20:57:28Z",
+  "published": "2024-01-30T20:57:28Z",
+  "aliases": [
+    "CVE-2024-24556"
+  ],
+  "summary": "@urql/next Cross-site Scripting vulnerability",
+  "details": "## impact\n\nThe `@urql/next` package is vulnerable to XSS. To exploit this an attacker would need to ensure that the response returns `html` tags and that the web-application is using streamed responses (non-RSC). This vulnerability is due to improper escaping of html-like characters in the response-stream.\n\nTo fix this vulnerability upgrade to version 1.1.1",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@urql/next"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.1.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/urql-graphql/urql/security/advisories/GHSA-qhjf-hm5j-335w"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-24556"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/urql-graphql/urql/commit/4b7011b70d5718728ff912d02a4dbdc7f703540d"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/urql-graphql/urql"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-30T20:57:28Z",
+    "nvd_published_at": "2024-01-30T18:15:48Z"
+  }
+}

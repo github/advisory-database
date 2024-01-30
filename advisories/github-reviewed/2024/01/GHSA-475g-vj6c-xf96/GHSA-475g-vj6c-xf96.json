@@ -1,0 +1,141 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-475g-vj6c-xf96",
+  "modified": "2024-01-30T20:57:16Z",
+  "published": "2024-01-30T20:57:16Z",
+  "aliases": [
+    "CVE-2024-24565"
+  ],
+  "summary": "CrateDB database has an arbitrary file read vulnerability",
+  "details": "### Summary\nThere is an arbitrary file read vulnerability in the CrateDB database, and authenticated CrateDB database users can read any file on the system.\n\n### Details\nThere is a COPY FROM function in the CrateDB database that is used to import file data into database tables. This function has a flaw, and authenticated attackers can use the COPY FROM function to import arbitrary file content into database tables, resulting in information leakage.\n\n### PoC\n```\nCREATE TABLE info_leak(info_leak STRING);\nCOPY info_leak FROM '/etc/passwd' with (format='csv', header=false); or COPY info_leak FROM '/crate/config/crate.yml' with (format='csv', header=false);\nSELECT * FROM info_leak;\n```\n![image](https://user-images.githubusercontent.com/154296962/292985975-ff5f2fb8-1a3f-4b49-9951-cd1fc6e78031.png)\n\n\n### Impact\nThis vulnerability affects all current versions of the CrateDB database. Attackers who exploit this vulnerability to obtain sensitive information may carry out further attacks, while also affecting CrateDB Cloud Clusters.\n![image](https://user-images.githubusercontent.com/154296962/292986215-aec5adfe-38cc-4f31-bf86-c50ecbb44d5d.png)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.crate:crate"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.3.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.crate:crate"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.4.0"
+            },
+            {
+              "fixed": "5.4.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.crate:crate"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.5.0"
+            },
+            {
+              "fixed": "5.5.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.crate:crate"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.6.0"
+            },
+            {
+              "fixed": "5.6.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "5.6.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/crate/crate/security/advisories/GHSA-475g-vj6c-xf96"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-24565"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/crate/crate/commit/32d0fc2ebb834ea324eb7ab5d01320a67bc5c3c7"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/crate/crate/commit/4e857d675683095945dd524d6ba03e692c70ecd6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/crate/crate/commit/b75aeeabf90f51bd96ddb499903928fd10185207"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/crate/crate/commit/c4c97d5a1c52cc2250ea42d062a3d37550c19dd5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/crate/crate/commit/c5034323f1b56ca5d04b8ef4c6029eb63a5ba172"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/crate/crate"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-30T20:57:16Z",
+    "nvd_published_at": "2024-01-30T17:15:12Z"
+  }
+}
