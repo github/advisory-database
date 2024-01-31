@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-29w6-c52g-m8jc",
+  "modified": "2024-01-31T18:05:46Z",
+  "published": "2024-01-31T18:05:46Z",
+  "aliases": [
+
+  ],
+  "summary": "C5 Firefly III CSV Injection.",
+  "details": "### Summary\nCSV injection is a vulnerability where untrusted user input in CSV files can lead to unauthorized access or data manipulation. \nIn my subsequent testing of the application.\n\n### Details\nI discovered that there is an option to \"Export Data\" from the web app to your personal computer, which exports a \"csv\" file that can be opened with Excel software that supports macros.\n\nP.S \nI discovered that the web application's is offering a demo-site that anyone may access to play with the web application. So, there's a chance that someone will export the data (CVS) from the demo site and execute it on their PC, giving the malicious actor a complete control over their machine. (if a user enters a malicious payload to the website).\n\n### PoC\nYou can check out my vulnerability report if you need more details/PoC with screenshots: (removed by JC5)\n\n### Impact\nAn attacker can exploit this by entering a specially crafted payload to one of the fields, and when a user export the csv file using the \"Export Data\" function, the attacker can potentiality can RCE.\n\n### Addendum by JC5, the developer of Firefly III\nThere is zero impact on normal users, even on vulnerable versions.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:H/UI:R/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "grumpydictator/firefly-iii"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.1.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/firefly-iii/firefly-iii/security/advisories/GHSA-29w6-c52g-m8jc"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/firefly-iii/firefly-iii"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-31T18:05:46Z",
+    "nvd_published_at": null
+  }
+}
