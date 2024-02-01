@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-99f9-gv72-fw9r",
+  "modified": "2024-02-01T20:53:08Z",
+  "published": "2024-02-01T20:53:08Z",
+  "aliases": [
+    "CVE-2024-24753"
+  ],
+  "summary": "Bref Doesn't Support Multiple Value Headers in ApiGatewayFormatV2",
+  "details": "## Impacted Resources\n\nbref/src/Event/Http/HttpResponse.php:61-90\n\n## Description\n\nWhen Bref is used in combination with an API Gateway with the v2 format, it does not handle multiple values headers.\n\nPrecisely, if PHP generates a response with two headers having the same key but different values only the latest one is kept.\n\n## Impact\n\nIf an application relies on multiple headers with the same key being set for security reasons, then Bref would lower the application security.\n\nFor example, if an application sets multiple `Content-Security-Policy` headers, then Bref would just reflect the latest one.\n\n## PoC\n\n1. Create a new Bref project.\n2. Create an `index.php` file with the following content:\n```php\n<?php\nheader(\"Content-Security-Policy: script-src 'none'\", false);\nheader(\"Content-Security-Policy: img-src 'self'\", false);\n?>\n<script>alert(document.domain)</script>\n<img src=\"https://bref.sh/favicon-32x32.png\">\n```\n3. Use the following `serverless.yml` to deploy the Lambda:\n```yaml\nservice: app\n\nprovider:\n    name: aws\n    region: eu-central-1\n\nplugins:\n    - ./vendor/bref/bref\n\nfunctions:\n    api:\n        handler: index.php\n        description: ''\n        runtime: php-81-fpm\n        timeout: 28 # in seconds (API Gateway has a timeout of 29 seconds)\n        events:\n            -   httpApi: '*'\n\n# Exclude files from deployment\npackage:\n    patterns:\n        - '!node_modules/**'\n        - '!tests/**'\n```\n4. Browse the Lambda URL.\n5. Notice that the JavaScript code is executed as the `Content-Security-Policy: script-src 'none'` header has been removed.\n6. Notice that the external image has not been loaded as the `Content-Security-Policy: img-src 'self'` header has been kept.\n7. Start a PHP server inside the project directory (e.g. `php -S 127.0.0.1:8090`).\n8. Browse the `index.php` script through the PHP server (e.g. http://127.0.0.1:8090/index.php).\n9. Notice that the JavaScript code is not executed as the `Content-Security-Policy: script-src 'none'` header has been kept.\n10. Notice that the external image has not been loaded as the `Content-Security-Policy: img-src 'self'` header has been kept.\n\n## Suggested Remediation\n\nConcatenate all the multiple value headers' values with a comma (`,`) as separator and return a single header with all the values to the API Gateway.\n\n## References\n\n- https://www.rfc-editor.org/rfc/rfc9110.html#section-5.2",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "bref/bref"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.1.13"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/brefphp/bref/security/advisories/GHSA-99f9-gv72-fw9r"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-24753"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/brefphp/bref/commit/f834027aaf88b3885f4aa8edf6944ae920daf2dc"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/brefphp/bref"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/brefphp/bref/blob/2.1.12/src/Event/Http/HttpResponse.php#L61-L90"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-436"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-01T20:53:08Z",
+    "nvd_published_at": "2024-02-01T16:17:14Z"
+  }
+}
