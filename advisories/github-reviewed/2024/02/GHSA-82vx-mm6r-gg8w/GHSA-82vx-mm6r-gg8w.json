@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-82vx-mm6r-gg8w",
+  "modified": "2024-02-01T22:47:29Z",
+  "published": "2024-02-01T22:47:29Z",
+  "aliases": [
+    "CVE-2024-24754"
+  ],
+  "summary": "Bref vulnerable to Body Parsing Inconsistency in Event-Driven Functions",
+  "details": "## Impacted Resources\n\nbref/src/Event/Http/Psr7Bridge.php:130-168\n\n## Description\n\nWhen Bref is used with the Event-Driven Function runtime and the handler is a `RequestHandlerInterface`, then the Lambda event is converted to a PSR7 object.\nDuring the conversion process, if the request is a MultiPart, each part is parsed and its content added in the `$files` or `$parsedBody` arrays.\nTo do that, the following method is called with as first argument the result array (`$files` or `$parsedBody`), as second argument the part name, and as third argument the part content:\n\n```php\n/**\n * Parse a string key like \"files[id_cards][jpg][]\" and do $array['files']['id_cards']['jpg'][] = $value\n */\nprivate static function parseKeyAndInsertValueInArray(array &$array, string $key, mixed $value): void\n{\n    if (! str_contains($key, '[')) {\n        $array[$key] = $value;\n\n        return;\n    }\n\n    $parts = explode('[', $key); // files[id_cards][jpg][] => [ 'files',  'id_cards]', 'jpg]', ']' ]\n    $pointer = &$array;\n\n    foreach ($parts as $k => $part) {\n        if ($k === 0) {\n            $pointer = &$pointer[$part];\n\n            continue;\n        }\n\n        // Skip two special cases:\n        // [[ in the key produces empty string\n        // [test : starts with [ but does not end with ]\n        if ($part === '' || ! str_ends_with($part, ']')) {\n            // Malformed key, we use it \"as is\"\n            $array[$key] = $value;\n\n            return;\n        }\n\n        $part = substr($part, 0, -1); // The last char is a ] => remove it to have the real key\n\n        if ($part === '') { // [] case\n            $pointer = &$pointer[];\n        } else {\n            $pointer = &$pointer[$part];\n        }\n    }\n\n    $pointer = $value;\n}\n```\n\nThe conversion process produces a different output compared to the one of plain PHP when keys ending with and open square bracket (`[`) are used.\n\nLet's take for example the following part:\n```\n------WebKitFormBoundary\nContent-Disposition: form-data; name=\"key0[key1][key2][\"\n\nvalue\n------WebKitFormBoundary--\n```\n\nIn plain PHP it would be converted to `Array( [key0] => Array ( [key1] => Array ( [key2] => value) ) )`, while in Bref it would be converted to `Array( [key0] => Array ( [key1] => Array ( [key2] =>  ) ) [key0[key1][key2][] => value )`.\n\n## Impact\n\nBased on the application logic the difference in the body parsing might lead to vulnerabilities and/or undefined behaviors.\n\n## PoC\n\n1. Create a new Bref project.\n2. Create an `index.php` file with the following content:\n```php\n<?php\n\nnamespace App;\n\nrequire __DIR__ . '/vendor/autoload.php';\n\nuse Nyholm\\Psr7\\Response;\nuse Psr\\Http\\Message\\ResponseInterface;\nuse Psr\\Http\\Message\\ServerRequestInterface;\nuse Psr\\Http\\Server\\RequestHandlerInterface;\n\nclass MyHttpHandler implements RequestHandlerInterface\n{\n    public function handle(ServerRequestInterface $request): ResponseInterface\n    {\n\n        return new Response(200, [], var_export($request->getParsedBody(),true));\n    }\n}\n\nreturn new MyHttpHandler();\n\n```\n3. Use the following `serverless.yml` to deploy the Lambda:\n```yaml\nservice: app\n\nprovider:\n    name: aws\n    region: eu-central-1\n\nplugins:\n    - ./vendor/bref/bref\n\n# Exclude files from deployment\npackage:\n    patterns:\n        - '!node_modules/**'\n        - '!tests/**'\n\nfunctions:\n    api:\n        handler: index.php\n        runtime: php-83\n        events:\n            - httpApi: 'ANY /upload'\n```\n4. Replay the following request after having replaced the `<HOST>` placeholder with the deployed Lambda domain:\n```\nPOST /upload HTTP/2\nHost: <HOST>\nContent-Type: multipart/form-data; boundary=----WebKitFormBoundaryQqDeSZSSvmn2rfjb\nContent-Length: 180\n\n------WebKitFormBoundaryQqDeSZSSvmn2rfjb\nContent-Disposition: form-data; name=\"key0[key1][key2][\"\n\nvalue\n------WebKitFormBoundaryQqDeSZSSvmn2rfjb--\n```\n5. Notice how the body has been parsed.\n6. Create a `plain.php` file with the following content:\n```php\n<?php\n\nvar_dump($_POST);\n```\n7. Start a PHP server inside the project directory (e.g. `php -S 127.0.0.1:8090`).\n8. Replay the following request after having replaced the `<HOST>` placeholder with the PHP server address:\n```\nPOST /plain.php HTTP/1.1\nHost: <HOST>\nContent-Type: multipart/form-data; boundary=----WebKitFormBoundaryQqDeSZSSvmn2rfjb\nContent-Length: 180\n\n------WebKitFormBoundaryQqDeSZSSvmn2rfjb\nContent-Disposition: form-data; name=\"key0[key1][key2][\"\n\nvalue\n------WebKitFormBoundaryQqDeSZSSvmn2rfjb--\n```\n9. Notice the differences in the parsing compared to what observed at step 5.\n\n## Suggested Remediation\n\nUse the PHP function [`parse_str`](https://www.php.net/manual/en/function.parse-str.php) to parse the body parameters to mimic the plain PHP behavior.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "bref/bref"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.1.13"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/brefphp/bref/security/advisories/GHSA-82vx-mm6r-gg8w"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-24754"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/brefphp/bref/commit/c77d9f5abf021f29fa96b5720b7b84adbd199092"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/brefphp/bref"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/brefphp/bref/blob/2.1.12/src/Event/Http/Psr7Bridge.php#L130-L168"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-436"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-01T22:47:29Z",
+    "nvd_published_at": "2024-02-01T16:17:14Z"
+  }
+}
