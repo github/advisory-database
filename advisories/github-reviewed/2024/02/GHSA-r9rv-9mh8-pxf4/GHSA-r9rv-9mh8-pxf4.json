@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r9rv-9mh8-pxf4",
+  "modified": "2024-02-02T22:23:07Z",
+  "published": "2024-02-02T22:23:07Z",
+  "aliases": [
+
+  ],
+  "summary": "Nervos CKB BlockTimeTooNew should not be considered as invalid block",
+  "details": "### Impact\n\nCurrently, when a node receives a block in future according to its local wall clock, it will mark the block as invalid and ban the peer. \n\nIf the header's timestamp is more than 15 seconds ahead of our current time. In that case, the header may become valid in the future, and we don't want to disconnect a peer merely for serving us one too-far-ahead block header, to prevent an attacker from splitting the network by mining a block right at the  15 seconds boundary.\n\n### Patches\n\nUpgrade to v0.33.1 or above.\n\n### Workarounds\nDon't ban peer serving too-far-ahead block header.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "ckb"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.33.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.33.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/nervosnetwork/ckb/security/advisories/GHSA-r9rv-9mh8-pxf4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nervosnetwork/ckb/commit/760d447c8b600df0539debe80b1625836fc72819"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-02T22:23:07Z",
+    "nvd_published_at": null
+  }
+}
