@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-q669-2vfg-cxcg",
+  "modified": "2024-02-02T20:59:17Z",
+  "published": "2024-02-02T20:59:17Z",
+  "aliases": [
+
+  ],
+  "summary": "Nervos CKB Unaligned Pointer Dereference",
+  "details": "via bounty@nervos.org\n\nThere are multiple type conversions in ckb that unsafely cast between byte pointers and other types of pointers. This results in unaligned pointers, which are not allowed by the Rust language, and are considered undefined behavior, meaning that the compiler is free to do anything with code. This can lead to unpredictable bugs that can become security vulnerabilities.\n\nSome of the bugs here could potentially lead to buffer overreads in malformed data (it's not clear to me as I haven't investigated the practical impact of these bugs).\n\nTwo of these (in blockchain.rs) do not create unaligned data. They do though perform an unsafe operation that may not uphold the invariants of the safe function they are in, and could lead to undefined behavior and buffer overreads on malformed input.\n\nThese are of the same nature as those in my previous report about the molecule crate.\n\nPatch attached for commit 1b09e37c8e1b7945495cd18d9782417fbe51e986 that fixes all cases I know of at this time.\n\nPlease consider this report for reward under the terms of the bug bounty program.\n\nRelated advisory: https://github.com/nervosnetwork/molecule/security/advisories/GHSA-rffv-8x7x-p7pw",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "ckb"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.31.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.31.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/nervosnetwork/ckb/security/advisories/GHSA-q669-2vfg-cxcg"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nervosnetwork/ckb/commit/adf8f0d08bc058383a0df658ea2c2ef6e7950335"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-02T20:59:17Z",
+    "nvd_published_at": null
+  }
+}
