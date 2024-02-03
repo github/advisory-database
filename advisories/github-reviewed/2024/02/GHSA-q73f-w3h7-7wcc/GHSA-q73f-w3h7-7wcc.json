@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-q73f-w3h7-7wcc",
+  "modified": "2024-02-03T00:18:13Z",
+  "published": "2024-02-03T00:18:13Z",
+  "aliases": [
+
+  ],
+  "summary": "Nervos CKB Transaction which calls syscall load_cell_data_hash has nondeterministic result",
+  "details": "### Impact\nTx-pool verify transaction which inputs' script contains `load_cell_data_hash` is nondeterministic\n\n\n### Workarounds\nEnforce tx-pool ResolvedTrascation inputs' load data is none.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "ckb"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.34.2"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.34.1"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/nervosnetwork/ckb/security/advisories/GHSA-q73f-w3h7-7wcc"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nervosnetwork/ckb/commit/01eb5b2ecadf7e421b117d6c013e182978746e2f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nervosnetwork/ckb/commit/fe83220905599e72c97878295f4769e91348d738"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nervosnetwork/ckb/commit/ff88b48779358e038209f3ac1bc1061e6f4deb13"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-03T00:18:13Z",
+    "nvd_published_at": null
+  }
+}
