@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w277-wpqf-rcfv",
+  "modified": "2024-02-06T20:30:14Z",
+  "published": "2024-02-06T20:30:14Z",
+  "aliases": [
+
+  ],
+  "summary": "Svix vulnerable to improper comparison of different-length signatures",
+  "details": "The `Webhook::verify` function incorrectly compared signatures of different lengths - the two signatures would only be compared up to the length of the shorter signature. This allowed an attacker to pass in `v1,` as the signature, which would always pass verification.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "svix"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "svix::webhooks::Webhook::verify"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.17.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/svix/svix-webhooks/pull/1190"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/svix/svix-webhooks/commit/958821bd3b956d1436af65f70a0964d4ffb7daf6"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/svix/svix-webhooks"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2024-0010.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-06T20:30:14Z",
+    "nvd_published_at": null
+  }
+}
