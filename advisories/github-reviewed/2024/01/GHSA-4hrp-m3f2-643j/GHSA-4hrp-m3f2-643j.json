@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4hrp-m3f2-643j",
+  "modified": "2024-01-29T22:30:31Z",
+  "published": "2024-01-19T21:30:36Z",
+  "aliases": [
+    "CVE-2024-23679"
+  ],
+  "summary": "Session fixation in Enonic XP",
+  "details": "Enonic XP versions less than 7.7.4 are vulnerable to a session fixation issue. An remote and unauthenticated attacker can use prior sessions due to the lack of invalidating session attributes.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.enonic.xp:lib-auth"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "7.7.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/enonic/xp/security/advisories/GHSA-4m5p-5w5w-3jcf"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23679"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/enonic/xp/issues/9253"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/enonic/xp/commit/0189975691e9e6407a9fee87006f730e84f734ff"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/enonic/xp/commit/1f44674eb9ab3fbab7103e8d08067846e88bace4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/enonic/xp/commit/2abac31cec8679074debc4f1fb69c25930e40842"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-4m5p-5w5w-3jcf"
+    },
+    {
+      "type": "WEB",
+      "url": "https://vulncheck.com/advisories/vc-advisory-GHSA-4m5p-5w5w-3jcf"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-384"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-29T22:30:31Z",
+    "nvd_published_at": "2024-01-19T21:15:10Z"
+  }
+}

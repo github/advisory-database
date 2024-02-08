@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rq95-xf66-j689",
+  "modified": "2024-01-31T23:22:08Z",
+  "published": "2024-01-31T23:22:08Z",
+  "aliases": [
+    "CVE-2021-3282"
+  ],
+  "summary": "Improper Authentication in HashiCorp Vault",
+  "details": "HashiCorp Vault Enterprise 1.6.0 & 1.6.1 allowed the `remove-peer` raft operator command to be executed against DR secondaries without authentication. Fixed in 1.6.2.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/hashicorp/vault"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.6.0"
+            },
+            {
+              "fixed": "1.6.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-3282"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hashicorp/vault/commit/09f9068e22f762da123160233518b440e00bdb3b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://discuss.hashicorp.com/t/hcsec-2021-04-vault-enterprise-s-dr-secondaries-allowed-raft-peer-removal-without-authentication/20337"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.gentoo.org/glsa/202207-01"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-287"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-31T23:22:08Z",
+    "nvd_published_at": "2021-02-01T16:15:00Z"
+  }
+}

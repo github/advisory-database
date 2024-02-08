@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3xf8-g8gr-g7rh",
+  "modified": "2024-02-07T20:24:43Z",
+  "published": "2024-02-07T18:24:20Z",
+  "aliases": [
+    "CVE-2024-24823"
+  ],
+  "summary": "Graylog session fixation vulnerability through cookie injection",
+  "details": "### Impact\nReauthenticating with an existing session cookie would re-use that session id, even if for different user credentials.\nIn this case, the pre-existing session could be used to gain elevated access to an existing Graylog login session, provided the malicious user could successfully inject their session cookie into someone else's browser.\n\nThe complexity of such an attack is high, because it requires presenting a spoofed login screen and injection of a session cookie into an existing browser, potentially through an XSS attack. No such attack has been discovered.\n\n### Patches\nGraylog 5.1.11 and 5.2.4, and any versions of the 6.0 development branch contain patches to not re-use sessions under any circumstances, making this type of attack impossible.\n\n### Workarounds\nUsing short session expiration and explicit log outs of unused sessions can help limiting the attack vector. Unpatched this vulnerability exists, but is relatively hard to exploit.\nA proxy could be leveraged to clear the `authentication` cookie for the Graylog server URL for the `/api/system/sessions` endpoint, as that is the only one vulnerable.\n\nAnalysis provided by Fabian Yamaguchi - Whirly Labs (Pty) Ltd",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.graylog2:graylog2-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.3.0"
+            },
+            {
+              "fixed": "5.1.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.graylog2:graylog2-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.2.0-alpha.1"
+            },
+            {
+              "fixed": "5.2.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/Graylog2/graylog2-server/security/advisories/GHSA-3xf8-g8gr-g7rh"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-24823"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Graylog2/graylog2-server/commit/1596b749db86368ba476662f23a0f0c5ec2b5097"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Graylog2/graylog2-server/commit/b93a66353f35a94a4e8f3f75ac4f5cdc5a2d4a6a"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Graylog2/graylog2-server"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-384"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-07T18:24:20Z",
+    "nvd_published_at": "2024-02-07T18:15:54Z"
+  }
+}

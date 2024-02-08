@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9h6g-pr28-7cqp",
+  "modified": "2024-01-31T22:42:54Z",
+  "published": "2024-01-31T22:42:54Z",
+  "aliases": [
+
+  ],
+  "summary": "nodemailer ReDoS when trying to send a specially crafted email",
+  "details": "### Summary\nA ReDoS vulnerability occurs when nodemailer tries to parse img files with the parameter `attachDataUrls` set, causing the stuck of event loop. \nAnother flaw was found when nodemailer tries to parse an attachments with a embedded file, causing the stuck of event loop. \n\n### Details\n\nRegex: /^data:((?:[^;]*;)*(?:[^,]*)),(.*)$/\n\nPath: compile -> getAttachments -> _processDataUrl\n\nRegex: /(<img\\b[^>]* src\\s*=[\\s\"']*)(data:([^;]+);[^\"'>\\s]+)/\n\nPath: _convertDataImages\n\n### PoC\n\nhttps://gist.github.com/francoatmega/890dd5053375333e40c6fdbcc8c58df6\nhttps://gist.github.com/francoatmega/9aab042b0b24968d7b7039818e8b2698\n\n### Impact\n\nReDoS causes the event loop to stuck a specially crafted evil email can cause this problem.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "nodemailer"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.9.9"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 6.9.8"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/nodemailer/nodemailer/security/advisories/GHSA-9h6g-pr28-7cqp"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nodemailer/nodemailer/commit/dd8f5e8a4ddc99992e31df76bcff9c590035cd4a"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gist.github.com/francoatmega/890dd5053375333e40c6fdbcc8c58df6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gist.github.com/francoatmega/9aab042b0b24968d7b7039818e8b2698"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/nodemailer/nodemailer"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1333"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-31T22:42:54Z",
+    "nvd_published_at": null
+  }
+}

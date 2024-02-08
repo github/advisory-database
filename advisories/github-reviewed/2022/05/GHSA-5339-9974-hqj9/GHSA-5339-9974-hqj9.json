@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5339-9974-hqj9",
+  "modified": "2024-01-30T22:10:56Z",
+  "published": "2022-05-14T02:21:28Z",
+  "aliases": [
+    "CVE-2018-1999039"
+  ],
+  "summary": "Server-Side Request Forgery (SSRF) in Jenkins Confluence Publisher Plugin",
+  "details": "A server-side request forgery vulnerability exists in Jenkins Confluence Publisher Plugin 2.0.1 and earlier in ConfluenceSite.java that allows attackers to have Jenkins submit login requests to an attacker-specified Confluence server URL with attacker specified credentials.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:confluence-publisher"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.2"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.0.1"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-1999039"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2018-07-30/#SECURITY-982"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-918"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-30T22:10:56Z",
+    "nvd_published_at": "2018-08-01T13:29:00Z"
+  }
+}

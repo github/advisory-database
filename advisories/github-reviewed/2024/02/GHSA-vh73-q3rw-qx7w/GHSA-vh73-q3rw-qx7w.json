@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vh73-q3rw-qx7w",
+  "modified": "2024-02-05T23:06:56Z",
+  "published": "2024-02-05T21:30:31Z",
+  "aliases": [
+    "CVE-2024-1052"
+  ],
+  "summary": "Boundary vulnerable to session hijacking through TLS certificate tampering",
+  "details": "Boundary and Boundary Enterprise (“Boundary”) is vulnerable to session hijacking through TLS certificate tampering. An attacker with privileges to enumerate active or pending sessions, obtain a private key pertaining to a session, and obtain a valid trust on first use (TOFU) token may craft a TLS certificate to hijack an active session and gain access to the underlying service or application.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/hashicorp/boundary"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.8.0"
+            },
+            {
+              "fixed": "0.15.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-1052"
+    },
+    {
+      "type": "WEB",
+      "url": "https://discuss.hashicorp.com/t/hcsec-2024-02-boundary-vulnerable-to-session-hijacking-through-tls-certificate-tampering/62458"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/hashicorp/boundary"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-295"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-05T23:06:56Z",
+    "nvd_published_at": "2024-02-05T21:15:11Z"
+  }
+}

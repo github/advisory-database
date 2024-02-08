@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jcmg-9rw5-9rm2",
+  "modified": "2024-01-30T22:29:06Z",
+  "published": "2022-05-13T01:30:26Z",
+  "aliases": [
+    "CVE-2018-1000426"
+  ],
+  "summary": "Stored XSS vulnerability in Jenkins Git Changelog Plugin",
+  "details": "A cross-site scripting vulnerability exists in Jenkins Git Changelog Plugin 2.6 and earlier in GitChangelogSummaryDecorator/summary.jelly, GitChangelogLeftsideBuildDecorator/badge.jelly, GitLogJiraFilterPostPublisher/config.jelly, GitLogBasicChangelogPostPublisher/config.jelly that allows attackers able to control the Git history parsed by the plugin to have Jenkins render arbitrary HTML on some pages.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "de.wellnerbou.jenkins:git-changelog"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.7"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.6"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-1000426"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2018-09-25/#SECURITY-1122"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/106532"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-30T22:28:55Z",
+    "nvd_published_at": "2019-01-09T23:29:00Z"
+  }
+}

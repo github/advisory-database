@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3ccq-gccx-pm7j",
+  "modified": "2024-01-30T21:54:16Z",
+  "published": "2022-05-13T01:18:46Z",
+  "aliases": [
+    "CVE-2018-1000425"
+  ],
+  "summary": "Jenkins SonarQube Scanner Plugin stored server authentication token in plain text",
+  "details": "An insufficiently protected credentials vulnerability exists in Jenkins SonarQube Scanner Plugin 2.8 and earlier in SonarInstallation.java that allows attackers with local file system access to obtain the credentials used to connect to SonarQube.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:sonar"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.8.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.8"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-1000425"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2018-09-25/#SECURITY-1163"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/106532"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-522"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-30T21:54:16Z",
+    "nvd_published_at": "2019-01-09T23:29:00Z"
+  }
+}

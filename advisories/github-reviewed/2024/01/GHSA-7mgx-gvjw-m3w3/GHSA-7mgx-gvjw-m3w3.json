@@ -1,0 +1,142 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7mgx-gvjw-m3w3",
+  "modified": "2024-01-31T12:37:36Z",
+  "published": "2024-01-30T03:30:30Z",
+  "aliases": [
+    "CVE-2023-51982"
+  ],
+  "summary": "CrateDB authentication bypass vulnerability",
+  "details": "CrateDB 5.5.1 is contains an authentication bypass vulnerability in the Admin UI component. After configuring password authentication and_ Local_ In the case of an address, identity authentication can be bypassed by setting the X-Real IP request header to a specific value and accessing the Admin UI directly using the default user identity.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.crate:crate"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.2.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.crate:crate"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.3.0"
+            },
+            {
+              "fixed": "5.3.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.crate:crate"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.4.0"
+            },
+            {
+              "fixed": "5.4.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.crate:crate"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.5.0"
+            },
+            {
+              "fixed": "5.5.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-51982"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/crate/crate/issues/15231"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/crate/crate/pull/15234"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/crate/crate/commit/0c166ef083bec4d64dd55c1d8cb9b3dec350d241"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/crate/crate/commit/5be7b3864137c23305ece10df3f7c311ee50ae4d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/crate/crate/commit/b8b4cec49a1c7eb2b5af568400bd571d194dc03e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/crate/crate/commit/da59311ca920743ebc58ee64c29cfe5723487f56"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/crate/crate"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/crate/PYSEC-2024-27.yaml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-287"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-30T18:43:26Z",
+    "nvd_published_at": "2024-01-30T01:15:59Z"
+  }
+}

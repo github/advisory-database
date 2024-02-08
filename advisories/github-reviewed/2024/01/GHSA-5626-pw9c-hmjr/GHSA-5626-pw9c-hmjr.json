@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5626-pw9c-hmjr",
+  "modified": "2024-02-08T16:30:05Z",
+  "published": "2024-01-31T18:04:48Z",
+  "aliases": [
+    "CVE-2024-23637"
+  ],
+  "summary": "OctoPrint Unverified Password Change via Access Control Settings",
+  "details": "### Impact\n\nOctoPrint versions up until and including 1.9.3 contain a vulnerability that allows malicious admins to change the password of other admin accounts, including their own, without having to repeat their password.\n\nAn attacker who managed to hijack an admin account might use this to lock out actual admins from their OctoPrint instance.\n\n### Patches\n\nThe vulnerability will be patched in version 1.10.0.\n\n### Workarounds\n\nOctoPrint administrators are strongly advised to thoroughly vet who has admin access to their installation.\n\n### Credits\n\nThis vulnerability was discovered and responsibly disclosed to OctoPrint by Timothy \"TK\" Ruppert.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "OctoPrint"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.10.0rc1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.9.3"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/OctoPrint/OctoPrint/security/advisories/GHSA-5626-pw9c-hmjr"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23637"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OctoPrint/OctoPrint/commit/1729d167b4ae4a5835bbc7211b92c6828b1c4125"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/OctoPrint/OctoPrint"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OctoPrint/OctoPrint/releases/tag/1.10.0rc1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/octoprint/PYSEC-2024-29.yaml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-287",
+      "CWE-620"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-31T18:04:48Z",
+    "nvd_published_at": "2024-01-31T18:15:49Z"
+  }
+}

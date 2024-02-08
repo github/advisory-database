@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-m3r6-h7wv-7xxv",
+  "modified": "2024-02-01T17:48:14Z",
+  "published": "2024-01-31T22:43:32Z",
+  "aliases": [
+    "CVE-2024-23651"
+  ],
+  "summary": "BuildKit vulnerable to possible race condition with accessing subpaths from cache mounts",
+  "details": "### Impact\nTwo malicious build steps running in parallel sharing the same cache mounts with subpaths could cause a race condition that can lead to files from the host system being accessible to the build container.\n\n### Patches\nThe issue has been fixed in v0.12.5\n\n### Workarounds\nAvoid using BuildKit frontend from an untrusted source or building an untrusted Dockerfile containing cache mounts with `--mount=type=cache,source=...` options.\n\n### References\nhttps://www.openwall.com/lists/oss-security/2019/05/28/1\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/moby/buildkit"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.12.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/buildkit/security/advisories/GHSA-m3r6-h7wv-7xxv"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23651"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/buildkit/pull/4604"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/moby/buildkit"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/buildkit/releases/tag/v0.12.5"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-362"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-31T22:43:32Z",
+    "nvd_published_at": "2024-01-31T22:15:54Z"
+  }
+}

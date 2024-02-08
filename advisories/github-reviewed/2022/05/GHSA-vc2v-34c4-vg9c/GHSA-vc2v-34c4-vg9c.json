@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vc2v-34c4-vg9c",
+  "modified": "2024-01-30T22:00:30Z",
+  "published": "2022-05-13T01:17:42Z",
+  "aliases": [
+    "CVE-2019-1003088"
+  ],
+  "summary": "Jenkins Fabric-beta-publisher Plugin stores credentials in plain text",
+  "details": "Jenkins Fabric Beta Publisher Plugin stores credentials unencrypted in job config.xml files on the Jenkins master where they can be viewed by users with Extended Read permission, or access to the master file system.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "egor-n:fabric-beta-publisher"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "2.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-1003088"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2019-04-03/#SECURITY-1043"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2019/04/12/2"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/107790"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-311"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-30T22:00:21Z",
+    "nvd_published_at": "2019-04-04T16:29:00Z"
+  }
+}

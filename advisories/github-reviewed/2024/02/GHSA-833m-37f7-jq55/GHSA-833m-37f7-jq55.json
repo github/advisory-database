@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-833m-37f7-jq55",
+  "modified": "2024-02-08T18:46:23Z",
+  "published": "2024-02-08T18:46:23Z",
+  "aliases": [
+    "CVE-2023-32192"
+  ],
+  "summary": "Rancher API Server Cross-site Scripting Vulnerability",
+  "details": "### Impact\nA vulnerability has been identified in which unauthenticated cross-site scripting (XSS) in the API Server's public API endpoint can be exploited. This can lead to an attacker exploiting the vulnerability to trigger JavaScript code and execute commands remotely. \n\nThe attack vector was identified as a Reflected XSS.\n\nAPI Server propagates malicious payloads from user input to the UI, which renders the output. For example, a malicious URL gets rendered into a script that is executed on a page.\n\nThe changes addressed by this fix are:\n- Encode input that comes from the request URL before adding it to the response.\n- The request input is escaped by changing the URL construction that is used for links to use `url.URL`.\n- The request input is escaped by escaping the JavaScript and CSS variables with attribute encoding as defined by [OWASP](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html#output-encoding-rules-summary).\n\n### Patches\nPatched versions include the following commits:\n\n| Branch    | Commit |\n| -------- | ------- |\n| master  | 4fd7d82 |\n| release/v2.8 | 69b3c2b |\n| release/v2.8.s3 | a3b9e37 |\n| release/v2.7 | 4e102cf |\n| release/v2.7.s3 | 97a10a3 |\n| release/v2.6 | 4df268e |\n\n### Workarounds\nThere is no direct mitigation besides updating API Server to a patched version.\n\n### References\nIf you have any questions or comments about this advisory:\n\n- Reach out to the [SUSE Rancher Security team](https://github.com/rancher/rancher/security/policy) for security-related inquiries.\n- Open an issue in the [Rancher](https://github.com/rancher/rancher/issues/new/choose) repository.\n- Verify with our [support matrix](https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/) and [product support lifecycle](https://www.suse.com/lifecycle/).\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/rancher/apiserver"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.0.0-20240207153957-4fd7d821d952"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/rancher/apiserver/security/advisories/GHSA-833m-37f7-jq55"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rancher/apiserver/commit/4df268e250f625fa323349062636496e0aeff4e4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rancher/apiserver/commit/4e102cf0d07b1af3d10d82c3e5a751a869b8a6c7"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rancher/apiserver/commit/4fd7d821d952510bfe38c9d4a3e2a65157f50525"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rancher/apiserver/commit/69b3c2b56f3fa5a421889c533dada8cd08783cda"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rancher/apiserver/commit/97a10a30200cb851afd8ee85ee6b2295c4b6e5ee"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rancher/apiserver/commit/a3b9e3721c1b558ee63aec9594e37c223a5c8437"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/rancher/apiserver"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-80"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-08T18:46:23Z",
+    "nvd_published_at": null
+  }
+}
