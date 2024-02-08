@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xv6x-43gq-4hfj",
+  "modified": "2024-02-08T21:31:52Z",
+  "published": "2022-05-02T03:40:08Z",
+  "aliases": [
+    "CVE-2009-2940"
+  ],
+  "summary": "PyGreSQL Might Be Vulnerable to Encoding-Based SQL Injection",
+  "details": "PyGreSQL 3.8 did not use PostgreSQL’s safe `string` and `bytea` functions in its own escaping functions. As a result, applications written to use PyGreSQL’s escaping functions are vulnerable to SQL injections when processing certain multi-byte character sequences. Because the safe functions require a database connection, to maintain backwards compatibility, `pg.escape_string()` and `pg.escape_bytea()` are still available, but applications will have to be adjusted to use the new `pyobj.escape_string()` and `pyobj.escape_bytea()` functions. For example, code containing:\n\n```python\nimport pg\nconnection = pg.connect(...)\nescaped = pg.escape_string(untrusted_input)\n```\nshould be adjusted to use:\n\n```python\nimport pg\nconnection = pg.connect(...)\nescaped = connection.escape_string(untrusted_input)\n```",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "PyGreSQL"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "3.8.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "PyGreSQL"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0"
+            },
+            {
+              "fixed": "4.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "4.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2009-2940"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/PyGreSQL/PyGreSQL/commit/8e19320b130946eed6f043297e3e4e005a523612"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/PyGreSQL/PyGreSQL/commit/f7237d773e6f4d5a7da3d99bb6bc5062bd07935e"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/PyGreSQL/PyGreSQL"
+    },
+    {
+      "type": "WEB",
+      "url": "http://ubuntu.com/usn/usn-870-1"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.debian.org/security/2009/dsa-1911"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-89"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-08T21:31:52Z",
+    "nvd_published_at": "2009-10-22T16:30:00Z"
+  }
+}
