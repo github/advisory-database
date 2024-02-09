@@ -1,0 +1,113 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-583g-g682-crxf",
+  "modified": "2024-02-09T15:19:15Z",
+  "published": "2024-02-09T15:19:15Z",
+  "aliases": [
+    "CVE-2024-23639"
+  ],
+  "summary": "Micronaut management endpoints vulnerable to drive-by localhost attack",
+  "details": "### Summary\nEnabled but unsecured management endpoints are susceptible to drive-by localhost attacks. While not typical of a production application, these attacks may have more impact on a development environment where such endpoints may be flipped on without much thought.\n\n### Details\nA malicious/compromised website can make HTTP requests to `localhost`. Normally, such requests would trigger a CORS preflight check which would prevent the request; however, some requests are [\"simple\"](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#simple_requests) and do not require a preflight check. These endpoints, if enabled and not secured, are vulnerable to being triggered.\n\n### Impact\nProduction environments typically disable unused endpoints and secure/restrict access to needed endpoints. A more likely victim is the developer in their local development host, who has enabled endpoints without security for the sake of easing development.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.micronaut:micronaut-http-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.8.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.micronaut:micronaut-http-server-netty"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.8.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.micronaut:micronaut-http-server-tck"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.8.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/micronaut-projects/micronaut-core/security/advisories/GHSA-583g-g682-crxf"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23639"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/micronaut-projects/micronaut-core/pull/8642"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/micronaut-projects/micronaut-core/commit/01adb21e57137caaf7004313d2055c5a78b1f47b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#simple_requests"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/micronaut-projects/micronaut-core"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-15",
+      "CWE-610",
+      "CWE-664"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-09T15:19:15Z",
+    "nvd_published_at": "2024-02-09T01:15:09Z"
+  }
+}
