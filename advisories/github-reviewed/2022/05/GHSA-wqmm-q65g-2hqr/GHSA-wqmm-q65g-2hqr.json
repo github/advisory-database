@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wqmm-q65g-2hqr",
+  "modified": "2024-02-09T19:42:59Z",
+  "published": "2022-05-01T23:28:57Z",
+  "aliases": [
+    "CVE-2008-0299"
+  ],
+  "summary": "Paramiko Unsafe randomness usage may allow access to sensitive information",
+  "details": "common.py in Paramiko 1.7.1 and earlier, when using threads or forked processes, does not properly use RandomPool, which allows one session to obtain sensitive information from another session by predicting the state of the pool.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "paramiko"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.7.1-3"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.7.1-2"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2008-0299"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=428727"
+    },
+    {
+      "type": "WEB",
+      "url": "https://exchange.xforce.ibmcloud.com/vulnerabilities/39749"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/paramiko/paramiko"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20080205095439/http://secunia.com/advisories/28488"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20080627172450/http://secunia.com/advisories/28510"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20080628232710/http://secunia.com/advisories/29168"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20080720033315/http://www.lag.net/pipermail/paramiko/2008-January/000599.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20081012023428/http://www.securityfocus.com/bid/27307"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.redhat.com/archives/fedora-package-announce/2008-January/msg00529.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.redhat.com/archives/fedora-package-announce/2008-January/msg00594.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=460706"
+    },
+    {
+      "type": "WEB",
+      "url": "http://people.debian.org/~nion/nmu-diff/paramiko-1.6.4-1_1.6.4-1.1.patch"
+    },
+    {
+      "type": "WEB",
+      "url": "http://security.gentoo.org/glsa/glsa-200803-07.xml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-09T19:42:59Z",
+    "nvd_published_at": "2008-01-16T23:00:00Z"
+  }
+}
