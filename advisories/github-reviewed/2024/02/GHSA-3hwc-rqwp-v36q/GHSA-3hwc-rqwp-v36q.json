@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3hwc-rqwp-v36q",
+  "modified": "2024-02-09T21:43:19Z",
+  "published": "2024-02-09T18:31:07Z",
+  "aliases": [
+    "CVE-2023-50291"
+  ],
+  "summary": "Apache Solr can leak certain passwords due to System Property redaction logic inconsistencies",
+  "details": "Insufficiently Protected Credentials vulnerability in Apache Solr.\n\nThis issue affects Apache Solr from 6.0.0 through 8.11.2, from 9.0.0 before 9.3.0.\nOne of the two endpoints that publishes the Solr process' Java system properties, /admin/info/properties, was only setup to hide system properties that had \"password\" contained in the name.\nThere are a number of sensitive system properties, such as \"basicauth\" and \"aws.secretKey\" do not contain \"password\", thus their values were published via the \"/admin/info/properties\" endpoint.\nThis endpoint populates the list of System Properties on the home screen of the Solr Admin page, making the exposed credentials visible in the UI.\n\nThis /admin/info/properties endpoint is protected under the \"config-read\" permission.\nTherefore, Solr Clouds with Authorization enabled will only be vulnerable through logged-in users that have the \"config-read\" permission.\nUsers are recommended to upgrade to version 9.3.0 or 8.11.3, both of which fix the issue.\nA single option now controls hiding Java system property for all endpoints, \"-Dsolr.hiddenSysProps\".\nBy default all known sensitive properties are hidden (including \"-Dbasicauth\"), as well as any property with a name containing \"secret\" or \"password\".\n\nUsers who cannot upgrade can also use the following Java system property to fix the issue:\n  `-Dsolr.redaction.system.pattern=.*(password|secret|basicauth).*`",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.solr:solr-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.0.0"
+            },
+            {
+              "fixed": "8.11.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.solr:solr-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.0.0"
+            },
+            {
+              "fixed": "9.3.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-50291"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/solr/commit/659021c7d50164a3166887f24875228431b02102"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/solr/commit/98c198810f2cd934d23d0d80aadb570a2bbb3b8e"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/solr"
+    },
+    {
+      "type": "WEB",
+      "url": "https://issues.apache.org/jira/browse/SOLR-16809"
+    },
+    {
+      "type": "WEB",
+      "url": "https://solr.apache.org/security.html#cve-2023-50291-apache-solr-can-leak-certain-passwords-due-to-system-property-redaction-logic-inconsistencies"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/02/09/4"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-522"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-09T21:43:19Z",
+    "nvd_published_at": "2024-02-09T18:15:08Z"
+  }
+}
