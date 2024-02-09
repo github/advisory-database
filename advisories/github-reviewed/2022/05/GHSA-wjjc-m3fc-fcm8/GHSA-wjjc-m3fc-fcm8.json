@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wjjc-m3fc-fcm8",
+  "modified": "2024-02-09T19:33:55Z",
+  "published": "2022-05-17T05:52:47Z",
+  "aliases": [
+    "CVE-2008-6549"
+  ],
+  "summary": "MoinMoin Denial of Service vulnerability via password_checker function",
+  "details": "The password_checker function in `config/multiconfig.py` in MoinMoin prior to version 1.6.1 uses the cracklib and python-crack features even though they are not thread-safe, which allows remote attackers to cause a denial of service (segmentation fault and crash) via unknown vectors.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "moin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.6.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2008-6549"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/moinwiki/moin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20080410051007/http://moinmo.in/SecurityFixes"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20211206185024/http://hg.moinmo.in/moin/1.6/rev/35ff7a9b1546"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-09T19:33:55Z",
+    "nvd_published_at": "2009-03-30T01:30:00Z"
+  }
+}
