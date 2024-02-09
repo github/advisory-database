@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c4cm-r9fh-jgj9",
+  "modified": "2024-02-09T17:04:47Z",
+  "published": "2024-02-09T17:04:47Z",
+  "aliases": [
+
+  ],
+  "summary": "commonground-api-common unexploitable privilege escalation in JWT authentication middleware",
+  "details": "### Impact\n\nThis is a privilege escalation vulnerability. The impact is negligible and entirely theoretical.\n\nA non-exploitable weakness was found in how the client-supplied JWTs are verified. Because an explicit allow-list\nof known algorithms is used in the PyJWT library, user-supplied (invalid) algorithms are rejected.\n\nIf this was not the case, then the client JWTs could be tampered with, resulting in privilege escalation which\nwould allow the attacker to perform any operation as any client (impersonation) without leaving a trace of\nthe real user/client.\n\n\n### Patches\n\nWill be fixed in 1.12.2\n\n### Workarounds\n\nNone needed. But be careful when updating PyJWT. Check that the used PyJWT has no algorithms specified with a name in \"\", \"HS25\", \"HS2\", \"HS\", \"H\", or that those algorithms are acceptable.\n\n### Details\n\nThe header and payload of JSON Web Tokens (JWTs) are cryptographically signed with an algorithm. A JWT has a header field `alg` that specifies the algorithm used in the signature.\n\nThe `vng-api-common.middleware.AuthMiddleware` uses PyJWT to check the validity of JWT and indicates it should be \"HS256\", otherwise an attacker could construct a token with a cryptographically weak token. It should indicate this with a list of acceptable algorithms  `[\"HS256\"]`, but instead the string `\"HS256\"` is passed to PyJWT.  PyJWT does not check the type of the argument and checks if the `alg` string in the header exists in the acceptable algorithms value with the `in` operator. Any substring of `\"HS256\"` passes this `in` check. It is not exploitable because there is no such substring in de set of algorithms PyJWT supports.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "commonground-api-common"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.12.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "vng-api-common"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "2.0.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "vng-api-common-utrecht"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.3.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/maykinmedia/commonground-api-common/security/advisories/GHSA-c4cm-r9fh-jgj9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/maykinmedia/commonground-api-common/commit/20d9345a865338777839e8f02c21cd9d6f5a2cae"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-09T17:04:47Z",
+    "nvd_published_at": null
+  }
+}
