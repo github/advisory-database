@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v53g-5gjp-272r",
+  "modified": "2024-02-15T15:34:40Z",
+  "published": "2024-02-15T15:34:40Z",
+  "aliases": [
+    "CVE-2024-25620"
+  ],
+  "summary": "Helm dependency management path traversal",
+  "details": "A Helm contributor discovered a path traversal vulnerability when Helm saves a chart including at download time.\n\n### Impact\n\nWhen either the Helm client or SDK is used to save a chart whose name within the `Chart.yaml` file includes a relative path change, the chart would be saved outside its expected directory based on the changes in the relative path. The validation and linting did not detect the path changes in the name.\n\n### Patches\n\nThis issue has been resolved in Helm v3.14.1.\n\n### Workarounds\n\nCheck all charts used by Helm for path changes in their name as found in the `Chart.yaml` file. This includes dependencies.\n\n### Credits\n\nDisclosed by Dominykas Blyžė at Nearform Ltd.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "helm.sh/helm/v3"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.14.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.14.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/helm/helm/security/advisories/GHSA-v53g-5gjp-272r"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-25620"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/helm/helm/commit/0d0f91d1ce277b2c8766cdc4c7aa04dbafbf2503"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/helm/helm"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/helm/helm/releases/tag/v3.14.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22",
+      "CWE-23"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-15T15:34:40Z",
+    "nvd_published_at": "2024-02-15T00:15:45Z"
+  }
+}
