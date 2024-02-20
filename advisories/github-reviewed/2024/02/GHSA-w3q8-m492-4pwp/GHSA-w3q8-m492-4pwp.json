@@ -1,0 +1,207 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w3q8-m492-4pwp",
+  "modified": "2024-02-20T19:26:51Z",
+  "published": "2024-02-20T19:26:51Z",
+  "aliases": [
+    "CVE-2023-48220"
+  ],
+  "summary": "Possibility to circumvent the invitation token expiry period",
+  "details": "### Impact\nThe invites feature allows users to accept the invitation for an unlimited amount of time through the password reset functionality.\n\nWhen using the password reset functionality, the `devise_invitable` gem always accepts the pending invitation if the user has been invited as shown in this piece of code within the `devise_invitable` gem:\nhttps://github.com/scambra/devise_invitable/blob/41f58970ff76fb64382a9b9ea1bd530f7c3adab2/lib/devise_invitable/models.rb#L198\n\nThe only check done here is if the user has been invited but the code does not ensure that the pending invitation is still valid as defined by the `invite_for` expiry period as explained in the gem's documentation:\nhttps://github.com/scambra/devise_invitable#model-configuration-\n\n> `invite_for`: The period the generated invitation token is valid. After this period, the invited resource won’t be able to accept the invitation. When `invite_for` is `0` (the default), the invitation won’t expire.\n\nDecidim sets this configuration to `2.weeks` so this configuration should be respected:\nhttps://github.com/decidim/decidim/blob/d2d390578050772d1bdb6d731395f1afc39dcbfc/decidim-core/config/initializers/devise.rb#L134\n\nThe bug is in the `devise_invitable` gem and should be fixed there and the dependency should be upgraded in Decidim once the fix becomes available.\n\n### Patches\nUpdate `devise_invitable` to version `2.0.9` or above by running the following command:\n\n```\n$ bundle update devise_invitable\n```\n\n### Workarounds\nThe invitations can be cancelled directly from the database by running the following command from the Rails console:\n\n```\n> Decidim::User.invitation_not_accepted.update_all(invitation_token: nil)\n```\n\n### References\nOWASP ASVS V4.0.3-2.3.1\n\nThis bug has existed in the `devise_invitable` gem since this commit which was first included in the `v0.4.rc3` release of this gem:\nhttps://github.com/scambra/devise_invitable/commit/94d859c7de0829bf63f679ae5dd3cab2b866a098\n\nAll versions since then are affected.\n\nThis gem was first introduced at its version `~> 1.7.0` to the `decidim-admin` gem in this commit which was first included in the `v0.0.1.alpha3` release of Decidim:\nhttps://github.com/decidim/decidim/commit/073e60e2e4224dd81815a784002ebba30f2ebb34\n\nIt was first introduced at its version `~> 1.7.0` to the `decidim-system` gem in this commit which was also first included in the `v0.0.1.alpha3` release of Decidim:\nhttps://github.com/decidim/decidim/commit/b12800717a689c295a9ea680a38ca9f823d2c454\n\n### Credits\nThis issue was discovered in City of Helsinki's security audit against Decidim 0.27 done during September 2023. The security audit was implemented by [Deloitte Finland](https://www2.deloitte.com/fi/fi.html).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "decidim"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.0.1.alpha3"
+            },
+            {
+              "fixed": "0.26.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "decidim-admin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.0.1.alpha3"
+            },
+            {
+              "fixed": "0.26.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "decidim-system"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.0.1.alpha3"
+            },
+            {
+              "fixed": "0.26.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "devise_invitable"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.4.rc3"
+            },
+            {
+              "fixed": "2.0.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "decidim"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.27.0"
+            },
+            {
+              "fixed": "0.27.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "decidim-admin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.27.0"
+            },
+            {
+              "fixed": "0.27.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "decidim-system"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.27.0"
+            },
+            {
+              "fixed": "0.27.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/decidim/decidim/security/advisories/GHSA-w3q8-m492-4pwp"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-48220"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/decidim/decidim/commit/073e60e2e4224dd81815a784002ebba30f2ebb34"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/decidim/decidim/commit/b12800717a689c295a9ea680a38ca9f823d2c454"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/scambra/devise_invitable/commit/94d859c7de0829bf63f679ae5dd3cab2b866a098"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/decidim/decidim"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/decidim/decidim/blob/d2d390578050772d1bdb6d731395f1afc39dcbfc/decidim-core/config/initializers/devise.rb#L134"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/decidim/decidim/releases/tag/v0.26.9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/decidim/decidim/releases/tag/v0.27.5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/decidim/decidim/releases/tag/v0.28.0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/scambra/devise_invitable/blob/41f58970ff76fb64382a9b9ea1bd530f7c3adab2/lib/devise_invitable/models.rb#L198"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-672"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-20T19:26:51Z",
+    "nvd_published_at": "2024-02-20T18:15:50Z"
+  }
+}
