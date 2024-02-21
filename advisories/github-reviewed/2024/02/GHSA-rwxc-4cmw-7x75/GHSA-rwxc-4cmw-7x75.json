@@ -1,0 +1,118 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rwxc-4cmw-7x75",
+  "modified": "2024-02-21T23:30:52Z",
+  "published": "2024-02-21T03:30:38Z",
+  "aliases": [
+    "CVE-2024-26266"
+  ],
+  "summary": "Liferay Portal and Liferay DXP vulnerable to stored Cross-site Scripting",
+  "details": "Multiple stored cross-site scripting (XSS) vulnerabilities in Liferay Portal 7.2.0 through 7.4.3.13, and older unsupported versions, and Liferay DXP 7.4 before update 10, 7.3 before update 4, 7.2 before fix pack 17, and older unsupported versions allow remote authenticated users to inject arbitrary web script or HTML via a crafted payload injected into the first/middle/last name text field of the user who creates an entry in the (1) Announcement widget, or (2) Alerts widget.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.liferay.portal:release.portal.bom"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "7.4.3.13"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.liferay.portal:release.dxp.bom"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.4.13.u1"
+            },
+            {
+              "fixed": "7.4.13.u10"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.liferay.portal:release.dxp.bom"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.3.10.ep3"
+            },
+            {
+              "fixed": "7.3.10.u4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.liferay.portal:release.dxp.bom"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.2.0"
+            },
+            {
+              "fixed": "7.2.10.fp17"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-26266"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/liferay/liferay-portal"
+    },
+    {
+      "type": "WEB",
+      "url": "https://liferay.dev/portal/security/known-vulnerabilities/-/asset_publisher/jekt/content/cve-2024-26266"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-21T23:30:52Z",
+    "nvd_published_at": "2024-02-21T03:15:09Z"
+  }
+}
