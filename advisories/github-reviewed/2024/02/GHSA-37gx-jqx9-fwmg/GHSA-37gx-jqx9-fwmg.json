@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-37gx-jqx9-fwmg",
+  "modified": "2024-02-21T00:19:01Z",
+  "published": "2024-02-20T12:31:00Z",
+  "aliases": [
+    "CVE-2023-49250"
+  ],
+  "summary": "Improper Certificate Validation in Apache DolphinScheduler",
+  "details": "Because the HttpUtils class did not verify certificates, an attacker that could perform a Man-in-the-Middle (MITM) attack on outgoing https connections could impersonate the server.\n\nThis issue affects Apache DolphinScheduler: before 3.2.1.\n\nUsers are recommended to upgrade to version 3.2.1, which fixes the issue.\n\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.dolphinscheduler:dolphinscheduler"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.2.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-49250"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/dolphinscheduler/pull/15288"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/dolphinscheduler"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/wgs2jvhbmq8xnd6rmg0ymz73nyj7b3qn"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/02/20/1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-295"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-21T00:19:01Z",
+    "nvd_published_at": "2024-02-20T10:15:08Z"
+  }
+}
