@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r48h-jr2j-9g78",
+  "modified": "2024-02-21T23:19:35Z",
+  "published": "2022-05-14T03:29:43Z",
+  "aliases": [
+    "CVE-2018-9057"
+  ],
+  "summary": " HashiCorp Terraform Amazon Web Services (AWS) uses an insecure PRNG ",
+  "details": "aws/resource_aws_iam_user_login_profile.go in the HashiCorp Terraform Amazon Web Services (AWS) provider through v1.12.0 has an inappropriate PRNG algorithm and seeding, which makes it easier for remote attackers to obtain access by leveraging an IAM account that was provisioned with a weak password.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/hashicorp/terraform-provider-aws"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.14.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-9057"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hashicorp/terraform-provider-aws/pull/3934"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hashicorp/terraform-provider-aws/pull/3989"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/terraform-providers/terraform-provider-aws/pull/3934"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hashicorp/terraform-provider-aws/commit/efa8cd45c6484ff70b2a515ea7ff06f2459d4ddf"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/hashicorp/terraform-provider-aws"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hashicorp/terraform-provider-aws/blob/02b039aa82dd7fc6e4a97a0922cc5dbbab724021/resource_aws_iam_user_login_profile.go#L70-L80"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-332"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-21T23:19:35Z",
+    "nvd_published_at": "2018-03-27T18:29:00Z"
+  }
+}
