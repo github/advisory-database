@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-84c3-j8r2-mcm8",
+  "modified": "2024-02-26T20:10:10Z",
+  "published": "2024-02-26T20:10:10Z",
+  "aliases": [
+
+  ],
+  "summary": "@nfid/embed has compromised private key due to @dfinity/auth-client producing insecure session keys",
+  "details": "### Problem\nUser sessions in the @nfid/embed SDK with Ed25519 keys are vulnerable due to a compromised private key `535yc-uxytb-gfk7h-tny7p-vjkoe-i4krp-3qmcl-uqfgr-cpgej-yqtjq-rqe`. This exposes users to potential loss of funds on ledgers and unauthorized access to canisters they control.\n\n### Solution\nUsing version >1.0.1 of @dfinity/auth-client and @dfinity/identity packages, or @nfid/embed >0.10.1-alpha.6 includes patched versions of the issue.\n\nUser sessions will be automatically fixed when they re-authenticate.\n\n### Why this happened\nThe DFINITY auth client library provides a function, `Ed25519KeyIdentity.generate`, for generating an Ed25519 key pair. This function includes an optional parameter to supply a 32-byte seed value, which will be utilized as the secret key. In cases where no seed value is provided, the library is expected to generate the secret key using secure randomness. However, a recent update of DFINITY libraries has compromised this assurance by employing an insecure seed for key pair generation.\n\n### References\n[AgentJS CVE ](https://github.com/dfinity/agent-js/security/advisories/GHSA-c9vv-fhgv-cjc3)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@nfid/embed"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.10.0"
+            },
+            {
+              "fixed": "0.10.1-alpha.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/dfinity/agent-js/security/advisories/GHSA-c9vv-fhgv-cjc3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/internet-identity-labs/sdk-ts/security/advisories/GHSA-84c3-j8r2-mcm8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/internet-identity-labs/sdk-ts"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-321",
+      "CWE-330"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-26T20:10:10Z",
+    "nvd_published_at": null
+  }
+}
