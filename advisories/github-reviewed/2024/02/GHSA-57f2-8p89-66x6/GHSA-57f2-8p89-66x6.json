@@ -1,0 +1,178 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-57f2-8p89-66x6",
+  "modified": "2024-02-26T17:19:27Z",
+  "published": "2024-02-26T17:19:27Z",
+  "aliases": [
+    "CVE-2024-26481"
+  ],
+  "summary": "Kirby vulnerable to self cross-site scripting (self-XSS) in the URL field",
+  "details": "### TL;DR\n\nThis vulnerability affects Kirby sites that use the [URL field](https://getkirby.com/docs/reference/panel/fields/url) in any blueprint.\n\nA successful attack commonly requires knowledge of the content structure by the attacker as well as social engineering of a user with access to the Panel. The attack *cannot* be automated.\n\nThe vulnerability is also limited to self-XSS and *cannot* directly affect other users or visitors of the site.\n\n----\n\n### Introduction\n\nCross-site scripting (XSS) is a type of vulnerability that allows to execute any kind of JavaScript code inside the Panel session of the same or other users. In the Panel, a harmful script can for example trigger requests to Kirby's API with the permissions of the victim.\n\nSelf cross-site scripting (self-XSS, also called reflected XSS) typically involves a user inadvertently executing malicious code within their own context, often through social engineering techniques. This can occur when a user is tricked into pasting and executing malicious JavaScript code into the browser's developer console, address bar or form fields.\n\nSuch vulnerabilities are critical as they allow attackers to gain access to the system or to escalate their privileges if they get access to the Panel session of an admin user. Depending on your site, other JavaScript-powered attacks are possible.\n\n### Impact\n\nThe URL field allows users to open the entered link in a new tab by clicking the link icon inside the field. This can be used to quickly verify whether the entered URL is functional and correct.\n\nIn affected versions, Kirby copied the entered URL into the link target of that link button without validating or sanitizing the link. This could be abused by attackers with a `javascript:` URL that would then be executed in the user's context when the link button was clicked with <kbd>Ctrl+Click</kbd>/<kbd>Cmd+Click</kbd>.\n\n### Patches\n\nThe problem has been patched in [Kirby 3.6.6.5](https://github.com/getkirby/kirby/releases/tag/3.6.6.5), [Kirby 3.7.5.4](https://github.com/getkirby/kirby/releases/tag/3.7.5.4), [Kirby 3.8.4.3](https://github.com/getkirby/kirby/releases/tag/3.8.4.3), [Kirby 3.9.8.1](https://github.com/getkirby/kirby/releases/tag/3.9.8.1), [Kirby 3.10.0.1](https://github.com/getkirby/kirby/releases/tag/3.10.0.1), and [Kirby 4.1.1](https://github.com/getkirby/kirby/releases/tag/4.1.1). Please update to one of these or a [later version](https://github.com/getkirby/kirby/releases) to fix the vulnerability.\n\nIn all of the mentioned releases, we have changed the URL field to only make the link button clickable if the entered URL is valid and safe.\n\n### Credits\n\nThanks to Natwara Archeepsamooth (@PlyNatwara) for responsibly reporting the identified issue.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getkirby/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.6.6.5"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.6.6.4"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getkirby/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.7.0"
+            },
+            {
+              "fixed": "3.7.5.4"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.7.5.3"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getkirby/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.8.0"
+            },
+            {
+              "fixed": "3.8.4.3"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.8.4.2"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getkirby/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.9.0"
+            },
+            {
+              "fixed": "3.9.8.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.9.8"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getkirby/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.10.0"
+            },
+            {
+              "fixed": "3.10.0.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "3.10.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getkirby/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0"
+            },
+            {
+              "fixed": "4.1.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 4.1.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/getkirby/kirby/security/advisories/GHSA-57f2-8p89-66x6"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-26481"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/getkirby/kirby"
+    },
+    {
+      "type": "WEB",
+      "url": "https://shrouded-trowel-50c.notion.site/Kirby-CMS-4-1-0-Self-Cross-Site-Scripting-d877183d20af49f8a8f58554bc06d51c?pvs=4"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-26T17:19:27Z",
+    "nvd_published_at": null
+  }
+}
