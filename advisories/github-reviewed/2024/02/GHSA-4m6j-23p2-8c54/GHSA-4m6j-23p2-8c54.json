@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4m6j-23p2-8c54",
+  "modified": "2024-02-26T20:04:37Z",
+  "published": "2024-02-26T20:04:37Z",
+  "aliases": [
+    "CVE-2024-1735"
+  ],
+  "summary": "Armeria SAML authentication bypass due to missing validation on unsigned SAML messages",
+  "details": "### Impact\n\nThe SAML implementation provided by `armeria-saml` currently accepts unsigned SAML messages (assertions, logout requests, etc.) as they are, rather than rejecting them by default. As a result, an attacker can forge a SAML message to authenticate themselves, despite the fact that such an unsigned SAML message should be rejected.\n\n### Patches\n\nThe vulnerability has been patched in Armeria version 1.27.2. All users who rely on `armeria-saml` older than version 1.27.2 must upgrade to 1.27.2 or later.\n\n### Workarounds\n\nThere is no known workaround for this vulnerability.\n\n### References\n\n[`SamlMessageUtil.validateSignature()`](https://github.com/line/armeria/blob/0efc776988d71be4da6e506ec8a33c2b7b43f567/saml/src/main/java/com/linecorp/armeria/server/saml/SamlMessageUtil.java#L160-L163)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.linecorp.armeria:armeria-saml"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.27.2"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.27.1"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/line/armeria/security/advisories/GHSA-4m6j-23p2-8c54"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-1735"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/line/armeria/commit/b2aa9f49b46a7b0e03d8b8d753809cd1e8e2016c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/line/armeria"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/line/armeria/blob/0efc776988d71be4da6e506ec8a33c2b7b43f567/saml/src/main/java/com/linecorp/armeria/server/saml/SamlMessageUtil.java#L160-L163"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/line/armeria/releases/tag/armeria-1.27.2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-304"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-26T20:04:37Z",
+    "nvd_published_at": "2024-02-26T16:27:53Z"
+  }
+}
