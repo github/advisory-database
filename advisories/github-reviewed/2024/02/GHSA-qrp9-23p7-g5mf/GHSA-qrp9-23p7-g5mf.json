@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qrp9-23p7-g5mf",
+  "modified": "2024-02-27T21:53:34Z",
+  "published": "2024-02-27T18:31:02Z",
+  "aliases": [
+    "CVE-2023-50380"
+  ],
+  "summary": "Apache Ambari XML External Entity injection",
+  "details": "XML External Entity injection in Apache Ambari versions <= 2.7.7, Users are recommended to upgrade to version 2.7.8, which fixes this issue.\n\nMore Details:\n\nOozie Workflow Scheduler had a vulnerability that allowed for root-level file reading and privilege escalation from low-privilege users. The vulnerability was caused through lack of proper user input validation.\n\nThis vulnerability is known as an XML External Entity (XXE) injection attack. Attackers can exploit XXE vulnerabilities to read arbitrary files on the server, including sensitive system files. In theory, it might be possible to use this to escalate privileges.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.ambari.contrib.views:wfmanager"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.7.0"
+            },
+            {
+              "fixed": "2.7.8"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-50380"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/ambari/commit/d9652e4611ea36208d5f748028b3a9cd980e6edb"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/ambari"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/qrt7mq7v7zyrh1qsh1gkg1m7clysvy32"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/02/27/6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-611"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-27T21:53:34Z",
+    "nvd_published_at": "2024-02-27T17:15:11Z"
+  }
+}
