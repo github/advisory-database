@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fj69-p8f6-q97h",
+  "modified": "2024-02-28T18:38:31Z",
+  "published": "2022-05-13T01:07:02Z",
+  "aliases": [
+    "CVE-2015-3189"
+  ],
+  "summary": "Cloud Foundry Runtime has Weak Password Recovery Mechanism for Forgotten Password",
+  "details": "With Cloud Foundry Runtime cf-release versions v208 or earlier, UAA Standalone versions prior to 2.2.5 and Pivotal Cloud Foundry Runtime 1.4.5 or earlier, old Password Reset Links are not expired after the user changes their current email address to a new one. This vulnerability is applicable only when using the UAA internal user store for authentication. Deployments enabled for integration via SAML or LDAP are not affected.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.cloudfoundry.identity:cloudfoundry-identity-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.2.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2015-3189"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudfoundry/uaa/commit/a79b89f6e4f66626914b029b7a15a423491f8013"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cloudfoundry/uaa"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudfoundry/uaa/commits/2.2.5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudfoundry/uaa/compare/2.2.4...2.2.5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudfoundry/uaa/compare/2.2.5...2.2.6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pivotal.io/security/cve-2015-3189"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-640"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-28T18:38:31Z",
+    "nvd_published_at": "2017-05-25T17:29:00Z"
+  }
+}
