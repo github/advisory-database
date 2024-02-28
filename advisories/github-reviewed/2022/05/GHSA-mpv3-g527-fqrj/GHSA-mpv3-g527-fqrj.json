@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mpv3-g527-fqrj",
+  "modified": "2024-02-28T18:56:58Z",
+  "published": "2022-05-13T01:07:00Z",
+  "aliases": [
+    "CVE-2015-5170"
+  ],
+  "summary": "Cloud Foundry Runtime Cross-Site Request Forgery vulnerability",
+  "details": "Cloud Foundry Runtime cf-release before 216, UAA before 2.5.2, and Pivotal Cloud Foundry (PCF) Elastic Runtime before 1.7.0 allow remote attackers to conduct cross-site request forgery (CSRF) attacks on PWS and log a user into an arbitrary account by leveraging lack of CSRF checks.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.cloudfoundry.identity:cloudfoundry-identity-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.5.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2015-5170"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudfoundry/uaa/commit/41dba9d81dbdf24ede4fb9719de28b1b88b3e1b4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudfoundry/uaa/commit/a54f3fb8225ef7d5021ca7d4fb52bef1e884568e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudfoundry/uaa/commit/bdb1a39a1e72f615f2e7a429a896a11e7ee5ec17"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cloudfoundry/uaa"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pivotal.io/security/cve-2015-5170-5173"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/101579"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-28T18:56:58Z",
+    "nvd_published_at": "2017-10-24T17:29:00Z"
+  }
+}
