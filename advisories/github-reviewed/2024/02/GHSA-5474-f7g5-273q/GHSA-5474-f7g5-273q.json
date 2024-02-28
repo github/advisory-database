@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5474-f7g5-273q",
+  "modified": "2024-02-28T18:36:21Z",
+  "published": "2024-02-28T12:30:26Z",
+  "aliases": [
+    "CVE-2024-24773"
+  ],
+  "summary": "Apache Superset: Improper validation of SQL statements allows for unauthorized access to data",
+  "details": "Improper parsing of nested SQL statements on SQLLab would allow authenticated users to surpass their data authorization scope.\nThis issue affects Apache Superset: before 3.0.4, from 3.1.0 before 3.1.1.\n\nUsers are recommended to upgrade to version 3.1.1, which fixes the issue.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "apache-superset"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.0.4"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.0.3"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "apache-superset"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.1.0"
+            },
+            {
+              "fixed": "3.1.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-24773"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/superset"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/h66fy6nj41cfx07zh7l552w6dmtjh501"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/02/28/4"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-863"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-28T18:36:21Z",
+    "nvd_published_at": "2024-02-28T12:15:47Z"
+  }
+}
