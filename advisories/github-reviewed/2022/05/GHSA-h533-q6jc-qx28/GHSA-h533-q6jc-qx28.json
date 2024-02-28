@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h533-q6jc-qx28",
+  "modified": "2024-02-28T21:02:57Z",
+  "published": "2022-05-13T01:07:00Z",
+  "aliases": [
+    "CVE-2015-5171"
+  ],
+  "summary": "Cloud Foundry Runtime Insufficient Session Expiration vulnerability",
+  "details": "The password change functionality in Cloud Foundry Runtime cf-release before 216, UAA before 2.5.2, and Pivotal Cloud Foundry (PCF) Elastic Runtime before 1.7.0 allow attackers to have unspecified impact by leveraging failure to expire existing sessions.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.cloudfoundry.identity:cloudfoundry-identity-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.5.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2015-5171"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudfoundry/uaa/commit/7c70a85f4c7b5a9b1603bc57cab14a7ffef2168b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudfoundry/uaa/commit/9730cd6a3bbb481ee4e400b51952b537589c469d"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cloudfoundry/uaa"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pivotal.io/security/cve-2015-5170-5173"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-613"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-28T21:02:57Z",
+    "nvd_published_at": "2017-10-24T17:29:00Z"
+  }
+}
