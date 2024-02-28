@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fm5c-2rwc-887w",
+  "modified": "2024-02-28T22:07:55Z",
+  "published": "2022-05-13T01:07:24Z",
+  "aliases": [
+    "CVE-2016-3084"
+  ],
+  "summary": "Cloud Foundry UAA reset password vulnerable to brute force attack",
+  "details": "The UAA reset password flow in Cloud Foundry release v236 and earlier versions, UAA release v3.3.0 and earlier versions, all versions of Login-server, UAA release v10 and earlier versions and Pivotal Elastic Runtime versions prior to 1.7.2 is vulnerable to a brute force attack due to multiple active codes at a given time. This vulnerability is applicable only when using the UAA internal user store for authentication. Deployments enabled for integration via SAML or LDAP are not affected.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.cloudfoundry.identity:cloudfoundry-identity-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.3.0.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2016-3084"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudfoundry/uaa/commit/14350228989e2aee900b8d48a848293bb5152b6f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudfoundry/uaa/commit/1d3ad7399d010f6a29dc3bf8139d792121301ab8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudfoundry/uaa/commit/460627ed419e4227b10ff121248b3ffc009011a9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudfoundry/uaa/commit/4a119d314744460ed56bcd740b2e913bf3f560c1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudfoundry/uaa/commit/5c2377487bef9d716d5c8e5717df1fc00bc7b000"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudfoundry/uaa/commit/66132926f1bac0b878da5841be2f93fa5075d88f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudfoundry/uaa/commit/b3834364ab573e9655348193780a56a602fe87b7"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cloudfoundry/uaa"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pivotal.io/security/cve-2016-3084"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-28T22:07:55Z",
+    "nvd_published_at": "2017-05-25T17:29:00Z"
+  }
+}
