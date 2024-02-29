@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w7gj-h6f2-x4c6",
+  "modified": "2024-02-29T00:01:33Z",
+  "published": "2022-05-24T17:31:56Z",
+  "aliases": [
+    "CVE-2020-10721"
+  ],
+  "summary": "fabric8-maven-plugin: insecure way to construct Yaml Object leading to remote code execution",
+  "details": "A flaw was found in the fabric8-maven-plugin 4.0.0 and later. When using a wildfly-swarm or thorntail custom configuration, a malicious YAML configuration file on the local machine executing the maven plug-in could allow for deserialization of untrusted data resulting in arbitrary code execution. The highest threat from this vulnerability is to data confidentiality and integrity as well as system availability.\n\nThe fabric8-maven-plugin has been superseded by the Eclipse project JKube and the recommendation is migrating users of the fabric8-maven-plugin to Eclipse Jkube >= 1.0.0",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.fabric8:fabric8-maven-plugin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0-M1"
+            },
+            {
+              "last_affected": "4.4.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-10721"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1827201"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/fabric8io/fabric8-maven-plugin"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-502"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-29T00:01:33Z",
+    "nvd_published_at": "2020-10-22T20:15:00Z"
+  }
+}
