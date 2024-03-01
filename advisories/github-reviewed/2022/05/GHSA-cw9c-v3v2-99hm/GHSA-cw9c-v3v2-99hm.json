@@ -1,0 +1,142 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cw9c-v3v2-99hm",
+  "modified": "2024-03-01T20:12:04Z",
+  "published": "2022-05-13T01:07:26Z",
+  "aliases": [
+    "CVE-2017-4974"
+  ],
+  "summary": "Blind SQL Injection with privileged Cloud Foundry UAA endpoints",
+  "details": "An issue was discovered in Cloud Foundry Foundation cf-release versions prior to v258; UAA release 2.x versions prior to v2.7.4.15, 3.6.x versions prior to v3.6.9, 3.9.x versions prior to v3.9.11, and other versions prior to v3.16.0; and UAA bosh release (uaa-release) 13.x versions prior to v13.13, 24.x versions prior to v24.8, and other versions prior to v30.1. An authorized user can use a blind SQL injection attack to query the contents of the UAA database, aka \"Blind SQL Injection with privileged UAA endpoints.\"",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.cloudfoundry.identity:cloudfoundry-identity-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.7.4.15"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.cloudfoundry.identity:cloudfoundry-identity-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.6.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.cloudfoundry.identity:cloudfoundry-identity-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.7.0"
+            },
+            {
+              "fixed": "3.9.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.cloudfoundry.identity:cloudfoundry-identity-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.10.0"
+            },
+            {
+              "fixed": "3.16.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-4974"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudfoundry/uaa/commit/01edea6337c8ddb2ab80906aa1254d3c1dc02fb"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudfoundry/uaa/commit/2dbeb9e93e076d71d7f0886dea9f77f23e0b8f3c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudfoundry/uaa/commit/5dc5ca9176ed5baa870680d99f37e7e559dddc5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudfoundry/uaa/commit/74b9b270787aa602196d59d58893c3a6e09816f9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudfoundry/uaa/commit/b6d6526cb89120043d390bf0274cd062e9fc452"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cloudfoundry/uaa"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20200227163823/http://www.securityfocus.com/bid/99254"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.cloudfoundry.org/cve-2017-4974"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-89"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-01T20:12:04Z",
+    "nvd_published_at": "2017-06-13T06:29:00Z"
+  }
+}
