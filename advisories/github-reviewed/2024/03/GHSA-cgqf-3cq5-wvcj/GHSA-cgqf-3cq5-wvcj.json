@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cgqf-3cq5-wvcj",
+  "modified": "2024-03-06T18:24:17Z",
+  "published": "2024-03-06T18:24:17Z",
+  "aliases": [
+    "CVE-2024-28101"
+  ],
+  "summary": "Apollo Router's Compressed Payloads do not respect HTTP Payload Limits",
+  "details": "### Impact\nThe Apollo Router is a configurable, high-performance graph router written in Rust to run a federated supergraph that uses Apollo Federation. Affected versions are subject to a Denial-of-Service (DoS) type vulnerability. When receiving compressed HTTP payloads, affected versions of the Router evaluate the `limits.http_max_request_bytes` configuration option after the entirety of the compressed payload is decompressed. If affected versions of the Router receive highly compressed payloads, this could result in significant memory consumption while the compressed payload is expanded. \n\n### Patches\nRouter version 1.40.2 has a fix for the vulnerability.\n\n### Workarounds\nIf you are unable to upgrade, you may be able to implement mitigations at proxies or load balancers positioned in front of your Router fleet (e.g. Nginx, HAProxy, or cloud-native WAF services) by creating limits on HTTP body upload size. \n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "apollo-router"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.9.5"
+            },
+            {
+              "fixed": "1.40.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/apollographql/router/security/advisories/GHSA-cgqf-3cq5-wvcj"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apollographql/router/commit/9e9527c73c8f34fc8438b09066163cd42520f413"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apollographql/router"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-409"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-06T18:24:17Z",
+    "nvd_published_at": null
+  }
+}
