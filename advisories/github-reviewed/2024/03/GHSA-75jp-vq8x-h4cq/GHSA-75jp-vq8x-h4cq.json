@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-75jp-vq8x-h4cq",
+  "modified": "2024-03-07T17:26:28Z",
+  "published": "2024-03-07T17:26:27Z",
+  "aliases": [
+    "CVE-2024-28123"
+  ],
+  "summary": "Wasmi Out-of-bounds Write for host to Wasm calls with more than 128 Parameters",
+  "details": "### Summary\n\nIn the WASMI Interpreter, an [Out-of-bounds Buffer Write](https://cwe.mitre.org/data/definitions/787.html) will arise arise if the host calls or resumes a Wasm function with more parameters than the default limit (128), as it will surpass the stack value. This doesn’t affect calls from Wasm to Wasm, only from host to Wasm.\n\n### Impact\n\nAfter conducting an analysis of the dependent Polkadot systems of `wasmi`: [Pallet Contracts](https://github.com/paritytech/polkadot-sdk/tree/master/substrate/frame/contracts), [Parity Signer](https://github.com/paritytech/parity-signer), and [Smoldot](https://github.com/smol-dot/smoldot), we have found that none on those systems have been affected by the issue as they are calling host to Wasm function with a small limited amount of parameters always. \n\n### Mitigations\n\nIf you are using `wasmi` betwen version 0.15.0 and 0.31.0, please update it to the [0.31.1](https://github.com/paritytech/wasmi/releases/tag/v0.31.1) patch release that we just published.\n\n### Workarounds\n\nEnsure no more than 128 parameters can be pass in a call from the host to a Wasm function. \n\n### References\n\nPatch PR: <PR>\n\n### Special thanks\n\nSpecial thanks to Stellar Development Foundation for reporting this security vulnerability.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "wasmi"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.15.0"
+            },
+            {
+              "fixed": "0.31.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.31.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/wasmi-labs/wasmi/security/advisories/GHSA-75jp-vq8x-h4cq"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/wasmi-labs/wasmi/commit/f7b3200e9f3dc9e2cbca966cb255c228453c792f"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/wasmi-labs/wasmi"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/wasmi-labs/wasmi/releases/tag/v0.31.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-787"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-07T17:26:27Z",
+    "nvd_published_at": null
+  }
+}
