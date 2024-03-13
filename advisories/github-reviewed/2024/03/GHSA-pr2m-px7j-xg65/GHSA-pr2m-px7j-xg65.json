@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-pr2m-px7j-xg65",
+  "modified": "2024-03-13T15:33:15Z",
+  "published": "2024-03-13T15:33:14Z",
+  "aliases": [
+    "CVE-2024-27305"
+  ],
+  "summary": "aiosmtpd vulnerable to SMTP smuggling",
+  "details": "### Summary\naiosmtpd is vulnerable to inbound SMTP smuggling. SMTP smuggling is a novel vulnerability based on not so novel interpretation differences of the SMTP protocol. By exploiting SMTP smuggling, an attacker may send smuggle/spoof e-mails with fake sender addresses, allowing advanced phishing attacks. This issue also existed in other SMTP software like Postfix (https://www.postfix.org/smtp-smuggling.html).\n\n### Details\nDetailed information on SMTP smuggling can be found in the full blog post (https://sec-consult.com/blog/detail/smtp-smuggling-spoofing-e-mails-worldwide/) or on the Postfix homepage (https://www.postfix.org/smtp-smuggling.html). (and soon on the official website https://smtpsmuggling.com/)  \n\n### Impact\nWith the right SMTP server constellation, an attacker can send spoofed e-mails to inbound/receiving aiosmtpd instances.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "aiosmtpd"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.4.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/aio-libs/aiosmtpd/security/advisories/GHSA-pr2m-px7j-xg65"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-27305"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/aio-libs/aiosmtpd/commit/24b6c79c8921cf1800e27ca144f4f37023982bbb"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/aio-libs/aiosmtpd"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.postfix.org/smtp-smuggling.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-345"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-13T15:33:14Z",
+    "nvd_published_at": "2024-03-12T21:15:58Z"
+  }
+}
