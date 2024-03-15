@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5h3x-6gwf-73jm",
+  "modified": "2024-03-15T16:44:36Z",
+  "published": "2024-03-15T16:44:36Z",
+  "aliases": [
+    "CVE-2024-24770"
+  ],
+  "summary": "vantage6 vulnerable to a username timing attack on recover password/MFA token",
+  "details": "### Impact\nMuch like https://github.com/vantage6/vantage6/security/advisories/GHSA-45gq-q4xh-cp53, it is possible to find which usernames exist in vantage6 by calling the API routes `/recover/lost` and `/2fa/lost`, which send emails to users if they have lost their password or MFA token. Usernames can be found by assessing response time differences, and additionally, they can be found because the endpoint gives a response \"Failed to login\" if the username exists.\n\n### Patches\nNo\n\n### Workarounds\nNo",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "vantage6"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.3.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 4.2.2"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/vantage6/vantage6/security/advisories/GHSA-45gq-q4xh-cp53"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vantage6/vantage6/security/advisories/GHSA-5h3x-6gwf-73jm"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-24770"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vantage6/vantage6/commit/aecfd6d0e83165a41a60ebd52d2287b0217be26b"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vantage6/vantage6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-208",
+      "CWE-362"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-15T16:44:36Z",
+    "nvd_published_at": "2024-03-14T19:15:49Z"
+  }
+}
