@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-494h-9924-xww9",
+  "modified": "2024-03-15T16:48:21Z",
+  "published": "2024-03-15T16:48:21Z",
+  "aliases": [
+    "CVE-2024-27102"
+  ],
+  "summary": "Pterodactyl Wings vulnerable to improper isolation of server file access",
+  "details": "### Impact\n\nThis vulnerability impacts anyone running the affected versions of Wings.  The vulnerability can potentially be used to access files and directories on the host system.  The full scope of impact is exactly unknown, but reading files outside of a server's base directory (sandbox root) is possible.\n\nIn order to use this exploit, an attacker must have an existing \"server\" allocated and controlled by Wings.  Details on the exploitation of this vulnerability are embargoed until March 27th, 2024 at 18:00 UTC.\n\n### Resolution\n\nIn order to mitigate this vulnerability, a full rewrite of the entire server filesystem was necessary.  Because of this, the size of the patch is massive, however effort was made to reduce the amount of breaking changes.  While tests were written to ensure security and functionality, there may be some semantic differences of certain operations, such as different errors being returned for example.  If you notice any major semantic differences, please open an issue on our issue tracker so it can be resolved. <https://github.com/pterodactyl/panel/issues/new/choose>\n\n### Patches\n\nThis vulnerability has been resolved in version `v1.11.9` of Wings.\n\nEveryone should update to Wings `v1.11.9` (or newer).\n\n### Workarounds\n\nNone.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/pterodactyl/wings"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.11.9"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pterodactyl/wings/security/advisories/GHSA-494h-9924-xww9"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-27102"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pterodactyl/wings/commit/d1c0ca526007113a0f74f56eba99511b4e989287"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pterodactyl/wings"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22",
+      "CWE-362",
+      "CWE-363"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-15T16:48:21Z",
+    "nvd_published_at": "2024-03-13T21:15:59Z"
+  }
+}
