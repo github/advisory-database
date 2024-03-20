@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mq39-4gv4-mvpx",
+  "modified": "2024-03-20T17:59:52Z",
+  "published": "2024-03-20T17:59:52Z",
+  "aliases": [
+    "CVE-2024-29018"
+  ],
+  "summary": "Moby's external DNS requests from 'internal' networks could lead to data exfiltration",
+  "details": "Moby is an open source container framework originally developed by Docker Inc. as Docker. It is a key component of Docker Engine, Docker Desktop, and other distributions of container tooling or runtimes. As a batteries-included container runtime, Moby comes with a built-in networking implementation that enables communication between containers, and between containers and external resources.\n\nMoby's networking implementation allows for creating and using many networks, each with their own subnet and gateway. This feature is frequently referred to as custom networks, as each network can have a different driver, set of parameters, and thus behaviors. When creating a network, the `--internal` flag is used to designate a network as _internal_. The `internal` attribute in a docker-compose.yml file may also be used to mark a network _internal_, and other API clients may specify the `internal` parameter as well.\n\nWhen containers with networking are created, they are assigned unique network interfaces and IP addresses (typically from a non-routable [RFC 1918](https://datatracker.ietf.org/doc/html/rfc1918) subnet). The root network namespace (hereafter referred to as the 'host') serves as a router for non-internal networks, with a gateway IP that provides SNAT/DNAT to/from container IPs.\n\nContainers on an _internal_ network may communicate between each other, but are precluded from communicating with any networks the host has access to (LAN or WAN) as no default route is configured, and firewall rules are set up to drop all outgoing traffic. Communication with the gateway IP address (and thus appropriately configured host services) is possible, and the host may communicate with any container IP directly.\n\nIn addition to configuring the Linux kernel's various networking features to enable container networking, `dockerd` directly provides some services to container networks. Principal among these is serving as a resolver, enabling service discovery (looking up other containers on the network by name), and resolution of names from an upstream resolver.\n\nWhen a DNS request for a name that does not correspond to a container is received, the request is forwarded to the configured upstream resolver (by default, the host's configured resolver). This request is made from the container network namespace: the level of access and routing of traffic is the same as if the request was made by the container itself.\n\nAs a consequence of this design, containers solely attached to _internal_ network(s) will be unable to resolve names using the upstream resolver, as the container itself is unable to communicate with that nameserver. Only the names of containers also attached to the internal network are able to be resolved.\n\nMany systems will run a local forwarding DNS resolver, typically present on a loopback address (`127.0.0.0/8`), such as systemd-resolved or dnsmasq. Common loopback address examples include `127.0.0.1` or `127.0.0.53`. As the host and any containers have separate loopback devices, a consequence of the design described above is that containers are unable to resolve names from the host's configured resolver, as they cannot reach these addresses on the host loopback device.\n\nTo bridge this gap, and to allow containers to properly resolve names even when a local forwarding resolver is used on a loopback address, `dockerd` will detect this scenario and instead forward DNS requests from the host/root network namespace. The loopback resolver will then forward the requests to its configured upstream resolvers, as expected.\n\n## Impact\n\nBecause `dockerd` will forward DNS requests to the host loopback device, bypassing the container network namespace's normal routing semantics entirely, _internal_ networks can unexpectedly forward DNS requests to an external nameserver.\n\nBy registering a domain for which they control the authoritative nameservers, an attacker could arrange for a compromised container to exfiltrate data by encoding it in DNS queries that will eventually be answered by their nameservers. For example, if the domain `evil.example` was registered, the authoritative nameserver(s) for that domain could (eventually and indirectly) receive a request for `this-is-a-secret.evil.example`.\n\nDocker Desktop is not affected, as Docker Desktop always runs an internal resolver on a RFC 1918 address.\n\n## Patches\n\nMoby releases 26.0.0-rc3, 25.0.5 (released) and 23.0.11 (to be released) are patched to prevent forwarding DNS requests from internal networks.\n\n## Workarounds\n\n-   Run containers intended to be solely attached to _internal_ networks with a custom upstream address (`--dns` argument to `docker run`, or API equivalent), which will force all upstream DNS queries to be resolved from the container network namespace.\n\n## Background\n\n- yair zak originally reported this issue to the Docker security team.\n-  PR <https://github.com/moby/moby/pull/46609> was opened in public to fix this issue, as it was not originally considered to have a security implication.\n- [The official documentation](https://docs.docker.com/network/drivers/ipvlan/#:~:text=If%20the%20parent,the%20network%20completely) claims that \"the `--internal` flag that will completely isolate containers on a network from any communications external to that network,\" which necessitated this advisory and CVE.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/docker/docker"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "26.0.0-rc1"
+            },
+            {
+              "fixed": "26.0.0-rc3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/docker/docker"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "25.0.0"
+            },
+            {
+              "fixed": "25.0.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/docker/docker"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "23.0.11"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/moby/security/advisories/GHSA-mq39-4gv4-mvpx"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/moby/pull/46609"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/moby/moby"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-669"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-20T17:59:52Z",
+    "nvd_published_at": null
+  }
+}
