@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qfv4-q44r-g7rv",
+  "modified": "2024-03-22T16:35:48Z",
+  "published": "2024-03-22T16:35:48Z",
+  "aliases": [
+    "CVE-2024-28117"
+  ],
+  "summary": "Server Side Template Injection (SSTI)",
+  "details": "### Summary\nGrav validates accessible functions through the Utils::isDangerousFunction function, but does not impose restrictions on twig functions like twig_array_map, allowing attackers to bypass the validation and execute arbitrary commands.\n\n### Details\n```\n{{ grav.twig.twig.getFunction('twig_array_map')|var_dump }}\n```\n![image](https://user-images.githubusercontent.com/46442697/281397674-6098806a-e936-4849-956e-d394a7c037da.png)\n\nWhen we accessed twig_array_map like this, we confirmed that the twigFunction object is properly returned. Since the callable property is correctly included, we can access twig_array_map without any restrictions.\n\n```\n{% set cmd = {'id':'system'} %}\n{{ twig_array_map(grav.twig.twig,cmd,'call_user_func')|join }}\n```\nSince there is no validation on twig_array_map itself, it is possible to call arbitrary function using call_user_func.\n\n### PoC\n```\n{% set cmd = {'id':'system'} %}\n{{ twig_array_map(grav.twig.twig,cmd,'call_user_func')|join }}\n```\n\n### Impact\nTwig processing of static pages can be enabled in the front matter by any administrative user allowed to create or edit pages.\nAs the Twig processor runs unsandboxed, this behavior can be used to gain arbitrary code execution and elevate privileges on the instance.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getgrav/grav"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.7.45"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/getgrav/grav/security/advisories/GHSA-qfv4-q44r-g7rv"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28117"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getgrav/grav/commit/de1ccfa12dbcbf526104d68c1a6bc202a98698fe"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/getgrav/grav"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-22T16:35:48Z",
+    "nvd_published_at": "2024-03-21T22:15:11Z"
+  }
+}
