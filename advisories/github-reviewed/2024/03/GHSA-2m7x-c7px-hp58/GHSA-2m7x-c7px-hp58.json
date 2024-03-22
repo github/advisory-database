@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2m7x-c7px-hp58",
+  "modified": "2024-03-22T16:56:02Z",
+  "published": "2024-03-22T16:56:02Z",
+  "aliases": [
+    "CVE-2024-28119"
+  ],
+  "summary": "Server Side Template Injection (SSTI) via Twig escape handler",
+  "details": "### Summary\nDue to the unrestricted access to twig extension class from grav context, an attacker can redefine the escape function and execute arbitrary commands.\n\n### Details\nhttps://github.com/twigphp/Twig/blob/3.x/src/Extension/EscaperExtension.php#L99\n```php\n/**\n     * Defines a new escaper to be used via the escape filter.\n     *\n     * @param string   $strategy The strategy name that should be used as a strategy in the escape call\n     * @param callable $callable A valid PHP callable\n     */\n    public function setEscaper($strategy, callable $callable)\n    {\n        $this->escapers[$strategy] = $callable;\n    }\n ```\n Twig supports the functionality to redefine the escape function through the setEscaper method. \nHowever, that method is not originally exposed to the twig environment, but it is accessible through the payload below.\n\n```plaintext\n{{ grav.twig.twig.extensions.core.setEscaper('a','a') }}\n```\nAt this point, it accepts callable type as an argument, but as there is no validation for the $callable variable, attackers can set dangerous functions like system as the escaper function.\n\n\n### PoC\n```\n{{ var_dump(grav.twig.twig.extensions.core.setEscaper('system','twig_array_filter')) }}\n{{ var_dump(['id'] | escape('system', 'system')) }}\n```\n\n### Impact\nTwig processing of static pages can be enabled in the front matter by any administrative user allowed to create or edit pages.\nAs the Twig processor runs unsandboxed, this behavior can be used to gain arbitrary code execution and elevate privileges on the instance.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getgrav/grav"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.7.45"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/getgrav/grav/security/advisories/GHSA-2m7x-c7px-hp58"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28119"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getgrav/grav/commit/de1ccfa12dbcbf526104d68c1a6bc202a98698fe"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/getgrav/grav"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/twigphp/Twig/blob/3.x/src/Extension/EscaperExtension.php#L99"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-22T16:56:02Z",
+    "nvd_published_at": "2024-03-21T22:15:12Z"
+  }
+}

