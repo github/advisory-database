@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-246p-xmg8-wmcq",
+  "modified": "2024-03-25T19:37:27Z",
+  "published": "2024-03-25T19:37:27Z",
+  "aliases": [
+    "CVE-2024-29194"
+  ],
+  "summary": "OneUptime Vulnerable to a Privilege Escalation via Local Storage Key Manipulation",
+  "details": "## Summary\nA security vulnerability exists in oneuptime's local storage handling, where a regular user can escalate privileges by modifying the `is_master_admin` key to `true`. This allows unauthorized access to administrative functionalities.\n\n## Details\nThe vulnerability lies in the improper validation of client-side stored data within the web application. Specifically, the `is_master_admin` key, stored in the local storage of the browser, can be manipulated by an attacker. By changing this key from false to true, the application grants administrative privileges to the user, without proper server-side validation. \n\n## POC\n(I am using Firefox Developer to demonstrate this vulnerability)\nLog in as a normal user. Open developer tools (hit F12), click Storage, then Local Storage. Modify the `is_master_admin` key from `false` to `true`.\n\n## Impact\nThis vulnerability represents a high security risk as it allows any authenticated user to gain administrative privileges through client-side manipulation. Most of the admin previlages were disabled except the user list. Where an attacker could see all the list of users who signed up to OneUptome. \n\n\n## Patch\nThis has been patched in 7.0.1815",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@oneuptime/model"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "7.0.1815"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@oneuptime/common-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "7.0.1815"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/OneUptime/oneuptime/security/advisories/GHSA-246p-xmg8-wmcq"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-29194"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OneUptime/oneuptime/commit/14016d23d834038dd65d3a96cf71af04b556a32c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/OneUptime/oneuptime"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-639"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-25T19:37:27Z",
+    "nvd_published_at": "2024-03-24T19:15:07Z"
+  }
+}
