@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5359-pvf2-pw78",
+  "modified": "2024-03-26T21:23:45Z",
+  "published": "2024-03-26T21:23:45Z",
+  "aliases": [
+    "CVE-2024-29881"
+  ],
+  "summary": "TinyMCE Cross-Site Scripting (XSS) vulnerability in handling external SVG files through Object or Embed elements",
+  "details": "### Impact\nA [cross-site scripting (XSS)](https://owasp.org/www-community/attacks/xss/) vulnerability was discovered in TinyMCE’s content loading and content inserting code. A SVG image could be loaded though an `object` or `embed` element and that image could potentially contain a XSS payload.\n\n### Fix\nTinyMCE 6.8.1 introduced a new `convert_unsafe_embeds` option to automatically convert `object` and `embed` elements respective of their `type` attribute.  From TinyMCE 7.0.0 onwards, the `convert_unsafe_embeds` option is enabled by default.\n\n### Workarounds\nIf you are using TinyMCE 6.8.1 or higher, set `convert_unsafe_embeds` to true. For any earlier versions, a custom NodeFilter is recommended to remove or modify any `object` or `embed` elements. This can be added using the `editor.parser.addNodeFilter` and `editor.serializer.addNodeFilter` APIs.\n\n### Acknowledgements\nTiny Technologies would like to thank Toni Huttunen of [Fraktal Oy](https://www.fraktal.fi/) for discovering this vulnerability.\n\n### References\n- [TinyMCE 6.8.1](https://www.tiny.cloud/docs/tinymce/6/6.8.1-release-notes/#new-convert_unsafe_embeds-option-that-controls-whether-object-and-embed-elements-will-be-converted-to-more-restrictive-alternatives-namely-img-for-image-mime-types-video-for-video-mime-types-audio-audio-mime-types-or-iframe-for-other-or-unspecified-mime-types)\n- [TinyMCE 7.0.0](https://www.tiny.cloud/docs/tinymce/7/7.0-release-notes/#convert_unsafe_embeds-editor-option-is-now-defaulted-to-true)\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "tinymce/tinymce"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "7.0.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "tinymce"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "7.0.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "TinyMCE"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "7.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/tinymce/tinymce/security/advisories/GHSA-5359-pvf2-pw78"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-29881"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tinymce/tinymce/commit/bcdea2ad14e3c2cea40743fb48c63bba067ae6d1"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/tinymce/tinymce"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.tiny.cloud/docs/tinymce/6/6.8.1-release-notes/#new-convert_unsafe_embeds-option-that-controls-whether-object-and-embed-elements-will-be-converted-to-more-restrictive-alternatives-namely-img-for-image-mime-types-video-for-video-mime-types-audio-audio-mime-types-or-iframe-for-other-or-unspecified-mime-types"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.tiny.cloud/docs/tinymce/7/7.0-release-notes/#convert_unsafe_embeds-editor-option-is-now-defaulted-to-true"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-26T21:23:45Z",
+    "nvd_published_at": "2024-03-26T14:15:09Z"
+  }
+}
