@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7r3h-4ph8-w38g",
+  "modified": "2024-03-28T17:08:10Z",
+  "published": "2024-03-28T17:08:10Z",
+  "aliases": [
+    "CVE-2024-28233"
+  ],
+  "summary": "Cross site scripting (XSS) in JupyterHub via Self-XSS leveraged by Cookie Tossing",
+  "details": "### Impact\n\nAffected configurations:\n\n- Single-origin JupyterHub deployments\n- JupyterHub deployments with user-controlled applications running on subdomains or peer subdomains of either the Hub or a single-user server.\n\nBy tricking a user into visiting a malicious subdomain, the attacker can achieve an XSS directly affecting the former's session. More precisely, in the context of JupyterHub, this XSS could achieve the following:\n\n- Full access to JupyterHub API and user's single-user server, e.g.\n  - Create and exfiltrate an API Token\n  - Exfiltrate all files hosted on the user's single-user server: notebooks, images, etc.\n  - Install malicious extensions. They can be used as a backdoor to silently regain access to victim's session anytime.\n\n### Patches\n\nTo prevent cookie-tossing:\n\n- Upgrade to JupyterHub 4.1 (both hub and user environment)\n- enable per-user domains via `c.JupyterHub.subdomain_host = \"https://mydomain.example.org\"`\n- set `c.JupyterHub.cookie_host_prefix_enabled = True` to enable domain-locked cookies\n\nor, if available (applies to earlier JupyterHub versions):\n\n- deploy jupyterhub on its own domain, not shared with any other services\n- enable per-user domains via `c.JupyterHub.subdomain_host = \"https://mydomain.example.org\"`",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "jupyterhub"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.1.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/jupyterhub/jupyterhub/security/advisories/GHSA-7r3h-4ph8-w38g"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28233"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jupyterhub/jupyterhub/commit/e2798a088f5ad45340fe79cdf1386198e664f77f"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jupyterhub/jupyterhub"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352",
+      "CWE-565",
+      "CWE-79"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-28T17:08:10Z",
+    "nvd_published_at": "2024-03-27T19:15:48Z"
+  }
+}
