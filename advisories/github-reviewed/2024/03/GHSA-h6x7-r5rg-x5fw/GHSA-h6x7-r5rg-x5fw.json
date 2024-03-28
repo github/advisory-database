@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h6x7-r5rg-x5fw",
+  "modified": "2024-03-28T17:53:26Z",
+  "published": "2024-03-28T17:53:26Z",
+  "aliases": [
+    "CVE-2024-29887"
+  ],
+  "summary": "Serverpod client accepts any certificate",
+  "details": "This bug bypassed the validation of TSL certificates on all none web HTTP clients in the `serverpod_client` package. Making them susceptible to a man in the middle attack against encrypted traffic between the client device and the server. \n\nAn attacker would need to be able to intercept the traffic and highjack the connection to the server for this vulnerability to be used. \n\n### Impact\nAll versions of `serverpod_client` pre `1.2.6`\n\n### Patches\nUpgrading to version `1.2.6` resolves this issue.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Pub",
+        "name": "serverpod_client"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.2.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/serverpod/serverpod/security/advisories/GHSA-h6x7-r5rg-x5fw"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-29887"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/serverpod/serverpod/commit/d55bf8d12967fc7955a875cb3e0f9693bd6d2c71"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/serverpod/serverpod"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-295"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-28T17:53:26Z",
+    "nvd_published_at": "2024-03-27T19:15:49Z"
+  }
+}
