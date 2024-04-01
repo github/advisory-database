@@ -1,0 +1,116 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9rj9-5wcv-xgf2",
+  "modified": "2024-04-01T19:31:05Z",
+  "published": "2022-05-02T03:38:04Z",
+  "aliases": [
+    "CVE-2009-2737"
+  ],
+  "summary": "Roundup Improper Access Control",
+  "details": "The EditCSVAction function in `cgi/actions.py` in Roundup 1.2 before 1.2.1, 1.4 through 1.4.6, and possibly other versions does not properly check permissions, which allows remote authenticated users with edit or create privileges for a class to modify arbitrary items within that class, as demonstrated by editing all queries, modifying settings, and adding roles to users.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "Roundup"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.2"
+            },
+            {
+              "fixed": "1.2.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "Roundup"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.4"
+            },
+            {
+              "fixed": "1.4.7"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.4.6"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2009-2737"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=489355"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/roundup-tracker/roundup/blob/d24abceaa19072b28e5c8ae0db4dd341597d14fc/CHANGES.txt#L2356"
+    },
+    {
+      "type": "WEB",
+      "url": "https://sourceforge.net/p/roundup/code/ci/4081"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.redhat.com/archives/fedora-package-announce/2009-March/msg00429.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.redhat.com/archives/fedora-package-announce/2009-March/msg00439.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=518768"
+    },
+    {
+      "type": "WEB",
+      "url": "http://issues.roundup-tracker.org/issue2550521"
+    },
+    {
+      "type": "WEB",
+      "url": "http://secunia.com/advisories/34192"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.debian.org/security/2009/dsa-1754"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.osvdb.org/56368"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/34059"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-01T19:31:05Z",
+    "nvd_published_at": "2009-08-11T10:30:00Z"
+  }
+}
