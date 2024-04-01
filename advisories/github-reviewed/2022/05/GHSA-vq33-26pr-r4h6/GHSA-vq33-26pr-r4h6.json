@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vq33-26pr-r4h6",
+  "modified": "2024-04-01T22:02:50Z",
+  "published": "2022-05-24T17:37:25Z",
+  "aliases": [
+    "CVE-2020-28279"
+  ],
+  "summary": "flattenizer vulnerable to prototype pollution",
+  "details": "### Overview\nPrototype pollution vulnerability in ‘flattenizer’ versions 0.0.5 through 1.0.5 allows an attacker to cause a denial of service and may lead to remote code execution.\n\n### Details\nThe NPM module 'flattenizer' can be abused by Prototype Pollution vulnerability since the function 'unflatten()' did not check for the type of object before assigning value to the property. Due to this flaw an attacker could create a non-existent property or able to manipulate the property which leads to Denial of Service or potentially Remote code execution.\n\n### PoC Details\nThere is no validation before assigning the property to check whether the assigned argument is the Object's own property or not, the property `polluted` will be directly be assigned thereby polluting the Object prototype. Later in the code, if there is a check to validate `polluted` the valued would be substituted as \"true\" as it had been polluted.\n\n```js\nvar flattenizer = require(\"flattenizer\")\nflattenizer.unflatten({'__proto__.polluted': true});\nconsole.log(polluted);\n```",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "flattenizer"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.0.5"
+            },
+            {
+              "fixed": "1.1.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.0.5"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-28279"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sahellebusch/flattenizer/pull/13"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sahellebusch/flattenizer/commit/3c6a6353df7c8879e931973b81a49a47f6c2b399"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20210104205035/https://www.whitesourcesoftware.com/vulnerability-database/CVE-2020-28279"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1321"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-01T22:02:50Z",
+    "nvd_published_at": "2020-12-29T18:15:00Z"
+  }
+}

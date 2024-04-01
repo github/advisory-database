@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wc29-h54q-q8qx",
+  "modified": "2024-04-01T22:02:55Z",
+  "published": "2022-05-24T17:38:12Z",
+  "aliases": [
+    "CVE-2020-26768"
+  ],
+  "summary": "Formstone Vulnerable to Reflected XSS",
+  "details": "Formstone <=1.4.16 is vulnerable to a Reflected Cross-Site Scripting (XSS) vulnerability caused by improper validation of user supplied input in the `upload-target.php` and `upload-chunked.php` files. A remote attacker could exploit this vulnerability using a specially crafted URL to execute a script in a victim's Web browser within the security context of the hosting Web site once the URL is clicked or visited. An attacker could use this vulnerability to steal the victim's cookie-based authentication credentials, force malware execution, user redirection and others.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "formstone"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.4.17"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.4.16"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-26768"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Formstone/Formstone/issues/286"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Formstone/Formstone/commit/b067f31f5f6a0acd3ade4fd6dccae6e3633caa02"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-01T22:02:55Z",
+    "nvd_published_at": "2021-01-07T13:15:00Z"
+  }
+}
