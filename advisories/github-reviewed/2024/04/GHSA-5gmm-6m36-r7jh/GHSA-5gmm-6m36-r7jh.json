@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5gmm-6m36-r7jh",
+  "modified": "2024-04-05T15:41:34Z",
+  "published": "2024-04-05T15:41:34Z",
+  "aliases": [
+
+  ],
+  "summary": "transpose: Buffer overflow due to integer overflow",
+  "details": "Given the function `transpose::transpose`:\n```rust\nfn transpose<T: Copy>(input: &[T], output: &mut [T], input_width: usize, input_height: usize)\n```\n\nThe safety check `input_width * input_height == output.len()` can fail due to `input_width * input_height` overflowing in such a way that it equals `output.len()`.\nAs a result of failing the safety check, memory past the end of `output` is written to. This only occurs in release mode since `*` panics on overflow in debug mode.\n\nExploiting this issue requires the caller to pass `input_width` and `input_height` arguments such that multiplying them overflows, and the overflown result equals the lengths of input and output slices.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "transpose"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.1.0"
+            },
+            {
+              "fixed": "0.2.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ejmahler/transpose/issues/11"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ejmahler/transpose/commit/c4bcd39fabca9a31a401d0cc42d4090869b5a37a"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ejmahler/transpose"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2023-0080.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-120",
+      "CWE-190"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-05T15:41:34Z",
+    "nvd_published_at": null
+  }
+}

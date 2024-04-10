@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mc39-h54g-pvw6",
+  "modified": "2024-04-05T15:42:39Z",
+  "published": "2024-04-05T15:42:39Z",
+  "aliases": [
+
+  ],
+  "summary": "libdav1d-sys affected by dav1d AV1 decoder integer overflow",
+  "details": "An integer overflow in dav1d AV1 decoder that can occur when decoding videos with large frame size. This can lead to memory corruption within the AV1 decoder. We recommend upgrading to version 0.7.0 of libdav1d-sys, which includes dav1d 1.4.0.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:A/AC:H/PR:L/UI:N/S:U/C:L/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "libdav1d-sys"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.7.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/njaard/libavif-rs"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2024-0016.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.cvedetails.com/cve/CVE-2024-1580"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-190"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-05T15:42:39Z",
+    "nvd_published_at": null
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-ggp5-28x4-xcj9",
+  "modified": "2024-04-09T21:12:27Z",
+  "published": "2024-04-09T16:18:02Z",
+  "aliases": [
+    "CVE-2024-31455"
+  ],
+  "summary": "Minder GetRepositoryByName data leak",
+  "details": "### Impact\nA recent refactoring added the ability to get GitHub repositories registered to a project without specifying a specific provider.  Unfortunately, the SQL query for doing so was missing parenthesis, and would select a random repository.\n\n### Patches\nPatched in #2941\n\n### Workarounds\nRevert prior to `5c381cf`, or roll forward past `2eb94e7`\n\n### References\nN/A",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/stacklok/minder"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.0.39"
+            },
+            {
+              "fixed": "0.0.40"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "0.0.39"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/stacklok/minder/security/advisories/GHSA-ggp5-28x4-xcj9"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-31455"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/stacklok/minder/pull/2941"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/stacklok/minder/commit/11b6573ad62cfdd783a8bb52f3fce461466037f4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/stacklok/minder/commit/5c381cfbf3e4b7ce040ed8511a1fae1a78a0014b"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/stacklok/minder"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-09T16:18:02Z",
+    "nvd_published_at": "2024-04-09T17:16:03Z"
+  }
+}
