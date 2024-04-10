@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-65pc-76pq-pvf5",
+  "modified": "2024-04-05T15:06:16Z",
+  "published": "2024-04-04T15:30:34Z",
+  "withdrawn": "2024-04-05T15:06:16Z",
+  "aliases": [
+
+  ],
+  "summary": "Duplicate Advisory: Pebble service manager's file pull API allows access by any user",
+  "details": "## Duplicate Advisory\nThis advisory has been withdrawn because it is a duplicate of GHSA-4685-2x5r-65pj. This link is maintained to preserve external references.\n\n## Original Description\nIt was discovered that Pebble's read-file API and the associated pebble pull command, before v1.10.2, allowed unprivileged local users to read files with root-equivalent permissions when Pebble was running as root. Fixes are also available as backports to v1.1.1, v1.4.2, and v1.7.4.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/canonical/pebble"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.1.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/canonical/pebble/security/advisories/GHSA-4685-2x5r-65pj"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-3250"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.cve.org/CVERecord?id=CVE-2024-3250"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-05T15:06:16Z",
+    "nvd_published_at": "2024-04-04T15:15:39Z"
+  }
+}

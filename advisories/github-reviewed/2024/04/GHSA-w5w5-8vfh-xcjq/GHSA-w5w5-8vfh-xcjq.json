@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w5w5-8vfh-xcjq",
+  "modified": "2024-04-05T15:39:19Z",
+  "published": "2024-04-05T15:39:19Z",
+  "aliases": [
+
+  ],
+  "summary": "whoami stack buffer overflow on several Unix platforms",
+  "details": "With versions of the whoami crate >= 0.5.3 and < 1.5.0, calling any of these functions leads to an immediate stack buffer overflow on illumos and Solaris:\n\n- `whoami::username`\n- `whoami::realname`\n- `whoami::username_os`\n- `whoami::realname_os`\n\nWith versions of the whoami crate >= 0.5.3 and < 1.0.1, calling any of the above functions also leads to a stack buffer overflow on these platforms:\n\n- Bitrig\n- DragonFlyBSD\n- FreeBSD\n- NetBSD\n- OpenBSD\n\nThis occurs because of an incorrect definition of the `passwd` struct on those platforms.\n\nAs a result of this issue, denial of service and data corruption have both been observed in the wild. The issue is possibly exploitable as well.\n\nThis vulnerability also affects other Unix platforms that aren't Linux or macOS.\n\nThis issue has been addressed in whoami 1.5.0.\n\nFor more information, see [this GitHub issue](https://github.com/ardaku/whoami/issues/91).\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "whoami"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.5.3"
+            },
+            {
+              "fixed": "1.5.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ardaku/whoami/issues/91"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ardaku/whoami/commit/d6ee13ed9e818aa51b8d86d95e8009a376289a40"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ardaku/whoami"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2024-0020.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-121"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-05T15:39:19Z",
+    "nvd_published_at": null
+  }
+}

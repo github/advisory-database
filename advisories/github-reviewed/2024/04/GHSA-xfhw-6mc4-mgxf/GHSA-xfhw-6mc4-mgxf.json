@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xfhw-6mc4-mgxf",
+  "modified": "2024-04-05T15:40:40Z",
+  "published": "2024-04-05T15:40:40Z",
+  "aliases": [
+
+  ],
+  "summary": "crayon: ObjectPool creates uninitialized memory when freeing objects",
+  "details": "As of version 0.6.0, the ObjectPool explicitly creates an uninitialized instance of its type parameter when it attempts to free an object, and swaps it into the storage. This causes instant undefined behavior due to reading the uninitialized memory in order to write it to the pool storage.\n\nExtremely basic usage of the crate can trigger this issue, e.g. this code from a doctest:\n\n```rust\nuse crayon::prelude::*;\napplication::oneshot().unwrap();\n\nlet mut params = MeshParams::default();\n\nlet mesh = video::create_mesh(params, None).unwrap();\n\n// Deletes the mesh object.\nvideo::delete_mesh(mesh); // <-- UB\n```\n\nThe Clippy warning for this code was silenced in commit c2fde19caf6149d91faa504263f0bc5cafc35de5.\n\nDiscovered via https://asan.saethlin.dev/ub?crate=crayon&version=0.7.1\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "crayon"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.6.0"
+            },
+            {
+              "last_affected": "0.7.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/shawnscode/crayon/issues/109"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/shawnscode/crayon/commit/c2fde19caf6149d91faa504263f0bc5cafc35de5"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/shawnscode/crayon"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2024-0018.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-908"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-05T15:40:40Z",
+    "nvd_published_at": null
+  }
+}

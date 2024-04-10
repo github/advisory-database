@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6cf6-8hvr-r68w",
+  "modified": "2024-04-05T15:44:23Z",
+  "published": "2024-04-04T14:21:19Z",
+  "aliases": [
+    "CVE-2024-31206"
+  ],
+  "summary": "dectalk-tts Uses Unencrypted HTTP Request",
+  "details": "### Impact\n\nIn `dectalk-tts@1.0.0`, network requests to the third-party API are sent over HTTP, which is unencrypted. Unencrypted traffic can be easily intercepted and modified by attackers. Anyone who uses the package could be the victim of a [man-in-the-middle (MITM)](https://en.wikipedia.org/wiki/Man-in-the-middle_attack) attack.\n\n<ins>Theft</ins>\n\nBecause `dectalk-tts` is a text-to-speech package, user requests are expected to only contain natural language. The package [README](https://github.com/JstnMcBrd/dectalk-tts/blob/main/README.md) warns that user input is sent to a third-party API, so users should not send sensitive information regardless.\n\nBut if users ignore the warnings and send sensitive information anyway, that information could be stolen by attackers.\n\n<ins>Modification</ins>\n\nAttackers could manipulate requests to the API. However, the worst a modified request could do is return an incorrect audio file or bad request rejection.\n\nAttackers could also manipulate responses from the API, returning malicious output to the user. Output is expected to be a wav-encoded buffer, which users will likely save to a file. This could be a dangerous entrypoint to the user's filesystem.\n\n### Patches\n\nThe network request was upgraded to HTTPS in version `1.0.1`. No other changes were made, so updating is risk-free.\n\n### Workarounds\n\nThere are no workarounds, but here are some precautions:\n\n- Do not send any sensitive information.\n\n- Carefully verify the API response before saving it.\n\n### References\n\n[Vulnerable code](https://github.com/JstnMcBrd/dectalk-tts/blob/b3e92156cbb699218ac9b9c7d8979abd0e635767/src/index.ts#L18)\n[Original report](https://github.com/JstnMcBrd/dectalk-tts/issues/3)\n[Patch pull request](https://github.com/JstnMcBrd/dectalk-tts/pull/4)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "dectalk-tts"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.0"
+            },
+            {
+              "fixed": "1.0.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "1.0.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/JstnMcBrd/dectalk-tts/security/advisories/GHSA-6cf6-8hvr-r68w"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-31206"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/JstnMcBrd/dectalk-tts/issues/3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/JstnMcBrd/dectalk-tts/pull/4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/JstnMcBrd/dectalk-tts/commit/3600d8ac156f27da553ac4ead46d16989a350105"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/JstnMcBrd/dectalk-tts"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/JstnMcBrd/dectalk-tts/blob/b3e92156cbb699218ac9b9c7d8979abd0e635767/src/index.ts#L18"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-300",
+      "CWE-319",
+      "CWE-598"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-04T14:21:19Z",
+    "nvd_published_at": "2024-04-04T23:15:15Z"
+  }
+}

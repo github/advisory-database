@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-q6cp-qfwq-4gcv",
+  "modified": "2024-04-05T15:05:32Z",
+  "published": "2024-04-05T15:05:32Z",
+  "aliases": [
+
+  ],
+  "summary": "h2 servers vulnerable to degradation of service with CONTINUATION Flood",
+  "details": "An attacker can send a flood of CONTINUATION frames, causing `h2` to process them indefinitely. This results in an increase in CPU usage.\n\nTokio task budget helps prevent this from a complete denial-of-service, as the server can still respond to legitimate requests, albeit with increased latency.\n\nMore details at https://seanmonstar.com/blog/hyper-http2-continuation-flood/.\n\nPatches available for 0.4.x and 0.3.x versions.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "h2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.3.26"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "h2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.4.0"
+            },
+            {
+              "fixed": "0.4.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/hyperium/h2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2024-0332.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://seanmonstar.com/blog/hyper-http2-continuation-flood"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.kb.cert.org/vuls/id/421644"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400",
+      "CWE-770"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-05T15:05:32Z",
+    "nvd_published_at": null
+  }
+}

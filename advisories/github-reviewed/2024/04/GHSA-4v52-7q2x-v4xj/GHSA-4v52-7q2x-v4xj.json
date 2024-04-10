@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4v52-7q2x-v4xj",
+  "modified": "2024-04-05T15:08:53Z",
+  "published": "2024-04-05T15:08:53Z",
+  "aliases": [
+
+  ],
+  "summary": "eyre: Parts of Report are dropped as the wrong type during downcast",
+  "details": "In affected versions, after a `Report` is constructed using `wrap_err` or `wrap_err_with` to attach a message of type `D` onto an error of type `E`, then using `downcast` to recover ownership of either the value of type `D` or the value of type `E`, one of two things can go wrong:\n\n- If downcasting to `E`, there remains a value of type `D` to be dropped. It is incorrectly \"dropped\" by running `E`'s drop behavior, rather than `D`'s. For example if `D` is `&str` and `E` is `std::io::Error`, there would be a call of `std::io::Error::drop` in which the reference received by the `Drop` impl does not refer to a valid value of type `std::io::Error`, but instead to `&str`.\n\n- If downcasting to `D`, there remains a value of type `E` to be dropped. When `D` and `E` do not happen to be the same size, `E`'s drop behavior is incorrectly executed in the wrong location. The reference received by the `Drop` impl may point left or right of the real `E` value that is meant to be getting dropped.\n\nIn both cases, when the `Report` contains an error `E` that has nontrivial drop behavior, the most likely outcome is memory corruption.\n\nWhen the `Report` contains an error `E` that has trivial drop behavior (for example a `Utf8Error`) but where `D` has nontrivial drop behavior (such as `String`), the most likely outcome is that downcasting to `E` would leak `D`.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "eyre"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.6.9"
+            },
+            {
+              "fixed": "0.6.12"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/eyre-rs/eyre/issues/141"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/eyre-rs/eyre/commit/770ac3fa1435eae3b166a4b072053360e38a0575"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/eyre-rs/eyre"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2024-0021.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-843"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-05T15:08:53Z",
+    "nvd_published_at": null
+  }
+}
