@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w8gf-g2vq-j2f4",
+  "modified": "2024-04-03T18:49:42Z",
+  "published": "2024-04-03T18:49:42Z",
+  "aliases": [
+
+  ],
+  "summary": "amphp/http-client  Denial of Service via HTTP/2 CONTINUATION Frames",
+  "details": "Early versions of `amphp/http-client` with HTTP/2 support (v4.0.0-rc10 to 4.0.0) will collect HTTP/2 `CONTINUATION` frames in an unbounded buffer and will not check the header size limit until it has received the `END_HEADERS` flag, resulting in an OOM crash. Later versions of `amphp/http-client` (v4.1.0-rc1 and up) depend on `amphp/http` for HTTP/2 processing and will therefore need an updated version of `amphp/http`, see [GHSA-qjfw-cvjf-f4fm](https://github.com/amphp/http/security/advisories/GHSA-qjfw-cvjf-f4fm).\n\n## Acknowledgements\n\nThank you to [Bartek Nowotarski](https://nowotarski.info/) for reporting the vulnerability.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "amphp/http-client"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0-rc10"
+            },
+            {
+              "fixed": "4.1.0-rc1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 4.0.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/amphp/http-client/security/advisories/GHSA-w8gf-g2vq-j2f4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/amphp/http/security/advisories/GHSA-qjfw-cvjf-f4fm"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/amphp/http-client"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-770",
+      "CWE-789"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-03T18:49:42Z",
+    "nvd_published_at": null
+  }
+}
