@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2rc5-2755-v422",
+  "modified": "2024-04-11T21:36:29Z",
+  "published": "2024-04-11T21:36:29Z",
+  "aliases": [
+    "CVE-2021-27915"
+  ],
+  "summary": "Mautic vulnerable to stored cross-site scripting in description field",
+  "details": "### Impact\nPrior to the patched version, there is an XSS vulnerability in the description fields within the Mautic application which could be exploited by a logged in user of Mautic with the appropriate permissions.\n\nThis could lead to the user having elevated access to the system.\n\n### Patches\nUpdate to 4.4.12\n\n### Workarounds\nNone\n\n### References\n- https://owasp.org/www-project-top-ten/2017/A7_2017-Cross-Site_Scripting_(XSS)\n- https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/02-Testing_for_Stored_Cross_Site_Scripting\n\nIf you have any questions or comments about this advisory:\n\nEmail us at [security@mautic.org](mailto:security@mautic.org)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "mautic/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.0-beta2"
+            },
+            {
+              "fixed": "4.4.12"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/mautic/mautic/security/advisories/GHSA-2rc5-2755-v422"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mautic/mautic/commit/2d648394e183b1d2d910cea32e89d40a5915b5d4"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mautic/mautic"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-11T21:36:29Z",
+    "nvd_published_at": null
+  }
+}
