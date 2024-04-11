@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-x565-32qp-m3vf",
+  "modified": "2024-04-11T21:30:31Z",
+  "published": "2024-04-11T21:30:30Z",
+  "aliases": [
+
+  ],
+  "summary": "phin may include sensitive headers in subsequent requests after redirect",
+  "details": "### Impact\n\nUsers may be impacted if sending requests including sensitive data in specific headers with `followRedirects` enabled.\n\n### Patches\n\nThe [follow-redirects](https://github.com/follow-redirects/follow-redirects) library is now being used for redirects and removes some headers that may contain sensitive information in some situations.\n\n### Workarounds\n\nN/A. Please update to resolve the issue.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "phin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.7.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ethanent/phin/security/advisories/GHSA-x565-32qp-m3vf"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ethanent/phin/commit/c071f95336a987dad9332fd388adeb249925cc57"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ethanent/phin"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-11T21:30:30Z",
+    "nvd_published_at": null
+  }
+}
