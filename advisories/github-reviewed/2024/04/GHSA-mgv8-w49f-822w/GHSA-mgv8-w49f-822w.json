@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mgv8-w49f-822w",
+  "modified": "2024-04-12T21:25:18Z",
+  "published": "2024-04-12T21:25:18Z",
+  "aliases": [
+    "CVE-2022-25777"
+  ],
+  "summary": "Mautic: MST-48  Server-Side Request Forgery in Asset section ",
+  "details": "### Impact\nPrior to the patched version, an authenticated user of Mautic could read system files and access the internal addresses of the application due to a Server-Side Request Forgery (SSRF) vulnerability.\n\n### Patches\nUpdate to 4.4.12 or 5.0.4\n\n### Workarounds\nNone\n\n### References\n- https://owasp.org/Top10/A10_2021-Server-Side_Request_Forgery_%28SSRF%29/\n\nIf you have any questions or comments about this advisory:\n\nEmail us at [security@mautic.org](mailto:security@mautic.org)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "mautic/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.0-beta4"
+            },
+            {
+              "fixed": "4.4.12"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "mautic/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0-alpha"
+            },
+            {
+              "fixed": "5.0.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/mautic/mautic/security/advisories/GHSA-mgv8-w49f-822w"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mautic/mautic/commit/b4b4ab5f0613854152ceb7b5e5228acf50648fd0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mautic/mautic/commit/c54befd9eaaa49e4fc10a0fe22435c09ef2821b2"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mautic/mautic"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-918"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-12T21:25:18Z",
+    "nvd_published_at": null
+  }
+}
