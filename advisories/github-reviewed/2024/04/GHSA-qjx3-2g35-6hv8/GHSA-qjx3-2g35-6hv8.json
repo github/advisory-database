@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qjx3-2g35-6hv8",
+  "modified": "2024-04-12T17:28:53Z",
+  "published": "2024-04-12T17:28:52Z",
+  "aliases": [
+    "CVE-2022-25776"
+  ],
+  "summary": "Mautic Sensitive Data Exposure due to inadequate user permission settings",
+  "details": "### Impact\nPrior to the patched version, logged in users of Mautic are able to access areas of the application that they should be prevented from accessing.\n\nUsers could potentially access sensitive data such as names and surnames, company names and stage names.\n\n### Patches\nUpdate to 4.4.12 and 5.0.4\n\n### Workarounds\nNo\n\n### References\nhttps://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:L/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "mautic/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.2"
+            },
+            {
+              "fixed": "4.4.12"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "mautic/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0-alpha"
+            },
+            {
+              "fixed": "5.0.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/mautic/mautic/security/advisories/GHSA-qjx3-2g35-6hv8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mautic/mautic/commit/22bdd0796ca6e1e985708b89ad5c07147630fecd"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mautic/mautic/commit/2cc4af975fe01c264d439acc1451c936e7114644"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mautic/mautic"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-280"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-12T17:28:52Z",
+    "nvd_published_at": null
+  }
+}
