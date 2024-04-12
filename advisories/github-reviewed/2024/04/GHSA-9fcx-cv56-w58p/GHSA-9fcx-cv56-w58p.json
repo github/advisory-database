@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9fcx-cv56-w58p",
+  "modified": "2024-04-12T17:07:12Z",
+  "published": "2024-04-12T17:07:12Z",
+  "aliases": [
+    "CVE-2021-27916"
+  ],
+  "summary": "Mautic vulnerable to Relative Path Traversal / Arbitrary File Deletion due to GrapesJS builder",
+  "details": "### Impact\nPrior to the patched version, logged in users of Mautic are vulnerable to Relative Path Traversal/Arbitrary File Deletion.  Regardless of the level of access the Mautic user had, they could delete files other than those in the media folders such as system files, libraries or other important files.\n\nThis vulnerability exists in the implementation of the GrapesJS builder in Mautic.\n\n### Patches\nUpdate to 4.4.12 or 5.0.4.\n\n### Workarounds\nNo\n\n### References\n- https://cwe.mitre.org/data/definitions/23.html\n- https://cwe.mitre.org/data/definitions/22.html\n- https://attack.mitre.org/techniques/T1630/002/\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n\nEmail us at [security@mautic.org](mailto:security@mautic.org)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "mautic/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.3.0"
+            },
+            {
+              "fixed": "4.4.12"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "mautic/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0-alpha"
+            },
+            {
+              "fixed": "5.0.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/mautic/mautic/security/advisories/GHSA-9fcx-cv56-w58p"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mautic/mautic/commit/546045ff9c74dd8b3dac36c4ab3674380262c65a"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mautic/mautic/commit/95e8df3ae6730c725f1848d70e7992da369518f3"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mautic/mautic"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-23"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-12T17:07:12Z",
+    "nvd_published_at": null
+  }
+}
