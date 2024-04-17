@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-74p6-39f2-23v3",
+  "modified": "2024-04-17T18:20:28Z",
+  "published": "2024-04-17T18:20:28Z",
+  "aliases": [
+    "CVE-2024-29035"
+  ],
+  "summary": "Blind SSRF Leads to Port Scan by using Webhooks",
+  "details": "### Impact\nFailing webhooks logs are available when solution is not in debug mode. Those logs can contain information that is critical.\n \n### Affected Versions\nUmbraco versions 13.0.0 - 13.1.1\n\n### Patches\n13.1.1\n\n### Workarounds\nDisabling webhooks functionality.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Umbraco.Cms.Core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "13.0.0"
+            },
+            {
+              "fixed": "13.1.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Umbraco.Cms.Web.BackOffice"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "13.0.0"
+            },
+            {
+              "fixed": "13.1.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/umbraco/Umbraco-CMS/security/advisories/GHSA-74p6-39f2-23v3"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-29035"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/umbraco/Umbraco-CMS/commit/6b8067815c02ae43161966a8075a3585e1bc4de0"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/umbraco/Umbraco-CMS"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-918"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-17T18:20:28Z",
+    "nvd_published_at": "2024-04-17T15:15:07Z"
+  }
+}
