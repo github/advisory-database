@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-p72q-h37j-3hq7",
+  "modified": "2024-04-22T22:18:56Z",
+  "published": "2024-04-22T22:17:59Z",
+  "aliases": [
+
+  ],
+  "summary": "dbt uses a SQLparse version with a high vulnerability",
+  "details": "### Summary\n\nUsing a version of `sqlparse` that has a security vulnerability and no way to update in current version of dbt core. Snyk recommends using `sqlparse==0.5` but this causes a conflict with dbt. Snyk states the issues is a recursion error: `SNYK-PYTHON-SQLPARSE-6615674`.\n\n### Details\nDependency conflict error message:\n```sh\nThe conflict is caused by:\n    The user requested sqlparse==0.5\n    dbt-core 1.7.10 depends on sqlparse<0.5 and >=0.2.3\n```\nResolution was to pin `sqlparse >=0.5.0, <0.6.0` in `dbt-core`, patched in 1.6.13 and 1.7.13.\n\n### PoC\nFrom Snyk:\n\n```python\nimport sqlparse\nsqlparse.parse('[' * 10000 + ']' * 10000)\n```\n\n### Impact\nSnyk classifies it as high 7.5/10.\n\n### Patches\nThe bug has been fixed in [dbt-core v1.6.13](https://github.com/dbt-labs/dbt-core/releases/tag/v1.6.13) and [dbt-core v1.7.13](https://github.com/dbt-labs/dbt-core/releases/tag/v1.7.13).\n\n### Mitigations\nBump `dbt-core` 1.6 and 1.7 dependencies to 1.6.13 and 1.7.13 respectively",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "dbt-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.6.0"
+            },
+            {
+              "fixed": "1.6.13"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "dbt-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.7.0"
+            },
+            {
+              "fixed": "1.7.13"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/andialbrecht/sqlparse/security/advisories/GHSA-2m57-hf25-phgg"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dbt-labs/dbt-core/security/advisories/GHSA-p72q-h37j-3hq7"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/dbt-labs/dbt-core"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-PYTHON-SQLPARSE-6615674"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-673"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-22T22:17:59Z",
+    "nvd_published_at": null
+  }
+}
