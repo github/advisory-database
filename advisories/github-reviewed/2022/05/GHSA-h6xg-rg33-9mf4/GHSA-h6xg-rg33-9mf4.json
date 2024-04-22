@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h6xg-rg33-9mf4",
+  "modified": "2024-04-22T23:22:36Z",
+  "published": "2022-05-24T19:03:10Z",
+  "aliases": [
+    "CVE-2021-25944"
+  ],
+  "summary": "deep-defaults vulnerable to prototype pollution",
+  "details": "### Overview\nPrototype pollution vulnerability in 'deep-defaults' versions 1.0.0 through 1.0.5 allows attacker to cause a denial of service and may lead to remote code execution.\n\n### Details\nThe NPM module `deep-defaults` can be abused by Prototype Pollution vulnerability since the function `_deepDefaults()` does not check for the type of object before assigning value to the property. Due to this flaw an attacker could create a non-existent property or able to manipulate the property which leads to Denial of Service or potentially Remote code execution.\n\n### PoC\nThe `_deepDefaults ()` function accepts `dest`, `src` as arguments. Due to the absence of validation on the values passed into the `src` argument, an attacker can supply a malicious value by adjusting the value to include the `__proto__` property. Since there is no validation before assigning the property to check whether the assigned argument is the Object's own property or not, the property `polluted` will be directly be assigned to the new object thereby polluting the Object prototype. Later in the code, if there is a check to validate `polluted` the valued would be substituted as \"Yes! Its Polluted\" as it had been polluted.\n\n```js\nvar deepDefaults = require(\"deep-defaults\")\nvar malicious_payload = '{\"__proto__\":{\"polluted\":\"Yes! Its Polluted\"}}';\nvar obj ={};\nconsole.log(\"Before : \" + {}.polluted);\ndeepDefaults(obj, JSON.parse(malicious_payload));\nconsole.log(\"After : \" + {}.polluted);\n```",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "deep-defaults"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.0"
+            },
+            {
+              "last_affected": "1.0.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-25944"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/d5/deep-defaults"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/d5/deep-defaults/blob/321d0e2231aa807d54e7f95d75c22048a806923f/lib/index.js#L16"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20210525211925/https://www.whitesourcesoftware.com/vulnerability-database/CVE-2021-25944"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1321"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-22T23:22:36Z",
+    "nvd_published_at": "2021-05-25T19:15:00Z"
+  }
+}
