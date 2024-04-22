@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hvp5-5x4f-33fq",
+  "modified": "2024-04-22T15:56:04Z",
+  "published": "2024-04-22T15:56:04Z",
+  "aliases": [
+
+  ],
+  "summary": "JADX file override vulnerability",
+  "details": "### Summary\nwhen jadx parses a resource file, there is an escape problem with the style file, which can overwrite other files in the directory when saving the decompile result.\n\nAlthough I don't think this vulnerability realizes path traversal in the true sense of the word , I reported it anyway\n\n### Details\n\nI see that getResAlias does something with the filename.\n\n```java\nprivate String getResAlias(int resRef, String origKeyName, @Nullable FieldNode constField) {\n```\n\nbut type style will return the original filename directly.\n\n![img](https://quan9i.oss-cn-beijing.aliyuncs.com/img/202401232212491.jpeg)\nso our goal is to take a malicious file that was originally of type raw, modify its type to style, trick jadx into\n\n#### step1\n\ncreate an android project using androidstudio and create a raw folder with the name attack_file_sayhiiiiiiiiiiiii, it doesn't matter what the content is!\n\n![img](https://quan9i.oss-cn-beijing.aliyuncs.com/img/202401232212073.jpg)\ngenerate an initial APK\n\n#### step2 \n\nextract this initial APK using ZIP software to get resources.arsc\n\n![img](https://quan9i.oss-cn-beijing.aliyuncs.com/img/202401232212841.jpg)\ndrop resources.arsc into 010editor\n\n#### step3\n\nsearch for the previous filename attack_file_sayhiiiiiiiiiiiii , two will appear here, we choose the second one\n\n![img](https://quan9i.oss-cn-beijing.aliyuncs.com/img/202401232213527.jpg)\nlet's change the name of the file here. I'll change it to ../../_file_sayhiiiiiiiiiiiii\n\nnote that you can only overwrite files in the folder where the decompile was saved.\n\n![img](https://quan9i.oss-cn-beijing.aliyuncs.com/img/202401232213343.jpg)\n#### step4 \nchange the type of this file to style\n\n![img](https://quan9i.oss-cn-beijing.aliyuncs.com/img/202401232213183.jpg)\nmodified to 0E\n\n![img](https://quan9i.oss-cn-beijing.aliyuncs.com/img/202401232213484.jpg)\n#### step5 \n\nAfter saving, re-compress the whole folder into a zip, then change the extension to APK.\n\nopen it with JADX and you can see that it has been changed to a style type.\n\n![img](https://quan9i.oss-cn-beijing.aliyuncs.com/img/202401232213864.jpg)\nclick save all\n\n![img](https://quan9i.oss-cn-beijing.aliyuncs.com/img/202401232213119.jpg)\nyou can see the file escaping.\n\n![img](https://quan9i.oss-cn-beijing.aliyuncs.com/img/202401232213746.jpg)\nso we can also construct a  \n\n![img](https://quan9i.oss-cn-beijing.aliyuncs.com/img/202401232213497.jpg)\nso the classes.dex file is also replaced here\n\n![img](https://quan9i.oss-cn-beijing.aliyuncs.com/img/202401232213075.jpg)\n\n### PoC\nthe details above have been written\n\n### Impact\nlatest version \n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.github.skylot:jadx-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.5.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/skylot/jadx/security/advisories/GHSA-hvp5-5x4f-33fq"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/skylot/jadx/commit/d86449a8ea26381d0ce6fafaed7deb7542dfd70b"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/skylot/jadx"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-22T15:56:04Z",
+    "nvd_published_at": null
+  }
+}
