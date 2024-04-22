@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-x883-2vmg-xwf7",
+  "modified": "2024-04-22T15:52:39Z",
+  "published": "2024-04-22T15:52:39Z",
+  "aliases": [
+
+  ],
+  "summary": "Authelia's Group Changes may not have the expected results (YAML file backend)",
+  "details": "### Impact\n\nUnder very specific conditions changes to a users groups may not have the expected results.\n\nThe specific conditions are:\n\n* The file authentication backend is being used.\n* The [watch](https://www.authelia.com/configuration/first-factor/file/#watch) option is set to true.\n* The [refresh_interval](https://www.authelia.com/configuration/first-factor/introduction/#refresh_interval) is configured to a non-disabled value.\n* The users groups are adjusted by an administrator.\n* The user attempts to access a resource that their groups previously had access to but their new groups do not have access to.\n\nWhen these conditions are met administrators may find the changes are not taken into account by access control for longer than expected periods. While this may not necessarily be a security vulnerability it's security-adjacent and because of the unexpected nature of it and our dedication to a security-first culture we feel it's important to make users aware of this behaviour utilizing a security advisory and the existence of a fix.\n\nThis:\n\n* Can not have an Impact for Unauthenticated Users.\n* Can not have an Impact for Configurations utilizing the LDAP Backend.\n* Can not be directly or indirectly caused by a users or third parties actions.\n\n### Patches\n\nThis behaviour was identified **_after_** it was inadvertently fixed in the `master` branch during the multi-cookie domain rework (i.e. between feature releases). A patch for prior versions can be provided upon request. The fix was to ensure the details are updated regardless of backend, it was a small oversight in previous functionality which made refreshing ineffectual prior to v4.37.0.\n\n### Workarounds\n\nEnsure you restart between user database changes.\n\n### References\n\n* https://github.com/authelia/authelia/blob/v4.37.5/internal/handlers/handler_verify.go#L376-L394\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:P/AC:H/PR:H/UI:R/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/authelia/authelia/v4"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.37.0"
+            },
+            {
+              "fixed": "4.38.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/authelia/authelia/security/advisories/GHSA-x883-2vmg-xwf7"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/authelia/authelia"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/authelia/authelia/blob/v4.37.5/internal/handlers/handler_verify.go#L376-L394"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-281"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-22T15:52:39Z",
+    "nvd_published_at": null
+  }
+}
