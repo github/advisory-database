@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-866w-wm4h-95c6",
+  "modified": "2024-04-22T23:20:58Z",
+  "published": "2022-10-12T12:00:18Z",
+  "aliases": [
+    "CVE-2022-37617"
+  ],
+  "summary": "thlorenz browserify-shim vulnerable to prototype pollution",
+  "details": "Prototype pollution vulnerability in function `resolveShims` in resolve-shims.js in thlorenz browserify-shim 3.8.15 via the `k` variable in resolve-shims.js.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "browserify-shim"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.8.16"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.8.15"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-37617"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/thlorenz/browserify-shim/issues/245"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/thlorenz/browserify-shim/pull/246"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/thlorenz/browserify-shim/commit/97855e622b6dcd117c77e6583701962ff45e7338"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/thlorenz/browserify-shim"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/thlorenz/browserify-shim/blob/464b32bbe142664cd9796059798f6c738ea3de8f/lib/resolve-shims.js#L130"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/thlorenz/browserify-shim/blob/464b32bbe142664cd9796059798f6c738ea3de8f/lib/resolve-shims.js#L158"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1321"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-22T23:20:58Z",
+    "nvd_published_at": "2022-10-11T23:15:00Z"
+  }
+}
