@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c74c-p4p7-r8q5",
+  "modified": "2024-04-22T22:36:10Z",
+  "published": "2022-05-24T16:55:55Z",
+  "aliases": [
+    "CVE-2019-16225"
+  ],
+  "summary": "py-lmdb Invalid write operation",
+  "details": "An issue was discovered in py-lmdb 0.97. For certain values of `mp_flags`, `mdb_page_touch `does not properly set up `mc->mc_pg[mc->top]`, leading to an invalid write operation. NOTE: this outcome occurs when accessing a `data.mdb` file supplied by an attacker.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "lmdb"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.97"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-16225"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/TeamSeri0us/pocs/tree/master/lmdb/lmdb%20write%20to%20illegal%20address"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jnwatson/py-lmdb"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-787"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-22T22:36:10Z",
+    "nvd_published_at": "2019-09-11T15:15:00Z"
+  }
+}
