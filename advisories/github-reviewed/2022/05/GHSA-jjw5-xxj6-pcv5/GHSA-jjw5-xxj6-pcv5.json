@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jjw5-xxj6-pcv5",
+  "modified": "2024-04-22T22:55:41Z",
+  "published": "2022-05-24T17:17:59Z",
+  "aliases": [
+    "CVE-2020-13092"
+  ],
+  "summary": "scikit-learn Deserialization of Untrusted Data",
+  "details": "scikit-learn (aka sklearn) through 0.23.0 can unserialize and execute commands from an untrusted file that is passed to the `joblib.load()` function, if `__reduce__` makes an `os.system call`.\nNOTE: third parties dispute this issue because the joblib.load() function is documented as unsafe and it is the user's responsibility to use the function in a secure manner.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "scikit-learn"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.23.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-13092"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/0FuzzingQ/vuln/blob/master/sklearn%20unserialize.md"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/scikit-learn/scikit-learn"
+    },
+    {
+      "type": "WEB",
+      "url": "https://scikit-learn.org/stable/modules/model_persistence.html#security-maintainability-limitations"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-502"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-22T22:55:41Z",
+    "nvd_published_at": "2020-05-15T19:15:00Z"
+  }
+}
