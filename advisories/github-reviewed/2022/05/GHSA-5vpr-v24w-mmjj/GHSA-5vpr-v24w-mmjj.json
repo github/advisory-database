@@ -1,0 +1,134 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5vpr-v24w-mmjj",
+  "modified": "2024-04-23T22:16:23Z",
+  "published": "2022-05-14T03:36:22Z",
+  "aliases": [
+    "CVE-2017-6929"
+  ],
+  "summary": "Drupal cross site scripting vulnerability",
+  "details": "A jQuery cross site scripting vulnerability is present when making Ajax requests to untrusted domains. This vulnerability is mitigated by the fact that it requires contributed or custom modules in order to exploit. For Drupal 8, this vulnerability was already fixed in Drupal 8.4.0 in the Drupal core upgrade to jQuery 3. For Drupal 7, it is fixed in the current release (Drupal 7.57) for jQuery 1.4.4 (the version that ships with Drupal 7 core) as well as for other newer versions of jQuery that might be used on the site, for example using the jQuery Update module.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "drupal/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.0"
+            },
+            {
+              "fixed": "7.57"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "drupal/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.0"
+            },
+            {
+              "fixed": "8.4.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "drupal/drupal"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.0"
+            },
+            {
+              "fixed": "8.4.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "drupal/drupal"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.0"
+            },
+            {
+              "fixed": "7.57"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-6929"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/drupal/core/CVE-2017-6929.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/drupal/drupal/CVE-2017-6929.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/drupal/core"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.debian.org/debian-lts-announce/2018/02/msg00030.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.debian.org/security/2018/dsa-4123"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.drupal.org/sa-core-2018-001"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-23T22:16:23Z",
+    "nvd_published_at": "2018-03-01T23:29:00Z"
+  }
+}
