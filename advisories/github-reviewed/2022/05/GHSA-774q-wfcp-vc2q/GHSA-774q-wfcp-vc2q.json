@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-774q-wfcp-vc2q",
+  "modified": "2024-04-23T23:37:43Z",
+  "published": "2022-05-24T17:11:48Z",
+  "aliases": [
+    "CVE-2019-14883"
+  ],
+  "summary": "Moodle Email media URL tokens were not checking for user status",
+  "details": "A vulnerability was found in Moodle 3.6 before 3.6.7 and 3.7 before 3.7.3, where tokens used to fetch inline atachments in email notifications were not disabled when a user's account was no longer active. Note: to access files, a user would need to know the file path, and their token.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "moodle/moodle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.6"
+            },
+            {
+              "fixed": "3.6.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "moodle/moodle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.7"
+            },
+            {
+              "fixed": "3.7.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-14883"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2019-14883"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/moodle/moodle"
+    },
+    {
+      "type": "WEB",
+      "url": "https://moodle.org/mod/forum/discuss.php?d=393586#p1586750"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-285",
+      "CWE-862"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-23T23:37:43Z",
+    "nvd_published_at": "2020-03-18T13:15:00Z"
+  }
+}
