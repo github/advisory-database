@@ -1,0 +1,142 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-58f3-cx8p-h8jg",
+  "modified": "2024-04-23T22:30:57Z",
+  "published": "2022-05-13T01:36:23Z",
+  "aliases": [
+    "CVE-2017-6922"
+  ],
+  "summary": "Drupal core access bypass vulnerability",
+  "details": "In Drupal core 8.x prior to 8.3.4 and Drupal core 7.x prior to 7.56; Private files that have been uploaded by an anonymous user but not permanently attached to content on the site should only be visible to the anonymous user that uploaded them, rather than all anonymous users. Drupal core did not previously provide this protection, allowing an access bypass vulnerability to occur. This issue is mitigated by the fact that in order to be affected, the site must allow anonymous users to upload files into a private file system.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "drupal/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.0"
+            },
+            {
+              "fixed": "7.56"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "drupal/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.0"
+            },
+            {
+              "fixed": "8.3.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "drupal/drupal"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.0"
+            },
+            {
+              "fixed": "8.3.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "drupal/drupal"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.0"
+            },
+            {
+              "fixed": "7.56"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-6922"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/drupal/core/CVE-2017-6922.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/drupal/drupal/CVE-2017-6922.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/drupal/core"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.debian.org/security/2017/dsa-3897"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.drupal.org/SA-CORE-2017-003"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.drupal.org/forum/newsletters/security-advisories-for-drupal-core/2017-06-21/drupal-core-multiple"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/99219"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securitytracker.com/id/1038781"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-552"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-23T22:30:57Z",
+    "nvd_published_at": "2019-01-22T15:29:00Z"
+  }
+}
