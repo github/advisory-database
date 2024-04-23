@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w228-rfpx-fhm4",
+  "modified": "2024-04-23T16:21:22Z",
+  "published": "2024-04-23T16:21:22Z",
+  "aliases": [
+
+  ],
+  "summary": "cg vulnerable to an Open Redirect Vulnerability on Referer Header",
+  "details": "### Summary\n\nA vulnerability has been discovered in the handling of the referrer header in the application, which could allow an attacker to conduct open redirects. The issue arises from improper validation of the referrer header in certain conditions. By manipulating the referrer header, an attacker could potentially redirect users to malicious websites, phishing pages, or other dangerous destinations.\n\n### PoC\n\nIf you change the referer header, you will be redirected to that domain without verifying.\n\nhttps://github.com/Clinical-Genomics/cg/blob/master/cg/server/invoices/views.py#L173\n\n### Impact\n\nAn attacker exploiting this vulnerability could trick users into visiting malicious websites or disclose sensitive information by redirecting them to unintended destinations. This could lead to various attacks including phishing, malware distribution, or further exploitation of other vulnerabilities.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "cg"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "60.2.12"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/Clinical-Genomics/cg/security/advisories/GHSA-w228-rfpx-fhm4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Clinical-Genomics/cg/commit/96e6a968a5a3639cc40ad251ad65952e4f38dd25"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Clinical-Genomics/cg"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Clinical-Genomics/cg/blob/master/cg/server/invoices/views.py#L173"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-601"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-23T16:21:22Z",
+    "nvd_published_at": null
+  }
+}
