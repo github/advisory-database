@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c3wv-qmjj-45r6",
+  "modified": "2024-04-24T21:42:22Z",
+  "published": "2024-04-24T21:42:22Z",
+  "aliases": [
+    "CVE-2020-14370"
+  ],
+  "summary": "Information disclosure in podman",
+  "details": "An information disclosure vulnerability was found in containers/podman in versions before 2.0.5. When using the deprecated Varlink API or the Docker-compatible REST API, if multiple containers are created in a short duration, the environment variables from the first container will get leaked into subsequent containers. An attacker who has control over the subsequent containers could use this flaw to gain access to sensitive information stored in such variables.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/containers/podman/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-14370"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/containers/podman/commit/a7e864e6e7de894d4edde4fff00e53dc6a0b5074"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1874268"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/containers/podman"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/G6BPCZX4ASKNONL3MSCK564IVXNYSKLP"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/Y74V7HGQBNLT6XECCSNZNFZIB7G7XSAR"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/Z4Y2FSGQWP4AFT5AZ6UBN6RKHVXUBRFV"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200",
+      "CWE-212"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-24T21:42:22Z",
+    "nvd_published_at": "2020-09-23T13:15:00Z"
+  }
+}
