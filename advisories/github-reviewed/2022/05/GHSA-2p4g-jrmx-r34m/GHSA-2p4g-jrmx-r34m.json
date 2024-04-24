@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2p4g-jrmx-r34m",
+  "modified": "2024-04-24T21:39:43Z",
+  "published": "2022-05-24T16:47:41Z",
+  "aliases": [
+    "CVE-2019-11881"
+  ],
+  "summary": "Rancher Login Parameter Can Be Edited",
+  "details": "A vulnerability exists in Rancher 2.1.4 in the login component, where the `errorMsg` parameter can be tampered to display arbitrary content, filtering tags but not special characters or symbols. There's no other limitation of the message, allowing malicious users to lure legitimate users to visit phishing sites with scare tactics, e.g., displaying a \"This version of Rancher is outdated, please visit https://malicious.rancher.site/upgrading\" message.\n\n**PoC**\n1. Access the following endpoint on any Rancher instance up to 2.1.4: `https://RANCHER:PORT/login?errorMsg=%68%74%74%70%73%3a%2f%2f%77%77%77%2e%6f%77%61%73%70%2e%6f%72%67%2f%69%6e%64%65%78%2e%70%68%70%2f%57%65%62%5f%50%61%72%61%6d%65%74%65%72%5f%54%61%6d%70%65%72%69%6e%67`\n\nIt will display a [link](https://www.owasp.org/index.php/Web_Parameter_Tampering) to OWASP Wiki explaining Web Parameter Tampering.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/rancher/rancher"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "2.1.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-11881"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rancher/rancher/issues/20216"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/MauroEldritch/VanCleef"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/rancher/rancher"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-24T21:39:43Z",
+    "nvd_published_at": "2019-06-10T20:29:00Z"
+  }
+}
