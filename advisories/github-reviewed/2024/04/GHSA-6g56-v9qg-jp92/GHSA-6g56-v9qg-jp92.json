@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6g56-v9qg-jp92",
+  "modified": "2024-04-24T21:35:47Z",
+  "published": "2024-04-24T21:35:47Z",
+  "aliases": [
+    "CVE-2017-15103"
+  ],
+  "summary": "Heketi Arbitrary Code Execution",
+  "details": "A security-check flaw was found in the way the Heketi 5 server API handled user requests. An authenticated Heketi user could send specially crafted requests to the Heketi server, resulting in remote command execution as the user running Heketi server and possibly privilege escalation.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/heketi/heketi"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.0.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-15103"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/heketi/heketi/commit/787bae461b23003a4daa4d1d639016a754cf6b00"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2017:3481"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/security/cve/CVE-2017-15103"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1510147"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/heketi/heketi"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/heketi/heketi/releases/tag/v5.0.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20",
+      "CWE-78",
+      "CWE-94"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-24T21:35:47Z",
+    "nvd_published_at": "2017-12-18T19:29:00Z"
+  }
+}
