@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8724-5xmm-w5xq",
+  "modified": "2024-04-24T17:37:59Z",
+  "published": "2024-04-24T17:37:59Z",
+  "aliases": [
+
+  ],
+  "summary": "CosmWasm affected by arithmetic overflows",
+  "details": "Some mathematical operations in `cosmwasm-std` use wrapping math instead of\npanicking on overflow for very big numbers. This can lead to wrong calculations in contracts\nthat use these operations.\n\nAffected functions:\n\n- `Uint{256,512}::pow` / `Int{256,512}::pow`\n- `Int{256,512}::neg`\n\nAffected if `overflow-checks = true` is not set:\n\n- `Uint{64,128}::pow` / `Int{64,128}::pow`\n- `Int{64,128}::neg`\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "cosmwasm-std"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.3.0"
+            },
+            {
+              "fixed": "1.4.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "cosmwasm-std"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.5.0"
+            },
+            {
+              "fixed": "1.5.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "cosmwasm-std"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.0.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/CosmWasm/cosmwasm/commit/607e7fc710fb9441096e8edbaa12879b552c8f65"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/CosmWasm/cosmwasm/commit/a6a639e09adc355b5f889a09141649005cb08a46"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/CosmWasm/cosmwasm/commit/eff79bcbe73b61178817aacf0a6449437adad6a9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/CosmWasm/advisories/blob/main/CWAs/CWA-2024-002.md"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/CosmWasm/cosmwasm"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2024-0338.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-190"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-24T17:37:59Z",
+    "nvd_published_at": null
+  }
+}
