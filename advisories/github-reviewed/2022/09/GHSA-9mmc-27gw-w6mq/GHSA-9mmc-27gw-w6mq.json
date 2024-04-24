@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9mmc-27gw-w6mq",
+  "modified": "2024-04-24T20:10:21Z",
+  "published": "2022-09-29T00:00:27Z",
+  "aliases": [
+    "CVE-2022-32170"
+  ],
+  "summary": "Bytebase allows low-privilege users to view admin projects",
+  "details": "### Overview\nThe \"Bytebase\" application does not restrict low privilege user from accessing admin projects\n\n### Details\nThe \"Bytebase\" application does not restrict low privilege user from accessing admin projects for which an unauthorized user can view the \"projects\" created by \"Admin\". The affected endpoint is `/api/project?user=${userId}`.\n\n### PoC\n1. Log in to the application as both \"Admin\" (`admin@example.com:admin`) and Developer \"User\" (`user@admin.com:user`) and then click on \"Projects\".\n2. Now open \"Burp suite\" and turn \"Intercept on\" and from \"admin\" dashboard click on \"projects\" and see the \"user id\" of \"admin\" in the capture request.\n3. Note the \"user id\" and \"Forward\" the request and again capture the request of \"projects\" from the \"user\" dashboard and change \"user id\" to \"admin user id\" and \"Forward\" the request.\n4. Now \"user\" can see the \"projects\" created by \"admin\".",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/bytebase/bytebase"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.1.0"
+            },
+            {
+              "last_affected": "1.0.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-32170"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/bytebase/bytebase/blob/1.0.4/frontend/src/store/modules/project.ts"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.mend.io/vulnerability-database/CVE-2022-32170"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-285"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-24T20:10:21Z",
+    "nvd_published_at": "2022-09-28T10:15:00Z"
+  }
+}
