@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2v35-wj4r-rcmv",
+  "modified": "2024-04-24T20:07:30Z",
+  "published": "2022-05-24T17:40:02Z",
+  "aliases": [
+    "CVE-2020-8567"
+  ],
+  "summary": "Kubernetes Secrets Store CSI Driver plugins arbitrary file write",
+  "details": "Kubernetes Secrets Store CSI Driver Vault Plugin prior to v0.0.6, Azure Plugin prior to v0.0.10, and GCP Plugin prior to v0.2.0 allow an attacker who can create specially-crafted SecretProviderClass objects to write to arbitrary file paths on the host filesystem, including /var/lib/kubelet/pods.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:C/C:N/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/hashicorp/vault-csi-provider"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.0.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/Azure/secrets-store-csi-driver-provider-azure"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.0.10"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/GoogleCloudPlatform/secrets-store-csi-driver-provider-gcp"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.2.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-8567"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kubernetes-sigs/secrets-store-csi-driver/issues/384"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Azure/secrets-store-csi-driver-provider-azure/pull/298"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/GoogleCloudPlatform/secrets-store-csi-driver-provider-gcp/pull/74"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hashicorp/secrets-store-csi-driver-provider-vault/pull/50"
+    },
+    {
+      "type": "WEB",
+      "url": "https://groups.google.com/g/kubernetes-secrets-store-csi-driver/c/BI2qisiNXHY"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-24T20:07:30Z",
+    "nvd_published_at": "2021-01-21T17:15:00Z"
+  }
+}
