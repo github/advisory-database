@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jwqp-wh5g-4gmm",
+  "modified": "2024-04-24T17:49:09Z",
+  "published": "2022-05-24T17:12:13Z",
+  "aliases": [
+    "CVE-2020-10793"
+  ],
+  "summary": "CodeIgniter Improper Privilege Management",
+  "details": "CodeIgniter through 4.0.0 allows remote attackers to gain privileges via a modified Email ID to the \"Select Role of the User\" page. NOTE: A contributor to the CodeIgniter framework argues that the issue should not be attributed to CodeIgniter. Furthermore, the blog post reference shows an unknown website built with the CodeIgniter framework but that CodeIgniter is not responsible for introducing this issue because the framework has never provided a login screen, nor any kind of login or user management facilities beyond a Session library. Also, another reporter indicates the issue is with a custom module/plugin to CodeIgniter, not CodeIgniter itself.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "codeigniter4/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "4.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-10793"
+    },
+    {
+      "type": "WEB",
+      "url": "https://codeigniter4.github.io/userguide/extending/authentication.html"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/codeigniter4/framework"
+    },
+    {
+      "type": "WEB",
+      "url": "https://medium.com/@vbharad/account-takeover-via-modifying-email-id-codeigniter-framework-ca30741ad297"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-269"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-24T17:49:09Z",
+    "nvd_published_at": "2020-03-23T15:15:00Z"
+  }
+}
