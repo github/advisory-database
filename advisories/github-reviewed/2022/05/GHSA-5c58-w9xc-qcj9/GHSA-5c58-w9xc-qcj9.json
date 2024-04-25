@@ -1,0 +1,181 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5c58-w9xc-qcj9",
+  "modified": "2024-04-25T22:09:04Z",
+  "published": "2022-05-17T03:34:11Z",
+  "aliases": [
+    "CVE-2015-2308"
+  ],
+  "summary": "Symfony Vulnerable to PHP Eval Injection",
+  "details": "Applications with ESI support (and SSI support as of Symfony 2.6) enabled and using the Symfony built-in reverse proxy (the `Symfony\\Component\\HttpKernel\\HttpCache class) are vulnerable to PHP code injection; a malicious user can inject PHP code that will be executed by the server.\n\nHttpCache uses eval() to execute files in its cache when they contain ESI tags (and only when ESI is enabled). The vulnerability comes from the fact that PHP allows contents of <script language=\"php\"> tags to be executed (and this kind of PHP tags is always available regardless of the configuration), but there were not escaped before the evaluation.\n\nA possible exploit comes from websites also vulnerable to Cross-Site Scripting as an attacker can successfully conduct a PHP code injection attack by passing such a tag in a user submitted variable (for which proper output escaping was not applied).",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/symfony"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.3.27"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/symfony"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.4.0"
+            },
+            {
+              "fixed": "2.5.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/symfony"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.6.0"
+            },
+            {
+              "fixed": "2.6.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/http-kernel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.3.27"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/http-kernel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.4.0"
+            },
+            {
+              "fixed": "2.5.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/http-kernel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.6.0"
+            },
+            {
+              "fixed": "2.6.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2015-2308"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/symfony/symfony/pull/14167/commits/195c57e1f50765aff33137689b16e126a689056a"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/symfony/http-kernel/CVE-2015-2308.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/symfony/symfony/CVE-2015-2308.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/symfony/symfony"
+    },
+    {
+      "type": "WEB",
+      "url": "https://symfony.com/blog/cve-2015-2308-esi-code-injection"
+    },
+    {
+      "type": "WEB",
+      "url": "https://symfony.com/cve-2015-2308"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20200228084751/http://www.securityfocus.com/bid/75357"
+    },
+    {
+      "type": "WEB",
+      "url": "http://jvn.jp/en/jp/JVN19578958/index.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://jvndb.jvn.jp/jvndb/JVNDB-2015-000089"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-25T22:09:04Z",
+    "nvd_published_at": "2015-06-24T10:59:00Z"
+  }
+}
