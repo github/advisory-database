@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-346h-749j-r28w",
+  "modified": "2024-04-25T18:31:58Z",
+  "published": "2024-04-25T18:31:58Z",
+  "aliases": [
+
+  ],
+  "summary": "PHPECC vulnerable to multiple cryptographic side-channel attacks",
+  "details": "### ECDSA Canonicalization\n\nPHPECC is vulnerable to malleable ECDSA signature attacks. \n\n### Constant-Time Signer\n\nWhen generating a new ECDSA signature, the GMPMath adapter was used. This class wraps the GNU Multiple Precision arithmetic library (GMP), which does not aim to provide constant-time implementations of algorithms.\n\nAn attacker capable of triggering many signatures and studying the time it takes to perform each operation would be able to leak the secret number, `k`, and thereby learn the private key.\n\n### EcDH Timing Leaks\n\nWhen calculating a shared secret using the `EcDH` class, the scalar-point multiplication is based on the arithmetic defined by the `Point` class.\n\nEven though the library implements a Montgomery ladder, the `add()`, `mul()`, and `getDouble()` methods on the `Point` class are not constant-time. This means that your ECDH private keys are leaking information about each bit of your private key through a timing side-channel.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "mdanter/ecc"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/mdanter/ecc/2024-04-24.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/paragonie/phpecc/releases/tag/v2.0.0"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/phpecc/phpecc"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-203",
+      "CWE-354"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-25T18:31:58Z",
+    "nvd_published_at": null
+  }
+}
