@@ -1,0 +1,215 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cqqh-94r6-wjrg",
+  "modified": "2024-04-25T22:12:30Z",
+  "published": "2022-05-14T02:41:31Z",
+  "aliases": [
+    "CVE-2017-16790"
+  ],
+  "summary": "Symfony SSRF Vulnerability via Form Component",
+  "details": "An issue was discovered in Symfony before 2.7.38, 2.8.31, 3.2.14, 3.3.13, 3.4-BETA5, and 4.0-BETA5. When a form is submitted by the user, the request handler classes of the Form component merge POST data and uploaded files data into one array. This big array forms the data that are then bound to the form. At this stage there is no difference anymore between submitted POST data and uploaded files. A user can send a crafted HTTP request where the value of a \"FileType\" is sent as normal POST data that could be interpreted as a local file path on the server-side (for example, \"file:///etc/passwd\"). If the application did not perform any additional checks about the value submitted to the \"FileType\", the contents of the given file on the server could have been exposed to the attacker.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/form"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.7.0"
+            },
+            {
+              "fixed": "2.7.38"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/form"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.8.0"
+            },
+            {
+              "fixed": "2.8.31"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/form"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.2.14"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/form"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.3.0"
+            },
+            {
+              "fixed": "3.3.13"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/symfony"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.7.0"
+            },
+            {
+              "fixed": "2.7.38"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/symfony"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.8.0"
+            },
+            {
+              "fixed": "2.8.31"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/symfony"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.2.14"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/symfony"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.3.0"
+            },
+            {
+              "fixed": "3.3.13"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-16790"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/symfony/symfony/pull/24993"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/symfony/form/CVE-2017-16790.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/symfony/symfony/CVE-2017-16790.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/symfony/form"
+    },
+    {
+      "type": "WEB",
+      "url": "https://symfony.com/blog/cve-2017-16790-ensure-that-submitted-data-are-uploaded-files"
+    },
+    {
+      "type": "WEB",
+      "url": "https://symfony.com/cve-2017-16790"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.debian.org/security/2018/dsa-4262"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20",
+      "CWE-918"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-25T22:12:30Z",
+    "nvd_published_at": "2018-08-06T21:29:00Z"
+  }
+}
