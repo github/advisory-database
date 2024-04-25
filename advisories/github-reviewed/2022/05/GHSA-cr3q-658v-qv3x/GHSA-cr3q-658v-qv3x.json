@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cr3q-658v-qv3x",
+  "modified": "2024-04-25T22:27:10Z",
+  "published": "2022-05-14T02:19:50Z",
+  "aliases": [
+    "CVE-2018-1000640"
+  ],
+  "summary": "OpenCart-Overclocked Cross-site Scripting Vulnerability",
+  "details": "Reflected Cross-Site Scripting (XSS) may allow an attacker to execute JavaScript code in the context of the victim’s browser. This may lead to unauthorised actions being performed, unauthorised access to data, stealing of session information, denial of service, etc. An attacker needs to coerce a user into visiting a link with the XSS payload to be properly exploited against a victim.\n\nThe OpenCart Overclocked OpenBay template overly trusts user-controlled input. This lack of sufficient sanitisation allows an attacker to execute JavaScript code in the context of a victim’s browser.\n\nThe code below displays unsanitised input being displayed on the victim’s page (found on line 95 [upload/admin/view/template/extension/openbay.tpl#L95](https://github.com/villagedefrance/OpenCart-Overclocked/blob/2f98e839f84beb0ed8dd11d7c0f6eb1501d44969/upload/admin/view/template/extension/openbay.tpl#L95)):\n\n```php\nvar token = \"<?php echo $_GET['token']; ?>\"; \n```",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "villagedefrance/opencart-overclocked"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.11.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-1000640"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/villagedefrance/OpenCart-Overclocked/issues/190"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/418sec/OpenCart-Overclocked/pull/1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://0dd.zone/2018/08/05/OpenCart-Overclocked-Reflected-XSS"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/villagedefrance/OpenCart-Overclocked"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-25T22:27:10Z",
+    "nvd_published_at": "2018-08-20T19:31:00Z"
+  }
+}
