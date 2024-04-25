@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qr6q-w4gj-3865",
+  "modified": "2024-04-25T23:00:25Z",
+  "published": "2022-05-14T02:53:19Z",
+  "aliases": [
+    "CVE-2014-2383"
+  ],
+  "summary": "DOMPDF Arbitrary File Read",
+  "details": "dompdf.php in dompdf before 0.6.1, when `DOMPDF_ENABLE_PHP` is enabled, allows context-dependent attackers to bypass chroot protections and read arbitrary files via a PHP protocol and wrappers in the input_file parameter, as demonstrated by a `php://filter/read=convert.base64-encode/resource` in the input_file parameter.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "dompdf/dompdf"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.6.0"
+            },
+            {
+              "fixed": "0.6.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2014-2383"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dompdf/dompdf/commit/23a693993299e669306929e3d49a4a1f7b3fb028"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/dompdf/dompdf/CVE-2014-2383.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/dompdf/dompdf"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20151215023329/http://www.securityfocus.com/archive/1/531912/100/0/threaded"
+    },
+    {
+      "type": "WEB",
+      "url": "http://seclists.org/fulldisclosure/2014/Apr/258"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-25T23:00:25Z",
+    "nvd_published_at": "2014-04-28T14:09:00Z"
+  }
+}
