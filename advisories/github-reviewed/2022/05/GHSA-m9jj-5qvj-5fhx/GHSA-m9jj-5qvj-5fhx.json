@@ -1,0 +1,130 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-m9jj-5qvj-5fhx",
+  "modified": "2024-04-29T11:11:05Z",
+  "published": "2022-05-14T03:21:41Z",
+  "aliases": [
+    "CVE-2014-6633"
+  ],
+  "summary": "Tryton vulnerable to arbitrary command execution",
+  "details": "The `safe_eval` function in trytond in Tryton before 2.4.15, 2.6.x before 2.6.14, 2.8.x before 2.8.11, 3.0.x before 3.0.7, and 3.2.x before 3.2.3 allows remote authenticated users to execute arbitrary commands via shell metacharacters in (1) the `collection.domain` in the webdav module or (2) the formula field in the `price_list` module.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "tryton"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.4.15"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "tryton"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.6.0"
+            },
+            {
+              "fixed": "2.6.14"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "tryton"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.8.0"
+            },
+            {
+              "fixed": "2.8.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "tryton"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.2.0"
+            },
+            {
+              "fixed": "3.2.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2014-6633"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tryton/trytond/commit/19fc2a01357b7638041953326e404f51d96fad06"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tryton/trytond/commit/3e4c2b7e8c7b3358597a0d484fa98f45483ee92a"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.tryton.org/issue4155"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/tryton/trytond"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.tryton.org/posts/security-release-for-issue4155.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-77"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-29T11:11:05Z",
+    "nvd_published_at": "2018-04-12T15:29:00Z"
+  }
+}
