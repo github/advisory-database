@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-x23q-4j9j-9cxw",
+  "modified": "2024-04-29T14:27:44Z",
+  "published": "2022-05-24T19:17:41Z",
+  "aliases": [
+    "CVE-2021-40720"
+  ],
+  "summary": "Ops CLI Deserialization of Untrusted Data vulnerability",
+  "details": "Ops CLI version 2.0.4 (and earlier) is affected by a Deserialization of Untrusted Data vulnerability to achieve arbitrary code execution when the `checkout_repo` function is called on a maliciously crafted file. An attacker can leverage this to execute arbitrary code on the victim machine.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ops-cli"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.5"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.0.4"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-40720"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/adobe/ops-cli"
+    },
+    {
+      "type": "WEB",
+      "url": "https://helpx.adobe.com/security/products/ops_cli/apsb21-88.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-502"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-29T14:27:44Z",
+    "nvd_published_at": "2021-10-15T15:15:00Z"
+  }
+}
