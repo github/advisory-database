@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qcj3-h27m-mp9x",
+  "modified": "2024-04-29T11:08:44Z",
+  "published": "2022-05-13T01:07:34Z",
+  "aliases": [
+    "CVE-2018-16856"
+  ],
+  "summary": "Openstack Octavia allows Insertion of Sensitive Information into Log File",
+  "details": "In a default Red Hat Openstack Platform Director installation, openstack-octavia before versions openstack-octavia 2.0.2-5 and openstack-octavia-3.0.1-0.20181009115732 creates log files that are readable by all users. Sensitive information such as private keys can appear in these log files allowing for information exposure.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "octavia"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.1.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "< 2.1.0"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "octavia"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0.0b1"
+            },
+            {
+              "fixed": "3.1.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-16856"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/octavia/commit/ae7c87f54a6c5483a608d5e9fe51ea1966ea1f7e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2018-16856"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openstack/octavia"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/octavia/commits/3.1.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-532"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-29T11:08:44Z",
+    "nvd_published_at": "2019-03-26T18:29:00Z"
+  }
+}
