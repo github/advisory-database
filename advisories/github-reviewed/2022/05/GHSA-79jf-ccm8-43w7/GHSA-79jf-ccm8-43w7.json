@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-79jf-ccm8-43w7",
+  "modified": "2024-04-30T08:37:23Z",
+  "published": "2022-05-17T04:12:25Z",
+  "aliases": [
+    "CVE-2015-4053"
+  ],
+  "summary": "ceph-deploy uses world-readable permissions on client.admin key",
+  "details": "The admin command in ceph-deploy before 1.5.25 uses world-readable permissions for `/etc/ceph/ceph.client.admin.keyring`, which allows local users to obtain sensitive information by reading the file.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ceph-deploy"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.5.25"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2015-4053"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ceph/ceph-deploy/pull/300"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ceph/ceph-deploy/commit/9f9fd6e3372043bd2fd67582324c8fb5d7aa361e"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ceph/ceph-deploy"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20200228093353/http://www.securityfocus.com/bid/74775"
+    },
+    {
+      "type": "WEB",
+      "url": "http://rhn.redhat.com/errata/RHSA-2015-1092.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://tracker.ceph.com/issues/11694"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2015/04/09/9"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2015/05/22/1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-30T08:37:23Z",
+    "nvd_published_at": "2015-06-08T14:59:00Z"
+  }
+}
