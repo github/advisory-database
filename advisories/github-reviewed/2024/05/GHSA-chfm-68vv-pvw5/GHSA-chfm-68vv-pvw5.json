@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-chfm-68vv-pvw5",
+  "modified": "2024-05-01T16:40:01Z",
+  "published": "2024-05-01T16:40:01Z",
+  "aliases": [
+    "CVE-2024-31573"
+  ],
+  "summary": "XMLUnit for Java has Insecure Defaults when Processing XSLT Stylesheets",
+  "details": "### Impact\nWhen performing XSLT transformations XMLUnit for Java did not disable XSLT extension functions by default. Depending on the XSLT processor being used this could allow arbitrary code to be executed when XMLUnit is used to transform data with a stylesheet who's source can not be trusted. If the stylesheet can be provided externally this may even lead to a remote code execution.\n\n## Patches\nUsers are advised to upgrade to XMLUnit for Java 2.10.0 where the default has been changed by means of https://github.com/xmlunit/xmlunit/commit/b81d48b71dfd2868bdfc30a3e17ff973f32bc15b\n\n### Workarounds\nXMLUnit's main use-case is performing tests on code that generates or processes XML. Most users will not use it to perform arbitrary XSLT transformations.\n\nUsers running XSLT transformations with untrusted stylesheets should explicitly use XMLUnit's APIs to pass in a pre-configured TraX `TransformerFactory` with extension functions disabled via features and attributes. The required `setFactory` or `setTransformerFactory` methods have been available since XMLUnit for Java 2.0.0.\n\n### References\n[Bug Report](https://github.com/xmlunit/xmlunit/issues/264)\n[JAXP Security Guide](https://docs.oracle.com/en/java/javase/22/security/java-api-xml-processing-jaxp-security-guide.html#GUID-E345AA09-801E-4B95-B83D-7F0C452538AA)\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xmlunit:xmlunit-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.10.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xmlunit/xmlunit/security/advisories/GHSA-chfm-68vv-pvw5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xmlunit/xmlunit/issues/264"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xmlunit/xmlunit/commit/b81d48b71dfd2868bdfc30a3e17ff973f32bc15b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.oracle.com/en/java/javase/22/security/java-api-xml-processing-jaxp-security-guide.html#GUID-E345AA09-801E-4B95-B83D-7F0C452538AA"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xmlunit/xmlunit"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-01T16:40:01Z",
+    "nvd_published_at": null
+  }
+}

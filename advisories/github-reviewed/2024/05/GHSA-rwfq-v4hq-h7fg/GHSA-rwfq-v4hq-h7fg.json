@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rwfq-v4hq-h7fg",
+  "modified": "2024-05-01T16:39:24Z",
+  "published": "2024-05-01T16:39:24Z",
+  "aliases": [
+    "CVE-2024-32966"
+  ],
+  "summary": "static-web-server vulnerable to stored Cross-site Scripting in directory listings via file names",
+  "details": "### Summary\nIf directory listings are enabled for a directory that an untrusted user has upload privileges for, a malicious file name like `<img src=x onerror=alert(1)>.txt` will allow JavaScript code execution in the context of the web server’s domain.\n\n### Details\nSWS generally does not perform escaping of HTML entities on any values inserted in the directory listing. At the very least `file_name` and `current_path` could contain malicious data however. `file_uri` could also be malicious but the relevant scenarios seem to be all caught by hyper.\n\n### Impact\nFor any web server that allow users to upload files or create directories under a name of their choosing this becomes a stored XSS vulnerability.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "static-web-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.30.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/static-web-server/static-web-server/security/advisories/GHSA-rwfq-v4hq-h7fg"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-32966"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/static-web-server/static-web-server"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/static-web-server/static-web-server/releases/tag/v2.30.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79",
+      "CWE-80"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-01T16:39:24Z",
+    "nvd_published_at": "2024-05-01T06:15:21Z"
+  }
+}
