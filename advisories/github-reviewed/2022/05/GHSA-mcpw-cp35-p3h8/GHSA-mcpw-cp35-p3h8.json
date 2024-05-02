@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mcpw-cp35-p3h8",
+  "modified": "2024-05-02T13:11:32Z",
+  "published": "2022-05-24T16:55:04Z",
+  "aliases": [
+    "CVE-2019-15753"
+  ],
+  "summary": "OpenStack os-vif Ageing time of 0 disables linuxbridge MAC learning",
+  "details": "In OpenStack os-vif 1.15.x before 1.15.2, and 1.16.0, a hard-coded MAC aging time of 0 disables MAC learning in linuxbridge, forcing obligatory Ethernet flooding of non-local destinations, which both impedes network performance and allows users to possibly view the content of packets for instances belonging to other tenants sharing the same network. Only deployments using the linuxbridge backend are affected. This occurs in PyRoute2.add() in `internal/command/ip/linux/impl_pyroute2.py`.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "os-vif"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.15.0"
+            },
+            {
+              "fixed": "1.15.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "os-vif"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.16.0"
+            },
+            {
+              "fixed": "1.17.0"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "1.16.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-15753"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/os-vif/commit/655c83d706f5de8a8cf23430782e065219297aef"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/os-vif/commit/ec9d5430300c908ea9a1c64151eee7af522a44e7"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openstack/os-vif"
+    },
+    {
+      "type": "WEB",
+      "url": "https://launchpad.net/bugs/1837252"
+    },
+    {
+      "type": "WEB",
+      "url": "https://review.opendev.org/672834"
+    },
+    {
+      "type": "WEB",
+      "url": "https://review.opendev.org/678098"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.openstack.org/ossa/OSSA-2019-004.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2019/08/29/2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-770"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-02T13:11:32Z",
+    "nvd_published_at": "2019-08-28T21:15:00Z"
+  }
+}
