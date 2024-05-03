@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-pwgc-w4x9-gw67",
+  "modified": "2024-05-03T17:53:22Z",
+  "published": "2024-05-03T17:53:22Z",
+  "aliases": [
+    "CVE-2024-34061"
+  ],
+  "summary": "changedetection.io Cross-site Scripting vulnerability",
+  "details": "### Summary\n\nInput in parameter notification_urls is not processed resulting in javascript execution in the application\n\n### Details\nchangedetection.io version: v0.45.21\n\nhttps://github.com/dgtlmoon/changedetection.io/blob/0.45.21/changedetectionio/forms.py#L226\n\n```\n        for server_url in field.data:\n            if not apobj.add(server_url):\n                message = field.gettext('\\'%s\\' is not a valid AppRise URL.' % (server_url))\n                raise ValidationError(message)\n```\n\n### PoC\n\nSetting > ADD Notification URL List\n\n![image](https://github.com/dgtlmoon/changedetection.io/assets/65381453/626eb43b-a414-4b05-92d8-c7345c2a2e75)\n\n\n```\n\"><img src=x onerror=alert(document.domain)>\n```\n![image](https://github.com/dgtlmoon/changedetection.io/assets/65381453/476bd396-2aa2-4642-9c54-fd2c2ef9de79)\n\nRequests\n\n![image](https://github.com/dgtlmoon/changedetection.io/assets/65381453/1f258ef1-149a-4a03-88ab-a2244a69652e)\n\n\n### Impact\nA reflected XSS vulnerability happens when the user input from a URL or POST data is reflected on the page without being stored, thus allowing the attacker to inject malicious content\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "changedetection.io"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.45.22"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/dgtlmoon/changedetection.io/security/advisories/GHSA-pwgc-w4x9-gw67"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-34061"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dgtlmoon/changedetection.io/commit/c0f000b1d1ce03733460805dbbedde445fe2c762"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/dgtlmoon/changedetection.io"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dgtlmoon/changedetection.io/blob/0.45.21/changedetectionio/forms.py#L226"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-03T17:53:22Z",
+    "nvd_published_at": "2024-05-02T14:15:10Z"
+  }
+}
