@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rcm2-22f3-pqv3",
+  "modified": "2024-05-03T20:01:45Z",
+  "published": "2024-05-02T15:30:35Z",
+  "aliases": [
+    "CVE-2024-4128"
+  ],
+  "summary": "Firebase vulnerable to CRSF attack",
+  "details": "This vulnerability was a potential CSRF attack. When running the Firebase emulator suite, there is an export endpoint that is used normally to export data from running emulators. If a user was running the emulator and navigated to a malicious website with the exploit on a browser that allowed calls to localhost (ie Chrome before v94), the website could exfiltrate emulator data. We recommend upgrading past version 13.6.0 or [commit 068a2b08dc308c7ab4b569617f5fc8821237e3a0](https://github.com/firebase/firebase-tools/commit/068a2b08dc308c7ab4b569617f5fc8821237e3a0).\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:R/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "firebase-tools"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "13.6.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-4128"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/firebase/firebase-tools/pull/6944"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/firebase/firebase-tools/commit/068a2b08dc308c7ab4b569617f5fc8821237e3a0"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/firebase/firebase-tools"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-03T20:01:45Z",
+    "nvd_published_at": "2024-05-02T14:15:10Z"
+  }
+}
