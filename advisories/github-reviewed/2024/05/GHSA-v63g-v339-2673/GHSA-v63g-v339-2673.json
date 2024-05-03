@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v63g-v339-2673",
+  "modified": "2024-05-03T20:14:29Z",
+  "published": "2024-05-02T15:30:35Z",
+  "aliases": [
+    "CVE-2024-34144"
+  ],
+  "summary": "Jenkins Script Security Plugin has sandbox bypass vulnerability involving crafted constructor bodies",
+  "details": "Jenkins Script Security Plugin provides a sandbox feature that allows low privileged users to define scripts, including Pipelines, that are generally safe to execute. Calls to code defined inside a sandboxed script are intercepted, and various allowlists are checked to determine whether the call is to be allowed.\n\nMultiple sandbox bypass vulnerabilities exist in Script Security Plugin 1335.vf07d9ce377a_e and earlier:\n\n- Crafted constructor bodies that invoke other constructors can be used to construct any subclassable type via implicit casts.\n\n- Sandbox-defined Groovy classes that shadow specific non-sandbox-defined classes can be used to construct any subclassable type.\n\nThese vulnerabilities allow attackers with permission to define and run sandboxed scripts, including Pipelines, to bypass the sandbox protection and execute arbitrary code in the context of the Jenkins controller JVM.\n\n- These issues are caused by an incomplete fix of [SECURITY-2824](https://www.jenkins.io/security/advisory/2022-10-19/#SECURITY-2824%20(1)).\n\nScript Security Plugin 1336.vf33a_a_9863911 has additional restrictions and sanity checks to ensure that super constructors cannot be constructed without being intercepted by the sandbox:\n\n- Calls to to other constructors using this are now intercepted by the sandbox.\n\n- Classes in packages that can be shadowed by Groovy-defined classes are no longer ignored by the sandbox when intercepting super constructor calls.\n\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:script-security"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1336.vf33a"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-34144"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/script-security-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jenkinsci/script-security-plugin/releases/tag/1336.vf33a_a_9863911"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2024-05-02/#SECURITY-3341"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/05/02/3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-03T20:14:29Z",
+    "nvd_published_at": "2024-05-02T14:15:10Z"
+  }
+}
