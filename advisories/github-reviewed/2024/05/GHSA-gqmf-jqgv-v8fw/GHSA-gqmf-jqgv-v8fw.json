@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-gqmf-jqgv-v8fw",
+  "modified": "2024-05-03T20:28:10Z",
+  "published": "2024-05-03T20:28:10Z",
+  "aliases": [
+    "CVE-2024-34066"
+  ],
+  "summary": "Pterodactyl Wings vulnerable to Arbitrary File Write/Read",
+  "details": "### Impact\n\nIf the Wings token is leaked either by viewing the node configuration or posting it accidentally somewhere, an attacker can use it to gain arbitrary file write and read access on the node the token is associated to.\n\n### Workarounds\n\nEnabling the `ignore_panel_config_updates` option or updating to the latest version of Wings are the only known workarounds.\n\n### Patches\n\nhttps://github.com/pterodactyl/wings/commit/5415f8ae07f533623bd8169836dd7e0b933964de",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/pterodactyl/wings"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.11.12"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pterodactyl/wings/security/advisories/GHSA-gqmf-jqgv-v8fw"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-34066"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pterodactyl/wings/commit/5415f8ae07f533623bd8169836dd7e0b933964de"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pterodactyl/wings"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-552"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-03T20:28:10Z",
+    "nvd_published_at": "2024-05-03T18:15:09Z"
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-384w-wffr-x63q",
+  "modified": "2024-05-03T20:29:04Z",
+  "published": "2024-05-03T20:29:04Z",
+  "aliases": [
+    "CVE-2024-34067"
+  ],
+  "summary": "Pterodactyl panel's admin area vulnerable to Cross-site Scripting",
+  "details": "### Impact\n\nImporting a malicious egg or gaining access to wings instance could lead to XSS on the panel, which could be used to gain an administrator account on the panel. Specifically, the following things are impacted:\n- Egg Docker images\n- Egg variables:\n    - Name\n    - Environment variable\n    - Default value\n    - Description\n    - Validation rules\n \nAdditionally, certain fields would reflect malicious input, but it would require the user knowingly entering such input to have an impact.\n\nTo iterate, this would require an administrator to perform actions and can't be triggered by a normal panel user.\n\n### Workarounds\n\nNo workaround is available other than updating to the latest version of the panel.\n\n### Patches\n\nAll of the following commits are required to resolve this security issue:\n\nhttps://github.com/pterodactyl/panel/commit/1172d71d31561c4e465dabdf6b838e64de48ad16\nhttps://github.com/pterodactyl/panel/commit/f671046947e4695b5e1c647df79305c1cefdf817\nhttps://github.com/pterodactyl/panel/commit/0dad4c5a488661f9adc27dd311542516d9bfa0f2",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "pterodactyl/panel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.11.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pterodactyl/panel/security/advisories/GHSA-384w-wffr-x63q"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-34067"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pterodactyl/panel/commit/0dad4c5a488661f9adc27dd311542516d9bfa0f2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pterodactyl/panel/commit/1172d71d31561c4e465dabdf6b838e64de48ad16"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pterodactyl/panel/commit/f671046947e4695b5e1c647df79305c1cefdf817"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pterodactyl/panel"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-03T20:29:04Z",
+    "nvd_published_at": "2024-05-03T18:15:09Z"
+  }
+}
