@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wvhx-q427-fgh3",
+  "modified": "2024-05-06T14:33:32Z",
+  "published": "2024-05-06T14:33:32Z",
+  "aliases": [
+    "CVE-2024-34078"
+  ],
+  "summary": "Arbitrary HTML present after sanitization because of unicode normalization",
+  "details": "### Impact\n\nIf using `keep_typographic_whitespace=False` (which is the default), the sanitizer normalizes unicode to the NFKC form at the end. Some unicode characters normalize to chevrons; this allows specially crafted HTML to escape sanitization.\n\n### Patches\n\nThe problem has been fixed in 2.4.2.\n\n### Workarounds\n\nSet `keep_typographic_whitespace=True` explicitly, or normalize to NFKC yourself earlier.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "html-sanitizer"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.4.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/matthiask/html-sanitizer/security/advisories/GHSA-wvhx-q427-fgh3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/matthiask/html-sanitizer/commit/48db42fc5143d0140c32d929c46b802f96913550"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/matthiask/html-sanitizer"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-06T14:33:32Z",
+    "nvd_published_at": null
+  }
+}
