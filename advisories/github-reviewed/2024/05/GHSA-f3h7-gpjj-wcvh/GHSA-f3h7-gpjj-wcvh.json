@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f3h7-gpjj-wcvh",
+  "modified": "2024-05-08T17:50:49Z",
+  "published": "2024-05-08T17:50:49Z",
+  "aliases": [
+    "CVE-2024-32980"
+  ],
+  "summary": "Spin applications with specific configuration vulnerable to potential network sandbox escape",
+  "details": "### Impact\nSome specifically configured Spin applications that use `self` requests without a specified URL authority can be induced to make requests to arbitrary hosts via the `Host` HTTP header.\n\nIf an application's manifest contains a component with configuration such as\n```toml\nallowed_outbound_hosts = [\"http://self\", \"https://self\"]\n```\n\nand code such as\n```rust\n let res: Response = spin_sdk::http::send(\n        Request::new(Method::Get, \"/\") // Note: the request URI does not contain a URL authority\n ).await?;\n```\n\nThen that application can be induced to send an outgoing request to another host (leading the app to process the response assuming it comes from another component in the same application). This can be induced with a request such as\n```shell\ncurl -H\"Host: google.com:80\" localhost:3000 # Assuming the application is served on localhost:3000\n```\n\n> Note: If using a SDK that does not use `wasi:http/outgoing-handler`, the port can be omitted from the URL.\n\n#### Vulnerable Configurations\n\nThe following conditions need to be met for an application to be vulnerable:\n1. The environment Spin is deployed in routes requests to the Spin runtime based on the request URL instead of the `Host` header, and leaves the `Host` header set to the original value by the client.\n2. The Spin application's component handling the incoming request is configured with an `allowed_outbound_hosts` list containing `\"self\"`.\n3. In reaction to an incoming request, the component makes an outbound request whose URL doesn't include the hostname/port.\n\nIf all of these conditions apply, then Spin will use the inbound request's `Host` header to determine the `authority` part of the URL if none is explicitly provided in the request's URL.\n\n#### Setups known not to be vulnerable\n\nFermyon's [Fermyon Cloud](https://developer.fermyon.com/cloud/index) serverless product and applications hosted on it are known not to be vulnerable.\n\n\n### Patches\n_Has the problem been patched? What versions should users upgrade to?_\nSpin version 2.4.3 is being released with this advisory going public.\n\n### Workarounds\nFor deployments of Spin, a workaround is to ensure that the `Host` header is sanitized to match the application a request is routed to.\n\nFor individual applications, multiple workarounds exist:\n1. Ensure that outgoing requests always sanitize the `Host` header\n2. Ensure that outgoing requests always provide the hostname in the URL and use that hostname in the `allowed_outbound_hosts` list instead of `self`\n3. When using Spin 2.4, use [application-internal service chaining](https://developer.fermyon.com/spin/v2/http-outbound#local-service-chaining) for intra-application requests\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "spin-sdk"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.4.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/fermyon/spin/security/advisories/GHSA-f3h7-gpjj-wcvh"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-32980"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/fermyon/spin/commit/b3db535c9edb72278d4db3a201f0ed214e561354"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/fermyon/spin"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-610"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-08T17:50:49Z",
+    "nvd_published_at": "2024-05-08T15:15:10Z"
+  }
+}
