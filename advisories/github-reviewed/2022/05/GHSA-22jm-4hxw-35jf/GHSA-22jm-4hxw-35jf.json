@@ -1,0 +1,119 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-22jm-4hxw-35jf",
+  "modified": "2024-05-09T15:57:26Z",
+  "published": "2022-05-24T17:09:18Z",
+  "aliases": [
+    "CVE-2015-9543"
+  ],
+  "summary": "OpenStack Nova can leak consoleauth token into log files",
+  "details": "An issue was discovered in OpenStack Nova before 18.2.4, 19.x before 19.1.0, and 20.x before 20.1.0. It can leak consoleauth tokens into log files. An attacker with read access to the service's logs may obtain tokens used for console access. All Nova setups using novncproxy are affected. This is related to `NovaProxyRequestHandlerBase.new_websocket_client` in `console/websocketproxy.py`.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "Nova"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "18.2.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "Nova"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "19.0.0"
+            },
+            {
+              "fixed": "19.1.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "Nova"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "20.0.0"
+            },
+            {
+              "fixed": "20.1.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2015-9543"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/08f1f914cc219cf526adfb08c46b8f40b4e78232"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/26d4047e17eba9bc271f8868f1d0ffeec97b555e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/d8fbf04f325f593836f8d44b6bbf42b85bde94e3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://launchpad.net/bugs/1492140"
+    },
+    {
+      "type": "WEB",
+      "url": "https://review.opendev.org/220622"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.openstack.org/ossa/OSSA-2020-001.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2020/02/19/2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-09T15:57:25Z",
+    "nvd_published_at": "2020-02-19T03:15:00Z"
+  }
+}
