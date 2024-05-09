@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hqfx-4x4w-vmwp",
+  "modified": "2024-05-09T15:59:26Z",
+  "published": "2022-04-22T00:24:07Z",
+  "aliases": [
+    "CVE-2011-3147"
+  ],
+  "summary": "Openstack nova qcow format could expose host filesystem information",
+  "details": "Versions of nova before 2012.1 could expose hypervisor host files to a guest operating system when processing a maliciously constructed qcow filesystem.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:L/AC:H/PR:L/UI:N/S:C/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "nova"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "12.0.0a0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2011-3147"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/ff9d353b2f4fee469e530fbc8dc231a41f6fed84"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.launchpad.net/nova/+bug/853330"
+    },
+    {
+      "type": "WEB",
+      "url": "http://bazaar.launchpad.net/~hudson-openstack/nova/trunk/revision/1604"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-09T15:59:26Z",
+    "nvd_published_at": "2019-04-22T16:29:00Z"
+  }
+}
