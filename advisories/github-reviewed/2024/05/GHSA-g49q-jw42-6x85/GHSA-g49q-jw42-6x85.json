@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g49q-jw42-6x85",
+  "modified": "2024-05-09T21:31:35Z",
+  "published": "2024-05-09T21:31:35Z",
+  "aliases": [
+
+  ],
+  "summary": "thelounge may publicly disclose of all usernames/idents via port 113",
+  "details": "Per RFC 1413, The unique identifying tuple includes not only the ports, but also the both addresses. Without the addresses, the information becomes both non-unique and public:\n- If multiple connections happen to use the same local port number (which is possible if the addresses differ), the username of the first is returned for all, resulting in the wrong ident for all but the first.\n- By not checking the connection address, the information becomes public. Because there is only a relatively small number of local ports, and the remote ports are likely to be either 6667 or 6697, it becomes trivial to scan the entire range to get a list of idents.\n\nTo prevent this from happening, disable identd or upgrade to a non vulnerable version.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "thelounge"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "4.4.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/thelounge/thelounge/security/advisories/GHSA-g49q-jw42-6x85"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/thelounge/thelounge/pull/4872"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/thelounge/thelounge"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-09T21:31:35Z",
+    "nvd_published_at": null
+  }
+}
