@@ -1,0 +1,106 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8fj9-pj4p-4vq7",
+  "modified": "2024-05-14T20:41:34Z",
+  "published": "2022-05-01T23:36:32Z",
+  "aliases": [
+    "CVE-2008-1098"
+  ],
+  "summary": "MoinMoin Multiple cross-site scripting (XSS) vulnerabilities",
+  "details": "Multiple cross-site scripting (XSS) vulnerabilities in MoinMoin 1.5.8 and earlier allow remote attackers to inject arbitrary web script or HTML via (1) certain input processed by `formatter/text_gedit.py` (aka the gui editor formatter); (2) a page name, which triggers an injection in PageEditor.py when the page is successfully deleted by a victim in a DeletePage action; or (3) the destination page name for a RenamePage action, which triggers an injection in PageEditor.py when a victim's rename attempt fails because of a duplicate name.  NOTE: the AttachFile XSS issue is already covered by CVE-2008-0781, and the login XSS issue is already covered by CVE-2008-0780.\nThe issue has been fixed on [d0152eeb4499](http://hg.moinmo.in/moin/1.5/rev/d0152eeb4499) and [4ede07e792dd](http://hg.moinmo.in/moin/1.5/rev/4ede07e792dd).",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "moin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.5.8"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2008-1098"
+    },
+    {
+      "type": "WEB",
+      "url": "https://exchange.xforce.ibmcloud.com/vulnerabilities/41037"
+    },
+    {
+      "type": "WEB",
+      "url": "https://usn.ubuntu.com/716-1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.redhat.com/archives/fedora-package-announce/2008-April/msg00510.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.redhat.com/archives/fedora-package-announce/2008-April/msg00538.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://hg.moinmo.in/moin/1.5/rev/4ede07e792dd"
+    },
+    {
+      "type": "WEB",
+      "url": "http://hg.moinmo.in/moin/1.5/rev/d0152eeb4499"
+    },
+    {
+      "type": "WEB",
+      "url": "http://moinmo.in/SecurityFixes"
+    },
+    {
+      "type": "WEB",
+      "url": "http://secunia.com/advisories/29262"
+    },
+    {
+      "type": "WEB",
+      "url": "http://secunia.com/advisories/29444"
+    },
+    {
+      "type": "WEB",
+      "url": "http://secunia.com/advisories/30031"
+    },
+    {
+      "type": "WEB",
+      "url": "http://secunia.com/advisories/33755"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.debian.org/security/2008/dsa-1514"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.gentoo.org/security/en/glsa/glsa-200803-27.xml"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/28173"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-14T20:41:34Z",
+    "nvd_published_at": "2008-03-05T20:44:00Z"
+  }
+}
