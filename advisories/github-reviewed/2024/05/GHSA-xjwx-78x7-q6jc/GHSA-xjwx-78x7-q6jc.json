@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xjwx-78x7-q6jc",
+  "modified": "2024-05-14T20:13:02Z",
+  "published": "2024-05-14T20:13:02Z",
+  "aliases": [
+    "CVE-2024-34355"
+  ],
+  "summary": "TYPO3 vulnerable to an HTML Injection in the History Module",
+  "details": "### Problem\nThe history backend module is vulnerable to HTML injection. Although Content-Security-Policy headers effectively prevent JavaScript execution, adversaries can still inject malicious HTML markup. Exploiting this vulnerability requires a valid backend user account.\n\n### Solution\nUpdate to TYPO3 version 13.1.1 that fixes the problem described.\n\n### Credits\nThanks to TYPO3 core team member Andreas Kienast who reported this issue and to TYPO3 core & security team Benjamin Franzke who fixed the issue.\n\n### References\n* [TYPO3-CORE-SA-2024-007](https://typo3.org/security/advisory/typo3-core-sa-2024-007)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "13.0.0"
+            },
+            {
+              "fixed": "13.1.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 13.1.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/TYPO3/typo3/security/advisories/GHSA-xjwx-78x7-q6jc"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-34355"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/TYPO3/typo3/commit/56afa304ba8b5ad302e15df5def71bcc8d820375"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/TYPO3/typo3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://typo3.org/security/advisory/typo3-core-sa-2024-007"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-116",
+      "CWE-79"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-14T20:13:02Z",
+    "nvd_published_at": "2024-05-14T16:17:24Z"
+  }
+}
