@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-ff5c-938w-8c9q",
+  "modified": "2024-05-14T22:25:56Z",
+  "published": "2024-05-14T22:25:56Z",
+  "aliases": [
+    "CVE-2022-35957"
+  ],
+  "summary": "Grafana Escalation from admin to server admin when auth proxy is used",
+  "details": "Today we are releasing Grafana 9.1.6, 9.0.9, 8.5.13. This patch release includes a Moderate severity security fix for CVE-2022-35957 that affects Grafana instances which are using Grafana [Auth Proxy](https://grafana.com/docs/grafana/latest/setup-grafana/configure-security/configure-authentication/auth-proxy/#configure-auth-proxy-authentication).\n\nRelease 9.1.6, latest patch, also containing security fix:\n\n- [Download Grafana 9.1.6](https://grafana.com/grafana/download/9.1.6)\n- [Release notes](https://grafana.com/docs/grafana/latest/release-notes/release-notes-9-1-6/)\n\nRelease 9.0.9, only containing security fix:\n\n- [Download Grafana 9.0.9](https://grafana.com/grafana/download/9.0.9)\n- [Release notes](https://grafana.com/docs/grafana/latest/release-notes/release-notes-9-0-9/)\n\nRelease 8.5.13, only containing security fix:\n\n- [Download Grafana 8.5.13](https://grafana.com/grafana/download/8.5.13)\n- [Release notes](https://grafana.com/docs/grafana/latest/release-notes/release-notes-8-5-13/)\n\nAppropriate patches have been applied to [Grafana Cloud](https://grafana.com/cloud) and as always, we closely coordinated with all cloud providers licensed to offer Grafana Pro. They have received early notification under embargo and confirmed that their offerings are secure at the time of this announcement. This is applicable to Amazon Managed Grafana and Azure's Grafana as a service offering.\n\n## Privilege escalation (CVE-2022-35957)\n\n### Summary \n\nOn August 9 an internal security review identified a vulnerability in the Grafana which allows an escalation from Admin privileges to Server Admin when Auth proxy authentication is used.\n\n[Auth proxy](https://grafana.com/docs/grafana/latest/setup-grafana/configure-security/configure-authentication/auth-proxy/#configure-auth-proxy-authentication) allows to authenticate a user by only providing the username (or email) in a `X-WEBAUTH-USER` HTTP header: the trust assumption is that a front proxy will take care of authentication and that Grafana server is publicly reachable only with this front proxy.\n\n[Datasource proxy](https://grafana.com/docs/grafana/latest/developers/http_api/data_source/#data-source-proxy-calls) breaks this assumption:\n- it is possible to configure a fake datasource pointing to a localhost Grafana install with a `X-WEBAUTH-USER` HTTP header containing admin username.\n- This fake datasource can be called publicly via this proxying feature.\n\nThe CVSS score for this vulnerability is 6.6 Moderate (CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:U/C:H/I:H/A:H).\n\n### Impacted versions\n\nAll Grafana installations where the [Auth Proxy](https://grafana.com/docs/grafana/latest/setup-grafana/configure-security/configure-authentication/auth-proxy/#configure-auth-proxy-authentication) is used.\n\n### Solutions and mitigations\n\nTo fully address CVE-2022-35957 please upgrade your Grafana instances. They are only required if you are using Auth proxy. If you can’t upgrade, as an alternative, you can deactivate the auth proxy. \n\nAppropriate patches have been applied to [Grafana Cloud](https://grafana.com/cloud).\n\n### Timeline\n\nHere is a timeline starting from when we originally learned of the issue. \n\n* 2022-08-09: Vulnerability is reported as a result of an Internal security audit.\n* 2022-08-09: Release timeline determined: 2022-09-06 for private customer release, 2022-09-20 for public release.\n* 2022-08-09: Confirmed that Grafana Cloud is not impacted.\n* 2022-09-06: Private release.\n* 2022-09-20: Public release.\n\n## Reporting security issues\n\nIf you think you have found a security vulnerability, please send a report to security@grafana.com. This address can be used for all of Grafana Labs' open source and commercial products (including, but not limited to Grafana, Grafana Cloud, Grafana Enterprise, and grafana.com). We can accept only vulnerability reports at this address. We would prefer that you encrypt your message to us by using our PGP key. The key fingerprint is\n\nF988 7BEA 027A 049F AE8E 5CAA D125 8932 BE24 C5CA\n\nThe key is available from keyserver.ubuntu.com.\n\n## Security announcements\n\nWe maintain a [security category](https://community.grafana.com/c/support/security-announcements) on our blog, where we will always post a summary, remediation, and mitigation details for any patch containing security fixes.\n\nYou can also subscribe to our [RSS feed](https://grafana.com/tags/security/index.xml).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/grafana/grafana"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.1.0"
+            },
+            {
+              "fixed": "9.1.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/grafana/grafana"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.0.0"
+            },
+            {
+              "fixed": "9.0.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/grafana/grafana"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "8.5.13"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/grafana/grafana/security/advisories/GHSA-ff5c-938w-8c9q"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-35957"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/grafana/grafana"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/WYU5C2RITLHVZSTCWNGQWA6KSPYNXM2H"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.netapp.com/advisory/ntap-20221215-0001"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-290"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-14T22:25:56Z",
+    "nvd_published_at": "2022-09-20T23:15:00Z"
+  }
+}
