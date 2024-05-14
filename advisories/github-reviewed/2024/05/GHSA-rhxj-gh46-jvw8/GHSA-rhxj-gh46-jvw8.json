@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rhxj-gh46-jvw8",
+  "modified": "2024-05-14T22:22:57Z",
+  "published": "2024-05-14T22:22:57Z",
+  "aliases": [
+    "CVE-2022-31123"
+  ],
+  "summary": "Grafana Plugin signature bypass",
+  "details": "Today we are releasing Grafana 9.2. Alongside with new features and other bug fixes, this release includes a Moderate severity security fix for CVE-2022-31123\n\nWe are also releasing security patches for Grafana 9.1.8 and Grafana 8.5.14 to fix these issues.\n\nRelease 9.2, latest release, also containing security fix:\n\n- [Download Grafana 9.2](https://grafana.com/grafana/download/9.2)\n\nRelease 9.1.8, only containing security fix:\n\n- [Download Grafana 9.1.8](https://grafana.com/grafana/download/9.1.8)\n\nRelease 8.5.14, only containing security fix:\n\n- [Download Grafana 8.5.14](https://grafana.com/grafana/download/8.5.14)\n\nAppropriate patches have been applied to [Grafana Cloud](https://grafana.com/cloud) and as always, we closely coordinated with all cloud providers licensed to offer Grafana Pro. They have received early notification under embargo and confirmed that their offerings are secure at the time of this announcement. This is applicable to Amazon Managed Grafana and Azure's Grafana as a service offering.\n\n## CVE-2022-31123\n\n### Summary\nOn July 4th as a result of an internal security audit we have discovered a bypass in the plugin signature verification by exploiting a versioning flaw.\n\nWe believe that this vulnerability is rated at CVSS 6.1 (CVSS:3.1/AV:L/AC:L/PR:H/UI:R/S:U/C:H/I:H/A:L). \n\n### Impact\nAn attacker can convince a server admin to download and successfully run a malicious plugin even though [unsigned plugins](https://grafana.com/docs/grafana/latest/administration/plugin-management/#allow-unsigned-plugins) are not allowed.\n\n### Impacted versions\n\nAll installations for Grafana versions <=9.x, <=8.x, <=7.x\n\n### Solutions and mitigations\n\nTo fully address CVE-2022-31123 please upgrade your Grafana instances. \nAppropriate patches have been applied to [Grafana Cloud](https://grafana.com/cloud).\n\n### Reporting security issues\n\nIf you think you have found a security vulnerability, please send a report to security@grafana.com. This address can be used for all of Grafana Labs' open source and commercial products (including, but not limited to Grafana, Grafana Cloud, Grafana Enterprise, and grafana.com). We can accept only vulnerability reports at this address. We would prefer that you encrypt your message to us by using our PGP key. The key fingerprint is\n\nF988 7BEA 027A 049F AE8E 5CAA D125 8932 BE24 C5CA\n\nThe key is available from keyserver.ubuntu.com.\n\n### Security announcements\n\nWe maintain a [security category](https://community.grafana.com/c/support/security-announcements) on our blog, where we will always post a summary, remediation, and mitigation details for any patch containing security fixes.\n\nYou can also subscribe to our [RSS feed](https://grafana.com/tags/security/index.xml).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:H/UI:R/S:U/C:H/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/grafana/grafana"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.0.0"
+            },
+            {
+              "fixed": "9.1.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/grafana/grafana"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.0.0"
+            },
+            {
+              "fixed": "8.5.14"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/grafana/grafana/security/advisories/GHSA-rhxj-gh46-jvw8"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-31123"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/grafana/grafana"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/grafana/grafana/releases/tag/v9.1.8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.netapp.com/advisory/ntap-20221124-0002"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-347"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-14T22:22:57Z",
+    "nvd_published_at": "2022-10-13T22:15:00Z"
+  }
+}
