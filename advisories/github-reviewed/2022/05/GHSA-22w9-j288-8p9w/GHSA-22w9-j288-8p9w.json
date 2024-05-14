@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-22w9-j288-8p9w",
+  "modified": "2024-05-14T21:27:11Z",
+  "published": "2022-05-17T04:50:15Z",
+  "aliases": [
+    "CVE-2013-6419"
+  ],
+  "summary": "OpenStack Nova Router metadata queries are not restricted by tenant",
+  "details": "Interaction error in OpenStack Nova and Neutron before Havana 2013.2.1 and icehouse-1 does not validate the instance ID of the tenant making a request, which allows remote tenants to obtain sensitive metadata by spoofing the device ID that is bound to a port, which is not properly handled by (1) api/metadata/handler.py in Nova and (2) the neutron-metadata-agent (`agent/metadata/agent.py`) in Neutron.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "nova"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "12.0.0a0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2013-6419"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/07006be9165d1008ca0382b6f0ad25b13a676a55"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/af2f823107010933ecd94a9c938f8b739baaecb7"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/bce36e9bdb1fcb9658f7b684d160e656e88d816c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.launchpad.net/neutron/+bug/1235450"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openstack/nova"
+    },
+    {
+      "type": "WEB",
+      "url": "https://review.openstack.org/#/c/61428/2/nova/api/metadata/handler.py"
+    },
+    {
+      "type": "WEB",
+      "url": "https://review.openstack.org/#/c/61439/1/neutron/agent/metadata/agent.py"
+    },
+    {
+      "type": "WEB",
+      "url": "http://rhn.redhat.com/errata/RHSA-2014-0091.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://rhn.redhat.com/errata/RHSA-2014-0231.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2013/12/11/8"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/64250"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-14T21:27:10Z",
+    "nvd_published_at": "2014-01-07T18:55:00Z"
+  }
+}
