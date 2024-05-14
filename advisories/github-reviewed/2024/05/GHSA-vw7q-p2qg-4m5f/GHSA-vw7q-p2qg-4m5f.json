@@ -1,0 +1,134 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vw7q-p2qg-4m5f",
+  "modified": "2024-05-14T22:15:41Z",
+  "published": "2024-05-14T22:15:41Z",
+  "aliases": [
+    "CVE-2022-31097"
+  ],
+  "summary": "Grafana Stored Cross-site Scripting in Unified Alerting",
+  "details": "Today we are releasing Grafana 8.3.10, 8.4.10, 8.5.9 and 9.0.3. This patch release includes a HIGH severity security fix for a stored Cross Site Scripting in Grafana.\n\nRelease v.9.0.3, containing this security fix and other patches:\n\n- [Download Grafana 9.0.3](https://grafana.com/grafana/download/9.0.3)\n- [Release notes](https://grafana.com/docs/grafana/next/release-notes/release-notes-9-0-3/)\n\nRelease v.8.5.9, containing this security fix and other fixes:\n\n- [Download Grafana 8.5.9](https://grafana.com/grafana/download/8.5.9)\n- [Release notes](https://grafana.com/docs/grafana/next/release-notes/release-notes-8-5-9/)\n\nRelease v.8.4.10, containing this security fix and other fixes:\n\n- [Download Grafana 8.4.10](https://grafana.com/grafana/download/8.4.10)\n- [Release notes](https://grafana.com/docs/grafana/next/release-notes/release-notes-8-4-10/)\n\nRelease v.8.3.10, containing this security fix and other fixes:\n\n- [Download Grafana 8.3.10](https://grafana.com/grafana/download/8.3.10)\n\n## Stored XSS ([CVE-2022-31097](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-31097))\n\n### Summary\nOn June 19 a security researcher contacted Grafana Labs to disclose a XSS vulnerability in the Unified Alerting feature of Grafana. After analysis, this stored XSS could be used to elevate privileges from Editor to Admin.\n\nWe believe that this vulnerability is rated at CVSS 7.3 (CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:N). \n\n### Impact\nAn attacker can exploit this vulnerability to escalate privilege from editor to admin by tricking an authenticated admin to click on a link.\n\n### Affected versions with HIGH severity \nAll Grafana >=8.0 versions are affected by this vulnerability.\n\n### Solutions and mitigations\n\nAll installations after Grafana v8.0 should be upgraded as soon as possible.\n\nAs a workaround it is possible to [disable alerting ](https://grafana.com/docs/grafana/next/alerting/migrating-alerts/opt-out/#disable-alerting)or use [legacy alerting](https://grafana.com/docs/grafana/next/alerting/migrating-alerts/opt-out/#staying-on-legacy-alerting).\n\nAppropriate patches have been applied to [Grafana Cloud](https://grafana.com/cloud) and as always, we closely coordinated with all cloud providers licensed to offer Grafana Pro. They have received early notification under embargo and confirmed that their offerings are secure at the time of this announcement. This is applicable to Amazon Managed Grafana.\n\n### Timeline\n\nHere is a detailed timeline starting from when we originally learned of the issue. All times in UTC.\n\n2022-06-19 10:32 - Research submission of vulnerability report\n2022-06-20 14:35- Issue triaged, confirmed positive, and internal incident raised\n2022-06-20 18:40 - Fix PR submitted and reviewed\n2022-06-23 07:12 - All Grafana Cloud hosted Grafana instances patched\n2022-07-05 07:14 - Customers informed under embargo\n2022-07-14 02:00 - Public release\n\n### Acknowledgement\n\nWe would like to thank Maxim Misharin for responsibly disclosing the vulnerability.\n\n### Reporting security issues\n\nIf you think you have found a security vulnerability, please send a report to security@grafana.com. This address can be used for all of Grafana Labs' open source and commercial products (including, but not limited to Grafana, Grafana Cloud, Grafana Enterprise, and grafana.com). We can accept only vulnerability reports at this address. We would prefer that you encrypt your message to us by using our PGP key. The key fingerprint is\n\nF988 7BEA 027A 049F AE8E 5CAA D125 8932 BE24 C5CA\n\nThe key is available from keyserver.ubuntu.com.\n\n### Security announcements\n\nWe maintain a [security category](https://community.grafana.com/c/support/security-announcements) on our blog, where we will always post a summary, remediation, and mitigation details for any patch containing security fixes.\n\nYou can also subscribe to our [RSS feed](https://grafana.com/tags/security/index.xml).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/grafana/grafana"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.0.0"
+            },
+            {
+              "fixed": "9.0.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/grafana/grafana"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.5.0"
+            },
+            {
+              "fixed": "8.5.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/grafana/grafana"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.4.0"
+            },
+            {
+              "fixed": "8.4.10"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/grafana/grafana"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.0.0"
+            },
+            {
+              "fixed": "8.3.10"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/grafana/grafana/security/advisories/GHSA-vw7q-p2qg-4m5f"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-31097"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/grafana/grafana"
+    },
+    {
+      "type": "WEB",
+      "url": "https://grafana.com/docs/grafana/latest/release-notes/release-notes-8-5-9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://grafana.com/docs/grafana/latest/release-notes/release-notes-9-0-3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://grafana.com/docs/grafana/next/release-notes/release-notes-8-4-10"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.netapp.com/advisory/ntap-20220901-0010"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-14T22:15:41Z",
+    "nvd_published_at": "2022-07-15T12:15:00Z"
+  }
+}
