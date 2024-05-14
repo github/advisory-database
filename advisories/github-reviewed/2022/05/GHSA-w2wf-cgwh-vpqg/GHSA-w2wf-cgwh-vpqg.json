@@ -1,0 +1,139 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w2wf-cgwh-vpqg",
+  "modified": "2024-05-14T20:53:46Z",
+  "published": "2022-05-13T01:44:04Z",
+  "aliases": [
+    "CVE-2017-16239"
+  ],
+  "summary": "OpenStack Nova Filter Scheduler Bypass",
+  "details": "In OpenStack Nova through 14.0.9, 15.x through 15.0.7, and 16.x through 16.0.2, by rebuilding an instance, an authenticated user may be able to circumvent the Filter Scheduler bypassing imposed filters (for example, the ImagePropertiesFilter or the IsolatedHostsFilter). All setups using Nova Filter Scheduler are affected. Because of the regression described in Launchpad Bug #1732947, the preferred fix is a 14.x version after 14.0.10, a 15.x version after 15.0.8, or a 16.x version after 16.0.3.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "nova"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "16.0.0"
+            },
+            {
+              "fixed": "16.0.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "nova"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "15.0.0"
+            },
+            {
+              "fixed": "15.0.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "nova"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "14.0.0"
+            },
+            {
+              "fixed": "14.0.10"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-16239"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/698b261a5a2a6c0f31ef5059046ef7196d5cba30"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/984dd8ad6add4523d93c7ce5a666a32233e02e34"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/9e2d63da94db63d97bd02e373bfc53d95808b833"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/b72105c1c49fcddc94992af63fc2f8078023491a"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2018:0241"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2018:0314"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2018:0369"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openstack/nova"
+    },
+    {
+      "type": "WEB",
+      "url": "https://launchpad.net/bugs/1664931"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.openstack.org/ossa/OSSA-2017-005.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.debian.org/security/2017/dsa-4056"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/101950"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-14T20:53:46Z",
+    "nvd_published_at": "2017-11-14T17:29:00Z"
+  }
+}

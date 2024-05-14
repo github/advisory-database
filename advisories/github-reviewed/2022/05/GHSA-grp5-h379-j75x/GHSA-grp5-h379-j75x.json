@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-grp5-h379-j75x",
+  "modified": "2024-05-14T20:53:48Z",
+  "published": "2022-05-14T01:58:45Z",
+  "aliases": [
+    "CVE-2013-7048"
+  ],
+  "summary": "OpenStack Nova live snapshots use an insecure local directory",
+  "details": "OpenStack Compute (Nova) Grizzly 2013.1.4, Havana 2013.2.1, and earlier uses world-writable and world-readable permissions for the temporary directory used to store live snapshots, which allows local users to read and modify live snapshots.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "nova"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "12.0.0a0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2013-7048"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/75be5abd6b3fa0f7f27fe9c805f832cd41d44a5d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/8a34fc3d48c467aa196f65eed444ccdc7c02f19f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/9bd7fff8c0160057643cfc37c5e2b1cd3337d6aa"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.launchpad.net/nova/+bug/1227027"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openstack/nova"
+    },
+    {
+      "type": "WEB",
+      "url": "http://rhn.redhat.com/errata/RHSA-2014-0231.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2014/01/13/2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-14T20:53:48Z",
+    "nvd_published_at": "2014-01-23T21:55:00Z"
+  }
+}
