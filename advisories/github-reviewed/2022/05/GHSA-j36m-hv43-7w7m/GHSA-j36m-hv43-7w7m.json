@@ -1,0 +1,141 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-j36m-hv43-7w7m",
+  "modified": "2024-05-14T17:26:52Z",
+  "published": "2022-05-13T01:07:31Z",
+  "aliases": [
+    "CVE-2017-2673"
+  ],
+  "summary": "OpenStack Identity service (keystone) Incorrect Authorization",
+  "details": "An authorization-check flaw was discovered in federation configurations of the OpenStack Identity service (keystone). An authenticated federated user could request permissions to a project and unintentionally be granted all related roles including administrative roles.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "keystone"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.0.0"
+            },
+            {
+              "last_affected": "9.3.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "keystone"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "10.0.0"
+            },
+            {
+              "fixed": "10.0.2"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 10.0.1"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "keystone"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "11.0.0"
+            },
+            {
+              "fixed": "11.0.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "11.0.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-2673"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/keystone/commit/05a129e54573b6cbda1ec095f4526f2b9ba90a90"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/keystone/commit/2139639eeabc8f6941f4461fc87d609cde3118c2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2017:1461"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2017:1597"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/security/cve/CVE-2017-2673"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.launchpad.net/keystone/+bug/1677723"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1439586"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2017-2673"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openstack/keystone"
+    },
+    {
+      "type": "WEB",
+      "url": "http://seclists.org/oss-sec/2017/q2/125"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/98032"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-863"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-14T17:26:51Z",
+    "nvd_published_at": "2018-07-19T13:29:00Z"
+  }
+}
