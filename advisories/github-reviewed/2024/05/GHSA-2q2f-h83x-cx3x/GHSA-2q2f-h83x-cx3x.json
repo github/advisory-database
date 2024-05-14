@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2q2f-h83x-cx3x",
+  "modified": "2024-05-14T22:32:09Z",
+  "published": "2024-05-14T21:34:44Z",
+  "aliases": [
+    "CVE-2024-31556"
+  ],
+  "summary": "Reportico Web fails to invalidate cookies upon logout",
+  "details": "An issue in Reportico Web before v.8.1.0. This vulnerability arises from the failure of the web application to properly invalidate session cookies upon logout. When a user logs out of the application, the session cookie should be invalidated to prevent unauthorized access. However, due to the oversight in the application's implementation, the session cookie remains active even after logout. Consequently, if an attacker obtains the session cookie, they can exploit it to access the user's session and perform unauthorized actions.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "reportico-web/reportico"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "8.1.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-31556"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/reportico-web/reportico/issues/53"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/reportico-web/reportico"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-613"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-14T22:32:09Z",
+    "nvd_published_at": "2024-05-14T21:15:12Z"
+  }
+}
