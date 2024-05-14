@@ -1,0 +1,143 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-274c-rx2j-2v3x",
+  "modified": "2024-05-14T21:30:33Z",
+  "published": "2023-01-18T18:30:16Z",
+  "aliases": [
+    "CVE-2022-47950"
+  ],
+  "summary": "OpenStack Swift XML external entities (XXE) Injection",
+  "details": "An issue was discovered in OpenStack Swift before 2.28.1, 2.29.x before 2.29.2, and 2.30.0. By supplying crafted XML files, an authenticated user may coerce the S3 API into returning arbitrary file contents from the host server, resulting in unauthorized read access to potentially sensitive data. This impacts both s3api deployments (Rocky or later), and swift3 deployments (Queens and earlier, no longer actively developed).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "swift"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.28.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "swift"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.29.0"
+            },
+            {
+              "fixed": "2.29.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "swift"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.30.0"
+            },
+            {
+              "fixed": "2.30.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "2.30.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-47950"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/swift/commit/12e54391861e7d182d58f89fb88b027e65842640"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/swift/commit/7d13d1a82e1f5d01205a13184907501b4fcbe2b0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/swift/commit/8dd96470a859dc7b189404fb67bd3899ae9c617f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/swift/commit/b8467e190f6fc67fd8fb6a8c5e32b2aa6a10fd8e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/swift/commit/baa98848451b5c234443a068691e12841a5a8383"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/swift/commit/c834e7a53d5a33a3fd13ffd954e6f4f4ee953dfc"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/swift/commit/d8d04ef43c90079d436b2e49617b4425ba39c28e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/swift/commit/f10672514217adadfc776d9ea2ffb20a37ce073b"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openstack/swift"
+    },
+    {
+      "type": "WEB",
+      "url": "https://launchpad.net/bugs/1998625"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.debian.org/debian-lts-announce/2023/01/msg00021.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.openstack.org/ossa/OSSA-2023-001.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-552",
+      "CWE-611"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-14T21:30:33Z",
+    "nvd_published_at": "2023-01-18T17:15:00Z"
+  }
+}
