@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c9cp-9c75-9v8c",
+  "modified": "2024-05-14T22:04:56Z",
+  "published": "2024-05-14T22:04:56Z",
+  "aliases": [
+
+  ],
+  "summary": "containerd started with non-empty inheritable Linux process capabilities",
+  "details": "### Impact\n\nA bug was found in containerd where containers were incorrectly started with non-empty inheritable Linux process capabilities, creating an atypical Linux environment and enabling programs with inheritable file capabilities to elevate those capabilities to the permitted set during `execve(2)`.  Normally, when executable programs have specified permitted file capabilities, otherwise unprivileged users and processes can execute those programs and gain the specified file capabilities up to the bounding set.  Due to this bug, containers which included executable programs with inheritable file capabilities allowed otherwise unprivileged users and processes to additionally gain these inheritable file capabilities up to the container's bounding set.  Containers which use Linux users and groups to perform privilege separation inside the container are most directly impacted.\n\nThis bug did not affect the container security sandbox as the inheritable set never contained more capabilities than were included in the container's bounding set.\n\n\n### Patches\n\nThis bug has been fixed in containerd 1.5.11 and 1.6.2.  Users should update to these versions as soon as possible.  Running containers should be stopped, deleted, and recreated for the inheritable capabilities to be reset.\n\nThis fix changes containerd behavior such that containers are started with a more typical Linux environment.  Refer to `capabilities(7)` for a description of how capabilities work.  Note that permitted file capabilities continue to allow for privileges to be raised up to the container's bounding set and that processes may add capabilities to their own inheritable set up to the container's bounding set per the rules described in the manual page.  In all cases the container's bounding set provides an upper bound on the capabilities that can be assumed and provides for the container security sandbox.\n\n### Workarounds\n\nThe entrypoint of a container can be modified to use a utility like `capsh(1)` to drop inheritable capabilities prior to the primary process starting.\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n\n* [Open an issue](https://github.com/containerd/containerd/issues/new)\n* Email us at [security@containerd.io](mailto:security@containerd.io) if you think you’ve found a security bug",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/containerd/containerd"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.5.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/containerd/containerd"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.6.0"
+            },
+            {
+              "fixed": "1.6.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/containerd/containerd/security/advisories/GHSA-c9cp-9c75-9v8c"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-14T22:04:56Z",
+    "nvd_published_at": null
+  }
+}
