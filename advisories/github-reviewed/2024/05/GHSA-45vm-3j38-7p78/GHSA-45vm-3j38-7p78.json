@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-45vm-3j38-7p78",
+  "modified": "2024-05-14T20:17:12Z",
+  "published": "2024-05-14T20:17:12Z",
+  "aliases": [
+    "CVE-2024-34716"
+  ],
+  "summary": "PrestaShop cross-site scripting via customer contact form in FO, through file upload",
+  "details": "### Impact\nOnly PrestaShops with customer-thread feature flag enabled are impacted, starting from PrestaShop 8.1.0.\n\nThe impact is substantial, when the customer thread feature flag is enabled, through the front-office contact form, a hacker can upload a malicious file containing an XSS that will be executed when an admin opens the attached file in back office.\n\nConsequence: the script injected can access the session and the security token, which allows it to perform any authenticated action in the scope of the administrator's right.\n\n### Patches\nThis vulnerability is patched in 8.1.6.\n\n### Workarounds\nAs long as you have not upgraded to 8.1.6, a simple workaround is to disable the customer-thread feature-flag.\n\nThank you to Ayoub AIT ELMOKHTAR, who discovered this vulnerability and share it with the PrestaShop team.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "prestashop/prestashop"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.1.0"
+            },
+            {
+              "fixed": "8.1.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/PrestaShop/PrestaShop/security/advisories/GHSA-45vm-3j38-7p78"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-34716"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/PrestaShop/PrestaShop/commit/a248898655e56cbcc6c308a5f1c8752231624bae"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/PrestaShop/PrestaShop"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/PrestaShop/PrestaShop/releases/tag/8.1.6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-14T20:17:12Z",
+    "nvd_published_at": "2024-05-14T16:17:28Z"
+  }
+}
