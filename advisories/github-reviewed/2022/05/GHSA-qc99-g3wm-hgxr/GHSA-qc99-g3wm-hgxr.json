@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qc99-g3wm-hgxr",
+  "modified": "2024-05-14T17:18:37Z",
+  "published": "2022-05-01T17:44:04Z",
+  "aliases": [
+    "CVE-2007-0404"
+  ],
+  "summary": "Django Arbitrary Code Execution",
+  "details": "`bin/compile-messages.py` in Django 0.95 does not quote argument strings before invoking the msgfmt program through the os.system function, which allows attackers to execute arbitrary commands via shell metacharacters in a (1) .po or (2) .mo file.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "Django"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.95"
+            },
+            {
+              "fixed": "1.0"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "0.95"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2007-0404"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/django/django/commit/518d406e53"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=407519"
+    },
+    {
+      "type": "WEB",
+      "url": "https://exchange.xforce.ibmcloud.com/vulnerabilities/31627"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/django/django"
+    },
+    {
+      "type": "WEB",
+      "url": "http://code.djangoproject.com/changeset/3592"
+    },
+    {
+      "type": "WEB",
+      "url": "http://secunia.com/advisories/23826"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/22134"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-14T17:18:37Z",
+    "nvd_published_at": "2007-01-23T00:28:00Z"
+  }
+}
