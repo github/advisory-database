@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-gm98-g2wf-7c68",
+  "modified": "2024-05-15T17:52:00Z",
+  "published": "2024-05-15T17:52:00Z",
+  "aliases": [
+
+  ],
+  "summary": "amphp/artax Cookie leakage to wrong origins and non-restricted cookie acceptance",
+  "details": "In artax version before 1.0.6 and 2 before 2.0.6, cookies of `foo.bar.example.com` were leaked to `foo.bar`. Additionally, any site could set cookies for any other site. \nArtax fixed this issue by following newer browser implementations now. Cookies can only be set on domains higher or equal to the current domain, but not on any public suffixes.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "amphp/artax"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2"
+            },
+            {
+              "fixed": "2.0.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "amphp/artax"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.0.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/amphp/artax/commit/25668b891d2bced567bd69611c7d18b6a93d5fc4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/amphp/artax/commit/accdadaf78f7a43305c3a97d6a964bbc550a555d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/amphp/artax/2017-05-09.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/amphp/artax"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/amphp/artax/releases/tag/v2.0.6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-15T17:52:00Z",
+    "nvd_published_at": null
+  }
+}
