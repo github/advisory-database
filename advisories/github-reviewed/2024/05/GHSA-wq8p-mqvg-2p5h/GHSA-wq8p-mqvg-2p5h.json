@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wq8p-mqvg-2p5h",
+  "modified": "2024-05-15T22:20:42Z",
+  "published": "2024-05-15T22:20:42Z",
+  "aliases": [
+
+  ],
+  "summary": "laravel framework SQL Injection via limit and offset functions",
+  "details": "### Impact\nThose using SQL Server with Laravel and allowing user input to be passed directly to the limit and offset functions are vulnerable to SQL injection. Other database drivers such as MySQL and Postgres are not affected by this vulnerability.\n\n### Patches\nThis problem has been patched on Laravel versions 6.20.26, 7.30.5, and 8.40.0.\n\n### Workarounds\nYou may workaround this vulnerability by ensuring that only integers are passed to the limit and offset functions, as well as the skip and take functions.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "laravel/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.0.0"
+            },
+            {
+              "fixed": "6.20.26"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "laravel/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.0.0"
+            },
+            {
+              "fixed": "7.30.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "laravel/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.0.0"
+            },
+            {
+              "fixed": "8.40.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/laravel/framework/security/advisories/GHSA-4mg9-vhxq-vm7j"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/laravel/framework/2021-04-28.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/laravel/framework"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-89"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-15T22:20:42Z",
+    "nvd_published_at": null
+  }
+}
