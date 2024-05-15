@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xmp3-7745-g4vj",
+  "modified": "2024-05-15T21:07:06Z",
+  "published": "2024-05-15T21:07:06Z",
+  "aliases": [
+
+  ],
+  "summary": "ezsystems/ez-support-tools Failing access control in system info view",
+  "details": "This Security Advisory is about a vulnerability in ezsystems/ez-support-tools v2.2, part of Ibexa DXP v3.2. Older versions are not affected. A user having insufficient permissions is able to access the system information tabs if they type in the direct link (the link is not shown in the menu). The \"Setup / System info\" policy should be required to access it, but only backend login is actually required. This means any editor can see core system information, including the output from phpinfo(). The fix ensures that the access policy is correctly verified.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "ezsystems/ez-support-tools"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.2.0"
+            },
+            {
+              "fixed": "2.2.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://developers.ibexa.co/security-advisories/ibexa-sa-2020-007-failing-access-control-in-system-info-view"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/ezsystems/ez-support-tools/2020-12-01-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ezsystems/ez-support-tools"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-15T21:07:06Z",
+    "nvd_published_at": null
+  }
+}
