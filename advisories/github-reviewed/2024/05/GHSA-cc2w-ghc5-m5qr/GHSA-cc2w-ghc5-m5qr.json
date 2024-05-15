@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cc2w-ghc5-m5qr",
+  "modified": "2024-05-15T21:53:03Z",
+  "published": "2024-05-15T21:53:03Z",
+  "aliases": [
+
+  ],
+  "summary": "Laravel Risk of mass-assignment vulnerabilities",
+  "details": "Laravel 4.1.29 improves the column quoting for all database drivers. This protects your application from some mass assignment vulnerabilities when not using the fillable property on models. If you are using the fillable property on your models to protect against mass assignment, your application is not vulnerable. However, if you are using guarded and are passing a user controlled array into an \"update\" or \"save\" type function, you should upgrade to 4.1.29 immediately as your application may be at risk of mass assignment.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "illuminate/database"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0"
+            },
+            {
+              "fixed": "4.1.29"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/illuminate/database/2014-05-20.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/illuminate/database"
+    },
+    {
+      "type": "WEB",
+      "url": "https://laravel.com/docs/5.1/upgrade#upgrade-4.1.29"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-15T21:53:03Z",
+    "nvd_published_at": null
+  }
+}
