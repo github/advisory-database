@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-pgj4-g5j4-cmfx",
+  "modified": "2024-05-15T18:06:58Z",
+  "published": "2024-05-15T18:06:58Z",
+  "aliases": [
+
+  ],
+  "summary": "cart2quote/module-quotation-encoded Remote Code Execution via downloadCustomOptionAction",
+  "details": "cart2quote/module-quotation-encoded extension may expose a critical security vulnerability by utilizing the unserialize function when processing data from a GET request. This flaw, present in the app/code/community/Ophirah/Qquoteadv/controllers/DownloadController.php and app/code/community/Ophirah/Qquoteadv/Helper/Data.php files, poses a significant risk of Remote Code Execution, especially when custom file options are employed on a product. Attackers exploiting this vulnerability could execute arbitrary code remotely, leading to unauthorized access and potential compromise of sensitive data. ",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "cart2quote/module-quotation-encoded"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.1.6"
+            },
+            {
+              "last_affected": "4.4.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "cart2quote/module-quotation-encoded"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0"
+            },
+            {
+              "fixed": "5.4.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "PACKAGE",
+      "url": "https://bitbucket.org/cart2quote2/cart2quote2-releases"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/cart2quote/module-quotation/2017-02-01.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20230131172111/https://cart2quote.zendesk.com/hc/en-us/articles/115000616303--FIXED-Security-Vulnerability-in-downloadCustomOptionAction"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-15T18:06:58Z",
+    "nvd_published_at": null
+  }
+}
