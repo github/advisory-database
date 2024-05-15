@@ -1,0 +1,146 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-pqjm-xcp8-wgmm",
+  "modified": "2024-05-15T21:31:07Z",
+  "published": "2024-05-15T21:31:07Z",
+  "aliases": [
+
+  ],
+  "summary": "Ez Platform and Legacy are prone to an insecure interpretation of PHP/PHAR uploads",
+  "details": "The eZ Platform and Legacy are affected by an issue related to how uploaded PHP and PHAR files are handled, and consists of two parts: 1. Web server configuration, and 2. Disabling the PHAR stream wrapper.\n\n**1. WEB SERVER CONFIGURATION**\nThe sample web server configuration in our documentation can in some cases allow the execution of uploaded PHP/PHAR code. This can be abused to allow priviledge escalation and breach of content access controls, among other things. Please ensure that your web server will not execute files in directories were files may be uploaded, such as web/var/ and ezpublish_legacy/var/\n\nAs an example, here is how you can make Apache return HTTP 403 Forbidden for a number of executable file types in your eZ Platform var directory. Please adapt it to your needs. It is then possible to enable logging of HTTP 403 in a separate log file if you wish, you could do this to see if someone is trying to abuse the server.\n```\nRewriteEngine On\n\n# disable .php(3) and other extensions in the var directory\nRewriteRule ^var/.*(?i)\\.(php3?|phar|phtml|sh|exe|pl|bin)$ - [F]\n```\nHere is the same configuration, but for the Nginx web server:\n```\nlocation ~ ^/var/.*(?i)\\.(php3?|phar|phtml|sh|exe|pl|bin)$ {\n  return 403;\n}\n```\n\n**2. DISABLE PHAR STREAM WRAPPER**\nPHAR archives may be crafted such that its stream wrapper will execute them without being specifically asked to. With such files, any PHP file operation may cause deserialisation and execution. This may happen even if the file name suffix isn't \".phar\". Any site that allows file uploads is at risk. Normally eZ Platform has no need for PHAR support. It's only used by Composer, and that is executed separately from eZ Platform. So one way to avoid this vulnerability is to disable the PHAR stream wrapper within eZ Platform. (If you know you need PHAR support, please consider other means to deal with this vulnerability. For example, enabling the wrapper only in those scripts/bundles that have to deal with such files.)\n\nDisabling the stream wrapper should be done in:\n\neZ Platform (web/app.php)\nCLI scripts (bin/console)\nLegacy (index.php and CLI scripts)\n\nTo install, use Composer to update to one of the \"Resolving versions\" mentioned above, or apply these patches manually:\nhttps://github.com/ezsystems/ezplatform/commit/9a0c52dc4535e4b3ce379f80222dc53f705a2cfd\nhttps://github.com/ezsystems/ezpublish-legacy/commit/d21957bf202b091ab39dfb5be300f6c30be3933e",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "ezsystems/ezpublish-legacy"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2018.9.0"
+            },
+            {
+              "fixed": "2018.9.1.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "ezsystems/ezpublish-legacy"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2018.6.0"
+            },
+            {
+              "fixed": "2018.6.1.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "ezsystems/ezpublish-legacy"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2011.0.0"
+            },
+            {
+              "fixed": "2017.12.4.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "ezsystems/ezpublish-legacy"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.4.0"
+            },
+            {
+              "fixed": "5.4.12.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "ezsystems/ezpublish-legacy"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.3.0"
+            },
+            {
+              "fixed": "5.3.12.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ezsystems/ezplatform/commit/9a0c52dc4535e4b3ce379f80222dc53f705a2cfd"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ezsystems/ezpublish-legacy/commit/d21957bf202b091ab39dfb5be300f6c30be3933e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/ezsystems/ezpublish-legacy/2018-11-21-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ezsystems/ezpublish-legacy"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20210614192208/https://share.ez.no/community-project/security-advisories/ezsa-2018-009-do-not-interpret-php-phar-uploads"
+    },
+    {
+      "type": "WEB",
+      "url": "http://share.ez.no/community-project/security-advisories/ezsa-2018-009-do-not-interpret-php-phar-uploads"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-15T21:31:07Z",
+    "nvd_published_at": null
+  }
+}
