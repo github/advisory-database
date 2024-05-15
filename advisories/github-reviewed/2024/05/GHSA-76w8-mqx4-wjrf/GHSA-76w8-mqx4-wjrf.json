@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-76w8-mqx4-wjrf",
+  "modified": "2024-05-15T18:42:20Z",
+  "published": "2024-05-15T18:42:20Z",
+  "aliases": [
+
+  ],
+  "summary": "Doctrine DBAL SQL injection possibility",
+  "details": "The identifier quoting in Doctrine DBAL has a potential security problem when user-input is passed into this function, making the security aspect of this functionality obsolete.\nIf you make use of AbstractPlatform::quoteIdentifier() or Doctrine::quoteIdentifier() please upgrade immediately. The ORM itself does not use identifier quoting in combination with user-input, however we still urge everyone to update to the latest version of DBAL.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "doctrine/dbal"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.0.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "doctrine/dbal"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.1.0"
+            },
+            {
+              "fixed": "2.1.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/doctrine/dbal/2011-09-25.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/doctrine/dbal"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20130208100252/https://www.doctrine-project.org/blog/dbal-security-2011-1.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-15T18:42:20Z",
+    "nvd_published_at": null
+  }
+}
