@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8jp9-mpv9-98rj",
+  "modified": "2024-05-15T17:48:10Z",
+  "published": "2024-05-15T17:48:10Z",
+  "aliases": [
+
+  ],
+  "summary": "amphp/http-client Header leakage on cross-domain redirects",
+  "details": "amphp/http-client has a security weakness that might leak sensitive request headers from the initial request to the redirected host on cross-domain redirects, which were not removed correctly. `Message::setHeaders` does not replace the entire set of headers, but only operates on the headers matching the given array keys.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "amphp/http-client"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0"
+            },
+            {
+              "fixed": "4.4.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/amphp/http-client/commit/fa7925363e6d5a0d0d337e2e6eb1affb93cf226e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/amphp/http-client/2020-06-16.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/amphp/http-client"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/amphp/http-client/releases/tag/v4.4.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-15T17:48:10Z",
+    "nvd_published_at": null
+  }
+}
