@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-87mp-xc4x-x8rh",
+  "modified": "2024-05-15T17:47:31Z",
+  "published": "2024-05-15T17:47:31Z",
+  "aliases": [
+
+  ],
+  "summary": "asymmetricrypt/asymmetricrypt Padding Oracle Vulnerability in RSA Encryption",
+  "details": "The encryption and decryption process were vulnerable against the Bleichenbacher's attack, which is a padding oracle vulnerability disclosed in the 98'.\nThe issue was about the wrong padding utilized, which allowed to retrieve the encrypted content.\nThe OPENSSL_PKCS1_PADDING version, aka PKCS v1.5 was vulnerable (is the one set by default when using openssl_* methods), while the PKCS v2.0 isn't anymore (it's also called OAEP).\n\nA fix for this vulnerability was merged at https://github.com/Cosmicist/AsymmetriCrypt/pull/5/commits/a0318cfc5022f2a7715322dba3ff91d475ace7c6.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "asymmetricrypt/asymmetricrypt"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.3.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/Cosmicist/AsymmetriCrypt/issues/4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Cosmicist/AsymmetriCrypt/pull/5"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Cosmicist/AsymmetriCrypt"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/asymmetricrypt/asymmetricrypt/2017-11-20.yaml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-327"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-15T17:47:31Z",
+    "nvd_published_at": null
+  }
+}
