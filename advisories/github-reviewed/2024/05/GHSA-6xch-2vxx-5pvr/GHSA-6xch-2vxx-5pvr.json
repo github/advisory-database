@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6xch-2vxx-5pvr",
+  "modified": "2024-05-15T21:16:02Z",
+  "published": "2024-05-15T21:16:02Z",
+  "aliases": [
+
+  ],
+  "summary": "eZ Platform Rules to disable executable access are ignored on Platform.sh (eZ Cloud)",
+  "details": "The recommended Apache/Nginx virtual host configuration for eZ Platform includes a rewrite rule for blocking access to executable files in the var directory. This rule does not work when using eZ Platform Cloud (i.e. running eZ Platform on the Platform.sh cloud service).\n \nThe consequence of this is that in such a setup, those executable files may be downloadable. They will not be executable, unless you have specifically configured platform.sh to allow that (which you really should not do). The severity of the download access is limited, but it's better if the platform.sh cloud setup works the same way as regular eZ Platform does. All platform.sh setups are affected.\n \nThe fix adds a rule to the .platform.app.yaml configuration file, with the same effect as the rewrite rule already mentioned. After applying the fix, any attempt to access such files will fail with Access Denied. This security update is distributed via Composer as ezsystems/ezplatform 1.7.9.1, and 1.13.5.1, and 2.5.4. This is the commit: https://github.com/ezsystems/ezplatform/commit/773dddc0d8fe4fda34d2153a401eeaa6cc30b1ff",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "ezsystems/ezplatform"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.5.0"
+            },
+            {
+              "fixed": "2.5.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "ezsystems/ezplatform"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.13.0"
+            },
+            {
+              "fixed": "1.13.5.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "ezsystems/ezplatform"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.7.0"
+            },
+            {
+              "fixed": "1.7.9.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ezsystems/ezplatform/commit/773dddc0d8fe4fda34d2153a401eeaa6cc30b1ff"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/ezsystems/ezplatform/2019-09-03-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ezsystems/ezplatform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://share.ez.no/community-project/security-advisories/ezsa-2019-006-rules-to-disable-executable-access-are-ignored-on-platform.sh-ez-cloud"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-670"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-15T21:16:02Z",
+    "nvd_published_at": null
+  }
+}
