@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7gwj-7fhm-vw4w",
+  "modified": "2024-05-15T20:43:00Z",
+  "published": "2024-05-15T20:43:00Z",
+  "aliases": [
+
+  ],
+  "summary": "Drupal core unrestricted file upload",
+  "details": "Drupal 8 core's file_save_upload() function does not strip the leading and trailing dot ('.') from filenames, like Drupal 7 did.\n\nUsers with the ability to upload files with any extension in conjunction with contributed modules may be able to use this to upload system files such as .htaccess in order to bypass protections afforded by Drupal's default .htaccess file.\n\nAfter this fix, file_save_upload() now trims leading and trailing dots from filenames.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:C/C:L/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "drupal/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.0.0"
+            },
+            {
+              "fixed": "8.7.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "drupal/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.8.0"
+            },
+            {
+              "fixed": "8.8.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/drupal/core/2019-12-18-2.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/drupal/core"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.drupal.org/sa-core-2019-010"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-434"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-15T20:43:00Z",
+    "nvd_published_at": null
+  }
+}
