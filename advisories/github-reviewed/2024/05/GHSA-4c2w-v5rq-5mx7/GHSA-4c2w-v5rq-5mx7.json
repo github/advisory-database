@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4c2w-v5rq-5mx7",
+  "modified": "2024-05-15T21:10:29Z",
+  "published": "2024-05-15T21:10:29Z",
+  "aliases": [
+
+  ],
+  "summary": "eZ Platform Editor Cross-site Scripting (XSS)",
+  "details": "This Security Advisory is about two issues of low to medium severity. We recommend that you install the update as soon as possible.\n\n\nThere is an XSS vulnerability in CKEditor, which is used by AlloyEditor, which is used in eZ Platform Admin UI. Scripts can be injected through specially crafted \"protected\" comments. We are not sure it is exploitable in eZ Platform, but recommend installing it to be on the safe side. It is fixed in CKEditor v4.14, AlloyEditor v2.11.9. It is distributed via Composer, for:\n\neZ Platform v1.13.x: ezsystems/PlatformUIAssetsBundle v4.2.3 (included from ezsystems/PlatformUIBundle v1.13.x)\neZ Platform v2.5.13: ezsystems/ezplatform-admin-ui-assets v4.2.1\neZ Platform v3.0.*: ezsystems/ezplatform-admin-ui-assets v5.0.1\neZ Platform v3.1.2: ezsystems/ezplatform-admin-ui-assets v5.1.1\n\n\nDrafts that are sent to trash become visible in the Review Queue, even for users that were not able to see them before this action. It's not possible to preview them, but their title and review history is displayed. This affects Enterprise Edition only, of which ezplatform-workflow is a part. This security update is distributed via Composer, for\n\neZ Platform EE v2.5.13: ezsystems/ezplatform-workflow v1.1.9\neZ Platform EE v3.1.2: ezsystems/ezplatform-workflow v2.1.1",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "ezsystems/ezplatform-admin-ui-assets"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.2.0"
+            },
+            {
+              "fixed": "4.2.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "ezsystems/ezplatform-admin-ui-assets"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0"
+            },
+            {
+              "fixed": "5.0.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "ezsystems/ezplatform-admin-ui-assets"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.1.0"
+            },
+            {
+              "fixed": "5.1.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://ezplatform.com/security-advisories/ezsa-2020-005-editor-xss-and-trashed-drafts-in-review-queue"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/ezsystems/ezplatform-admin-ui-assets/2020-08-07-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ezsystems/ezplatform-admin-ui-assets"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-15T21:10:29Z",
+    "nvd_published_at": null
+  }
+}
