@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6cj3-rc4p-f38f",
+  "modified": "2024-05-17T23:04:02Z",
+  "published": "2024-05-17T23:04:02Z",
+  "aliases": [
+
+  ],
+  "summary": "Cross-site Scripting vulnerabilities in Neos",
+  "details": "It has been discovered that Neos is vulnerable to several XSS attacks. Through these vulnerabilities, an attacker could tamper with page rendering, redirect victims to a fake login page, or capture user credentials (such as cookies). With the potential backdoor upload an attacker could gain access to the server itself, to an extent mainly limited by the server setup.\n\n### Reflected Cross-Site Scripting (SXSS) with authentication\nA Neos backend user with permission to modify content can insert JavaScript instructions into content elements. The browser will execute the script in \"Print\" preview mode.\nA Neos backend user who can modify his profile information (\"Title\", \"First Name\", \"Last name\", \"Middle Name\", \"Other Name\") can inject JavaScript instructions in those parameters. Once set up, an administrator who wants to edit this user account will execute the code.\nBoth attack vectors require a valid Neos backend user account.\n\n### Reflected Cross-Site Scripting (RXSS) without authentication\nA non-persistent XSS using parameters passed during plugin execution is possible. If invalid parameters are passed, an error message may be shown (depending on the context Neos runs in and how the parameters are handled) that contains the unescaped parameter value.\n\nNote: Through the HTML content type the inclusion of arbitrary JavaScript is still possible for users with a valid Neos backend account. If you want to prohibit that, disable the nodetype or restrict access.\n\n### Potential backdoor upload\nThrough an issue with the underlying Flow framework (see the related Flow advisory Flow-SA-2015-001) any editor with access to the Media Management module can upload server side script files (when using Neos 2.0.x). If those scripts are executed by the server when accessed through their public URL, anything not blocked through other means is possible (information disclosure, placement of backdoors, data removal, …).",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "neos/neos"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.2.0"
+            },
+            {
+              "fixed": "1.2.13"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "neos/neos"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.0.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/neos/neos/2015-11-23.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/neos/neos"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.neos.io/blog/neos-sa-2015-002.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-17T23:04:02Z",
+    "nvd_published_at": null
+  }
+}
