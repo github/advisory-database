@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7h74-7vcw-4mwp",
+  "modified": "2024-05-17T22:32:12Z",
+  "published": "2024-05-17T22:32:12Z",
+  "aliases": [
+
+  ],
+  "summary": "Insecure deserialize Vulnerability in FLOW3",
+  "details": "Due to a missing signature (HMAC) for a request argument, an attacker could unserialize arbitrary objects within FLOW3.\n\nTo our knowledge it is neither possible to inject code through this vulnerability, nor are there exploitable objects within the FLOW3 Base Distribution. However, there might be exploitable objects within user applications.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "neos/flow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.0"
+            },
+            {
+              "fixed": "1.0.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/neos/flow/2012-03-28.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/neos/flow"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.neos.io/blog/flow-sa-2012-001.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-17T22:32:12Z",
+    "nvd_published_at": null
+  }
+}
