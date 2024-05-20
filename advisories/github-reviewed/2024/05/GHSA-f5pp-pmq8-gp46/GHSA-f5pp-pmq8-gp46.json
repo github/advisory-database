@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f5pp-pmq8-gp46",
+  "modified": "2024-05-20T16:51:24Z",
+  "published": "2024-05-20T16:51:24Z",
+  "aliases": [
+
+  ],
+  "summary": "Passbolt Api Retrieval of HTTP-only cookies",
+  "details": "Passbolt uses three cookies: a session cookie, a CSRF protection cookie and a cookie to keep track of the multiple-factor authentication process.\n\nBoth the session cookie and the mfa cookie are properly set HTTP-only to prevent an attacker from retrieving the content of those cookies if they managed to exploit an XSS.\n\nThe /auth/verify.json endpoint returns a JSON that, among other things, contains the cookies sent in the request. (similar to the TRACE HTTP method)\n\nAn attacker who manages to leverage an XSS vulnerability could retrieve the session cookies of a legitimate user, effectively granting them the ability to retrieve information (such as encrypted password list or group list) without requiring user interaction.\n\nThis vulnerability has a low impact, but no immediate risk due to it requiring the exploitation of an XSS vulnerability that has yet to be found.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "passbolt/passbolt_api"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.7.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/passbolt/passbolt_api/commit/fbf99fed4b60db5fec97b58a2251a04bb42c1b15"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/passbolt/passbolt_api/2019-02-11-2.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/passbolt/passbolt_api"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.passbolt.com/incidents/20190211_multiple_vulnerabilities"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-209"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-20T16:51:24Z",
+    "nvd_published_at": null
+  }
+}
