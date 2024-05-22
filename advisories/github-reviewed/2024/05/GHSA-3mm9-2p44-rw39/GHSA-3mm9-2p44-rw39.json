@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3mm9-2p44-rw39",
+  "modified": "2024-05-22T19:03:54Z",
+  "published": "2024-05-22T19:03:54Z",
+  "aliases": [
+
+  ],
+  "summary": "Silverstripe SiteTree Creation Permission Vulnerability",
+  "details": "A vulnerability exists in the permission validation for SiteTree object creation. By default user permissions are not validated by the SiteTree::canCreate method, unless overridden by user code or via the configuration system.\n\nThis vulnerability will allow users, or unauthenticated guests, to create new SiteTree objects in the database. This vulnerability is present when such users are given CMS access via other means, or if there is another mechanism (such as RestfulServer module) which allows model editing and relies on model-level permission checks.\n\nThis vulnerability is restricted to the creation of draft or live pages, and does not allow users to edit, publish, or unpublish existing pages.\n\nAll users should upgrade as soon as possible.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.0.12"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.0.11"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.1.0"
+            },
+            {
+              "fixed": "3.1.11"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-cms/commit/3df41e1176385215f15fffb04fcba033a5151fb4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-cms/commit/64955e57d1239975183f47d3ac8c3e801ddbf122"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/silverstripe/cms/SS-2015-008-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/silverstripe/silverstripe-cms"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.silverstripe.org/software/download/security-releases/ss-2015-008-sitetree-creation-permission-vulnerability"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-863"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-22T19:03:54Z",
+    "nvd_published_at": null
+  }
+}
