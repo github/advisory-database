@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5f5v-5c3v-gw5v",
+  "modified": "2024-05-23T14:45:11Z",
+  "published": "2024-05-23T14:45:11Z",
+  "aliases": [
+
+  ],
+  "summary": "Silverstripe IE requests not properly behaving with rewritehashlinks",
+  "details": "Non IE browsers don’t appear to be affected, but I haven’t tested a wide range of browsers to be sure \n\nRequests that come through from IE do NOT appear to encode all entities in the URL string, meaning they are inserted into output content directly by SSViewer::process() when rewriting hashlinks, as it directly outputs $_SERVER[‘REQUEST_URI’]\n\n**Example IE8 request**\n127.0.0.1 - - [18/Jun/2014:14:13:42 +1000] “GET /site/cars/brands/toyota?one=1\\”onmouseover=\\”alert(‘things’);\\” HTTP/1.1” 200\n\n**Example FF request**\n127.0.0.1 - - [18/Jun/2014:14:14:22 +1000] “GET /site/cars/brands/toyota?one=1\\%22onmouseover=\\%22alert(%27things%27);\\%22 HTTP/1.1” 200\n\nThis causes any hash anchor to have the JS code inserted into the page as-is.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.0.13"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.0.12"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.1.0"
+            },
+            {
+              "fixed": "3.1.12"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.1.11"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/commit/604c32871202064a4aa12c3b3fd58140231685e5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/commit/bdef4fc7a548c7c243ff86f2db7c16f301a6f120"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/silverstripe/framework/SS-2014-015-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/silverstripe/silverstripe-framework"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.silverstripe.org/software/download/security-releases/ss-2014-015-ie-requests-not-properly-behaving-with-rewritehashlinks"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-23T14:45:11Z",
+    "nvd_published_at": null
+  }
+}
