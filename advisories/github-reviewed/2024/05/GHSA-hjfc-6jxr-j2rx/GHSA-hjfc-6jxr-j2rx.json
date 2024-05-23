@@ -1,0 +1,132 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hjfc-6jxr-j2rx",
+  "modified": "2024-05-23T14:23:32Z",
+  "published": "2024-05-23T12:31:02Z",
+  "aliases": [
+    "CVE-2024-5165"
+  ],
+  "summary": "Eclipse Ditto vulnerable to Cross-site Scripting",
+  "details": "In Eclipse Ditto starting in version 3.0.0 and prior to versions 3.4.5 and 3.5.6, the user input of several input fields of the Eclipse  Ditto Explorer User Interface https://eclipse.dev/ditto/user-interface.html  was not properly neutralized and thus vulnerable to both Reflected and Stored XSS (Cross Site Scripting).\n\nSeveral inputs were not persisted at the backend of Eclipse Ditto, but only in local browser storage to save settings of \"environments\" of the UI and e.g. the last performed \"search queries\", resulting in a \"Reflected XSS\" vulnerability.\n\nHowever, several other inputs were persisted at the backend of Eclipse Ditto, leading to a \"Stored XSS\" vulnerability. Those mean that authenticated and authorized users at Eclipse Ditto can persist Things in Ditto which can - when being displayed by other users also being authorized to see those Things in the Eclipse Ditto UI - cause scripts to be executed in the browser of other users.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.eclipse.ditto:ditto"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.4.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.eclipse.ditto:ditto"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.5.0"
+            },
+            {
+              "fixed": "3.5.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-5165"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/eclipse-ditto/ditto/commit/20399a0ab9ef219c7833c24cf8140ddfb298788d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/eclipse-ditto/ditto/commit/8fe1b3b9e0e2c333856dc166c8c3c7d2027c856d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/eclipse-ditto/ditto/commit/9d1bac36ca7be94516635ef71eedfea6df1e77f4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/eclipse-ditto/ditto/commit/cce2e961db08b5d591ef34920c61a0f7e7d810e4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://eclipse.dev/ditto/release_notes_345.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://eclipse.dev/ditto/release_notes_356.html"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/eclipse-ditto/ditto"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gitlab.eclipse.org/security/cve-assignement/-/issues/23"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gitlab.eclipse.org/security/vulnerability-reports/-/issues/201"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gitlab.eclipse.org/security/vulnerability-reports/-/issues/202"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gitlab.eclipse.org/security/vulnerability-reports/-/issues/204"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gitlab.eclipse.org/security/vulnerability-reports/-/issues/207"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gitlab.eclipse.org/security/vulnerability-reports/-/issues/209"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gitlab.eclipse.org/security/vulnerability-reports/-/issues/210"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gitlab.eclipse.org/security/vulnerability-reports/-/issues/211"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-23T14:23:32Z",
+    "nvd_published_at": "2024-05-23T10:15:10Z"
+  }
+}
