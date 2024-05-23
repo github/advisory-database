@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w8fq-xgvh-cxc2",
+  "modified": "2024-05-23T14:41:16Z",
+  "published": "2024-05-23T14:41:16Z",
+  "aliases": [
+
+  ],
+  "summary": "Silverstripe Forum Module CSRF Vulnerability",
+  "details": "A number of form actions in the Forum module are directly accessible. A malicious user (e.g. spammer) can use GET requests to create Members and post to forums, bypassing CSRF and anti-spam measures.\n\nAdditionally, a forum moderator could be tricked into clicking a specially crafted URL, resulting in a topic being moved.\n\nThanks to Michael Strong for discovering.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/forum"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.6.2"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.6.1"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/forum"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.7.0"
+            },
+            {
+              "fixed": "0.7.4"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.7.3"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe-archive/silverstripe-forum/commit/0ec7c92785f36c8edf4a11c36a4fc27e0c40cee6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe-archive/silverstripe-forum/commit/efe09f95ccdb0138ce5bd3d3a21b3d9e97038dd8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/silverstripe/forum/SS-2015-017-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/silverstripe-archive/silverstripe-forum"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.silverstripe.org/software/download/security-releases/ss-2015-017"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352",
+      "CWE-425"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-23T14:41:16Z",
+    "nvd_published_at": null
+  }
+}
