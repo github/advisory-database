@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-34q6-xqxh-gq39",
+  "modified": "2024-05-23T15:21:44Z",
+  "published": "2024-05-23T15:21:44Z",
+  "aliases": [
+
+  ],
+  "summary": "Silverstripe XSS In rewritten hash links",
+  "details": "A high level XSS vulnerability has been discovered in the SilverStripe framework which causes links containing hash anchors (E.g. href=\"#anchor\") to be rewritten in an unsafe way.\n\nThe rewriteHashlinks option on SSViewer will rewrite these to contain the current url, although without adequate escaping, meaning that HTML could be injected via injecting unsafe values to any page via the querystring.\n\nDue to the nature of this issue it is likely that a large number of SilverStripe sites are affected.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.0.13"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.0.12"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.1.0"
+            },
+            {
+              "fixed": "3.1.12"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.1.11"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/commit/604c32871202064a4aa12c3b3fd58140231685e5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/commit/bdef4fc7a548c7c243ff86f2db7c16f301a6f120"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/silverstripe/framework/SS-2015-009-1.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.silverstripe.org/software/download/security-releases/ss-2015-009-xss-in-rewritten-hash-links"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "silverstripe/silverstripe-framework"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-23T15:21:44Z",
+    "nvd_published_at": null
+  }
+}
