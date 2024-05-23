@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r32j-mr8p-hfp8",
+  "modified": "2024-05-23T14:57:18Z",
+  "published": "2024-05-23T14:57:18Z",
+  "aliases": [
+
+  ],
+  "summary": "Silverstripe XSS in TreeDropdownField and TreeMultiSelectField",
+  "details": "A cross-site scripting vulnerability has been discovered in the TreeDropdownField and TreeMultiSelectField.\n\nThis vulnerability can only be exploited if a user with CMS access has posted malicious or unescaped HTML into any of the dataobjects used as a data source for either of these fields.\n\nThis has been resolved by ensuring that all dataobjects used as a data source have their content safely encoded.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.1.0"
+            },
+            {
+              "fixed": "3.1.10"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.1.9"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/commit/89c14d079d3a130d6c4029af596262528ce53925"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/silverstripe/framework/SS-2015-004-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/silverstripe/silverstripe-framework"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.silverstripe.org/software/download/security-releases/ss-2015-004"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-23T14:57:18Z",
+    "nvd_published_at": null
+  }
+}
