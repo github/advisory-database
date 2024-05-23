@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qp29-wcc2-vmpc",
+  "modified": "2024-05-23T18:14:45Z",
+  "published": "2024-05-23T18:14:45Z",
+  "aliases": [
+
+  ],
+  "summary": "Silverstripe HtmlEditor embed url sanitisation",
+  "details": "\"Add from URL\" doesn't clearly sanitise URL server side\n\nHtmlEditorField_Toolbar has an action HtmlEditorField_Toolbar#viewfile, which gets called by the CMS when adding a media \"from a URL\" (i.e. via oembed).\n\nThis action gets the URL to add in the GET parameter FileURL. However it doesn't do any URL sanitising server side. The current logic will pass this through to Oembed, which will probably reject most dangerous URLs, but it's possible future changes would break this.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.2.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/silverstripe/framework/SS-2015-027-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/silverstripe/silverstripe-framework"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.silverstripe.org/download/security-releases/ss-2015-027"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-23T18:14:45Z",
+    "nvd_published_at": null
+  }
+}
