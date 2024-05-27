@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vcg6-8fxc-x5cq",
+  "modified": "2024-05-27T23:35:14Z",
+  "published": "2024-05-27T23:35:14Z",
+  "aliases": [
+
+  ],
+  "summary": "silverstripe/framework allows upload of dangerous file types",
+  "details": "Some potentially dangerous file types exist in File.allowed_extensions which could allow a malicious CMS user to upload files that then get executed in the security context of the website. We have removed the ability to upload .css, .js, .potm, .dotm, .xltm and .jar files in the default configuration. Since allowed_extensions are synced to webserver configuration (in assets/.htaccess) automatically, this will also deny access to any existing uploads with these extensions.\n\nReview our security guidelines for the Common Web Platform and the File Security guide for SilverStripe 4 to find out how to add or remove extensions. ",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.6.5-rc1"
+            },
+            {
+              "fixed": "3.6.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.3-rc1"
+            },
+            {
+              "fixed": "4.0.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.1.0-rc1"
+            },
+            {
+              "fixed": "4.1.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/commit/0408048653fafc52e02b4dbc6288e14e634ac613"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/silverstripe/framework/SS-2018-014-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/silverstripe/silverstripe-framework"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.silverstripe.org/download/security-releases/ss-2018-014"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-434"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-27T23:35:14Z",
+    "nvd_published_at": null
+  }
+}
