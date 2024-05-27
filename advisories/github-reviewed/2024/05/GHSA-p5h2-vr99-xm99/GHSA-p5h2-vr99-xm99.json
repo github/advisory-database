@@ -1,0 +1,134 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-p5h2-vr99-xm99",
+  "modified": "2024-05-27T18:37:00Z",
+  "published": "2024-05-27T18:36:59Z",
+  "aliases": [
+
+  ],
+  "summary": "silverstripe/framework ChangePasswordForm does not check `Member::canLogIn()`",
+  "details": "After performing a password reset, `ChangePasswordForm::doChangePassword()` logs in the user without checking `Member::canLogIn()`. This presents an issue for sites that are using the extension point in that method to deny access to users (for example members that have not been “approved”, or members that have had their access revoked temporarily). It looks like `Member::canLogIn()` was originally designed to only be used for checking whether the user is locked out (due to too many incorrect login attempts) but has been opened up to other uses.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.1.19-rc1"
+            },
+            {
+              "fixed": "3.1.20"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.2.4-rc1"
+            },
+            {
+              "fixed": "3.2.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.3.2-rc1"
+            },
+            {
+              "fixed": "3.3.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.4.0-rc1"
+            },
+            {
+              "fixed": "3.4.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/commit/2b30ade44d333a4da4d13b31ffa28d0a34597442"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/commit/6606d986634f5b5dec16462acaa8d9a513c29fec"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/commit/6d41db77fa78f473db7bcff389456c980ef4e412"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/commit/782c18fd13b9fb92707d0ea3b231023204928297"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/silverstripe/framework/SS-2016-011-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/silverstripe/silverstripe-framework"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.silverstripe.org/download/security-releases/ss-2016-011"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-287"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-27T18:36:59Z",
+    "nvd_published_at": null
+  }
+}
