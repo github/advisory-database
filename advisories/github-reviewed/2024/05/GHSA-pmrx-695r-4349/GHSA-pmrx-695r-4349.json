@@ -1,0 +1,142 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-pmrx-695r-4349",
+  "modified": "2024-05-28T21:19:14Z",
+  "published": "2024-05-28T21:19:14Z",
+  "aliases": [
+    "CVE-2024-36105"
+  ],
+  "summary": "dbt allows Binding to an Unrestricted IP Address via socketsocket",
+  "details": "### Summary\n\nBinding to `INADDR_ANY (0.0.0.0)` or `IN6ADDR_ANY (::)` exposes an application on all network interfaces, increasing the risk of unauthorized access.\n\nWhile doing some static analysis and code inspection, I found the following code binding a socket to `INADDR_ANY` by passing `\"\"` as the address. This effectively binds to any network interface on the local system, not just localhost (127.0.0.1). \n\n### Details\n\nAs stated in the Python docs, a special form for address is accepted instead of a host address: `''` represents `INADDR_ANY`, equivalent to `\"0.0.0.0\"`. On systems with IPv6, '' represents `IN6ADDR_ANY`, which is equivalent to `\"::\"`. \n\nhttps://github.com/dbt-labs/dbt-core/blob/main/core/dbt/task/docs/serve.py#L23C38-L23C39\n\nThe text around this code also imply the intention is to host docs only on localhost.\n\n### PoC\n\nTo recreate, run the docs ServeTask.run() to stand up the HTTP server.  Then run `netstat` to see what addresses this process is bound.\n\n### Impact\n\nA user who serves docs on an unsecured public network, may unknowingly be hosting an unsecured (http) web site for any remote user/system to access on the same network.\n\nFurther references:\nhttps://docs.python.org/3/library/socket.html#socket-families\nhttps://docs.securesauce.dev/rules/PY030\nhttps://cwe.mitre.org/data/definitions/1327.html\n\n### Patches\nThe issue has has been mitigated in [dbt-core v1.6.15](https://github.com/dbt-labs/dbt-core/releases/tag/v1.6.15), [dbt-core v1.7.15](https://github.com/dbt-labs/dbt-core/releases/tag/v1.7.15), and [dbt-core v1.8.1](https://github.com/dbt-labs/dbt-core/releases/tag/v1.8.1) by binding to localhost explicitly by default in `dbt docs serve` (https://github.com/dbt-labs/dbt-core/issues/10209).\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "dbt-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.6.15"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "dbt-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.7.0"
+            },
+            {
+              "fixed": "1.7.15"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "dbt-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.8.0"
+            },
+            {
+              "fixed": "1.8.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "1.8.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/dbt-labs/dbt-core/security/advisories/GHSA-pmrx-695r-4349"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-36105"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dbt-labs/dbt-core/issues/10209"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dbt-labs/dbt-core/pull/10208"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dbt-labs/dbt-core/commit/0c08d7a19ad1740be3cb0b2e6d9d64f6537176f7"
+    },
+    {
+      "type": "WEB",
+      "url": "https://cwe.mitre.org/data/definitions/1327.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.python.org/3/library/socket.html#socket-families"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.securesauce.dev/rules/PY030"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/dbt-labs/dbt-core"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dbt-labs/dbt-core/blob/main/core/dbt/task/docs/serve.py#L23C38-L23C39"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dbt-labs/dbt-core/releases/tag/v1.6.15"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dbt-labs/dbt-core/releases/tag/v1.7.15"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dbt-labs/dbt-core/releases/tag/v1.8.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1327"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-28T21:19:14Z",
+    "nvd_published_at": "2024-05-27T18:15:10Z"
+  }
+}
