@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-j6cv-98jx-mrwr",
+  "modified": "2024-05-28T20:20:37Z",
+  "published": "2024-05-28T20:20:37Z",
+  "aliases": [
+    "CVE-2024-35374"
+  ],
+  "summary": "Mocodo vulnerable to SQL injection in `/web/generate.php`",
+  "details": "Mocodo Mocodo Online 4.2.6 and below does not properly sanitize the `sql_case` input field in `/web/generate.php`, allowing remote attackers to execute arbitrary SQL commands and potentially command injection, leading to remote code execution (RCE) under certain conditions.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "mocodo"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.2.7"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 4.2.6"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-35374"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/laowantong/mocodo/commit/f9368df28518b6c4a92fd207c260f1978ec34d6e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://chocapikk.com/posts/2024/mocodo-vulnerabilities"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/laowantong/mocodo"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/laowantong/mocodo/blob/11ca879060a68e06844058cd969c6379214cc2a8/web/generate.php#L104-L158"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-89"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-28T20:20:37Z",
+    "nvd_published_at": "2024-05-24T21:15:59Z"
+  }
+}
