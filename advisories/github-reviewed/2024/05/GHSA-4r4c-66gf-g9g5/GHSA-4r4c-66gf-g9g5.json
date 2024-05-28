@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4r4c-66gf-g9g5",
+  "modified": "2024-05-28T21:22:45Z",
+  "published": "2024-05-28T21:22:45Z",
+  "aliases": [
+    "CVE-2022-4969"
+  ],
+  "summary": "rockhopper Buffer Overflow vulnerability",
+  "details": "A vulnerability, which was classified as critical, has been found in bwoodsend rockhopper up to 0.1.2. Affected by this issue is the function `count_rows` of the file `rockhopper/src/ragged_array.c` of the component Binary Parser. The manipulation of the argument raw leads to buffer overflow. Local access is required to approach this attack. Upgrading to version 0.2.0 is able to address this issue. The name of the patch is 1a15fad5e06ae693eb9b8908363d2c8ef455104e. It is recommended to upgrade the affected component. The identifier of this vulnerability is VDB-266312.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "rockhopper"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.2.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.1.2"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-4969"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/bwoodsend/rockhopper/commit/1a15fad5e06ae693eb9b8908363d2c8ef455104e"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/bwoodsend/rockhopper"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/bwoodsend/rockhopper/releases/tag/v0.2.0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://vuldb.com/?ctiid.266312"
+    },
+    {
+      "type": "WEB",
+      "url": "https://vuldb.com/?id.266312"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-120"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-28T21:22:45Z",
+    "nvd_published_at": "2024-05-27T17:15:09Z"
+  }
+}
