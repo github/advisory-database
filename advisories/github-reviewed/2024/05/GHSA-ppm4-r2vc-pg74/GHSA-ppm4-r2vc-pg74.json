@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-ppm4-r2vc-pg74",
+  "modified": "2024-05-28T21:26:21Z",
+  "published": "2024-05-28T21:26:21Z",
+  "aliases": [
+
+  ],
+  "summary": "SimpleSAMLphp Information Disclosure vulnerability",
+  "details": "### Background\nSimpleSAMLphp 1.17 includes a preview of the new user interface to be included in the future version 2.0. This new user interface can be enabled by setting the usenewui configuration option to true, and it includes a new admin interface in a module called admin, which can be disabled.\n\n### Description\nThe new admin interface includes a way to view information about the host where SimpleSAMLphp is installed, by means of the phpinfo() PHP function. An endpoint that exposes the output of that function is included in the admin module for easier debugging.\n\nThe aforementioned endpoint had no checks for administrator privileges. This would allow any individual to access the given endpoint without authenticating, gathering information about the affected system.\n\n### Affected versions\nAll SimpleSAMLphp 1.17 versions up to 1.17.7 are affected, provided that the new, experimental use interface is enabled, together with the new admin module.\n\n### Impact\nAn attacker could leverage this issue by accessing the unprotected endpoint and gather intelligence about the host where SimpleSAMLphp is deployed, using it later for their own advantage in case other issues arise.\n\nHowever, the impact of this issue is deemed as low, given that the new user interface must be explicitly enabled by means of the usenewui configuration option, and the new admin module must also be enabled.\n\n### Resolution\nUpgrade to SimpleSAMLphp 1.17.8 or 1.18. This can be done by downloading the package, or by running composer update. Refer to the documentation for instructions on how to run composer.\n\nAlternatively, the issue can be mitigated by either disabling the new user interface by setting the usenewui configuration option to false, or by disabling the admin module in the configuration:\n```\n    'module.enable' => [\n        ...\n        'admin' => false,\n        ...\n    ],\n```",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "simplesamlphp/simplesamlphp"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.17.0"
+            },
+            {
+              "fixed": "1.17.8"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/simplesamlphp/simplesamlphp/commit/0e0d1f745f5491f9e848b1f3e6da198596bb8885"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/simplesamlphp/simplesamlphp/2019-11-19.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://simplesamlphp.org/security/201911-02"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-862"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-28T21:26:21Z",
+    "nvd_published_at": null
+  }
+}
