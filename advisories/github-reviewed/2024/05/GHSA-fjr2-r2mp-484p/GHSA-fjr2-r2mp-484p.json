@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fjr2-r2mp-484p",
+  "modified": "2024-05-28T19:29:38Z",
+  "published": "2024-05-28T19:29:37Z",
+  "aliases": [
+
+  ],
+  "summary": "SimpleSAMLphp signature validation bypass",
+  "details": "### Background\nSAML messages are usually signed to prove the identity of the issuer of the message. In the case of SAML authentication responses, correctly verifying the signature is critical to trust that the assertion contained inside the response was issued by a trusted third-party and the identity of the subject has been properly verified.\n\nA SAML message can be signed both at the message level and at the assertion level (if the message is an authentication response). When the whole authentication response message is unsigned, all the assertions contained inside must be signed independently in order to verify their authenticity. Failure to properly verify the authenticity of the entire message or individual assertions leads to the ability of an attacker to impersonate any user from any Identity Provider trusted by the Service Provider.\n\n### Description\nA signature validation bypass issue has been found in the `SimpleSAML_XML_Validator` class. This class performs the verification of the XML digital signature of a SAML 1 message with a given key.\n\nWhen a SAML 1 authentication response message is received, it is processed to verify its authenticity, including a check for the signature or signatures included in the message. If the message is not signed but the assertions contained in it are, the signatures of those assertions signed will be verified. Unsigned assertions will not be verified. After verifying every signed element in the response, a list of valid nodes is built, holding the DOM nodes of those XML elements that are signed and whose signatures have been successfully verified.\n\nOnce this list is built, the assertions need to be processed individually. They are not processed until the getAttributes() method of the SimpleSAML_XML_Shib13_AuthnResponse class is called. This method iterates through the list of assertions contained in the response and makes sure they were validated in the previous signature verification step, by checking if their corresponding DOM nodes are in the list of those verified.\n\nThe vulnerability is due to lax comparison of the node being checked and the nodes in the verified list. The isNodeValidated() method of the SimpleSAML_XML_Validator class checks if a given DOM node is in the validNodes array by means of the standard in_array() function. This function, however, will return unexpected results due to the default lax behaviour when checking data types in PHP. In this case, the fact that there is a DOM node in the list is enough for in_array() to return true when looking for any DOM node. This means any unsigned assertion will be considered verified if there is at least one assertion with a valid signature in the message being processed.\n\nThis issue allows an attacker to generate a SAML 1 authentication response that contains two different assertions. The first assertion is the one the attacker wants the Service Provider to use, with custom attributes, expiration and even entityID (provided that the given entityID belongs to an Identity Provider that the Service Provider knows and trusts). The second is a legitimate assertion issued and signed by an Identity Provider trusted by the Service Provider. If the second assertion is still valid when sent by the attacker, SimpleSAMLphp will merge all the attributes found in both assertions, but the entityID registered for the authenticating third-party will be the one found in the first, tampered assertion. If the second (legitimate) assertion is already expired when the attacker sends it, only the attributes found in the tampered assertion will be used.\n\nThe issue can be easily fixed by passing a third parameter to the in_array() function, telling it to perform strict comparisons when checking if an object is found inside a given array. This way, when the code evaluates if the tampered assertion is included in the list of verified assertions, it fails and only the legitimate assertion is used, if possible (e.g. it is not expired).\n\n### Affected versions\nAll SimpleSAMLphp versions before and including 1.14.16.\n\n### Impact\nAn attacker can leverage this vulnerability to impersonate any user from any SAML 1 Identity Provider trusted by a SimpleSAMLphp Service Provider, with the only pre-requisite of a valid assertion previously sent to the affected Service Provider. As such, only those SimpleSAMLphp installations that have metadata deployed for SAML 1 Identity Providers (by default, listed in the metadata/shib13-idp-remote.php file, but could be in other locations depending on your local configuration) are affected.\n\n### Resolution\nUpgrade to the latest version. When an upgrade is not possible immediately, the following patch must be applied:\n```\ndiff --git a/lib/SimpleSAML/XML/Validator.php b/lib/SimpleSAML/XML/Validator.php\nindex e4877f0..69236ef 100644\n--- a/lib/SimpleSAML/XML/Validator.php\n+++ b/lib/SimpleSAML/XML/Validator.php\n@@ -260,7 +260,7 @@ class SimpleSAML_XML_Validator {\n                assert('$node instanceof DOMNode');\n\n                while($node !== NULL) {\n-                       if(in_array($node, $this->validNodes)) {\n+                       if(in_array($node, $this->validNodes, true)) {\n                                return TRUE;\n                        }\n\n```",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "simplesamlphp/simplesamlphp"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.12.0"
+            },
+            {
+              "fixed": "1.14.17"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/simplesamlphp/simplesamlphp/commit/e2d53086abbb253efb24ddcb49b116246eb0b6ca"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/simplesamlphp/simplesamlphp/201710-01.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/simplesamlphp/simplesamlphp"
+    },
+    {
+      "type": "WEB",
+      "url": "https://simplesamlphp.org/security/201710-01"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-28T19:29:37Z",
+    "nvd_published_at": null
+  }
+}
