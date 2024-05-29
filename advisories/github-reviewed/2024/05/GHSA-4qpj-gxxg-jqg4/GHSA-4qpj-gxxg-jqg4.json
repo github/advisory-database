@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4qpj-gxxg-jqg4",
+  "modified": "2024-05-29T13:13:16Z",
+  "published": "2024-05-29T13:13:16Z",
+  "aliases": [
+
+  ],
+  "summary": "Swiftmailer Sendmail transport arbitrary shell execution",
+  "details": "Prior to 5.2.1, the sendmail transport (`Swift_Transport_SendmailTransport`) was vulnerable to an arbitrary shell execution if the \"From\" header came from a non-trusted source and no \"Return-Path\" is configured. This has been fixed in 5.2.1. If you are using sendmail as a transport, you are encouraged to upgrade as soon as possible.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "swiftmailer/swiftmailer"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0"
+            },
+            {
+              "fixed": "5.2.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/swiftmailer/swiftmailer/commit/b4b78af55e5e87f5ff07c06c6be7963c44562f80"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/swiftmailer/swiftmailer/commit/efc430606a5faed864b969adfbdc5363ce2115a2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/swiftmailer/swiftmailer/2014-06-13.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/swiftmailer/swiftmailer"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20150219063146/http://blog.swiftmailer.org/post/88660759928/security-fix-swiftmailer-5-2-1-released"
+    },
+    {
+      "type": "WEB",
+      "url": "http://blog.swiftmailer.org/post/88660759928/security-fix-swiftmailer-5-2-1-released"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-29T13:13:16Z",
+    "nvd_published_at": null
+  }
+}
