@@ -1,0 +1,164 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wvjv-p5rr-mmqm",
+  "modified": "2024-05-30T00:46:52Z",
+  "published": "2024-05-30T00:46:52Z",
+  "aliases": [
+    "CVE-2014-5245"
+  ],
+  "summary": "Symfony allows direct access of ESI URLs behind a trusted proxy",
+  "details": "All 2.2.X, 2.3.X, 2.4.X, and 2.5.X versions of the Symfony HttpKernel component are affected by this security issue. Your application is vulnerable only if the ESI feature is enabled and there is a proxy in front of the web application.\n\nThis issue has been fixed in Symfony 2.3.19, 2.4.9, and 2.5.4. Note that no fixes are provided for Symfony 2.2 as it is not maintained anymore.\n\nDescription\nWhen you enable the ESI feature and when you are using a proxy like Varnish that you configured as a trusted proxy, the `FragmentHandler` considered requests to render fragments as coming from a trusted source, even if the client was requesting them directly. Symfony can not distinguish between ESI requests done on behalf of the client by Varnish and faked fragment requests coming directly from the client.\n\nTo mitigate this issue, and for not-supported Symfony versions, you can use the following workaround in your Varnish configuration (`/_fragment` being the URL path prefix configured under the `fragment` setting of the framework bundle configuration):\n\n Copy\nsub vcl_recv {\n    if (req.restarts == 0 && req.url ~ \"^/_fragment\") {\n        error 400;\n    }\n}\nResolution\nWe do not rely on trusted IPs anymore when validating a fragment request as all fragment URLs are now signed.\n\nThe patch for this issue is available here: https://github.com/symfony/symfony/pull/11831",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/http-kernel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.3.19"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/http-kernel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.4.0"
+            },
+            {
+              "fixed": "2.4.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/http-kernel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.5.0"
+            },
+            {
+              "fixed": "2.5.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/symfony"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.3.19"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/symfony"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.4.0"
+            },
+            {
+              "fixed": "2.4.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/symfony"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.5.0"
+            },
+            {
+              "fixed": "2.5.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/symfony/symfony/pull/11831"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/symfony/symfony/commit/654b1f281e09dd96ffbbd3da815411700423ecf5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/symfony/http-kernel/CVE-2014-5245.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/symfony/symfony/CVE-2014-5245.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://symfony.com/cve-2014-5245"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-30T00:46:52Z",
+    "nvd_published_at": null
+  }
+}
