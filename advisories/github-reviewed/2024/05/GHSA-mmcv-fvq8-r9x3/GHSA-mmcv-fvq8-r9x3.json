@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mmcv-fvq8-r9x3",
+  "modified": "2024-05-30T12:17:20Z",
+  "published": "2024-05-30T12:17:20Z",
+  "aliases": [
+
+  ],
+  "summary": "Symfony XML decoding attack vector through external entities",
+  "details": "The XMLEncoder component of Symfony 2.0.x fails to disable external entities when parsing XML. In the Symfony2 framework the XML class may be used to deserialize objects or as part of a client/server API. By using external entities it is possible to include arbitrary files from the file system.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/symfony"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.0.11"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/symfony/symfony/commit/3e64d36cbdc34acaa82e0e6318112cd2eacb6fec"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/symfony/symfony/2012-02-24.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/symfony/symfony"
+    },
+    {
+      "type": "WEB",
+      "url": "https://symfony.com/blog/security-release-symfony-2-0-11-released"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-502"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-30T12:17:20Z",
+    "nvd_published_at": null
+  }
+}
