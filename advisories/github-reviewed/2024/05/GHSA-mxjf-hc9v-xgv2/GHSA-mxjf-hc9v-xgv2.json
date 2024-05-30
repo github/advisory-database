@@ -1,0 +1,138 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mxjf-hc9v-xgv2",
+  "modified": "2024-05-30T20:01:17Z",
+  "published": "2024-05-30T20:00:38Z",
+  "aliases": [
+
+  ],
+  "summary": "ExtJS JavaScript framework used in TYPO3 vulnerable to Cross-site Scripting",
+  "details": "Failing to properly validate the HTTP host-header TYPO3 CMS is susceptible to host spoofing. TYPO3 uses the HTTP host-header to generate absolute URLs in several places like 404 handling, http(s) enforcement, password reset links and many more. Since the host header itself is provided by the client it can be forged to any value, even in a name based virtual hosts environment. A blog post describes this problem in great detail.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.2.0"
+            },
+            {
+              "fixed": "6.2.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.1.0"
+            },
+            {
+              "fixed": "6.1.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.7.0"
+            },
+            {
+              "fixed": "4.7.19"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.5.0"
+            },
+            {
+              "fixed": "4.5.34"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/TYPO3/typo3/commit/32efb1b03573d51391126c90cd87c74b3dc457fb"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/TYPO3/typo3/commit/9bd777649e4022c89dbf39ca41988a594b5e94b8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/TYPO3/typo3/commit/c39bca9613c311dd12e61771dd311b1bb2283b8d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/TYPO3/typo3/commit/d554ac5323f3b0fac1fce4c2c491d0123badd669"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/typo3/cms/2014-05-22-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/TYPO3/typo3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://typo3.org/security/advisory/typo3-core-sa-2014-001"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20140531042943/http://typo3.org/teams/security/security-bulletins/typo3-core/typo3-core-sa-2014-001"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-30T20:00:38Z",
+    "nvd_published_at": null
+  }
+}
