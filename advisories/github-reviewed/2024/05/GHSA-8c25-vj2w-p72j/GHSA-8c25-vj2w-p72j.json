@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8c25-vj2w-p72j",
+  "modified": "2024-05-30T14:59:25Z",
+  "published": "2024-05-30T14:59:25Z",
+  "aliases": [
+
+  ],
+  "summary": "TYPO3 Cross-Site Scripting in Frontend User Login",
+  "details": "Failing to properly encode user input, login status display is vulnerable to cross-site scripting in the website frontend. A valid user account is needed in order to exploit this vulnerability - either a backend user or a frontend user having the possibility to modify their user profile.\n\nTemplate patterns that are affected are\n\n- ###FEUSER_[fieldName]### using system extension felogin\n- <!--###USERNAME###--> for regular frontend rendering (pattern can be defined individually using TypoScript setting config.USERNAME_substToken)\n ",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.0.0"
+            },
+            {
+              "fixed": "8.7.21"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.0.0"
+            },
+            {
+              "fixed": "9.5.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.1.0"
+            },
+            {
+              "fixed": "7.6.32"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/typo3/cms-core/2018-12-11-3.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/TYPO3-CMS/core"
+    },
+    {
+      "type": "WEB",
+      "url": "https://typo3.org/security/advisory/typo3-core-sa-2018-008"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-30T14:59:25Z",
+    "nvd_published_at": null
+  }
+}
