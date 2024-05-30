@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-x4rj-f7m6-42c3",
+  "modified": "2024-05-30T13:49:16Z",
+  "published": "2024-05-30T13:49:16Z",
+  "aliases": [
+
+  ],
+  "summary": "TYPO3 CMS Authentication Bypass vulnerability",
+  "details": "It has been discovered that TYPO3’s Salted Password system extension (which is a mandatory system component) is vulnerable to Authentication Bypass when using hashing methods which are related by PHP class inheritance. In standard TYPO3 core distributions stored passwords using the blowfish hashing algorithm can be overridden when using MD5 as the default hashing algorithm by just knowing a valid username. Per default the Portable PHP hashing algorithm (PHPass) is used which is not vulnerable.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.0.0"
+            },
+            {
+              "fixed": "8.7.17"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.0.0"
+            },
+            {
+              "fixed": "9.3.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.0.0"
+            },
+            {
+              "fixed": "7.6.30"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/typo3/cms-core/2018-07-12-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/TYPO3-CMS/core"
+    },
+    {
+      "type": "WEB",
+      "url": "https://typo3.org/security/advisory/typo3-core-sa-2018-001"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-287"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-30T13:49:16Z",
+    "nvd_published_at": null
+  }
+}
