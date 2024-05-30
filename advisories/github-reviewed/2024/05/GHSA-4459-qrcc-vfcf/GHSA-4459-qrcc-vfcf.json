@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4459-qrcc-vfcf",
+  "modified": "2024-05-30T16:16:16Z",
+  "published": "2024-05-30T16:16:16Z",
+  "aliases": [
+
+  ],
+  "summary": "TYPO3 Cross-Site Scripting in Form Framework",
+  "details": "Failing to properly encode user input, frontend forms handled by the form framework (system extension “form”) are vulnerable to cross-site scripting.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.5.0"
+            },
+            {
+              "fixed": "8.7.23"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.0.0"
+            },
+            {
+              "fixed": "9.5.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/TYPO3-CMS/core/commit/3b8b8b4416b921df4ccc7c5b4a8e9a069562be35"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/TYPO3-CMS/core/commit/a0e917008320e24c26780ba385fbfe738fcd45b9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/typo3/cms-core/2019-01-22-6.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/TYPO3-CMS/core"
+    },
+    {
+      "type": "WEB",
+      "url": "https://typo3.org/security/advisory/typo3-core-sa-2019-007"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-30T16:16:16Z",
+    "nvd_published_at": null
+  }
+}
