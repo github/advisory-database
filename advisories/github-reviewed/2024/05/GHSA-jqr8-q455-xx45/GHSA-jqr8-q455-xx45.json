@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jqr8-q455-xx45",
+  "modified": "2024-05-30T21:12:16Z",
+  "published": "2024-05-30T21:12:16Z",
+  "aliases": [
+
+  ],
+  "summary": "TYPO3 Brute Force Protection Bypass in backend login",
+  "details": "The backend login has a basic brute force protection implementation which pauses for 5 seconds if wrong credentials are given. This pause however could be bypassed by forging a special request, making brute force attacks on backend editor credentials more feasible.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.2.0"
+            },
+            {
+              "fixed": "6.2.14"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.0.0"
+            },
+            {
+              "fixed": "7.3.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/TYPO3/typo3/commit/0b67290bbd941c07b0101bbfd6c7aadcbb93c75c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/TYPO3/typo3/commit/0f3fb37674688aba5a44ca6f5df7f8a327a5b5f6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/typo3/cms/2015-07-01-5.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/TYPO3/typo3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://typo3.org/security/advisory/typo3-core-sa-2015-006"
+    },
+    {
+      "type": "WEB",
+      "url": "https://typo3.org/teams/security/security-bulletins/typo3-core/typo3-core-sa-2015-006"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-30T21:12:16Z",
+    "nvd_published_at": null
+  }
+}
