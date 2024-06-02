@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c2g2-gx4j-rj3j",
+  "modified": "2024-06-02T22:28:09Z",
+  "published": "2024-06-02T22:28:09Z",
+  "aliases": [
+    "CVE-2024-35196"
+  ],
+  "summary": "Slack integration leaks sensitive information in logs",
+  "details": "### Impact\nSentry's Slack integration incorrectly records the incoming request body in logs. This request data can contain sensitive information, including the [deprecated Slack verification token](https://api.slack.com/authentication/verifying-requests-from-slack#deprecation). With this verification token, it is possible under specific configurations, an attacker can forge requests and act as the Slack integration.\n\nThe request body is leaked in log entries matching `event == \"slack.*\" && name == \"sentry.integrations.slack\" && request_data == *`. The deprecated slack verification token, will be found in the `request_data.token` key.\n\nExample event:\n\n```json\n{\n    \"name\": \"sentry.integrations.slack\",\n    \"level\": \"info\",\n    \"event\": \"slack.event.message\",  # This could be any of the `slack.*` events\n    \"request_data\": {\n      # Other keys are omitted for brevity\n      \"token\": \"<MyDeprecatedSlackVerificationToken>\",\n    }\n}\n``` \n\n### Patches\n- **SaaS users** do not need to take any action.\n- **Self-hosted users** should upgrade to version 24.5.0 or higher, [rotate their Slack verification token](https://api.slack.com/authentication/verifying-requests-from-slack#regenerating), and [use the Slack Signing Secret instead of the verification token](https://develop.sentry.dev/integrations/slack/).\n  - If you are only using the `slack.signing-secret` in your self-hosted configuration, then the legacy verification token is not used to verify the webhook payload. It is ignored. \n \n> ⚠️ Sentry's support for validating Slack requests via the legacy verification token will be deprecated in version 24.7.0.\n\n\n### Workarounds\n\n#### Option 1\n\nSet the `slack.signing-secret` instead of `slack.verification-token`. The [signing secret](https://api.slack.com/authentication/verifying-requests-from-slack#app-management-updates) is Slack's recommended way of authenticating webhooks.\n\nBy having `slack.singing-secret` set, Sentry self-hosted will no longer use the verification token for authentication of the webhooks, regardless of whether `slack.verification-token` is set or not.\n\n#### Option 2\n\nThe deprecated Slack verification token is leaked in log levels of `INFO` and `ERROR` in the Slack integration. If the self-hosted instance is unable to be upgraded or re-configured to use the `slack.signing-secret`, the logging configuration can be adjusted to not generate logs from the integration. The [default logging configuration can be found in `src/sentry/conf/server.py`](https://github.com/getsentry/sentry/blob/17d2b87e39ccd57e11da4deed62971ff306253d1/src/sentry/conf/server.py#L1307). **Services should be restarted once the configuration change is saved.**\n\nBelow you'll find an example of the configuration adjustments necessary to remove the Slack integration logs:\n \n```python\n# src/sentry/conf/server.py\n\n...\n \nLOGGING: LoggingConfig = {\n    ...\n    handlers: {\n        # the line below already exists in the default configuration\n        \"null\": {\"class\": \"logging.NullHandler\"},\n        ...\n    },\n    \"loggers\": {\n        \"sentry.integrations.slack\": {\n            \"handlers\": [\"null\"],  # route logs to null handler\n            \"level\": \"CRITICAL\",  # prevent generation of logs a lower levels (ex. ERROR and INFO)\n        },\n        ...\n    },\n}\n```\n\n### References\n- https://github.com/getsentry/sentry/pull/70508\n- [Sentry Slack Integration Documentation for Self-Hosted users](https://develop.sentry.dev/integrations/slack/)\n- [Documentation on Slack Signing Secrets](https://api.slack.com/authentication/verifying-requests-from-slack#app-management-updates)\n- [Slack Deprecation for Verification Tokens](https://api.slack.com/authentication/verifying-requests-from-slack#deprecation)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "sentry"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "24.3.0"
+            },
+            {
+              "fixed": "24.5.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/getsentry/sentry/security/advisories/GHSA-c2g2-gx4j-rj3j"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-35196"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getsentry/sentry/pull/70508"
+    },
+    {
+      "type": "WEB",
+      "url": "https://api.slack.com/authentication/verifying-requests-from-slack#app-management-updates"
+    },
+    {
+      "type": "WEB",
+      "url": "https://api.slack.com/authentication/verifying-requests-from-slack#deprecation"
+    },
+    {
+      "type": "WEB",
+      "url": "https://api.slack.com/authentication/verifying-requests-from-slack#regenerating"
+    },
+    {
+      "type": "WEB",
+      "url": "https://develop.sentry.dev/integrations/slack"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/getsentry/sentry"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getsentry/sentry/blob/17d2b87e39ccd57e11da4deed62971ff306253d1/src/sentry/conf/server.py#L1307"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-532"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-02T22:28:09Z",
+    "nvd_published_at": "2024-05-31T18:15:12Z"
+  }
+}
