@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vw63-824v-qf2j",
+  "modified": "2024-06-02T22:32:40Z",
+  "published": "2024-06-02T22:32:40Z",
+  "aliases": [
+    "CVE-2024-22261"
+  ],
+  "summary": "SQL Injection in Harbor scan log API",
+  "details": "### Impact\n\nA user with an administrator, project_admin, or project_maintainer role could utilize and exploit SQL Injection to allow the execution of any Postgres function or the extraction of sensitive information from the database through this API:\n```\nGET /api/v2.0/projects/{project_name}/repositories/{repository_name}/artifacts/{reference}/scan/{report_id}/log\n```\nThe SQL injection might happen in the code: \n\nhttps://github.com/goharbor/harbor/blob/9b7c1a2274fbc5ea16e19a484532f86c08926577/src/pkg/task/task.go#L241\n\nBecause raw SQL executed in ormer.Raw(Sql).QueryRows() is PrepareStatement. In the driver of Postgres, one PrepareStatement must contain only ONE SQL command, see https://www.postgresql.org/docs/15/libpq-exec.html#LIBPQ-PQPREPARE.  The SQL should start with:\n```\nSELECT * FROM task WHERE extra_attrs::jsonb->'report_uuids' @>\n```\nAdding a delete/update operation by appending malicious content to the current SQL is impossible. Furthermore, the query result of the task is just an intermediate result, the task ID is used to locate the job log file, and the response only contains the content of the job log file. so this vulnerability can be used to execute SQL functions, but it can't leak any useful information to the response.\n\nHarbor >=v2.8.1, >=2.9.0, >=2.10.0 are impacted.\n\n### Patches\nHarbor v2.8.6, v2.9.4, v2.10.2 fixes this issue.\n\n### Workarounds\nThere is no workaround for this issue.\n\n### Credits\n\nThanks Taisei Inoue ([taisei.inoue@gmo-cybersecurity.com](mailto:taisei.inoue@gmo-cybersecurity.com))",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/goharbor/harbor"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.8.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/goharbor/harbor"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.9.0"
+            },
+            {
+              "fixed": "2.9.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/goharbor/harbor"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.10.0"
+            },
+            {
+              "fixed": "2.10.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/goharbor/harbor/security/advisories/GHSA-vw63-824v-qf2j"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/goharbor/harbor"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-02T22:32:40Z",
+    "nvd_published_at": null
+  }
+}
