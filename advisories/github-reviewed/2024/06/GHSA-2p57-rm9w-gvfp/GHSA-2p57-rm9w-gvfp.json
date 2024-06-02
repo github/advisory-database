@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2p57-rm9w-gvfp",
+  "modified": "2024-06-02T22:29:29Z",
+  "published": "2024-06-02T22:29:29Z",
+  "aliases": [
+    "CVE-2024-29415"
+  ],
+  "summary": "ip SSRF improper categorization in isPublic",
+  "details": "The ip package through 2.0.1 for Node.js might allow SSRF because some IP addresses (such as 127.1, 01200034567, 012.1.2.3, 000:0:0000::01, and ::fFFf:127.0.0.1) are improperly categorized as globally routable via isPublic. NOTE: this issue exists because of an incomplete fix for CVE-2023-42282.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "ip"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "2.0.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-29415"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/indutny/node-ip/issues/150"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/indutny/node-ip/pull/143"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/indutny/node-ip/pull/144"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/indutny/node-ip"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-918"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-02T22:29:29Z",
+    "nvd_published_at": "2024-05-27T20:15:08Z"
+  }
+}

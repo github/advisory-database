@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xcr2-h8hv-6227",
+  "modified": "2024-06-02T22:30:10Z",
+  "published": "2024-06-02T22:30:10Z",
+  "aliases": [
+    "CVE-2024-3584"
+  ],
+  "summary": "qdrant is vulnerable to path traversal due to improper input validation in the `/collections/{name}/snapshots/upload` endpoint",
+  "details": "qdrant/qdrant version 1.9.0-dev is vulnerable to path traversal due to improper input validation in the `/collections/{name}/snapshots/upload` endpoint. By manipulating the `name` parameter through URL encoding, an attacker can upload a file to an arbitrary location on the system, such as `/root/poc.txt`. This vulnerability allows for the writing and overwriting of arbitrary files on the server, potentially leading to a full takeover of the system. The issue is fixed in version 1.9.0.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "qdrant"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.9.0-dev"
+            },
+            {
+              "fixed": "1.9.0"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "1.9.0-dev"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-3584"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/qdrant/qdrant/commit/15479a45ffa3b955485ae516696f7e933a8cce8a"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/qdrant/qdrant"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.com/bounties/5c7c82e2-4873-40b7-a5f3-0f4a42642f73"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-02T22:30:10Z",
+    "nvd_published_at": "2024-05-30T13:15:49Z"
+  }
+}

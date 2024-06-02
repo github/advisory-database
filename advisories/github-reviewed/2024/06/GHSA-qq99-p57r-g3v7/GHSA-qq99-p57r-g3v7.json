@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qq99-p57r-g3v7",
+  "modified": "2024-06-02T22:30:17Z",
+  "published": "2024-06-02T22:30:17Z",
+  "aliases": [
+    "CVE-2024-3924"
+  ],
+  "summary": "code injection vulnerability exists in the huggingface/text-generation-inference repository",
+  "details": "A code injection vulnerability exists in the huggingface/text-generation-inference repository, specifically within the `autodocs.yml` workflow file. The vulnerability arises from the insecure handling of the `github.head_ref` user input, which is used to dynamically construct a command for installing a software package. An attacker can exploit this by forking the repository, creating a branch with a malicious payload as the name, and then opening a pull request to the base repository. Successful exploitation could lead to arbitrary code execution within the context of the GitHub Actions runner. This issue affects versions up to and including v2.0.0 and was fixed in version 2.0.0.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:H/PR:L/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "text-generation"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-3924"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/huggingface/text-generation-inference/commit/88702d876383f7200eccf67e28ba00500dc804bb"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/huggingface/text-generation-inference"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.com/bounties/8af92fc2-0103-4d29-bb28-c3893154c422"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-02T22:30:17Z",
+    "nvd_published_at": "2024-05-30T15:15:49Z"
+  }
+}

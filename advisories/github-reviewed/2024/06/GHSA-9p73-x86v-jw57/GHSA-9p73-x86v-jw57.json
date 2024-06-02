@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9p73-x86v-jw57",
+  "modified": "2024-06-02T22:30:25Z",
+  "published": "2024-06-02T22:30:25Z",
+  "aliases": [
+    "CVE-2024-4330"
+  ],
+  "summary": "path traversal vulnerability was identified in the parisneo/lollms-webui ",
+  "details": "A path traversal vulnerability was identified in the parisneo/lollms-webui repository, specifically within version 9.6. The vulnerability arises due to improper handling of user-supplied input in the 'list_personalities' endpoint. By crafting a malicious HTTP request, an attacker can traverse the directory structure and view the contents of any folder, albeit limited to subfolder names only. This issue was demonstrated via a specific HTTP request that manipulated the 'category' parameter to access arbitrary directories. The vulnerability is present in the code located at the 'endpoints/lollms_advanced.py' file.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "lollms"
+      },
+      "versions": [
+        "9.6"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-4330"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ParisNeo/lollms/commit/0e52d59a06b7f05e3b2611ce7b053fafa44143a9"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ParisNeo/lollms"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.com/bounties/154a78d5-3960-4fc6-8666-f982b5e70ed7"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-23"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-02T22:30:25Z",
+    "nvd_published_at": "2024-05-30T15:15:49Z"
+  }
+}
