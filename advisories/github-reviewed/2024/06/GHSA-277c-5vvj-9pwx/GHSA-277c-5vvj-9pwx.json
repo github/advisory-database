@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-277c-5vvj-9pwx",
+  "modified": "2024-06-04T17:18:22Z",
+  "published": "2024-06-04T17:18:22Z",
+  "aliases": [
+    "CVE-2024-32871"
+  ],
+  "summary": "Flooding Server with Thumbnail files",
+  "details": "# Details\n## 1. All Imagick supported Fileformats are served without filtering\n\nThe Thumbnail endpoint does not check against any filters what file formats should be served. We can transcode the image in all formats imagemagick supports. With that we can create Files that are much larger in filesize than the original. For example we can create a .txt file for all thumbnails, and we get the text representation of the image.\n\nWe can demonstrate that with the pimcore demo: \n\nThis Thumbnail is found on the Frontend: https://demo.pimcore.fun/Sample%20Content/Background%20Images/317/image-thumb__317__standardTeaser/11.8c64bd89.avif (12kb Filesize)\n\nWe can generate a text representation by simply changing the file extension: https://demo.pimcore.fun/Sample%20Content/Background%20Images/317/image-thumb__317__standardTeaser/11.8c64bd89.txt (4.59mb Filesize)\n\nOther (large) fileformats we tested: ftxt, dip, bmp, bmp3, bmp2, farbfeld, cmyk, cmyka, ycbcr, ycbcra and many more (just check imagemagick supported formats)\n\nWith that we can fill the available space of a server really easy.\n\nWith formats like yaml or json we can also expose exif data of the original image file - could be a concern with gps data in user uploaded images.\n\n### TLDR\n\n- we can generate all imagemagick supported formats with all thumbnail configs\n- all configs were the format is set to \"auto (Web-optimized)\" are vulnerable\n- private (exif) data can be exposed.\n- We can flood the the server with a bunch of files that are a multiple magnitudes of the original thumbnail size (see txt example), for all thumbnail configs, with every image that we find (scriptable)\n\n### Proposed Solution\n\nImplement a list of allowed formats that the developer can modify if needed, if a file is requested in another format than listed, pimcore should return either \"/bundles/pimcoreadmin/img/filetype-not-supported.svg\" or a 404.\n\n```yaml\npimcore:\n    thumbnails:\n    \tallowed_formats: ['jpg', 'png', 'avif', 'webp', 'gif']\n```\n\nFor non-maintained Pimcore versions (<11), the webserver config could be used to only serve files that should be allowed. \n\n## 2. Non Web optimized file formats (ORIGINAL, JPG, PNG)  creates duplicated files on Server\n\nWith Thumbnail config that are configured to serve non web optimized file formats (such as ORIGINAL, jpg, png, print, etc) we can create files with arbitrary file formats that are saved to disk.\n\nFor example, the thumbnail configuration \"print_backgroundimage\" (in the pimcore demo) can be used to create files such as: \n\nhttps://demo.pimcore.fun/Car%20Images/jaguar/3/image-thumb__3__print_backgroundimage/auto-3095119.aaa\nhttps://demo.pimcore.fun/Car%20Images/jaguar/3/image-thumb__3__print_backgroundimage/auto-3095119.aab\nhttps://demo.pimcore.fun/Car%20Images/jaguar/3/image-thumb__3__print_backgroundimage/auto-3095119.aac \n\nEach request creates a new copy of the original (jpg) thumbnail file. The server can be flooded with a bunch of files.\n\nCode for this mechanism is here: https://github.com/pimcore/pimcore/blob/11.x/models/Asset/Service.php#L621-L623\n\n### Proposed Solution\n\nUse same filtered list from \"All Imagick supported Fileformats are served without filtering\" and do not copy the arbitrary file to disk, just serve the original image file under the \"new\" name.\n\n## 3. Scaling Factor is not limited and can be modified via url\n\nWe can scale each thumbnail to an arbitrary factor with @<float>x added to the request url.\n\nFor example: \n\nhttps://demo.pimcore.fun/Sample%20Content/Background%20Images/317/image-thumb__317__standardTeaser/11.8c64bd89@1x.avif\nhttps://demo.pimcore.fun/Sample%20Content/Background%20Images/317/image-thumb__317__standardTeaser/11.8c64bd89@1.01x.avif\nhttps://demo.pimcore.fun/Sample%20Content/Background%20Images/317/image-thumb__317__standardTeaser/11.8c64bd89@1.08x.avif\nhttps://demo.pimcore.fun/Sample%20Content/Background%20Images/317/image-thumb__317__standardTeaser/11.8c64bd89@2x.avif\n\nIf the thumbnail config allows \"forced\" resizing, we could also do something like:\n\nhttps://demo.pimcore.fun/Sample%20Content/Background%20Images/317/image-thumb__317__standardTeaser/11.8c64bd89@192x.avif  \n\nEach request will create a new file, flooding the server with more files.\nIf the factor is big enough, we can also max out the CPU with a single request for quite some time (only really a problem with \"forced\")\n\nIn combination with the first vulnerability we can also generate (large) text files for scaled images:\n\nhttps://demo.pimcore.fun/Sample%20Content/Background%20Images/317/image-thumb__317__standardTeaser/11.8c64bd89@4x.txt (6.6 mb filesize)\n\n### Proposed solution\n\nLimit scale factors with an allowlist:\n\n```yaml\npimcore:\n    thumbnails:\n    \tallowed_scale_factors: [1.25, 1.5, 2, 4]\n```\n\n\n# Impact\nAll Pimcore Instances are affected, as far as we can see, also all versions",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "pimcore/pimcore"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "11.0.0"
+            },
+            {
+              "fixed": "11.2.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/pimcore/security/advisories/GHSA-277c-5vvj-9pwx"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-32871"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/pimcore/commit/38af70b3130f16fc27f2aea34e2943d7bdaaba06"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/pimcore/commit/a6821a16ea38086bf6012e682e1743488244bd85"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pimcore/pimcore"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-770"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-04T17:18:22Z",
+    "nvd_published_at": "2024-06-04T15:15:45Z"
+  }
+}
