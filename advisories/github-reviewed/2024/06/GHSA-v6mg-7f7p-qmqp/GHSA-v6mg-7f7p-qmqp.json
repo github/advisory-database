@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v6mg-7f7p-qmqp",
+  "modified": "2024-06-04T17:52:15Z",
+  "published": "2024-06-04T17:52:15Z",
+  "aliases": [
+    "CVE-2024-36127"
+  ],
+  "summary": "apko Exposure of HTTP basic auth credentials in log output",
+  "details": "### Summary\n\nExposure of HTTP basic auth credentials from repository and keyring URLs in log output\n\n### Details\n\nThere was a handful of instances where the `apko` tool was outputting error messages and log entries where HTTP basic authentication credentials were exposed for one of two reasons:\n\n1. The`%s` verb was used to format a `url.URL` as a string, which includes un-redacted HTTP basic authentication credentials if they are included in the URL.\n2. A string URL value (such as from the configuration YAML file supplied used in an apko execution) was never parsed as a URL, so there was no chance of redacting credentials in the logical flow.\n\napko, as well as its companion library `go-apk`, have been updated to ensure URLs are parsed and redacted before being output as string values.\n\n### PoC\n\nCreate a config file like this `apko.yaml`:\n\n```yaml\ncontents:\n  keyring:\n    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub\n  repositories:\n    - https://me%40example.com:supersecretpassword@localhost:8080/os\n  packages:\n    - wolfi-base\n\ncmd: /bin/sh -l\n\narchs:\n- x86_64\n- aarch64\n```\n\nThen run:\n\n```shell\napko build apko.yaml latest foo.tar --log-level debug\n```\n\nObserve instances of the password being shown verbatim in the log output, such as:\n\n```text\n...\nDEBU image configuration:\ncontents:\n    repositories:\n        - https://me%40example.com:supersecretpassword@localhost:8080/os\n    keyring:\n        - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub\n    packages:\n        - wolfi-base\n...\n```\n\n### Impact\n\nFor users accessing keyring or APK repository content using HTTP basic auth, credentials were being logged in plaintext, depending on the user's logging settings. If you use apko in continuous integration jobs, it is likely that the credentials leak via logs of these jobs. Depending on the accessibility of these logs, this could be a company-internal or public leakage of credentials.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "chainguard.dev/apko"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.14.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/chainguard-dev/apko/security/advisories/GHSA-v6mg-7f7p-qmqp"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-36127"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/chainguard-dev/apko/commit/2c0533e4d52e83031a04f6a83ec63fc2a11eff01"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/chainguard-dev/apko"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-522",
+      "CWE-532"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-04T17:52:15Z",
+    "nvd_published_at": "2024-06-03T15:15:09Z"
+  }
+}
