@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hww5-6x85-mc24",
+  "modified": "2024-06-05T17:19:26Z",
+  "published": "2024-06-05T17:19:26Z",
+  "aliases": [
+
+  ],
+  "summary": "Typo3 Arbitrary Code Execution and Cross-Site Scripting in Backend API",
+  "details": "Backend API configuration using Page TSconfig is vulnerable to arbitrary code execution and cross-site scripting. TSconfig fields of page properties in backend forms can be used to inject malicious sequences. Field tsconfig_includes is vulnerable to directory traversal leading to same scenarios as having direct access to TSconfig settings.\n\nA valid backend user account having access to modify values for fields pages.TSconfig and pages.tsconfig_includes is needed in order to exploit this vulnerability.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.0.0"
+            },
+            {
+              "fixed": "8.7.27"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.0.0"
+            },
+            {
+              "fixed": "9.5.8"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/typo3/cms/2019-06-25-4.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://typo3.org/security/advisory/typo3-core-sa-2019-019"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-05T17:19:26Z",
+    "nvd_published_at": null
+  }
+}
