@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f5rr-9r84-wwqf",
+  "modified": "2024-06-05T17:22:52Z",
+  "published": "2024-06-05T17:22:52Z",
+  "aliases": [
+
+  ],
+  "summary": "Typo3 Broken Access Control in Import Module",
+  "details": "It has been discovered that the Import/Export module is susceptible to broken access control. Regular backend users have access to import functionality which usually only is available to admin users or users having User TSconfig setting options.impexp.enableImportForNonAdminUser explicitly enabled.\n\nDatabase content to be imported however was correctly checked against users’ permissions and not affected. However it was possible to upload files by-passing restrictions of the file abstraction layer (FAL) - however this did not affect executable files which have been correctly secured by fileDenyPattern.\n\nCurrently the only known vulnerability is to directly inject *.form.yaml files which could be used to trigger the vulnerability of TYPO3-CORE-SA-2018-003 (privilege escalation & SQL injection) - which requires the Form Framework (ext:form) being available on an according website. CVSSv3 scoring is based on this scenario.\n\nA valid backend user account is needed in order to exploit this vulnerability.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.0.0"
+            },
+            {
+              "fixed": "9.5.8"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/typo3/cms/2019-06-25-7.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/TYPO3/typo3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://typo3.org/security/advisory/typo3-core-sa-2019-017"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-05T17:22:52Z",
+    "nvd_published_at": null
+  }
+}
