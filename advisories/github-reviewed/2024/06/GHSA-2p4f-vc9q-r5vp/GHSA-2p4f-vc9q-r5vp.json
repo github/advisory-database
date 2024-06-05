@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2p4f-vc9q-r5vp",
+  "modified": "2024-06-05T18:26:34Z",
+  "published": "2024-06-05T18:26:34Z",
+  "aliases": [
+
+  ],
+  "summary": "Typo3 Arbitrary file upload and XML External Entity processing",
+  "details": "It has been discovered that Flow 3.0.0 allows arbitrary file uploads, inlcuding server-side scripts, posing the risk of attacks. If those scripts are executed by the server when accessed through their public URL, anything not blocked through other means is possible (information disclosure, placement of backdoors, data removal, …).\n\nNote: The upload of files is only possible if the application built on Flow provides means to do so, and whether or not the upload of files poses a risk is dependent on the system setup. If uploaded script files are not executed by the server, there is no risk. In versions prior to 3.0.0 the upload of files with the extension php was blocked.\n\nIn Flow 2.3.0 to 2.3.6 a potential XML External Entity processing vulnerability has been discovered in the MediaTypeConverter.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/flow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.3.0"
+            },
+            {
+              "fixed": "2.3.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/flow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.0.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/typo3/flow/2015-11-23.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.neos.io/blog/flow-sa-2015-001.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-05T18:26:34Z",
+    "nvd_published_at": null
+  }
+}
