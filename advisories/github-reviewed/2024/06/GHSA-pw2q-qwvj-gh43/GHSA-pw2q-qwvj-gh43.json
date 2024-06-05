@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-pw2q-qwvj-gh43",
+  "modified": "2024-06-05T16:55:38Z",
+  "published": "2024-06-05T16:55:37Z",
+  "aliases": [
+
+  ],
+  "summary": "Cache Flooding in TYPO3 Frontend",
+  "details": " Links with a valid cHash argument lead to newly generated page cache entries. Because the cHash is not bound to a specific page, attackers could use valid cHash arguments for multiple pages, leading to additional useless page cache entries. Depending on the number of pages in the system and the number of available valid links with a cHash, attackers could add a considerable amount of additional cache entries, which in the end exceed storage limits and thus could lead to the system not responding any more. This means the Cache Flooding attack potentially could lead to a successful Denial of Service (DoS) attack.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.2.0"
+            },
+            {
+              "fixed": "6.2.27"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.6.0"
+            },
+            {
+              "fixed": "7.6.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.0.0"
+            },
+            {
+              "fixed": "8.3.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/typo3/cms/2016-09-14-2.yaml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-05T16:55:37Z",
+    "nvd_published_at": null
+  }
+}
