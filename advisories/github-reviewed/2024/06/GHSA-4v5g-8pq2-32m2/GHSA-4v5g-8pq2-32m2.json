@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4v5g-8pq2-32m2",
+  "modified": "2024-06-05T17:30:00Z",
+  "published": "2024-06-05T17:30:00Z",
+  "aliases": [
+
+  ],
+  "summary": "By-passing Protection of PharStreamWrapper Interceptor",
+  "details": "Insecure deserialization is a vulnerability which occurs when untrusted data is used to abuse the logic of an application. In July 2018, the vulnerability of insecure deserialization when executing Phar archives was addressed by removing the known attack vector in the TYPO3 core. For more details read the corresponding TYPO3 advisory.\n\nIn addition, a new interceptor was introduced to protect possible (but unknown) vulnerabilities in 3rd party components like TYPO3 extensions. Basically, the PharStreamWrapper intercepts direct invocations of Phar archives and allows or denies further processing based on individual rules.\n\nRecently, the PharStreamWrapper was extracted from the TYPO3 core and released as standalone package under the MIT license. It is now available for any PHP driven project.\n\nThe stream wrapper overwrites the existing Phar handling of PHP, applies its own assertions and then restores the native PHP Phar handling for the corresponding commands (e.g. file_exists, include, fopen) to continue processing. After that, the native PHP Phar handling gets disabled and is overwritten by the logic of the PharStreamWrapper again. This is the only way to control invocations of Phar archives as PHP only allows a single handler for each corresponding stream.\n\nWe were informed that exception and error handlers in custom applications (e.g. TYPO3 extensions) sometimes didn't return to the original operating sequence of the PharStreamWrapper. A possible consequence was that the unprotected native PHP Phar handling remained active and therefore became vulnerable for the basic issue of insecure deserialization again.\n\nExamples\nTake a look at the following examples showing how the handling is by-passed in custom application code.\n\nScenario A: Exception thrown from code organized in a Phar archive\n```\ntry {\n    include('phar://path-to-archive/good-archive.phar');\n} catch (\\Throwable $throwable) {\n    // not doing much here, continue execution\n}\n// the insecure value can be anything that is or was user-submitted\n// and cannot be trusted in terms of security, $_GET is just used as example\n$insecureValue = $_GET['path'];\n// the value might be 'phar://path-to-archive/malicious-archive.phar'\nfile_exists($insecureValue);\n```\nScenario B: Errors converted to exceptions and thrown when interacting with archive contents\n```\n// set error handler in order to convert errors to exceptions\nset_error_handler(function($errno, $errstr, $errfile, $errline, array $errcontext) {\n   throw new ErrorException($errstr, 0, $errno, $errfile, $errline);\n});\n// interacting with Phar archive\ntry {\n   $resource = opendir('phar://path-to-archive/good-archive.phar/non-existing-path/');\n   closedir($resource);\n} catch (\\Throwable $throwable) {\n   // not doing much here, continue execution\n}\n// the insecure value can be anything that is or was user-submitted\n// and cannot be trusted in terms of security, $_GET is just used as example\n$insecureValue = $_GET['path'];\n// the value might be 'phar://path-to-archive/malicious-archive.phar'\nfile_exists($insecureValue);\n```",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/phar-stream-wrapper"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.0"
+            },
+            {
+              "fixed": "2.0.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/phar-stream-wrapper"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.0.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/typo3/phar-stream-wrapper/2018-10-18-1.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://typo3.org/security/advisory/typo3-psa-2018-001"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-502"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-05T17:30:00Z",
+    "nvd_published_at": null
+  }
+}
