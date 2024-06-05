@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mh3r-6cp5-hc2j",
+  "modified": "2024-06-05T16:55:00Z",
+  "published": "2024-06-05T16:55:00Z",
+  "aliases": [
+
+  ],
+  "summary": "Authentication Bypass in TYPO3 Frontend",
+  "details": "Due to late TCA initialization the authentication service fails to restrict frontend user according to the validation rules. Therefore it is possible to authenticate restricted (e.g. disabled) frontend users.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.2.0"
+            },
+            {
+              "fixed": "8.6.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/typo3/cms/2017-02-28-1.yaml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-05T16:55:00Z",
+    "nvd_published_at": null
+  }
+}
