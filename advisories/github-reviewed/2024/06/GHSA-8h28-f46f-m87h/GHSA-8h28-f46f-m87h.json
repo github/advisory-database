@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8h28-f46f-m87h",
+  "modified": "2024-06-05T15:06:18Z",
+  "published": "2024-06-05T15:06:18Z",
+  "aliases": [
+
+  ],
+  "summary": "Insecure Deserialization in TYPO3 CMS",
+  "details": "It has been discovered that the Form Framework (system extension \"form\") is vulnerable to Insecure Deserialization when being used with the additional PHP PECL package “yaml”, which is capable of unserializing YAML contents to PHP objects. A valid backend user account as well as having PHP setting \"yaml.decode_php\" enabled is needed to exploit this vulnerability (which is the default value according to PHP documentation).",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.5.0"
+            },
+            {
+              "fixed": "8.7.17"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.0.0"
+            },
+            {
+              "fixed": "9.3.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/typo3/cms/2018-07-12-4.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/TYPO3/typo3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://typo3.org/security/advisory/typo3-core-sa-2018-004"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-502"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-05T15:06:18Z",
+    "nvd_published_at": null
+  }
+}
