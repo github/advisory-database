@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7qwg-fcpw-xg5g",
+  "modified": "2024-06-05T15:10:19Z",
+  "published": "2024-06-05T15:10:19Z",
+  "aliases": [
+
+  ],
+  "summary": "Privilege Escalation & SQL Injection in TYPO3 CMS",
+  "details": "Failing to properly dissociate system related configuration from user generated configuration, the Form Framework (system extension \"form\") is vulnerable to SQL injection and Privilege Escalation. Basically instructions can be persisted to a form definition file that were not configured to be modified - this applies to definitions managed using the form editor module as well as direct file upload using the regular file list module. A valid backend user account as well as having system extension form activated are needed in order to exploit this vulnerability.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.5.0"
+            },
+            {
+              "fixed": "8.7.17"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.0.0"
+            },
+            {
+              "fixed": "9.3.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/typo3/cms/2018-07-12-3.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/TYPO3/typo3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://typo3.org/security/advisory/typo3-core-sa-2018-003"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-05T15:10:19Z",
+    "nvd_published_at": null
+  }
+}
