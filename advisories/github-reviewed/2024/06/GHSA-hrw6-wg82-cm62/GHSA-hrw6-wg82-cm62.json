@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hrw6-wg82-cm62",
+  "modified": "2024-06-06T21:26:53Z",
+  "published": "2024-06-06T21:26:53Z",
+  "aliases": [
+    "CVE-2024-35178"
+  ],
+  "summary": "Jupyter server on Windows discloses Windows user password hash",
+  "details": "### Summary\n\nJupyter Server on Windows has a vulnerability that lets unauthenticated attackers leak the NTLMv2 password hash of the Windows user running the Jupyter server. An attacker can crack this password to gain access to the Windows machine hosting the Jupyter server, or access other network-accessible machines or 3rd party services using that credential. Or an attacker perform an NTLM relay attack without cracking the credential to gain access to other network-accessible machines.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "jupyter_server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.14.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.14.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/jupyter-server/jupyter_server/security/advisories/GHSA-hrw6-wg82-cm62"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-35178"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jupyter-server/jupyter_server/commit/79fbf801c5908f4d1d9bc90004b74cfaaeeed2df"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jupyter-server/jupyter_server"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-06T21:26:53Z",
+    "nvd_published_at": "2024-06-06T16:15:11Z"
+  }
+}
