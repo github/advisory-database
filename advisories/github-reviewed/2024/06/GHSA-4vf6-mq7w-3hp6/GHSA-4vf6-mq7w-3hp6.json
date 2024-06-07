@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4vf6-mq7w-3hp6",
+  "modified": "2024-06-07T22:09:17Z",
+  "published": "2024-06-07T22:09:17Z",
+  "aliases": [
+
+  ],
+  "summary": "Zend_Filter_StripTags vulnerable to Cross-site Scripting when comments allowed",
+  "details": "Zend_Filter_StripTags contained an optional setting to allow whitelisting HTML comments in filtered text. Microsoft Internet Explorer and several other browsers allow developers to create conditional functionality via HTML comments, including execution of script events and rendering of additional commented markup. By allowing whitelisting of HTML comments, a malicious user could potentially include XSS exploits within HTML comments that would then be rendered in the final output.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "zendframework/zendframework1"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.7.0"
+            },
+            {
+              "fixed": "1.7.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "zendframework/zendframework1"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.8.0"
+            },
+            {
+              "fixed": "1.8.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "zendframework/zendframework1"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.9.0"
+            },
+            {
+              "fixed": "1.9.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/zendframework/zendframework1/ZF2010-03.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/zendframework/zf1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20210411020019/https://framework.zend.com/security/advisory/ZF2010-03"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-07T22:09:17Z",
+    "nvd_published_at": null
+  }
+}
