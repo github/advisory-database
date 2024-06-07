@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-229x-22xc-2f2w",
+  "modified": "2024-06-07T21:39:43Z",
+  "published": "2024-06-07T21:39:43Z",
+  "aliases": [
+
+  ],
+  "summary": "Zendframework Local file disclosure via XXE injection in Zend_XmlRpc",
+  "details": "Zend_XmlRpc is vulnerable to XML eXternal Entity (XXE) Injection attacks. The SimpleXMLElement class (SimpleXML PHP extension) is used in an insecure way to parse XML data. External entities can be specified by adding a specific DOCTYPE element to XML-RPC requests. By exploiting this vulnerability an application may be coerced to open arbitrary files and/or TCP connections.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "zendframework/zendframework1"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.0"
+            },
+            {
+              "fixed": "1.11.13"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/zendframework/zendframework1/ZF2012-01.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/zendframework/zf1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20210620092354/https://framework.zend.com/security/advisory/ZF2012-01"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-611"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-07T21:39:43Z",
+    "nvd_published_at": null
+  }
+}
