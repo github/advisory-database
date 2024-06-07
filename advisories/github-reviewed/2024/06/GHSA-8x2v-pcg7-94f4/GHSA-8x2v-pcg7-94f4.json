@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8x2v-pcg7-94f4",
+  "modified": "2024-06-07T21:49:11Z",
+  "published": "2024-06-07T21:49:11Z",
+  "aliases": [
+
+  ],
+  "summary": "Zend-JSON vulnerable to XXE/XEE attacks",
+  "details": "Numerous components utilizing PHP's DOMDocument, SimpleXML, and xml_parse functionality are vulnerable to two types of attacks:\n\n- XML eXternal Entity (XXE) Injection attacks. The above mentioned extensions are insecure by default, allowing external entities to be specified by adding a specific DOCTYPE element to XML documents and strings. By exploiting this vulnerability an application may be coerced to open arbitrary files and/or TCP connections.\n- XML Entity Expansion (XEE) vectors, leading to Denial of Service vectors. XEE attacks occur when the XML DOCTYPE declaration includes XML entity definitions that contain either recursive or circular references; this leads to CPU and memory consumption, making Denial of Service exploits trivial to implement.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "zendframework/zend-json"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.1.0"
+            },
+            {
+              "fixed": "2.1.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "zendframework/zend-json"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.2.0"
+            },
+            {
+              "fixed": "2.2.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/zendframework/zend-json/commit/078e77a6e59cdbf32a94691afe3523db340f5da9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zendframework/zend-json/commit/7a747fbefe566c28a94b7e7ca37c15fc09ba4754"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zendframework/zend-json/commit/865f96ecbc5e080fccb5e75304ce06ac57d2ce22"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zendframework/zend-json/commit/89fc6f760478dc15519cb3ef4e4976425dc6ee10"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zendframework/zend-json/commit/9fe5103dc9be472fa0a443ca36619a2953b6f88e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zendframework/zend-json/commit/acc60fc3fe56f5b0ad218c4c5789b21f11bc3a89"
+    },
+    {
+      "type": "WEB",
+      "url": "https://framework.zend.com/security/advisory/ZF2014-01"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/zendframework/zend-json/ZF2014-01.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/zendframework/zend-json"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-611",
+      "CWE-776"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-07T21:49:11Z",
+    "nvd_published_at": null
+  }
+}
