@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-m7hr-j867-3f34",
+  "modified": "2024-06-07T20:58:08Z",
+  "published": "2024-06-07T20:58:08Z",
+  "aliases": [
+
+  ],
+  "summary": "ZendFramework has potential Cross-site Scripting vector in multiple view helpers",
+  "details": "Many Zend Framework 2 view helpers were using the `escapeHtml()` view helper in order to escape HTML attributes, instead of the more appropriate `escapeHtmlAttr()`. In situations where user data and/or JavaScript is used to seed attributes, this can lead to potential cross site scripting (XSS) attack vectors.\n\nVulnerable view helpers include:\n\n- All `Zend\\Form` view helpers.\n- Most `Zend\\Navigation` (aka `Zend\\View\\Helper\\Navigation\\*`) view helpers.\n- All \"HTML Element\" view helpers: `htmlFlash()`, `htmlPage()`, `htmlQuickTime()`.\n- `Zend\\View\\Helper\\Gravatar`",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "zendframework/zend-view"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.2.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "zendframework/zend-view"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.3.0"
+            },
+            {
+              "fixed": "2.3.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/zendframework/zendframework/commit/12f89b587cd23dd781cde25c9dd2da75d8f829d7"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zendframework/zendframework/commit/1dd4f8cede07469390eef1e629f808349fa1b5ea"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zendframework/zendframework/commit/6742ddad7a7923163cea6dd58d27d0e946a402d1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zendframework/zendframework/commit/ec6c0468514c111a244552cfb7cf575a726e017e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://framework.zend.com/security/advisory/ZF2014-03"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/zendframework/zend-view/ZF2014-03.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/zendframework/zend-view"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-07T20:58:08Z",
+    "nvd_published_at": null
+  }
+}
