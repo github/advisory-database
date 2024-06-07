@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4v57-pwvf-x35j",
+  "modified": "2024-06-07T21:59:20Z",
+  "published": "2024-06-07T21:59:20Z",
+  "aliases": [
+
+  ],
+  "summary": "Zendframework potential Cross-site Scripting vector in `Zend_Service_ReCaptcha_MailHide`",
+  "details": "`Zend_Service_ReCaptcha_MailHide` had a potential XSS vulnerability. Due to the fact that the email address was never validated, and because its use of `htmlentities()` did not include the encoding argument, it was potentially possible for a malicious user aware of the issue to inject a specially crafted multibyte string as an attack via the CAPTCHA's email argument",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "zendframework/zendframework1"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.7.0"
+            },
+            {
+              "fixed": "1.7.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "zendframework/zendframework1"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.8.0"
+            },
+            {
+              "fixed": "1.8.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "zendframework/zendframework1"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.9.0"
+            },
+            {
+              "fixed": "1.9.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/zendframework/zendframework1/ZF2010-05.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/zendframework/zf1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20210411002217/https://framework.zend.com/security/advisory/ZF2010-05"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-07T21:59:20Z",
+    "nvd_published_at": null
+  }
+}
