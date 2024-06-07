@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2x36-qhx3-7m5f",
+  "modified": "2024-06-07T22:24:52Z",
+  "published": "2024-06-07T22:24:52Z",
+  "aliases": [
+
+  ],
+  "summary": "ZendFramework1 Potential SQL injection in the ORDER implementation of Zend_Db_Select",
+  "details": "The implementation of the ORDER BY SQL statement in Zend_Db_Select of Zend Framework 1 contains a potential SQL injection when the query string passed contains parentheses.\n\nFor instance, the following code is affected by this issue:\n```\n$db     = Zend_Db::factory( /* options here */ );\n$select = $db->select()\n    ->from(array('p' => 'products'))\n    ->order('MD5(1); drop table products');\necho $select;\n```\nThis code produce the string:\n```\nSELECT \"p\".* FROM \"products\" AS \"p\" ORDER BY MD5(1);drop table products ASC\n```\ninstead of the correct one:\n```\nSELECT \"p\".* FROM \"products\" AS \"p\" ORDER BY \"MD5(1);drop table products\" ASC\n```\nThe SQL injection occurs because we create a new Zend_Db_Expr() object, in presence of parentheses, passing directly the value without any filter on the string.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "zendframework/zendframework1"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.12.0"
+            },
+            {
+              "fixed": "1.12.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://framework.zend.com/security/advisory/ZF2014-04"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/zendframework/zendframework1/ZF2014-04.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/zendframework/zf1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-89"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-07T22:24:52Z",
+    "nvd_published_at": null
+  }
+}
