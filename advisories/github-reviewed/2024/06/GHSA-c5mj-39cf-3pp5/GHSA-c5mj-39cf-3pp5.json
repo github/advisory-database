@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c5mj-39cf-3pp5",
+  "modified": "2024-06-07T17:19:38Z",
+  "published": "2024-06-07T17:19:38Z",
+  "aliases": [
+
+  ],
+  "summary": "TYPO3 Security Misconfiguration for Backend User Accounts",
+  "details": "When using the TYPO3 backend in order to create new backend user accounts, database records containing insecure or empty credentials might be persisted. When the type of user account is changed - which might be entity type or the admin flag for backend users - the backend form is reloaded in order to reflect changed configuration possibilities. However, this leads to persisting the current state as well, which can result into some of the following:\n\n- account contains empty login credentials (username and/or password)\n- account is incomplete and contains weak credentials (username and/or password)\n\nAlbeit the functionality provided by the TYPO3 core cannot be used either with empty usernames or empty passwords, it still can be a severe vulnerability to custom authentication service implementations.\n\nThis weakness cannot be directly exploited and requires interaction on purpose by some backend user having according privileges.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.0.0"
+            },
+            {
+              "fixed": "8.7.23"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.0.0"
+            },
+            {
+              "fixed": "9.5.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/TYPO3/typo3/commit/b3608d14e1915030cde272000a247cb6d5f982b8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/TYPO3/typo3/commit/e4d0cff40a4f8f597e52c20fff529e206bb62703"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/typo3/cms/2019-01-22-2.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/TYPO3/typo3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://typo3.org/security/advisory/typo3-core-sa-2019-002"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-287"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-07T17:19:38Z",
+    "nvd_published_at": null
+  }
+}
