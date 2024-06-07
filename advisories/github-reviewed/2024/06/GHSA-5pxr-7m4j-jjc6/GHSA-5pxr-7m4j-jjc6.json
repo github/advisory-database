@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5pxr-7m4j-jjc6",
+  "modified": "2024-06-07T19:37:10Z",
+  "published": "2024-06-07T19:37:10Z",
+  "aliases": [
+    "CVE-2024-37160"
+  ],
+  "summary": "Cross-site scripting (XSS) vulnerability in Description metadata",
+  "details": "### Summary\nRegardless of the role or privileges, no user should be able to inject malicious JavaScript (JS) scripts into the body HTML. an XSS (Cross-Site Scripting) vulnerability, specifically a Stored XSS, which affects all pages of the website. Once the JS script is embedded in the body HTML, the XSS will trigger on any page a victim visits, such as the about, blog, contact, or any other pages, except for the panel.\n\n### Impact\nThis vulnerability allows attackers to inject malicious JS or HTML through a crafted payload into the vulnerable spot, achieving persistence and attacking numerous visitors or anyone accessing the website. The attack can be widespread and affect many users because the malicious JS will execute on every page, unlike an injection on a specific page (e.g., injecting on the About page would only affect that page). In this case, a single injection point leads to the execution of the malicious JS on all pages.\n\n### Patches\n- [**Formwork 1.13.1**](https://github.com/getformwork/formwork/releases/tag/1.13.1) has been released with a patch that solves this vulnerability by escaping all metadata attributes.\n- [**Formwork 2.x** (f531201)](https://github.com/getformwork/formwork/commit/f5312015a5a5e89b95ef2bd07e496f8474d579c5) also escapes metadata attributes.\n\n### Details\nAn attackers (requires administrator privilege) to execute arbitrary web scripts by modifying site options via /panel/options/site. This type of attack is suitable for persistence, affecting visitors across all pages (except the dashboard).\n\n### PoC\n1. Log in with an Administrator user account.\n2. Navigate to /panel/options/site/.\n3. Inject the JS script by adding to the description field.\n4. Simulate a victim who is not a site member visiting the website. You will notice that the JS script executes on every page they vis\n\n![image](https://github.com/getformwork/formwork/assets/170840940/1c40be24-3367-4c80-bb44-9db64ef88970)\n![image](https://github.com/getformwork/formwork/assets/170840940/68dd5bff-9db1-441b-a3b3-a0c014565f59)\n![image](https://github.com/getformwork/formwork/assets/170840940/3cd84c39-9b44-49d0-8b6a-6c8aeda7e49f)\n![image](https://github.com/getformwork/formwork/assets/170840940/f45afd87-80e9-4cf1-8121-bb4e121849c9)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getformwork/formwork"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.13.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getformwork/formwork"
+      },
+      "versions": [
+        "2.0.0-beta.1"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/getformwork/formwork/security/advisories/GHSA-5pxr-7m4j-jjc6"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-37160"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getformwork/formwork/commit/9d471204f7ebb51c3c27131581c2b834315b5e0b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getformwork/formwork/commit/f5312015a5a5e89b95ef2bd07e496f8474d579c5"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/getformwork/formwork"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-07T19:37:10Z",
+    "nvd_published_at": "2024-06-07T14:15:10Z"
+  }
+}
