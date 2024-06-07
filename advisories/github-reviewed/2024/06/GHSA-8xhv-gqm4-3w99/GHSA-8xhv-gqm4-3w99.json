@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8xhv-gqm4-3w99",
+  "modified": "2024-06-07T22:26:25Z",
+  "published": "2024-06-07T22:26:25Z",
+  "aliases": [
+
+  ],
+  "summary": "ZendFramework1 Potential Insufficient Entropy Vulnerability",
+  "details": "We discovered several methods used to generate random numbers in ZF1 that potentially used insufficient entropy. These random number generators are used in the following method calls:\n```\nZend_Ldap_Attribute::createPassword\nZend_Form_Element_Hash::_generateHash\nZend_Gdata_HttpClient::filterHttpRequest\nZend_Filter_Encrypt_Mcrypt::_srand\nZend_OpenId::randomBytes\n```\nIn each case, the methods were using rand() or mt_rand(), neither of which can generate cryptographically secure values. This could potentially lead to information disclosure should an attacker be able to brute force the random number generation.\n\nMoreover, we discovered a potential security issue in the usage of the [openssl_random_pseudo_bytes()](http://php.net/manual/en/function.openssl-random-pseudo-bytes.php) function in Zend_Crypt_Math::randBytes, reported in PHP BUG [#70014](https://bugs.php.net/bug.php?id=70014), and the security implications reported in a discussion [on the random_compat library.](https://github.com/paragonie/random_compat/issues/96)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "zendframework/zendframework1"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.12.0"
+            },
+            {
+              "fixed": "1.12.18"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://framework.zend.com/security/advisory/ZF2016-01"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/zendframework/zendframework1/ZF2016-01.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/zendframework/zf1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-331"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-07T22:26:25Z",
+    "nvd_published_at": null
+  }
+}

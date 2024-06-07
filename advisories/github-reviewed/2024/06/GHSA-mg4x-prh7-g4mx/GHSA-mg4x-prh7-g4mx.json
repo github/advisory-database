@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mg4x-prh7-g4mx",
+  "modified": "2024-06-07T22:25:12Z",
+  "published": "2024-06-07T22:25:12Z",
+  "aliases": [
+
+  ],
+  "summary": "Zend-Captcha Information Disclosure and Insufficient Entropy vulnerability",
+  "details": "In Zend Framework, `Zend_Captcha_Word` (v1) and `Zend\\Captcha\\Word` (v2) generate a \"word\" for a CAPTCHA challenge by selecting a sequence of random letters from a character set. Prior to this advisory, the selection was performed using PHP's internal `array_rand()` function. This function does not generate sufficient entropy due to its usage of rand() instead of more cryptographically secure methods such as `openssl_pseudo_random_bytes()`. This could potentially lead to information disclosure should an attacker be able to brute force the random number generation.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "zendframework/zend-captcha"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.4.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "zendframework/zend-captcha"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.5.0"
+            },
+            {
+              "fixed": "2.5.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/zendframework/zend-captcha/commit/43c276df6e94e498bf530538aea53876a24fc47c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zendframework/zend-captcha/commit/5561ef813bb4ad814e835343289dc5077d2eb262"
+    },
+    {
+      "type": "WEB",
+      "url": "https://framework.zend.com/security/advisory/ZF2015-09"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/zendframework/zend-captcha/ZF2015-09.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/zendframework/zend-captcha"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-331"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-07T22:25:12Z",
+    "nvd_published_at": null
+  }
+}
