@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hh95-5xm5-v8v7",
+  "modified": "2024-06-07T17:07:03Z",
+  "published": "2024-06-07T17:07:03Z",
+  "aliases": [
+
+  ],
+  "summary": "TYPO3 CMS Possible Insecure Deserialization in Extbase Request Handling",
+  "details": "It has been discovered that request handling in Extbase can be vulnerable to insecure deserialization. User submitted payload has to be signed with a corresponding HMAC-SHA1 using the sensitive TYPO3 encryptionKey as secret - invalid or unsigned payload is not deserialized.\n\nHowever, since sensitive information could have been leaked by accident (e.g. in repositories or in commonly known and unprotected backup files), there is the possibility that attackers know the private encryptionKey and are able to calculate the required HMAC-SHA1 to allow a malicious payload to be deserialized.\n\nRequirements for successfully exploiting this vulnerability (all of the following):\n\n- rendering at least one Extbase plugin in the frontend\n- encryptionKey has been leaked (from LocalConfiguration.php or corresponding .env file)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.0.0"
+            },
+            {
+              "fixed": "8.7.30"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.0.0"
+            },
+            {
+              "fixed": "9.5.12"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/TYPO3/typo3/commit/57e4ed35a6e58521a931855e702b2688b3bc3d62"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/TYPO3/typo3/commit/b1626ad8fd4aebedc15e424a76f86094d78b2564"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/typo3/cms/2019-12-17-7.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/TYPO3/typo3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://typo3.org/security/advisory/typo3-psa-2019-011"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-07T17:07:03Z",
+    "nvd_published_at": null
+  }
+}
