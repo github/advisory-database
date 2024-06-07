@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5pqx-77vf-85rw",
+  "modified": "2024-06-07T22:12:19Z",
+  "published": "2022-05-24T17:47:02Z",
+  "aliases": [
+    "CVE-2021-30458"
+  ],
+  "summary": "Wikimedia Parsoid vulnerable to Cross-site Scripting (XSS)",
+  "details": "An issue was discovered in Wikimedia Parsoid before 0.11.1 and 0.12.x before 0.12.2. An attacker can send crafted wikitext that Utils/WTUtils.php will transform by using a <meta> tag, bypassing sanitization steps, and potentially allowing for XSS.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "wikimedia/parsoid"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.12"
+            },
+            {
+              "fixed": "0.12.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "wikimedia/parsoid"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.11.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-30458"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/wikimedia/parsoid/CVE-2021-30458.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/wikimedia/mediawiki-services-parsoid"
+    },
+    {
+      "type": "WEB",
+      "url": "https://phabricator.wikimedia.org/T279451"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.gentoo.org/glsa/202107-40"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.mediawiki.org/wiki/Parsoid"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-07T22:12:19Z",
+    "nvd_published_at": "2021-04-09T07:15:00Z"
+  }
+}
