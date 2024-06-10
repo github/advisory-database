@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-87m9-rv8p-rgmg",
+  "modified": "2024-06-10T18:36:23Z",
+  "published": "2024-06-10T18:36:23Z",
+  "aliases": [
+
+  ],
+  "summary": "go-grpc-compression has a zstd decompression bombing vulnerability",
+  "details": "### Impact\n\nA malicious user could cause a denial of service (DoS) when using a specially crafted gRPC request. The decompression mechanism for zstd did not respect the limits imposed by gRPC, allowing rapid memory usage increases.\n\nVersions v1.1.4 through to v1.2.2 made use of the Decoder.DecodeAll function in github.com/klauspost/compress/zstd to decompress data provided by the peer. The vulnerability is exploitable only by attackers who can send gRPC payloads to users of github.com/mostynb/go-grpc-compression/zstd or github.com/mostynb/go-grpc-compression/nonclobbering/zstd.\n\n### Patches\n\nVersion v1.2.3  of github.com/mostynb/go-grpc-compression avoids the issue by not using the Decoder.DecodeAll function in github.com/klauspost/compress/zstd.\n\nAll users of github.com/mostynb/go-grpc-compression/zstd or github.com/mostynb/go-grpc-compression/nonclobbering/zstd in the affected versions should update to v1.2.3.\n\n### Workarounds\n\nOther compression formats were not affected, users may consider switching from zstd to another format without upgrading to a newer release.\n\n### References\n\nThis issue was uncovered during a security audit performed by [Miroslav Stampar](https://github.com/stamparm/) of [7ASecurity](https://7asecurity.com/), facilitated by [OSTIF](https://ostif.org/), for the OpenTelemetry project.\n\nhttps://opentelemetry.io/blog/2024/cve-2024-36129\nhttps://github.com/open-telemetry/opentelemetry-collector/security/advisories/GHSA-c74f-6mfw-mm4v",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/mostynb/go-grpc-compression"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.1.4"
+            },
+            {
+              "fixed": "1.2.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/mostynb/go-grpc-compression/security/advisories/GHSA-87m9-rv8p-rgmg"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mostynb/go-grpc-compression/commit/629c44d3acb9624993cc7de629f47d72109e2ce5"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mostynb/go-grpc-compression"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-10T18:36:23Z",
+    "nvd_published_at": null
+  }
+}
