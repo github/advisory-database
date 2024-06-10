@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xmmx-7jpf-fx42",
+  "modified": "2024-06-10T18:39:03Z",
+  "published": "2024-06-10T18:39:03Z",
+  "aliases": [
+
+  ],
+  "summary": "Moby (Docker Engine) is vulnerable to Ambiguous OCI manifest parsing",
+  "details": "### Impact\nIn the OCI Distribution Specification version 1.0.0 and prior and in the OCI Image Specification version 1.0.1 and prior, manifest and index documents are ambiguous without an accompanying Content-Type HTTP header.  Versions of Moby (Docker Engine) prior to 20.10.11 treat the Content-Type header as trusted and deserialize the document according to that header.  If the Content-Type header changed between pulls of the same ambiguous document (with the same digest), the document may be interpreted differently, meaning that the digest alone is insufficient to unambiguously identify the content of the image.\n\n### Patches\nThis issue has been fixed in Moby (Docker Engine) 20.10.11.  Image pulls for manifests that contain a “manifests” field or indices which contain a “layers” field are rejected.\n\n### Workarounds\nEnsure you only pull images from trusted sources.\n\n### References\nhttps://github.com/opencontainers/distribution-spec/security/advisories/GHSA-mc8v-mgrf-8f4m\nhttps://github.com/opencontainers/image-spec/security/advisories/GHSA-77vh-xpmg-72qh\n\n### For more information\nIf you have any questions or comments about this advisory:\n* [Open an issue in](https://github.com/moby/moby/issues/new)\n* Email us at [security@docker.com](mailto:security@docker.com)\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/docker/docker"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "20.10.11"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/moby/security/advisories/GHSA-xmmx-7jpf-fx42"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-10T18:39:03Z",
+    "nvd_published_at": null
+  }
+}
