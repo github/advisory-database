@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vvhj-v88f-5gxr",
+  "modified": "2024-06-10T21:36:48Z",
+  "published": "2024-06-10T21:36:48Z",
+  "aliases": [
+    "CVE-2024-37166"
+  ],
+  "summary": "ghtml Cross-Site Scripting (XSS) vulnerability",
+  "details": "## Summary\n\nIt is possible to introduce user-controlled JavaScript code and trigger a Cross-Site Scripting (XSS) vulnerability in some cases.\n\n## Actions Taken\n\n- Updated the documentation to clarify that while `ghtml` escapes characters with special meaning in HTML, it does not provide comprehensive protection against all types of XSS attacks in every scenario. **_This aligns with the approach taken by other template engines. Developers should be cautious and take additional measures to sanitize user input and prevent potential vulnerabilities._** More reading: https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html\n- The backtick character (`) is now also escaped to prevent the creation of strings in most cases where a malicious actor somehow gains the ability to write JavaScript. This does not provide comprehensive protection either.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "ghtml"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/gurgunday/ghtml/security/advisories/GHSA-vvhj-v88f-5gxr"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/gurgunday/ghtml/commit/df1ea50fe8968a766fd2b9379a8f9806375227f8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/gurgunday/ghtml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79",
+      "CWE-80"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-10T21:36:48Z",
+    "nvd_published_at": null
+  }
+}

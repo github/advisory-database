@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v9qv-c7wm-wgmf",
+  "modified": "2024-06-10T21:36:25Z",
+  "published": "2024-06-10T21:36:25Z",
+  "aliases": [
+    "CVE-2024-35242"
+  ],
+  "summary": "Composer has multiple command injections via malicious git/hg branch names",
+  "details": "### Impact\n\nThe `composer install` command running inside a git/hg repository which has specially crafted branch names can lead to command injection. So this requires cloning untrusted repositories.\n\n### Patches\n\n2.2.24 for 2.2 LTS or 2.7.7 for mainline\n\n### Workarounds\n\nAvoid cloning potentially compromised repositories.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "composer/composer"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0"
+            },
+            {
+              "fixed": "2.2.24"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "composer/composer"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.3"
+            },
+            {
+              "fixed": "2.7.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/composer/composer/security/advisories/GHSA-v9qv-c7wm-wgmf"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/composer/composer/commit/6bd43dff859c597c09bd03a7e7d6443822d0a396"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/composer/composer/commit/fc57b93603d7d90b71ca8ec77b1c8a9171fdb467"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/composer/composer"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-77"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-10T21:36:25Z",
+    "nvd_published_at": null
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-47f6-5gq3-vx9c",
+  "modified": "2024-06-10T21:36:32Z",
+  "published": "2024-06-10T21:36:32Z",
+  "aliases": [
+    "CVE-2024-35241"
+  ],
+  "summary": "Composer has a command injection via malicious git branch name",
+  "details": "### Impact\n\nThe `status`, `reinstall` and `remove` commands with packages installed from source via git containing specially crafted branch names in the repository can be used to execute code.\n\n### Patches\n\n2.2.24 for 2.2 LTS or 2.7.7 for mainline\n\n### Workarounds\n\nAvoid installing dependencies via git by using `--prefer-dist` or the `preferred-install: dist` config setting.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "composer/composer"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0"
+            },
+            {
+              "fixed": "2.2.24"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "composer/composer"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.3"
+            },
+            {
+              "fixed": "2.7.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/composer/composer/security/advisories/GHSA-47f6-5gq3-vx9c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/composer/composer/commit/b93fc6ca437da35ae73d667d0618749c763b67d4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/composer/composer/commit/ee28354ca8d33c15949ad7de2ce6656ba3f68704"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/composer/composer"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-77"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-10T21:36:32Z",
+    "nvd_published_at": null
+  }
+}
