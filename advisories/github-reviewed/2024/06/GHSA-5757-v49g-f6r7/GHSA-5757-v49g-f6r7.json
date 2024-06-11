@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-5757-v49g-f6r7",
-  "modified": "2024-06-02T22:32:32Z",
+  "modified": "2024-06-11T18:28:53Z",
   "published": "2024-06-02T22:32:32Z",
   "aliases": [
     "CVE-2024-22244"
@@ -9,7 +9,10 @@
   "summary": "Open Redirect URL in Harbor",
   "details": "### Description\nUnder OIDC authentication mode, there is a redirect_url parameter exposed in the URL which is used to redirect the current user to the defined location after the successful OIDC login, This redirect_url can be an ambiguous URL and can be used to embed a phishing URL.\nFor example: if a user clicks the URL with a malicious redirect_url:\n```\nhttps://<harbor_hostnmae>/c/oidc/login?redirect_url=https://<redirect_domain>\n```\nIt might redirect the current user without their knowledge to a malicious site, posing a potential risk.\nTo avoid this issue, the redirect_url should be checked if it is a local path when reading it from the original request URL. \n```\n//src/core/controllers/oidc.go\n...\nredirectURL := oc.Ctx.Request.URL.Query().Get(\"redirect_url\")\nif !utils.IsLocalPath(redirectURL) {\n    log.Errorf(\"invalid redirect url: %v\", redirectURL)\n    oc.SendBadRequestError(fmt.Errorf(\"cannot redirect to other site\"))\n    return\n}\nif err := oc.SetSession(redirectURLKey, redirectURL); err != nil {\n...\n```\n### Impact\nWhen Harbor is configured with OIDC authentication and users log in via a link outside the Harbor server, it might be vulnerable to an open redirect attack. This attack only involves the OIDC Harbor user, if the current Harbor instance is not configured with OIDC auth, the redirect_url doesn't exist and the Harbor instance is not vulnerable to the open redirect attack.\n\nThe following versions of Harbor are involved:\n<=Harbor 2.8.4, <=Harbor 2.9.2, <= Harbor 2.10.0\n\n### Patches\nHarbor 2.8.5, Harbor 2.9.3, Harbor 2.10.1\n\n### Workarounds\nWhen the Harbor is configured with OIDC authentication, warn the user not to log into the Harbor through external links.\n\n### References\nN/A\n\n### Credit\nThanks Arnaud Cordier (arnaud@cordier.work)",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N"
+    }
   ],
   "affected": [
     {
@@ -76,6 +79,10 @@
       "url": "https://github.com/goharbor/harbor/security/advisories/GHSA-5757-v49g-f6r7"
     },
     {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-22244"
+    },
+    {
       "type": "PACKAGE",
       "url": "https://github.com/goharbor/harbor"
     }
@@ -87,6 +94,6 @@
     "severity": "MODERATE",
     "github_reviewed": true,
     "github_reviewed_at": "2024-06-02T22:32:32Z",
-    "nvd_published_at": null
+    "nvd_published_at": "2024-06-10T23:15:49Z"
   }
 }
