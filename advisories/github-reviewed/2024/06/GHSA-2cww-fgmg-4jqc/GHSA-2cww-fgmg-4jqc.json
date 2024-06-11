@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2cww-fgmg-4jqc",
+  "modified": "2024-06-11T20:22:40Z",
+  "published": "2024-06-11T20:22:40Z",
+  "aliases": [
+    "CVE-2024-3656"
+  ],
+  "summary": "Keycloak's admin API allows low privilege users to use administrative functions",
+  "details": "Users with low privileges (just plain users in the realm) are able to utilize administrative functionalities within Keycloak admin interface. This issue presents a significant security risk as it allows unauthorized users to perform actions reserved for administrators, potentially leading to data breaches or system compromise.\n\n**Acknowledgements:**\nSpecial thanks to Maurizio Agazzini for reporting this issue and helping us improve our project.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.keycloak:keycloak-services"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "24.0.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/keycloak/keycloak/security/advisories/GHSA-2cww-fgmg-4jqc"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/keycloak/keycloak/commit/d9f0c84b797525eac55914db5f81a8133ef5f9b1"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/keycloak/keycloak"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-269",
+      "CWE-284"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-11T20:22:40Z",
+    "nvd_published_at": null
+  }
+}
