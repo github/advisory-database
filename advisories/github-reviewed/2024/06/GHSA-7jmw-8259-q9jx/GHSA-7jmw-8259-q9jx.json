@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7jmw-8259-q9jx",
+  "modified": "2024-06-11T19:29:43Z",
+  "published": "2024-06-11T19:29:43Z",
+  "aliases": [
+
+  ],
+  "summary": "Traefik has unexpected behavior with IPv4-mapped IPv6 addresses",
+  "details": "### Impact\n\nThere is a vulnerability in [Go managing various Is methods (IsPrivate, IsLoopback, etc) for IPv4-mapped IPv6 addresses](https://groups.google.com/g/golang-announce/c/XbxouI9gY7k/m/TuoGEhxIEwAJ).\n\nThey didn't work as expected returning false for addresses which would return true in their traditional IPv4 forms.\n\n### References\n\n- [CVE-2024-24790](https://www.cve.org/CVERecord?id=CVE-2024-24790)\n\n### Patches\n\n- https://github.com/traefik/traefik/releases/tag/v2.11.4\n- https://github.com/traefik/traefik/releases/tag/v3.0.2\n\n### Workarounds\n\nNo workaround.\n\n### For more information\n\nIf you have any questions or comments about this advisory, please [open an issue](https://github.com/traefik/traefik/issues).",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/traefik/traefik/v3"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0-beta3"
+            },
+            {
+              "fixed": "3.0.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/traefik/traefik/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.11.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/traefik/traefik"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.11.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/traefik/traefik/security/advisories/GHSA-7jmw-8259-q9jx"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/traefik/traefik"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/traefik/traefik/releases/tag/v2.11.4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/traefik/traefik/releases/tag/v3.0.2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.cve.org/CVERecord?id=CVE-2024-24790"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-180"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-11T19:29:43Z",
+    "nvd_published_at": null
+  }
+}
