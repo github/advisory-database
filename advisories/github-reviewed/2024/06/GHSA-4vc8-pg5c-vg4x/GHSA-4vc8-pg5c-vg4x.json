@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4vc8-pg5c-vg4x",
+  "modified": "2024-06-12T19:41:05Z",
+  "published": "2024-06-12T19:41:05Z",
+  "aliases": [
+
+  ],
+  "summary": "Keycloak's improper input validation allows using email as username",
+  "details": "Keycloak allows the use of email as a username and doesn't check that an account with this email already exists. That could lead to the unability to reset/login with email for the user. This is caused by usernames being evaluated before emails.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.keycloak:keycloak-services"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "24.0.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/keycloak/keycloak/security/advisories/GHSA-4vc8-pg5c-vg4x"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/keycloak/keycloak/commit/f9708037383aa98741e4850447de64dc4a0d4b4e"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/keycloak/keycloak"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-670"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-12T19:41:05Z",
+    "nvd_published_at": null
+  }
+}
