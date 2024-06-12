@@ -1,13 +1,13 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-7gj7-224w-vpr3",
-  "modified": "2023-07-27T16:27:15Z",
+  "modified": "2024-06-12T22:40:52Z",
   "published": "2023-07-14T06:31:00Z",
   "aliases": [
     "CVE-2023-38286"
   ],
-  "summary": "Thymeleaf, as used in Spring Boot Admin, allows sandbox bypass via crafted HTML",
-  "details": "Thymeleaf through 3.1.1.RELEASE, as used in spring-boot-admin (aka Spring Boot Admin) through 3.1.1 and other products, allows sandbox bypass via crafted HTML. This may be relevant for SSTI (Server Side Template Injection) and code execution in spring-boot-admin if MailNotifier is enabled and there is write access to environment variables via the UI.\n\nSpring Boot Admin 3.1.2 contains a [patch](https://github.com/codecentric/spring-boot-admin/pull/2615) for this issue.",
+  "summary": "Spring-boot-admin sandbox bypass via crafted HTML",
+  "details": "Thymeleaf through 3.1.1.RELEASE as used in spring-boot-admin (aka Spring Boot Admin) through 3.1.1 allows for a sandbox bypass via crafted HTML. This may be relevant for SSTI (Server Side Template Injection) and code execution in spring-boot-admin if MailNotifier is enabled and there is write access to environment variables via the UI.\n\nSpring Boot Admin 3.1.2 and 2.7.16 contain mitigations for the issue. This bypass is achived via a library called Thymeleaf which has added counter measures for this sort of bypass in version `3.1.2.RELEASE` which has explicity forbidden static access to `org.springframework.util` in expressions. Thymeleaf itself should not be considered vulnerable.",
   "severity": [
     {
       "type": "CVSS_V3",
@@ -25,10 +25,29 @@
           "type": "ECOSYSTEM",
           "events": [
             {
-              "introduced": "0"
+              "introduced": "3.0.0"
             },
             {
               "fixed": "3.1.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "de.codecentric:spring-boot-admin-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.7.16"
             }
           ]
         }
