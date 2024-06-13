@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-67fv-9r7g-432h",
+  "modified": "2024-06-13T22:03:59Z",
+  "published": "2024-06-13T18:31:59Z",
+  "aliases": [
+    "CVE-2024-36760"
+  ],
+  "summary": "Rhai stack overflow vulenrability",
+  "details": "A stack overflow vulnerability was found in version 1.18.0 of rhai. The flaw position is: (/ SRC/rhai/SRC/eval/STMT. Rs in rhai: : eval: : STMT: : _ $LT $impl $u20 $rhai.. engine.. Engine$GT$::eval_stmt::h3f1d68ce37fc6e96). Due to the stack overflow is a recursive call/SRC/rhai/SRC/eval/STMT. Rs file eval_stmt_block function.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "rhai"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.18.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-36760"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rhaiscript/rhai/commit/308d07a11d3bff0d230f685a6320292181e5a445"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/MageWeiG/VulnerabilityCollection/blob/main/CVE-2024-36760/info.md"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/rhaiscript/rhai"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-674"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-13T22:03:59Z",
+    "nvd_published_at": "2024-06-13T18:15:10Z"
+  }
+}
