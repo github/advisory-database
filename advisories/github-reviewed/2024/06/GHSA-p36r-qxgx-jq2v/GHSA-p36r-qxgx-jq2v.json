@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-p36r-qxgx-jq2v",
+  "modified": "2024-06-17T22:28:41Z",
+  "published": "2024-06-17T22:28:41Z",
+  "aliases": [
+    "CVE-2024-37895"
+  ],
+  "summary": "Lobe Chat API Key Leak",
+  "details": "### Summary\n\nIf an attacker can successfully authenticate through SSO/Access Code, they can obtain the real backend API Key by modifying the base URL to their own attack URL on the frontend and setting up a server-side request.\n\n### Details\n\nThe attack process is described above.\n\n![image](https://github.com/lobehub/lobe-chat/assets/36695271/df5e0c3c-af28-45c3-959f-182cc9d06680)\n\n### PoC\n\nFrontend:\n1. Pass basic authentication (SSO/Access Code).\n2. Set the Base URL to a private attack address.\n3. Configure the request method to be a server-side request.\n4. At the self-set attack address, retrieve the API Key information from the request headers.\n\nBackend:\n1. The LobeChat version allows setting the Base URL.\n2. There is no outbound traffic whitelist.\n\n### Impact\n\nAll community version LobeChat users using SSO/Access Code authentication, tested on version 0.162.13.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@lobehub/chat"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.162.25"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/lobehub/lobe-chat/security/advisories/GHSA-p36r-qxgx-jq2v"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-37895"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/lobehub/lobe-chat"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200",
+      "CWE-918"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-17T22:28:41Z",
+    "nvd_published_at": "2024-06-17T20:15:13Z"
+  }
+}
