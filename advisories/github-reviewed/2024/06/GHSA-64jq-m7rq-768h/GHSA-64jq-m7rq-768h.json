@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-64jq-m7rq-768h",
+  "modified": "2024-06-17T22:30:51Z",
+  "published": "2024-06-17T22:30:51Z",
+  "aliases": [
+    "CVE-2023-32196"
+  ],
+  "summary": "Rancher's External RoleTemplates can lead to privilege escalation",
+  "details": "### Impact\nA vulnerability has been identified whereby privilege escalation checks are not properly enforced for `RoleTemplate`objects when external=true, which in specific scenarios can lead to privilege escalation.\n\nThe bug in the webhook rule resolver ignores rules from a `ClusterRole` for external `RoleTemplates` when its context is set to either `project` or is left empty. The fix introduces a new field to the `RoleTemplate` CRD named `ExternalRules`. The new field will be used to resolve rules directly from the `RoleTemplate`. Additionally, rules from the backing `ClusterRole` will be used if `ExternalRules` is not provided. The new field will always take precedence when it is set, and serve as the source of truth for rules used when creating Rancher resources on the local cluster.\n\nPlease note that this is a breaking change for external `RoleTemplates`, when context is set to `project` or empty and the backing `ClusterRole` does not exist, as this was not previously required.\n\n**Important:** The fix is automatically applied when upgrading to the release lines `2.8`and above. For users still on the `2.7` release line, after the upgrade to a patched version, users are required to opt-in to the fix by enabling the `external-rules` [feature flag](https://ranchermanager.docs.rancher.com/getting-started/installation-and-upgrade/installation-references/feature-flags).\n\nPlease consult the associated [MITRE ATT&CK - Technique - Exploitation for Privilege Escalation](https://attack.mitre.org/techniques/T1068/) for further information about this category of attack.\n\n### Patches\nPatched versions include releases `2.7.14` and `2.8.5`.\n\n### Workarounds\nThe following script was developed for Rancher Manager administrators to identify `RoleTemplates` impacted by this vulnerability. The script requires `jq` installed and a `kubeconfig` with access to Rancher local cluster; it can also be executed in Rancher's kubectl shell.\n\n```bash\n#!/bin/bash\nset -euo pipefail\n\n# get all RoleTemplates with .context == \"project\" or .context == \"\" that don't have externalRules.\nrts=$(kubectl get roletemplates -o json | jq -r  '.items[] | select((.context == \"project\" or .context == \"\") and .external == true and .externalRules == null) | .metadata.name')\nfound_invalid_rt=false\n\nfor rt in $rts; do\n  if ! kubectl get clusterrole \"$rt\" > /dev/null 2>&1; then\n     echo \"$rt\" # prints RoleTemplate names that don't have a backing ClusterRole\n     found_invalid_rt=true\n  fi\ndone\n\nif ! $found_invalid_rt ; then\n    echo 'This cluster is not affected by CVE-2023-32197: no RoleTemplate objects found'\nfi\n```\n\nIt will return all objects affected by this vulnerability. The administrator can fix those objects by creating the backing `ClusterRole` that they refer to.\n\n\n### References\n- [CVE-2023-32196](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-32196)\n\nIf you have any questions or comments about this advisory:\n- Reach out to the [SUSE Rancher Security team](https://github.com/rancher/rancher/security/policy) for security-related inquiries.\n- Open an issue in the [Rancher](https://github.com/rancher/rancher/issues/new/choose) repository.\n- Verify with our [support matrix](https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/) and [product support lifecycle](https://www.suse.com/lifecycle/).\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/rancher/rancher"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.7.0"
+            },
+            {
+              "fixed": "2.7.14"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/rancher/rancher"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.8.0"
+            },
+            {
+              "fixed": "2.8.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/rancher/rancher/security/advisories/GHSA-64jq-m7rq-768h"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/rancher/rancher"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-269"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-17T22:30:51Z",
+    "nvd_published_at": null
+  }
+}

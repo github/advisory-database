@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-q6c7-56cq-g2wm",
+  "modified": "2024-06-17T22:30:52Z",
+  "published": "2024-06-17T22:30:52Z",
+  "aliases": [
+    "CVE-2024-22032"
+  ],
+  "summary": "Rancher's RKE1 Encryption Config kept in plain-text within cluster AppliedSpec",
+  "details": "### Impact\nThis issue is only relevant to clusters provisioned using RKE1 with secrets encryption configuration enabled.\n\nA vulnerability has been identified in which an RKE1 cluster keeps constantly reconciling when secrets encryption configuration is enabled (please see the [RKE documentation](https://rke.docs.rancher.com/config-options/secrets-encryption)). When reconciling, the Kube API secret values are written in plaintext on the AppliedSpec. Cluster owners, Cluster members, and Project members (for projects within the cluster), all have RBAC permissions to view the cluster object from the apiserver.\n\nThis could lead to an unauthorized user gaining access to the entire secrets encryption config specific for the cluster, only on the applied spec.\n\nSince this affects only custom encryption configurations, users need to manually rotate the keys by editing the cluster. For more information, please refer to the [RKE secrets encryption documentation](https://rke.docs.rancher.com/config-options/secrets-encryption#key-rotation).\n\nThe full custom configuration example:\n\n```yaml\nservices:\n  kube-api:\n    secrets_encryption_config:\n      enabled: true\n      custom_config:\n        apiVersion: apiserver.config.k8s.io/v1\n        kind: EncryptionConfiguration\n        resources:\n        - resources:\n          - secrets\n          providers:\n          - aescbc:\n              keys:\n              - name: k-fw5hn\n                secret: RTczRjFDODMwQzAyMDVBREU4NDJBMUZFNDhCNzM5N0I= #<--- needs to be changed\n          - identity: {}\n```\n\nPlease consult the associated  [MITRE ATT&CK - Technique - Unsecured Credentials](https://attack.mitre.org/techniques/T1552/) for further information about this category of attack.\n\n### Patches\nTo address this issue, the fix introduces a new change that copies the AppliedSpec before mutating. As such, the next time the cluster is reconciled and the AppliedSpec is set, all references to sensitive data will be removed. \n\nPatched versions include releases `2.7.14` and `2.8.5`.\n\n### Workarounds\nThere are no workarounds for this issue. Users are recommended to upgrade, as soon as possible, to a version of RKE/Rancher Manager which contains the fixes. \n\n### References\n- [CVE-2024-22032](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-22032)\n\nIf you have any questions or comments about this advisory:\n- Reach out to the [SUSE Rancher Security team](https://github.com/rancher/rancher/security/policy) for security-related inquiries.\n- Open an issue in the [Rancher](https://github.com/rancher/rancher/issues/new/choose) repository.\n- Verify with our [support matrix](https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/) and [product support lifecycle](https://www.suse.com/lifecycle/).\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/rancher/rancher"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.7.0"
+            },
+            {
+              "fixed": "2.7.14"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/rancher/rancher"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.8.0"
+            },
+            {
+              "fixed": "2.8.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/rancher/rancher/security/advisories/GHSA-q6c7-56cq-g2wm"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/rancher/rancher"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200",
+      "CWE-256"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-17T22:30:52Z",
+    "nvd_published_at": null
+  }
+}

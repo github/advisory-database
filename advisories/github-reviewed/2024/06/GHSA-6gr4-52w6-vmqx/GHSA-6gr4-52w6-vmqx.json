@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6gr4-52w6-vmqx",
+  "modified": "2024-06-17T22:30:48Z",
+  "published": "2024-06-17T22:30:48Z",
+  "aliases": [
+    "CVE-2023-32191"
+  ],
+  "summary": "rke's credentials are stored in the RKE1 Cluster state ConfigMap",
+  "details": "### Impact\n\nWhen RKE provisions a cluster, it stores the cluster state in a configmap called `full-cluster-state` inside the `kube-system` namespace of the cluster itself. This cluster state object contains information used to set up the K8s cluster, which may include the following sensitive data:\n\n- RancherKubernetesEngineConfig\n   - RKENodeConfig\n       - SSH username\n       - SSH private key\n       - SSH private key path\n   - RKEConfigServices\n       - ETCDService\n           - External client key\n           - BackupConfig\n               - S3BackupConfig\n                   - AWS access key\n                   - AWS secret key\n       - KubeAPIService\n           - SecretsEncryptionConfig\n               - K8s encryption configuration (contains encryption keys)\n   - PrivateRegistries\n       - User\n       - Password\n       - ECRCredentialPlugin\n           - AWS access key\n           - AWS secret key\n           - AWS session token\n   - CloudProvider\n       - AzureCloudProvider\n           - AAD client ID\n           - AAD client secret\n           - AAD client cert password\n       - OpenstackCloudProvider\n           - Username\n           - User ID\n           - Password\n       - VsphereCloudProvider\n           - GlobalVsphereOpts\n               - User\n               - Password\n           - VirtualCenterConfig\n               - User\n               - Password\n       - HarvesterCloudProvider\n           - CloudConfig\n       - CustomCloudProvider\n   - BastionHost\n       - User\n       - SSH key\n- CertificatesBundle\n   - Private key\n- EncryptionConfig\n   - Private key\n\n\nThe `State` type that contains the above info and more can viewed [here](https://github.com/rancher/rke/blob/8714c3c06e0bad55c61684fd5d94f1481128c58d/cluster/state.go#L37).\n\nWhile the `full-cluster-state` configmap is not publicly available (reading it requires access to the RKE cluster), it being a configmap makes it available to non-administrators of the cluster. Because this configmap contains essentially all the information and credentials required to administer the cluster, anyone with permission to read it thereby achieves admin-level access to the cluster (please consult the [MITRE ATT&CK - Technique - Unsecured Credentials : Credentials In Files](https://attack.mitre.org/techniques/T1552/001/) for further information about the associated technique of attack).\n\n\n**Important:**\nFor the exposure of credentials not related to Rancher and RKE, the final impact severity for confidentiality, integrity and availability is dependent on the permissions the leaked credentials have on their services.\n\n\nIt is recommended to review for potentially leaked credentials in this scenario and to change them if deemed necessary.\n\n\n### Patches\n\nThis vulnerability is being fixed in RKE versions `1.4.19` and `1.5.10` which are included in Rancher versions `2.7.14` and `2.8.5`.\n\n\nThe patches include changes that will cause RKE to automatically migrate the cluster state configmap to a `full-cluster-state` secret in the `kube-system` namespace. The migrated secret will only be accessible to those who have read access to the `kube-system` namespace in the downstream RKE cluster. In Rancher, only admin and cluster-owner roles can access the secret. The old configmap will be removed after successful migration.\n\n\nAll downstream clusters provisioned using RKE via Rancher will be migrated automatically on Rancher upgrade. Note that any downstream clusters that are unavailable or otherwise non migratable on Rancher upgrade will still be migrated automatically as soon as they become available.\n\n\nClusters provisioned using RKE outside of Rancher will be migrated automatically upon the next invocation of `rke up` (i.e. the next cluster reconciliation) after upgrading RKE.\n\n\nIf a rollback needs to be performed after an upgrade to a patched Rancher or RKE version, downstream RKE clusters that were migrated need to have their migrations manually reversed using this script: https://github.com/rancherlabs/support-tools/tree/master/reverse-rke-state-migrations. \n**Please be sure to back up downstream clusters before performing the reverse migration**.\n\n\n### Workarounds\n\nThere are no workarounds for this issue. Users are recommended to upgrade, as soon as possible, to a version of RKE/Rancher Manager which contains the fixes.\n\n\nUsers should not attempt to perform this migration manually without upgrading their RKE/Rancher versions as only post-patch versions of RKE are capable of reading the cluster state from a secret instead of a configmap. In other words, migrating the cluster state to a secret without upgrading RKE/Rancher would cause RKE to be unable to read the cluster state, making it incapable of managing the cluster until an RKE/Rancher upgrade is performed.\n\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n\n\n- Reach out to the [SUSE Rancher Security team](https://github.com/rancher/rancher/security/policy) for security related inquiries.\n- Open an issue in the [Rancher](https://github.com/rancher/rancher/issues/new/choose) repository.\n- Verify our [support matrix](https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/) and [product support life cycle](https://www.suse.com/lifecycle/).\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/rancher/rke"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.4.18"
+            },
+            {
+              "fixed": "1.4.19"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/rancher/rke"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.5.9"
+            },
+            {
+              "fixed": "1.5.10"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/rancher/rke/security/advisories/GHSA-6gr4-52w6-vmqx"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rancher/rke/commit/cf49199481a1891909acb1384eed73a5c987d5bd"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rancher/rke/commit/f7485b8dce376db0fc15a7c3ceb3de7029c8d0cf"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/rancher/rke"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-17T22:30:48Z",
+    "nvd_published_at": null
+  }
+}
