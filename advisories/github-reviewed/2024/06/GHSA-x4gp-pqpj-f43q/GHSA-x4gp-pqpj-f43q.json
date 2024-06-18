@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-x4gp-pqpj-f43q",
+  "modified": "2024-06-18T21:56:24Z",
+  "published": "2024-06-18T21:56:24Z",
+  "aliases": [
+
+  ],
+  "summary": "curve25519-dalek has timing variability in `curve25519-dalek`'s `Scalar29::sub`/`Scalar52::sub`",
+  "details": "Timing variability of any kind is problematic when working with  potentially secret values such as\nelliptic curve scalars, and such issues can potentially leak private keys and other secrets. Such a\nproblem was recently discovered in `curve25519-dalek`.\n\nThe `Scalar29::sub` (32-bit) and `Scalar52::sub` (64-bit) functions contained usage of a mask value\ninside a loop where LLVM saw an opportunity to insert a branch instruction (`jns` on x86) to\nconditionally bypass this code section when the mask value is set to zero as can be seen in godbolt:\n\n- 32-bit (see L106): https://godbolt.org/z/zvaWxzvqv\n- 64-bit (see L48): https://godbolt.org/z/PczYj7Pda\n\nA similar problem was recently discovered in the Kyber reference implementation:\n\nhttps://groups.google.com/a/list.nist.gov/g/pqc-forum/c/hqbtIGFKIpU/m/cnE3pbueBgAJ\n\nAs discussed on that thread, one portable solution, which is also used in this PR, is to introduce a\nvolatile read as an optimization barrier, which prevents the compiler from optimizing it away.\n\nThe fix can be validated in godbolt here:\n\n- 32-bit: https://godbolt.org/z/jc9j7eb8E\n- 64-bit: https://godbolt.org/z/x8d46Yfah\n\nThe problem was discovered and the solution independently verified by \nAlexander Wagner <alexander.wagner@aisec.fraunhofer.de> and Lea Themint <lea.thiemt@tum.de> using\ntheir DATA tool:\n\nhttps://github.com/Fraunhofer-AISEC/DATA\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "curve25519-dalek"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.1.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/dalek-cryptography/curve25519-dalek/pull/659"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dalek-cryptography/curve25519-dalek/commit/415892acf1cdf9161bd6a4c99bc2f4cb8fae5e6a"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/dalek-cryptography/curve25519-dalek"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2024-0344.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-203"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-18T21:56:24Z",
+    "nvd_published_at": null
+  }
+}
