@@ -1,13 +1,13 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-xchq-w5r3-4wg3",
-  "modified": "2024-04-25T19:53:10Z",
+  "modified": "2024-06-18T15:01:23Z",
   "published": "2024-04-25T19:53:10Z",
   "aliases": [
     "CVE-2024-32645"
   ],
   "summary": "vyper performs incorrect topic logging in raw_log",
-  "details": "### Summary\nIncorrect values can be logged when `raw_log` builtin is called with memory or storage arguments to be used as topics.\n\nA contract search was performed and no vulnerable contracts were found in production. In particular, no uses of `raw_log()` were found at all in production; it is apparently not a well-known function.\n\n### Details\nThe `build_IR` function of the `RawLog` class fails to properly unwrap the variables provided as topics. Consequently, incorrect values are logged as topics.\n\n### PoC\n```vyper\nx: bytes32\n\n@external\ndef f():\n    self.x = 0x1234567890123456789012345678901234567890123456789012345678901234\n    raw_log([self.x], b\"\") # LOG1(offset:0x60, size:0x00, topic1:0x00)\n\n    y: bytes32 = 0x1234567890123456789012345678901234567890123456789012345678901234\n    raw_log([y], b\"\") # LOG1(offset:0x80, size:0x00, topic1:0x40)\n```\n\n### Impact\nIncorrect values can be logged which may result in unexpected behavior in client-side applications relying on these logs.\n",
+  "details": "### Summary\nIncorrect values can be logged when `raw_log` builtin is called with memory or storage arguments to be used as topics.\n\nA contract search was performed and no vulnerable contracts were found in production. In particular, no uses of `raw_log()` were found at all in production; it is apparently not a well-known function.\n\n### Details\nThe `build_IR` function of the `RawLog` class fails to properly unwrap the variables provided as topics. Consequently, incorrect values are logged as topics.\n\n### PoC\n```vyper\nx: bytes32\n\n@external\ndef f():\n    self.x = 0x1234567890123456789012345678901234567890123456789012345678901234\n    raw_log([self.x], b\"\") # LOG1(offset:0x60, size:0x00, topic1:0x00)\n\n    y: bytes32 = 0x1234567890123456789012345678901234567890123456789012345678901234\n    raw_log([y], b\"\") # LOG1(offset:0x80, size:0x00, topic1:0x40)\n```\n### Patches\nFixed in https://github.com/vyperlang/vyper/pull/3977.\n\n### Impact\nIncorrect values can be logged which may result in unexpected behavior in client-side applications relying on these logs.\n",
   "severity": [
     {
       "type": "CVSS_V3",
@@ -28,7 +28,7 @@
               "introduced": "0"
             },
             {
-              "last_affected": "0.3.10"
+              "fixed": "0.4.0"
             }
           ]
         }
