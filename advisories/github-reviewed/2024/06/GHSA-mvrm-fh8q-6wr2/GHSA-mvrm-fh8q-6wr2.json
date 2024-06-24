@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mvrm-fh8q-6wr2",
+  "modified": "2024-06-24T21:22:51Z",
+  "published": "2024-06-22T18:30:41Z",
+  "aliases": [
+    "CVE-2024-5443"
+  ],
+  "summary": "Remote Code Execution via path traversal bypass in lollms",
+  "details": "CVE-2024-4320 describes a vulnerability in the parisneo/lollms software, specifically within the `ExtensionBuilder().build_extension()` function. The vulnerability arises from the `/mount_extension` endpoint, where a path traversal issue allows attackers to navigate beyond the intended directory structure. This is facilitated by the `data.category` and `data.folder` parameters accepting empty strings (`\"\"`), which, due to inadequate input sanitization, can lead to the construction of a `package_path` that points to the root directory. Consequently, if an attacker can create a `config.yaml` file in a controllable path, this path can be appended to the `extensions` list and trigger the execution of `__init__.py` in the current directory, leading to remote code execution. The vulnerability affects versions from 5.9.0, and has been addressed in version 9.5.1.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "lollms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.9.0"
+            },
+            {
+              "fixed": "9.5.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-5443"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/parisneo/lollms/commit/2d0c4e76be93195836ecd0948027e791b8a2626f"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ParisNeo/lollms"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.com/bounties/db52848a-4dbe-4110-a981-03739834bf45"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-29"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-24T21:22:50Z",
+    "nvd_published_at": "2024-06-22T17:15:34Z"
+  }
+}
