@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2xpx-vcmq-5f72",
+  "modified": "2024-06-28T21:05:52Z",
+  "published": "2024-06-28T21:05:52Z",
+  "aliases": [
+    "CVE-2024-38528"
+  ],
+  "summary": "Unlimited number of NTS-KE connections can crash ntpd-rs server",
+  "details": "### Summary\nMissing limit for accepted NTS-KE connections allows an unauthenticated remote attacker to crash ntpd-rs when an NTS-KE server is configured. Non NTS-KE server configurations, such as the default ntpd-rs configuration, are unaffected.\n\n### Details\nOperating systems have a limit for the number of open file descriptors (which includes sockets) in a single process, e.g. 1024 on Linux by default. When ntpd-rs is configured as an NTS server, it accepts TCP connections for the NTS-KE service. If the process has reached the descriptor limit and tries to accept a new TCP connection, the accept() system call will return with the EMFILE error and cause ntpd-rs to abort.\n\nA remote attacker can open a large number of parallel TCP connections to the server to trigger this crash. The connections need to be opened quickly enough to avoid the `key-exchange-timeout-ms` timeout (by default 1000 milliseconds).\n\n### Impact\nOnly NTS-KE server configuration are affected. Those without an NTS-KE server configuration such as NTS client only or NTP only configuration are unaffected. For affected configurations the ntpd-rs daemon can made completely unavailable by crashing the service. If ntpd-rs is automatically restarted, an attacker can repeat the attack to prevent ntpd-rs from doing anything useful.\n\n### Workarounds\n- Disable NTS-KE server functionality\n- Increase system resource limits (`RLIMIT_NOFILE`) to make the attack more difficult\n- Lower the `key-exchange-timeout-ms` configuration setting to make the attack more difficult",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "ntpd"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.3.1"
+            },
+            {
+              "fixed": "1.1.3"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.1.2"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pendulum-project/ntpd-rs/security/advisories/GHSA-2xpx-vcmq-5f72"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pendulum-project/ntpd-rs/commit/6049687006ea5b26eeac927964b5fcc80d7bde50"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pendulum-project/ntpd-rs"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-770"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-28T21:05:52Z",
+    "nvd_published_at": null
+  }
+}
