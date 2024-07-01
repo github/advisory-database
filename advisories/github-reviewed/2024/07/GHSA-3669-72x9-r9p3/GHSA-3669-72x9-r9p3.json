@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3669-72x9-r9p3",
+  "modified": "2024-07-01T20:35:12Z",
+  "published": "2024-07-01T20:35:12Z",
+  "aliases": [
+    "CVE-2024-37298"
+  ],
+  "summary": "Potential memory exhaustion attack due to sparse slice deserialization",
+  "details": "### Details\n\nRunning `schema.Decoder.Decode()` on a struct that has a field of type `[]struct{...}` opens it up to malicious attacks regarding memory allocations, taking advantage of the sparse slice functionality. For instance, in the Proof of Concept written below, someone can specify to set a field of the billionth element and it will allocate all other elements before it in the slice.\n\nIn the local environment environment for my project, I was able to call an endpoint like `/innocent_endpoint?arr.10000000.X=1` and freeze my system from the memory allocation while parsing `r.Form`. I think [this line](https://github.com/gorilla/schema/blob/main/decoder.go#L223) is responsible for allocating the slice, although I haven't tested to make sure, so it's just an educated guess.\n\n### Proof of Concept\n\nThe following proof of concept works on both v1.2.0 and v1.2.1. I have not tested earlier versions.\n\n```go\npackage main\n\nimport (\n\t\"fmt\"\n\n\t\"github.com/gorilla/schema\"\n)\n\nfunc main() {\n\tdec := schema.NewDecoder()\n\tvar result struct {\n\t\tArr []struct{ Val int }\n\t}\n\tif err := dec.Decode(&result, map[string][]string{\"arr.1000000000.Val\": {\"1\"}}); err != nil {\n\t\tpanic(err)\n\t}\n\tfmt.Printf(\"%#+v\\n\", result)\n}\n\n```\n\n### Impact\n\nAny use of `schema.Decoder.Decode()` on a struct with arrays of other structs could be vulnerable to this memory exhaustion vulnerability. There seems to be no possible solution that a developer using this library can do to disable this behaviour without fixing it in this project, so all uses of Decode that fall under this umbrella are affected. A fix that doesn't require a major change may also be harder to find, since it could break compatibility with some other intended use-cases.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/gorilla/schema"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.4.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/gorilla/schema/security/advisories/GHSA-3669-72x9-r9p3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/gorilla/schema/commit/cd59f2f12cbdfa9c06aa63e425d1fe4a806967ff"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/gorilla/schema"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-770"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-01T20:35:12Z",
+    "nvd_published_at": null
+  }
+}
