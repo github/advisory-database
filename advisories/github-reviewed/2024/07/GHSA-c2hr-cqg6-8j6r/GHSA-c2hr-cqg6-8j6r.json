@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c2hr-cqg6-8j6r",
+  "modified": "2024-07-01T18:35:04Z",
+  "published": "2024-07-01T18:35:04Z",
+  "aliases": [
+    "CVE-2024-39309"
+  ],
+  "summary": "ZDI-CAN-23894: Parse Server literalizeRegexPart SQL Injection Authentication Bypass Vulnerability",
+  "details": "### Impact\n\nThis vulnerability allows SQL injection when Parse Server is configured to use the PostgreSQL database.\n\n### Patches\n\nThe algorithm to detect SQL injection has been improved.\n\n### Workarounds\n\nNone.\n\n### References\n\n- https://github.com/parse-community/parse-server/security/advisories/GHSA-c2hr-cqg6-8j6r\n- https://github.com/parse-community/parse-server/pull/9167 (fix for Parse Server 7)\n- https://github.com/parse-community/parse-server/pull/9168 (fix for Parse Server 6)\n\n### Credits\n\n- Smile Thanapattheerakul of Trend Micro (finder)\n- Manuel Trezza (coordinator)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "parse-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.5.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "parse-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.0.0"
+            },
+            {
+              "fixed": "7.1.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/parse-community/parse-server/security/advisories/GHSA-c2hr-cqg6-8j6r"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/parse-community/parse-server/pull/9167"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/parse-community/parse-server/pull/9168"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/parse-community/parse-server"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-288"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-01T18:35:04Z",
+    "nvd_published_at": null
+  }
+}
