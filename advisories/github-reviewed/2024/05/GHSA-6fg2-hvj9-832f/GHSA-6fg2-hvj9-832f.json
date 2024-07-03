@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-6fg2-hvj9-832f",
-  "modified": "2024-05-03T20:31:38Z",
+  "modified": "2024-07-03T22:06:25Z",
   "published": "2024-05-03T18:30:36Z",
   "aliases": [
     "CVE-2024-33398"
@@ -9,7 +9,10 @@
   "summary": "piraeus-operator allows attacker to impersonate service account",
   "details": "There is a ClusterRole in piraeus-operator v2.5.0 and earlier which has been granted list secrets permission, which allows an attacker to impersonate the service account bound to this ClusterRole and use its high-risk privileges to list confidential information across the cluster.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
   ],
   "affected": [
     {
@@ -56,9 +59,9 @@
   ],
   "database_specific": {
     "cwe_ids": [
-
+      "CWE-269"
     ],
-    "severity": "MODERATE",
+    "severity": "HIGH",
     "github_reviewed": true,
     "github_reviewed_at": "2024-05-03T20:31:38Z",
     "nvd_published_at": "2024-05-03T16:15:11Z"
