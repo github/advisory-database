@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-p9cg-vqcc-grcx",
+  "modified": "2024-07-05T20:07:54Z",
+  "published": "2024-07-05T20:07:54Z",
+  "aliases": [
+    "CVE-2024-39687"
+  ],
+  "summary": "Server Side Request Forgery (SSRF) attack in Fedify",
+  "details": "### Summary\n \nAt present, when Fedify needs to retrieve an object or activity from a remote activitypub server, it makes a HTTP request to the `@id` or other resources present within the activity it has received from the web. This activity could reference an `@id` that points to an internal IP address, allowing an attacker to send request to resources internal to the fedify server's network.\n\nThis applies to not just resolution of documents containing activities or objects, but also to media URLs as well.\n\nSpecifically this is a [Server Side Request Forgery attack](https://owasp.org/www-community/attacks/Server_Side_Request_Forgery). You can learn more about SSRF attacks via [CWE-918](https://cwe.mitre.org/data/definitions/918.html)\n\n### Details\n\nWhen Fedify makes a request at runtime via the DocLoader [1] [2], the `fetch` API does not first check the URI's to assert that it resolve to a public IP address. Additionally, any downstream software of Fedify that may fetch data from URIs contained within Activities or Objects maybe be at risk of requesting non-public resources, and storing those, exposing non-public information to the public.\n\nAdditionally, in many cases the URIs are not asserted to be either strictly HTTPS or HTTP protocols, which could lead to further attacks, and there is no check that the URI contains a `hostname` part. Whilst the [`fetch()` specification](https://fetch.spec.whatwg.org/) may provide some safety here, along with underlying fetch implementations, there is still potential for attacks through using `data:` URIs, or just attacking some other protocol entirely, e.g., FTP or CalDav.\n\n[1] https://github.com/dahlia/fedify/blob/main/runtime/docloader.ts#L141\n[2] https://github.com/dahlia/fedify/blob/main/runtime/docloader.ts#L175\n\n#### Deno-specific Attack Vectors\n\nIn Deno specifically, the `fetch()` API allows [accessing local filesystem](https://docs.deno.com/deploy/api/runtime-fetch/), I'm not sure how Deno's [Permissions model](https://docs.deno.com/runtime/manual/runtime/permission_apis/) may prevent attacks utilising `file:` URIs.\n \n> Fetch also supports fetching from file URLs to retrieve static files. For more info on static files, see the [filesystem API documentation](https://docs.deno.com/deploy/api/runtime-fs).\n\n#### ActivityPub Security Considerations\n\nThis is also noted in the ActivityPub spec in [Section B.3 Security Considerations](https://www.w3.org/TR/activitypub/#security-localhost), however, there it is more limited in scope.\n\n#### Other Implementations\n\nIt may be acceptable to allow a server operator to allow access to given non-public IP addresses, for instance [in Mastodon](https://github.com/mastodon/mastodon/blob/092bb8a27af9ee87ff9ebabaf354477470ea3a94/app/lib/request.rb#L330) they allow requests to non-public IP addresses, i.e., localhost in development and those in the `ALLOWED_PRIVATE_ADDRESSES` environment variable.\n\n### PoC\n\nI'm not sure a PoC is necessary given this is a reasonably well known vulnerability vector.\n\n### Impact\n\nThis impacts server operates, as resources that are internal to their network may find themselves being improperly accessed or potentially even attacked or exposed to the public.\n\n### Notes for resolution:\n\nWhen implementing public IP address validation, be careful of [CWE-1389](https://cwe.mitre.org/data/definitions/1389.html) and [CWE-1286](https://cwe.mitre.org/data/definitions/1286.html) both of which [recently](https://github.com/advisories/GHSA-78xj-cgh5-2h22) caused a CVE to be filed against the popular node.js `ip` package, although this package was not originally intended for security purposes.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@fedify/fedify"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.9.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@fedify/fedify"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.10.0"
+            },
+            {
+              "fixed": "0.11.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "0.10.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/dahlia/fedify/security/advisories/GHSA-p9cg-vqcc-grcx"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-39687"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dahlia/fedify/commit/30f9cf4a175704a04c874f3ea88414c5f1e00b28"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dahlia/fedify/commit/c641e976089dd913f649889c1bfb016df04e86ba"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/dahlia/fedify"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dahlia/fedify/releases/tag/0.11.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-918"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-05T20:07:54Z",
+    "nvd_published_at": "2024-07-05T18:15:32Z"
+  }
+}
