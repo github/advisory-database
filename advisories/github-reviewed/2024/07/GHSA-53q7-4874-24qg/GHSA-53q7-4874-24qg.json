@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-53q7-4874-24qg",
+  "modified": "2024-07-05T20:40:06Z",
+  "published": "2024-07-05T20:40:06Z",
+  "aliases": [
+    "CVE-2024-31223"
+  ],
+  "summary": "Information Disclosure Vulnerability in Privacy Center of SERVER_SIDE_FIDES_API_URL",
+  "details": "`SERVER_SIDE_FIDES_API_URL` is a server-side configuration environment variable used by the Fides Privacy Center to communicate with the Fides webserver backend. The value of this variable is a URL which typically includes a private IP address, private domain name, and/or port.\n\nThis vulnerability allows an unauthenticated attacker to make a HTTP GET request from the Privacy Center that discloses the value of this server-side URL.\n\n### Impact\n\nDisclosure of server-side configuration giving an attacker information on server-side ports, private IP addresses, and/or private domain names.\n\n### Patches\nThe vulnerability has been patched in Fides version `2.39.2`. Users are advised to upgrade to this version or later to secure their systems against this threat.\n\n### Workarounds\nThere are no workarounds.\n\n### Proof of Concept\n\n1. Set the value of the environment variable `FIDES_PRIVACY_CENTER__SERVER_SIDE_FIDES_API_URL` of your Fides Privacy Center container before start-up to a private value such as `https://some.private.domain.name/api/v1` and start the Privacy Center application.\n\n2. Once the application is up, perform a HTTP GET request of the Privacy Center's main page e.g. `https://privacy.example.com` . The value of `SERVER_SIDE_FIDES_API_URL` is returned in the response's body.\n\n\n```\n~ ❯ curl -s https://privacy.example.com/ | \\\ngrep '__NEXT_DATA__' | \\\nsed 's/.*<script id=\"__NEXT_DATA__\" type=\"application\\/json\">//;s/<\\/script>.*//' | \\\njq '.props.serverEnvironment.settings.SERVER_SIDE_FIDES_API_URL'\n\"https://some.private.domain.name/api/v1\"\n```",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ethyca-fides"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.19.0"
+            },
+            {
+              "fixed": "2.39.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ethyca/fides/security/advisories/GHSA-53q7-4874-24qg"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-31223"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ethyca/fides/commit/0555080541f18a5aacff452c590ac9a1b56d7097"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ethyca/fides/commit/cd510216b281de5443ec1c126add95cc5be0970a"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ethyca/fides"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-497"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-05T20:40:06Z",
+    "nvd_published_at": "2024-07-03T18:15:05Z"
+  }
+}
