@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-4w54-wwc9-x62c",
-  "modified": "2024-06-04T18:07:38Z",
+  "modified": "2024-07-05T21:22:25Z",
   "published": "2024-06-03T06:30:53Z",
   "aliases": [
     "CVE-2024-36042"
@@ -9,7 +9,10 @@
   "summary": "Silverpeas authentication bypass",
   "details": "Silverpeas before 6.3.5 allows authentication bypass by omitting the Password field to AuthenticationServlet, often providing an unauthenticated user with superadmin access.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
   ],
   "affected": [
     {
@@ -51,14 +54,18 @@
     },
     {
       "type": "WEB",
+      "url": "https://github.com/Silverpeas/Silverpeas-Core/tags"
+    },
+    {
+      "type": "WEB",
       "url": "https://silverpeas.org"
     }
   ],
   "database_specific": {
     "cwe_ids": [
-
+      "CWE-288"
     ],
-    "severity": "HIGH",
+    "severity": "CRITICAL",
     "github_reviewed": true,
     "github_reviewed_at": "2024-06-04T18:06:25Z",
     "nvd_published_at": "2024-06-03T06:15:09Z"
