@@ -1,13 +1,13 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-hw4x-mcx5-9q36",
-  "modified": "2024-01-23T12:50:39Z",
+  "modified": "2024-07-08T19:39:16Z",
   "published": "2024-01-03T21:28:37Z",
   "withdrawn": "2024-01-23T12:50:39Z",
   "aliases": [
 
   ],
-  "summary": "Teleport Proxy and Teleport Agents: SSRF to arbitrary hosts is possible from low privileged users",
+  "summary": "Withdrawn Advisory: Teleport Proxy and Teleport Agents: SSRF to arbitrary hosts is possible from low privileged users",
   "details": "## Withdrawn Advisory\nThis advisory has been withdrawn because the vulnerability affects a binary, not a library in a [supported ecosystem](https://github.com/github/advisory-database#supported-ecosystems). Therefore, users of the library should not receive alerts. This link is maintained to preserve external references.\n\n## Original Description\n\n### Impact\nAn authenticated attacker with valid credentials (user or host) can make non-blind Server-Side Request Forgery (SSRF) through the proxy and/or agents to arbitrary hosts.\n\nDuring investigation of this functionality, it was discovered that there are several permutations where this SSRF is possible. This release addresses all but one: a root proxy administrator with access to the root proxy credentials can make requests through leaf proxies in Trusted Clusters. This behavior will be restricted in future releases. For customers using Teleport in a Trusted Cluster configuration, we encourage leaf clusters to have network restrictions in place to mitigate SSRF. For example, we recommend restricting outbound network connections to only the Auth Service, your SSO provider, and any agents, databases or applications needed to be accessed from the proxy. If running in a cloud environment pay careful attention to what cloud resources are accessible from the proxy.\n\n### Patches\nFixed in versions 14.2.4, 13.4.13 and 12.4.31.\n\n### Workarounds\nStrict network controls from the Teleport Proxy and Teleport Agents reduce the potential exposure from this issue.\n\n### References\n* Fixed in PR: https://github.com/gravitational/teleport/pull/36127\n* https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html#network-layer\n* https://www.cyber.gov.au/resources-business-and-government/maintaining-devices-and-systems/system-hardening-and-administration/network-hardening/implementing-network-segmentation-and-segregation\n",
   "severity": [
 
