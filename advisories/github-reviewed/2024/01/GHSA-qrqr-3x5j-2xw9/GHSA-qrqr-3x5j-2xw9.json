@@ -1,12 +1,12 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-qrqr-3x5j-2xw9",
-  "modified": "2024-01-31T23:28:22Z",
+  "modified": "2024-07-08T15:54:29Z",
   "published": "2024-01-31T23:28:22Z",
   "aliases": [
     "CVE-2018-12608"
   ],
-  "summary": "Docker Moby Authentication Bypass",
+  "summary": "Docker Authentication Bypass",
   "details": "An issue was discovered in Docker Moby before 17.06.0. The Docker engine validated a client TLS certificate using both the configured client CA root certificate and all system roots on non-Windows systems. This allowed a client with any domain validated certificate signed by a system-trusted root CA (as opposed to one signed by the configured CA root certificate) to authenticate.",
   "severity": [
     {
@@ -18,7 +18,7 @@
     {
       "package": {
         "ecosystem": "Go",
-        "name": "github.com/moby/moby"
+        "name": "github.com/docker/docker"
       },
       "ranges": [
         {
@@ -51,6 +51,10 @@
     {
       "type": "WEB",
       "url": "https://github.com/moby/moby/commit/190c6e8cf8b893874a33d83f78307f1bed0bfbcd"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/moby/moby"
     }
   ],
   "database_specific": {
