@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3v33-3wmw-3785",
+  "modified": "2024-07-08T14:22:00Z",
+  "published": "2024-07-08T14:22:00Z",
+  "aliases": [
+
+  ],
+  "summary": "yt-dlp has dependency on potentially malicious third-party code in Douyu extractors",
+  "details": "### Impact\nyt-dlp's DouyuTV and DouyuShow extractors used a `cdn.bootcdn.net` URL as a fallback for fetching a component of the crypto-js JavaScript library. When the Douyu extractor is used, yt-dlp extracts this JavaScript code and attempts to execute it externally using [PhantomJS](https://github.com/ariya/phantomjs). `bootcdn.net` is owned by the bad actor responsible for the [Polyfill JS supply chain attack](https://sansec.io/research/polyfill-supply-chain-attack) that has been ongoing since at least June 2023. While there is no evidence that PhantomJS has been targeted by or is vulnerable to any attacks carried out by the Polyfill JS actor, there is the possibility that malicious JavaScript code may have been downloaded/cached by yt-dlp or executed by PhantomJS.\n\nIn order for this potential vulnerability to be exploited by any hypothetical attack, all 3 of the following conditions must be met:\n1. The user has PhantomJS installed on their system.\n2. The user passes a `douyu.com` or `douyutv.com` URL to yt-dlp as input, or passes a URL that redirects to one of these domains.\n3. `cdnjs.cloudflare.com` is unavailable or blocked at the time of extraction, necessitating the usage of the `cdn.bootcdn.net` fallback; or it had been unavailable during a previous run of the Douyu extractor and JavaScript code from `cdn.bootcdn.net` had been cached to disk.\n\n### Patches\nyt-dlp version 2024.07.07 fixes this issue by removing the URL pointing to the malicious CDN and by invalidating any Douyu extractor cache data created by unpatched versions of yt-dlp.\n\n### Workarounds\nIt is recommended to upgrade yt-dlp to version 2024.07.07 as soon as possible.\n\nFor users not able to upgrade:\n- Avoid using the Douyu extractors (`--ies default,-douyutv,-douyushow`)\n- Uninstall (or do not install) PhantomJS\n\n### Acknowledgement\nThanks to @LeSuisse for [reporting this](https://github.com/yt-dlp/yt-dlp/pull/10347) promptly after `bootcdn.net` was discovered to be under control of the same bad actor behind the `polyfill.io` supply chain attack.\n\n### References\n- https://github.com/yt-dlp/yt-dlp/commit/6075a029dba70a89675ae1250e7cdfd91f0eba41\n- https://sansec.io/research/polyfill-supply-chain-attack\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "yt-dlp"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2023.09.24"
+            },
+            {
+              "fixed": "2024.07.07"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/yt-dlp/yt-dlp/security/advisories/GHSA-3v33-3wmw-3785"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/yt-dlp/yt-dlp/commit/6075a029dba70a89675ae1250e7cdfd91f0eba41"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/yt-dlp/yt-dlp"
+    },
+    {
+      "type": "WEB",
+      "url": "https://sansec.io/research/polyfill-supply-chain-attack"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-08T14:22:00Z",
+    "nvd_published_at": null
+  }
+}
