@@ -1,17 +1,21 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-8h2x-gr2c-c275",
-  "modified": "2024-01-03T19:23:54Z",
+  "modified": "2024-07-08T19:35:42Z",
   "published": "2024-01-03T16:14:39Z",
   "aliases": [
     "CVE-2023-46741"
   ],
   "summary": "CubeFS leaks magic secret key when starting Blobstore access service",
-  "details": "A vulnerability was found in CubeFS that could allow users to read sensitive data from the logs which could allow them escalate privileges. \n\nCubeFS leaks configuration keys in plaintext format in the logs. These keys could allow anyone to carry out operations on blobs that they otherwise do not have permissions for. For example, an attacker that has succesfully retrieved a secret key from the logs can delete blogs from the blob store.\n\nThe attacker can either be an internal user with limited privileges to read the log, or it can be an external user  who has escalated privileges sufficiently to access the logs. There is no evidence of this vulnerability being exploited in the wild. It was found during an ongoing security audit carried out by [Ada Logics](https://adalogics.com/) in collaboration with [OSTIF](https://ostif.org/) and the [CNCF](https://www.cncf.io/).\n\nThe vulnerability has been patched in v3.3.1. There is no other mitigated than upgrading.",
+  "details": "A vulnerability was found in CubeFS that could allow users to read sensitive data from the logs which could allow them escalate privileges. \n\nCubeFS leaks configuration keys in plaintext format in the logs. These keys could allow anyone to carry out operations on blobs that they otherwise do not have permissions for. For example, an attacker that has succesfully retrieved a secret key from the logs can delete blogs from the blob store.\n\nThe attacker can either be an internal user with limited privileges to read the log, or it can be an external user who has escalated privileges sufficiently to access the logs. There is no evidence of this vulnerability being exploited in the wild. It was found during an ongoing security audit carried out by [Ada Logics](https://adalogics.com/) in collaboration with [OSTIF](https://ostif.org/) and the [CNCF](https://www.cncf.io/).\n\nThe vulnerability has been patched in v3.3.1. There is no other mitigated than upgrading.",
   "severity": [
     {
       "type": "CVSS_V3",
       "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:L/I:L/A:L"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:P/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N"
     }
   ],
   "affected": [
