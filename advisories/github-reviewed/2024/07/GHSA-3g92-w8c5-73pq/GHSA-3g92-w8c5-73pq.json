@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3g92-w8c5-73pq",
+  "modified": "2024-07-09T13:32:30Z",
+  "published": "2024-07-09T13:32:30Z",
+  "aliases": [
+    "CVE-2024-38372"
+  ],
+  "summary": "Undici vulnerable to data leak when using response.arrayBuffer()",
+  "details": "### Impact\n\nDepending on network and process conditions of a `fetch()` request, `response.arrayBuffer()` might include portion of memory from the Node.js process.\n\n### Patches\n\nThis has been patched in v6.19.2.\n\n### Workarounds\n\nThere are no known workaround.\n\n### References\n\nhttps://github.com/nodejs/undici/issues/3337\nhttps://github.com/nodejs/undici/issues/3328\nhttps://github.com/nodejs/undici/pull/3338\nhttps://github.com/nodejs/undici/commit/f979ec3204ca489abf30e7d20e9fee9ea7711d36",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:U/C:L/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:H/AT:N/PR:H/UI:P/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "undici"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.14.0"
+            },
+            {
+              "fixed": "6.19.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/nodejs/undici/security/advisories/GHSA-3g92-w8c5-73pq"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-38372"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nodejs/undici/issues/3328"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nodejs/undici/issues/3337"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nodejs/undici/pull/3338"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nodejs/undici/commit/f979ec3204ca489abf30e7d20e9fee9ea7711d36"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/nodejs/undici"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-201"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-09T13:32:30Z",
+    "nvd_published_at": "2024-07-08T21:15:12Z"
+  }
+}
