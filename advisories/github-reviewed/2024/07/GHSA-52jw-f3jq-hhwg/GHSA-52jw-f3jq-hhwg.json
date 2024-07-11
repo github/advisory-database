@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-52jw-f3jq-hhwg",
+  "modified": "2024-07-11T19:50:01Z",
+  "published": "2024-07-10T09:30:40Z",
+  "withdrawn": "2024-07-11T19:50:01Z",
+  "aliases": [
+
+  ],
+  "summary": "Duplicate Advisory: Login by Auth0 plugin for WordPress vulnerable to Reflected Cross-Site Scripting",
+  "details": "## Duplicate Advisory\nThis advisory has been withdrawn because it is a duplicate of GHSA-x6p7-44rh-m3rr. This link has been maintained to preserve external references.\n\n## Original Description\nThe Login by Auth0 plugin for WordPress is vulnerable to Reflected Cross-Site Scripting via the ‘wle’ parameter in all versions up to, and including, 4.6.0 due to insufficient input sanitization and output escaping. This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that execute if they can successfully trick a user into performing an action such as clicking on a link.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "auth0/wordpress"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.6.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 4.6.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-6813"
+    },
+    {
+      "type": "WEB",
+      "url": "https://plugins.trac.wordpress.org/changeset?sfp_email=&sfph_mail=&reponame=&old=3114611%40auth0&new=3114611%40auth0&sfp_email=&sfph_mail="
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/0c4e0d48-fde1-45dd-8e06-4582cf677579?source=cve"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-11T19:50:01Z",
+    "nvd_published_at": "2024-07-10T08:15:10Z"
+  }
+}
