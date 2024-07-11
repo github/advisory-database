@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-gmc6-fwg3-75m5",
+  "modified": "2024-07-11T17:42:20Z",
+  "published": "2024-07-11T17:42:20Z",
+  "aliases": [
+
+  ],
+  "summary": "Mimekit has vulnerable dependency that can lead to denial of service",
+  "details": "### Summary\nDenial of service vulnerability.\n\n### Details\nSee: https://github.com/advisories/GHSA-447r-wph3-92pm and https://github.com/dotnet/announcements/issues/312\n\n### PoC\nUpdate System.Security.Cryptography.Pkcs to 8.0.1 so that the transitive dependency with the issue gets updated\n\n### Impact\nDenial of service vulnerability. Affects MimeKit (>= v3.0.0 and <= v4.7.0) when used to decrypt or verify incoming S/MIME messages as well as importing 3rd-party X.509 certificates for use with encrypting outgoing S/MIME messages.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "MimeKit"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "4.7.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/jstedfast/MimeKit/security/advisories/GHSA-gmc6-fwg3-75m5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dotnet/announcements/issues/312"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jstedfast/MimeKit/commit/aef4eda75525848b992ce5e1f9b87399000fffb6"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-447r-wph3-92pm"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jstedfast/MimeKit"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-11T17:42:20Z",
+    "nvd_published_at": null
+  }
+}
