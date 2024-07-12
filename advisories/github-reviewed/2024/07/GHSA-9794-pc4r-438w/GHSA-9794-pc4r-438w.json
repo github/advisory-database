@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9794-pc4r-438w",
+  "modified": "2024-07-12T21:00:21Z",
+  "published": "2024-07-12T21:00:21Z",
+  "aliases": [
+    "CVE-2024-39903"
+  ],
+  "summary": "Local File Inclusion in Solara",
+  "details": "A Local File Inclusion (LFI) vulnerability was identified in widgetti/solara, in version <1.35.1, which was fixed in version 1.35.1. This vulnerability arises from the application's failure to properly validate URI fragments for directory traversal sequences such as '../' when serving static files. An attacker can exploit this flaw by manipulating the fragment part of the URI to read arbitrary files on the local file system. \n\n### References\n- https://github.com/widgetti/solara/security/advisories/GHSA-9794-pc4r-438w\n- https://github.com/widgetti/solara/commit/df2fd66a7f4e8ffd36e8678697a8a4f76760dc54\n- https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-39903",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "solara"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.35.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/widgetti/solara/security/advisories/GHSA-9794-pc4r-438w"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-39903"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/widgetti/solara/commit/df2fd66a7f4e8ffd36e8678697a8a4f76760dc54"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/widgetti/solara"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-12T21:00:21Z",
+    "nvd_published_at": "2024-07-12T15:15:11Z"
+  }
+}
