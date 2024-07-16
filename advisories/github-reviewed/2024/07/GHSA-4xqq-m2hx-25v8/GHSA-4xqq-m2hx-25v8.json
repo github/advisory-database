@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4xqq-m2hx-25v8",
+  "modified": "2024-07-16T19:49:15Z",
+  "published": "2024-07-16T19:49:15Z",
+  "aliases": [
+    "CVE-2024-39908"
+  ],
+  "summary": "REXML denial of service vulnerability",
+  "details": "### Impact\n\nThe REXML gem before 3.3.1 has some DoS vulnerabilities when it parses an XML that has many specific characters such as `<`, `0` and `%>`.\n\nIf you need to parse untrusted XMLs, you may be impacted to these vulnerabilities.\n\n### Patches\n\nThe REXML gem 3.3.2 or later include the patches to fix these vulnerabilities.\n\n### Workarounds\n\nDon't parse untrusted XMLs.\n\n### References\n\n* https://github.com/ruby/rexml/security/advisories/GHSA-vg3r-rm7w-2xgh : This is a similar vulnerability\n* https://www.ruby-lang.org/en/news/2024/07/16/dos-rexml-cve-2024-39908/",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:L"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "rexml"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.3.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ruby/rexml/security/advisories/GHSA-4xqq-m2hx-25v8"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-39908"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ruby/rexml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ruby/rexml/releases/tag/v3.3.2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/rexml/CVE-2024-39908.yml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.ruby-lang.org/en/news/2024/07/16/dos-rexml-cve-2024-39908"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-16T19:49:15Z",
+    "nvd_published_at": "2024-07-16T18:15:08Z"
+  }
+}
