@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2rwm-xv5j-777p",
+  "modified": "2024-07-17T19:29:06Z",
+  "published": "2024-07-17T15:30:50Z",
+  "aliases": [
+    "CVE-2023-7272"
+  ],
+  "summary": "Eclipse Parsson stack overflow when parsing deeply nested input",
+  "details": "In Eclipse Parsson before 1.0.4 and 1.1.3, a document with a large depth of nested objects can allow an attacker to cause a Java stack overflow exception and denial of service. Eclipse Parsson allows processing (e.g. parse, generate, transform and query) JSON documents.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:N/I:N/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.eclipse.parsson:parsson"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.1.0"
+            },
+            {
+              "fixed": "1.1.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.eclipse.parsson:parsson"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.0.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-7272"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/eclipse-ee4j/parsson/issues/91"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/eclipse-ee4j/parsson/commit/755d2a86dff74fecc4114fbe7d21e071380c4e45"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/eclipse-ee4j/parsson/commit/d0ec79badd44a940c82842954430762a2199f4e1"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/eclipse-ee4j/parsson"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gitlab.eclipse.org/security/vulnerability-reports/-/issues/12"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-787"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-17T19:29:06Z",
+    "nvd_published_at": "2024-07-17T15:15:10Z"
+  }
+}
