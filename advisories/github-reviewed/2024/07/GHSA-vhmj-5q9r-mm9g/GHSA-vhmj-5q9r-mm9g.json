@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vhmj-5q9r-mm9g",
+  "modified": "2024-07-17T16:01:37Z",
+  "published": "2024-07-17T16:01:37Z",
+  "aliases": [
+
+  ],
+  "summary": "BlastRADIUS also affects eduMFA",
+  "details": "### Summary\nBlastRADIUS (see blastradius.fail for details) also affects eduMFA prior version 2.2.0, because the Message-Authenticator attributes were not checked.\n\n### Details\nWebsite with the vulnerability information blastradius.fail\nThe original vulnerability has been assigned CVE-2024-3596\nCase in vince: https://kb.cert.org/vuls/id/456537\n\n### PoC\nThere is no known proof-of-concept except for the attack shown in the paper from the researchers \n\n### Impact\nAn attacker can trigger an authentication flow with a RADIUS-backed token, intercept the RADIUS packet sent by eduMFA and modify the RADIUS server's answer, which would lead eduMFA to believe that the token is valid, even though the RADIUS servers answer was a reject.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:H/AT:P/PR:N/UI:P/VC:N/VI:N/VA:N/SC:H/SI:H/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "edumfa"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.2.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/eduMFA/eduMFA/security/advisories/GHSA-vhmj-5q9r-mm9g"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-3596"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/eduMFA/eduMFA/commit/ad9d18be31e8a6f536c646dc037d945de33fac60"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/eduMFA/eduMFA"
+    },
+    {
+      "type": "WEB",
+      "url": "https://kb.cert.org/vuls/id/456537"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-924"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-17T16:01:37Z",
+    "nvd_published_at": null
+  }
+}
