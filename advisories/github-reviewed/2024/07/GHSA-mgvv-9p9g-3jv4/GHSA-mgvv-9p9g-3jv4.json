@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mgvv-9p9g-3jv4",
+  "modified": "2024-07-18T15:26:04Z",
+  "published": "2024-07-18T15:26:04Z",
+  "aliases": [
+    "CVE-2024-40644"
+  ],
+  "summary": "gix-path can use a fake program files location",
+  "details": "### Summary\n\nWhen looking for Git for Windows so it can run it to report its paths, `gix-path` can be tricked into running another `git.exe` placed in an untrusted location by a limited user account.\n\n### Details\n\nWindows permits limited user accounts without administrative privileges to create new directories in the root of the system drive. While `gix-path` first looks for `git` using a `PATH` search, in version 0.10.8 it also has a fallback strategy on Windows of checking two hard-coded paths intended to be the 64-bit and 32-bit Program Files directories:\n\nhttps://github.com/Byron/gitoxide/blob/6cd8b4665bb7582f744c3244abaef812be39ec35/gix-path/src/env/git.rs#L9-L14\n\nExisting functions, as well as the newly introduced `exe_invocation` function, were updated to make use of these alternative locations. This causes facilities in `gix_path::env` to directly execute `git.exe` in those locations, as well as to return its path or whatever configuration it reports to callers who rely on it.\n\nAlthough unusual setups where the system drive is not `C:`, or even where Program Files directories have non-default names, are technically possible, the main problem arises on a 32-bit Windows system. Such a system has no `C:\\Program Files (x86)` directory.\n\nA limited user on a 32-bit Windows system can therefore create the `C:\\Program Files (x86)` directory and populate it with arbitrary contents. Once a payload has been placed at the second of the two hard-coded paths in this way, other user accounts including administrators will execute it if they run an application that uses `gix-path` and do not have `git` in a `PATH` directory.\n\n(While having `git` found in a `PATH` search prevents exploitation, merely having it installed in the default location under the real `C:\\Program Files` directory does not. This is because the first hard-coded path's `mingw64` component assumes a 64-bit installation.)\n\n### PoC\n\nOn a 32-bit (x86) Windows 10 system, with or without Git for Windows installed:\n\n1. Create a limited user account in `lusrmgr.msc` or the Settings application.\n2. Log in with that account and, using Windows Explorer or the `mkdir` command in PowerShell, create the directories `C:\\Program Files (x86)\\Git\\mingw32\\bin`. Although a limited user account cannot create regular files directly in `C:\\`, it can create directories including one called `Program Files (x86)`.\n3. Place a copy of `C:\\Windows\\system32\\calc.exe` in `C:\\Program Files (x86)\\Git\\mingw32\\bin` and rename it from `calc.exe` to `git.exe`. A different test payload may be used if preferred, and the executable need not already be signed or trusted.\n4. Log out, and log in as a different user. This user may be an administrator.\n5. If `gitoxide` is not installed, install it. If `cargo install gitoxide` is used for the installation, then the version of `gix-path` used in the installation can be observed.\n6. The vulnerability is only exploitable if `git` cannot be found in a `PATH` search. So, in PowerShell, run `gcm git` to check if `git` is present in the `PATH`. If so, temporarily remove it. One way to do this is for the current shell only, by running `$env:PATH` to inspect it and by assigning `$env:PATH = '...'` where `...` omits directories that contain `git`.\n7. Some commands that can be run outside a repository, and most commands that can be run inside a repository, will run the Calculator or other payload at least once per invocation. Try `gix clone foo` or, inside of a repository, `gix status`, `gix config`, `gix is-changed`, `gix fetch`, `ein t hours`, or `ein t query`. This is not exhaustive; most other `gix` and `ein` commands that access existing repository state or a network resource likewise run the payload.\n\n### Impact\n\nOnly Windows is affected. Exploitation is unlikely except on a 32-bit system. In particular, running a 32-bit build on a 64-bit system is not a risk factor. Furthermore, the attacker must have a user account on the system, though it may be a relatively unprivileged account. Such a user can perform privilege escalation and execute code as another user, though it may be difficult to do so reliably because the targeted user account must run an application or service that uses `gix-path` and must not have `git` in its `PATH`.\n\nThe main exploitable configuration is one where Git for Windows has been installed but not added to `PATH`. This is one of the options in its installer, though not the default option. Alternatively, an affected program that sanitizes its `PATH` to remove seemingly nonessential directories could allow exploitation. But for the most part, if the target user has configured a `PATH` in which the real `git.exe` can be found, then this cannot be exploited.\n\nThis vulnerability is comparable to [CVE-2022-24765](https://github.com/git-for-windows/git/security/advisories/GHSA-vw2c-22j4-2fh2), in which an uncontrolled path like `C:\\.git\\config`, which a limited user can create, could supply configuration used by other users. However, in this case, exploitation is slightly simpler because, rather than using configuration, an executable is directly run.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:L"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:P/VC:H/VI:H/VA:L/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "gix-path"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.10.8"
+            },
+            {
+              "fixed": "0.10.9"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "0.10.8"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/Byron/gitoxide/security/advisories/GHSA-mgvv-9p9g-3jv4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/git-for-windows/git/security/advisories/GHSA-vw2c-22j4-2fh2"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Byron/gitoxide"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Byron/gitoxide/blob/6cd8b4665bb7582f744c3244abaef812be39ec35/gix-path/src/env/git.rs#L9-L14"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-427"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-18T15:26:04Z",
+    "nvd_published_at": null
+  }
+}
