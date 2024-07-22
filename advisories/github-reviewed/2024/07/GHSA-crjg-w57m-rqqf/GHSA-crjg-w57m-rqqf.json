@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-crjg-w57m-rqqf",
+  "modified": "2024-07-22T17:30:19Z",
+  "published": "2024-07-22T17:30:19Z",
+  "aliases": [
+
+  ],
+  "summary": "DNSJava vulnerable to KeyTrap - Denial-of-Service Algorithmic Complexity Attacks",
+  "details": "### Impact\nUsers using the `ValidatingResolver` for DNSSEC validation can run into CPU exhaustion with specially crafted DNSSEC-signed zones.\n\n### Patches\nUsers should upgrade to dnsjava v3.6.0\n\n### Workarounds\nAlthough not recommended, only using a non-validating resolver, will remove the vulnerability. \n\n### References\nhttps://www.athene-center.de/en/keytrap\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "dnsjava:dnsjava"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.6.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/dnsjava/dnsjava/security/advisories/GHSA-crjg-w57m-rqqf"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dnsjava/dnsjava/commit/07ac36a11578cc1bce0cd8ddf2fe568f062aee78"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dnsjava/dnsjava/commit/3ddc45ce8cdb5c2274e10b7401416f497694e1cf"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/dnsjava/dnsjava"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-770"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-22T17:30:19Z",
+    "nvd_published_at": null
+  }
+}
