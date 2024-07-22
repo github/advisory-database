@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8pxv-x6jq-5vw9",
+  "modified": "2024-07-22T18:43:41Z",
+  "published": "2024-07-22T12:30:37Z",
+  "aliases": [
+    "CVE-2024-38503"
+  ],
+  "summary": "Apache Syncope Improper Input Validation vulnerability",
+  "details": "When editing a user, group or any object in the Syncope Console, HTML tags could be added to any text field and could lead to potential exploits.\nThe same vulnerability was found in the Syncope Enduser, when editing \"Personal Information\" or \"User Requests\".\n\nUsers are recommended to upgrade to version 3.0.8, which fixes this issue.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.syncope.client.idrepo:syncope-client-idrepo-common-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.1.0"
+            },
+            {
+              "fixed": "3.0.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.syncope.client.idrepo:syncope-client-idrepo-console"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.1.0"
+            },
+            {
+              "fixed": "3.0.8"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-38503"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/syncope/commit/12e65f5fb12ad87ce0b223b3c2bb39025a4521e4"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/syncope"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/syncope/releases/tag/syncope-3.0.8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://syncope.apache.org/security#cve-2024-38503-html-tags-can-be-injected-into-console-or-enduser"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/07/22/3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-22T18:43:41Z",
+    "nvd_published_at": "2024-07-22T10:15:08Z"
+  }
+}
