@@ -1,12 +1,12 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-cv23-q6gh-xfrf",
-  "modified": "2024-06-12T19:40:16Z",
+  "modified": "2024-07-24T15:10:12Z",
   "published": "2024-06-12T19:40:16Z",
   "aliases": [
     "CVE-2024-37297"
   ],
-  "summary": "WooCommerce has a Cross-Site Scripting Vulnerability in checkout & registration forms",
+  "summary": "WooCommerce has a Cross-Site Scripting (XSS) Vulnerability in checkout & registration forms",
   "details": "### Impact\nA vulnerability introduced in WooCommerce 8.8 allows for cross-site scripting. A bad actor can manipulate a link to include malicious HTML & JavaScript content. While the content is not saved to the database, the links may be sent to victims for malicious purposes. The injected JavaScript could hijack content & data stored in the browser, including the session.\nThe URL content is read through the Sourcebuster.js library and then inserted without proper sanitization to the classic checkout and registration forms.\n\n### Patches\n```diff\ndiff --git a/plugins/woocommerce/client/legacy/js/frontend/order-attribution.js b/plugins/woocommerce/client/legacy/js/frontend/order-attribution.js\nindex 79411e928e1..25eaa721c54 100644\n--- a/plugins/woocommerce/client/legacy/js/frontend/order-attribution.js\n+++ b/plugins/woocommerce/client/legacy/js/frontend/order-attribution.js\n@@ -155,12 +155,16 @@\n \t\t * but it's not yet supported in Safari.\n \t\t */\n \t\tconnectedCallback() {\n-\t\t\tlet inputs = '';\n+\t\t\tthis.innerHTML = '';\n+\t\t\tconst inputs = new DocumentFragment();\n \t\t\tfor( const fieldName of this._fieldNames ) {\n-\t\t\t\tconst value = stringifyFalsyInputValue( this.values[ fieldName ] );\n-\t\t\t\tinputs += `<input type=\"hidden\" name=\"${params.prefix}${fieldName}\" value=\"${value}\"/>`;\n+\t\t\t\tconst input = document.createElement( 'input' );\n+\t\t\t\tinput.type = 'hidden';\n+\t\t\t\tinput.name = `${params.prefix}${fieldName}`;\n+\t\t\t\tinput.value = stringifyFalsyInputValue( ( this.values && this.values[ fieldName ] ) || '' );\n+\t\t\t\tinputs.appendChild( input );\n \t\t\t}\n-\t\t\tthis.innerHTML = inputs;\n+\t\t\tthis.appendChild( inputs );\n \t\t}\n \n \t\t/**\n```\n\n### Workarounds\nDisabling the Order Attribution feature \n\n### References\nA8C SIRT: p3btAN-2L2-p2 (internal)\nPublic disclosure: https://developer.woocommerce.com/2024/06/10/developer-advisory-xss-vulnerability-8-8-0/\n",
   "severity": [
     {
