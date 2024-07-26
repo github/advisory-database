@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-296q-rj83-g9rq",
+  "modified": "2024-07-26T14:28:26Z",
+  "published": "2024-07-26T14:28:26Z",
+  "aliases": [
+
+  ],
+  "summary": "Reflected Cross Site-Scripting (XSS) in Oveleon Cookiebar",
+  "details": "## usd-2024-0009 | Reflected XSS in Oveleon Cookiebar\n\n### Details\n**Advisory ID**: usd-2024-0009 \n**Product**: Cookiebar   \n**Affected Version**: 2.X  \n**Vulnerability Type**: CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')   \n**Security Risk**: HIGH, CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:A/VC:N/VI:L/VA:N/SC:L/SI:L/SA:N   \n**Vendor URL**: https://www.usd.de/    \n**CVE Number**: Not requested yet    \n**CVE Link**: Not requested yet    \n\n### Affected Component\n\nThe `block` function in `CookiebarController.php`.\n\n### Desciption\n\nOveleon's Cookiebar is an extension for the popular Contao CMS.\nThe `block/locale` endpoint does not properly sanitize the user-controlled `locale` input before including it in the backend's HTTP response, thereby causing reflected XSS.\n\n### Fix\nSanitize the `locale` input to prevent XSS payloads from being executed in a user's browser.\n\n### Timeline\n* **2024-04-24**: Vulnerability discovered by Daniel Ruppel of usd AG.\n\n* **2024-07-25**: Probable cause of the vulnerability has been identified as Oveleon's Cookiebar Extension for Contao CMS.\n\n* **2024-07-25**: Vulnerability disclosed via GitHub Vulnerability Report.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:A/VC:N/VI:N/VA:N/SC:L/SI:L/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "oveleon/contao-cookiebar"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.16.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "oveleon/contao-cookiebar"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.1.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/oveleon/contao-cookiebar/security/advisories/GHSA-296q-rj83-g9rq"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/oveleon/contao-cookiebar/commit/1d57470be5878f66d5e1e23f624dd387564b9b8d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/oveleon/contao-cookiebar"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/oveleon/contao-cookiebar/blob/2.x/src/Controller/CookiebarController.php"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-26T14:28:26Z",
+    "nvd_published_at": null
+  }
+}
