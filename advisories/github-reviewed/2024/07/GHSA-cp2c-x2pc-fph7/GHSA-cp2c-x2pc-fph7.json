@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cp2c-x2pc-fph7",
+  "modified": "2024-07-30T16:30:35Z",
+  "published": "2024-07-30T09:32:05Z",
+  "aliases": [
+    "CVE-2023-48396"
+  ],
+  "summary": "Apache SeaTunnel Web Authentication vulnerability",
+  "details": "Web Authentication vulnerability in Apache SeaTunnel. Since the jwt key is hardcoded in the application, an attacker can forge any token to log in any user.\n\nAttacker can get secret key in /seatunnel-server/seatunnel-app/src/main/resources/application.yml and then create a token. This issue affects Apache SeaTunnel: 1.0.0.\n\nUsers are recommended to upgrade to version 1.0.1, which fixes the issue.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:H/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:H/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.seatunnel:seatunnel-web"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.0.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-48396"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/seatunnel-web/commit/4a37ebfa4b57e177bf7857cf39a6dbdc00f75f78"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/seatunnel"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/1tdxfjksx0vb9gtyt77wlr6rdcy1qwmw"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/07/30/1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-290"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-30T16:30:35Z",
+    "nvd_published_at": "2024-07-30T09:15:02Z"
+  }
+}
