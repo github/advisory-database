@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hx9v-6r9f-w677",
+  "modified": "2024-07-31T18:50:41Z",
+  "published": "2024-07-31T18:50:41Z",
+  "aliases": [
+    "CVE-2024-41950"
+  ],
+  "summary": "Insecure Jinja2 templates rendered in Haystack Components can lead to RCE",
+  "details": "### Impact\n\nHaystack clients that let their users create and run Pipelines from scratch are vulnerable to remote code executions.\n\nCertain Components in Haystack use Jinja2 templates, if anyone can create and render that template on the client machine they run any code.\n\n### Patches\n\nThe problem has been fixed with PRs deepset-ai/haystack#8095 and deepset-ai/haystack#8096.\n\nBoth have been released with Haystack `2.3.1`.\n\n### Workarounds\n\nPrevent users from running the affected Components, or only let users use preselected templates.\n\n### References\n\nThe list of impacted Components can be found in the release notes for `2.3.1`.\nhttps://github.com/deepset-ai/haystack/releases/tag/v2.3.1",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "haystack-ai"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.3.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/deepset-ai/haystack/security/advisories/GHSA-hx9v-6r9f-w677"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-41950"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/deepset-ai/haystack/pull/8095"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/deepset-ai/haystack/pull/8096"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/deepset-ai/haystack/commit/3fed1366c448b02189851bf08166c1f6477a02b0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/deepset-ai/haystack/commit/6c25a5c73e83aa32c3241ba84a5cbb3ac0e8a89e"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/deepset-ai/haystack"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/deepset-ai/haystack/releases/tag/v2.3.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1336"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-31T18:50:41Z",
+    "nvd_published_at": "2024-07-31T16:15:04Z"
+  }
+}
