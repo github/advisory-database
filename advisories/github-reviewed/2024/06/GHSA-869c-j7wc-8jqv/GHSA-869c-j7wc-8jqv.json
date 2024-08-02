@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-869c-j7wc-8jqv",
-  "modified": "2024-07-05T21:27:41Z",
+  "modified": "2024-08-02T15:51:36Z",
   "published": "2024-06-29T06:31:40Z",
   "aliases": [
     "CVE-2019-25211"
@@ -9,7 +9,14 @@
   "summary": "Gin mishandles a wildcard at the end of an origin string",
   "details": "parseWildcardRules in Gin-Gonic CORS middleware before 1.6.0 mishandles a wildcard at the end of an origin string, e.g., https://example.community/* is allowed when the intention is that only https://example.com/* should be allowed, and http://localhost.example.com/* is allowed when the intention is that only http://localhost/* should be allowed.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N"
+    }
   ],
   "affected": [
     {
@@ -69,10 +76,6 @@
       "url": "https://github.com/gin-contrib/cors/commit/27b723a473efd80d5a498fa9f5933c80204c850d"
     },
     {
-      "type": "ADVISORY",
-      "url": "https://github.com/advisories/GHSA-869c-j7wc-8jqv"
-    },
-    {
       "type": "WEB",
       "url": "https://github.com/gin-contrib/cors/compare/v1.5.0...v1.6.0"
     },
@@ -89,7 +92,7 @@
     "cwe_ids": [
 
     ],
-    "severity": "MODERATE",
+    "severity": "CRITICAL",
     "github_reviewed": true,
     "github_reviewed_at": "2024-07-01T21:30:24Z",
     "nvd_published_at": "2024-06-29T00:15:02Z"
