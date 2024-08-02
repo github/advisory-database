@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-vf7j-cmrj-pmmm",
-  "modified": "2024-02-29T23:26:54Z",
+  "modified": "2024-08-02T10:46:44Z",
   "published": "2024-02-27T15:30:33Z",
   "aliases": [
     "CVE-2024-25723"
@@ -9,7 +9,14 @@
   "summary": "ZenML Server Remote Privilege Escalation Vulnerability",
   "details": "ZenML Server in the ZenML package before 0.46.7 for Python allows remote privilege escalation because the `/api/v1/users/{user_name_or_id}/activate` REST API endpoint allows access on the basis of a valid username along with a new password in the request body. These are also patched versions: 0.44.4, 0.43.1, and 0.42.2.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N"
+    }
   ],
   "affected": [
     {
@@ -120,7 +127,7 @@
   ],
   "database_specific": {
     "cwe_ids": [
-
+      "CWE-284"
     ],
     "severity": "MODERATE",
     "github_reviewed": true,
