@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-h3rw-77w7-92gf",
-  "modified": "2024-02-12T17:22:18Z",
+  "modified": "2024-08-02T16:00:22Z",
   "published": "2024-02-11T06:30:27Z",
   "aliases": [
     "CVE-2024-25718"
@@ -9,7 +9,14 @@
   "summary": "Samly access control vulnerability",
   "details": "In the Samly package before 1.4.0 for Elixir, `Samly.State.Store.get_assertion/3` can return an expired session, which interferes with access control because Samly.AuthHandler uses a cached session and does not replace it, even after expiry.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N"
+    }
   ],
   "affected": [
     {
@@ -68,9 +75,9 @@
   ],
   "database_specific": {
     "cwe_ids": [
-
+      "CWE-400"
     ],
-    "severity": "MODERATE",
+    "severity": "CRITICAL",
     "github_reviewed": true,
     "github_reviewed_at": "2024-02-12T17:22:18Z",
     "nvd_published_at": "2024-02-11T05:15:08Z"
