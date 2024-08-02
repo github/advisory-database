@@ -1,17 +1,21 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-g2qw-6vrr-v6pq",
-  "modified": "2022-11-18T06:15:14Z",
+  "modified": "2024-08-02T10:29:55Z",
   "published": "2022-11-14T19:00:19Z",
   "aliases": [
     "CVE-2022-45136"
   ],
   "summary": "Apache Jena vulnerable to Deserialization of Untrusted Data",
-  "details": "** UNSUPPORTED WHEN ASSIGNED ** Apache Jena SDB 3.17.0 and earlier is vulnerable to a JDBC Deserialisation attack if the attacker is able to control the JDBC URL used or cause the underlying database server to return malicious data. The mySQL JDBC driver in particular is known to be vulnerable to this class of attack. As a result an application using Apache Jena SDB can be subject to RCE when connected to a malicious database server. Apache Jena SDB has been EOL since December 2020 and users should migrate to alternative options e.g. Apache Jena TDB 2.",
+  "details": "Apache Jena SDB 3.17.0 and earlier is vulnerable to a JDBC Deserialisation attack if the attacker is able to control the JDBC URL used or cause the underlying database server to return malicious data. The mySQL JDBC driver in particular is known to be vulnerable to this class of attack. As a result an application using Apache Jena SDB can be subject to RCE when connected to a malicious database server. Apache Jena SDB has been EOL since December 2020 and users should migrate to alternative options e.g. Apache Jena TDB 2.",
   "severity": [
     {
       "type": "CVSS_V3",
       "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
     }
   ],
   "affected": [
@@ -25,7 +29,10 @@
           "type": "ECOSYSTEM",
           "events": [
             {
-              "introduced": "0.0.0"
+              "introduced": "0"
+            },
+            {
+              "last_affected": "3.17.0"
             }
           ]
         }
