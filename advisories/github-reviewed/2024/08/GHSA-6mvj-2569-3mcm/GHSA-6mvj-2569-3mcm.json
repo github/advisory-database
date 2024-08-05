@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6mvj-2569-3mcm",
+  "modified": "2024-08-05T21:18:57Z",
+  "published": "2024-08-05T21:18:57Z",
+  "aliases": [
+    "CVE-2022-23474"
+  ],
+  "summary": "Editor.js vulnerable to Code Injection",
+  "details": "Editor.js is a block-style editor with clean JSON output. Versions prior to 2.26.0 are vulnerable to Code Injection via pasted input. The processHTML method passes pasted input into wrapper’s innerHTML. This issue is patched in version 2.26.0.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:N/VI:N/VA:N/SC:L/SI:L/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@editorjs/editorjs"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.26.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-23474"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/codex-team/editor.js/pull/2100"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/codex-team/editor.js/commit/f659015be6de8e6f0c322c5ff4d1a4532d2f29a2"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/codex-team/editor.js"
+    },
+    {
+      "type": "WEB",
+      "url": "https://securitylab.github.com/advisories"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://securitylab.github.com/advisories/GHSL-2022-028_codex-team_editor_js"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79",
+      "CWE-94"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-05T21:18:57Z",
+    "nvd_published_at": "2022-12-15T19:15:00Z"
+  }
+}
