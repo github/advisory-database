@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9f24-jrv4-f8g5",
+  "modified": "2024-08-05T21:29:26Z",
+  "published": "2024-08-05T21:29:26Z",
+  "aliases": [
+    "CVE-2024-35181"
+  ],
+  "summary": "Meshery SQL Injection vulnerability",
+  "details": "Meshery is an open source, cloud native manager that enables the design and management of Kubernetes-based infrastructure and applications. A SQL injection vulnerability in Meshery prior to version 0.7.22 may lead to arbitrary file write by using a SQL injection stacked queries payload, and the ATTACH DATABASE command. Additionally, attackers may be able to access and modify any data stored in the database, like performance profiles (which may contain session cookies), Meshery application data, or any Kubernetes configuration added to the system. The Meshery project exposes the function `GetMeshSyncResourcesKinds` at the API URL `/api/system/meshsync/resources/kinds`. The order query parameter is directly used to build a SQL query in `meshync_handler.go`. Version 0.7.22 fixes this issue.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:H/VI:L/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/layer5io/meshery"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.7.22"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-35181"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/meshery/meshery/pull/10207"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/meshery/meshery/pull/10280"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/meshery/meshery/commit/8e995ce21af02d32ef61689c1e1748a745917f13"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/meshery/meshery/commit/b55f6064d0c6a965aee38f30281f99da7dc4420c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/layer5io/meshery"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/meshery/meshery/blob/b331f45c9083d7abf6b90105072b04cd22473de7/server/handlers/meshsync_handler.go#L187"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://securitylab.github.com/advisories/GHSL-2024-013_GHSL-2024-014_Meshery"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-89"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-05T21:29:26Z",
+    "nvd_published_at": "2024-05-27T19:15:08Z"
+  }
+}

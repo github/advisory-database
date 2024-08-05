@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qgj8-g9q4-7f2p",
+  "modified": "2024-08-05T21:29:25Z",
+  "published": "2024-08-05T21:29:25Z",
+  "aliases": [
+    "CVE-2024-29192"
+  ],
+  "summary": "gotortc vulnerable to Cross-Site Request Forgery",
+  "details": "gotortc is a camera streaming application. Versions 1.8.5 and prior are vulnerable to Cross-Site Request Forgery. The `/api/config` endpoint allows one to modify the existing configuration with user-supplied values. While the API is only allowing localhost to interact without authentication, an attacker may be able to achieve that depending on how go2rtc is set up on the upstream application, and given that this endpoint is not protected against CSRF, it allows requests from any origin (e.g. a \"drive-by\" attack) . The `exec` handler allows for any stream to execute arbitrary commands. An attacker may add a custom stream through `api/config`, which may lead to arbitrary command execution. In the event of a victim visiting the server in question, their browser will execute the requests against the go2rtc instance. Commit 8793c3636493c5efdda08f3b5ed5c6e1ea594fd9 adds a warning about secure API access.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/AlexxIT/go2rtc"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.9.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-29192"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/AlexxIT/go2rtc/commit/8793c3636493c5efdda08f3b5ed5c6e1ea594fd9"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/AlexxIT/go2rtc"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://securitylab.github.com/advisories/GHSL-2023-205_GHSL-2023-207_go2rtc"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-05T21:29:25Z",
+    "nvd_published_at": "2024-04-04T18:15:14Z"
+  }
+}
