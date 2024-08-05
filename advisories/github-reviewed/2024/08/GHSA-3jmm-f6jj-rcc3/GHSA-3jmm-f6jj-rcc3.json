@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3jmm-f6jj-rcc3",
+  "modified": "2024-08-05T21:50:03Z",
+  "published": "2024-08-05T21:50:03Z",
+  "aliases": [
+    "CVE-2023-30625"
+  ],
+  "summary": "rudder-server is vulnerable to SQL injection",
+  "details": "rudder-server is part of RudderStack, an open source Customer Data Platform (CDP). Versions of rudder-server prior to 1.3.0-rc.1 are vulnerable to SQL injection. This issue may lead to Remote Code Execution (RCE) due to the `rudder` role in PostgresSQL having superuser permissions by default. Version 1.3.0-rc.1 contains patches for this issue.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:N/SC:H/SI:H/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/rudderlabs/rudder-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.3.0-rc.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-30625"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rudderlabs/rudder-server/pull/2652"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rudderlabs/rudder-server/pull/2663"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rudderlabs/rudder-server/pull/2664"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rudderlabs/rudder-server/commit/0d061ff2d8c16845179d215bf8012afceba12a30"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rudderlabs/rudder-server/commit/2f956b7eb3d5eb2de3e79d7df2c87405af25071e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rudderlabs/rudder-server/commit/9c009d9775abc99e72fc470f4c4c8e8f1775e82a"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/rudderlabs/rudder-server"
+    },
+    {
+      "type": "WEB",
+      "url": "https://securitylab.github.com/advisories"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://securitylab.github.com/advisories/GHSL-2022-097_rudder-server"
+    },
+    {
+      "type": "WEB",
+      "url": "http://packetstormsecurity.com/files/173837/Rudder-Server-SQL-Injection-Remote-Code-Execution.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-89"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-05T21:50:03Z",
+    "nvd_published_at": "2023-06-16T17:15:11Z"
+  }
+}
