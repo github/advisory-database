@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f7q4-pwc6-w24p",
+  "modified": "2024-08-05T13:21:11Z",
+  "published": "2024-08-02T09:31:35Z",
+  "aliases": [
+    "CVE-2024-42459"
+  ],
+  "summary": "Elliptic's EDDSA missing signature length check",
+  "details": "In the Elliptic package 6.5.6 for Node.js, EDDSA signature malleability occurs because there is a missing signature length check, and thus zero-valued bytes can be removed or appended.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N/E:U"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "elliptic"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0"
+            },
+            {
+              "last_affected": "6.5.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-42459"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/indutny/elliptic/pull/317"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/indutny/elliptic/commit/c0690b36be043ee73c1780ae4b7df48632b11cf9"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/indutny/elliptic"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-347"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-05T13:21:11Z",
+    "nvd_published_at": "2024-08-02T07:16:10Z"
+  }
+}
