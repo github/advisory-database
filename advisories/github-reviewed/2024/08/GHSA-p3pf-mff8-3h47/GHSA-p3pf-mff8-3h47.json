@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-p3pf-mff8-3h47",
+  "modified": "2024-08-07T14:17:11Z",
+  "published": "2024-08-06T21:30:47Z",
+  "aliases": [
+    "CVE-2024-41270"
+  ],
+  "summary": "Gorush uses deprecated TLS versions",
+  "details": "An issue discovered in the RunHTTPServer function in Gorush v1.18.4 allows attackers to intercept and manipulate data due to use of deprecated TLS version.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/appleboy/gorush"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.18.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-41270"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/appleboy/gorush/issues/792"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/appleboy/gorush/commit/067cb597e485e40b790a267187bf7f00730b1c4b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gist.github.com/nyxfqq/cfae38fada582a0f576d154be1aeb1fc"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/appleboy/gorush"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-327"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-07T14:17:11Z",
+    "nvd_published_at": "2024-08-06T21:16:03Z"
+  }
+}
