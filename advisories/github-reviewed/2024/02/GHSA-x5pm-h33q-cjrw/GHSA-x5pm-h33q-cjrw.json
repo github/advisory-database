@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-x5pm-h33q-cjrw",
-  "modified": "2024-02-21T02:27:37Z",
+  "modified": "2024-08-15T21:37:23Z",
   "published": "2024-02-20T21:30:26Z",
   "aliases": [
     "CVE-2024-25141"
@@ -9,7 +9,10 @@
   "summary": "Improper Certificate Validation in apache airflow mongo hook",
   "details": "When ssl was enabled for Mongo Hook, default settings included \"allow_insecure\" which caused that certificates were not validated. This was unexpected and undocumented.\nUsers are recommended to upgrade to version 4.0.0, which fixes this issue.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
+    }
   ],
   "affected": [
     {
@@ -42,6 +45,10 @@
       "url": "https://github.com/apache/airflow/pull/37214"
     },
     {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/airflow"
+    },
+    {
       "type": "WEB",
       "url": "https://lists.apache.org/thread/sqgbfqngjmn45ommmrgj7hvs7fgspsgm"
     },
@@ -54,7 +61,7 @@
     "cwe_ids": [
       "CWE-295"
     ],
-    "severity": "HIGH",
+    "severity": "CRITICAL",
     "github_reviewed": true,
     "github_reviewed_at": "2024-02-21T02:27:37Z",
     "nvd_published_at": "2024-02-20T21:15:08Z"
