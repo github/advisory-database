@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vwf8-q6fw-4wcm",
+  "modified": "2024-08-16T18:45:20Z",
+  "published": "2024-08-16T18:45:20Z",
+  "aliases": [
+    "CVE-2024-42486"
+  ],
+  "summary": "Cilium leaks information via incorrect ReferenceGrant update logic in Gateway API",
+  "details": "### Impact\n\nDue to ReferenceGrant changes not being immediately propagated in Cilium's GatewayAPI controller, Gateway resources are able to access secrets in other namespaces after the associated ReferenceGrant has been revoked. This can lead to Gateways continuing to establish sessions using secrets that they should no longer have access to.\n\n### Patches\n\nThis issue was resolved in https://github.com/cilium/cilium/pull/34032.\n\nThis issue affects:\n\n- Cilium v1.15 between v1.15.0 and v1.15.7 inclusive\n- Cilium v1.16.0\n\nThis issue has been patched in:\n\n- Cilium v1.15.8\n- Cilium v1.16.1\n\n### Workarounds\n\nAny modification of a related Gateway/HTTPRoute/GRPCRoute/TCPRoute CRD (for example, adding any label to any of these resources) will trigger a reconciliation of ReferenceGrants on an affected cluster.\n\n### Acknowledgements\n\nThe Cilium community has worked together with members of Cure53 and Isovalent to prepare these mitigations. Special thanks to @sayboras for resolving this issue.\n\n### For more information\n\nIf you have any questions or comments about this advisory, please reach out on [Slack](https://docs.cilium.io/en/latest/community/community/#slack).\n\nIf you think you have found a vulnerability affecting Cilium, we strongly encourage you to report it to our security mailing list at [security@cilium.io](mailto:security@cilium.io). This is a private mailing list for the Cilium security team, and your report will be treated as top priority.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cilium/cilium"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.16.0"
+            },
+            {
+              "fixed": "1.16.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "1.16.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cilium/cilium"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.15.0"
+            },
+            {
+              "fixed": "1.15.8"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/security/advisories/GHSA-vwf8-q6fw-4wcm"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-42486"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/pull/34032"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/commit/414a96b53d51ef6e6645c44426e26bc8e7c7c059"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/commit/92c110e58a7be6586819dd51fb0f6ee1ec4be8f8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/commit/ed3dfa0aab8b80f7e841a6d49d2a990ac2dca053"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cilium/cilium"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-16T18:45:20Z",
+    "nvd_published_at": "2024-08-16T15:15:28Z"
+  }
+}
