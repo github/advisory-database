@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-xrj7-x7gp-wwqr",
-  "modified": "2024-03-12T13:05:32Z",
+  "modified": "2024-08-19T20:48:46Z",
   "published": "2024-02-09T18:31:07Z",
   "aliases": [
     "CVE-2023-50298"
@@ -9,7 +9,14 @@
   "summary": "Apache Solr's Streaming Expressions allow users to extract data from other Solr Clouds",
   "details": "Exposure of Sensitive Information to an Unauthorized Actor vulnerability in Apache Solr. This issue affects Apache Solr from 6.0.0 through 8.11.2, from 9.0.0 before 9.4.1.\n\nSolr Streaming Expressions allows users to extract data from other Solr Clouds, using a \"zkHost\" parameter.\n\nWhen original SolrCloud is setup to use ZooKeeper credentials and ACLs, they will be sent to whatever \"zkHost\" the user provides.\n\nAn attacker could setup a server to mock ZooKeeper, that accepts ZooKeeper requests with credentials and ACLs and extracts the sensitive information, then send a streaming expression using the mock server's address in \"zkHost\".\n\nStreaming Expressions are exposed via the \"/streaming\" handler, with \"read\" permissions.\n\nUsers are recommended to upgrade to version 8.11.3 or 9.4.1, which fix the issue.\n\nFrom these versions on, only zkHost values that have the same server address (regardless of chroot), will use the given ZooKeeper credentials and ACLs when connecting.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:P"
+    }
   ],
   "affected": [
     {
@@ -108,6 +115,10 @@
     },
     {
       "type": "WEB",
+      "url": "https://issues.apache.org/jira/browse/SOLR-17098"
+    },
+    {
+      "type": "WEB",
       "url": "https://solr.apache.org/security.html#cve-2023-50298-apache-solr-can-expose-zookeeper-credentials-via-streaming-expressions"
     },
     {
@@ -121,9 +132,10 @@
   ],
   "database_specific": {
     "cwe_ids": [
-      "CWE-200"
+      "CWE-200",
+      "CWE-922"
     ],
-    "severity": "LOW",
+    "severity": "MODERATE",
     "github_reviewed": true,
     "github_reviewed_at": "2024-02-09T20:57:43Z",
     "nvd_published_at": "2024-02-09T18:15:08Z"
