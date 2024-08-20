@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hh8p-374f-qgr5",
+  "modified": "2024-08-20T20:04:53Z",
+  "published": "2024-08-20T18:31:26Z",
+  "aliases": [
+    "CVE-2024-6322"
+  ],
+  "summary": "Grafana plugin data sources vulnerable to access control bypass",
+  "details": "Access control for plugin data sources protected by the ReqActions json field of the plugin.json is bypassed if the user or service account is granted associated access to any other data source, as the ReqActions check was not scoped to each specific datasource. The account must have prior query access to the impacted datasource.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:C/C:N/I:L/A:L"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:H/UI:N/VC:N/VI:N/VA:H/SC:N/SI:L/SA:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/grafana/grafana"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "11.1.0"
+            },
+            {
+              "fixed": "11.1.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "11.1.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/grafana/grafana"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "11.1.2"
+            },
+            {
+              "fixed": "11.1.3"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "11.1.2"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-6322"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/grafana/grafana/commit/4cb3ba5d1a7ab8b9676034e89dada2fcde1766ef"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/grafana/grafana/commit/9cdba084a9100c6b11d32eef9d2bd53656c6964a"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/grafana/grafana"
+    },
+    {
+      "type": "WEB",
+      "url": "https://grafana.com/security/security-advisories/cve-2024-6322"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-266"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-20T20:04:53Z",
+    "nvd_published_at": "2024-08-20T18:15:09Z"
+  }
+}
