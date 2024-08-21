@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2rqw-cfhc-35fh",
+  "modified": "2024-08-21T18:26:27Z",
+  "published": "2024-08-21T18:26:27Z",
+  "aliases": [
+    "CVE-2024-41674"
+  ],
+  "summary": "CKAN may leak Solr credentials via error message in package_search action",
+  "details": "If there were connection issues with the Solr server, the internal Solr URL (potentially including credentials) could be leaked to `package_search` calls as part of the returned error message\n\n### Patches\nThis has been patched in CKAN 2.10.5 and 2.11.0\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ckan"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.10.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ckan/ckan/security/advisories/GHSA-2rqw-cfhc-35fh"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-41674"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ckan/ckan/commit/f6b032cd7082d784938165bbd113557639002ca7"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ckan/ckan"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-209"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-21T18:26:27Z",
+    "nvd_published_at": "2024-08-21T15:15:08Z"
+  }
+}
