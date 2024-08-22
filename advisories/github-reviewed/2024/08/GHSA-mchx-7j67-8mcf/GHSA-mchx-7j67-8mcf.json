@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mchx-7j67-8mcf",
+  "modified": "2024-08-22T17:16:39Z",
+  "published": "2024-08-22T17:16:39Z",
+  "aliases": [
+    "CVE-2024-41657"
+  ],
+  "summary": "Casdoor CORS misconfiguration (GHSL-2024-035)",
+  "details": "Casdoor is a UI-first Identity and Access Management (IAM) / Single-Sign-On (SSO) platform. In Casdoor 1.577.0 and earlier, a logic vulnerability exists in the beego filter CorsFilter that allows any website to make cross domain requests to Casdoor as the logged in user. Due to the a logic error in checking only for a prefix when authenticating the Origin header, any domain can create a valid subdomain with a valid subdomain prefix (Ex: localhost.example.com), allowing the website to make requests to Casdoor as the current signed-in user.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/casdoor/casdoor"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.557.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-41657"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/casdoor/casdoor"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/casdoor/casdoor/blob/v1.577.0/routers/cors_filter.go#L45"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://securitylab.github.com/advisories/GHSL-2024-035_GHSL-2024-036_casdoor"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-942"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-22T17:16:39Z",
+    "nvd_published_at": "2024-08-20T21:15:13Z"
+  }
+}
