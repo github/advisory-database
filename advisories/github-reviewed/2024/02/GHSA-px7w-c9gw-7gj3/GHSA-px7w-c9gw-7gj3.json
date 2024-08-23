@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-px7w-c9gw-7gj3",
-  "modified": "2024-02-27T23:00:05Z",
+  "modified": "2024-08-23T13:43:46Z",
   "published": "2024-02-27T09:31:16Z",
   "aliases": [
     "CVE-2023-51518"
@@ -9,7 +9,14 @@
   "summary": "Apache James server: Privilege escalation via JMX pre-authentication deserialization",
   "details": "Apache James prior to version 3.7.5 and 3.8.0 exposes a JMX endpoint on localhost subject to pre-authentication deserialisation of untrusted data.\nGiven a deserialisation gadjet, this could be leveraged as part of an exploit chain that could result in privilege escalation.\nNote that by default JMX endpoint is only bound locally.\n\nWe recommend users to:\n - Upgrade to a non-vulnerable Apache James version\n\n - Run Apache James isolated from other processes (docker - dedicated virtual machine)\n - If possible turn off JMX\n\n",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
+    }
   ],
   "affected": [
     {
@@ -68,7 +75,7 @@
     "cwe_ids": [
       "CWE-502"
     ],
-    "severity": "MODERATE",
+    "severity": "CRITICAL",
     "github_reviewed": true,
     "github_reviewed_at": "2024-02-27T23:00:04Z",
     "nvd_published_at": "2024-02-27T09:15:36Z"
