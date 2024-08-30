@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7mv5-5mxh-qg88",
+  "modified": "2024-08-30T18:45:41Z",
+  "published": "2024-08-30T18:45:41Z",
+  "aliases": [
+    "CVE-2021-21401"
+  ],
+  "summary": "nanopb vulnerable to invalid free() call with oneofs and PB_ENABLE_MALLOC",
+  "details": "### Impact\nDecoding a specifically formed message can cause invalid `free()` or `realloc()` calls if the message type contains an `oneof` field, and the `oneof` directly contains both a pointer field and a non-pointer field. If the message data first contains the non-pointer field and then the pointer field, the data of the non-pointer field is incorrectly treated as if it was a pointer value. Such message data rarely occurs in normal messages, but it is a concern when untrusted data is parsed.\n\n### Patches\nPreliminary patch is available on git for [0.4.x](https://github.com/nanopb/nanopb/commit/e2f0ccf939d9f82931d085acb6df8e9a182a4261) and [0.3.x](https://github.com/nanopb/nanopb/commit/4a375a560651a86726e5283be85a9231fd0efe9c) branches. The fix will be released in versions 0.3.9.8 and 0.4.5 once testing has been completed.\n\n### Workarounds\nFollowing workarounds are available:\n* Set the option `no_unions` for the oneof field. This will generate fields as separate instead of C union, and avoids triggering the problematic code.\n* Set the type of all fields inside the oneof to `FT_POINTER`. This ensures that the data contained inside the `union` is always a valid pointer.\n* Heap implementations that guard against invalid `free()` provide a partial mitigation. Depending on the message type, the pointer value may be attacker controlled and can be used to bypass heap protections.\n\n### References\nBug report: https://github.com/nanopb/nanopb/issues/647\n\n### For more information\nIf you have any questions or comments about this advisory, comment on the bug report linked above.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:L"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:N/VI:H/VA:L/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "nanopb"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.3.2"
+            },
+            {
+              "fixed": "0.3.9.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "nanopb"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.4.0"
+            },
+            {
+              "fixed": "0.4.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/nanopb/nanopb/security/advisories/GHSA-7mv5-5mxh-qg88"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-21401"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nanopb/nanopb/issues/647"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nanopb/nanopb/commit/4a375a560651a86726e5283be85a9231fd0efe9c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nanopb/nanopb/commit/e2f0ccf939d9f82931d085acb6df8e9a182a4261"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/nanopb/nanopb"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nanopb/nanopb/blob/c9124132a604047d0ef97a09c0e99cd9bed2c818/CHANGELOG.txt#L1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/nanopb/PYSEC-2021-432.yaml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-763"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-30T18:45:41Z",
+    "nvd_published_at": "2021-03-23T18:15:00Z"
+  }
+}
