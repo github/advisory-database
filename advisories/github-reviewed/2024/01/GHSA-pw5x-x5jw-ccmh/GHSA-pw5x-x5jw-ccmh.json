@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-pw5x-x5jw-ccmh",
+  "modified": "2024-08-30T23:37:34Z",
+  "published": "2024-01-12T03:30:49Z",
+  "aliases": [
+    "CVE-2016-20021"
+  ],
+  "summary": "Gentoo Portage missing PGP validation of executed code",
+  "details": "In Gentoo Portage before 3.0.47, there is missing PGP validation of executed code: the standalone emerge-webrsync downloads a .gpgsig file but does not perform signature verification.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:U"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "portage"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.0.47"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2016-20021"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/gentoo/portage/commit/28cd240fb23d880b8641a058831c6762db71c3e2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.gentoo.org/597800"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/gentoo/portage"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/portage/PYSEC-2024-10.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gitweb.gentoo.org/proj/portage.git/tree/NEWS"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gitweb.gentoo.org/repo/gentoo.git/commit/?id=5b3c80502e96406b4b175e2ee79eb65f3f3cd9f6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://wiki.gentoo.org/wiki/Portage"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-347"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-30T23:37:34Z",
+    "nvd_published_at": "2024-01-12T03:15:08Z"
+  }
+}
