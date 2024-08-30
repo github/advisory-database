@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7j9p-67mm-5g87",
+  "modified": "2024-08-30T18:47:14Z",
+  "published": "2024-08-30T18:47:14Z",
+  "aliases": [
+    "CVE-2023-23611"
+  ],
+  "summary": "LTI 1.3 Grade Pass Back Implementation has Missing Authorization Vulnerability",
+  "details": "### Problem\nTL;DR: Any LTI tool that is integrated with on the Open edX platform can\npost a grade back for any LTI XBlock so long as it knows or can guess the\nblock location for that XBlock.\n\nIn LTI 1.3, LTI tools can \"pass back\" scores that learners earn while using\nLTI tools to the edX platform. The edX platform then stores those LTI\nscores in a separate table. If the right conditions are met, these scores\nare then persisted to the LMS grades tables.\n\nLTI tools can create what are called \"line items\" on the edX platform. A\nline item can be thought of as a column in a grade book; it stores results\nfor a specific activity (i.e. XBlock) for a specific set of users (i.e.\nusers in the course using the XBlock). A line item has an optional\nresource_link_id field, which is basically the XBlock location. An LTI tool\ncan supply any value for this field.\n\nAn LTI tool submits scores to the edX platform for line items. The code\nthat uploads that score to the LMS grade tables determines which XBlock to\nupload the grades for by reading the resource_link_id field of the\nassociated line item. Because the LTI tool could have submitted any value\nfor the resource_link_id field, this introduces the potential for a\nnefarious LTI tool to submit scores for any LTI XBlock on the platform.\n\n### Impact\nAny LTI tool that is integrated with on the Open edX platform can post a\ngrade back for any LTI XBlock so long as it knows the resource_link_id\n(i.e. block location) for that XBlock.\n\nThe impact is a loss of integrity for LTI XBlock grades.\n\n### Patches\nNo available patch\n\n### Workarounds\nNo\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:R/S:U/C:L/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:P/VC:L/VI:L/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "lti-consumer-xblock"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.0.0"
+            },
+            {
+              "fixed": "7.2.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/openedx/xblock-lti-consumer/security/advisories/GHSA-7j9p-67mm-5g87"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-23611"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openedx/xblock-lti-consumer/commit/252f94bd182cd0962af9251015930cb55ec515d7"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openedx/xblock-lti-consumer"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/lti-consumer-xblock/PYSEC-2023-21.yaml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-862"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-30T18:47:14Z",
+    "nvd_published_at": "2023-01-26T21:18:00Z"
+  }
+}
