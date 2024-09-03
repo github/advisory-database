@@ -1,17 +1,21 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-6j58-grhv-2769",
-  "modified": "2022-09-01T22:22:11Z",
+  "modified": "2024-09-03T21:16:19Z",
   "published": "2022-08-25T00:00:27Z",
   "aliases": [
     "CVE-2021-4041"
   ],
   "summary": "ansible-runner vulnerable to shell command injection",
-  "details": "A flaw was found in ansible-runner. An improper escaping of the shell command, while calling the ansible_runner.interface.run_command, can lead to parameters getting executed as host's shell command. A developer could unintentionally write code that gets executed in the host rather than the virtual environment.",
+  "details": "A flaw was found in ansible-runner. An improper escaping of the shell command, while calling the `ansible_runner.interface.run_command`, can lead to parameters getting executed as host's shell command. A developer could unintentionally write code that gets executed in the host rather than the virtual environment.",
   "severity": [
     {
       "type": "CVSS_V3",
       "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
     }
   ],
   "affected": [
@@ -51,6 +55,10 @@
     {
       "type": "WEB",
       "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2028074"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-6j58-grhv-2769"
     },
     {
       "type": "PACKAGE",
