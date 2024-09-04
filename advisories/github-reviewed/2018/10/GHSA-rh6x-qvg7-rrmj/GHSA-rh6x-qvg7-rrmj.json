@@ -1,17 +1,21 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-rh6x-qvg7-rrmj",
-  "modified": "2023-02-13T20:41:23Z",
+  "modified": "2024-09-04T18:55:10Z",
   "published": "2018-10-10T17:23:45Z",
   "aliases": [
     "CVE-2016-3096"
   ],
   "summary": "Link Following in ansible",
-  "details": "The create_script function in the lxc_container module in Ansible before 1.9.6-1 and 2.x before 2.0.2.0 allows local users to write to arbitrary files or gain privileges via a symlink attack on (1) /opt/.lxc-attach-script, (2) the archived container in the archive_path directory, or the (3) lxc-attach-script.log or (4) lxc-attach-script.err files in the temporary directory.",
+  "details": "The `create_script` function in the `lxc_container` module in Ansible before 1.9.6-1 and 2.x before 2.0.2.0 allows local users to write to arbitrary files or gain privileges via a symlink attack on (1) `/opt/.lxc-attach-script`, (2) the archived container in the `archive_path` directory, or the (3) `lxc-attach-script.log` or (4) `lxc-attach-script.err` files in the temporary directory.",
   "severity": [
     {
       "type": "CVSS_V3",
       "score": "CVSS:3.0/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
     }
   ],
   "affected": [
@@ -25,7 +29,7 @@
           "type": "ECOSYSTEM",
           "events": [
             {
-              "introduced": "2.0.0"
+              "introduced": "2.0.0.0"
             },
             {
               "fixed": "2.0.2.0"
@@ -71,7 +75,7 @@
     },
     {
       "type": "WEB",
-      "url": "https://github.com/ansible/ansible-modules-extras/pull/1941/commits/8c6fe646ee79f5e55361b885b7efed5bec72d4a4"
+      "url": "https://github.com/ansible/ansible-modules-extras/commit/7c3999a92a1cd856ff9bc8913a93ff1aee8bffc3"
     },
     {
       "type": "WEB",
@@ -92,6 +96,18 @@
     {
       "type": "WEB",
       "url": "https://github.com/ansible/ansible/blob/v2.0.2.0-1/CHANGELOG.md#202-over-the-hills-and-far-away"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/ansible/PYSEC-2016-1.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://groups.google.com/forum/#!topic/ansible-announce/E80HLZilTU0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://groups.google.com/forum/#!topic/ansible-announce/tqiZbcWxYig"
     },
     {
       "type": "WEB",
