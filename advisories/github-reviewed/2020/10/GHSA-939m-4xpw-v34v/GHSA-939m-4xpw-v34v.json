@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-939m-4xpw-v34v",
-  "modified": "2020-10-26T20:14:25Z",
+  "modified": "2024-09-06T16:25:48Z",
   "published": "2020-10-27T17:55:04Z",
   "aliases": [
     "CVE-2020-26943"
@@ -9,7 +9,14 @@
   "summary": "Arbitrary Code Execution in blazar-dashboard",
   "details": "An issue was discovered in OpenStack blazar-dashboard before 1.3.1, 2.0.0, and 3.0.0. A user allowed to access the Blazar dashboard in Horizon may trigger code execution on the Horizon host as the user the Horizon service runs under (because the Python eval function is used). This may result in Horizon host unauthorized access and further compromise of the Horizon service. All setups using the Horizon dashboard with the blazar-dashboard plugin are affected.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:N/VI:N/VA:N/SC:H/SI:H/SA:H"
+    }
   ],
   "affected": [
     {
@@ -80,6 +87,10 @@
     {
       "type": "ADVISORY",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-26943"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/blazar-dashboard/PYSEC-2020-225.yaml"
     },
     {
       "type": "WEB",
