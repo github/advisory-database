@@ -1,13 +1,13 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-259w-8hf6-59c2",
-  "modified": "2023-02-24T19:11:47Z",
+  "modified": "2024-09-06T21:37:22Z",
   "published": "2023-02-16T14:12:36Z",
   "aliases": [
     "CVE-2023-25153"
   ],
   "summary": "OCI image importer memory exhaustion in github.com/containerd/containerd",
-  "details": "### Impact\n\nWhen importing an OCI image, there was no limit on the number of bytes read for certain files. A maliciously crafted image with a large file where a limit was not applied could cause a denial of service.\n\n### Patches\n\nThis bug has been fixed in containerd 1.6.18 and 1.5.18.  Users should update to these versions to resolve the issue.\n\n### Workarounds\n\nEnsure that only trusted images are used and that only trusted users have permissions to import images. \n\n### Credits\n\nThe containerd project would like to thank [David Korczynski](https://github.com/DavidKorczynski) and [Adam Korczynski](https://github.com/AdamKorcz) of ADA Logics for responsibly disclosing this issue in accordance with the [containerd security policy](https://github.com/containerd/project/blob/main/SECURITY.md) during a security fuzzing audit sponsored by CNCF.\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n\n* Open an issue in [containerd](https://github.com/containerd/containerd/issues/new/choose)\n* Email us at [security@containerd.io](mailto:security@containerd.io)\n\nTo report a security issue in containerd:\n* [Report a new vulnerability](https://github.com/containerd/containerd/security/advisories/new)\n* Email us at [security@containerd.io](mailto:security@containerd.io)",
+  "details": "### Impact\nWhen importing an OCI image, there was no limit on the number of bytes read for certain files. A maliciously crafted image with a large file where a limit was not applied could cause a denial of service.\n\n### Patches\n\nThis bug has been fixed in containerd 1.6.18 and 1.5.18.  Users should update to these versions to resolve the issue.\n\n### Workarounds\n\nEnsure that only trusted images are used and that only trusted users have permissions to import images. \n\n### Credits\n\nThe containerd project would like to thank [David Korczynski](https://github.com/DavidKorczynski) and [Adam Korczynski](https://github.com/AdamKorcz) of ADA Logics for responsibly disclosing this issue in accordance with the [containerd security policy](https://github.com/containerd/project/blob/main/SECURITY.md) during a security fuzzing audit sponsored by CNCF.\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n\n* Open an issue in [containerd](https://github.com/containerd/containerd/issues/new/choose)\n* Email us at [security@containerd.io](mailto:security@containerd.io)\n\nTo report a security issue in containerd:\n* [Report a new vulnerability](https://github.com/containerd/containerd/security/advisories/new)\n* Email us at [security@containerd.io](mailto:security@containerd.io)",
   "severity": [
     {
       "type": "CVSS_V3",
