@@ -1,0 +1,172 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6cr6-ph3p-f5rf",
+  "modified": "2024-09-06T19:45:27Z",
+  "published": "2024-09-06T19:45:27Z",
+  "aliases": [
+    "CVE-2024-45294"
+  ],
+  "summary": "XXE vulnerability in XSLT transforms in `org.hl7.fhir.core`",
+  "details": "### Impact\nXSLT transforms performed by various components are vulnerable to XML external entity injections. A processed XML file with a malicious DTD tag ( `<!DOCTYPE foo [<!ENTITY example SYSTEM \"/etc/passwd\"> ]>` could produce XML containing data from the host system. This impacts use cases where org.hl7.fhir.core is being used to within a host where external clients can submit XML.\n\n### Patches\nThis issue has been patched in release 6.3.23\n\n### Workarounds\nNone.\n\n### References\n[MITRE CWE](https://cwe.mitre.org/data/definitions/611.html)\n[OWASP XML External Entity Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html#transformerfactory)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:N/SC:H/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "ca.uhn.hapi.fhir:org.hl7.fhir.dstu2016may"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.3.23"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "ca.uhn.hapi.fhir:org.hl7.fhir.dstu3"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.3.23"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "ca.uhn.hapi.fhir:org.hl7.fhir.r4"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.3.23"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "ca.uhn.hapi.fhir:org.hl7.fhir.r4b"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.3.23"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "ca.uhn.hapi.fhir:org.hl7.fhir.r5"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.3.23"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "ca.uhn.hapi.fhir:org.hl7.fhir.utilities"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.3.23"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/HL7/fhir-ig-publisher/security/advisories/GHSA-59rq-22fm-x8q5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hapifhir/org.hl7.fhir.core/security/advisories/GHSA-6cr6-ph3p-f5rf"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-45294"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/HL7/fhir-ig-publisher/releases/tag/1.6.22"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/hapifhir/org.hl7.fhir.core"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hapifhir/org.hl7.fhir.core/releases/tag/6.3.23"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-611"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-09-06T19:45:27Z",
+    "nvd_published_at": "2024-09-06T16:15:03Z"
+  }
+}
