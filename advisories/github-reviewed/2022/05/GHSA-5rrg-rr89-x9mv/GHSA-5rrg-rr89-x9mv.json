@@ -1,17 +1,21 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-5rrg-rr89-x9mv",
-  "modified": "2023-08-31T21:49:01Z",
+  "modified": "2024-09-09T21:15:29Z",
   "published": "2022-05-25T19:22:34Z",
   "aliases": [
     "CVE-2021-20228"
   ],
   "summary": "Ansible Exposes Sensitive Information",
-  "details": "A flaw was found in the Ansible Engine 2.9.18, where sensitive info is not masked by default and is not protected by the `no_log` feature when using the sub-option feature of the basic.py module. This flaw allows an attacker to obtain sensitive information. The highest threat from this vulnerability is to confidentiality.",
+  "details": "A flaw was found in the Ansible Engine prior to 2.10.6rc1, 2.9.18rc1, and 2.8.19rc1, where sensitive info is not masked by default and is not protected by the `no_log` feature when using the sub-option feature of the basic.py module. This flaw allows an attacker to obtain sensitive information. The highest threat from this vulnerability is to confidentiality.",
   "severity": [
     {
       "type": "CVSS_V3",
       "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N"
     }
   ],
   "affected": [
@@ -25,10 +29,10 @@
           "type": "ECOSYSTEM",
           "events": [
             {
-              "introduced": "2.10.0"
+              "introduced": "2.10.0a1"
             },
             {
-              "fixed": "2.10.7"
+              "fixed": "2.10.6rc1"
             }
           ]
         }
@@ -44,10 +48,10 @@
           "type": "ECOSYSTEM",
           "events": [
             {
-              "introduced": "2.9.0"
+              "introduced": "2.9.0a1"
             },
             {
-              "fixed": "2.9.18"
+              "fixed": "2.9.18rc1"
             }
           ]
         }
@@ -66,7 +70,7 @@
               "introduced": "0"
             },
             {
-              "fixed": "2.8.19"
+              "fixed": "2.8.19rc1"
             }
           ]
         }
@@ -93,6 +97,18 @@
     {
       "type": "WEB",
       "url": "https://github.com/ansible/ansible/pull/73494"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ansible/ansible/commit/49ebd509df9de1c1fc1bcee00e79a835dd00662c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ansible/ansible/commit/e41d1f0a3fd6c466192e7e24accd3d1c6501111b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ansible/ansible/commit/f8ff395d817c3eddc050f809919c15dfb5796120"
     },
     {
       "type": "WEB",
