@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-cvcq-gmc3-q6m8",
-  "modified": "2023-08-30T20:55:55Z",
+  "modified": "2024-09-11T18:13:18Z",
   "published": "2020-12-17T21:00:56Z",
   "aliases": [
     "CVE-2020-17511"
@@ -9,7 +9,14 @@
   "summary": "Apache Airflow logs passwords in plaintext",
   "details": "In Airflow versions prior to 1.10.13, when creating a user using airflow CLI, the password gets logged in plain text in the Log table in Airflow Metadatase. The same happenes when creating a Connection with a password field.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:L/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:A/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N"
+    }
   ],
   "affected": [
     {
@@ -42,6 +49,18 @@
       "url": "https://github.com/apache/airflow/commit/4e32546faf227a6497ce8b282fff7450cae6f665"
     },
     {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-cvcq-gmc3-q6m8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/airflow"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/apache-airflow/PYSEC-2020-262.yaml"
+    },
+    {
       "type": "WEB",
       "url": "https://lists.apache.org/thread.html/ree782a29d927b96bf0b39fb92e2f1f09ea3112a985f7a08ce93765ac%40%3Cusers.airflow.apache.org%3E"
     }
@@ -50,7 +69,7 @@
     "cwe_ids": [
       "CWE-312"
     ],
-    "severity": "MODERATE",
+    "severity": "LOW",
     "github_reviewed": true,
     "github_reviewed_at": "2020-12-17T20:15:10Z",
     "nvd_published_at": null
