@@ -1,17 +1,21 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-m6xf-fq7q-8743",
-  "modified": "2022-10-07T13:07:17Z",
+  "modified": "2024-09-12T20:49:31Z",
   "published": "2020-03-24T15:06:32Z",
   "aliases": [
     "CVE-2020-6816"
   ],
-  "summary": "mutation XSS via whitelisted math or svg and raw tag in Bleach",
+  "summary": "Bleach vulnerable to mutation XSS via whitelisted math or svg and raw tag",
   "details": "### Impact\n\nA [mutation XSS](https://cure53.de/fp170.pdf) affects users calling `bleach.clean` with all of:\n\n* the `svg` or `math` in the allowed/whitelisted tags\n* an RCDATA tag (see below) in the allowed/whitelisted tags\n* the keyword argument `strip=False`\n\n### Patches\n\nUsers are encouraged to upgrade to bleach v3.1.2 or greater.\n\n### Workarounds\n\n* modify `bleach.clean` calls to use `strip=True`, or not whitelist `math` or `svg` tags and one or more of the following tags:\n\n```\nscript\nnoscript\nstyle\nnoframes\nxmp\nnoembed\niframe\n```\n\n* A strong [Content-Security-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) without `unsafe-inline` and `unsafe-eval` [`script-src`s](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src)) will also help mitigate the risk.\n\n### References\n\n* https://bugzilla.mozilla.org/show_bug.cgi?id=1621692\n* https://cure53.de/fp170.pdf\n* https://nvd.nist.gov/vuln/detail/CVE-2020-6816\n* https://www.checkmarx.com/blog/vulnerabilities-discovered-in-mozilla-bleach\n\n### Credits\n\n* Reported by [Yaniv Nizry](https://twitter.com/ynizry) from the CxSCA AppSec group at Checkmarx\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n\n* Open an issue at [https://github.com/mozilla/bleach/issues](https://github.com/mozilla/bleach/issues)\n* Email us at [security@mozilla.org](mailto:security@mozilla.org)",
   "severity": [
     {
       "type": "CVSS_V3",
       "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:N/VI:N/VA:N/SC:L/SI:L/SA:N"
     }
   ],
   "affected": [
@@ -49,8 +53,16 @@
       "url": "https://advisory.checkmarx.net/advisory/CX-2020-4277"
     },
     {
+      "type": "PACKAGE",
+      "url": "https://github.com/mozilla/bleach"
+    },
+    {
       "type": "WEB",
       "url": "https://github.com/mozilla/bleach/releases/tag/v3.1.2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/bleach/PYSEC-2020-28.yaml"
     },
     {
       "type": "WEB",
