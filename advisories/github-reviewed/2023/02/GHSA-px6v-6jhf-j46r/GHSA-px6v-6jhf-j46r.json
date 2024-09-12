@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-px6v-6jhf-j46r",
+  "modified": "2024-01-30T23:13:45Z",
+  "published": "2023-02-15T21:30:30Z",
+  "aliases": [
+    "CVE-2023-23847"
+  ],
+  "summary": "CSRF vulnerability in Synopsys Jenkins Coverity Plugin",
+  "details": "A cross-site request forgery (CSRF) vulnerability in Synopsys Jenkins Coverity Plugin 3.0.2 and earlier allows attackers to connect to an attacker-specified HTTP server using attacker-specified credentials IDs obtained through another method, capturing credentials stored in Jenkins.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:synopsys-coverity"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.0.3"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.0.2"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-23847"
+    },
+    {
+      "type": "WEB",
+      "url": "https://community.synopsys.com/s/article/SIG-Product-Security-Advisory-Multiple-CVEs-affecting-Coverity-Jenkins-Plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-02-15/#SECURITY-2793%20(2)"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-30T23:13:45Z",
+    "nvd_published_at": "2023-02-15T19:15:00Z"
+  }
+}

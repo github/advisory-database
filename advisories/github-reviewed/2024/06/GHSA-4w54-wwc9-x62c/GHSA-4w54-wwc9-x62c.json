@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4w54-wwc9-x62c",
+  "modified": "2024-07-05T21:22:25Z",
+  "published": "2024-06-03T06:30:53Z",
+  "aliases": [
+    "CVE-2024-36042"
+  ],
+  "summary": "Silverpeas authentication bypass",
+  "details": "Silverpeas before 6.3.5 allows authentication bypass by omitting the Password field to AuthenticationServlet, often providing an unauthenticated user with superadmin access.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.silverpeas.core:silverpeas-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.3.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-36042"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Silverpeas/Silverpeas-Core/commit/11fb5e21c252ce4751b85fccf5b8076156e0b4f0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gist.github.com/ChrisPritchard/4b6d5c70d9329ef116266a6c238dcb2d"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Silverpeas/Silverpeas-Core"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Silverpeas/Silverpeas-Core/tags"
+    },
+    {
+      "type": "WEB",
+      "url": "https://silverpeas.org"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-288"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-04T18:06:25Z",
+    "nvd_published_at": "2024-06-03T06:15:09Z"
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qh6x-j82h-vpf9",
+  "modified": "2024-04-16T18:05:45Z",
+  "published": "2024-04-16T00:30:32Z",
+  "aliases": [
+    "CVE-2024-1183"
+  ],
+  "summary": "gradio Server-Side Request Forgery vulnerability",
+  "details": "An SSRF (Server-Side Request Forgery) vulnerability exists in the gradio-app/gradio repository, allowing attackers to scan and identify open ports within an internal network. By manipulating the 'file' parameter in a GET request, an attacker can discern the status of internal ports based on the presence of a 'Location' header or a 'File not allowed' error in the response.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "gradio"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.10.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-1183"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/gradio-app/gradio/commit/2ad3d9e7ec6c8eeea59774265b44f11df7394bb4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/gradio-app/gradio/commit/7ba8c5da45b004edd12c0460be9222f5b5f5f055"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/gradio-app/gradio"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.com/bounties/103434f9-87d2-42ea-9907-194a3c25007c"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-601"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-16T18:05:45Z",
+    "nvd_published_at": "2024-04-16T00:15:07Z"
+  }
+}

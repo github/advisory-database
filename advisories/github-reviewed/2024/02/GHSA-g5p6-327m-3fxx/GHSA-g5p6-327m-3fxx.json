@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g5p6-327m-3fxx",
+  "modified": "2024-02-02T18:11:06Z",
+  "published": "2024-02-02T18:11:06Z",
+  "aliases": [
+
+  ],
+  "summary": "Talos Linux ships runc vulnerable to the escape to the host attack",
+  "details": "### Impact\n\nSnyk has discovered a vulnerability in all versions of runc <=1.1.11, as used by the Docker engine, along with other containerization technologies such as Kubernetes. Exploitation of this issue can result in container escape to the underlying host OS, either through executing a malicious image or building an image using a malicious Dockerfile or upstream image (i.e., when using FROM). This issue has been assigned the CVE-2024-21626.\n\n### Patches\n\n`runc` runtime was updated to 1.1.12 in Talos v1.5.6 and v1.6.4.\n\n### Workarounds\n\nInspect the workloads running on the cluster to make sure they are not trying to exploit the vulnerability.\n\n### References\n\n* [CVE-2024-21626](https://github.com/opencontainers/runc/security/advisories/GHSA-xr7r-f8xq-vfvv)\n* [Vulnerability: runc process.cwd and leaked fds container breakout](https://snyk.io/blog/cve-2024-21626-runc-process-cwd-container-breakout/)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/siderolabs/talos"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.6.0"
+            },
+            {
+              "fixed": "1.6.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/siderolabs/talos"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.5.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/siderolabs/talos/security/advisories/GHSA-g5p6-327m-3fxx"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/siderolabs/talos"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-02T18:11:06Z",
+    "nvd_published_at": null
+  }
+}

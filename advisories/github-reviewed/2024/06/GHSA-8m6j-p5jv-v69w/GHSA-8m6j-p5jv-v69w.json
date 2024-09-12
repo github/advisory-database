@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8m6j-p5jv-v69w",
+  "modified": "2024-06-07T19:43:19Z",
+  "published": "2024-06-07T19:43:19Z",
+  "aliases": [
+
+  ],
+  "summary": "TYPO3 Cross-Site Scripting in Online Media Asset Rendering",
+  "details": "Failing to properly encode user input, online media asset rendering (`*.youtube` and `*.vimeo` files) is vulnerable to cross-site scripting. A valid backend user account or write access on the server system (e.g. SFTP) is needed in order to exploit this vulnerability.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.0.0"
+            },
+            {
+              "fixed": "7.6.32"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.0.0"
+            },
+            {
+              "fixed": "8.7.21"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.0.0"
+            },
+            {
+              "fixed": "9.5.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/TYPO3/typo3/commit/20927adfb8aae0093508c904937e40114b92a90c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/TYPO3/typo3/commit/a32a9a746f807b14571139f0cb7caa00b8d037a5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/TYPO3/typo3/commit/c9174937802581bfecfaa788512a4f6e5cf8e9c7"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/typo3/cms/2018-12-11-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/TYPO3/typo3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://typo3.org/security/advisory/typo3-core-sa-2018-006"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-07T19:43:19Z",
+    "nvd_published_at": null
+  }
+}

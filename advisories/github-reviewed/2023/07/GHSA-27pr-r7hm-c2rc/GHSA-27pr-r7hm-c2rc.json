@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-27pr-r7hm-c2rc",
+  "modified": "2024-01-30T23:03:10Z",
+  "published": "2023-07-19T18:30:55Z",
+  "aliases": [
+    "CVE-2023-32261"
+  ],
+  "summary": "Missing permission check in Jenkins Dimensions Plugin allows enumerating credentials IDs",
+  "details": "Dimensions Plugin 0.9.3 and earlier does not perform a permission check in an HTTP endpoint.\n\nThis allows attackers with Overall/Read permission to enumerate credentials IDs of credentials stored in Jenkins. Those can be used as part of an attack to capture the credentials using another vulnerability.\n\nAn enumeration of credentials IDs in Dimensions Plugin 0.9.3.1 requires the appropriate permissions.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:dimensionsscm"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.9.3.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.9.3"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-32261"
+    },
+    {
+      "type": "WEB",
+      "url": "https://plugins.jenkins.io/dimensionsscm"
+    },
+    {
+      "type": "WEB",
+      "url": "https://portal.microfocus.com/s/article/KM000019297"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2023-06-14/#SECURITY-3138"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-30T23:03:10Z",
+    "nvd_published_at": "2023-07-19T16:15:09Z"
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vr26-jcq5-fjj8",
+  "modified": "2024-09-09T14:20:32Z",
+  "published": "2024-09-03T20:49:26Z",
+  "aliases": [
+    "CVE-2024-45311"
+  ],
+  "summary": "Denial of service in quinn-proto when using `Endpoint::retry()`",
+  "details": "### Summary\n\nAs of quinn-proto 0.11, it is possible for a server to `accept()`, `retry()`, `refuse()`, or `ignore()` an `Incoming` connection. However, calling `retry()` on an unvalidated connection exposes the server to a likely panic in the following situations:\n\n- Calling `refuse` or `ignore` on the resulting validated connection, if a duplicate initial packet is received\n  - This issue can go undetected until a server's `refuse()`/`ignore()` code path is exercised, such as to stop a denial of service attack.\n- Accepting when the initial packet for the resulting validated connection fails to decrypt or exhausts connection IDs, if a similar initial packet that successfully decrypts and doesn't exhaust connection IDs is received.\n  - This issue can go undetected if clients are well-behaved.\n\nThe former situation was observed in a real application, while the latter is only theoretical.\n\n### Details\n\nLocation of panic: https://github.com/quinn-rs/quinn/blob/bb02a12a8435a7732a1d762783eeacbb7e50418e/quinn-proto/src/endpoint.rs#L213\n\n### Impact\nDenial of service for internet-facing server",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "quinn-proto"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.11.0"
+            },
+            {
+              "fixed": "0.11.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/quinn-rs/quinn/security/advisories/GHSA-vr26-jcq5-fjj8"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-45311"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/quinn-rs/quinn/commit/e01609ccd8738bd438d86fa7185a0f85598cb58f"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/quinn-rs/quinn"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/quinn-rs/quinn/blob/bb02a12a8435a7732a1d762783eeacbb7e50418e/quinn-proto/src/endpoint.rs#L213"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2024-0373.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-670"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-09-03T20:49:26Z",
+    "nvd_published_at": "2024-09-02T18:15:37Z"
+  }
+}

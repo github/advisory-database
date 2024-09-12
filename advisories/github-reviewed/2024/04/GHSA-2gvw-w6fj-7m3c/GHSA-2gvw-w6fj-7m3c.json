@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2gvw-w6fj-7m3c",
+  "modified": "2024-04-15T21:37:22Z",
+  "published": "2024-04-15T20:20:50Z",
+  "aliases": [
+    "CVE-2024-31990"
+  ],
+  "summary": "Argo CD's API server does not enforce project sourceNamespaces",
+  "details": "### Impact\n\nI can convince the UI to let me do things with an invalid Application.\n1. Admin gives me `p, michael, applications, *, demo/*, allow`, where `demo` can just deploy to the `demo` namespace\n2. Admin gives me AppProject `dev` which reconciles from ns `dev-apps`\n3. Admin gives me `p, michael, applications, sync, dev/*, allow`, i.e. no updating via the UI allowed, gitops-only\n4. I create an Application called `pwn` in `dev-apps` with project dev and sync the app with sources from git\n5. I change the Application’s project to demo via kubectl or gitops (whichever mechanism my admins have given me, because it should be safe)\n6. I use the UI to edit the resource which should only be mutable via gitops\n\n### Patches\nA patch for this vulnerability has been released in the following Argo CD versions:\n\nv2.10.7 \nv2.9.12 \nv2.8.16\n\n### For more information\nIf you have any questions or comments about this advisory:\n\nOpen an issue in [the Argo CD issue tracker](https://github.com/argoproj/argo-cd/issues) or [discussions](https://github.com/argoproj/argo-cd/discussions)\nJoin us on [Slack](https://argoproj.github.io/community/join-slack) in channel #argo-cd\n\n### Credits\nThis vulnerability was found & reported by @crenshaw-dev (Michael Crenshaw)\n\nThe Argo team would like to thank these contributors for their responsible disclosure and constructive communications during the resolve of this issue\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:R/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/argoproj/argo-cd/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.4.0"
+            },
+            {
+              "fixed": "2.8.16"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/argoproj/argo-cd/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.9.0"
+            },
+            {
+              "fixed": "2.9.12"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/argoproj/argo-cd/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.10.0"
+            },
+            {
+              "fixed": "2.10.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/security/advisories/GHSA-2gvw-w6fj-7m3c"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-31990"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/commit/c514105af739eebedb9dbe89d8a6dd8dfc30bb2c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/commit/c5a252c4cc260e240e2074794aedb861d07e9ca5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/commit/e0ff56d89fbd7d066e9c862b30337f6520f13f17"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/argoproj/argo-cd"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-863"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-15T20:20:50Z",
+    "nvd_published_at": "2024-04-15T20:15:11Z"
+  }
+}

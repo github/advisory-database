@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-45qm-j4m9-whv9",
+  "modified": "2024-05-15T21:15:21Z",
+  "published": "2024-05-15T21:15:21Z",
+  "aliases": [
+
+  ],
+  "summary": "eZ Platform CSRF token in login form is disabled by default",
+  "details": "his security advisory fixes a potential vulnerability in the eZ Platform log in form. That form has a Cross-Site Request Forgery (CSRF) token, but the CSRF functionality is not enabled by default, meaning the token is inactive. The fix is distributed via Composer as ezsystems/ezplatform v2.5.4, and in v3.0.0 when that will be released.\n\nIf you'd like to manually enable it in your configuration, this is done by editing your app/config/security.yml and setting the \"csrf_token_generator\" key to \"security.csrf.token_manager\", like this:\n```\nsecurity:\n    firewalls:\n        ezpublish_front:\n            form_login:\n                csrf_token_generator: security.csrf.token_manager\n```\nNB: In eZ Platform 3.0 this file has been moved to config/packages/security.yaml\n\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "ezsystems/ezplatform"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.5.0"
+            },
+            {
+              "fixed": "2.5.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/ezsystems/ezplatform/2019-06-27-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ezsystems/ezplatform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://share.ez.no/community-project/security-advisories/ezsa-2019-004-csrf-token-in-login-form-is-disabled-by-default"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20210614185223/https://share.ez.no/community-project/security-advisories/ezsa-2019-004-csrf-token-in-login-form-is-disabled-by-default"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-15T21:15:21Z",
+    "nvd_published_at": null
+  }
+}

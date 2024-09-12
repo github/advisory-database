@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-pw39-f3m5-cxfc",
+  "modified": "2024-03-29T15:58:06Z",
+  "published": "2024-03-29T12:30:42Z",
+  "aliases": [
+    "CVE-2024-23449"
+  ],
+  "summary": "Elasticsearch Uncaught Exception leading to crash",
+  "details": "An uncaught exception in Elasticsearch >= 8.4.0 and < 8.11.1 occurs when an encrypted PDF is passed to an attachment processor through the REST API. The Elasticsearch ingest node that attempts to parse the PDF file will crash. This does not happen with password-protected PDF files or with unencrypted PDF files.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.elasticsearch:elasticsearch"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.4.0"
+            },
+            {
+              "fixed": "8.11.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23449"
+    },
+    {
+      "type": "WEB",
+      "url": "https://discuss.elastic.co/t/elasticsearch-8-11-1-security-update-esa-2024-05/356458"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/elastic/elasticsearch"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-248"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-29T15:58:06Z",
+    "nvd_published_at": "2024-03-29T12:15:08Z"
+  }
+}

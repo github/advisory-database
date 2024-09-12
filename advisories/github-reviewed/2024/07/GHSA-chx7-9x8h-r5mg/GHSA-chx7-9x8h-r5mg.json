@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-chx7-9x8h-r5mg",
+  "modified": "2024-07-22T16:54:54Z",
+  "published": "2024-07-17T14:27:37Z",
+  "aliases": [
+    "CVE-2024-32981"
+  ],
+  "summary": "Silverstripe Framework has a Cross-site Scripting vulnerability with encoded payload",
+  "details": "### Impact\nA bad actor with access to edit content in the CMS could send a specifically crafted encoded payload to the server, which could be used to inject a JavaScript payload on the front end of the site. The payload would be sanitised on the client-side, but server-side sanitisation doesn't catch it.\n\nThe server-side sanitisation logic has been updated to sanitise against this type of attack.\n\n### References\n- https://www.silverstripe.org/download/security-releases/cve-2024-32981",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:N/VI:N/VA:N/SC:L/SI:L/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.2.16"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/security/advisories/GHSA-chx7-9x8h-r5mg"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-32981"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/commit/b8d20dc9d531550e06fd7da7a0eafa551922e2e1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/silverstripe/framework/CVE-2024-32981.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/silverstripe/silverstripe-framework"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.silverstripe.org/download/security-releases/cve-2024-32981"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-17T14:27:37Z",
+    "nvd_published_at": "2024-07-17T20:15:05Z"
+  }
+}

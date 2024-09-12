@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2j6r-9vv4-6gf5",
+  "modified": "2024-05-20T21:56:07Z",
+  "published": "2024-05-20T21:56:07Z",
+  "aliases": [
+
+  ],
+  "summary": "github.com/bincyber/go-sqlcrypter vulnerable to IV collision",
+  "details": "There is a risk of an IV collision using the awskms or aesgcm provider. NIST SP 800-38D section 8.3 states that it is unsafe to encrypt more than 2^32 plaintexts under the same key when using a random IV. The limit could easily be reached given the use case of database column encryption. Ciphertexts are likely to be persisted and stored together. IV collision could enable an attacker with access to the ciphertexts to decrypt all messages encrypted with the affected key.\n\nThe aesgcm provider cannot be fixed without a breaking change, so users should not encrypt more than 2^32 values with any key. The awskms package can be fixed without a breaking change by switching to a counter-based IV.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/bincyber/go-sqlcrypter"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.1.0"
+            },
+            {
+              "last_affected": "0.2.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/bincyber/go-sqlcrypter/issues/127"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/bincyber/go-sqlcrypter/pull/128"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/bincyber/go-sqlcrypter/commit/96c73cd2b8fd15c9da9b3eafe62c9a040f6537e8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/bincyber/go-sqlcrypter"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/vuln/GO-2024-2451"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-327"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-20T21:56:07Z",
+    "nvd_published_at": null
+  }
+}

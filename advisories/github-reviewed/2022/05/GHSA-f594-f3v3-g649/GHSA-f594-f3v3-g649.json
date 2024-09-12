@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f594-f3v3-g649",
+  "modified": "2024-04-30T14:39:09Z",
+  "published": "2022-05-17T05:03:06Z",
+  "aliases": [
+    "CVE-2013-1630"
+  ],
+  "summary": "pyshop vulnerable to man-in-the-middle attacks due to using HTTP to retrieve packages from the PyPI repository",
+  "details": "pyshop before 0.7.1 uses HTTP to retrieve packages from the PyPI repository, and does not perform integrity checks on package contents, which allows man-in-the-middle attackers to execute arbitrary code via a crafted response to a download operation.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "pyshop"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.7.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2013-1630"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mardiros/pyshop/commit/ffadb0bcdef1e385884571670210cfd6ba351784"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mardiros/pyshop"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mardiros/pyshop/blob/master/CHANGES.txt"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.reddit.com/r/Python/comments/17rfh7/warning_dont_use_pip_in_an_untrusted_network_a"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-30T14:39:09Z",
+    "nvd_published_at": "2013-08-06T02:52:00Z"
+  }
+}

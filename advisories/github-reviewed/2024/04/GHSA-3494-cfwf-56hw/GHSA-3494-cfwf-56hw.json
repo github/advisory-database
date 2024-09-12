@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3494-cfwf-56hw",
+  "modified": "2024-05-10T21:49:12Z",
+  "published": "2024-04-28T00:30:22Z",
+  "aliases": [
+    "CVE-2024-33851"
+  ],
+  "summary": "mdanter/ecc affected by timing vulnerability in cryptographic side-channels",
+  "details": "phpecc, as used in **all versions** of mdanter/ecc, as well as paragonie/ecc before 2.0.1, has a branch-based timing leak in Point addition. (This Composer package is also known as phpecc/phpecc on GitHub, previously known as the Matyas Danter ECC library.)\n\nParagon Initiative Enterprises [hard-forked phpecc/phpecc](https://github.com/phpecc/phpecc/issues/289) and discovered the issue in the original code, then released v2.0.1 which fixes the vulnerability. [The upstream code](https://github.com/phpecc/phpecc) is no longer maintained and remains vulnerable for all versions.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "paragonie/ecc"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "mdanter/ecc"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-33851"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/phpecc/phpecc/issues/289"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/mdanter/ecc/CVE-2024-33851.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/paragonie/phpecc/releases/tag/v2.0.0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/paragonie/phpecc/releases/tag/v2.0.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-10T21:49:12Z",
+    "nvd_published_at": "2024-04-27T22:15:08Z"
+  }
+}

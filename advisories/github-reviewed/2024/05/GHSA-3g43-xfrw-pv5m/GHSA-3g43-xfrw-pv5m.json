@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3g43-xfrw-pv5m",
+  "modified": "2024-05-15T21:34:59Z",
+  "published": "2024-05-15T21:34:59Z",
+  "aliases": [
+
+  ],
+  "summary": "eZ Platform User data disclosure",
+  "details": "In eZ Platform v2.3.x it is possible to bypass permission checks in a particular case. This means user data such as name and email (but not passwords or password hashes) can be read by unauthenticated users. This affects only v2.3.x. If you use v2.2.x or older you are not affected.\n\nTo install, use Composer to update \"ezsystems/repository-forms\" to the \"Resolving versions\" mentioned above, or apply this patch manually:\nhttps://github.com/ezsystems/repository-forms/commit/ea82e136ec1ea40aca714abb79cc8e5bfece01e8\n\nHave you found a security bug in eZ Publish or eZ Platform? See how to report it responsibly here: https://doc.ez.no/Security",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "ezsystems/repository-forms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.3.0"
+            },
+            {
+              "fixed": "2.3.2.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ezsystems/repository-forms/commit/ea82e136ec1ea40aca714abb79cc8e5bfece01e8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/ezsystems/repository-forms/2018-11-20-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ezsystems/repository-forms"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20210614184249/http://share.ez.no/community-project/security-advisories/ezsa-2018-007-user-data-disclosure"
+    },
+    {
+      "type": "WEB",
+      "url": "http://share.ez.no/community-project/security-advisories/ezsa-2018-007-user-data-disclosure"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-15T21:34:59Z",
+    "nvd_published_at": null
+  }
+}

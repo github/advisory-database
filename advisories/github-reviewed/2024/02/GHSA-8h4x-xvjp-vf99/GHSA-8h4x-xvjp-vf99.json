@@ -1,0 +1,176 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8h4x-xvjp-vf99",
+  "modified": "2024-02-27T19:21:29Z",
+  "published": "2024-02-16T23:14:45Z",
+  "aliases": [
+    "CVE-2023-45860"
+  ],
+  "summary": "Hazelcast Platform permission checking in CSV File Source connector",
+  "details": "### Impact\nIn Hazelcast Platform through 5.3.4, a security issue exists within the SQL mapping for the CSV File Source connector. This issue arises from inadequate permission checking, which could enable unauthorized clients to access data from files stored on a member's filesystem.\n\n### Patches\nFix versions: 5.3.5, 5.4.0-BETA-1\n\n### Workaround\nDisabling Hazelcast Jet processing engine in Hazelcast member configuration workarounds the issue. As a result SQL and Jet jobs won't work.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.hazelcast:hazelcast"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.3.0"
+            },
+            {
+              "fixed": "5.3.5"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 5.3.4"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.hazelcast:hazelcast-enterprise"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.3.0"
+            },
+            {
+              "fixed": "5.3.5"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 5.3.4"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.hazelcast:hazelcast-enterprise"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.2.0"
+            },
+            {
+              "fixed": "5.2.5"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 5.2.4"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.hazelcast:hazelcast-enterprise"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "5.1.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.hazelcast:hazelcast"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.2.0"
+            },
+            {
+              "fixed": "5.2.5"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 5.2.4"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.hazelcast:hazelcast"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "5.1.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/hazelcast/hazelcast/security/advisories/GHSA-8h4x-xvjp-vf99"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-45860"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hazelcast/hazelcast/pull/25348"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hazelcast/hazelcast/commit/98be233e79cf4bc1ff3c7126a9189988bd0e87bd"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/hazelcast/hazelcast"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-16T23:14:45Z",
+    "nvd_published_at": "2024-02-16T10:15:08Z"
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6wjw-qf87-fv5v",
+  "modified": "2024-05-15T22:01:01Z",
+  "published": "2024-05-15T22:01:01Z",
+  "aliases": [
+
+  ],
+  "summary": "Laravel Encrypter Failure to decryption vulnerability",
+  "details": "A potential exploit of the Laravel Encrypter component that may cause the Encrypter to fail on decryption and unexpectedly return false.\n\nTo exploit this, the attacker must be able to modify the encrypted payload before it is decrypted. Depending on the code within your application, this could lead to unexpected behavior when combined with weak type comparisons, for example:\n\n```php\n<?php\n\n$decyptedValue = decrypt($secret);\n\nif ($decryptedValue == '') {\n    // Code is run even though decrypted value is false...\n}\n```",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "illuminate/encryption"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.5.0"
+            },
+            {
+              "fixed": "5.5.40"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "illuminate/encryption"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.6.0"
+            },
+            {
+              "fixed": "5.6.15"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/illuminate/encryption/commit/51667a52bd7d135c6aa40a897656ffe9d3cd072d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/illuminate/encryption/commit/c80b1da6a0412bd74bd56dc80f6126f561631b05"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/illuminate/encryption/2018-03-30-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/illuminate/encryption"
+    },
+    {
+      "type": "WEB",
+      "url": "https://medium.com/@taylorotwell/laravel-security-release-5-6-15-and-5-5-40-56f1257933a0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1240"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-15T22:01:01Z",
+    "nvd_published_at": null
+  }
+}

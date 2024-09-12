@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3783-62vc-jr7x",
+  "modified": "2024-05-16T21:02:36Z",
+  "published": "2024-05-16T21:02:36Z",
+  "aliases": [
+    "CVE-2024-5023"
+  ],
+  "summary": "ConsoleMe has an Arbitrary File Read Vulnerability via Limited Git command",
+  "details": "## ID: NFLX-2024-002\n\n### Impact\nAuthenticated users can achieve limited RCE in ConsoleMe, restricted to flag inputs on a single CLI command. Due to this constraint, it is not currently known whether full RCE is possible but it is unlikely. \nHowever, a specific flag allows authenticated users to read any server files accessible by the ConsoleMe process. Given ConsoleMe's role as an AWS identity broker, accessing files containing secrets on the server could potentially be exploited for privilege escalation.\n\nDeployments of ConsoleMe that allow templated resources are impacted and urged to patch immediately. Deployments that do not permit templated resources are not affected.\n\nTo determine if your ConsoleMe deployment uses templated resources, check the configuration value for `cache_resource_templates.repositories`. If this value does not exist or is an empty array, your deployment is not impacted.\n### Description\nThe self-service flow for templated resources in ConsoleMe accepts a user-supplied JSON post body, which includes the filename for the templated resource. However, this user-supplied filename is not properly sanitized and is passed directly as a string to a CLI command. This allows users to input flags instead of filenames. By passing a specific flag with a filename value, users can induce an error that reveals the contents of the specified file, allowing them to read any files readable by the system user executing the ConsoleMe server process.\n\n### Patches\nThis issue has been patched in version [v1.4.0](https://pypi.org/project/consoleme/1.4.0/) via https://github.com/Netflix/consoleme/pull/9380. \nIf you are unable to upgrade to the latest version, users can selectively apply the code changes in the above PR. Alternatively, removing the configuration item `cache_resource_templates.repositories` or adding it as an empty array should mitigate the issue, but will result in broken functionality (templated resources will no longer be supported for self-service).\n\n### Credit\n[Jay Dhulia](https://github.com/jaydhulia)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "consoleme"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.4.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/Netflix/consoleme/security/advisories/GHSA-3783-62vc-jr7x"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-5023"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Netflix/consoleme/pull/9380"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Netflix/consoleme/commit/2795a2bd553938a21c0643b37452971625ce67f5"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Netflix/consoleme"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Netflix/security-bulletins/blob/master/advisories/nflx-2024-002.md"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-77"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-16T21:02:36Z",
+    "nvd_published_at": "2024-05-16T18:15:10Z"
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v8fq-gq9j-3v7h",
+  "modified": "2024-05-14T21:16:58Z",
+  "published": "2022-05-17T04:31:13Z",
+  "aliases": [
+    "CVE-2014-5252"
+  ],
+  "summary": "OpenStack Identity (Keystone) UUID v2 tokens does not expire with revocation events",
+  "details": "The V3 API in OpenStack Identity (Keystone) 2014.1.x before 2014.1.2.1 and Juno before Juno-3 updates the issued_at value for UUID v2 tokens, which allows remote authenticated users to bypass the token expiration and retain access via a verification (1) GET or (2) HEAD request to v3/auth/tokens/.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "keystone"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "8.0.0a0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2014-5252"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/keystone/commit/556fb860311675fc437585651e4602b2908451eb"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/keystone/commit/a4c73e4382cb062aa9f30fe1960d5014d3c49cc2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/keystone/commit/bdb88c662ac2035f9b0d8a229a5db5f60f5f16ae"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.launchpad.net/keystone/+bug/1348820"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openstack/keystone"
+    },
+    {
+      "type": "WEB",
+      "url": "http://rhn.redhat.com/errata/RHSA-2014-1121.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://rhn.redhat.com/errata/RHSA-2014-1122.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2014/08/15/6"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.ubuntu.com/usn/USN-2324-1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-14T21:16:58Z",
+    "nvd_published_at": "2014-08-25T14:55:00Z"
+  }
+}

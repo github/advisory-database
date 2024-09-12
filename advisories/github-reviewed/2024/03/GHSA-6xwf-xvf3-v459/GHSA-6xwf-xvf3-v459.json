@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6xwf-xvf3-v459",
+  "modified": "2024-05-02T14:26:32Z",
+  "published": "2024-03-01T12:30:53Z",
+  "aliases": [
+    "CVE-2024-26280"
+  ],
+  "summary": "Apache Airflow: Incorrect Default Permissions in audit logs for Ops and Viewers users",
+  "details": "Apache Airflow, versions before 2.8.2, has a vulnerability that allows authenticated Ops and Viewers users to view all information on audit logs, including dag names and usernames they were not permitted to view. With 2.8.2 and newer, Ops and Viewer users do not have audit log permission by default, they need to be explicitly granted permissions to see the logs. Only admin users have audit log permission by default.\n\nUsers of Apache Airflow are recommended to upgrade to version 2.8.2 or newer to mitigate the risk associated with this vulnerability",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "apache-airflow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.8.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-26280"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/airflow/pull/37501"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/airflow/commit/1a96407cd2d76616c1137de288f092d4f3b097fa"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/airflow/commit/7f10998c17ab9d725bc8671deb4c12d672bfba99"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/airflow/commit/8324c87e05741e5a673c43b315619a3788bacc2e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/airflow/commit/8463ee4f25114a6c5fb2408d6026afe94bdf106d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/airflow/commit/f2ea8a3e1753012bfe0d529c9c8be66cf55ca28f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/airflow/commit/f4b9cc74976b7df1acbc3c63471b5751b3e2c40c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/airflow"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/apache-airflow/PYSEC-2024-42.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/knskxxxml95091rsnpxkpo1jjp8rj0fh"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/03/01/1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-276"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-01T21:40:55Z",
+    "nvd_published_at": "2024-03-01T11:15:08Z"
+  }
+}

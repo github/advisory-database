@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r2r8-36pq-27cm",
+  "modified": "2024-05-17T23:06:52Z",
+  "published": "2024-05-17T23:06:52Z",
+  "aliases": [
+
+  ],
+  "summary": "nzo/url-encryptor-bundle Insecure default secret key and IV allowing anyone to decrypt values",
+  "details": "Versions of nzo/url-encryptor-bundle prior to 5.0.1 and 4.3.2 are affected by a security vulnerability related to the lack of mandatory key and IV requirements. By default, the bundle uses the aes-256-ctr algorithm, which is susceptible to malleability attacks, potentially leading to Insecure Direct Object Reference (IDOR) vulnerabilities. Additionally, the reuse of keys enables users to decrypt and modify encrypted data if they can guess the plaintext of one ciphertext.\n\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "nzo/url-encryptor-bundle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0"
+            },
+            {
+              "fixed": "5.0.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "nzo/url-encryptor-bundle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0"
+            },
+            {
+              "fixed": "4.3.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/nayzo/NzoUrlEncryptorBundle/commit/ba3af1a9bcf3bedcc0ed5948979f482e2134da1a"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nayzo/NzoUrlEncryptorBundle/commit/bd8232501c12c9df1bc45b1970870ef665218581"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/nzo/url-encryptor-bundle/2020-05-03.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/nayzo/NzoUrlEncryptorBundle"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-17T23:06:52Z",
+    "nvd_published_at": null
+  }
+}

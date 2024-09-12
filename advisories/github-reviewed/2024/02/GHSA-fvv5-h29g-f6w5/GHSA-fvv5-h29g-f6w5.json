@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fvv5-h29g-f6w5",
+  "modified": "2024-02-22T21:36:04Z",
+  "published": "2024-02-22T21:36:04Z",
+  "aliases": [
+
+  ],
+  "summary": "User with ci:ReadAction permissions and write permissions to one path in a repository may copy objects from any path in the repository",
+  "details": "### Impact\n\nA bug in permissions validation allows a user with the `ci:ReadAction` permission to skip read checks when copying an object.  If they additionally have read and write permission to path in the repository, they can copy an otherwise unreadable object and read it.\n\nIn order to be affected and exploitable, the following conditions must ALL occur on the same user:\n1. `ci:ReadAction` enabled for the repository.  Predefined policies RepoManagementRead and RepoManagementFullAccess allow this action.\n2. `fs:ReadObject` and `fs:WriteObject` enabled for some path.\n3. `fs:ReadObject` _not_ available for some path\n\nSuch a user can use (1) to copy the unreadable object (3) to a path that they can read and write (2).  At that point they can read the object copy.\n\n### Patches\n\nReleases >= 1.12.1 fix this issue in lakeFS.\n\n### Workarounds\n\nAs a workaround, use RBAC to deny `ci:*` permissions to all users, or to all users who have limited read access.\n\nMany installations are unaffected:\n\n* **Installations using ACLs are _not_ affected.** This includes all OSS installations that have not implemented an external authorization server.  We do not know of any OSS installations that have implemented such a server.  ACLs that allow ci:ReadAction also allow reading repositories, so no capabilities are granted.\n* **Installations using RBAC that use only predefined policies with \"all\" ARNs (\"*\") are _not_ affected.**  This includes **all installations that have not defined any new groups in RBAC.**\n\nIn order to be affected, **installations using RBAC** must define users and simultaneous allow `ci:ReadAction` and disallow `fs:ReadObject` for some path.  `ci:ReadAction` is available in policies RepoManagementReadAll and RepoManagementFullAccess.  By default these actions are configured for groups Developers and above, for all repositories and paths.\n\n\n### References\n\n* [lakeFS RBAC](https://docs.lakefs.io/reference/security/rbac.html)\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/treeverse/lakefs"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.90.0"
+            },
+            {
+              "fixed": "1.12.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.12.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/treeverse/lakeFS/security/advisories/GHSA-fvv5-h29g-f6w5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/treeverse/lakeFS/commit/56556ee5406fc5425b9302cd08a8d412635fdcd7"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/treeverse/lakeFS"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-22T21:36:04Z",
+    "nvd_published_at": null
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h8wv-9h96-m4hr",
+  "modified": "2024-04-24T14:38:06Z",
+  "published": "2024-02-23T18:30:59Z",
+  "aliases": [
+    "CVE-2024-27319"
+  ],
+  "summary": "Onnx Out-of-bounds Read vulnerability",
+  "details": "Versions of the package onnx before and including 1.15.0 are vulnerable to Out-of-bounds Read as the ONNX_ASSERT and ONNX_ASSERTM functions have an off by one string copy.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "onnx"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.16.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.15.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-27319"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/onnx/onnx/commit/08a399ba75a805b7813ab8936b91d0e274b08287"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/onnx/onnx"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/FGTBH5ZYL2LGYHIJDHN2MAUURIR5E7PY"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/TFJJID2IZDOLFDMWVYTBDI75ZJQC6JOL"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-125"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-23T20:10:44Z",
+    "nvd_published_at": "2024-02-23T18:15:50Z"
+  }
+}

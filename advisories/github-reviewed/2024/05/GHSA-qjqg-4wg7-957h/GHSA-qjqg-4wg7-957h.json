@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qjqg-4wg7-957h",
+  "modified": "2024-06-10T20:20:24Z",
+  "published": "2024-05-15T03:30:43Z",
+  "aliases": [
+    "CVE-2024-3744"
+  ],
+  "summary": "azure-file-csi-driver leaks service account tokens in the logs",
+  "details": "A security issue was discovered in azure-file-csi-driver where an actor with access to the driver logs could observe service account tokens. These tokens could then potentially be exchanged with external cloud providers to access secrets stored in cloud vault solutions. Tokens are only logged when TokenRequests is configured in the CSIDriver object and the driver is set to run at log level 2 or greater via the -v flag.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "sigs.k8s.io/azurefile-csi-driver"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.29.4"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.29.3"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "sigs.k8s.io/azurefile-csi-driver"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.30.0"
+            },
+            {
+              "fixed": "1.30.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "1.30.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-3744"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kubernetes/kubernetes/issues/124759"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kubernetes-sigs/azurefile-csi-driver/commit/a1b7446de942136419f07394efeef804523f87ae"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kubernetes-sigs/azurefile-csi-driver/commit/e11ff3dc2c03894cde692213308f9991e7bbd5bf"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/kubernetes-sigs/azurefile-csi-driver"
+    },
+    {
+      "type": "WEB",
+      "url": "https://groups.google.com/g/kubernetes-security-announce/c/hcgZE2MQo1A/m/Y4C6q-CYAgAJ"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/05/09/4"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-532"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-15T17:16:58Z",
+    "nvd_published_at": "2024-05-15T01:15:07Z"
+  }
+}

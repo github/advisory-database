@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2jx7-xg83-j2m7",
+  "modified": "2024-06-07T21:39:23Z",
+  "published": "2024-06-07T21:39:23Z",
+  "aliases": [
+
+  ],
+  "summary": "Zendframework Denial of Service vector via XEE injection",
+  "details": "`Zend_Dom`, `Zend_Feed`, `Zend_Soap`, and `Zend_XmlRpc` are vulnerable to XML Entity Expansion (XEE) vectors, leading to Denial of Service vectors. XEE attacks occur when the XML DOCTYPE declaration includes XML entity definitions that contain either recursive or circular references; this leads to CPU and memory consumption, making Denial of Service exploits trivial to implement.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "zendframework/zendframework1"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.0"
+            },
+            {
+              "fixed": "1.11.13"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://framework.zend.com/security/advisory/ZF2012-02"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/zendframework/zendframework1/ZF2012-02.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/zendframework/zf1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-776"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-07T21:39:23Z",
+    "nvd_published_at": null
+  }
+}

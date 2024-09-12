@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hj55-9jmv-9jrj",
+  "modified": "2024-01-26T20:28:16Z",
+  "published": "2024-01-19T21:30:36Z",
+  "aliases": [
+    "CVE-2024-23682"
+  ],
+  "summary": "Sandbox escape in Artemis Java Test Sandbox",
+  "details": "Artemis Java Test Sandbox versions before 1.8.0 are vulnerable to a sandbox escape when an attacker includes class files in a package that Ares trusts. An attacker can abuse this issue to execute arbitrary Java when a victim executes the supposedly sandboxed code.\n\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "de.tum.in.ase:artemis-java-test-sandbox"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.8.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ls1intum/Ares/security/advisories/GHSA-227w-wv4j-67h4"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23682"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ls1intum/Ares/issues/15"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-227w-wv4j-67h4"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ls1intum/Ares"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ls1intum/Ares/releases/tag/1.8.0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://vulncheck.com/advisories/vc-advisory-GHSA-227w-wv4j-67h4"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-501"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-22T21:31:04Z",
+    "nvd_published_at": "2024-01-19T21:15:10Z"
+  }
+}

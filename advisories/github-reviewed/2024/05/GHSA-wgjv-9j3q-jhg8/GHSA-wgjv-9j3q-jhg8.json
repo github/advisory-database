@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wgjv-9j3q-jhg8",
+  "modified": "2024-05-20T14:59:07Z",
+  "published": "2024-05-20T14:59:07Z",
+  "aliases": [
+    "CVE-2024-34083"
+  ],
+  "summary": "aiosmtpd STARTTLS unencrypted commands injection",
+  "details": "### Summary\nServers based on aiosmtpd accept extra unencrypted commands after STARTTLS, treating them as if they came from inside the encrypted connection. This could be exploited by a MitM attack.\n\n### References\n* [NO STARTTLS: Similar vulnerabilities discovered by previous researchers.](https://nostarttls.secvuln.info/)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "aiosmtpd"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.4.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/aio-libs/aiosmtpd/security/advisories/GHSA-wgjv-9j3q-jhg8"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-34083"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/aio-libs/aiosmtpd/commit/b3a4a2c6ecfd228856a20d637dc383541fcdbfda"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/aio-libs/aiosmtpd"
+    },
+    {
+      "type": "WEB",
+      "url": "https://nostarttls.secvuln.info"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-349"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-20T14:59:07Z",
+    "nvd_published_at": "2024-05-18T19:15:49Z"
+  }
+}

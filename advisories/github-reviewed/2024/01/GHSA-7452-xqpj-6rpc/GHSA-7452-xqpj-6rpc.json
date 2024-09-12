@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7452-xqpj-6rpc",
+  "modified": "2024-06-10T18:39:17Z",
+  "published": "2024-01-31T23:14:25Z",
+  "aliases": [
+    "CVE-2021-21284"
+  ],
+  "summary": "moby Access to remapped root allows privilege escalation to real root",
+  "details": "### Impact\n\nWhen using `--userns-remap`, if the root user in the remapped namespace has access to the host filesystem they can modify files under `/var/lib/docker/<remapping>` that cause writing files with extended privileges.\n\n### Patches\n\nVersions 20.10.3 and 19.03.15 contain patches that prevent privilege escalation from remapped user.\n\n### Credits\n\nMaintainers would like to thank Alex Chapman for discovering the vulnerability; @awprice, @nathanburrell, @raulgomis, @chris-walz, @erin-jensby, @bassmatt, @mark-adams, @dbaxa for working on it and Zac Ellis for responsibly disclosing it to security@docker.com",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:A/AC:L/PR:L/UI:N/S:C/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/moby/moby"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "19.3.15"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/moby/moby"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "20.10.0-beta1"
+            },
+            {
+              "fixed": "20.10.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/moby/security/advisories/GHSA-7452-xqpj-6rpc"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-21284"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/moby/commit/64bd4485b3a66a597c02c95f5776395e540b2c7c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.docker.com/engine/release-notes/#20103"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/moby/releases/tag/v19.03.15"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/moby/releases/tag/v20.10.3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.gentoo.org/glsa/202107-23"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.netapp.com/advisory/ntap-20210226-0005"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.debian.org/security/2021/dsa-4865"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-31T23:14:25Z",
+    "nvd_published_at": "2021-02-02T18:15:00Z"
+  }
+}

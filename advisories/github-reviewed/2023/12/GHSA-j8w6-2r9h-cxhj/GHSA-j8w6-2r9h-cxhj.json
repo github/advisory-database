@@ -1,15 +1,22 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-j8w6-2r9h-cxhj",
-  "modified": "2023-12-15T04:02:30Z",
+  "modified": "2024-07-30T21:25:24Z",
   "published": "2023-12-15T04:02:30Z",
   "aliases": [
-
+    "CVE-2023-50731"
   ],
   "summary": "GitHub Security Lab (GHSL) Vulnerability Report: Arbitary write GHSL-2023-182 ",
   "details": "### Impact\n\nIssue: Arbitrary file write in file.py (GHSL-2023-183)\n\n### Patches\n\nUse mindsdb staging branch or v23.11.4.1",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:H/VA:H/SC:N/SI:N/SA:N"
+    }
   ],
   "affected": [
     {
@@ -41,15 +48,32 @@
       "url": "https://github.com/mindsdb/mindsdb/security/advisories/GHSA-j8w6-2r9h-cxhj"
     },
     {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-50731"
+    },
+    {
       "type": "PACKAGE",
       "url": "https://github.com/mindsdb/mindsdb"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mindsdb/mindsdb/blob/1821da719f34c022890c9ff25810218e71c5abbc/mindsdb/api/http/namespaces/file.py#L122-L125"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mindsdb/mindsdb/blob/1821da719f34c022890c9ff25810218e71c5abbc/mindsdb/api/http/namespaces/file.py#L138"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://securitylab.github.com/advisories/GHSL-2023-182_GHSL-2023-184_mindsdb_mindsdb"
     }
   ],
   "database_specific": {
     "cwe_ids": [
-
+      "CWE-22",
+      "CWE-918"
     ],
-    "severity": "MODERATE",
+    "severity": "CRITICAL",
     "github_reviewed": true,
     "github_reviewed_at": "2023-12-15T04:02:30Z",
     "nvd_published_at": null

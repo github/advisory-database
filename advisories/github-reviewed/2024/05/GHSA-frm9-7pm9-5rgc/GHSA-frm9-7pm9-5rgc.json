@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-frm9-7pm9-5rgc",
+  "modified": "2024-05-27T18:24:02Z",
+  "published": "2024-05-27T18:24:02Z",
+  "aliases": [
+
+  ],
+  "summary": "SilverStripe comments module includes version of jQuery vulnerable to Cross-site Scripting",
+  "details": "The silverstripe/comments module, the cwp/starter-theme and the cwp/watea-theme include an outdated version of jQuery by default, which contains XSS vulnerabilities if user input is used in certain contexts. Though no known exploit has been found for these in the existing usage, user customisation to these themes could have made them exploitable.\n\nCWP 2.0.0 has been released with the fixed cwp/stater-theme and silverstripe/comments module, and SilverStripe 4.2.0 will be released with the fixed silverstripe-themes/simple theme.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/comments"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.3.0"
+            },
+            {
+              "fixed": "3.1.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/silverstripe/comments/SS-2018-015-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/silverstripe/silverstripe-comments"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.silverstripe.org/download/security-releases/ss-2018-015"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-27T18:24:02Z",
+    "nvd_published_at": null
+  }
+}

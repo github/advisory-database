@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2hpc-mf4q-j885",
+  "modified": "2024-05-23T19:19:33Z",
+  "published": "2024-05-23T19:19:33Z",
+  "aliases": [
+
+  ],
+  "summary": "Silverstripe CSRF vulnerability in GridFieldAddExistingAutocompleter",
+  "details": "GridField does not have sufficient CSRF protection, meaning that in some cases users with CMS access can be tricked into posting unspecified data into the CMS from external websites. Amongst other default CMS interfaces, GridField is used for management of groups, users and permissions in the CMS.\n\nThe resolution for this issue is to ensure that all gridFieldAlterAction submissions are checked for the SecurityID token during submission.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.1.17"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.1.16"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.2.0"
+            },
+            {
+              "fixed": "3.2.2"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.2.1"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.3.0-beta1"
+            },
+            {
+              "fixed": "3.3.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.3.0-rc2"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/commit/013524af5069bb0cf909853f04418d9bef56d18c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/commit/56e92f5a32e45849cc9361c8603c31d7010c9d36"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/commit/e2c77c5a8f13e901c51a3684210811559b592f0c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/silverstripe/framework/SS-2016-002-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/silverstripe/silverstripe-framework"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.silverstripe.org/download/security-releases/ss-2016-002"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-23T19:19:33Z",
+    "nvd_published_at": null
+  }
+}

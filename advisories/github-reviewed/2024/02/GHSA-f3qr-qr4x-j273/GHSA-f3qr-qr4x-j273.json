@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f3qr-qr4x-j273",
+  "modified": "2024-02-21T19:33:13Z",
+  "published": "2024-02-21T18:04:16Z",
+  "aliases": [
+    "CVE-2024-25117"
+  ],
+  "summary": "php-svg-lib lacks path validation on font through SVG inline styles ",
+  "details": "### Summary\nphp-svg-lib fails to validate that font-family doesn't contain a PHAR url, which might leads to RCE on PHP < 8.0, and doesn't validate if external references are allowed. This might leads to bypass of restrictions or RCE on projects that are using it, if they do not strictly revalidate the fontName that is passed by php-svg-lib.\n\n### Details\nThe Style::fromAttributes(), or the Style::parseCssStyle() should check the content of the `font-family` and prevents it to use a PHAR url, to avoid passing an invalid and dangerous `fontName` value to other libraries. The same check as done in the Style::fromStyleSheets might be reused : \n\n```\n                if (\n                    \\array_key_exists(\"font-family\", $styles)\n                    && (\n                        \\strtolower(\\substr($this->href, 0, 7)) === \"phar://\"\n                        || ($this->document->allowExternalReferences === false && \\strtolower(\\substr($this->href, 0, 5)) !== \"data:\")\n                    )\n                ) {\n                    unset($style[\"font-family\"]);\n                }\n```\n\n### PoC \n\nParsing the following SVG : \n\n```\n<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n<svg xmlns:svg=\"http://www.w3.org/2000/svg\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"200\" height=\"200\">\n    <text x=\"20\" y=\"35\" style=\"color:red;font-family:phar:///path/to/whatever.phar/blaklis;\">My</text>\n</svg>\n```\n\nwill pass the `phar:///path/to/whatever.phar/blaklis` as `$family` in `SurfaceCpdf::setFont`, which is then passed to the canvas `selectFont` as a `$fontName`.\n\n### Impact\nLibraries using this library as a dependency might be vulnerable to some bypass of restrictions, or even RCE, if they do not double check the value of the `fontName` that is passed by php-svg-lib",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "phenx/php-svg-lib"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.5.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/dompdf/php-svg-lib/security/advisories/GHSA-f3qr-qr4x-j273"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-25117"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dompdf/php-svg-lib/commit/732faa9fb4309221e2bd9b2fda5de44f947133aa"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dompdf/php-svg-lib/commit/8ffcc41bbde39f09f94b9760768086f12bbdce42"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/dompdf/php-svg-lib"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-502",
+      "CWE-73"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-21T18:04:16Z",
+    "nvd_published_at": "2024-02-21T17:15:09Z"
+  }
+}

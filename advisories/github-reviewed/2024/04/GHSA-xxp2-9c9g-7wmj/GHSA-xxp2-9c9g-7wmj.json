@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xxp2-9c9g-7wmj",
+  "modified": "2024-04-10T22:01:08Z",
+  "published": "2024-04-10T17:13:00Z",
+  "aliases": [
+    "CVE-2024-31983"
+  ],
+  "summary": "XWiki Platform: Remote code execution from edit in multilingual wikis via translations",
+  "details": "### Impact\n\nIn multilingual wikis, translations can be edited by any user who has edit right, circumventing the rights that are normally required for authoring translations (script right for user-scope translations, wiki admin for translations on the wiki). This can be exploited for remote code execution if the translation value is not properly escaped where it is used. To reproduce, in a multilingual wiki, as a user without script or admin right, edit a translation of `AppWithinMinutes.Translations` and in the line `platform.appwithinminutes.description=`  add `{{async}}{{groovy}}println(\"Hello from Translation\"){{/groovy}}{{/async}}` at the end. Then open the app with in minutes home page (`AppWithinMinutes.WebHome`) in the same locale. If translations are still working and \"Hello from Translation\" is displayed at the end of the introduction, the installation is vulnerable.\n\n### Patches\nThis has been patched in XWiki 14.10.20, 15.5.4 and 15.10RC1.\n\n### Workarounds\nWe're not aware of any workaround except restricting edit right on documents that contain translations.\n\n### References\n* https://jira.xwiki.org/browse/XWIKI-21411\n* https://github.com/xwiki/xwiki-platform/commit/c4c8d61c30de72298d805ccc82df2a307f131c54\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-localization-source-wiki"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.3-milestone-2"
+            },
+            {
+              "fixed": "14.10.20"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-localization-source-wiki"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "15.0-rc-1"
+            },
+            {
+              "fixed": "15.5.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-localization-source-wiki"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "15.6-rc-1"
+            },
+            {
+              "fixed": "15.10-rc-1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-xxp2-9c9g-7wmj"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-31983"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/2a9ce88f33663c53c9c63b2ea573f4720ea2efb9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/73aef9648bbff04b697837f1b906932f0d5caacb"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/c4c8d61c30de72298d805ccc82df2a307f131c54"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-21411"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-862"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-10T17:13:00Z",
+    "nvd_published_at": "2024-04-10T20:15:08Z"
+  }
+}

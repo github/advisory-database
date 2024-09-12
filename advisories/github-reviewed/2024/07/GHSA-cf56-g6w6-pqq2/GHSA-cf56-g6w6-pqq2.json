@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cf56-g6w6-pqq2",
+  "modified": "2024-09-11T21:37:53Z",
+  "published": "2024-07-29T17:29:36Z",
+  "aliases": [
+    "CVE-2024-41810"
+  ],
+  "summary": "Twisted vulnerable to HTML injection in HTTP redirect body",
+  "details": "### Summary\n\nThe `twisted.web.util.redirectTo` function contains an HTML injection vulnerability. If application code allows an attacker to control the redirect URL this vulnerability may result in Reflected Cross-Site Scripting (XSS) in the redirect response HTML body.\n\n### Details\nTwisted’s `redirectTo` function generates an `HTTP 302 Redirect` response. The response contains an HTML body, built for exceptional cases where the browser doesn’t properly handle the redirect, allowing the user to click a link, navigating them to the specified destination.\n\nThe function reflects the destination URL in the HTML body without any output encoding. \n```python\n# https://github.com/twisted/twisted/blob/trunk/src/twisted/web/_template_util.py#L88\ndef redirectTo(URL: bytes, request: IRequest) -> bytes:\n    # ---snip---\n    content = b\"\"\"\n<html>\n    <head>\n        <meta http-equiv=\\\"refresh\\\" content=\\\"0;URL=%(url)s\\\">\n    </head>\n    <body bgcolor=\\\"#FFFFFF\\\" text=\\\"#000000\\\">\n    <a href=\\\"%(url)s\\\">click here</a>\n    </body>\n</html>\n\"\"\" % {\n        b\"url\": URL\n    }\n    return content\n```\n\nIf an attacker has full or partial control over redirect location due to an application bug, also known as an “Open Redirect”, they may inject arbitrary HTML into the response’s body, ultimately leading to an XSS attack.\n\nIt’s worth noting that the issue is known to maintainers and tracked with GitHub [Issue#9839](https://github.com/twisted/twisted/issues/9839). The issue description, however, does not make any mention of exploitability and simply states: “…Browsers don't seem to actually render that page…”\n\n### PoC\nThe issue can be reproduced by running the following Twisted-based HTTP server locally:\n```python\nfrom twisted.web import server, resource\nfrom twisted.internet import reactor\nfrom twisted.web.util import redirectTo\n\nclass Simple(resource.Resource):\n    isLeaf = True\n    def render_GET(self, request):\n        url = request.args[b'url'][0]  # <-- open redirect\n        return redirectTo(url, request)\n\nsite = server.Site(Simple())\nreactor.listenTCP(9009, site)\nreactor.run()\n```\nOnce running, navigate to the following URL: `http://127.0.0.1:9009?url=ws://example.com/\"><script>alert(document.location)</script>`, and verify that the “alert” dialog was displayed.\n\n**Note**: Due to the different ways browsers validate the redirect Location header, this attack is possible only in **Firefox**. All other tested browsers will display an error message to the user and will not render the HTML body.\n\n### Impact\nIf successfully exploited, the issue will allow malicious JavaScript to run in the context of the victim's session. This will in turn lead to unauthorized access/modification to victim's account and information associated with it, or allow for unauthorized operations to be performed within the context of the victim's session.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:N/VI:N/VA:N/SC:L/SI:L/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "twisted"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "24.7.0rc1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 24.3.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/twisted/twisted/security/advisories/GHSA-cf56-g6w6-pqq2"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-41810"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/twisted/twisted/commit/046a164f89a0f08d3239ecebd750360f8914df33"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/twisted/PYSEC-2024-75.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/twisted/twisted"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-29T17:29:36Z",
+    "nvd_published_at": "2024-07-29T16:15:05Z"
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3965-hpx2-q597",
+  "modified": "2024-07-05T21:33:03Z",
+  "published": "2024-05-24T14:45:02Z",
+  "aliases": [
+    "CVE-2024-36361"
+  ],
+  "summary": "Pug allows JavaScript code execution if an application accepts untrusted input",
+  "details": "Pug through 3.0.2 allows JavaScript code execution if an application accepts untrusted input for the name option of the `compileClient`, `compileFileClient`, or `compileClientWithDependenciesTracked` function. NOTE: these functions are for compiling Pug templates into JavaScript, and there would typically be no reason to allow untrusted callers.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "pug-code-gen"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.0.3"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.0.3"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "pug"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.0.3"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.0.2"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-36361"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pugjs/pug/pull/3428"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pugjs/pug/pull/3438"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pugjs/pug/commit/32acfe8f197dc44c54e8af32c7d7b19aa9d350fb"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Coding-Competition-Team/hackac-2024/tree/main/web/pug"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pugjs/pug"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pugjs/pug/blob/4767cafea0af3d3f935553df0f9a8a6e76d470c2/packages/pug/lib/index.js#L328"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pugjs/pug/releases/tag/pug%403.0.3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pugjs.org/api/reference.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.npmjs.com/package/pug-code-gen"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-24T14:45:02Z",
+    "nvd_published_at": "2024-05-24T06:15:08Z"
+  }
+}

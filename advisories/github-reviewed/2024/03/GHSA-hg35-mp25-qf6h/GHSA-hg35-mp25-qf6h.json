@@ -1,0 +1,135 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hg35-mp25-qf6h",
+  "modified": "2024-08-02T13:58:45Z",
+  "published": "2024-03-02T00:31:33Z",
+  "aliases": [
+    "CVE-2024-27354"
+  ],
+  "summary": "phpseclib a large prime can cause a denial of service ",
+  "details": "An issue was discovered in phpseclib 1.x before 1.0.23, 2.x before 2.0.47, and 3.x before 3.0.36. An attacker can construct a malformed certificate containing an extremely large prime to cause a denial of service (CPU consumption for an isPrime primality check). NOTE: this issue was introduced when attempting to fix CVE-2023-27560.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "phpseclib/phpseclib"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.0"
+            },
+            {
+              "fixed": "1.0.23"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "phpseclib/phpseclib"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.0.47"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "phpseclib/phpseclib"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.0.36"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-27354"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/phpseclib/phpseclib/commit/2870c8fab3f132d2ed40a66c97a36fe5ab625698"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/phpseclib/phpseclib/commit/ad5dbdf2129f5e0fb644637770b7f33de8ca8575"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/phpseclib/phpseclib/commit/c55b75199ec8d12cec6eadf6da99da4a3712fe56"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gist.github.com/katzj/ee72f3c2a00590812b2ea3c0c8890e0b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/phpseclib/phpseclib/CVE-2024-27354.yaml"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-hg35-mp25-qf6h"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/phpseclib/phpseclib"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/phpseclib/phpseclib/blob/master/phpseclib/Math/PrimeField.php#L49"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.debian.org/debian-lts-announce/2024/03/msg00002.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.debian.org/debian-lts-announce/2024/03/msg00003.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-04T20:41:54Z",
+    "nvd_published_at": "2024-03-01T23:15:08Z"
+  }
+}

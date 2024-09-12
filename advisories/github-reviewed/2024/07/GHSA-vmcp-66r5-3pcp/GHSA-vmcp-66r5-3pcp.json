@@ -1,0 +1,129 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vmcp-66r5-3pcp",
+  "modified": "2024-07-17T19:13:43Z",
+  "published": "2024-07-17T16:00:10Z",
+  "aliases": [
+    "CVE-2024-40636"
+  ],
+  "summary": "Steeltoe Leaks Basic Auth Credentials to Logs After Fetch Registry Error",
+  "details": "### Summary\nWhen utilizing multiple Eureka server service URLs with basic auth and encountering an issue with fetching the service registry, an error is logged with the Eureka server service URLs but only the first URL is masked.\n\n### Details\nPackage: Steeltoe.Discovery.Eureka\nPackage version: 3.2.1\nBranch: \"release/3.2\"\nFile name: `DiscoveryClient.cs`\nLine number: 325\nCode in question:  `_logger.LogError(e, \"FetchRegistry Failed for Eureka service urls: {EurekaServerServiceUrls}\", new Uri(ClientConfig.EurekaServerServiceUrls).ToMaskedString());`\n\n\nError message in logs: `FetchRegistry Failed for Eureka service urls: https://****:****@eureka1.com:443/eureka,https://user:password@eureka2.com:443/eureka`\n\nI thought `new Uri(clientOptions.EurekaServerServiceUrls)` would throw a `UriFormatException` since there are multiple URLs but my logs are showing two URLs regardless.\n\n### PoC\n1. Set Eureka config with multiple server URLs with basic auth\n2. Apologies for not being more descriptive for this step, but I believe we would just need to trigger an exception in `FetchFullRegistryAsync`.\n3. Check the logs and should see the error \n\n### Impact\nVulnerability: Credential leakage in the logs\nWho does it impact?: Users who are using peer awareness with Spring Eureka",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:L/AC:L/AT:P/PR:L/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Steeltoe.Discovery.Eureka"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.2.8"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.2.7"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Steeltoe.Discovery.EurekaBase"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "2.5.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Steeltoe.Discovery.ClientCore"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "< 3.0.0"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Steeltoe.Discovery.ClientAutofac"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "2.5.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/SteeltoeOSS/security-advisories/security/advisories/GHSA-vmcp-66r5-3pcp"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-40636"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/SteeltoeOSS/Steeltoe/commit/c5d4a94e90ccb77f8e851bc681a2e348a95e7ecb"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/SteeltoeOSS/security-advisories"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-532"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-17T16:00:10Z",
+    "nvd_published_at": "2024-07-17T18:15:04Z"
+  }
+}

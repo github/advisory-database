@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xrrw-9j78-hpf3",
+  "modified": "2024-05-02T13:52:08Z",
+  "published": "2024-03-06T18:30:38Z",
+  "aliases": [
+    "CVE-2024-28150"
+  ],
+  "summary": "Jenkins HTML Publisher Plugin Stored XSS vulnerability",
+  "details": "Jenkins HTML Publisher Plugin 1.32 and earlier does not escape job names, report names, and index page titles shown as part of the report frame, resulting in a stored cross-site scripting (XSS) vulnerability exploitable by attackers with Item/Configure permission.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:htmlpublisher"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.32.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28150"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jenkinsci/htmlpublisher-plugin/commit/c0eed940e65ea90f9b5ba21aa3d953546d5cd8ad"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/htmlpublisher-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2024-03-06/#SECURITY-3302"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/03/06/3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-06T19:08:40Z",
+    "nvd_published_at": "2024-03-06T17:15:10Z"
+  }
+}

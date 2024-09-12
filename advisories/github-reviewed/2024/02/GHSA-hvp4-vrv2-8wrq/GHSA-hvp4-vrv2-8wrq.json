@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hvp4-vrv2-8wrq",
+  "modified": "2024-02-08T18:32:10Z",
+  "published": "2024-02-08T18:32:10Z",
+  "aliases": [
+    "CVE-2024-1314"
+  ],
+  "summary": "Kinto Attachment's attachments can be replaced on read-only records",
+  "details": "### Impact\n\nThe attachment file of an existing record can be replaced if the user has `\"read\"` permission on one of the parent (collection or bucket).\n\nAnd if the `\"read\"` permission is given to `\"system.Everyone\"` on one of the parent, then the attachment can be replaced on a record using an anonymous request.\n\nNote that if the parent has no explicit read permission, then the records attachments are safe.\n\n### Patches\n\n- Patch released in kinto-attachment 6.4.0\n- https://github.com/Kinto/kinto-attachment/commit/f4a31484f5925cbc02b59ebd37554538ab826ca1\n\n### Workarounds\n\nNone if the read permission has to remain granted.\n\nUpdating to 6.4.0 or applying the patch individually (if updating is not feasible) is strongly recommended.\n\n### References\n\n- https://bugzilla.mozilla.org/show_bug.cgi?id=1879034",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "kinto-attachment"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.4.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 6.3.2"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/Kinto/kinto-attachment/security/advisories/GHSA-hvp4-vrv2-8wrq"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Kinto/kinto-attachment/commit/f4a31484f5925cbc02b59ebd37554538ab826ca1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.mozilla.org/show_bug.cgi?id=1879034"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Kinto/kinto-attachment"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-08T18:32:10Z",
+    "nvd_published_at": null
+  }
+}

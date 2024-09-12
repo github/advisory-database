@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7f6w-fhmr-j8hq",
+  "modified": "2024-01-30T23:16:51Z",
+  "published": "2022-05-17T00:50:19Z",
+  "aliases": [
+    "CVE-2014-9635"
+  ],
+  "summary": "Jenkins HttpOnly flag not Set for session cookies",
+  "details": "Jenkins before 1.586 does not set the HttpOnly flag in a Set-Cookie header for session cookies when run on Tomcat 7.0.41 or later, which makes it easier for remote attackers to obtain potentially sensitive information via script access to cookies.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.main:jenkins-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.586"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2014-9635"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jenkinsci/jenkins/commit/582128b9ac179a788d43c1478be8a5224dc19710"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=769682"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1185151"
+    },
+    {
+      "type": "WEB",
+      "url": "https://issues.jenkins-ci.org/browse/JENKINS-25019"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/changelog-old"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2015/01/22/3"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/72054"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-30T23:16:51Z",
+    "nvd_published_at": "2017-09-12T14:29:00Z"
+  }
+}

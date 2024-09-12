@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3fmq-x9q6-wm39",
+  "modified": "2024-05-17T23:27:19Z",
+  "published": "2024-05-17T23:27:19Z",
+  "aliases": [
+
+  ],
+  "summary": "random_compat Uses insecure CSPRNG",
+  "details": "random_compat versions prior to 2.0 are affected by a security vulnerability related to the insecure usage of Cryptographically Secure Pseudo-Random Number Generators (CSPRNG). The affected versions use openssl_random_pseudo_bytes(), which may result in insufficient entropy and compromise the security of generated random numbers.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "paragonie/random_compat"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/paragonie/random_compat/issues/96"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/paragonie/random_compat/2016-03-16.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/paragonie/random_compat"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-331"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-17T23:27:19Z",
+    "nvd_published_at": null
+  }
+}

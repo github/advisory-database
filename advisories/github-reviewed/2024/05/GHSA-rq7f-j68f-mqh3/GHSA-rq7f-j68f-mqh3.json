@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rq7f-j68f-mqh3",
+  "modified": "2024-05-24T18:45:28Z",
+  "published": "2024-05-24T18:45:28Z",
+  "aliases": [
+    "CVE-2024-5312"
+  ],
+  "summary": "PHP Server Monitor vulnerable to Cross-site Scripting",
+  "details": "PHP Server Monitor, version 3.2.0, is vulnerable to an XSS via the /phpservermon-3.2.0/vendor/phpmailer/phpmailer/test_script/index.php page in all visible parameters. An attacker could create a specially crafted URL, send it to a victim and retrieve their session details.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "phpservermon/phpservermon"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.3.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.2.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-5312"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/PHPMailer/PHPMailer/commit/ff8718f72225a2e34d918c06a3b2c8cca5af3164"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/phpservermon/phpservermon"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.incibe.es/en/incibe-cert/notices/aviso/cross-site-scripting-vulnerability-php-server-monitor"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-24T18:45:28Z",
+    "nvd_published_at": "2024-05-24T11:15:10Z"
+  }
+}

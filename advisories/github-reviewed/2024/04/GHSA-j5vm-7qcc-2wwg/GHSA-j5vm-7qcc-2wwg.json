@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-j5vm-7qcc-2wwg",
+  "modified": "2024-04-10T17:15:26Z",
+  "published": "2024-04-10T17:15:26Z",
+  "aliases": [
+
+  ],
+  "summary": "Kopia: Storage connection credentials written to console on \"repository status\" CLI command with JSON output",
+  "details": "### Impact\n\n_What kind of vulnerability is it? Who is impacted?_\n\nStorage credentials are written to the console.\n\n### Patches\n\n_Has the problem been patched?_ Yes, see #3589\n_What versions should users upgrade to?_\n- Any version after or including commit 1d6f852cd6534f4bea978cbdc85c583803d79f77\n- No release has been created yet.\n\n### Workarounds\n_Is there a way for users to fix or remediate the vulnerability without upgrading?_\n\n- Be aware that `kopia repo status --json` will write the credentials to the output without scrubbing them.\n- Avoid executing `kopia repo status` with the `--json` flag in an insecure environment where.\n- Avoid logging the output of the `kopia repo status --json` command. \n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:H/UI:R/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/kopia/kopia"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.16.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/kopia/kopia/security/advisories/GHSA-j5vm-7qcc-2wwg"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kopia/kopia/pull/3589"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kopia/kopia/commit/1d6f852cd6534f4bea978cbdc85c583803d79f77"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/kopia/kopia"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-10T17:15:26Z",
+    "nvd_published_at": null
+  }
+}

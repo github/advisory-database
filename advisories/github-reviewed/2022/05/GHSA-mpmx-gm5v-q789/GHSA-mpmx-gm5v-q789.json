@@ -1,0 +1,117 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mpmx-gm5v-q789",
+  "modified": "2024-01-16T21:26:49Z",
+  "published": "2022-05-14T00:56:55Z",
+  "aliases": [
+    "CVE-2011-3871"
+  ],
+  "summary": "Puppet uses predictable filenames, allowing arbitrary file overwrite",
+  "details": "Puppet 2.7.x before 2.7.5, 2.6.x before 2.6.11, and 0.25.x, when running in `--edit` mode, uses a predictable file name, which allows local users to run arbitrary Puppet code or trick a user into editing arbitrary files.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "puppet"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.7.0"
+            },
+            {
+              "fixed": "2.7.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "puppet"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.6.11"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2011-3871"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/puppetlabs/puppet/commit/343c7bd381b63e042d437111718918f951d9b30d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/puppetlabs/puppet/commit/d76c30935460ded953792dfe49f72b8c5158e899"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/puppetlabs/puppet"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/puppet/CVE-2011-3871.yml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://puppet.com/security/cve/cve-2011-3871"
+    },
+    {
+      "type": "WEB",
+      "url": "http://groups.google.com/group/puppet-announce/browse_thread/thread/91e3b46d2328a1cb"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.fedoraproject.org/pipermail/package-announce/2011-October/068053.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.fedoraproject.org/pipermail/package-announce/2011-October/068061.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.fedoraproject.org/pipermail/package-announce/2011-October/068093.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.debian.org/security/2011/dsa-2314"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.ubuntu.com/usn/USN-1223-1"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.ubuntu.com/usn/USN-1223-2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-340"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-16T21:26:49Z",
+    "nvd_published_at": "2011-10-27T20:55:00Z"
+  }
+}

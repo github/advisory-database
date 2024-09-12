@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hh2q-qv66-jcqg",
+  "modified": "2024-03-14T20:37:57Z",
+  "published": "2024-03-14T20:37:57Z",
+  "aliases": [
+    "CVE-2024-22204"
+  ],
+  "summary": "Whoogle Search Path Traversal vulnerability",
+  "details": "Whoogle Search is a self-hosted metasearch engine. Versions 0.8.3 and prior have a limited file write vulnerability when the configuration options in Whoogle are enabled. The `config` function in `app/routes.py` does not validate the user-controlled `name` variable on line 447 and `config_data` variable on line 437. The `name` variable is insecurely concatenated in `os.path.join`, leading to path manipulation. The POST data from the `config_data` variable is saved with `pickle.dump` which leads to a limited file write. However, the data that is saved is earlier transformed into a dictionary and the `url` key value pair is added before the file is saved on the system. All in all, the issue allows us to save and overwrite files on the system that the application has permissions to, with a dictionary containing arbitrary data and the `url` key value, which is a limited file write. Version 0.8.4 contains a patch for this issue.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "whoogle-search"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.8.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-22204"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/benbusby/whoogle-search/commit/3a2e0b262e4a076a20416b45e6b6f23fd265aeda"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/benbusby/whoogle-search"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/benbusby/whoogle-search/blob/92e8ede24e9277a5440d403f75877209f1269884/app/routes.py#L419-L452"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/benbusby/whoogle-search/blob/92e8ede24e9277a5440d403f75877209f1269884/app/routes.py#L437"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/benbusby/whoogle-search/blob/92e8ede24e9277a5440d403f75877209f1269884/app/routes.py#L444"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/benbusby/whoogle-search/blob/92e8ede24e9277a5440d403f75877209f1269884/app/routes.py#L447"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/whoogle-search/PYSEC-2024-23.yaml"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://securitylab.github.com/advisories/GHSL-2023-186_GHSL-2023-189_benbusby_whoogle-search"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-14T20:37:57Z",
+    "nvd_published_at": "2024-01-23T18:15:18Z"
+  }
+}

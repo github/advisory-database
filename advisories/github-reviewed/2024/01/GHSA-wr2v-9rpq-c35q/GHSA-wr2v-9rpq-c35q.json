@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wr2v-9rpq-c35q",
+  "modified": "2024-01-31T00:21:56Z",
+  "published": "2024-01-31T00:21:56Z",
+  "aliases": [
+    "CVE-2020-15136"
+  ],
+  "summary": "Etcd Gateway TLS authentication only applies to endpoints detected in DNS SRV records",
+  "details": "### Vulnerability type\nCryptography\n\n### Workarounds\nRefer to the [gateway documentation](https://github.com/etcd-io/etcd/blob/master/Documentation/op-guide/gateway.md). The vulnerability was spotted due to unclear documentation of how the gateway handles endpoints validation.\n\n### Detail\nWhen starting a gateway, TLS authentication will only be attempted on endpoints identified in DNS SRV records for a given domain, which occurs in the discoverEndpoints function. No authentication is performed against endpoints provided in the --endpoints flag. The auditors has noted that appropriate documentation of this validation functionality plus deprecation of this misleading functionality is an acceptable path forward.\n \n### References\nFind out more on this vulnerability in the [security audit report](https://github.com/etcd-io/etcd/blob/master/security/SECURITY_AUDIT.pdf)\n\n### For more information\nIf you have any questions or comments about this advisory:\n* Contact the [etcd security committee](https://github.com/etcd-io/etcd/blob/master/security/security-release-process.md#product-security-committee-psc)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "go.etcd.io/etcd"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.4.0-rc.0"
+            },
+            {
+              "fixed": "3.4.10"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.4.9"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "go.etcd.io/etcd"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.3.23"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/etcd-io/etcd/security/advisories/GHSA-wr2v-9rpq-c35q"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-15136"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/etcd-io/etcd/blob/master/Documentation/op-guide/gateway.md"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/L6B6R43Y7M3DCHWK3L3UVGE2K6WWECMP"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-287",
+      "CWE-306"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-31T00:21:56Z",
+    "nvd_published_at": "2020-08-06T23:15:00Z"
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6fqw-j3vm-7f66",
+  "modified": "2024-06-07T22:27:32Z",
+  "published": "2024-06-07T22:27:32Z",
+  "aliases": [
+
+  ],
+  "summary": "Zendframework1 Potential SQL injection in ORDER and GROUP functions",
+  "details": "The implementation of ORDER BY and GROUP BY in Zend_Db_Select remained prone to SQL injection when a combination of SQL expressions and comments were used. This security patch provides a comprehensive solution that identifies and removes comments prior to checking validity of the statement to ensure no SQLi vectors occur.\n\nThe implementation of ORDER BY and GROUP BY in Zend_Db_Select of ZF1 is vulnerable by the following SQL injection:\n```\n$db = Zend_Db::factory(/* options here */);\n$select = new Zend_Db_Select($db);\n$select->from('p');\n$select->order(\"MD5(\\\"a(\\\");DELETE FROM p2; #)\"); // same with group()\n```\nThe above $select will render the following SQL statement:\n```\nSELECT `p`.* FROM `p` ORDER BY MD5(\"a(\");DELETE FROM p2; #) ASC\n```\ninstead of the correct one:\n```\nSELECT \"p\".* FROM \"p\" ORDER BY \"MD5(\"\"a(\"\");DELETE FROM p2; #)\" ASC\n```\nThis security fix can be considered an improvement of the previous ZF2016-02 and ZF2014-04 advisories.\n\nAs a final consideration, we recommend developers either never use user input for these operations, or filter user input thoroughly prior to invoking Zend_Db. You can use the Zend_Db_Select::quoteInto() method to filter the input data, as shown in this example:\n```\n$db    = Zend_Db::factory(...);\n$input = \"MD5(\\\"a(\\\");DELETE FROM p2; #)\"; // user input can be an attack\n$order = $db->quoteInto(\"SQL statement for ORDER\", $input);\n\n$select = new Zend_Db_Select($db);\n$select->from('p');\n$select->order($order); // same with group()\n```",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "zendframework/zendframework1"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.12.20"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://framework.zend.com/security/advisory/ZF2016-03"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/zendframework/zendframework1/ZF2016-03.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/zendframework/zf1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-89"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-07T22:27:32Z",
+    "nvd_published_at": null
+  }
+}

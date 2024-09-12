@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-p9xp-xghp-gqvp",
+  "modified": "2024-04-25T21:39:32Z",
+  "published": "2022-05-24T17:18:42Z",
+  "aliases": [
+    "CVE-2020-13487"
+  ],
+  "summary": "bbPress stored Cross-Site Scripting (XSS) vulnerability in the Forum creation section",
+  "details": "The bbPress plugin through 2.6.4 for WordPress has stored XSS in the Forum creation section, resulting in JavaScript execution at wp-admin/edit.php?post_type=forum (aka the Forum listing page) for all users. An administrator can exploit this at the wp-admin/post.php?action=edit URI.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "bbpress/bbpress"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "2.6.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-13487"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bbpress.org"
+    },
+    {
+      "type": "WEB",
+      "url": "https://codex.bbpress.org/releases"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/bbpress/bbPress"
+    },
+    {
+      "type": "WEB",
+      "url": "https://wordpress.org/plugins/bbpress/#developers"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.youtube.com/watch?v=3rXP8CGTe08"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-25T21:39:32Z",
+    "nvd_published_at": "2020-05-26T14:15:00Z"
+  }
+}

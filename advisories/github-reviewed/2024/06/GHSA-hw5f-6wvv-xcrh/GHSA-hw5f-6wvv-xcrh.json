@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hw5f-6wvv-xcrh",
+  "modified": "2024-06-20T19:16:28Z",
+  "published": "2024-06-20T16:11:48Z",
+  "aliases": [
+    "CVE-2024-37897"
+  ],
+  "summary": "SFTPGo has insufficient access control for password reset",
+  "details": "### Impact\n\nSFTPGo WebAdmin and WebClient support password reset. This feature is disabled in the default configuration.\nIn SFTPGo versions prior to v2.6.1, if the feature is enabled, even users with access restrictions (e.g. expired) can reset their password and log in.\n\n### Patches\n\nFixed in v2.6.1.\n\n### Workarounds\n\nThe following workarounds are available:\n\n- keep the password reset feature disabled.\n- Set a blank email address for users and admins with access restrictions so they cannot receive the email with the reset code and exploit the vulnerability.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:L/VI:L/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/drakkan/sftpgo/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.2.0"
+            },
+            {
+              "fixed": "2.6.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/drakkan/sftpgo/security/advisories/GHSA-hw5f-6wvv-xcrh"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-37897"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/drakkan/sftpgo/commit/1f8ac8bfe16100b0484d6c91e1e8361687324423"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/drakkan/sftpgo/commit/3462bba3f41cbc75486474991b9e3ac1b5f1e583"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/drakkan/sftpgo"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/drakkan/sftpgo/releases/tag/v2.6.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-287",
+      "CWE-863"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-20T16:11:48Z",
+    "nvd_published_at": "2024-06-20T18:15:13Z"
+  }
+}

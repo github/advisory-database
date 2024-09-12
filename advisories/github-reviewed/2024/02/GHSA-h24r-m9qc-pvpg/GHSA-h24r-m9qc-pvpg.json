@@ -1,0 +1,140 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h24r-m9qc-pvpg",
+  "modified": "2024-05-22T18:30:39Z",
+  "published": "2024-02-06T12:30:31Z",
+  "aliases": [
+    "CVE-2024-0690"
+  ],
+  "summary": "Ansible-core information disclosure flaw",
+  "details": "An information disclosure flaw was found in ansible-core due to a failure to respect the `ANSIBLE_NO_LOG` configuration in some scenarios. It was discovered that information is still included in the output in certain tasks, such as loop items. Depending on the task, this issue may include sensitive information, such as decrypted secret values.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ansible-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.14.14"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ansible-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.16.0"
+            },
+            {
+              "fixed": "2.16.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ansible-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.15.0"
+            },
+            {
+              "fixed": "2.15.9"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-0690"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ansible/ansible/pull/82565"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ansible/ansible/commit/6935c8e303440addd3871ecf8e04bde61080b032"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ansible/ansible/commit/78db3a3de6b40fb52d216685ae7cb903c609c3e1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ansible/ansible/commit/b9a03bbf5a63459468baf8895ff74a62e9be4532"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ansible/ansible/commit/beb04bc2642c208447c5a936f94310528a1946b1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2024:0733"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2024:2246"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2024:3043"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/security/cve/CVE-2024-0690"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2259013"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ansible/ansible"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/ansible-core/PYSEC-2024-36.yaml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-116",
+      "CWE-117"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-06T20:26:17Z",
+    "nvd_published_at": "2024-02-06T12:15:55Z"
+  }
+}

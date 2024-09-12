@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-692v-783f-mg8x",
+  "modified": "2024-07-31T20:20:42Z",
+  "published": "2024-07-31T16:54:36Z",
+  "aliases": [
+    "CVE-2024-41947"
+  ],
+  "summary": "XWiki Platform vulnerable to Cross-Site Scripting (XSS) through conflict resolution",
+  "details": "### Impact\n\nBy creating a conflict when another user with more rights is currently editing a page, it is possible to execute JavaScript snippets on the side of the other user, which compromises the confidentiality, integrity and availability of the whole XWiki installation.\n\nTo reproduce on a XWiki instance, a user with admin rights needs to edit a document without saving right away.\nThen, as another user without any other right than edit on the specific document, change the whole content to `<script>alert('XSS')</script>`.\nWhen the admin user then saves the document, a conflict popup appears. If they select \"Fix each conflict individually\" and see an alert displaying \"XSS\", then the instance is vulnerable.\n\n### Patches\n\nThis has been patched in XWiki 15.10.8 and 16.3.0RC1.\n\n### Workarounds\n\nWe're not aware of any workaround except upgrading.\n\n### References\n\n* https://jira.xwiki.org/browse/XWIKI-21626\n* https://github.com/xwiki/xwiki-platform/commit/821d43ec45e67d45a6735a0717b9b77fffc1cd9f\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n* Open an issue in [Jira XWiki.org](https://jira.xwiki.org/)\n* Email us at [Security Mailing List](mailto:security@xwiki.org)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:P/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-web-templates"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "11.8-rc-1"
+            },
+            {
+              "fixed": "15.10.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-web-templates"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "16.0.0-rc-1"
+            },
+            {
+              "fixed": "16.3.0-rc-1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-692v-783f-mg8x"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-41947"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/821d43ec45e67d45a6735a0717b9b77fffc1cd9f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/e00e159d3737397eebd1f6ff925c1f5cb7cdec34"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-21626"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79",
+      "CWE-80"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-31T16:54:36Z",
+    "nvd_published_at": "2024-07-31T16:15:04Z"
+  }
+}

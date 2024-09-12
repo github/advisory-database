@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8p42-7597-p2f6",
+  "modified": "2024-04-30T08:26:21Z",
+  "published": "2024-04-27T09:30:33Z",
+  "aliases": [
+    "CVE-2023-1000"
+  ],
+  "summary": "dcnnt-py is vulnerable to command injection via Notification Handler",
+  "details": "A vulnerability was found in cyanomiko dcnnt-py up to 0.9.0. It has been classified as critical. Affected is the function main of the file dcnnt/plugins/notifications.py of the component Notification Handler. The manipulation leads to command injection. It is possible to launch the attack remotely. Upgrading to version 0.9.1 is able to address this issue. The patch is identified as b4021d784a97e25151a5353aa763a741e9a148f5. It is recommended to upgrade the affected component. VDB-262230 is the identifier assigned to this vulnerability.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "dcnnt"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.9.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.9.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-1000"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cyanomiko/dcnnt-py/pull/23"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cyanomiko/dcnnt-py/commit/b4021d784a97e25151a5353aa763a741e9a148f5"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cyanomiko/dcnnt-py"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cyanomiko/dcnnt-py/releases/tag/0.9.1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://vuldb.com/?ctiid.262230"
+    },
+    {
+      "type": "WEB",
+      "url": "https://vuldb.com/?id.262230"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-77"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-30T08:26:21Z",
+    "nvd_published_at": "2024-04-27T09:15:08Z"
+  }
+}

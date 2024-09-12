@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5qr3-4839-88gf",
+  "modified": "2024-04-24T22:28:25Z",
+  "published": "2022-05-13T01:43:37Z",
+  "aliases": [
+    "CVE-2017-15052"
+  ],
+  "summary": "TeamPass Improper Privilege Management",
+  "details": "TeamPass before 2.1.27.9 does not properly enforce manager access control when requesting users.queries.php. It is then possible for a manager user to delete an arbitrary user (including admin), or modify attributes of any arbitrary user except administrator. To exploit the vulnerability, an authenticated attacker must have the manager rights on the application, then tamper with the requests sent directly, for example by changing the \"id\" parameter when invoking \"delete_user\" on users.queries.php.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "nilsteampassnet/teampass"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.1.27.9"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-15052"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nilsteampassnet/TeamPass/commit/8f2d51dd6c24f76e4f259d0df22cff9b275f2dd1"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/nilsteampassnet/TeamPass"
+    },
+    {
+      "type": "WEB",
+      "url": "http://blog.amossys.fr/teampass-multiple-cve-01.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-269"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-24T22:28:25Z",
+    "nvd_published_at": "2017-11-27T19:29:00Z"
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-77r5-gw3j-2mpf",
+  "modified": "2024-07-09T18:28:18Z",
+  "published": "2024-05-09T21:07:00Z",
+  "aliases": [
+    "CVE-2024-34350"
+  ],
+  "summary": "Next.js Vulnerable to HTTP Request Smuggling",
+  "details": "### Impact\nInconsistent interpretation of a crafted HTTP request meant that requests are treated as both a single request, and two separate requests by Next.js, leading to desynchronized responses. This led to a response queue poisoning vulnerability in the affected Next.js versions.\n\nFor a request to be exploitable, the affected route also had to be making use of the [rewrites](https://nextjs.org/docs/app/api-reference/next-config-js/rewrites) feature in Next.js.\n\n### Patches\nThe vulnerability is resolved in Next.js `13.5.1` and newer. This includes Next.js `14.x`.\n\n### Workarounds\nThere are no official workarounds for this vulnerability. We recommend that you upgrade to a safe version.\n\n### References\nhttps://portswigger.net/web-security/request-smuggling/advanced/response-queue-poisoning",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:L/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "next"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "13.4.0"
+            },
+            {
+              "fixed": "13.5.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/vercel/next.js/security/advisories/GHSA-77r5-gw3j-2mpf"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-34350"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vercel/next.js/commit/44eba020c615f0d9efe431f84ada67b81576f3f5"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vercel/next.js"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vercel/next.js/compare/v13.5.0...v13.5.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-444"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-09T21:07:00Z",
+    "nvd_published_at": "2024-05-14T15:38:41Z"
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4946-85pr-fvxh",
+  "modified": "2024-03-15T16:42:55Z",
+  "published": "2024-03-15T16:42:55Z",
+  "aliases": [
+    "CVE-2024-23823"
+  ],
+  "summary": "vantage6's CORS settings overly permissive",
+  "details": "### Impact\nThe vantage6 server has no restrictions on CORS settings. It should be possible for people to set the allowed origins of the server. \n\nThe impact is limited because v6 does not use session cookies\n\n### Patches\nNo\n\n### Workarounds\nNo",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "vantage6"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.3.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 4.2.2"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/vantage6/vantage6/security/advisories/GHSA-4946-85pr-fvxh"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23823"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vantage6/vantage6/commit/70bb4e1d889230a841eb364d6c03accd7dd01a41"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vantage6/vantage6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-863",
+      "CWE-942"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-15T16:42:55Z",
+    "nvd_published_at": "2024-03-14T19:15:49Z"
+  }
+}

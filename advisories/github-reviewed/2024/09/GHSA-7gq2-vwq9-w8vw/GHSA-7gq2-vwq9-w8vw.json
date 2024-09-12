@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7gq2-vwq9-w8vw",
+  "modified": "2024-09-11T17:30:47Z",
+  "published": "2024-09-11T15:31:12Z",
+  "aliases": [
+    "CVE-2024-8646"
+  ],
+  "summary": "Eclipse Glassfish URL redirection vulnerability",
+  "details": "In Eclipse Glassfish versions prior to 7.0.10, a URL redirection vulnerability to untrusted sites existed.\nThis vulnerability is caused by the vulnerability (CVE-2023-41080) in the Apache code included in GlassFish.\nThis vulnerability only affects applications that are explicitly deployed to the root context ('/').",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:N/VI:N/VA:N/SC:L/SI:L/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.glassfish.main.web:web-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "7.0.10"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-8646"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/eclipse-ee4j/glassfish/pull/24655"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/eclipse-ee4j/glassfish/commit/06b80012761d07f6e40e40aa6b0133465b0bd145"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/eclipse-ee4j/glassfish"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gitlab.eclipse.org/security/cve-assignement/-/issues/34"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gitlab.eclipse.org/security/vulnerability-reports/-/issues/163"
+    },
+    {
+      "type": "WEB",
+      "url": "https://glassfish.org/download"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-601"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-09-11T17:30:47Z",
+    "nvd_published_at": "2024-09-11T14:15:14Z"
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mffc-9gx5-99g3",
+  "modified": "2024-02-23T20:53:08Z",
+  "published": "2022-05-14T01:46:42Z",
+  "aliases": [
+    "CVE-2015-3206"
+  ],
+  "summary": "python-kerberos vulnerable to KDC spoofing attacks",
+  "details": "The `checkPassword` function in python-kerberos does not authenticate the KDC it attempts to communicate with, which allows remote attackers to cause a denial of service (bad response), or have other unspecified impact by performing a man-in-the-middle attack.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "kerberos"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.2.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2015-3206"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apple/ccs-pykerberos/issues/31"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apple/ccs-pykerberos/commit/9cb61c93f9b24dd18a0a315f3df5445529c5c333"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1223802"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apple/ccs-pykerberos"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20150910143429/https://trac.calendarserver.org/ticket/833"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20200228090829/http://www.securityfocus.com/bid/74760"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2015/05/21/3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-287"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-23T20:53:08Z",
+    "nvd_published_at": "2017-08-25T18:29:00Z"
+  }
+}

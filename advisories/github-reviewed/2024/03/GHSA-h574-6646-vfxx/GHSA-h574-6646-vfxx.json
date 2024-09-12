@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h574-6646-vfxx",
+  "modified": "2024-05-02T19:01:54Z",
+  "published": "2024-03-14T09:31:05Z",
+  "aliases": [
+    "CVE-2024-28746"
+  ],
+  "summary": "Apache Airflow: Ignored Airflow Permission",
+  "details": "Apache Airflow, versions 2.8.0 through 2.8.2, has a vulnerability that allows an authenticated user with limited permissions to access resources such as variables, connections, etc from the UI which they do not have permission to access. \n\nUsers of Apache Airflow are recommended to upgrade to version 2.8.3 or newer to mitigate the risk associated with this vulnerability\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "apache-airflow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.8.0"
+            },
+            {
+              "fixed": "2.8.3rc1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28746"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/airflow/pull/37881"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/airflow/commit/89e7f3e7bdf2126bbbcd959dc10d65ef92773cca"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/airflow"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/apache-airflow/PYSEC-2024-46.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/b4pffc7w7do6qgk4jjbyxvdz5odrvny7"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/03/13/5"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-281"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-15T14:19:23Z",
+    "nvd_published_at": "2024-03-14T09:15:47Z"
+  }
+}

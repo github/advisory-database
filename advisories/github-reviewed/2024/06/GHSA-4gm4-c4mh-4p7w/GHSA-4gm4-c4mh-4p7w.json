@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4gm4-c4mh-4p7w",
+  "modified": "2024-06-17T22:28:28Z",
+  "published": "2024-06-17T22:28:28Z",
+  "aliases": [
+    "CVE-2024-37893"
+  ],
+  "summary": "Firefly III has a MFA bypass in oauth flow",
+  "details": "### Impact\n\nA MFA bypass in the Firefly III OAuth flow may allow malicious users to bypass the MFA-check. This allows malicious users to use password spraying to gain access to your Firefly III data using passwords stolen from other sources. As OAuth applications are easily enumerable using an incrementing id, an attacker could try sign an OAuth application up to a users profile quite easily if they have created one. The attacker would also need to know the victims username and password.\n\n### Patches\n\nProblem has been patched in Firefly III v6.1.17 and up.\n\n### Workarounds\n\n- Use a unique password for your Firefly III instance,\n- Store your password securely, i.e. in a password manager or in your head.\n\n### References\n\n- https://owasp.org/www-community/attacks/Password_Spraying_Attack\n- https://www.menlosecurity.com/what-is/highly-evasive-adaptive-threats-heat/mfa-bypass\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "grumpydictator/firefly-iii"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.1.17"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/firefly-iii/firefly-iii/security/advisories/GHSA-4gm4-c4mh-4p7w"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-37893"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/firefly-iii/firefly-iii"
+    },
+    {
+      "type": "WEB",
+      "url": "https://owasp.org/www-community/attacks/Password_Spraying_Attack"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.menlosecurity.com/what-is/highly-evasive-adaptive-threats-heat/mfa-bypass"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-287",
+      "CWE-288"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-17T22:28:28Z",
+    "nvd_published_at": "2024-06-17T20:15:13Z"
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mqjc-x563-c9q8",
+  "modified": "2024-05-27T21:48:19Z",
+  "published": "2024-05-27T21:47:49Z",
+  "aliases": [
+
+  ],
+  "summary": "silverstripe/framework CSV Excel Macro Injection",
+  "details": "In the CSV export feature of the CMS it's possible for the output to contain macros and scripts, which if imported without sanitisation into software (including Microsoft Excel) may be executed.\n\nIn order to safeguard against this threat all potentially executable cell values exported from CSV will be prepended with a literal tab character.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.5.0-rc1"
+            },
+            {
+              "fixed": "3.5.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.6.0-rc1"
+            },
+            {
+              "fixed": "3.6.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0-rc1"
+            },
+            {
+              "fixed": "4.0.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/commit/55739fa5af6171594b2cb4f3621d5fcce5e887d4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/commit/cfe1d4f481bf53ea8da2b8608a563e207d923df9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/commit/dd4c5417e7592e29e698af428b72bdb9b6729797"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/silverstripe/framework/SS-2017-007-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/silverstripe/silverstripe-framework"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.silverstripe.org/download/security-releases/ss-2017-007"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-27T21:47:49Z",
+    "nvd_published_at": null
+  }
+}

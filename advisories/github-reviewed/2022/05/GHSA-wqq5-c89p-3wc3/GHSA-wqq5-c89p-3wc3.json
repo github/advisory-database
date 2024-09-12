@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wqq5-c89p-3wc3",
+  "modified": "2024-09-10T21:48:43Z",
+  "published": "2022-05-17T19:57:30Z",
+  "aliases": [
+    "CVE-2014-4966"
+  ],
+  "summary": "Ansible Arbitrary Code Execution",
+  "details": "Ansible before 1.6.7 does not prevent inventory data with \"{{\" and \"lookup\" substrings, and does not prevent remote data with \"{{\" substrings, which allows remote attackers to execute arbitrary code via (1) crafted lookup('pipe') calls or (2) crafted Jinja2 data.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ansible"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.6.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2014-4966"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ansible/ansible/commit/62a1295a3e08cb6c3e9f1b2a1e6e5dcaeab32527"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/ansible/PYSEC-2020-204.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.ocert.org/advisories/ocert-2014-004.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-30T23:56:00Z",
+    "nvd_published_at": "2020-02-18T15:15:00Z"
+  }
+}

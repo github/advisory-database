@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wj85-w4f4-xh8h",
+  "modified": "2024-03-19T18:30:57Z",
+  "published": "2024-03-18T20:37:48Z",
+  "aliases": [
+    "CVE-2024-28865"
+  ],
+  "summary": "Denial of service via regular expression",
+  "details": "### Impact\n\nAll historical installations of django-wiki are vulnerable to maliciously crafted article content, that can cause severe use of server CPU through a regular expression loop.\n\n### Patches\n\n\n\n### Workarounds\n\nClose off access to create and edit articles by anonymous users.\n\n### References\n_Are there any links users can visit to find out more?_\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "wiki"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.10.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/django-wiki/django-wiki/security/advisories/GHSA-wj85-w4f4-xh8h"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28865"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/django-wiki/django-wiki/commit/8e280fd6c0bd27ce847c67b2d216c6cbf920f88c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/django-wiki/django-wiki"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1333"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-18T20:37:48Z",
+    "nvd_published_at": "2024-03-18T22:15:09Z"
+  }
+}

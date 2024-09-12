@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v759-3fh9-84mx",
+  "modified": "2024-03-05T14:38:43Z",
+  "published": "2022-05-17T01:26:47Z",
+  "aliases": [
+    "CVE-2014-2059"
+  ],
+  "summary": "Jenkins directory traversal vulnerability",
+  "details": "Directory traversal vulnerability in the CLI job creation (hudson/cli/CreateJobCommand.java) in Jenkins before 1.551 and LTS before 1.532.2 allows remote authenticated users to overwrite arbitrary files via the job name.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.main:jenkins-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.533"
+            },
+            {
+              "fixed": "1.551"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.main:jenkins-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.532.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2014-2059"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jenkinsci/jenkins/commit/ad38d8480f20ce3cbf8fec3e2003bc83efda4f7d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://exchange.xforce.ibmcloud.com/vulnerabilities/91346"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/jenkins"
+    },
+    {
+      "type": "WEB",
+      "url": "https://wiki.jenkins-ci.org/display/SECURITY/Jenkins+Security+Advisory+2014-02-14"
+    },
+    {
+      "type": "WEB",
+      "url": "http://seclists.org/oss-sec/2014/q1/421"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-05T14:38:43Z",
+    "nvd_published_at": "2014-03-01T00:01:00Z"
+  }
+}

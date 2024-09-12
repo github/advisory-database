@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h6mp-mc7g-mg49",
+  "modified": "2024-05-21T18:16:24Z",
+  "published": "2024-05-21T18:16:24Z",
+  "aliases": [
+
+  ],
+  "summary": "scheb/two-factor-bundle bypass two-factor authentication with unverified JWT trusted device token",
+  "details": "Before version 3.7 the bundle is vulnerable to a [security issue in JWT](https://auth0.com/blog/critical-vulnerabilities-in-json-web-token-libraries/), which can be exploited by an attacker to generate trusted device cookies on their own, effectively by-passing two-factor authentication.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "scheb/two-factor-bundle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.7.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/scheb/two-factor-bundle/issues/143"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/scheb/two-factor-bundle/commit/8890c1e47ae89e0ac6f8a40fd4bb4b91c2081aa7"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/scheb/two-factor-bundle/2018-07-08.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/scheb/two-factor-bundle"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-287"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-21T18:16:24Z",
+    "nvd_published_at": null
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xg8v-m2mh-45m6",
+  "modified": "2024-04-09T18:46:53Z",
+  "published": "2024-04-05T17:15:24Z",
+  "aliases": [
+    "CVE-2024-31453"
+  ],
+  "summary": "PsiTransfer: Violation of the integrity of file distribution",
+  "details": "**Summary**\nThe absence of restrictions on the endpoint, which allows you to create a path for uploading a file in a file distribution, allows an attacker to add arbitrary files to the distribution.\n\n**Details**\nVulnerable endpoint: POST /files\n\n**PoC**\n1. Create a file distribution.\n<img width=\"1434\" alt=\"Снимок экрана 2024-03-17 в 21 27 30\" src=\"https://github.com/psi-4ward/psitransfer/assets/163760990/4634a6f7-6e7d-486e-9929-76156aaa1340\">\n\n2. Go to the link address (id of the file distribution is needed by an attacker to upload files there).\n<img width=\"1426\" alt=\"Снимок экрана 2024-03-17 в 21 27 35\" src=\"https://github.com/psi-4ward/psitransfer/assets/163760990/a57c910c-69e2-4b07-985d-b0a46c69891a\">\n\n3. Send a POST /files. As the value of the Upload-Metadata header we specify the sid parameter with the id of the file distribution obtained in the second step. In the response from the server in the Location header we get the path for uploading a new file to the file distribution.\n<img width=\"1403\" alt=\"Снимок экрана 2024-03-17 в 21 28 09\" src=\"https://github.com/psi-4ward/psitransfer/assets/163760990/8b839fb8-2c0b-432f-8503-e4c42a840056\">\n\n5. Send a PATCH /files/{{id}} request with arbitrary content in the request body. Id is taken from the previous step.\n<img width=\"1067\" alt=\"Снимок экрана 2024-03-17 в 21 28 51\" src=\"https://github.com/psi-4ward/psitransfer/assets/163760990/c5b2acf3-fdf1-4780-8c63-61a7f19338df\">\n\nResult:\n<img width=\"1432\" alt=\"Снимок экрана 2024-03-17 в 21 29 05\" src=\"https://github.com/psi-4ward/psitransfer/assets/163760990/c49b17c8-e1d2-4894-b6e2-f50b9663fca7\">\n<img width=\"1424\" alt=\"Снимок экрана 2024-03-17 в 21 29 15\" src=\"https://github.com/psi-4ward/psitransfer/assets/163760990/e4a1e07d-3e77-4f61-a4e7-ceee4a5a7b8e\">\n\n**Impact**\nThe vulnerability allows an attacker to influence those users who come to the file distribution after him and slip the victim files with a malicious or phishing signature.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "psitransfer"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.2.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/psi-4ward/psitransfer/security/advisories/GHSA-xg8v-m2mh-45m6"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-31453"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/psi-4ward/psitransfer/commit/b9853c97e6911e1c1c5341245ca1eb363fda5269"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/psi-4ward/psitransfer"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-434"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-05T17:15:24Z",
+    "nvd_published_at": "2024-04-09T18:15:09Z"
+  }
+}

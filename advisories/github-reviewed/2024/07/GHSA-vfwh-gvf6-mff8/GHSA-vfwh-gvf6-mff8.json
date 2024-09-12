@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vfwh-gvf6-mff8",
+  "modified": "2024-07-26T21:43:08Z",
+  "published": "2024-07-09T21:30:39Z",
+  "aliases": [
+    "CVE-2024-39031"
+  ],
+  "summary": "Silverpeas Core Cross-site Scripting vulnerability",
+  "details": "In Silverpeas Core <= 6.3.5, in Mes Agendas, a user can create new events and add them to their calendar. Additionally, users can invite others from the same domain, including administrators, to these events. A standard user can inject an XSS payload into the \"Titre\" and \"Description\" fields when creating an event and then add the administrator or any user to the event. When the invited user (victim) views their own profile, the payload will be executed on their side, even if they do not click on the event.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:P/VC:N/VI:N/VA:N/SC:L/SI:L/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.silverpeas.core:silverpeas-core-rs"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "6.3.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.silverpeas.core:silverpeas-core-seb"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "6.3.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-39031"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Silverpeas/Silverpeas-Core/commit/a0289f8a6f8b6a9ebc399973093118ddb48b77d8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Silverpeas/Silverpeas-Core"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/toneemarqus/CVE-2024-39031"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.github.com/Silverpeas/Silverpeas-Core/pull/1346"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-10T14:26:29Z",
+    "nvd_published_at": "2024-07-09T21:15:15Z"
+  }
+}

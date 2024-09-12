@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cjgm-9vc9-56mx",
+  "modified": "2024-01-31T20:23:24Z",
+  "published": "2024-01-24T18:31:02Z",
+  "aliases": [
+    "CVE-2024-23900"
+  ],
+  "summary": "Path traversal vulnerability in Jenkins Matrix Project Plugin",
+  "details": "Jenkins Matrix Project Plugin 822.v01b_8c85d16d2 and earlier does not sanitize user-defined axis names of multi-configuration projects submitted through the `config.xml` REST API endpoint.\n\nThis allows attackers with Item/Configure permission to create or replace any `config.xml` file on the Jenkins controller file system with content not controllable by the attackers.\n\nMatrix Project Plugin 822.824.v14451b_c0fd42 sanitizes user-defined axis names of Multi-configuration project.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:N/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:matrix-project"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "822.824.v14451b"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23900"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jenkinsci/matrix-project-plugin/commit/f7a5b24905f69896234da34250171c1be80cddb4"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/matrix-project-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2024-01-24/#SECURITY-3289"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/01/24/6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-24T21:48:53Z",
+    "nvd_published_at": "2024-01-24T18:15:09Z"
+  }
+}

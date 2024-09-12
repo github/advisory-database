@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r75m-26cq-mjxc",
+  "modified": "2024-03-28T17:53:42Z",
+  "published": "2024-03-28T17:53:42Z",
+  "aliases": [
+    "CVE-2024-29886"
+  ],
+  "summary": "Serverpod improved security for stored password hashes",
+  "details": "## Description\n\n### Improved security for stored password hashes\nServerpod now uses the OWASP, [source](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html#introduction), recommended Argon2Id password hash algorithm to store password hashes for the email authentication module.\n\nStarting from Serverpod `1.2.6` all users that either creates an account or authenticates with the server will have their password stored using the safer algorithm. No changes are required from the developer to start storing passwords using the safer algorithm.\n\n### Why did we change how passwords are stored?\nAn issue was identified with the old password hash algorithm that made it susceptible to rainbow attacks if the database was compromised.\n\nIt is strongly recommended to migrate your existing password hashes.\n\n### Migrate existing password hashes\nThe email authentication module provides a helper method to migrate all the existing legacy password hashes in the database. Simply call  `Emails.migrateLegacyPasswordHashes(...)` with a session instance as an argument to migrate the password hashes.\n\nThe method is implemented as an idempotent operation and will yield the same result regardless of how many times it is called.\n\nWe recommend either implementing a web server route that can be called remotely or by calling the method as part of starting the server.\n\nFollowing is example code for implementing a web server route.\n\n<details><summary><h4>Web server route code</h4></summary>\n\n```dart\nimport 'dart:io';\n\nimport 'package:serverpod/serverpod.dart';\nimport 'package:serverpod_auth_server/module.dart' as auth;\n\nclass MigratePasswordsRoute extends Route {\n  @override\n  Future<bool> handleCall(Session session, HttpRequest request) async {\n    request.response.writeln(\n      'Migrating legacy passwords, check the server logs for progress updates.',\n    );\n    _migratePasswords(session);\n    return true;\n  }\n}\n\nFuture<void> _migratePasswords(Session session) async {\n  session.log('Starting to migrate passwords.');\n\n  var totalMigratedPasswords = 0;\n  while (true) {\n    try {\n      var entriesMigrated = await auth.Emails.migrateLegacyPasswordHashes(\n        session,\n        // Process 100 database entries at a time\n        batchSize: 100,\n        // Stop after 500 entries have been migrated\n        maxMigratedEntries: 500,\n      );\n\n      totalMigratedPasswords += entriesMigrated;\n      session.log(\n        'Migrated $entriesMigrated password entries, total $totalMigratedPasswords.',\n      );\n\n      if (entriesMigrated == 0) break;\n\n      // Delay to avoid overloading the database\n      await Future.delayed(Duration(seconds: 1));\n    } catch (e) {\n      session.log('Error migrating passwords: $e');\n    }\n  }\n\n  session.log('Finished migrating passwords.');\n}\n```\n\n</details>\n\n### How we migrate existing password hashes\nSince password hashes can’t be recalculated without knowledge of the plain text password, the method in the email authentication module applies the new algorithm to the already stored password hashes.\n\nWhen the affected users later authenticate, their password hash will be calculated using both algorithms in tandem. If the authentication is accepted, the stored password hash will be updated to only use the new algorithm so that further authentication only needs to run the new algorithm.\n\n### Impact\nAll versions of `serverpod_auth_server` pre `1.2.6`\n\n### Patches\nUpgrading to version `1.2.6` resolves this issue.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Pub",
+        "name": "serverpod_auth_server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.2.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/serverpod/serverpod/security/advisories/GHSA-r75m-26cq-mjxc"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-29886"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/serverpod/serverpod/commit/a78b9e9f1de74d1300633a122b6cc0f064139ad6"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/serverpod/serverpod"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-916"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-28T17:53:42Z",
+    "nvd_published_at": "2024-03-27T19:15:49Z"
+  }
+}

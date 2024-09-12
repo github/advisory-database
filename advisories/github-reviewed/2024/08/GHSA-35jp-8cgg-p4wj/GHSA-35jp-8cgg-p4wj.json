@@ -1,0 +1,151 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-35jp-8cgg-p4wj",
+  "modified": "2024-08-08T17:00:22Z",
+  "published": "2024-08-08T14:50:11Z",
+  "aliases": [
+    "CVE-2024-42356"
+  ],
+  "summary": "Shopware vulnerable to Server Side Template Injection in Twig using Context functions",
+  "details": "### Impact\nThe `context` variable is injected into almost any Twig Template and allows to access to current language, currency information. The context object allows also to switch for a short time the scope of the Context as a helper with a callable function. \n\nExample call from PHP:\n\n```php\n$context->scope(Context::SYSTEM_SCOPE, static function (Context $context) use ($mediaService, $media, &$fileBlob): void {\n    $fileBlob = $mediaService->loadFile($media->getId(), $context);\n});\n```\n\nThis function can be called also from Twig and as the second parameter allows any callable, it's possible to call from Twig any statically callable PHP function/method.\n\nIt's not possible as customer to provide any Twig code, the attacker would require access to Administration to exploit it using Mail templates or using App Scripts.\n\n### Patches\nUpdate to Shopware 6.6.5.1 or 6.5.8.13\n\n### Workarounds\nFor older versions of 6.1, 6.2, 6.3 and 6.4 corresponding security measures are also available via a plugin. For the full range of functions, we recommend updating to the latest Shopware version.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:L"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:L/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "shopware/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.5.8.13"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 6.5.8.12"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "shopware/platform"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.5.8.13"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 6.5.8.12"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "shopware/platform"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.6.0.0"
+            },
+            {
+              "fixed": "6.6.5.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 6.6.5.0"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "shopware/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.6.0.0"
+            },
+            {
+              "fixed": "6.6.5.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 6.6.5.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/shopware/shopware/security/advisories/GHSA-35jp-8cgg-p4wj"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-42356"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/shopware/core/commit/04183e0c02af3b404eb7d52c683734bfe0595038"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/shopware/core/commit/a784aa1cec0624e36e0ee4d41aeebaed40e0442f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/shopware/shopware/commit/8504ba7e56e53add6a1d5b9d45015e3d899cd0ac"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/shopware/shopware/commit/e43423bcc93c618c3036f94c12aa29514da8cf2e"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/shopware/shopware"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1336",
+      "CWE-94"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-08T14:50:11Z",
+    "nvd_published_at": "2024-08-08T15:15:18Z"
+  }
+}

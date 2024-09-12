@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4q22-422g-m4pj",
+  "modified": "2024-06-13T22:03:51Z",
+  "published": "2024-06-13T18:31:58Z",
+  "aliases": [
+    "CVE-2024-37280"
+  ],
+  "summary": "Elasticsearch StackOverflow vulnerability",
+  "details": "A flaw was discovered in Elasticsearch, affecting document ingestion when an index template contains a dynamic field mapping of “passthrough” type. Under certain circumstances, ingesting documents in this index would cause a StackOverflow exception to be thrown and ultimately lead to a Denial of Service. Note that passthrough fields is an experimental feature.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.elasticsearch:elasticsearch"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.13.1"
+            },
+            {
+              "fixed": "8.14.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-37280"
+    },
+    {
+      "type": "WEB",
+      "url": "https://discuss.elastic.co/t/elasticsearch-8-14-0-security-update-esa-2024-14/361007"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/elastic/elasticsearch"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-122"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-13T22:03:51Z",
+    "nvd_published_at": "2024-06-13T17:15:50Z"
+  }
+}

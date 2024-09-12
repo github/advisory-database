@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7prj-9ccr-hr3q",
+  "modified": "2024-05-10T15:33:22Z",
+  "published": "2024-05-10T15:33:22Z",
+  "aliases": [
+    "CVE-2024-29376"
+  ],
+  "summary": "Sylius has potential Cross Site Scripting vulnerability via the \"Province\" field in the Checkout and Address Book",
+  "details": "### Impact\n\nThere is a possibility to save XSS code in province field in the Checkout and Address Book and then execute it on these pages. The problem occurs when you open the address step page in the checkout or edit the address in the address book. This only affects the base UI Shop provided by Sylius.\n\n### Patches\nThe issue is fixed in versions: 1.12.16, 1.13.1 and above.\n\n### Workarounds\n\n1. Create new file `assets/shop/sylius-province-field.js`:\n\n```js\n// assets/shop/sylius-province-field.js\n\nfunction sanitizeInput(input) {\n  const div = document.createElement('div');\n  div.textContent = input;\n  return div.innerHTML; // Converts text content to plain HTML, stripping any scripts\n}\n\nconst getProvinceInputValue = function getProvinceInputValue(valueSelector) {\n  return valueSelector == undefined ? '' : `value=\"${sanitizeInput(valueSelector)}\"`;\n};\n\n$.fn.extend({\n  provinceField() {\n    const countrySelect = $('select[name$=\"[countryCode]\"]');\n\n    countrySelect.on('change', (event) => {\n      const select = $(event.currentTarget);\n      const provinceContainer = select.parents('.field').next('div.province-container');\n\n      const provinceSelectFieldName = select.attr('name').replace('country', 'province');\n      const provinceInputFieldName = select.attr('name').replace('countryCode', 'provinceName');\n\n      const provinceSelectFieldId = select.attr('id').replace('country', 'province');\n      const provinceInputFieldId = select.attr('id').replace('countryCode', 'provinceName');\n\n      const form = select.parents('form');\n\n      if (select.val() === '' || select.val() == undefined) {\n        provinceContainer.fadeOut('slow', () => {\n          provinceContainer.html('');\n        });\n\n        return;\n      }\n\n      provinceContainer.attr('data-loading', true);\n      form.addClass('loading');\n\n      $.get(provinceContainer.attr('data-url'), { countryCode: select.val() }, (response) => {\n        if (!response.content) {\n          provinceContainer.fadeOut('slow', () => {\n            provinceContainer.html('');\n\n            provinceContainer.removeAttr('data-loading');\n            form.removeClass('loading');\n          });\n        } else if (response.content.indexOf('select') !== -1) {\n          provinceContainer.fadeOut('slow', () => {\n            const provinceSelectValue = getProvinceInputValue((\n              $(provinceContainer).find('select > option[selected$=\"selected\"]').val()\n            ));\n\n            provinceContainer.html((\n              response.content\n                .replace('name=\"sylius_address_province\"', `name=\"${provinceSelectFieldName}\"${provinceSelectValue}`)\n                .replace('id=\"sylius_address_province\"', `id=\"${provinceSelectFieldId}\"`)\n                .replace('option value=\"\" selected=\"selected\"', 'option value=\"\"')\n                .replace(`option ${provinceSelectValue}`, `option ${provinceSelectValue}\" selected=\"selected\"`)\n            ));\n            provinceContainer.addClass('required');\n            provinceContainer.removeAttr('data-loading');\n\n            provinceContainer.fadeIn('fast', () => {\n              form.removeClass('loading');\n            });\n          });\n        } else {\n          provinceContainer.fadeOut('slow', () => {\n            const provinceInputValue = getProvinceInputValue($(provinceContainer).find('input').val());\n\n            provinceContainer.html((\n              response.content\n                .replace('name=\"sylius_address_province\"', `name=\"${provinceInputFieldName}\"${provinceInputValue}`)\n                .replace('id=\"sylius_address_province\"', `id=\"${provinceInputFieldId}\"`)\n            ));\n\n            provinceContainer.removeAttr('data-loading');\n\n            provinceContainer.fadeIn('fast', () => {\n              form.removeClass('loading');\n            });\n          });\n        }\n      });\n    });\n\n    if (countrySelect.val() !== '') {\n      countrySelect.trigger('change');\n    }\n\n    if ($.trim($('div.province-container').text()) === '') {\n      $('select.country-select').trigger('change');\n    }\n\n    const shippingAddressCheckbox = $('input[type=\"checkbox\"][name$=\"[differentShippingAddress]\"]');\n    const shippingAddressContainer = $('#sylius-shipping-address-container');\n    const toggleShippingAddress = function toggleShippingAddress() {\n      shippingAddressContainer.toggle(shippingAddressCheckbox.prop('checked'));\n    };\n    toggleShippingAddress();\n    shippingAddressCheckbox.on('change', toggleShippingAddress);\n  },\n});\n```\n\n2. Add new import in `assets/shop/entry.js`:\n\n```js\n// assets/shop/entry.js\n// ...\nimport './sylius-province-field';\n```\n\n3. Rebuild your assets:\n\n```bash\nyarn build\n``` \n\n### Acknowledgements\n\nThis security issue has been reported by @r2tunes, thank you!\n\n### References\n\n- The original advisory: https://github.com/advisories/GHSA-mw82-6m2g-qh6c\n\n### For more information\nIf you have any questions or comments about this advisory:\n* Open an issue in [Sylius issues](https://github.com/Sylius/Sylius/issues)\n* Email us at security@sylius.com\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "sylius/sylius"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.12.0-alpha.1"
+            },
+            {
+              "fixed": "1.12.16"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "sylius/sylius"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.13.0-alpha.1"
+            },
+            {
+              "fixed": "1.13.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/Sylius/Sylius/security/advisories/GHSA-7prj-9ccr-hr3q"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-29376"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Sylius/Sylius/commit/fb0ecb275747e364f1d4744ed8605c57f9bd8a80"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Sylius/Sylius"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/r2tunes/Reports/blob/main/Sylius.md"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-10T15:33:22Z",
+    "nvd_published_at": null
+  }
+}

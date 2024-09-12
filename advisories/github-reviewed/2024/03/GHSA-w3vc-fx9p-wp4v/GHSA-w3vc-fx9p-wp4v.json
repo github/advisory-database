@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w3vc-fx9p-wp4v",
+  "modified": "2024-03-20T21:38:03Z",
+  "published": "2024-03-20T15:22:02Z",
+  "aliases": [
+    "CVE-2024-28179"
+  ],
+  "summary": "Jupyter Server Proxy's Websocket Proxying does not require authentication",
+  "details": "## Summary\n\n`jupyter-server-proxy` is used to expose ports local to a Jupyter server listening to web traffic to the Jupyter server's _authenticated users_ by proxying web requests and websockets. Dependent packages ([partial list](https://www.wheelodex.org/projects/jupyter-server-proxy/rdepends/)) also use `jupyter-server-proxy` to expose other popular interactive applications (such as [RStudio](https://github.com/jupyterhub/jupyter-rsession-proxy), [Linux Desktop via VNC](https://github.com/jupyterhub/jupyter-remote-desktop-proxy), [Code Server](https://github.com/betatim/vscode-binder), [Panel](https://github.com/holoviz/jupyter-panel-proxy), etc) along with the Jupyter server. This feature is commonly used in hosted environments (such as a JupyterHub) to expose non-Jupyter interactive frontends or APIs to the user.\n\n`jupyter-server-proxy` did not check user authentication appropriately when proxying websockets, allowing unauthenticated access to anyone who had network access to the Jupyter server endpoint.\n\n## Impact\n\nThis vulnerability can allow unauthenticated remote access to any websocket endpoint set up to be accessible via `jupyter-server-proxy`. In many cases (such as when exposing RStudio via [`jupyter-rsession-proxy`](https://github.com/jupyterhub/jupyter-rsession-proxy) or a remote Linux Desktop / VNC via [`jupyter-remote-desktop-proxy`](https://github.com/jupyterhub/jupyter-remote-desktop-proxy)), this leads to **remote unauthenticated arbitrary code execution**, due to how they use websockets. The websocket endpoints exposed by `jupyter_server` itself is not affected. Projects that do not rely on websockets are also not affected.\n\n## Remediation\n\nUpgrade `jupyter-server-proxy` to a patched version and restart any running Jupyter server.\n\nYou may not be installing `jupyter-server-proxy` directly, but have it be pulled in as a dependency ([partial list of dependent packages](https://www.wheelodex.org/projects/jupyter-server-proxy/rdepends/)) - so you may be vulnerable even if you aren't directly depending on `jupyter-server-proxy`.\n\n### For JupyterHub admins of [TLJH] installations\n\n<details><summary>Expand to read more</summary>\n\nTo secure a tljh deployment's user servers, first check if `jupyter-server-proxy` is installed in the user environment with a vulnerable version. If it is, patch the vulnerability and consider terminating currently running user servers.\n\n[tljh]: https://tljh.jupyter.org\n\n#### 1. Check for vulnerability\n\nAs an JupyterHub admin from a terminal in a started user server, you can do:\n\n```bash\nsudo -E python3 -c '\ntry:\n    import jupyter_server_proxy\n    is_vulnerable = not hasattr(jupyter_server_proxy, \"__version__\")\nexcept:\n    is_vulnerable = False\nif is_vulnerable:\n    print(\"WARNING: jupyter-server-proxy __is vulnerable__ to GHSA-w3vc-fx9p-wp4v, see https://github.com/jupyterhub/jupyter-server-proxy/security/advisories/GHSA-w3vc-fx9p-wp4v.\")\nelse:\n    print(\"INFO: not vulnerable to GHSA-w3vc-fx9p-wp4v\")\n'\n```\n\nAlternatively as a root user on the server where tljh is installed, you can do:\n\n```bash\nsudo PATH=/opt/tljh/user/bin:${PATH} python3 -c '\ntry:\n    import jupyter_server_proxy\n    is_vulnerable = not hasattr(jupyter_server_proxy, \"__version__\")\nexcept:\n    is_vulnerable = False\nif is_vulnerable:\n    print(\"WARNING: jupyter-server-proxy __is vulnerable__ to GHSA-w3vc-fx9p-wp4v, see https://github.com/jupyterhub/jupyter-server-proxy/security/advisories/GHSA-w3vc-fx9p-wp4v.\")\nelse:\n    print(\"INFO: not vulnerable to GHSA-w3vc-fx9p-wp4v\")\n'\n```\n\n#### 2. Patch detected vulnerability\n\nAs an JupyterHub admin from a terminal in a started user server, you can do:\n\n```bash\nsudo -E pip install \"jupyter-server-proxy>=3.2.3,!=4.0.0,!=4.1.0\"\n```\n\nAlternatively as a root user on the server where tljh is installed, you can do:\n\n```bash\nsudo PATH=/opt/tljh/user/bin:${PATH} pip install \"jupyter-server-proxy>=3.2.3,!=4.0.0,!=4.1.0\"\n```\n\n#### 3. Consider terminating currently running user servers\n\nUser servers that started before the patch was applied are still vulnerable. To ensure they aren't vulnerable any more you could forcefully terminate their servers via the JupyterHub web interface at `https://<your domain>/hub/admin`.\n\n</details>\n\n### For JupyterHub admins of [Z2JH] installations\n\n<details><summary>Expand to read more</summary>\n\nTo secure your z2jh deployment's user servers, first consider if one or more user environments is or may be vulnerable, then ensure new user servers' aren't started with the vulnerability, and finally consider terminating currently running user servers. The steps below guide you to do so.\n\n[z2jh]: https://z2jh.jupyter.org\n\n#### 1. Check for vulnerabilities\n\nConsider all docker images that user servers' environment may be based on. If your deployment expose a fixed set of images, you may be able to update them to non-vulnerable versions.\n\nTo check if an individual docker image is vulnerable, use a command like:\n\n```bash\nCHECK_IMAGE=jupyter/base-notebook:2023-10-20\ndocker run --rm $CHECK_IMAGE python3 -c '\ntry:\n    import jupyter_server_proxy\n    is_vulnerable = not hasattr(jupyter_server_proxy, \"__version__\")\nexcept:\n    is_vulnerable = False\nif is_vulnerable:\n    print(\"WARNING: jupyter-server-proxy __is vulnerable__ to GHSA-w3vc-fx9p-wp4v, see https://github.com/jupyterhub/jupyter-server-proxy/security/advisories/GHSA-w3vc-fx9p-wp4v.\")\nelse:\n    print(\"INFO: not vulnerable to GHSA-w3vc-fx9p-wp4v\")\n'\n```\n\nNote that if you reference an image with a mutable tag, such as `quay.io/jupyter/pangeo-notebook:master`, you should ensure a new version is used by configuring the image pull policy so that an older vulnerable version isn't kept being used because it was already available on a Kubernetes node.\n\n```yaml\nsingleuser:\n  image:\n    name: quay.io/jupyter/pangeo-notebook\n    tag: master\n    # pullPolicy (a.k.a. imagePullPolicy in k8s specification) should be\n    # declared to Always if you make use of mutable tags\n    pullPolicy: Always\n```\n\n#### 2. Patch vulnerabilities dynamically\n\nIf your z2jh deployment still may start vulnerable images for users, you could mount a script that checks and patches the vulnerability before the jupyter server starts.\n\nBelow is JupyterHub Helm chart configuration that relies on [`singleuser.extraFiles`] and [`singleuser.cmd`] to mount a script we use as an entrypoint to dynamically check and patch the vulnerability before jupyter server is started.\n\nUnless you change it, the script will attempt to upgrade `jupyter-server-proxy` to a non-vulnerable version if needed, and error if it needs to and fails. You can adjust this behavior by adjusting the constants `UPGRADE_IF_VULNERABLE` and `ERROR_IF_VULNERABLE` inside the script.\n\n[`singleuser.extraFiles`]: https://z2jh.jupyter.org/en/stable/resources/reference.html#singleuser-extrafiles\n[`singleuser.cmd`]: https://z2jh.jupyter.org/en/stable/resources/reference.html#singleuser-cmd\n\n```yaml\nsingleuser:\n  cmd:\n    - /mnt/ghsa-w3vc-fx9p-wp4v/check-patch-run\n    - jupyterhub-singleuser\n  extraFiles:\n    ghsa-w3vc-fx9p-wp4v-check-patch-run:\n      mountPath: /mnt/ghsa-w3vc-fx9p-wp4v/check-patch-run\n      mode: 0755\n      stringData: |\n        #!/usr/bin/env python3\n        \"\"\"\n        This script is designed to check for and conditionally patch GHSA-w3vc-fx9p-wp4v\n        in user servers started by a JupyterHub. The script will execute any command\n        passed via arguments if provided, allowing it to wrap a user server startup call\n        to `jupyterhub-singleuser` for example.\n\n        Use and function of this script can be further discussed in\n        https://github.com/jupyterhub/zero-to-jupyterhub-k8s/issues/3360.\n\n        Script adjustments:\n        - UPGRADE_IF_VULNERABLE\n        - ERROR_IF_VULNERABLE\n\n        Script patching assumptions:\n        - script is run before the jupyter server starts\n        - pip is available\n        - pip has sufficient filesystem permissions to upgrade jupyter-server-proxy\n\n        Read more at https://github.com/jupyterhub/jupyter-server-proxy/security/advisories/GHSA-w3vc-fx9p-wp4v.\n        \"\"\"\n\n        import os\n        import subprocess\n        import sys\n\n        # adjust these to meet vulnerability mitigation needs\n        UPGRADE_IF_VULNERABLE = True\n        ERROR_IF_VULNERABLE = True\n\n\n        def check_vuln():\n            \"\"\"\n            Checks for the vulnerability by looking to see if __version__ is available\n            as it coincides with the patched versions (3.2.3 and 4.1.1).\n            \"\"\"\n            try:\n                import jupyter_server_proxy\n\n                return False if hasattr(jupyter_server_proxy, \"__version__\") else True\n            except:\n                return False\n\n\n        def get_version_specifier():\n            \"\"\"\n            Returns a pip version specifier for use with `--no-deps` meant to do as\n            little as possible besides patching the vulnerability and remaining\n            functional.\n            \"\"\"\n            old = [\"jupyter-server-proxy>=3.2.3,<4\"]\n            new = [\"jupyter-server-proxy>=4.1.1,<5\", \"simpervisor>=1,<2\"]\n\n            try:\n                if sys.version_info < (3, 8):\n                    return old\n\n                from importlib.metadata import version\n\n                jsp_version = version(\"jupyter-server-proxy\")\n                if int(jsp_version.split(\".\")[0]) < 4:\n                    return old\n            except:\n                pass\n            return new\n\n\n        def patch_vuln():\n            \"\"\"\n            Attempts to patch the vulnerability by upgrading jupyter-server-proxy using\n            pip. Returns True if the patch is applied successfully, otherwise False.\n            \"\"\"\n            # attempt upgrade via pip, takes ~4 seconds\n            proc = subprocess.run(\n                [sys.executable, \"-m\", \"pip\", \"--version\"],\n                stdout=subprocess.DEVNULL,\n                stderr=subprocess.DEVNULL,\n            )\n            pip_available = proc.returncode == 0\n            if pip_available:\n                proc = subprocess.run(\n                    [sys.executable, \"-m\", \"pip\", \"install\", \"--no-deps\"]\n                    + get_version_specifier()\n                )\n                if proc.returncode == 0:\n                    return True\n            return False\n\n\n        def main():\n            if check_vuln():\n                warning_or_error = (\n                    \"ERROR\" if ERROR_IF_VULNERABLE and not UPGRADE_IF_VULNERABLE else \"WARNING\"\n                )\n                print(\n                    f\"{warning_or_error}: jupyter-server-proxy __is vulnerable__ to GHSA-w3vc-fx9p-wp4v, see \"\n                    \"https://github.com/jupyterhub/jupyter-server-proxy/security/advisories/GHSA-w3vc-fx9p-wp4v.\",\n                    flush=True,\n                )\n                if warning_or_error == \"ERROR\":\n                    sys.exit(1)\n\n                if UPGRADE_IF_VULNERABLE:\n                    print(\n                        \"INFO: Attempting to upgrade jupyter-server-proxy using pip...\",\n                        flush=True,\n                    )\n                    if patch_vuln():\n                        print(\n                            \"INFO: Attempt to upgrade jupyter-server-proxy succeeded!\",\n                            flush=True,\n                        )\n                    else:\n                        warning_or_error = \"ERROR\" if ERROR_IF_VULNERABLE else \"WARNING\"\n                        print(\n                            f\"{warning_or_error}: Attempt to upgrade jupyter-server-proxy failed!\",\n                            flush=True,\n                        )\n                        if warning_or_error == \"ERROR\":\n                            sys.exit(1)\n\n            if len(sys.argv) >= 2:\n                print(\"INFO: Executing provided command\", flush=True)\n                os.execvp(sys.argv[1], sys.argv[1:])\n            else:\n                print(\"INFO: No command to execute provided\", flush=True)\n\n\n        main()\n```\n\n#### 3. Consider terminating currently running user servers\n\nUser servers that started before the patch was applied are still vulnerable. To ensure they aren't vulnerable any more you could forcefully terminate their servers via the JupyterHub web interface at `https://<your domain>/hub/admin`.\n\n</details>\n\n## Simple Reproduction\n\n<details><summary>Expand to read more</summary>\n\n### Setup application to proxy\n\nMake a trivial tornado app that has both websocket and regular HTTP endpoints.\n\n```python\nfrom tornado import websocket, web, ioloop\n\nclass EchoWebSocket(websocket.WebSocketHandler):\n    def open(self):\n        print(\"WebSocket opened\")\n\n    def on_message(self, message):\n        self.write_message(u\"You said: \" + message)\n\n    def on_close(self):\n        print(\"WebSocket closed\")\n\nclass HiHandler(web.RequestHandler):\n    def get(self):\n        self.write(\"Hi\")\n\napp = web.Application([\n    (r'/ws', EchoWebSocket),\n    (r'/hi', HiHandler)\n])\n\nif __name__ == '__main__':\n    app.listen(9500)\n    ioloop.IOLoop.instance().start()\n```\n\n### Setup a clean environment with `jupyter-server-proxy` and start a `jupyter server` instance\n\nWe don't need jupyterlab or anything else here, just `jupyter-server-proxy` would do.\n\n```bash\npython -m venv clean-env/\nsource clean-env/bin/activate\npip install jupyter-server-proxy\njupyter server\n```\n\n### Verify HTTP requests require authentication\n\n```bash\ncurl -L http://127.0.0.1:8888/proxy/9500/hi\n```\n\nThis does *not* return the `Hi` response, as expected. Instead, you get the HTML response asking for a token.\n\nThis is secure as intended.\n\n### Verify websocket requests doesn't authentication\n\nThe example makes use of [websocat](https://github.com/vi/websocat) to test websockets. You can use any other tool you are familiar with too.\n\n```bash\nwebsocat ws://localhost:8888/proxy/9500/ws\n```\n\nAt the terminal, type 'Just testing' and press Enter. You'll get `You said: Just testing` without any authentication required.\n\n</details>",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "jupyter-server-proxy"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0"
+            },
+            {
+              "fixed": "4.1.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "jupyter-server-proxy"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.2.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/jupyterhub/jupyter-server-proxy/security/advisories/GHSA-w3vc-fx9p-wp4v"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28179"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jupyterhub/jupyter-server-proxy/commit/764e499f61a87641916a7a427d4c4b1ac3f321a9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jupyterhub/jupyter-server-proxy/commit/bead903b7c0354b6efd8b4cde94b89afab653e03"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jupyterhub/jupyter-server-proxy"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jupyterhub/jupyter-server-proxy/blob/9b624c4d9507176334b46a85d94a4aa3bcd29bed/jupyter_server_proxy/handlers.py#L433"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-306"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-20T15:22:02Z",
+    "nvd_published_at": "2024-03-20T20:15:08Z"
+  }
+}

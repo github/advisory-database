@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5v8f-xx9m-wj44",
+  "modified": "2024-07-31T20:53:02Z",
+  "published": "2024-07-31T18:32:01Z",
+  "aliases": [
+    "CVE-2024-23444"
+  ],
+  "summary": "Elasticsearch stores private key on disk unencrypted",
+  "details": "It was discovered by Elastic engineering that when elasticsearch-certutil CLI tool is used with the csr option in order to create a new Certificate Signing Requests, the associated private key that is generated is stored on disk unencrypted even if the `--pass` parameter is passed in the command invocation.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:H/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.elasticsearch:elasticsearch"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.0.0-alpha1"
+            },
+            {
+              "fixed": "8.13.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.elasticsearch:elasticsearch"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "7.17.23"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23444"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/elastic/elasticsearch/pull/106105"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/elastic/elasticsearch/pull/109834"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/elastic/elasticsearch/commit/07296d596a1dee24730e33ad40b6726f70c6fc23"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/elastic/elasticsearch/commit/321c4e1e6b738bf80faa41dbb9881489a4ab44e5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/elastic/elasticsearch/commit/bb1eddada3678257838b0590090ff9eb68acaa1b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://discuss.elastic.co/t/elasticsearch-8-13-0-7-17-23-security-update-esa-2024-12/364157"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/elastic/elasticsearch"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-311"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-31T20:53:02Z",
+    "nvd_published_at": "2024-07-31T18:15:11Z"
+  }
+}

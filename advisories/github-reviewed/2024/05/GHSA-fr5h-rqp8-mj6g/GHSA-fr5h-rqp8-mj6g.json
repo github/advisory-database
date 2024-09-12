@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fr5h-rqp8-mj6g",
+  "modified": "2024-05-14T20:02:42Z",
+  "published": "2024-05-09T21:18:57Z",
+  "aliases": [
+    "CVE-2024-34351"
+  ],
+  "summary": "Next.js Server-Side Request Forgery in Server Actions",
+  "details": "### Impact\nA Server-Side Request Forgery (SSRF) vulnerability was identified in Next.js Server Actions by security researchers at Assetnote. If the `Host` header is modified, and the below conditions are also met, an attacker may be able to make requests that appear to be originating from the Next.js application server itself.\n\n#### Prerequisites\n* Next.js (`<14.1.1`) is running in a self-hosted* manner.\n* The Next.js application makes use of Server Actions.\n* The Server Action performs a redirect to a relative path which starts with a `/`.\n\n\\* Many hosting providers (including Vercel) route requests based on the Host header, so we do not believe that this vulnerability affects any Next.js applications where routing is done in this manner.\n\n### Patches\nThis vulnerability was patched in [#62561](https://github.com/vercel/next.js/pull/62561) and fixed in Next.js `14.1.1`.\n \n### Workarounds\nThere are no official workarounds for this vulnerability. We recommend upgrading to Next.js `14.1.1`.\n\n### Credit\nVercel and the Next.js team thank Assetnote for responsibly disclosing this issue to us, and for working with us to verify the fix. Thanks to:\n\nAdam Kues - Assetnote\nShubham Shah - Assetnote",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "next"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "13.4.0"
+            },
+            {
+              "fixed": "14.1.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/vercel/next.js/security/advisories/GHSA-fr5h-rqp8-mj6g"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-34351"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vercel/next.js/pull/62561"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vercel/next.js/commit/8f7a6ca7d21a97bc9f7a1bbe10427b5ad74b9085"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vercel/next.js"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-918"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-09T21:18:57Z",
+    "nvd_published_at": "2024-05-14T15:38:42Z"
+  }
+}

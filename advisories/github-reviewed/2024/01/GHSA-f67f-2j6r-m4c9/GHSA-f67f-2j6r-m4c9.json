@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f67f-2j6r-m4c9",
+  "modified": "2024-01-31T20:24:55Z",
+  "published": "2024-01-24T18:31:02Z",
+  "aliases": [
+    "CVE-2024-23903"
+  ],
+  "summary": "Non-constant time webhook token comparison in Jenkins GitLab Branch Source Plugin ",
+  "details": "Jenkins GitLab Branch Source Plugin 684.vea_fa_7c1e2fe3 and earlier does not use a constant-time comparison function when checking whether the provided and expected webhook token are equal.\n\nThis could potentially allow attackers to use statistical methods to obtain a valid webhook token.\n\nGitLab Branch Source Plugin 688.v5fa_356ee8520 uses a constant-time comparison function when validating the webhook token.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.jenkins.plugins:gitlab-branch-source"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "688.v5fa"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23903"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jenkinsci/gitlab-branch-source-plugin/commit/8bfe1046cf342b99419457b9336addbbf346f89a"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/gitlab-branch-source-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2024-01-24/#SECURITY-2871"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/01/24/6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-697"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-24T21:50:51Z",
+    "nvd_published_at": "2024-01-24T18:15:09Z"
+  }
+}

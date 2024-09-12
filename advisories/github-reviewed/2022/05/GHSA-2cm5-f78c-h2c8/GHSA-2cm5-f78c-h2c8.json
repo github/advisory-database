@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2cm5-f78c-h2c8",
+  "modified": "2024-01-30T22:19:19Z",
+  "published": "2022-05-13T01:36:51Z",
+  "aliases": [
+    "CVE-2017-2652"
+  ],
+  "summary": "Missing permission checks in Jenkins Distributed Fork Plugin",
+  "details": "It was found that there were no permission checks performed in the Distributed Fork plugin before and including 1.5.0 for Jenkins that provides the dist-fork CLI command beyond the basic check for Overall/Read permission, allowing anyone with that permission to run arbitrary shell commands on all connected nodes.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:distfork"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.6.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.5.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-2652"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2017-03-20"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/96980"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-287"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-30T22:19:19Z",
+    "nvd_published_at": "2018-07-27T20:29:00Z"
+  }
+}

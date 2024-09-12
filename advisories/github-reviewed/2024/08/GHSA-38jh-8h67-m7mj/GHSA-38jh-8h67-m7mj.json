@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-38jh-8h67-m7mj",
+  "modified": "2024-08-27T18:40:29Z",
+  "published": "2024-08-27T18:40:29Z",
+  "aliases": [
+    "CVE-2024-43798"
+  ],
+  "summary": "Chisel's AUTH environment variable not respected in server entrypoint",
+  "details": "### Summary\nThe Chisel server doesn't ever read the documented `AUTH` environment variable used to set credentials, which allows any unauthenticated user to connect, even if credentials were set. This advisory is a formalization of a report sent to the maintainer via email.\n\n### Details\nIn the help page for the `chisel server` subcommand, it mentions an `AUTH` environment variable that can be set in order to provide credentials that the server should authenticate connections against: https://github.com/jpillora/chisel/blob/3de177432cd23db58e57f376b62ad497cc10840f/main.go#L138.\n\nThe issue is that the server entrypoint doesn't ever read the `AUTH` environment variable. The only place that this happens is in the client entrypoint: https://github.com/jpillora/chisel/blob/3de177432cd23db58e57f376b62ad497cc10840f/main.go#L452\n\nThis subverts the expectations set by the documentation, allowing unauthenticated users to connect to a Chisel server, even if auth is attempted to be set up in this manner.\n\n### PoC\nRun `chisel server`, first specifying credentials with the `AUTH` environment variable, then with the `--auth` argument. In the first case, the server allows connections without authentication, while in the second, the correct behavior is exhibited.\n\n### Impact\nAnyone who is running the Chisel server, and that is using the `AUTH` environment variable to specify credentials to authenticate against. Chisel is often used to provide an entrypoint to a private network, which means services that are gated by Chisel may be affected. Additionally, Chisel is often used for exposing services to the internet. An attacker could MITM requests by connecting to a Chisel server and requesting to forward traffic from a remote port. ",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:N/SC:H/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/jpillora/chisel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.10.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/jpillora/chisel/security/advisories/GHSA-38jh-8h67-m7mj"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-43798"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jpillora/chisel"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jpillora/chisel/blob/3de177432cd23db58e57f376b62ad497cc10840f/main.go#L138"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jpillora/chisel/blob/3de177432cd23db58e57f376b62ad497cc10840f/main.go#L452"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1068",
+      "CWE-306"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-27T18:40:29Z",
+    "nvd_published_at": "2024-08-26T23:15:04Z"
+  }
+}

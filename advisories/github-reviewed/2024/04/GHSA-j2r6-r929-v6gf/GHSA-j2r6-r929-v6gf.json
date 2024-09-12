@@ -1,0 +1,119 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-j2r6-r929-v6gf",
+  "modified": "2024-04-10T22:01:24Z",
+  "published": "2024-04-10T17:14:12Z",
+  "aliases": [
+    "CVE-2024-31985"
+  ],
+  "summary": "XWiki Platform CSRF in the job scheduler",
+  "details": "### Impact\nIt is possible to schedule/trigger/unschedule existing jobs by having an admin visit the Job Scheduler page through a predictable URL, for example by embedding such an URL in any content as an image.\n\nTo reproduce in an XWiki installation, open `<xwiki-host>:/xwiki/bin/view/Scheduler/?do=trigger&which=Scheduler.NotificationEmailDailySender` as a user with admin rights. If there is no error message that indicates the CSRF token is invalid, the installation is vulnerable.\n\n### Patches\nThe vulnerability has been fixed on XWiki 14.10.19, 15.5.5, and 15.9.\n\n### Workarounds\nModify the Scheduler.WebHome page following this [patch](https://github.com/xwiki/xwiki-platform/commit/f16ca4ef1513f84ce2e685d4a05d689bd3a2ab4c#diff-1e2995eacccbbbdcc4987ff64f46ac74837d166cf9e92920b4a4f8af0f10bd47).\n\n### References\n- https://jira.xwiki.org/browse/XWIKI-20851\n- https://github.com/xwiki/xwiki-platform/commit/f16ca4ef1513f84ce2e685d4a05d689bd3a2ab4c",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-scheduler-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.1"
+            },
+            {
+              "fixed": "14.10.19"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-scheduler-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "15.0-rc-1"
+            },
+            {
+              "fixed": "15.5.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-scheduler-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "15.6-rc-1"
+            },
+            {
+              "fixed": "15.9"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-j2r6-r929-v6gf"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-31985"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/8a92cb4bef7e5f244ae81eed3e64fe9be95827cf"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/efd3570f3e5e944ec0ad0899bf799bf9563aef87"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/f16ca4ef1513f84ce2e685d4a05d689bd3a2ab4c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/f30d9c641750a3f034b5910c6a3a7724ae8f2269"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20851"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-10T17:14:12Z",
+    "nvd_published_at": "2024-04-10T21:15:06Z"
+  }
+}

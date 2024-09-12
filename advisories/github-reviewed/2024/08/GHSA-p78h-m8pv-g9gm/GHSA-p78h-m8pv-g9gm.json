@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-p78h-m8pv-g9gm",
+  "modified": "2024-08-05T21:18:59Z",
+  "published": "2024-08-05T21:18:59Z",
+  "aliases": [
+    "CVE-2023-28857"
+  ],
+  "summary": "Apereo CAS vulnerable to credential leaks for LDAP authentication",
+  "details": "Apereo CAS is an open source multilingual single sign-on solution for the web. Apereo CAS can be configured to use authentication based on client X509 certificates. These certificates can be provided via TLS handshake or a special HTTP header, such as “ssl_client_cert”. When checking the validity of the provided client certificate, X509CredentialsAuthenticationHandler performs check that this certificate is not revoked. To do so, it fetches URLs provided in the “CRL Distribution Points” extension of the certificate, which are taken from the certificate itself and therefore can be controlled by a malicious user. If the CAS server is configured to use an LDAP server for x509 authentication with a password, for example by setting a “cas.authn.x509.ldap.ldap-url” and “cas.authn.x509.ldap.bind-credential” properties, X509CredentialsAuthenticationHandler fetches revocation URLs from the certificate, which can be LDAP urls. When making requests to this LDAP urls, Apereo CAS uses the same password as for initially configured LDAP server, which can lead to a password leak. An unauthenticated user can leak the password used to LDAP connection configured on server. This issue has been addressed in version 6.6.6. Users are advised to upgrade. There are no known workarounds for this vulnerability.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:L/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:L/VI:N/VA:N/SC:L/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apereo.cas:cas-server-support-x509-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.5.0"
+            },
+            {
+              "fixed": "6.6.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-28857"
+    },
+    {
+      "type": "WEB",
+      "url": "https://apereo.github.io/2023/02/20/x509-vuln"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apereo/cas"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apereo/cas/releases/tag/v6.6.6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/graciantrivino/cas/blob/b90003f43a8ac0382d5416ceb01074feb936bf24/cas-server-support-x509/src/main/java/org/jasig/cas/adaptors/x509/authentication/handler/support/X509CredentialsAuthenticationHandler.java#L231"
+    },
+    {
+      "type": "WEB",
+      "url": "https://securitylab.github.com/advisories"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://securitylab.github.com/advisories/GHSL-2023-009_Apereo_CAS"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200",
+      "CWE-522"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-05T21:18:59Z",
+    "nvd_published_at": "2023-06-27T18:15:13Z"
+  }
+}

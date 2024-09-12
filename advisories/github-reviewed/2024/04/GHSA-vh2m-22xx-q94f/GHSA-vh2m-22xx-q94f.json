@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vh2m-22xx-q94f",
+  "modified": "2024-04-15T19:41:05Z",
+  "published": "2024-04-12T22:54:09Z",
+  "aliases": [
+    "CVE-2024-32028"
+  ],
+  "summary": "Sensitive query parameters logged by default in OpenTelemetry.Instrumentation http and AspNetCore",
+  "details": "## Impact\n\n`OpenTelemetry.Instrumentation.Http` writes the `url.full` attribute/tag on spans (`Activity`) when tracing is enabled for outgoing http requests and `OpenTelemetry.Instrumentation.AspNetCore` writes the `url.query` attribute/tag on spans (`Activity`) when tracing is enabled for incoming http requests.\n\nThese attributes are defined by the [Semantic Conventions for HTTP Spans](https://github.com/open-telemetry/semantic-conventions/blob/main/docs/http/http-spans.md).\n\nUp until the `1.8.1` the values written by `OpenTelemetry.Instrumentation.Http` & `OpenTelemetry.Instrumentation.AspNetCore` will pass-through the raw query string as was sent or received (respectively). This may lead to sensitive information (e.g. EUII - End User Identifiable Information, credentials, etc.) being leaked into telemetry backends (depending on the application(s) being instrumented) which could cause privacy and/or security incidents.\n\nNote: Older versions of `OpenTelemetry.Instrumentation.Http` & `OpenTelemetry.Instrumentation.AspNetCore` may use different tag names but have the same vulnerability.\n\n## Resolution\n\nThe `1.8.1` versions of `OpenTelemetry.Instrumentation.Http` & `OpenTelemetry.Instrumentation.AspNetCore` will now redact by default all values detected on transmitted or received query strings.\n\nExample transmitted or received query sting:\n\n`?key1=value1&key2=value2`\n\nExample of redacted value written on telemetry:\n\n`?key1=Redacted&key2=Redacted`",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:A/AC:L/PR:L/UI:N/S:C/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "OpenTelemetry.Instrumentation.Http"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.8.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "OpenTelemetry.Instrumentation.AspNetCore"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.8.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/open-telemetry/opentelemetry-dotnet/security/advisories/GHSA-vh2m-22xx-q94f"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-32028"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/open-telemetry/opentelemetry-dotnet/commit/e222ecb5942d4ce1cadfd4306c39e3f4933a5c42"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/open-telemetry/opentelemetry-dotnet"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/open-telemetry/semantic-conventions/blob/main/docs/http/http-spans.md"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-201",
+      "CWE-212"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-12T22:54:09Z",
+    "nvd_published_at": "2024-04-12T23:15:06Z"
+  }
+}

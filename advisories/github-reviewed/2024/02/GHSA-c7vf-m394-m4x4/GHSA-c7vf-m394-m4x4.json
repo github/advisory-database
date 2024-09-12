@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c7vf-m394-m4x4",
+  "modified": "2024-02-20T23:45:44Z",
+  "published": "2024-02-17T06:30:34Z",
+  "aliases": [
+    "CVE-2024-21495"
+  ],
+  "summary": "Use of Insufficiently Random Values in github.com/greenpau/caddy-security",
+  "details": "Versions of the package github.com/greenpau/caddy-security before 1.0.42 are vulnerable to Insecure Randomness due to using an insecure random number generation library which could possibly be predicted via a brute-force search. Attackers could use the potentially predictable nonce value used for authentication purposes in the OAuth flow to conduct OAuth replay attacks. In addition, insecure randomness is used while generating multifactor authentication (MFA) secrets and creating API keys in the database package.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/greenpau/caddy-security"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.0.42"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-21495"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/greenpau/caddy-security/issues/265"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/greenpau/go-authcrunch/commit/ecd3725baf2683eb1519bb3c81ae41085fbf7dc2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://blog.trailofbits.com/2023/09/18/security-flaws-in-an-sso-plugin-for-caddy"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-GOLANG-GITHUBCOMGREENPAUCADDYSECURITY-6248275"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "github.com/greenpau/caddy-security"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-330"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-20T23:45:44Z",
+    "nvd_published_at": "2024-02-17T05:15:09Z"
+  }
+}

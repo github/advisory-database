@@ -1,0 +1,132 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-pg64-r7rr-phv8",
+  "modified": "2024-04-29T09:51:39Z",
+  "published": "2022-05-24T16:53:02Z",
+  "aliases": [
+    "CVE-2019-14433"
+  ],
+  "summary": "OpenStack Nova Server Resource Faults Leak External Exception Details",
+  "details": "An issue was discovered in OpenStack Nova before 17.0.12, 18.x before 18.2.2, and 19.x before 19.0.2. If an API request from an authenticated user ends in a fault condition due to an external exception, details of the underlying environment may be leaked in the response, and could include sensitive configuration or other data.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "nova"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "17.0.12"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "nova"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "18.0.0"
+            },
+            {
+              "fixed": "18.2.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "nova"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "19.0.0"
+            },
+            {
+              "fixed": "19.0.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-14433"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/298b337a16c0d10916b4431c436d19b3d6f5360e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2019:2622"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2019:2631"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2019:2652"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openstack/nova"
+    },
+    {
+      "type": "WEB",
+      "url": "https://launchpad.net/bugs/1837877"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.debian.org/debian-lts-announce/2022/09/msg00018.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.openstack.org/ossa/OSSA-2019-003.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://usn.ubuntu.com/4104-1"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2019/08/06/6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200",
+      "CWE-209"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-29T09:51:39Z",
+    "nvd_published_at": "2019-08-09T19:15:00Z"
+  }
+}

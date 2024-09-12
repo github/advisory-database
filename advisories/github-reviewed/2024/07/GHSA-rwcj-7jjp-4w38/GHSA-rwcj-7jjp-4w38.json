@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rwcj-7jjp-4w38",
+  "modified": "2024-07-22T13:18:35Z",
+  "published": "2024-07-19T19:59:14Z",
+  "aliases": [
+    "CVE-2024-41124"
+  ],
+  "summary": "[PUNCIA] [CWE-319] Cleartext Transmission of Sensitive Information via HTTP urls in `API_URLS`",
+  "details": "### Impact\n`API_URLS` is utilizing HTTP instead of HTTPS for communication that can lead to issues like Eavesdropping, Data Tampering, Unauthorized Data Access & MITM Attacks.\n\n### References\n[ISSUE](https://github.com/ARPSyndicate/puncia/issues/8)\n[PATCH](https://github.com/ARPSyndicate/puncia/commit/033f3b68126eabbb2040ce16e2c3a2ce17437fbd#diff-3ec6c2de51e702726b23c452e3f4a899f6f4253af9fbf5be7254a5c1407ab526)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:A/AC:H/PR:H/UI:R/S:U/C:L/I:L/A:L"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:A/AC:L/AT:P/PR:N/UI:P/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "puncia"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.21"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ARPSyndicate/puncia/security/advisories/GHSA-rwcj-7jjp-4w38"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-41124"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ARPSyndicate/puncia/issues/8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ARPSyndicate/puncia/commit/033f3b68126eabbb2040ce16e2c3a2ce17437fbd"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ARPSyndicate/puncia/commit/033f3b68126eabbb2040ce16e2c3a2ce17437fbd#diff-3ec6c2de51e702726b23c452e3f4a899f6f4253af9fbf5be7254a5c1407ab526"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ARPSyndicate/puncia"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-311",
+      "CWE-319"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-19T19:59:14Z",
+    "nvd_published_at": "2024-07-19T20:15:08Z"
+  }
+}

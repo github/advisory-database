@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7vw7-qx38-37vr",
+  "modified": "2024-05-20T17:34:33Z",
+  "published": "2024-05-20T17:34:33Z",
+  "aliases": [
+
+  ],
+  "summary": "Propel2 SQL injection possible with limit() on MySQL",
+  "details": "The limit() query method is susceptible to catastrophic SQL injection with MySQL.\n\nFor example, given a model User for a table users:\n```\nUserQuery::create()->limit('1;DROP TABLE users')->find();\n```\nThis will drop the users table!\n\nThe cause appears to be a lack of integer casting of the limit input in either Propel\\Runtime\\ActiveQuery\\Criteria::setLimit() or in Propel\\Runtime\\Adapter\\Pdo\\MysqlAdapter::applyLimit(). The code comments there seem to imply that casting was avoided due to overflow issues with 32-bit integers.\n\nThis is surprising behavior since one of the primary purposes of an ORM is to prevent basic SQL injection.\n\nThis affects all versions of Propel: 1.x, 2.x, and 3.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "propel/propel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0-alpha1"
+            },
+            {
+              "fixed": "2.0.0-alpha8"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.0.0-alpha7"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/propelorm/Propel2/issues/1463"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/propelorm/Propel2/pull/1464"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/propelorm/Propel2/commit/cd23d7384a15cfe203e23b3a835c8ab1d81d9246"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/propel/propel/2018-02-14.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/propelorm/Propel2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-89"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-20T17:34:33Z",
+    "nvd_published_at": null
+  }
+}

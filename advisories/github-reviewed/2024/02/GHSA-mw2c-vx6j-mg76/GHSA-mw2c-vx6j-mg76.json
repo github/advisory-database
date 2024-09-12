@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mw2c-vx6j-mg76",
+  "modified": "2024-03-01T15:00:32Z",
+  "published": "2024-02-07T17:31:34Z",
+  "aliases": [
+    "CVE-2024-24816"
+  ],
+  "summary": "CKEditor4 Cross-site Scripting vulnerability in samples with enabled the preview feature",
+  "details": "### Affected packages\nThe vulnerability has been discovered in the samples that use the [preview](https://ckeditor.com/cke4/addon/preview) feature:\n\n* `samples/old/**/*.html`\n* `plugins/[plugin name]/samples/**/*.html`\n\nAll integrators that use these samples in the production code can be affected.\n\n### Impact\n\nA potential vulnerability has been discovered in one of CKEditor's 4 samples that are shipped with production code. The vulnerability allowed to execute JavaScript code by abusing the misconfigured [preview feature](https://ckeditor.com/cke4/addon/preview). It affects all users using the CKEditor 4 at version < 4.24.0-lts with affected samples used in a production environment.\n\n### Patches\nThe problem has been recognized and patched. The fix will be available in version 4.24.0-lts.\n\n### For more information\nEmail us at [security@cksource.com](mailto:security@cksource.com) if you have any questions or comments about this advisory.\n\n### Acknowledgements\nThe CKEditor 4 team would like to thank [Marcin Wyczechowski](https://www.linkedin.com/in/marcin-wyczechowski-0a823795/) & [Michał Majchrowicz](https://www.linkedin.com/in/micha%C5%82-majchrowicz-mwsc/) [AFINE Team](https://afine.com/) for recognizing and reporting this vulnerability.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "ckeditor4"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.24.0-lts"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ckeditor/ckeditor4/security/advisories/GHSA-mw2c-vx6j-mg76"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-24816"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ckeditor/ckeditor4/commit/8ed1a3c93d0ae5f49f4ecff5738ab8a2972194cb"
+    },
+    {
+      "type": "WEB",
+      "url": "https://ckeditor.com/cke4/addon/preview"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ckeditor/ckeditor4"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-07T17:31:34Z",
+    "nvd_published_at": "2024-02-07T17:15:11Z"
+  }
+}

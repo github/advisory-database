@@ -1,0 +1,146 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f78j-4w3g-4q65",
+  "modified": "2024-03-18T18:33:40Z",
+  "published": "2024-03-12T15:44:49Z",
+  "aliases": [
+    "CVE-2024-28121"
+  ],
+  "summary": "StimulusReflex arbitrary method call",
+  "details": "### Summary\nMore methods than expected can be called on reflex instances. Being able to call some of them has security implications.\n\n### Details\nTo invoke a reflex a websocket message of the following shape is sent:\n```json\n{ \n  \"target\": \"[class_name]#[method_name]\", \n  \"args\": [] \n}\n```\nThe server will proceed to instantiate `reflex` using the provided `class_name` as long as it extends `StimulusReflex::Reflex`.\nIt then attempts to call `method_name` on the instance with the provided arguments [ref](https://github.com/stimulusreflex/stimulus_reflex/blob/0211cad7d60fe96838587f159d657e44cee51b9b/app/channels/stimulus_reflex/channel.rb#L83):\n\n```ruby\nmethod = reflex.method method_name\nrequired_params = method.parameters.select { |(kind, _)| kind == :req }\noptional_params = method.parameters.select { |(kind, _)| kind == :opt }\n\nif arguments.size >= required_params.size && arguments.size <= required_params.size + optional_params.size\n  reflex.public_send(method_name, *arguments)\nend\n```\n\nThis is problematic as `reflex.method(method_name)` can be more methods than those explicitly specified by the developer in their reflex class. A good example is the `instance_variable_set` method.\n\n<details>\n\n<summary>Read more</summary>\nLet's imagine a reflex that uses `@user` as a trusted variable in an `after_reflex` callback.\n\nThis variable can be overwritten using the following message:\n```json\n{\n  \"target\": \"ChatReflex#instance_variable_set\", \n  \"args\": [\"@user\", \"<admin-id>\"]\n}\n```\n\nHere are other interesting methods that were found to be available for the [ChatReflex sample reflex](https://github.com/hopsoft/stimulus_reflex_expo/blob/dcce8c36a6782d1e7f57f0e2766a3f6fd770b3b1/app/reflexes/chat_reflex.rb)\n- `remote_byebug`: bind a debugging server\n- `pry`: drop the process in a REPL session\n\nAll in all, only counting  `:req` and `:opt` parameters helps.\nFor example around [version 1.0](https://github.com/stimulusreflex/stimulus_reflex/blob/1f610b636abfed27de2c61104aebd1ac98180d5b/lib/stimulus_reflex/channel.rb#L41) only `.arity` was checked which allowed access to the `system` method (`.arity == -1`)\n```json\n{\n  \"target\": \"ChatReflex#system\", \n  \"args\": [\"[command here]\"]\n}\n```\nUsing `public_send` instead of `send` does not help but the following payloads **do not** work since `:rest` parameters are not counted in the current version\n```json\n{\n  \"target\": \"ChatReflex#send\", \n  \"args\": [\"system\", \"[command here]\"] \n}\n```\n```json\n{ \n  \"target\": \"ChatReflex#instance_eval\", \n  \"args\": [\"system('[command here]')\"]\n}\n```\n\n</details>\n\nPre-versions of 3.5.0 added a `render_collection` method on reflexes with  a `:req` parameter. Calling this method could lead to arbitrary code execution:\n```json\n{\n  \"target\": \"StimulusReflex::Reflex#render_collection\", \n  \"args\": [\n    { \"inline\":  \"<% system('[command here]') %>\" }\n  ]\n}\n```\n\n### Patches\n\nPatches are [available on RubyGems](https://rubygems.org/gems/stimulus_reflex) and on [NPM](https://npmjs.org/package/stimulus_reflex). \n\nThe patched versions are: \n- [`3.4.2`](https://github.com/stimulusreflex/stimulus_reflex/releases/tag/v3.4.2)\n- [`3.5.0.rc4`](https://github.com/stimulusreflex/stimulus_reflex/releases/tag/v3.5.0.rc4)\n\n### Workaround\n\nYou can add this guard to mitigate the issue if running an unpatched version of the library. \n\n1.) Make sure all your reflexes inherit from the `ApplicationReflex` class\n2.) Add this `before_reflex` callback to your `app/reflexes/application_reflex.rb` file:\n\n```ruby\nclass ApplicationReflex < StimulusReflex::Reflex\n  before_reflex do\n    ancestors = self.class.ancestors[0..self.class.ancestors.index(StimulusReflex::Reflex) - 1]\n    allowed = ancestors.any? { |a| a.public_instance_methods(false).any?(method_name.to_sym) }\n\n    raise ArgumentError.new(\"Reflex method '#{method_name}' is not defined on class '#{self.class.name}' or on any of its ancestors\") if !allowed\n  end\nend\n```",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "stimulus_reflex"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.5.0.pre0"
+            },
+            {
+              "fixed": "3.5.0.rc4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "stimulus_reflex"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.4.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "stimulus_reflex"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.5.0.pre0"
+            },
+            {
+              "fixed": "3.5.0.rc4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "stimulus_reflex"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.4.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/stimulusreflex/stimulus_reflex/security/advisories/GHSA-f78j-4w3g-4q65"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28121"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/stimulusreflex/stimulus_reflex/commit/538582d240439aab76066c72335ea92096cd0c7f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/stimulusreflex/stimulus_reflex/commit/d823d7348f9ca42eb6df25574f11974e4f5bc88c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/stimulus_reflex/CVE-2024-28121.yml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/stimulusreflex/stimulus_reflex"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/stimulusreflex/stimulus_reflex/blob/0211cad7d60fe96838587f159d657e44cee51b9b/app/channels/stimulus_reflex/channel.rb#L83"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/stimulusreflex/stimulus_reflex/releases/tag/v3.4.2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/stimulusreflex/stimulus_reflex/releases/tag/v3.5.0.rc4"
+    },
+    {
+      "type": "WEB",
+      "url": "http://seclists.org/fulldisclosure/2024/Mar/16"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-470"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-12T15:44:49Z",
+    "nvd_published_at": "2024-03-12T20:15:08Z"
+  }
+}

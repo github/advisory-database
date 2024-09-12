@@ -1,0 +1,134 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6v85-wr92-q4p7",
+  "modified": "2024-05-20T22:03:12Z",
+  "published": "2024-03-18T20:28:42Z",
+  "aliases": [
+    "CVE-2024-21661"
+  ],
+  "summary": "Denial of Service (DoS) Vulnerability Due to Unsafe Array Modification in Multi-threaded Environment",
+  "details": "### Summary\nAn attacker can exploit a critical flaw in the application to initiate a Denial of Service (DoS) attack, rendering the application inoperable and affecting all users. The issue arises from unsafe manipulation of an array in a multi-threaded environment.\n\n### Details\nThe vulnerability is rooted in the application's code, where an array is being modified while it is being iterated over. This is a classic programming error but becomes critically unsafe when executed in a multi-threaded environment. When two threads interact with the same array simultaneously, the application crashes.\n\nThe core issue is located in [expireOldFailedAttempts](https://github.com/argoproj/argo-cd/blob/54601c8fd30b86a4c4b7eb449956264372c8bde0/util/session/sessionmanager.go#L302-L311) function:\n```go\nfunc expireOldFailedAttempts(maxAge time.Duration, failures *map[string]LoginAttempts) int {\n\nexpiredCount := 0  \nfor key, attempt := range *failures {\n\nif time.Since(attempt.LastFailed) > maxAge*time.Second { expiredCount += 1  \ndelete(*failures, key) // Vulnerable code\n\n} }\n\nreturn expiredCount }\n```\n\nThe function modifies the array while iterating it which means the code will cause an error and crash the application pod, inspecting the logs just before the crash we can confirm:\n```go\ngoroutine 2032 [running]: github.com/argoproj/argo-cd/v2/util/session.expireOldFailedAttempts(0x12c, 0xc000adecd8)\n\n/go/src/github.com/argoproj/argo-cd/util/session/sessionmanager.go:304 +0x7c github.com/argoproj/argo-cd/v2/util/session.(*SessionManager).updateFailureCount(0xc00035 af50, {0xc001b1f578, 0x11}, 0x1)\n\n/go/src/github.com/argoproj/argo-cd/util/session/sessionmanager.go:320 +0x7f github.com/argoproj/argo-cd/v2/util/session.(*SessionManager).VerifyUsernamePassword(0xc 00035af50, {0xc001b1f578, 0x11}, {0xc000455148, 0x8})\n```\n### PoC\nTo reproduce the vulnerability, you can use the following steps:\n\n1. Launch the application.\n2. Trigger the code path that results in the `expireOldFailedAttempts()` function being called in multiple threads.\n3. In the attached PoC script we are restarting the server in a while loop, causing the application to be unresponsive at all.\n\n### Impact\nThis is a Denial of Service (DoS) vulnerability. Any attacker can crash the application continuously, making it impossible for legitimate users to access the service. The issue is exacerbated because it does not require authentication, widening the pool of potential attackers.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/argoproj/argo-cd"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.8.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/argoproj/argo-cd/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.8.13"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/argoproj/argo-cd/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.9.0"
+            },
+            {
+              "fixed": "2.9.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/argoproj/argo-cd/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.10.0"
+            },
+            {
+              "fixed": "2.10.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/security/advisories/GHSA-6v85-wr92-q4p7"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-21661"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/commit/2a22e19e06aaf6a1e734443043310a66c234e345"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/commit/5bbb51ab423f273dda74ab956469843d2db2e208"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/commit/ce04dc5c6f6e92033221ec6d96b74403b065ca8b"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/argoproj/argo-cd"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/blob/54601c8fd30b86a4c4b7eb449956264372c8bde0/util/session/sessionmanager.go#L302-L311"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-787"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-18T20:28:42Z",
+    "nvd_published_at": "2024-03-18T19:15:06Z"
+  }
+}

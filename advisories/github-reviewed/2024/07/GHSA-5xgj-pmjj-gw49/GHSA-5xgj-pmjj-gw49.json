@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5xgj-pmjj-gw49",
+  "modified": "2024-07-15T18:32:22Z",
+  "published": "2024-07-15T18:32:22Z",
+  "aliases": [
+
+  ],
+  "summary": "RISC Zero zkVM notes on zero-knowledge",
+  "details": "RISC Zero zkVM was designed from its inception to provide three main guarantees:\n1. *Computational integrity*: that a given software program executed correctly.\n2. *Succinctness*: that the proof of execution does not grow in relation to the program being executed.\n3. *Zero Knowledge*: that details of the program execution are not visible within the proof of program execution.\n\nUlrich Habock and Al Kindi have released [new research] that indicates that several STARK implementations -including our RISC Zero zkVM- do not meet the requirements to assert the specific property of zero knowledge provably. \n\nWhile a vast majority of real-world applications that leverage RISC Zero zkVM or similar systems depend primarily on computational integrity and succinctness, a subset of applications critically depend on the privacy guarantees provided by zero-knowledge; and for those use cases, users are cautioned to understand the research and make informed decisions based on the risks outlined in using an impacted system.\n\nAlthough the maintainers are not aware of any attacks that can take advantage of this potential weakness, they are working to proactively address this discovery as quickly as possible. \n\n[new research]: https://eprint.iacr.org/2024/1037",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "risc0-zkvm"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.0.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/risc0/risc0/security/advisories/GHSA-5xgj-pmjj-gw49"
+    },
+    {
+      "type": "WEB",
+      "url": "https://eprint.iacr.org/2024/1037"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/risc0/risc0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-15T18:32:22Z",
+    "nvd_published_at": null
+  }
+}

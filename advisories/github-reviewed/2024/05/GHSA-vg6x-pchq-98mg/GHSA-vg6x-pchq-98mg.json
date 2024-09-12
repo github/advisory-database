@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vg6x-pchq-98mg",
+  "modified": "2024-05-30T19:49:04Z",
+  "published": "2024-05-30T19:49:04Z",
+  "aliases": [
+    "CVE-2024-5520"
+  ],
+  "summary": "OpenCMS Cross-Site Scripting vulnerability",
+  "details": "Two Cross-Site Scripting vulnerabilities have been discovered in Alkacon's OpenCMS affecting version 16, which could allow a user:\n with sufficient privileges to create and modify web pages through the admin panel, can execute malicious JavaScript code, after inserting code in the `title` field. Another could having the roles of gallery editor or VFS resource manager will have the permission to upload images in the .svg format containing JavaScript code. The code will be executed the moment another user accesses the image.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.opencms:opencms-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "16.0"
+            },
+            {
+              "fixed": "17.0"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "16.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-5520"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/alkacon/opencms-core/commit/b05a5aca0f2b03042ddf2b2bb45fe2243a4084a7"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/alkacon/opencms-core"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.incibe.es/en/incibe-cert/notices/aviso/cross-site-scripting-stored-alkacon-opencms"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-30T19:49:04Z",
+    "nvd_published_at": "2024-05-30T12:15:10Z"
+  }
+}

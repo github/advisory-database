@@ -1,0 +1,176 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rg2q-2jh9-447q",
+  "modified": "2024-08-08T17:03:07Z",
+  "published": "2024-08-08T16:30:50Z",
+  "aliases": [
+
+  ],
+  "summary": "Gas mispricing in cosmwasm-vm",
+  "details": "**Component:** wasmvm\n**Criticality:** Medium ([ACMv1](https://github.com/interchainio/security/blob/main/resources/CLASSIFICATION_MATRIX.md): I:Moderate; L:Likely)\n**Patched versions:** wasmvm 1.5.4, 2.0.3, 2.1.2\n\nSome Wasm operations take significantly more gas than our benchmarks indicated. This can lead to missing the [gas target](https://github.com/CosmWasm/cosmwasm/blob/e50490c4199a234200a497219b27f071c3409f58/docs/GAS.md#cosmwasm-gas-pricing) we defined by a factor of ~10x. This means a malicious contract could take 10 times as much time to execute as expected, which can be used to temporarily DoS a chain.\n\nSee [CWA-2024-004](https://github.com/CosmWasm/advisories/blob/main/CWAs/CWA-2024-004.md) for more details.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:L"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "cosmwasm-vm"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.5.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "cosmwasm-vm"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.0.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "cosmwasm-vm"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.1.0"
+            },
+            {
+              "fixed": "2.1.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/CosmWasm/wasmvm/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.1.0"
+            },
+            {
+              "fixed": "2.1.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/CosmWasm/wasmvm/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.0.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/CosmWasm/wasmvm"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.5.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/CosmWasm/wasmvm/security/advisories/GHSA-rg2q-2jh9-447q"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/CosmWasm/cosmwasm/commit/5bef1c588933bd60a04bb70099150cf84b69e144"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/CosmWasm/cosmwasm/commit/9b4d6d03772b75d500a7d3c972d0d8ba6d085c06"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/CosmWasm/cosmwasm/commit/c1313afeb261e17b1c8cf6a1eacee1da0dac42ae"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/CosmWasm/advisories/blob/main/CWAs/CWA-2024-004.md"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/CosmWasm/wasmvm"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2024-0361.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-920"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-08T16:30:50Z",
+    "nvd_published_at": null
+  }
+}

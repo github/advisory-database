@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jfmj-5v4g-7637",
+  "modified": "2024-07-09T17:25:54Z",
+  "published": "2024-07-09T00:31:40Z",
+  "aliases": [
+    "CVE-2024-5569"
+  ],
+  "summary": "zipp Denial of Service vulnerability",
+  "details": "A Denial of Service (DoS) vulnerability exists in the jaraco/zipp library, affecting all versions prior to 3.19.1. The vulnerability is triggered when processing a specially crafted zip file that leads to an infinite loop. This issue also impacts the zipfile module of CPython, as features from the third-party zipp library are later merged into CPython, and the affected code is identical in both projects. The infinite loop can be initiated through the use of functions affecting the `Path` module in both zipp and zipfile, such as `joinpath`, the overloaded division operator, and `iterdir`. Although the infinite loop is not resource exhaustive, it prevents the application from responding. The vulnerability was addressed in version 3.19.1 of jaraco/zipp.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "zipp"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.19.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-5569"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jaraco/zipp/commit/fd604bd34f0343472521a36da1fbd22e793e14fd"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jaraco/zipp"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.com/bounties/be898306-11f9-46b4-b28c-f4c4aa4ffbae"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-09T17:25:54Z",
+    "nvd_published_at": "2024-07-09T00:15:02Z"
+  }
+}

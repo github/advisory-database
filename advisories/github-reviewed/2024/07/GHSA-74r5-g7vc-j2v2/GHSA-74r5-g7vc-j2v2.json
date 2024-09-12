@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-74r5-g7vc-j2v2",
+  "modified": "2024-07-09T19:45:09Z",
+  "published": "2024-07-08T18:39:18Z",
+  "aliases": [
+
+  ],
+  "summary": "zerovec-derive incorrectly uses `#[repr(packed)]`",
+  "details": "The affected versions make unsafe memory accesses under the assumption that `#[repr(packed)]` has a guaranteed field order. \n\nThe Rust specification does not guarantee this, and https://github.com/rust-lang/rust/pull/125360 (1.80.0-beta) starts \nreordering fields of `#[repr(packed)]` structs, leading to illegal memory accesses.\n\nThe patched versions `0.9.7` and `0.10.3` use `#[repr(C, packed)]`, which guarantees field order.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "zerovec-derive"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.10.0"
+            },
+            {
+              "fixed": "0.10.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "zerovec-derive"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.9.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/unicode-org/icu4x/issues/5196#issuecomment-2214711069"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rustsec/advisory-db/pull/2007"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2024-0346.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-120"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-08T18:39:18Z",
+    "nvd_published_at": null
+  }
+}

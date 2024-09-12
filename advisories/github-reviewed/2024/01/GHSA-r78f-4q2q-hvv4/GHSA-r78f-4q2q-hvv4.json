@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r78f-4q2q-hvv4",
+  "modified": "2024-01-19T19:28:20Z",
+  "published": "2024-01-16T21:13:43Z",
+  "aliases": [
+    "CVE-2024-21670"
+  ],
+  "summary": "CL-Signatures Revocation Scheme in Ursa has flaws that allow a holder to demonstrate non-revocation of a revoked credential",
+  "details": "### Summary\n\nThe revocation schema that is part of the Ursa CL-Signatures implementations has a flaw that could impact the privacy guarantees defined by the AnonCreds verifiable credential model, allowing a malicious holder of a revoked credential to generate a valid Non-Revocation Proof for that credential as part of an AnonCreds presentation.\n\n### Details\n\nThe revocation schema that is part of the Ursa CL-Signatures implementation has a flaw that could impact the privacy guarantees defined by the AnonCreds verifiable credential model, allowing a malicious holder of a revoked credential to generate a valid Non-Revocation Proof for that credential as part of an AnonCreds presentation.\n\nThe flaw exists in all CL-Signature versions published from the [Hyperledger Ursa] repository to the [Ursa Rust Crate], and are fixed in all versions published from the [Hyperledger AnonCreds CL-Signatures] repository to the [AnonCreds CL-Signatures Rust Crate].\n\nTo exploit the flaw, a holder must update their wallet (agent) software, replacing the Hyperledger Ursa or AnonCreds CL-Signatures library that generates the proof of non-revocation. This may involve, for example, altering an iOS or Android application published in the respective app stores. A mitigation for this flaw is to use the application attestation capabilities (such as the Android \"[SafetyNet Attestation API]\") offered by the app store vendors to (for example) \"help determine whether your servers are interacting with your genuine app running on a genuine Android device.\"\n\nThe problem is created in the generation of a revocation registry, prior to issuing any credentials. As such, to eliminate the impact of the flaw, the issued credentials must be re-issued based on a correct revocation registry, generated from a correct implementation, such as [Hyperledger AnonCreds CL-Signatures].\n\n[Hyperledger Ursa]: https://github.com/hyperledger-archives/ursa\n[Ursa Rust Crate]: https://crates.io/crates/ursa\n[Hyperledger AnonCreds CL-Signatures]: https://github.com/hyperledger/anoncreds-clsignatures-rs\n[AnonCreds CL-Signatures Rust Crate]: https://crates.io/crates/anoncreds-clsignatures\n[SafetyNet Attestation API]: https://developer.android.com/privacy-and-security/safetynet/attestation\n### Impact\nThe potential impact is as follows:\n\n- A verifier may verify a credential from a holder as being \"not revoked\" when in fact, the holder's credential has been revoked.\n\n### Mitigation\n\nUpgrade libraries/applications using the [Ursa Rust Crate] to any version of the [AnonCreds CL-Signatures Rust Crate]. If your application has issued revocable credentials, once the Issuer library has been upgraded, new revocation registries must be created, and credentials issued from revocation registries created with the the flawed software must be revoked and reissued.\n\nA verifier can detect if a holder presents a flawed revocable credential.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:P/AC:H/PR:H/UI:R/S:C/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "ursa"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.3.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "anoncreds-clsignatures"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "< 0.1.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/hyperledger-archives/ursa/security/advisories/GHSA-r78f-4q2q-hvv4"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-21670"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/hyperledger-archives/ursa"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-327"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-16T21:13:43Z",
+    "nvd_published_at": "2024-01-16T22:15:45Z"
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g4v6-69p6-q3p4",
+  "modified": "2024-03-25T19:36:25Z",
+  "published": "2024-03-25T19:36:25Z",
+  "aliases": [
+
+  ],
+  "summary": "WiX Burn-based bundles are vulnerable to binary hijack when run as SYSTEM ",
+  "details": "# Summary\n\nBurn uses an unprotected C:\\Windows\\Temp directory to copy binaries and run them from there. This directory is not entirely protected against low privilege users.\n\n# Details\n\nWhen a bundle runs as SYSTEM user, Burn uses GetTempPathW which points to an insecure directory C:\\Windows\\Temp to drop and load multiple binaries. Standard users can hijack the binary before it's loaded in the application resulting in elevation of privileges.\n\n```\nicacls c:\\windows\\temp\n\nBUILTIN\\Users:(CI)(S,WD,AD,X)\nBUILTIN\\Administrators:(F)\nBUILTIN\\Administrators:(OI)(CI)(IO)(F)\nNT AUTHORITY\\SYSTEM:(F)\nNT AUTHORITY\\SYSTEM:(OI)(CI)(IO)(F)\nCREATOR OWNER:(OI)(CI)(IO)(F)\n```\n\nBuilt in users(non-administrators) have special permissions to this folder and can create files and write to this directory. While they do not have explicit read permissions, there is a way they can monitor the changes to this directory using ReadDirectoryChangesW API and thus figure out randomized folder names created inside this directory as wel\n \n# PoC\n\nPoC works against the against visual studio enterprise with update 3 installer\n\n## Reproduction steps\n\nAs a standard user, run the poc.\nMount the iso and run visual studio [installer ](https://myvs.download.prss.microsoft.com/dbazure/en_visual_studio_enterprise_2015_with_update_3_x86_x64_dvd_8923288.iso?t=8132cd54-4b83-4478-8b73-fd9eb93437bf&P1=1709239640&P2=601&P3=2&P4=iorgKPv%2bG8n2NANTPUVoB92rr8t3W4XM594%2f9BtQQJrYrr8SwxGDxV%2fj%2f2F6Ulto0bXrIaFoZUr4yV37YAsOZVpM29IMtQEO0673AbDVuTe93qDb6wb7xdlpZSse0LZURUwwIFw5cwHQS2ZtvkunXE0osgXtEBT2IzVbPwVH39%2fum854xb4e2Dp61wgNrMZcOLLluBbeA3KX1sP3mm7WAWXBvlFiQWEnTfR5XH5mlLyPy2qfqCXWCjl84jNX7uY%2bpLR1IbfeD2JlcIQNeW2QrvmmqRrRbGvvaCA97IaSjM16XcDqVjvAEGW3sWXUc7y%2fEf68WZIyT7iilaEDUvaqqA%3d%3d&su=1)as local system account.\nThe PoC should hijack the the binaries dropped by vs installer and a child process \"notepad.exe\" will be running.\n\n# Impact\n\nThis is an Elevation of Privilege Vulnerability where a low privileged user can hijack binaries in an unprotected path C:\\Windows\\Temp to elevate to the SYSTEM user privileges.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "PanelSwWix4.Sdk"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.0.0-psw-wix.0265-49"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 5.0.0-psw-wix.0262-48"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/nirbar/wix4/security/advisories/GHSA-g4v6-69p6-q3p4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nirbar/wix4/commit/0410df93a5f29e4235b4b78b90a1384ffafd062b"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/nirbar/wix4"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-25T19:36:25Z",
+    "nvd_published_at": null
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-q4xf-7fw5-4x8v",
+  "modified": "2024-05-15T21:50:28Z",
+  "published": "2024-05-15T21:50:28Z",
+  "aliases": [
+
+  ],
+  "summary": "Laravel Hijacked authentication cookies vulnerability",
+  "details": "Laravel 4.1.26 introduces security improvements for \"remember me\" cookies. Before this update, if a remember cookie was hijacked by another malicious user, the cookie would remain valid for a long period of time, even after the true owner of the account reset their password, logged out, etc.\n\nThis change requires the addition of a new remember_token column to your users (or equivalent) database table. After this change, a fresh token will be assigned to the user each time they login to your application. The token will also be refreshed when the user logs out of the application. The implications of this change are: if a \"remember me\" cookie is hijacked, simply logging out of the application will invalidate the cookie.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "illuminate/auth"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0"
+            },
+            {
+              "fixed": "4.1.26"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/illuminate/auth/2014-04-15.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/illuminate/auth"
+    },
+    {
+      "type": "WEB",
+      "url": "https://laravel.com/docs/5.1/upgrade#upgrade-4.1.26"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-384"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-15T21:50:28Z",
+    "nvd_published_at": null
+  }
+}

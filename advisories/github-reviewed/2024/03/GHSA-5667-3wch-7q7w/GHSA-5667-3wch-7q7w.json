@@ -1,0 +1,133 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5667-3wch-7q7w",
+  "modified": "2024-07-25T21:31:19Z",
+  "published": "2024-03-27T09:30:40Z",
+  "aliases": [
+    "CVE-2024-1023"
+  ],
+  "summary": "Eclipse Vert.x memory leak",
+  "details": "A vulnerability in the Eclipse Vert.x toolkit results in a memory leak due to using Netty FastThreadLocal data structures. Specifically, when the Vert.x HTTP client establishes connections to different hosts, triggering the memory leak. The leak can be accelerated with intimate runtime knowledge, allowing an attacker to exploit this vulnerability. For instance, a server accepting arbitrary internet addresses could serve as an attack vector by connecting to these addresses, thereby accelerating the memory leak.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.vertx:vertx-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.5.0"
+            },
+            {
+              "fixed": "4.5.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.vertx:vertx-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.4.5"
+            },
+            {
+              "fixed": "4.4.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-1023"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/eclipse-vertx/vert.x/issues/5078"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/eclipse-vertx/vert.x/pull/5080"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/eclipse-vertx/vert.x/pull/5082"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/eclipse-vertx/vert.x/commit/665ceba38444e3929bb7b9a2a0bae2cb603fe81b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/eclipse-vertx/vert.x/commit/dd6f64302b56cd4d3dcf61efaaf174b5f6ce676d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2024:1662"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2024:1706"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2024:2088"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2024:2833"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2024:3527"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2024:3989"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2024:4884"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/security/cve/CVE-2024-1023"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2260840"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/eclipse-vertx/vert.x"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-119",
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-27T21:58:41Z",
+    "nvd_published_at": "2024-03-27T08:15:38Z"
+  }
+}

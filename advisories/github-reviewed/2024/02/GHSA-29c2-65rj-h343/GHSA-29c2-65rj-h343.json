@@ -1,0 +1,146 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-29c2-65rj-h343",
+  "modified": "2024-02-03T00:29:06Z",
+  "published": "2024-02-03T00:29:06Z",
+  "aliases": [
+
+  ],
+  "summary": "Nervos CKB Permit load cell data from memory",
+  "details": "### Impact\n\nThe faulty nodes will reject transactions which calls `load_cell_data` syscall but the input cell is still in the mempool. They also ban other nodes and cause the network separation.\n\n### Patches\n\n0.35.2, 0.36.1, 0.37.1, 0.38.2",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "ckb"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.39.0-rc1"
+            },
+            {
+              "fixed": "0.39.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "ckb"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.35.0-rc1"
+            },
+            {
+              "fixed": "0.35.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "ckb"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.36.0-rc1"
+            },
+            {
+              "fixed": "0.36.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "ckb"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.37.0-rc1"
+            },
+            {
+              "fixed": "0.37.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "ckb"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.38.0-rc1"
+            },
+            {
+              "fixed": "0.38.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/nervosnetwork/ckb/security/advisories/GHSA-29c2-65rj-h343"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nervosnetwork/ckb/commit/277061867eb7d2766fa6737c8bf00684fc2462a6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nervosnetwork/ckb/commit/37d60d581c6713d3aca1a57018eaea45447ae0b2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nervosnetwork/ckb/commit/8f115b387f8f60f938bce4591f26cd78430b8771"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nervosnetwork/ckb/commit/91efb7b6b4329d70d60eee91d5239a2de9b0d99f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nervosnetwork/ckb/commit/97647408ee9dbf525f6c678796e770887c9f8738"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-03T00:29:06Z",
+    "nvd_published_at": null
+  }
+}

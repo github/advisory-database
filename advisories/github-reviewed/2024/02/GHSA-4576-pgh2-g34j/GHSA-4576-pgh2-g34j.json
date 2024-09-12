@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4576-pgh2-g34j",
+  "modified": "2024-02-13T21:57:18Z",
+  "published": "2024-02-13T17:01:16Z",
+  "aliases": [
+    "CVE-2024-24751"
+  ],
+  "summary": "derhansen/sf_event_mgt vulnerable to Broken Access Control in Backend Module ",
+  "details": "The existing access control check for events in the backend module got broken during the update of the extension to TYPO3 12.4, because the `RedirectResponse` from the `$this->redirect()` function was never handled. ",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "derhansen/sf_event_mgt"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.0.0"
+            },
+            {
+              "fixed": "7.4.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/derhansen/sf_event_mgt/security/advisories/GHSA-4576-pgh2-g34j"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-24751"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/derhansen/sf_event_mgt/commit/a08c2cd48695c07e462d15eeb70434ddc0206e4c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/derhansen/sf_event_mgt"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-284"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-13T17:01:16Z",
+    "nvd_published_at": "2024-02-13T19:15:10Z"
+  }
+}

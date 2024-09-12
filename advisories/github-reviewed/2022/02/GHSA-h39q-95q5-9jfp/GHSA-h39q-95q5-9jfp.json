@@ -1,17 +1,21 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-h39q-95q5-9jfp",
-  "modified": "2023-02-03T20:42:31Z",
+  "modified": "2024-09-10T22:22:28Z",
   "published": "2022-02-09T00:11:19Z",
   "aliases": [
     "CVE-2020-1734"
   ],
   "summary": "OS Command Injection in ansible",
-  "details": "A flaw was found in the pipe lookup plugin of ansible. Arbitrary commands can be run, when the pipe lookup plugin uses subprocess.Popen() with shell=True, by overwriting ansible facts and the variable is not escaped by quote plugin. An attacker could take advantage and run arbitrary commands by overwriting the ansible facts.",
+  "details": "A flaw was found in the pipe lookup plugin of ansible. Arbitrary commands can be run, when the pipe lookup plugin uses `subprocess.Popen()` with `shell=True`, by overwriting ansible facts and the variable is not escaped by quote plugin. An attacker could take advantage and run arbitrary commands by overwriting the ansible facts.",
   "severity": [
     {
       "type": "CVSS_V3",
       "score": "CVSS:3.1/AV:L/AC:H/PR:L/UI:R/S:C/C:H/I:H/A:L"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:P/VC:H/VI:H/VA:L/SC:H/SI:H/SA:L"
     }
   ],
   "affected": [
@@ -25,10 +29,48 @@
           "type": "ECOSYSTEM",
           "events": [
             {
+              "introduced": "2.10.0a1"
+            },
+            {
+              "fixed": "2.10.0rc1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ansible"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.9.0a1"
+            },
+            {
+              "fixed": "2.9.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ansible"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
               "introduced": "0"
             },
             {
-              "last_affected": "2.10"
+              "fixed": "2.8.13"
             }
           ]
         }
@@ -50,6 +92,26 @@
     },
     {
       "type": "WEB",
+      "url": "https://github.com/ansible/ansible/pull/70596"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ansible/ansible/commit/4f978af4ca16ad9828ffe42203b9615425195f8b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ansible/ansible/commit/963bdd9983b91a48fb6949fb2ef41071e72d0be0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ansible/ansible/commit/bff0724e9eab2770f874e018298f9ab74cc2a78f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ansible/ansible/commit/e5649ca3e807f17e7c034ee22791f107162973b0"
+    },
+    {
+      "type": "WEB",
       "url": "https://access.redhat.com/errata/RHBA-2020:0547"
     },
     {
@@ -67,6 +129,18 @@
     {
       "type": "WEB",
       "url": "https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2020-1734"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-h39q-95q5-9jfp"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ansible/ansible"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/ansible/PYSEC-2020-6.yaml"
     }
   ],
   "database_specific": {

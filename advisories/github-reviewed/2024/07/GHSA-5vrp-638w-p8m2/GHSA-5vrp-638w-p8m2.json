@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5vrp-638w-p8m2",
+  "modified": "2024-07-29T16:38:20Z",
+  "published": "2024-07-29T16:38:20Z",
+  "aliases": [
+    "CVE-2024-41676"
+  ],
+  "summary": "Magento LTS vulnerable to stored Cross-site Scripting (XSS) in admin system configs",
+  "details": "### Impact\n\nThis XSS vulnerability is about the system configs\n* design/header/welcome\n* design/header/logo_src\n* design/header/logo_src_small\n* design/header/logo_alt\n\nThey are intended to enable admins to set a text in the two cases, and to define an image url for the other two cases.\nBut because of previously missing escaping allowed to input arbitrary html and as a consequence also arbitrary JavaScript.\n\nWhile this is in most usage scenarios not a relevant issue, some people work with more restrictive roles in the backend. Here the ability to inject JavaScript with these settings would be an unintended and unwanted privilege.\n\n### Patches\n_Has the problem been patched? What versions should users upgrade to?_  \n\nThe problem is patched with Version 20.10.1 or higher.\n\n### Workarounds\n_Is there a way for users to fix or remediate the vulnerability without upgrading?_  \n\nPossible mitigations are\n* Restricting access to the System Configs \n* checking templates where these settings are used to apply proper html filtering\n\n### For Users relying on this possibility\n\nSome Users might actually rely on the ability to use html there.\nYou can restore the previous behavior by making use of the new introduced `->getUnescapedValue()` method on this escaped elements. Developers should have a look at the newly introduced `Mage_Core_Model_Security_HtmlEscapedString`\n\n### Credit\n\nCredit goes to  Aakash Adhikari @justlife4x4 for finding this issue",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:N/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:H/UI:N/VC:N/VI:N/VA:N/SC:N/SI:L/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "openmage/magento-lts"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "20.10.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenMage/magento-lts/security/advisories/GHSA-5vrp-638w-p8m2"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-41676"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenMage/magento-lts/commit/484cf8afc550e98bbf2c03fbb29a8450a32e7948"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/OpenMage/magento-lts"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-29T16:38:20Z",
+    "nvd_published_at": "2024-07-29T15:15:16Z"
+  }
+}

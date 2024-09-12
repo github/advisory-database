@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-747x-5m58-mq97",
+  "modified": "2024-02-13T18:36:52Z",
+  "published": "2024-02-13T06:30:28Z",
+  "aliases": [
+    "CVE-2024-21491"
+  ],
+  "summary": "svix vulnerable to Authentication Bypass",
+  "details": "Versions of the package svix before 1.17.0 are vulnerable to Authentication Bypass due to an issue in the verify function where signatures of different lengths are incorrectly compared. An attacker can bypass signature verification by providing a shorter signature that matches the beginning of the actual signature.\n\n**Note:**\n\nThe attacker would need to know a victim uses the Rust library for verification,no easy way to automatically check that; and uses webhooks by a service that uses Svix, and then figure out a way to craft a malicious payload that will actually include all of the correct identifiers needed to trick the receivers to cause actual issues.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "svix"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "svix::webhooks::Webhook::verify"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.17.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-21491"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/svix/svix-webhooks/pull/1190"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/svix/svix-webhooks/commit/958821bd3b956d1436af65f70a0964d4ffb7daf6"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/svix/svix-webhooks"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2024-0010.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-RUST-SVIX-6230729"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-288"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-13T18:36:52Z",
+    "nvd_published_at": "2024-02-13T05:15:08Z"
+  }
+}

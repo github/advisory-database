@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wm4w-7h2q-3pf7",
+  "modified": "2024-04-15T19:42:06Z",
+  "published": "2024-04-11T20:17:49Z",
+  "aliases": [
+    "CVE-2024-32000"
+  ],
+  "summary": "Matrix IRC Bridge truncated content of messages can be leaked",
+  "details": "### Impact\n\nThe matrix-appservice-irc before version 2.0.0 can be exploited to leak the truncated body of a message if a malicious user sends a Matrix reply to an event ID they don't have access to. As a precondition to the attack, the malicious user needs to know the event ID of the message they want to leak, as well as to be joined to both the Matrix room and the IRC channel it is bridged to.\n\nThe message reply containing the leaked message content is visible to IRC channel members when this happens.\n\n### Patches\n\nmatrix-appservice-irc 2.0.0 checks whether the user has permission to view an event before constructing a reply. Administrators should upgrade to this version.\n\n### Workarounds\n\nIt's possible to limit the amount of information leaked by setting a reply template that doesn't contain the original message. See [these lines](https://github.com/matrix-org/matrix-appservice-irc/blob/d5d67d1d3ea3f0f6962a0af2cc57b56af3ad2129/config.sample.yaml#L601-L604) in the configuration file.\n\n### References\nhttps://github.com/matrix-org/matrix-appservice-irc/pull/1799\n\n### For more information\n\nIf you have any questions or comments about this advisory, please email us at [security at matrix.org](mailto:security@matrix.org).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "matrix-appservice-irc"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/matrix-org/matrix-appservice-irc/security/advisories/GHSA-wm4w-7h2q-3pf7"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-32000"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/matrix-org/matrix-appservice-irc/pull/1799"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/matrix-org/matrix-appservice-irc/commit/4af7d3009f10b1f2fb810784c1e491d9d3bee82b"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/matrix-org/matrix-appservice-irc"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/matrix-org/matrix-appservice-irc/blob/d5d67d1d3ea3f0f6962a0af2cc57b56af3ad2129/config.sample.yaml#L601-L604"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-280"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-11T20:17:49Z",
+    "nvd_published_at": "2024-04-12T20:15:53Z"
+  }
+}

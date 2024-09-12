@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h84q-m8rr-3v9q",
+  "modified": "2024-02-01T00:15:47Z",
+  "published": "2024-02-01T00:15:47Z",
+  "aliases": [
+    "CVE-2022-39394"
+  ],
+  "summary": "wasmtime_trap_code C API function has out of bounds write vulnerability",
+  "details": "### Impact\n\nThere is a bug in Wasmtime's C API implementation where the definition of the `wasmtime_trap_code` does not match its declared signature in the `wasmtime/trap.h` header file. This discrepancy causes the function implementation to perform a 4-byte write into a 1-byte buffer provided by the caller. This can lead to three zero bytes being written beyond the 1-byte location provided by the caller.\n\n### Patches\n\nThis bug has been patched and users should upgrade to Wasmtime 2.0.2.\n\n### Workarounds\n\nThis can be worked around by providing a 4-byte buffer casted to a 1-byte buffer when calling `wasmtime_trap_code`. Users of the `wasmtime` crate are not affected by this issue, only users of the C API function `wasmtime_trap_code` are affected.\n\n### References\n\n* [Definition of `wasmtime_trap_code`](https://docs.wasmtime.dev/c-api/trap_8h.html#a6580f4f209d3eaebb6e8b9a901a30b7a)\n* [Mailing list announcement](https://groups.google.com/a/bytecodealliance.org/g/sec-announce/c/c1HBDDJwNPA)\n* [Patch to fix for `main` branch](https://github.com/bytecodealliance/wasmtime/commit/5b6d5e78de106503b3b9add218bb3d2b1d63c493)\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n\n* Reach out to us on [the Bytecode Alliance Zulip chat](https://bytecodealliance.zulipchat.com/#narrow/stream/217126-wasmtime)\n* Open an issue in [the bytecodealliance/wasmtime repository](https://github.com/bytecodealliance/wasmtime/)\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:H/PR:H/UI:R/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "wasmtime"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.0.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "wasmtime"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.0.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/bytecodealliance/wasmtime/security/advisories/GHSA-h84q-m8rr-3v9q"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-39394"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/bytecodealliance/wasmtime/commit/087d9d7becf7422b3f872a3bcd5d97bb7ce7ff36"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/bytecodealliance/wasmtime/commit/5b6d5e78de106503b3b9add218bb3d2b1d63c493"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/bytecodealliance/wasmtime"
+    },
+    {
+      "type": "WEB",
+      "url": "https://groups.google.com/a/bytecodealliance.org/g/sec-announce/c/c1HBDDJwNPA"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-787"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-01T00:15:47Z",
+    "nvd_published_at": "2022-11-10T20:15:00Z"
+  }
+}

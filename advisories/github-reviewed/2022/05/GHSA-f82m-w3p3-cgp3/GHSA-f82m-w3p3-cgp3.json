@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f82m-w3p3-cgp3",
+  "modified": "2024-05-14T21:05:37Z",
+  "published": "2022-05-17T03:41:03Z",
+  "aliases": [
+    "CVE-2016-4911"
+  ],
+  "summary": "OpenStack Identity Keystone Improper Access Control ",
+  "details": "The Fernet Token Provider in OpenStack Identity (Keystone) 9.0.x before 9.0.1 (mitaka) allows remote authenticated users to prevent revocation of a chain of tokens and bypass intended access restrictions by rescoping a token.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "keystone"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.0.0"
+            },
+            {
+              "fixed": "9.0.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2016-4911"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/keystone/commit/0d376025bae61bf5ee19d992c7f336b99ac69240"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/keystone/commit/ee1dc941042d1f71699971c5c30566af1b348572"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.launchpad.net/keystone/+bug/1577558"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openstack/keystone"
+    },
+    {
+      "type": "WEB",
+      "url": "https://review.openstack.org/#/c/311886"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.openstack.org/ossa/OSSA-2016-008.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2016/05/17/10"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2016/05/17/11"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/90728"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-284"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-14T21:05:37Z",
+    "nvd_published_at": "2016-06-13T14:59:00Z"
+  }
+}

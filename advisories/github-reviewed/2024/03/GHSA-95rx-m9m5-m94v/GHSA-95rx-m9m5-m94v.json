@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-95rx-m9m5-m94v",
+  "modified": "2024-04-02T14:51:13Z",
+  "published": "2024-03-12T15:50:23Z",
+  "aliases": [
+
+  ],
+  "summary": "ASA-2024-006: ValidateVoteExtensions helper function in Cosmos SDK may allow incorrect voting power assumptions",
+  "details": "## ASA-2024-006: ValidateVoteExtensions helper function may allow incorrect voting power assumptions\n\n**Component**: Cosmos SDK\n**Criticality**: High\n**Affected Versions**: Cosmos SDK versions <= 0.50.4, on 0.50 branches\n**Affected Users**: Chain developers, Validator and Node operators\n**Impact**: Elevation of Privilege\n\n## Summary\n\nThe default `ValidateVoteExtensions` helper function infers total voting power based off of the injected `VoteExtension`, which are injected by the proposer.  If your chain utilizes the `ValidateVoteExtensions` helper in `ProcessProposal`, a dishonest proposer can potentially mutate voting power of each validator it includes in the injected `VoteExtension`, which could have potentially unexpected or negative consequences on modified state.  Additional validation on injected `VoteExtension` data was added to confirm voting power against the state machine.\n\n## Next Steps for Impacted Parties\n\nIf you are a chain developer on an affected version of the Cosmos SDK, it is advised to update to the latest available version of the Cosmos SDK for your project.  Once a patched version is available, it is recommended that network operators upgrade.\n\nA Github Security Advisory for this issue is available in the Cosmos-SDK [repository](https://github.com/cosmos/cosmos-sdk/security/advisories/GHSA-95rx-m9m5-m94v). For more information about Cosmos SDK, see https://docs.cosmos.network/.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cosmos/cosmos-sdk"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.50.0"
+            },
+            {
+              "fixed": "0.50.5"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.50.4"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/cosmos/cosmos-sdk/security/advisories/GHSA-95rx-m9m5-m94v"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cosmos/cosmos-sdk/commit/4467110df40797ebe916c23ebfd45c9ee7583897"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cosmos/cosmos-sdk"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cosmos/cosmos-sdk/releases/tag/v0.50.5"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-12T15:50:23Z",
+    "nvd_published_at": null
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rp8h-vr48-4j8p",
+  "modified": "2024-01-19T19:22:15Z",
+  "published": "2022-05-17T05:33:28Z",
+  "aliases": [
+    "CVE-2011-3375"
+  ],
+  "summary": "Apache Tomcat Exposes IP Addresses and HTTP Headers of Requests",
+  "details": "Apache Tomcat 6.0.30 through 6.0.33 and 7.x before 7.0.22 does not properly perform certain caching and recycling operations involving request objects, which allows remote attackers to obtain unintended read access to IP address and HTTP header information in opportunistic circumstances by reading TCP data.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.tomcat:tomcat"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.0.30"
+            },
+            {
+              "fixed": "6.0.35"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 6.0.33"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.tomcat:tomcat"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.0"
+            },
+            {
+              "fixed": "7.0.22"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2011-3375"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/tomcat/commit/9eae334e9492f55a841e6eb7ab302ff11d03ab21"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/tomcat"
+    },
+    {
+      "type": "WEB",
+      "url": "http://tomcat.apache.org/security-6.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://tomcat.apache.org/security-7.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.debian.org/security/2012/dsa-2401"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-19T19:22:15Z",
+    "nvd_published_at": "2012-01-19T04:01:00Z"
+  }
+}

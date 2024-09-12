@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-49j4-86m8-q2jw",
+  "modified": "2024-08-22T16:17:37Z",
+  "published": "2024-04-10T15:30:39Z",
+  "aliases": [
+    "CVE-2024-21509"
+  ],
+  "summary": "mysql2 vulnerable to Prototype Poisoning",
+  "details": "Versions of the package mysql2 before 3.9.4 are vulnerable to Prototype Poisoning due to insecure results object creation and improper user input sanitization passed through `parserFn` in `text_parser.js` and `binary_parser.js`.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:L"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:L/VA:L/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "mysql2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.9.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-21509"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sidorares/node-mysql2/pull/2574"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sidorares/node-mysql2/commit/4a964a3910a4b8de008696c554ab1b492e9b4691"
+    },
+    {
+      "type": "WEB",
+      "url": "https://blog.slonser.info/posts/mysql2-attacker-configuration"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/sidorares/node-mysql2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sidorares/node-mysql2/blob/fd3d117da82cc5c5fa5a3701d7b33ca77691bc61/lib/parsers/text_parser.js%23L134"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sidorares/node-mysql2/releases/tag/v3.9.4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-JS-MYSQL2-6591084"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1321"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-12T13:50:12Z",
+    "nvd_published_at": "2024-04-10T05:15:48Z"
+  }
+}

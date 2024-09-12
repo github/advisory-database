@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qg5r-95m4-mjgj",
+  "modified": "2024-07-08T19:06:02Z",
+  "published": "2024-06-02T22:27:54Z",
+  "aliases": [
+    "CVE-2024-32877"
+  ],
+  "summary": "Reflected Cross-site Scripting in yiisoft/yii2 Debug mode",
+  "details": "During the internal penetration testing of our product based on Yii2, we discovered an XSS vulnerability within the framework itself. This issue is relevant for the latest version of Yii2 (2.0.49.3).\n\n### Conditions for vulnerability reproduction\n\n* The framework is in debug mode (YII_DEBUG set to true).\n* The php.ini setting zend.exception_ignore_args is set to Off (default value).\n* An attacker induces an exception in the application, leading to a stack trace page being displayed.\n\n### Vulnerability description\n\nThe issue lies in the mechanism for displaying function argument values in the stack trace. The vulnerability manifests when an argument's value exceeds 32 characters. For convenience, argument values exceeding this limit are truncated and displayed with an added \"...\". The full argument value becomes visible when hovering over it with the mouse, as it is displayed in the title attribute of a span tag. However, the use of a double quote (\") allows an attacker to break out of the title attribute's value context and inject their own attributes into the span tag, including malicious JavaScript code through event handlers such as onmousemove.\n\nDemonstration example:\nhttp://31.184.254.143/about/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa%22%20onmousemove=alert(1)%20style=%22width:%20100000px;%20height:%20100000px;%20position:%20absolute;%20top:%20-10000px;%20left:%200;%22\n\n### Impact of the vulnerability\n\nThis vulnerability allows an attacker to execute arbitrary JavaScript code in the security context of the victim's site via a specially crafted link. This could lead to the theft of cookies (including httpOnly cookies, which are accessible on the page), content substitution, or complete takeover of user accounts.\n\n### Technical analysis and mitigation suggestion\n\nUpon analyzing the framework's source code, it was found that data handling for the title attribute is performed in the file framework/web/ErrorHandler.php. The identified problem is related to changes made in the commit https://github.com/yiisoft/yii2/commit/8cc9aeb2f0b2ffe02fb54a817064e9da75512706 , which led to the disabling of encoding for single and double quotes in the htmlEncode method (https://github.com/yiisoft/yii2/blob/8cc9aeb2f0b2ffe02fb54a817064e9da75512706/framework/web/ErrorHandler.php#L183) due to the addition of the ENT_NOQUOTES flag. To address this issue while preserving the functionality intended by the commit, we suggest modifying the htmlEncode method as follows:\n\n        return htmlspecialchars($text, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML5, 'UTF-8');\n\nThis change will effectively prevent the XSS vulnerability while maintaining the targeted functionality of the previous changes.\n\n\n### Conclusion\n\nBased on the above, we strongly recommend implementing the suggested changes to the project's main code as soon as possible to protect framework users from potential attacks. I am ready to provide further information or assistance, including creating a pull request if necessary.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "yiisoft/yii2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.43"
+            },
+            {
+              "fixed": "2.0.49.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/yiisoft/yii2/security/advisories/GHSA-qg5r-95m4-mjgj"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-32877"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/yiisoft/yii2/commit/62d081f18c3602d09e7d075bba3a0ca5c313f0b4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/yiisoft/yii2/commit/8cc9aeb2f0b2ffe02fb54a817064e9da75512706"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/yiisoft/yii2/commit/f7baab16e79f2369d4838ab5653c3c07ecf26615"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/yiisoft/yii2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/yiisoft/yii2/blob/2.0.49.x/framework/CHANGELOG.md#20494-june-4-2024"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-02T22:27:54Z",
+    "nvd_published_at": "2024-05-30T20:15:08Z"
+  }
+}

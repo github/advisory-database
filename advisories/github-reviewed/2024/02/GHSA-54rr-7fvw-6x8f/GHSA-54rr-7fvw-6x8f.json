@@ -1,0 +1,139 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-54rr-7fvw-6x8f",
+  "modified": "2024-02-29T02:30:57Z",
+  "published": "2024-02-28T22:57:03Z",
+  "aliases": [
+    "CVE-2024-26146"
+  ],
+  "summary": "Rack Header Parsing leads to Possible Denial of Service Vulnerability",
+  "details": "# Possible Denial of Service Vulnerability in Rack Header Parsing\n\nThere is a possible denial of service vulnerability in the header parsing\nroutines in Rack.  This vulnerability has been assigned the CVE identifier\nCVE-2024-26146.\n\nVersions Affected:  All.\nNot affected:       None\nFixed Versions:     2.0.9.4, 2.1.4.4, 2.2.8.1, 3.0.9.1\n\nImpact\n------\nCarefully crafted headers can cause header parsing in Rack to take longer than\nexpected resulting in a possible denial of service issue. Accept and Forwarded\nheaders are impacted.\n\nRuby 3.2 has mitigations for this problem, so Rack applications using Ruby 3.2\nor newer are unaffected.\n\nReleases\n--------\nThe fixed releases are available at the normal locations.\n\nWorkarounds\n-----------\nThere are no feasible workarounds for this issue.\n\nPatches\n-------\nTo aid users who aren't able to upgrade immediately we have provided patches for\nthe two supported release series. They are in git-am format and consist of a\nsingle changeset.\n\n* 2-0-header-redos.patch - Patch for 2.0 series\n* 2-1-header-redos.patch - Patch for 2.1 series\n* 2-2-header-redos.patch - Patch for 2.2 series\n* 3-0-header-redos.patch - Patch for 3.0 series\n\nCredits\n-------\n\nThanks to [svalkanov](https://hackerone.com/svalkanov) for reporting this and\nproviding patches!",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "rack"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.0.9.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "rack"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.2.0"
+            },
+            {
+              "fixed": "2.2.8.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "rack"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.1.0"
+            },
+            {
+              "fixed": "2.1.4.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "rack"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.9.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/rack/rack/security/advisories/GHSA-54rr-7fvw-6x8f"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-26146"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rack/rack/commit/30b8e39a578b25d4bdcc082c1c52c6f164b59716"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rack/rack/commit/6c5d90bdcec0949f7ba06db62fb740dab394b582"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rack/rack/commit/a227cd793778c7c3a827d32808058571569cda6f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rack/rack/commit/e4c117749ba24a66f8ec5a08eddf68deeb425ccd"
+    },
+    {
+      "type": "WEB",
+      "url": "https://discuss.rubyonrails.org/t/possible-denial-of-service-vulnerability-in-rack-header-parsing/84942"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/rack/rack"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/rack/CVE-2024-26146.yml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1333"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-28T22:57:03Z",
+    "nvd_published_at": "2024-02-29T00:15:51Z"
+  }
+}

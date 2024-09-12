@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3f6g-m4hr-59h8",
+  "modified": "2024-08-14T17:18:24Z",
+  "published": "2024-08-09T21:23:26Z",
+  "aliases": [
+    "CVE-2024-42473"
+  ],
+  "summary": "OpenFGA Authorization Bypass",
+  "details": "## Overview\n\nOpenFGA v1.5.7 and v1.5.8 are vulnerable to authorization bypass when calling Check API with a model that uses `but not` and `from` expressions and a userset. \n\n## Fix\n\n- If you are using OpenFGA within Docker or as a Go library, as a binary, or through Docker, upgrade to v1.5.9 as soon as possible\n- If using Helm chart, upgrade to 0.2.12 as soon as possible. \n\nThis fix is backward compatible.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/openfga/openfga"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.5.7"
+            },
+            {
+              "fixed": "1.5.9"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/openfga/openfga/security/advisories/GHSA-3f6g-m4hr-59h8"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-42473"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openfga/openfga"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-285",
+      "CWE-863"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-09T21:23:26Z",
+    "nvd_published_at": "2024-08-12T13:38:35Z"
+  }
+}

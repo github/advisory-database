@@ -1,0 +1,336 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xgr7-jgq3-mhmc",
+  "modified": "2024-06-17T15:23:41Z",
+  "published": "2024-06-06T18:51:25Z",
+  "aliases": [
+    "CVE-2024-37153"
+  ],
+  "summary": "Contract balance not updating correctly after interchain transaction",
+  "details": "### Summary\n_Short summary of the problem. Make the impact and severity as clear as possible. For example: An unsafe deserialization vulnerability allows any unauthenticated user to execute arbitrary code on the server._\n\n### Details\nWe discovered a bug walking through how to liquid stake using Safe which itself is a contract. The bug only appears when there is a local state change together with an ICS20 transfer in the same function and uses the contract's balance, that is using the contract address as the `sender` parameter in an ICS20 transfer using the ICS20 precompile\n\n### Proof of Concept\n```solidity\n// This function does not reduce the contract balance correctly but liquid stakes correctly \nfunction transfer(\n        string memory sourcePort,\n        string memory sourceChannel,\n        string memory denom,\n        uint256 amount,\n        string memory receiver,\n        string memory evmosReceiver\n    ) external returns (uint64 nextSequence) {\n        counter += 1; # Only happens when there is a local state update together with an ICS20 Transfer\n        Height memory timeoutHeight =  Height(100, 100);\n        string memory memo = buildLiquidStakeMemo(receiver, evmosReceiver);\n        return ICS20_CONTRACT.transfer(\n            sourcePort, \n            sourceChannel,\n            denom,\n            amount,\n            address(this), # this is the sender address which is the contract\n            receiver,\n            timeoutHeight,\n            0,\n            memo\n        );\n    }\n```\n\n### Impact\nThis is in essence the \"infinite money glitch\" allowing contracts to double the supply of Evmos after each transaction.\n\n### Severity\n\nBased on [ImmuneFi Severity Classification System](https://immunefisupport.zendesk.com/hc/en-us/articles/13332717597585-Severity-Classification-System) the severity was evaluated to `Critical` since the attack could have lead to create new supply of EVMOS and therefore lead to Direct loss of funds's value.\n\n### Patches\n\nThe issue has been patched in versions >=V18.1.0. \n\n## For more information\nIf you have any questions or comments about this advisory:\n\nReach out to the Core Team in [Discord](https://discord.gg/evmos)\nOpen a discussion in [evmos/evmos](https://github.com/evmos/evmos/discussions)\nEmail us at [security@evmos.org](mailto:security@evmos.org) for security questions\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/evmos/evmos/v18"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "18.1.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 18.0.0"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/evmos/evmos/v17"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "18.1.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 17.0.1"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/evmos/evmos/v16"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "18.1.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 16.0.4"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/evmos/evmos/v15"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "18.1.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 15.0.0"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/evmos/evmos/v14"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "18.1.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 14.1.0"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/evmos/evmos/v13"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "18.1.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 13.0.2"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/evmos/evmos/v12"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "18.1.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 12.1.6"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/evmos/evmos/v11"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "18.1.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 11.0.2"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/evmos/evmos/v10"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "18.1.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 10.0.1"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/evmos/evmos/v9"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "18.1.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 9.1.0"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/evmos/evmos/v8"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "18.1.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 8.2.3"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/evmos/evmos/v7"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "18.1.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 7.0.0"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/evmos/evmos/v6"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "18.1.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 6.0.4"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/evmos/evmos/security/advisories/GHSA-xgr7-jgq3-mhmc"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-37153"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/evmos/evmos/commit/478b7a62e7af57a70cf3a01126c7f5a89bee69d7"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/evmos/evmos"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/vuln/GO-2024-2903"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-670"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-06T18:51:25Z",
+    "nvd_published_at": "2024-06-06T19:15:58Z"
+  }
+}

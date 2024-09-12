@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rrvc-c7xg-7cf3",
+  "modified": "2024-06-06T21:36:40Z",
+  "published": "2024-06-06T21:36:40Z",
+  "aliases": [
+    "CVE-2024-37156"
+  ],
+  "summary": "TokenController formName not sanitized in hidden input",
+  "details": "### Impact\n\nTokenController get parameter formName not sanitized in returned input field leads to XSS.\n\n_What kind of vulnerability is it? Who is impacted?_\n\n### Patches\n\n_Has the problem been patched? What versions should users upgrade to?_\n\n### Workarounds\n\n_Is there a way for users to fix or remediate the vulnerability without upgrading?_\n\nCreate a custom Symfony Request listener which checks for the get value of `form` for the TokenController and if not valid stop the request dispatching and return a error status code.\n\n### References\n\n_Are there any links users can visit to find out more?_\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "sulu/form-bundle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.5.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/sulu/SuluFormBundle/security/advisories/GHSA-rrvc-c7xg-7cf3"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-37156"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sulu/SuluFormBundle/commit/3f341b71a7309cbc8fd2c5bff894c654d1679b17"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/sulu/SuluFormBundle"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79",
+      "CWE-80"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-06T21:36:40Z",
+    "nvd_published_at": "2024-06-06T16:15:13Z"
+  }
+}

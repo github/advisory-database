@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hm8r-95g3-5hj9",
+  "modified": "2024-03-25T22:31:44Z",
+  "published": "2024-03-25T19:45:12Z",
+  "aliases": [
+    "CVE-2024-29179"
+  ],
+  "summary": "phpMyFAQ Stored Cross-site Scripting at File Attachments",
+  "details": "### Summary\nAn attacker with admin privileges can upload an attachment containing JS code without extension and the application will render it as HTML which allows for XSS attacks.\n\n### Details\nWhen attachments are uploaded without an extension, the application renders it as HTML by default. Therefore allowing attackers to upload .html files containing javascript code to perform XSS attacks. The direct file path to the uploaded attachment is also easily obtainable as it is made up of substrings of the file's MD5 hashes.\n\n### PoC\n1. Admin users can upload attachments containing XSS payloads in files without extensions to bypass the .html extension check.\n![image](https://github.com/thorsten/phpMyFAQ/assets/63487456/5c3c4222-550e-44c7-95ee-fd85562fffd5)\n\n2. Since the path of the uploaded file is built entirely on the file’s MD5 hash and the attachment directory, it is possible for an attacker to know the direct path of the uploaded file.\n\n  E.g file MD5 hash: 38fff51cb7248a06d6142c6bdf846831\n\n    URL will be: http://127.0.0.1/phpmyfaq/attachments/38fff/51cb7/248a0/6d6142c6bdf846831\n\n    - /attachments\n    - /38fff (first 5 chars of MD5 hash)\n    - /51cb7 (next 5 chars of MD5 hash)\n    - /248a0 (next 5 chars of MD5 hash)\n    - /6d6142c6bdf846831 (remaining chars of MD5 hash)\n\n3.  Even though the attachment was uploaded without a file extension, it is still rendered as .html, hence triggering the XSS payload.\n![image](https://github.com/thorsten/phpMyFAQ/assets/63487456/663954ec-0210-4788-a841-7daa3fb547c3)\n\n### Impact\nThis allows an attacker to execute arbitrary client side JavaScript within the context of another user's phpMyFAQ session.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "phpmyfaq/phpmyfaq"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.2.5"
+            },
+            {
+              "fixed": "3.2.6"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "3.2.5"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/thorsten/phpMyFAQ/security/advisories/GHSA-hm8r-95g3-5hj9"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-29179"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/thorsten/phpMyFAQ"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-25T19:45:12Z",
+    "nvd_published_at": "2024-03-25T21:15:47Z"
+  }
+}

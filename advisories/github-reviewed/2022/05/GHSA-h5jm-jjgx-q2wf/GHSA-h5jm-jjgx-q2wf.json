@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h5jm-jjgx-q2wf",
+  "modified": "2024-02-12T17:00:03Z",
+  "published": "2022-05-01T07:45:42Z",
+  "aliases": [
+    "CVE-2006-7223"
+  ],
+  "summary": "XWiki Remote Code Execution",
+  "details": "PreviewAction in XWiki 0.9.543 through 0.9.1252 does not set the Author field to the identity of the user who last modified a document, which allows remote authenticated users without programming rights to execute arbitrary code by selecting a document whose author has programming rights, modifying this document to contain a script, and previewing without saving the document.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-oldcore"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.9.543"
+            },
+            {
+              "fixed": "1.0B1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.9.1252"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2006-7223"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/c44172a3556d12b62c0d793ab18475e5e13d7120"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20080616064908/http://jira.xwiki.org/jira/browse/XWIKI-366"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-12T17:00:03Z",
+    "nvd_published_at": "2007-09-14T00:17:00Z"
+  }
+}

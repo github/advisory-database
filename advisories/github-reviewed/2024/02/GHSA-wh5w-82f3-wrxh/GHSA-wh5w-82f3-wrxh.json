@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wh5w-82f3-wrxh",
+  "modified": "2024-02-07T18:21:05Z",
+  "published": "2024-02-07T17:34:11Z",
+  "aliases": [
+    "CVE-2023-4771"
+  ],
+  "summary": "CKEditor cross-site scripting vulnerability in AJAX sample",
+  "details": "### Affected packages\nThe vulnerability has been discovered in the AJAX sample available at the `samples/old/ajax.html` file location. All integrators that use that sample in the production code can be affected.\n\n### Impact\n\nA potential vulnerability has been discovered in one of CKEditor's 4 samples that are shipped with production code. The vulnerability allowed to execute JavaScript code by abusing the AJAX sample. It affects all users using the CKEditor 4 at version < 4.24.0-lts where `samples/old/ajax.html` is used in a production environment.\n\n### Patches\nThe problem has been recognized and patched. The fix will be available in version 4.24.0-lts.\n\n### For more information\nEmail us at [security@cksource.com](mailto:security@cksource.com) if you have any questions or comments about this advisory.\n\n### Acknowledgements\nThe CKEditor 4 team would like to thank Rafael Pedrero and INCIBE ([original report](https://www.incibe.es/en/incibe-cert/notices/aviso/cross-site-scripting-vulnerability-cksource-ckeditor)) for recognizing and reporting this vulnerability.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "ckeditor4"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.24.0-lts"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ckeditor/ckeditor4/security/advisories/GHSA-wh5w-82f3-wrxh"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-4771"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ckeditor/ckeditor4/commit/8ed1a3c93d0ae5f49f4ecff5738ab8a2972194cb"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ckeditor/ckeditor4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.incibe.es/en/incibe-cert/notices/aviso/cross-site-scripting-vulnerability-cksource-ckeditor"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-07T17:34:11Z",
+    "nvd_published_at": null
+  }
+}

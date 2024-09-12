@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9pp4-mx6x-xh36",
+  "modified": "2024-05-02T13:53:06Z",
+  "published": "2024-03-06T18:30:38Z",
+  "aliases": [
+    "CVE-2024-28153"
+  ],
+  "summary": "Jenkins OWASP Dependency-Check Plugin has stored XSS vulnerability",
+  "details": "Jenkins OWASP Dependency-Check Plugin 5.4.5 and earlier does not escape vulnerability metadata from Dependency-Check reports, resulting in a stored cross-site scripting (XSS) vulnerability.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:dependency-check-jenkins-plugin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.4.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28153"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jenkinsci/dependency-check-plugin/commit/b3b286a9615603f0294eb740193d153d843fae3a"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/dependency-check-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2024-03-06/#SECURITY-3344"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/03/06/3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-06T19:09:02Z",
+    "nvd_published_at": "2024-03-06T17:15:10Z"
+  }
+}

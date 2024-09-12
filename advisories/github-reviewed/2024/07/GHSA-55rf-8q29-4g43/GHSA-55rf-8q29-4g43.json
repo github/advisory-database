@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-55rf-8q29-4g43",
+  "modified": "2024-07-17T19:13:34Z",
+  "published": "2024-07-17T14:32:18Z",
+  "aliases": [
+    "CVE-2024-40633"
+  ],
+  "summary": "Sylius has a security vulnerability via adjustments API endpoint",
+  "details": "### Impact\nA security vulnerability was discovered in the `/api/v2/shop/adjustments/{id}` endpoint, which retrieves order adjustments based on incremental integer IDs. The vulnerability allows an attacker to enumerate valid adjustment IDs and retrieve order tokens. Using these tokens, an attacker can access guest customer order details - sensitive guest customer information. \n\n### Patches\nThe issue is fixed in versions: 1.12.19, 1.13.4 and above. The `/api/v2/shop/adjustments/{id}` will always return `404` status.\n\n### Workarounds\n\nUsing YAML configuration:\n\nCreate `config/api_platform/Adjustment.yaml` file:\n\n```yaml\n# config/api_platform/Adjustment.yaml\n\n'%sylius.model.adjustment.class%':\n    itemOperations:\n        shop_get:\n            controller: ApiPlatform\\Core\\Action\\NotFoundAction\n            read: false\n            output: false\n```\n\nOr using XML configuration:\n\nCopy the original configuration from vendor:\n\n```bash\ncp vendor/sylius/sylius/src/Sylius/Bundle/ApiBundle/Resources/config/api_resources/Adjustment.xml config/api_platform\n```\n\nAnd change the `shop_get` operation in copied `config/api_platform/Adjustment.xml` file:\n\n```xml\n<!-- config/api_platform/Adjustment.xml -->\n\n...\n<itemOperation name=\"shop_get\">\n    <attribute name=\"method\">GET</attribute>\n    <attribute name=\"path\">/shop/adjustments/{id}</attribute>\n    <attribute name=\"controller\">ApiPlatform\\Core\\Action\\NotFoundAction</attribute>\n    <attribute name=\"read\">false</attribute>\n    <attribute name=\"output\">false</attribute>\n</itemOperation>\n...\n```\n\n### For more information\nIf you have any questions or comments about this advisory:\n\n- Open an issue in [Sylius issues](https://github.com/Sylius/Sylius/issues)\n- Email us at [security@sylius.com](mailto:security@sylius.com)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "sylius/sylius"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.12.19"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "sylius/sylius"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.13.0-alpha.1"
+            },
+            {
+              "fixed": "1.13.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/Sylius/Sylius/security/advisories/GHSA-55rf-8q29-4g43"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-40633"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Sylius/Sylius/commit/d833b2871caa3b8d1f0a8207378bb778f0b90464"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Sylius/Sylius"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200",
+      "CWE-639"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-17T14:32:18Z",
+    "nvd_published_at": "2024-07-17T18:15:04Z"
+  }
+}

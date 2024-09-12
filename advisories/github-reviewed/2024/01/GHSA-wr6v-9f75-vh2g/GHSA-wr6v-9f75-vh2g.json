@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wr6v-9f75-vh2g",
+  "modified": "2024-05-20T22:06:06Z",
+  "published": "2024-01-31T22:43:20Z",
+  "aliases": [
+    "CVE-2024-23653"
+  ],
+  "summary": "Buildkit's interactive containers API does not validate entitlements check",
+  "details": "### Impact\nIn addition to running containers as build steps, BuildKit also provides APIs for running interactive containers based on built images. It was possible to use these APIs to ask BuildKit to run a container with elevated privileges. Normally, running such containers is only allowed if special `security.insecure` entitlement is enabled both by buildkitd configuration and allowed by the user initializing the build request.\n\n### Patches\nThe issue has been fixed in v0.12.5 .\n\n### Workarounds\nAvoid using BuildKit frontends from untrusted sources. A frontend image is usually specified as the `#syntax` line on your Dockerfile, or with `--frontend` flag when using `buildctl build` command.\n\n### References\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/moby/buildkit"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.12.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/buildkit/security/advisories/GHSA-wr6v-9f75-vh2g"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23653"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/buildkit/pull/4602"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/buildkit/commit/5026d95aa3336e97cfe46e3764f52d08bac7a10e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/buildkit/commit/92cc595cfb12891d4b3ae476e067c74250e4b71e"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/moby/buildkit"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/buildkit/releases/tag/v0.12.5"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-863"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-31T22:43:20Z",
+    "nvd_published_at": "2024-01-31T22:15:54Z"
+  }
+}

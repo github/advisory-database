@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c8v3-jhv9-4ppc",
+  "modified": "2024-01-23T20:10:48Z",
+  "published": "2024-01-23T20:10:48Z",
+  "aliases": [
+
+  ],
+  "summary": "Use-after-free when setting the locale",
+  "details": "Version 3.0.0 introduced an `AtomicStr` type, that is used to store the current locale. It stores the locale as a raw pointer to an `Arc<String>`. The locale can be read with `AtomicStr::as_str()`. `AtomicStr::as_str()` does not increment the usage counter of the `Arc`.\n\nIf the locale is changed in one thread, another thread can have a stale -- possibly already freed -- reference to the stored string.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "rust-i18n-support"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "rust_i18n_support::AtomicStr::as_str"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.0.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/longbridgeapp/rust-i18n/issues/71"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/longbridgeapp/rust-i18n/commit/22e0609591a2c08930f52a0e6bc860f02a0e88c0"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/longbridgeapp/rust-i18n"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2024-0007.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-416"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-23T20:10:48Z",
+    "nvd_published_at": null
+  }
+}

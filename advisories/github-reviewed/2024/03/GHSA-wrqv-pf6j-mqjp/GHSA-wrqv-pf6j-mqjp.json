@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wrqv-pf6j-mqjp",
+  "modified": "2024-03-21T18:29:19Z",
+  "published": "2024-03-05T20:49:14Z",
+  "aliases": [
+    "CVE-2024-27935"
+  ],
+  "summary": "Deno's Node.js Compatibility Runtime has Cross-Session Data Contamination",
+  "details": "### Summary\n\nA vulnerability in Deno's Node.js compatibility runtime allows for cross-session data contamination during simultaneous asynchronous reads from Node.js streams sourced from sockets or files. The issue arises from the re-use of a global buffer (BUF) in stream_wrap.ts used as a performance optimization to limit allocations during these asynchronous read operations. This can lead to data intended for one session being received by another session, potentially resulting in data corruption and unexpected behavior.\n\n### Details\n\nA bug in Deno's Node.js compatibility runtime results in data cross-reception during simultaneous asynchronous reads from Node.js network streams. When multiple independent network socket connections are involved, this vulnerability can be triggered. For instance, two separate server sockets that receive data from their respective client sockets and then echo the received data back to the client using Node.js streams may experience an issue where data from one socket may appear on another socket. Due to the improper isolation of the global buffer (`BUF`), data sent by one socket can end up being incorrectly received by another socket. Consequently, data intended for one session may be exposed to another session, potentially leading to data corruption and unexpected behavior.\n\nThis buffer was introduced as a performance optimization to avoid excessive allocations during network read operations.\n\nIn cases where the [net.Stream](https://nodejs.org/api/net.html) is connected to a remote server such as a database or key/value store such as Redis, this may result in a packet received on one connection being presented to another, causing data cross-contamination between multiple users and potentially leaking sensitive information.\n\nIt is important to note that this vulnerability does not affect Deno network streams created with the `Deno.listen` and `Deno.connect` APIs. \n\nThe impact of this issue may extend beyond node.js network streams, however, and may also affect asynchronous reads from non-network node.js Stream such as those created from files.\n\n### PoC\n\nhttps://github.com/denoland/deno/issues/20188\n\n### Impact\n\nThis affects all users of Deno that use the node.js compatibility layer for network communication or other streams, including packages that may require node.js libraries indirectly.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "deno"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.35.1"
+            },
+            {
+              "fixed": "1.36.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/denoland/deno/security/advisories/GHSA-wrqv-pf6j-mqjp"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-27935"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/denoland/deno/issues/20188"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/denoland/deno/commit/3e9fb8aafd9834ebacd27734cea4310caaf794c6"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/denoland/deno"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-488"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-05T20:49:14Z",
+    "nvd_published_at": "2024-03-21T02:52:22Z"
+  }
+}

@@ -1,0 +1,161 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7498-c9fm-g64p",
+  "modified": "2024-04-29T09:53:43Z",
+  "published": "2022-05-24T16:58:31Z",
+  "aliases": [
+    "CVE-2019-17109"
+  ],
+  "summary": "koji hub allows arbitrary upload destinations",
+  "details": "The way that the hub code validates upload paths allows for an attacker to choose an arbitrary destination for the uploaded file.\nUploading still requires login. However, an attacker with credentials could damage the integrity of the Koji system.\n\n### Workaround\nThere is no known workaround. All Koji admins are encouraged to update to a fixed version as soon as possible.\n\n### Fix\nKoji versions 1.14.3, 1.15.3, 1.16.3, 1.17.1, and 1.18.1 all include patches to solve this vulnerability.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "koji"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.14.0"
+            },
+            {
+              "fixed": "1.14.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "koji"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.15.0"
+            },
+            {
+              "fixed": "1.15.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "koji"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.16.0"
+            },
+            {
+              "fixed": "1.16.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "koji"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.17.0"
+            },
+            {
+              "fixed": "1.17.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "koji"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.18.0"
+            },
+            {
+              "fixed": "1.18.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-17109"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/koji-project/koji/commit/91d6f0b607c7f5af666dfb56931f1db4e38c28a5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.pagure.org/koji/CVE-2019-17109"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/koji-project/koji"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/koji-project/koji/blob/d0507c4d2d2269daa984db642e3bd957dff18948/docs/source/CVEs/CVE-2019-17109.rst"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pagure.io/koji/commits/master"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pagure.io/koji/issue/1634"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pagure.io/koji/pull-request/1686"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2019/10/09/5"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-29T09:53:43Z",
+    "nvd_published_at": "2019-10-09T22:15:00Z"
+  }
+}

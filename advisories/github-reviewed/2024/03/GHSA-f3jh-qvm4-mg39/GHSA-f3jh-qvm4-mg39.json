@@ -1,0 +1,126 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f3jh-qvm4-mg39",
+  "modified": "2024-04-19T09:30:47Z",
+  "published": "2024-03-18T15:30:51Z",
+  "aliases": [
+    "CVE-2024-22257"
+  ],
+  "summary": "Erroneous authentication pass in Spring Security",
+  "details": "In Spring Security, versions 5.7.x prior to 5.7.12, 5.8.x prior to 5.8.11, versions 6.0.x prior to 6.0.9, versions 6.1.x prior to 6.1.8, versions 6.2.x prior to 6.2.3, an application is possible vulnerable to broken access control when it directly uses the AuthenticatedVoter#vote passing a null Authentication parameter.\n\nSpecifically, an application is vulnerable if:\n\nThe application uses AuthenticatedVoter directly and a null authentication parameter is passed to it resulting in an erroneous true return value.\n\nAn application is not vulnerable if any of the following is true:\n\n* The application does not use AuthenticatedVoter#vote directly.\n* The application does not pass null to AuthenticatedVoter#vote.\n\nNote that AuthenticatedVoter is deprecated since 5.8, use implementations of AuthorizationManager as a replacement.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.springframework.security:spring-security-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.7.12"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.springframework.security:spring-security-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.8.0"
+            },
+            {
+              "fixed": "5.8.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.springframework.security:spring-security-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.0.0"
+            },
+            {
+              "fixed": "6.1.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.springframework.security:spring-security-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.2.0"
+            },
+            {
+              "fixed": "6.2.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-22257"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/spring-projects/spring-security/commit/5a7f12f1a9fdb4edaab6f61495f1d781a7273b61"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/spring-projects/spring-security"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.netapp.com/advisory/ntap-20240419-0005"
+    },
+    {
+      "type": "WEB",
+      "url": "https://spring.io/security/cve-2024-22257"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-287"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-18T20:10:27Z",
+    "nvd_published_at": "2024-03-18T15:15:41Z"
+  }
+}

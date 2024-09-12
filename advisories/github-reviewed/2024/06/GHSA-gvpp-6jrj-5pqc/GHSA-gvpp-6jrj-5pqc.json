@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-gvpp-6jrj-5pqc",
+  "modified": "2024-06-07T21:58:34Z",
+  "published": "2024-06-07T21:58:34Z",
+  "aliases": [
+
+  ],
+  "summary": "Zend-Form vulnerable to Cross-site Scripting",
+  "details": "Many Zend Framework 2 view helpers were using the escapeHtml() view helper in order to escape HTML attributes, instead of the more appropriate escapeHtmlAttr(). In situations where user data and/or JavaScript is used to seed attributes, this can lead to potential cross site scripting (XSS) attack vectors.\n\nVulnerable view helpers include:\n\n- All `Zend\\Form` view helpers.\n- Most `Zend\\Navigation` (aka `Zend\\View\\Helper\\Navigation\\*`) view helpers.\n- All \"HTML Element\" view helpers: `htmlFlash()`, `htmlPage()`, `htmlQuickTime()`.\n- `Zend\\View\\Helper\\Gravatar`",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "zendframework/zend-form"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.2.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "zendframework/zend-form"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.3.0"
+            },
+            {
+              "fixed": "2.3.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/zendframework/zend-form/commit/6fe40314e8e3477494aadd03d62573bd1c212bd1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zendframework/zend-form/commit/d7a1f5bc4626b1df990391502a868b28c37ba65d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zendframework/zend-form/commit/fd43a951460c4bc60c77a566129705f6bdb9c61b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://framework.zend.com/security/advisory/ZF2014-03"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/zendframework/zend-form/ZF2014-03.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/zendframework/zend-form"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-07T21:58:34Z",
+    "nvd_published_at": null
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qwvp-268g-jjm8",
+  "modified": "2024-05-15T22:28:49Z",
+  "published": "2024-05-15T22:28:49Z",
+  "aliases": [
+
+  ],
+  "summary": "Data Leakage Vulnerability in livewire/livewire",
+  "details": "livewire/livewire versions greater than 2.2.4 and less than 2.2.6 are affected by a data leakage vulnerability. The `$this->validate()` method, which is expected to return only the validated dataset, was returning all properties of the Livewire component. This regression introduced a security risk, allowing unvalidated data to be exposed, which could lead to unexpected behavior and potential security issues.\n\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "livewire/livewire"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.2.5"
+            },
+            {
+              "fixed": "2.2.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/livewire/livewire/commit/6929f5882138a98187c196ce66cc689712c000af"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/livewire/livewire/2020-09-22-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/livewire/livewire"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/livewire/livewire/releases/tag/v2.2.6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-15T22:28:49Z",
+    "nvd_published_at": null
+  }
+}

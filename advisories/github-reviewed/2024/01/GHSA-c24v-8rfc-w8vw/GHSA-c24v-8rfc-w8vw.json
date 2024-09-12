@@ -1,0 +1,156 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c24v-8rfc-w8vw",
+  "modified": "2024-01-19T21:58:47Z",
+  "published": "2024-01-19T21:58:47Z",
+  "aliases": [
+    "CVE-2024-23331"
+  ],
+  "summary": "Vite dev server option `server.fs.deny` can be bypassed when hosted on case-insensitive filesystem",
+  "details": "### Summary\n[Vite dev server option](https://vitejs.dev/config/server-options.html#server-fs-deny) `server.fs.deny` can be bypassed on case-insensitive file systems using case-augmented versions of filenames. Notably this affects servers hosted on Windows.\n\nThis bypass is similar to https://nvd.nist.gov/vuln/detail/CVE-2023-34092 -- with surface area reduced to hosts having case-insensitive filesystems.\n\n### Patches\nFixed in vite@5.0.12, vite@4.5.2, vite@3.2.8, vite@2.9.17\n\n### Details\nSince `picomatch` defaults to case-sensitive glob matching, but the file server doesn't discriminate; a blacklist bypass is possible. \n\nSee `picomatch`  usage, where `nocase` is defaulted to `false`: https://github.com/vitejs/vite/blob/v5.1.0-beta.1/packages/vite/src/node/server/index.ts#L632\n\nBy requesting raw filesystem paths using augmented casing, the matcher derived from `config.server.fs.deny` fails to block access to sensitive files. \n\n### PoC\n**Setup**\n1. Created vanilla Vite project using `npm create vite@latest` on a Standard Azure hosted Windows 10 instance. \n    - `npm run dev -- --host 0.0.0.0`\n    - Publicly accessible for the time being here: http://20.12.242.81:5173/ \n2. Created dummy secret files, e.g. `custom.secret` and `production.pem`\n3. Populated `vite.config.js` with\n```javascript\nexport default { server: { fs: { deny: ['.env', '.env.*', '*.{crt,pem}', 'custom.secret'] } } }\n```\n\n**Reproduction**\n1. `curl -s http://20.12.242.81:5173/@fs//`\n    - Descriptive error page reveals absolute filesystem path to project root\n2. `curl -s http://20.12.242.81:5173/@fs/C:/Users/darbonzo/Desktop/vite-project/vite.config.js`\n    - Discoverable configuration file reveals locations of secrets\n3. `curl -s http://20.12.242.81:5173/@fs/C:/Users/darbonzo/Desktop/vite-project/custom.sEcReT`\n    - Secrets are directly accessible using case-augmented version of filename\n\n**Proof**\n![Screenshot 2024-01-19 022736](https://user-images.githubusercontent.com/907968/298020728-3a8d3c06-fcfd-4009-9182-e842f66a6ea5.png)\n\n### Impact\n**Who**\n- Users with exposed dev servers on environments with case-insensitive filesystems\n\n**What**\n- Files protected by `server.fs.deny` are both discoverable, and accessible",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "vite"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.7.0"
+            },
+            {
+              "fixed": "2.9.17"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.9.16"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "vite"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.2.8"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.2.7"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "vite"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0"
+            },
+            {
+              "fixed": "4.5.2"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 4.5.1"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "vite"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0"
+            },
+            {
+              "fixed": "5.0.12"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 5.0.11"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/vitejs/vite/security/advisories/GHSA-c24v-8rfc-w8vw"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-34092"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23331"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vitejs/vite/commit/0cd769c279724cf27934b1270fbdd45d68217691"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vitejs/vite/commit/91641c4da0a011d4c5352e88fc68389d4e1289a5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vitejs/vite/commit/a26c87d20f9af306b5ce3ff1648be7fa5146c278"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vitejs/vite/commit/eeec23bbc9d476c54a3a6d36e78455867185a7cb"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vitejs/vite"
+    },
+    {
+      "type": "WEB",
+      "url": "https://vitejs.dev/config/server-options.html#server-fs-deny"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-178",
+      "CWE-200",
+      "CWE-284"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-19T21:58:47Z",
+    "nvd_published_at": "2024-01-19T20:15:14Z"
+  }
+}

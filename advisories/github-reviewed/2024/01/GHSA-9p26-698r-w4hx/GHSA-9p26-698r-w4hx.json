@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9p26-698r-w4hx",
+  "modified": "2024-03-04T18:43:34Z",
+  "published": "2024-01-31T22:43:54Z",
+  "aliases": [
+    "CVE-2024-23650"
+  ],
+  "summary": "BuildKit vulnerable to possible panic when incorrect parameters sent from frontend",
+  "details": "### Impact\nA malicious BuildKit client or frontend could craft a request that could lead to BuildKit daemon crashing with a panic.\n\n### Patches\nThe issue has been fixed in v0.12.5\n\n### Workarounds\nAvoid using BuildKit frontends from untrusted sources. A frontend image is usually specified as the `#syntax` line on your Dockerfile, or with `--frontend` flag when using `buildctl build` command. \n\n### References\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/moby/buildkit"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.12.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/buildkit/security/advisories/GHSA-9p26-698r-w4hx"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23650"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/buildkit/pull/4601"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/buildkit/commit/481d9c45f473c58537f39694a38d7995cc656987"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/buildkit/commit/7718bd5c3dc8fc5cd246a30cc41766e7a53c043c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/buildkit/commit/83edaef59d545b93e2750f1f85675a3764593fee"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/buildkit/commit/96663dd35bf3787d7efb1ee7fd9ac7fe533582ae"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/buildkit/commit/e1924dc32da35bfb0bfdbb9d0fc7bca25e552330"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/moby/buildkit"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/buildkit/releases/tag/v0.12.5"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-754"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-31T22:43:54Z",
+    "nvd_published_at": "2024-01-31T22:15:53Z"
+  }
+}

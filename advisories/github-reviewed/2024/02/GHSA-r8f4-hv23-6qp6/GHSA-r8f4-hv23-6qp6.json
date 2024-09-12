@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r8f4-hv23-6qp6",
+  "modified": "2024-02-08T18:45:49Z",
+  "published": "2024-02-08T18:45:49Z",
+  "aliases": [
+    "CVE-2023-32193"
+  ],
+  "summary": "Norman API Cross-site Scripting Vulnerability",
+  "details": "### Impact\nA vulnerability has been identified in which unauthenticated cross-site scripting (XSS) in Norman's public API endpoint can be exploited. This can lead to an attacker exploiting the vulnerability to trigger JavaScript code and execute commands remotely. \n\nThe attack vector was identified as a Reflected XSS.\n\nNorman API propagates malicious payloads from user input to the UI, which renders the output. For example, a malicious URL gets rendered into a script that is executed on a page.\n\nThe changes addressed by this fix are:\n- Encode input that comes from the request URL before adding it to the response.\n- The request input is escaped by changing the URL construction that is used for links to use `url.URL`.\n- The request input is escaped by escaping the JavaScript and CSS variables with attribute encoding as defined by [OWASP](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html#output-encoding-rules-summary).\n\n### Patches\nPatched versions include the following commits:\n\n| Branch    | Commit |\n| -------- | ------- |\n| master  | 3bb70b7 |\n| release/v2.8 | a6a6cf5 |\n| release/v2.7 | cb54924 |\n| release/v2.7.s3 | 7b2b467 |\n| release/v2.6 | bd13c65 |\n\n### Workarounds\nThere is no direct mitigation besides updating Norman API to a patched version.\n\n### References\nIf you have any questions or comments about this advisory:\n\n- Reach out to the [SUSE Rancher Security team](https://github.com/rancher/rancher/security/policy) for security-related inquiries.\n- Open an issue in the [Rancher](https://github.com/rancher/rancher/issues/new/choose) repository.\n- Verify with our [support matrix](https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/) and [product support lifecycle](https://www.suse.com/lifecycle/).\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/rancher/norman"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.0.0-20240207153100-3bb70b772b52"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/rancher/norman/security/advisories/GHSA-r8f4-hv23-6qp6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rancher/norman/commit/3bb70b772b52297feac64f5fdeb1b13c06c37e39"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rancher/norman/commit/7b2b467995e6dfab6d4a5dee8dffc15033ae8269"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rancher/norman/commit/a6a6cf5696088c32002953d36b75bdcc84f2399e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rancher/norman/commit/bd13c653293b9b5e0b37e8a6ccd1c3277f4623ed"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rancher/norman/commit/cb54924f25c7666511a913cd41834299ef22dba4"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/rancher/norman"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-80"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-08T18:45:49Z",
+    "nvd_published_at": null
+  }
+}

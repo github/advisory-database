@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7j7m-v7m3-jqm7",
+  "modified": "2024-04-16T14:05:17Z",
+  "published": "2024-02-16T16:07:13Z",
+  "aliases": [
+    "CVE-2024-3572"
+  ],
+  "summary": "Scrapy decompression bomb vulnerability",
+  "details": "### Impact\n\nScrapy limits allowed response sizes by default through the [`DOWNLOAD_MAXSIZE`](https://docs.scrapy.org/en/latest/topics/settings.html#download-maxsize) and [`DOWNLOAD_WARNSIZE`](https://docs.scrapy.org/en/latest/topics/settings.html#download-warnsize) settings.\n\nHowever, those limits were only being enforced during the download of the raw, usually-compressed response bodies, and not during decompression, making Scrapy vulnerable to [decompression bombs](https://cwe.mitre.org/data/definitions/409.html).\n\nA malicious website being scraped could send a small response that, on decompression, could exhaust the memory available to the Scrapy process, potentially affecting any other process sharing that memory, and affecting disk usage in case of uncompressed response caching.\n\n### Patches\n\nUpgrade to Scrapy 2.11.1.\n\nIf you are using Scrapy 1.8 or a lower version, and upgrading to Scrapy 2.11.1 is not an option, you may upgrade to Scrapy 1.8.4 instead.\n\n### Workarounds\n\nThere is no easy workaround.\n\nDisabling HTTP decompression altogether is impractical, as HTTP compression is a rather common practice.\n\nHowever, it is technically possible to manually backport the 2.11.1 or 1.8.4 fix, replacing the corresponding components of an unpatched version of Scrapy with patched versions copied into your own code.\n\n### Acknowledgements\n\nThis security issue was reported by @dmandefy  [through huntr.com](https://huntr.com/bounties/c4a0fac9-0c5a-4718-9ee4-2d06d58adabb/).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "scrapy"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.11.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "scrapy"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.8.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/scrapy/scrapy/security/advisories/GHSA-7j7m-v7m3-jqm7"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-3572"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/scrapy/scrapy/commit/71b8741e3607cfda2833c7624d4ada87071aa8e5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/scrapy/scrapy/commit/809bfac4890f75fc73607318a04d2ccba71b3d9f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.scrapy.org/en/latest/news.html#scrapy-2-11-1-2024-02-14"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/scrapy/scrapy"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.com/bounties/c4a0fac9-0c5a-4718-9ee4-2d06d58adabb"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-409"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-16T16:07:13Z",
+    "nvd_published_at": null
+  }
+}

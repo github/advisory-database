@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mrqg-mwh7-q94j",
+  "modified": "2024-01-24T20:54:49Z",
+  "published": "2024-01-24T20:54:49Z",
+  "aliases": [
+    "CVE-2024-23648"
+  ],
+  "summary": "Host header injection in the password reset",
+  "details": "### Summary\n\nThe password reset functionality sends to the the user requesting a password change an email containing an URL to reset its password.\n\nThe URL sent contains a unique token, valid during 24 hours, allowing the user to reset its password.\nThis token is highly sensitive ; as an attacker able to retrieve it would be able to resets the user's password.\n\nIt was identified during the audit that the reset-password URL is crafted using the \"Host\" HTTP header of the request sent to request a password reset.\n\nThis way, an external attacker could send password requests for users, but specify a \"Host\" header of a website that they control.\nIf the user receiving the mail clicks on the link, the attacker would retrieve the reset token of the victim and perform account takeover.\n\n### Details\n\nThis attack required the server to serve Pimcore on arbitrary \"Host\". This configuration would be plausible if the attacker is already behind the reverse proxy.\nDuring the assessment of my client, their instance was accepting any Host header, and they did not received security recommendations that they should restrict this while installing Pimcore.\n\nFrom what I understood of Pimcore, the vulnerability is in the \"admin-ui-classic-bundle\", in the file src/Controller/Admin/UserController.php.\n\nThe following screenshots provide evidences of the vulnerability. The environment of the test is : dockerized Pimcore v11.1.1 on default configuration (https://pimcore.com/docs/platform/Pimcore/Getting_Started/Installation/Docker_Based_Installation/).\n\n### PoC\n![image](https://user-images.githubusercontent.com/1197252/286258644-a3ad6993-babc-4673-bed3-ffeefe2e7f92.png)\n![image](https://user-images.githubusercontent.com/1197252/286258657-bc0075b9-e62c-4f29-bb5f-95227b3f53c0.png)\n\n### Remediation\nCreate a variable that sets the server host.\nDon't enable password reset functionality while this variable is not set ; or make sure that the administrator knows what they are doing.\n\nI believe that just documenting that the server should not serve on any Host would not be enough to enforce a remediation to this vulnerability.\n\nThe Snipe-IT project managed this same issue by creating a \"APP_ALLOW_INSECURE_HOSTS\" variable, and retrieving the app absolute URL from a config file :[ https://github.com/snipe/snipe-it/commit/0c4768fd2a11ac26a61814cef23a71061bfd8bcc](https://github.com/snipe/snipe-it/commit/0c4768fd2a11ac26a61814cef23a71061bfd8bcc)\n\n### Impact\nCould lead to a 1-click account takeover\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "pimcore/admin-ui-classic-bundle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.2.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/admin-ui-classic-bundle/security/advisories/GHSA-mrqg-mwh7-q94j"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23648"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pimcore/admin-ui-classic-bundle/commit/70f2205b5a5ea9584721d4f3e803f4d0dd5e4655"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pimcore/admin-ui-classic-bundle"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-24T20:54:49Z",
+    "nvd_published_at": "2024-01-24T18:15:08Z"
+  }
+}

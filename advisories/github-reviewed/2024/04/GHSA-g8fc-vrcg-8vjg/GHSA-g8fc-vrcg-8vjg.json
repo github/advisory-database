@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g8fc-vrcg-8vjg",
+  "modified": "2024-06-04T19:35:51Z",
+  "published": "2024-04-15T18:13:15Z",
+  "aliases": [
+
+  ],
+  "summary": "Constallation has pods exposed to peers in VPC",
+  "details": "### Impact\n\nCilium allows outside actors (`world` entity) to directly access pods with their internal pod IP, even if they are not exposed explicitly (e.g. via `LoadBalancer`). A pod that does not authenticate clients and that does not exclude `world` traffic via network policy may leak sensitive data to an attacker _inside the cloud VPC_.\n\n### Patches\n\nThe issue has been patched in [v2.16.3](https://github.com/edgelesssys/constellation/releases/tag/v2.16.3).\n\n### Workarounds\n\nThis network policy excludes all `world` traffic. It mitigates the problem, but will also block all desired external traffic. If vulnerable pods are known, a policy can be crafted to only firewall those instead (see also https://docs.cilium.io/en/stable/security/policy/language/#access-to-from-outside-cluster).\n\n```yaml\napiVersion: \"cilium.io/v2\"\nkind: CiliumClusterwideNetworkPolicy\nmetadata:\n  name: \"from-world-to-role-public\"\nspec:\n  endpointSelector:\n    matchLabels: {}\n    #  role: public\n  ingressDeny:\n    - fromEntities:\n      - world\n```\n\n### References\n\nThe tracking bug for a Cilium-side fix is https://github.com/cilium/cilium/issues/25626. \n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/edgelesssys/constellation/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.16.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/edgelesssys/constellation/security/advisories/GHSA-g8fc-vrcg-8vjg"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/issues/25626"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/edgelesssys/constellation"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/vuln/GO-2024-2727"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-940"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-15T18:13:15Z",
+    "nvd_published_at": null
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9v9h-cgj8-h64p",
+  "modified": "2024-05-02T13:14:39Z",
+  "published": "2024-01-26T09:30:23Z",
+  "aliases": [
+    "CVE-2024-0727"
+  ],
+  "summary": "Null pointer dereference in PKCS12 parsing",
+  "details": "Issue summary: Processing a maliciously formatted PKCS12 file may lead OpenSSL\nto crash leading to a potential Denial of Service attack\n\nImpact summary: Applications loading files in the PKCS12 format from untrusted\nsources might terminate abruptly.\n\nA file in PKCS12 format can contain certificates and keys and may come from an\nuntrusted source. The PKCS12 specification allows certain fields to be NULL, but\nOpenSSL does not correctly check for this case. This can lead to a NULL pointer\ndereference that results in OpenSSL crashing. If an application processes PKCS12\nfiles from an untrusted source using the OpenSSL APIs then that application will\nbe vulnerable to this issue.\n\nOpenSSL APIs that are vulnerable to this are: PKCS12_parse(),\nPKCS12_unpack_p7data(), PKCS12_unpack_p7encdata(), PKCS12_unpack_authsafes()\nand PKCS12_newpass().\n\nWe have also fixed a similar issue in SMIME_write_PKCS7(). However since this\nfunction is related to writing data we do not consider it security significant.\n\nThe FIPS modules in 3.2, 3.1 and 3.0 are not affected by this issue.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "cryptography"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "cryptography.hazmat.backends.openssl.backend.load_pkcs12"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "42.0.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-0727"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/github/advisory-database/pull/3472"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openssl/openssl/pull/23362"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/alexcrichton/openssl-src-rs/commit/add20f73b6b42be7451af2e1044d4e0e778992b2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openssl/openssl/commit/09df4395b5071217b76dc7d3d2e630eb8c5a79c2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openssl/openssl/commit/775acfdbd0c6af9ac855f34969cdab0c0c90844a"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openssl/openssl/commit/d135eeab8a5dbf72b3da5240bab9ddb7678dbd2c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pyca/cryptography/commit/3519591d255d4506fbcd0d04037d45271903c64d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.openssl.org/openssl/extended-releases/commit/03b3941d60c4bce58fab69a0c22377ab439bc0e8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.openssl.org/openssl/extended-releases/commit/aebaa5883e31122b404e450732dc833dc9dee539"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.netapp.com/advisory/ntap-20240208-0006"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.openssl.org/news/secadv/20240125.txt"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/03/11/1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-16T20:48:36Z",
+    "nvd_published_at": "2024-01-26T09:15:07Z"
+  }
+}

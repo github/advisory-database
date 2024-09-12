@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h2rq-qhr7-53gm",
+  "modified": "2024-02-14T14:52:14Z",
+  "published": "2024-02-06T12:30:30Z",
+  "aliases": [
+    "CVE-2024-23673"
+  ],
+  "summary": "Apache Sling Servlets Resolver executes malicious code via path traversal",
+  "details": "\nMalicious code execution via path traversal in Apache Software Foundation Apache Sling Servlets Resolver.This issue affects all version of Apache Sling Servlets Resolver before 2.11.0. However, whether a system is vulnerable to this attack depends on the exact configuration of the system.\nIf the system is vulnerable, a user with write access to the repository might be able to trick the Sling Servlet Resolver to load a previously uploaded script. \n\nUsers are recommended to upgrade to version 2.11.0, which fixes this issue. It is recommended to upgrade, regardless of whether your system configuration currently allows this attack or not.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.sling:org.apache.sling.servlets.resolver"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.11.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23673"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/sling-org-apache-sling-servlets-resolver/commit/b54d4e6693e0bcd63a97a0328f4f065b8a81b75e"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/sling-org-apache-sling-servlets-resolver"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/5zzx8ztwc6tmbwlw80m2pbrp3913l2kl"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/02/06/1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-06T18:24:31Z",
+    "nvd_published_at": "2024-02-06T10:15:08Z"
+  }
+}

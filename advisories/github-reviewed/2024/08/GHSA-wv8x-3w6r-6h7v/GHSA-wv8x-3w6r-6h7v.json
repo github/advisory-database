@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wv8x-3w6r-6h7v",
+  "modified": "2024-08-05T21:29:25Z",
+  "published": "2024-08-05T21:29:25Z",
+  "aliases": [
+    "CVE-2024-29191"
+  ],
+  "summary": "gotortc Cross-site Scripting vulnerability",
+  "details": "gotortc is a camera streaming application. Versions 1.8.5 and prior are vulnerable to DOM-based cross-site scripting. The links page (`links.html`) appends the `src` GET parameter (`[0]`) in all of its links for 1-click previews. The context in which `src` is being appended is `innerHTML` (`[1]`), which will insert the text as HTML. Commit 3b3d5b033aac3a019af64f83dec84f70ed2c8aba contains a patch for the issue.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/AlexxIT/go2rtc"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.9.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-29191"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/AlexxIT/go2rtc/commit/3b3d5b033aac3a019af64f83dec84f70ed2c8aba"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/AlexxIT/go2rtc"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://securitylab.github.com/advisories/GHSL-2023-205_GHSL-2023-207_go2rtc"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-05T21:29:25Z",
+    "nvd_published_at": "2024-04-04T15:15:39Z"
+  }
+}

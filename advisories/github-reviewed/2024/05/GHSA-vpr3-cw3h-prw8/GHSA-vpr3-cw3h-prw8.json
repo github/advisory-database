@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vpr3-cw3h-prw8",
+  "modified": "2024-05-28T20:55:51Z",
+  "published": "2024-05-28T20:55:51Z",
+  "aliases": [
+
+  ],
+  "summary": "SimpleSAMLphp Reflected Cross-site Scripting vulnerability",
+  "details": "### Background\nSimpleSAMLphp uses metadata to determine how to interact with other SAML entities. This metadata includes what’s called endpoints, which are URLs belonging to that entity where SAML messages can be sent. These URLs are used directly by SimpleSAMLphp when a message is sent, either via an HTTP redirection or by automatically posting a form to them.\n\n### Description\nWhen sending a SAML message to another entity, SimpleSAMLphp will use the URL of the appropriate endpoint to redirect the user’s browser to it, or craft a form that will be automatically posted to it, depending on the SAML binding used. The URL that’s target of the message is fetched from the stored metadata for the given entity, and that metadata is trusted as correct.\n\nHowever, if that metadata has been altered by a malicious party (either an attacker or a rogue administrator) to substitute the URLs of the endpoints with javascript code, SimpleSAMLphp was blindly using them without any validation, trusting the contents of the metadata. This would lead to a reflected XSS where the javascript code is sent inline to the web browser, and if SimpleSAMLphp is not using a strict Content Security Policy to forbid inline javascript (which is the case of the default user interface), then the code will be executed in the end user’s browser.\n\n### Affected versions\nAll SimpleSAMLphp versions are affected, up to 1.17.2.\n\n### Impact\nIf metadata is consumed for a rogue entity that includes javascript code in the corresponding endpoints, this javascript code might be run by users trying to access this entity.\n\nEven though it’s unlikely that an administrator would add metadata for an entity that contains such endpoints inadvertently, if metadata is consumed automatically (e.g. using metarefresh) it would be easier to have an scenario like the one described here if a SAML entity is compromised and its metadata modified.\n\nThe severity is assessed as medium given the difficulty to exploit the issue.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "simplesamlphp/simplesamlphp"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.12.0"
+            },
+            {
+              "fixed": "1.17.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/simplesamlphp/simplesamlphp/commit/ce2294e092b3be7db2fc4e18e774b791d4564ff3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/simplesamlphp/simplesamlphp/2019-07-10.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/simplesamlphp/simplesamlphp"
+    },
+    {
+      "type": "WEB",
+      "url": "https://simplesamlphp.org/security/201907-01"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-28T20:55:51Z",
+    "nvd_published_at": null
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-q98f-2x4p-prjr",
+  "modified": "2024-09-06T21:01:22Z",
+  "published": "2024-09-06T21:01:22Z",
+  "aliases": [
+    "CVE-2022-24797"
+  ],
+  "summary": "Exposure of debug and metrics endpoints in Pomerium",
+  "details": "### Impact\nIn distributed service mode, Pomerium's Authenticate service exposes pprof debug and prometheus metrics handlers to untrusted traffic.  This can leak potentially sensitive environmental information or lead to limited denial of service conditions.\n\n### Patches\nv0.17.1\n\n### Workarounds\nBlock access to `/debug` and `/metrics` paths on the authenticate service.  This can be done with any L7 proxy, including Pomerium's own proxy service.\n\n### References\nhttps://github.com/pomerium/pomerium/pull/3212\n\n### For more information\nIf you have any questions or comments about this advisory:\n* Open an issue in [Pomerium](https://github.com/pomerium/pomerium)\n* Email us at [security@pomerium.com](mailto:security@pomerium.com)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:L"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:N/VA:L/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/pomerium/pomerium"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.16.0"
+            },
+            {
+              "fixed": "0.17.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pomerium/pomerium/security/advisories/GHSA-q98f-2x4p-prjr"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-24797"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pomerium/pomerium/pull/3212"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pomerium/pomerium/commit/b435f73e2b54088da2aca5e8c3aa1808293d6903"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pomerium/pomerium"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/vuln/GO-2022-0413"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-09-06T21:01:22Z",
+    "nvd_published_at": "2022-03-31T23:15:08Z"
+  }
+}

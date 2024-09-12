@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9xfw-jjq2-7v8h",
+  "modified": "2024-02-05T20:19:30Z",
+  "published": "2024-02-05T20:19:30Z",
+  "aliases": [
+    "CVE-2024-24768"
+  ],
+  "summary": "1Panel set-cookie is missing the Secure keyword",
+  "details": "### Summary\nThe https cookie that comes with the panel does not have the Secure keyword, which may cause the cookie to be sent in plain text when accessing http accidentally.\n\nhttps://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Set-Cookie#secure\n\n### PoC\nDirectly configure https for the panel, and then capture the packet when logging in again and find that the cookie does not have the Secure keyword\n\n### Impact\nEveryone who has configured the panel https\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/1Panel-dev/1Panel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.9.6"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.9.5"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/1Panel-dev/1Panel/security/advisories/GHSA-9xfw-jjq2-7v8h"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-24768"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/1Panel-dev/1Panel/pull/3817"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/1Panel-dev/1Panel/commit/1169648162c4b9b48e0b4aa508f9dea4d6bc50d5"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/1Panel-dev/1Panel"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-311",
+      "CWE-315"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-05T20:19:30Z",
+    "nvd_published_at": "2024-02-05T15:15:09Z"
+  }
+}

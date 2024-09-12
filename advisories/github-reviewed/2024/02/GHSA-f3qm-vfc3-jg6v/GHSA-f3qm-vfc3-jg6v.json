@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f3qm-vfc3-jg6v",
+  "modified": "2024-02-20T22:34:19Z",
+  "published": "2024-02-20T18:03:12Z",
+  "aliases": [
+    "CVE-2023-47635"
+  ],
+  "summary": "Possible CSRF attack at questionnaire templates preview",
+  "details": "### Impact\nThe CSRF authenticity token check is currently disabled for the questionnaire templates preview as per:\nhttps://github.com/decidim/decidim/blob/3187bdfd40ea1c57c2c12512b09a7fec0b2bed08/decidim-templates/app/controllers/decidim/templates/admin/questionnaire_templates_controller.rb#L11\n\nThis was introduced by this commit in the PR that introduced this feature (#6247):\nhttps://github.com/decidim/decidim/pull/6247/commits/5542227be66e3b6d7530f5b536069bce09376660\n\nThe issue does not imply a serious security thread as you need to have access also to the session cookie in order to see this resource. This URL does not allow modifying the resource but it may allow attackers to gain access to information which was not meant to be public.\n\n### Patches\n#11743\n\n### Workarounds\nDisable the templates functionality or remove all available templates.\n\n### References\n#11743",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "decidim-templates"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.23.0"
+            },
+            {
+              "fixed": "0.27.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/decidim/decidim/security/advisories/GHSA-f3qm-vfc3-jg6v"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-47635"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/decidim/decidim/pull/11743"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/decidim/decidim/pull/6247"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/decidim/decidim/commit/5542227be66e3b6d7530f5b536069bce09376660"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/decidim/decidim/commit/57a4b467787448307b5d9b01ce6e2c8502e121ac"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/decidim/decidim"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/decidim/decidim/blob/3187bdfd40ea1c57c2c12512b09a7fec0b2bed08/decidim-templates/app/controllers/decidim/templates/admin/questionnaire_templates_controller.rb#L11"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/decidim/decidim/releases/tag/v0.27.5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/decidim/decidim/releases/tag/v0.28.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352",
+      "CWE-918"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-20T18:03:12Z",
+    "nvd_published_at": "2024-02-20T18:15:50Z"
+  }
+}

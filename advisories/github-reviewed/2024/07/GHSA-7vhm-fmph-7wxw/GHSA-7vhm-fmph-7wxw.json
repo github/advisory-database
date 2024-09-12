@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7vhm-fmph-7wxw",
+  "modified": "2024-07-10T20:43:22Z",
+  "published": "2024-07-10T06:33:51Z",
+  "aliases": [
+    "CVE-2024-21522"
+  ],
+  "summary": "audify vulnerable to Improper Validation of Array Index",
+  "details": "All versions of the package audify are vulnerable to Improper Validation of Array Index when frameSize is provided to the new OpusDecoder().decode or new OpusDecoder().decodeFloat functions it is not checked for negative values. This can lead to a process crash.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "audify"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.9.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-21522"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gist.github.com/dellalibera/6bb866ae5d1cc2adaabe27bbd6d2d21e"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/almoghamdani/audify"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/almoghamdani/audify/blob/94b2fe79dc528fda2c7d59c7a0fd0e9de07dc3dc/src/opus_decoder.cpp#L53"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/almoghamdani/audify/blob/94b2fe79dc528fda2c7d59c7a0fd0e9de07dc3dc/src/opus_decoder.cpp%23L79"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-JS-AUDIFY-6370700"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-129"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-10T20:43:22Z",
+    "nvd_published_at": "2024-07-10T05:15:10Z"
+  }
+}

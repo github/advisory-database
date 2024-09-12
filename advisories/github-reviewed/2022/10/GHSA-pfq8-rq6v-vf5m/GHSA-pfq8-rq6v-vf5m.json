@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-pfq8-rq6v-vf5m",
+  "modified": "2024-04-22T23:06:37Z",
+  "published": "2022-10-31T19:00:36Z",
+  "aliases": [
+    "CVE-2022-37620"
+  ],
+  "summary": "kangax html-minifier REDoS vulnerability",
+  "details": "A Regular Expression Denial of Service (ReDoS) flaw was found in kangax html-minifier 4.0.0 via the candidate variable in htmlminifier.js.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "html-minifier"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "(html-minifier).minify"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "4.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-37620"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kangax/html-minifier/issues/1135"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/kangax/html-minifier"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kangax/html-minifier/blob/51ce10f4daedb1de483ffbcccecc41be1c873da2/src/htmlminifier.js#L1338"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kangax/html-minifier/blob/51ce10f4daedb1de483ffbcccecc41be1c873da2/src/htmlminifier.js#L294"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1333",
+      "CWE-400"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-22T23:06:37Z",
+    "nvd_published_at": "2022-10-31T12:15:00Z"
+  }
+}

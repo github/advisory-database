@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2vjq-hg5w-5gm7",
+  "modified": "2024-05-14T20:13:47Z",
+  "published": "2024-05-14T20:13:47Z",
+  "aliases": [
+    "CVE-2024-32977"
+  ],
+  "summary": "OctoPrint has an Authentication Bypass via X-Forwarded-For Header when autologinLocal is enabled",
+  "details": "### Impact\n\nOctoPrint versions up until and including 1.10.0 contain a vulnerability that allows an unauthenticated attacker to completely bypass the authentication **if the `autologinLocal` option is enabled** within `config.yaml`, even if they come from networks that are not configured as `localNetworks`, by spoofing their IP via the `X-Forwarded-For` header.\n\nIf autologin is not enabled, this vulnerability does not have any impact.\n\n### Patches\n\nThe vulnerability has been patched in version 1.10.1.\n\n### Workaround\n\nUntil the patch has been applied, OctoPrint administrators who have autologin enabled on their instances should disable it and/or to make the instance inaccessible from potentially hostile networks like the internet.\n\n### PoC\n\n1. Enable the `autologinAs` configuration within the `accessControl` section in the [OctoPrint yaml configuration file](https://docs.octoprint.org/en/master/configuration/config_yaml.html#access-control)\n2. Set your browser to add the `X-Forwarded-For: 127.0.0.1` header to HTTP requests. For example, this can be done using proxy software like Burp Suite. Alternatively, there are browser extensions such as https://github.com/MisterPhilip/x-forwarded-for, but I haven't tried them.\n3. Navigate to OctoPrint and note that it logs you in automatically.\n\n### Credits\n\nThis vulnerability was discovered and responsibly disclosed to OctoPrint by Jacopo Tediosi.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:A/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "OctoPrint"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.10.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.10.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/OctoPrint/OctoPrint/security/advisories/GHSA-2vjq-hg5w-5gm7"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-32977"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OctoPrint/OctoPrint/commit/5afbec8d23508edc25b0f1bdef1620580136add4"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/OctoPrint/OctoPrint"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-290"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-14T20:13:47Z",
+    "nvd_published_at": "2024-05-14T16:17:12Z"
+  }
+}

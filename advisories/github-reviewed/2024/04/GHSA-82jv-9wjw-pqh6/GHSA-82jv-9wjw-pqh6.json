@@ -1,0 +1,109 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-82jv-9wjw-pqh6",
+  "modified": "2024-04-17T22:26:37Z",
+  "published": "2024-04-17T22:26:37Z",
+  "aliases": [
+
+  ],
+  "summary": "Prototype pollution in emit function",
+  "details": "### Summary\nA prototype pollution in derby can crash the application, if the application author has atypical HTML templates that feed user input into an object key.\n\nAttribute keys are almost always developer-controlled, not end-user-controlled, so this shouldn't be an issue in practice for most applications.\n\n### Details\n```\nemit(context: Context, target: T) {\n  const node = traverseAndCreate(context.controller, this.segments);\n    node[this.lastSegment] = target;\n    this.addListeners(target, node, this.lastSegment);\n}\n```\nThe emit() function in src/templates/templates.ts is called without sanitizing the variable `this.lastSegment `. The variable `this.lastSegment ` can be set to `__proto__`, and this will pollute the prototype of Javascipt Object (`node['__proto__'] = target`).\n\n### PoC\nTo reproduce this vulnerability, you can adjust the test case `ignores DOM mutations in components\\' create()` in `test/dom/ComponentHarness.mocha.js`.\n\n```\nit('ignores DOM mutations in components\\' create()', function() {\n      function Box() {}\n      Box.view = {\n        is: 'box',\n-        source: '<index:><div class=\"box\" as=\"boxElement\"></div>'\n+        source: '<index:><div class=\"box\" as=\"__proto__\"></div>'\n      };\n      Box.prototype.create = function() {\n        this.boxElement.className = 'box-changed-in-create';\n      };\n      var harness = runner.createHarness('<view is=\"box\" />', Box);\n      expect(harness).to.render('<div class=\"box\"></div>');\n});\n```\nWhen `as` attribute is controlled by attackers, the variable in `this.lastSegment` will exactly take value` __proto__` and prototype pollution happens.\n\n### Patch\nAdd a check on `this.lastSegment` can prevent this attack.\n```\nemit(context: Context, target: T) {\n  const node = traverseAndCreate(context.controller, this.segments);\n+  if (this.lastSegment.includes('__proto__') || this.lastSegment.includes('prototype')) {\n+    throw new Error('Unsafe code detected');\n+  }\n    node[this.lastSegment] = target;\n    this.addListeners(target, node, this.lastSegment);\n}\n```\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "derby"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.3.2"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.3.1"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "derby"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.0.2"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.0.1"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "derby"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0-beta1"
+            },
+            {
+              "fixed": "4.0.0-beta.11"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 4.0.0-beta.10"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/derbyjs/derby/security/advisories/GHSA-82jv-9wjw-pqh6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/derbyjs/derby/commit/24524e96f36976883c7c619811320428536bd4d0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/derbyjs/derby/commit/465a0c2f6a77361eda4a09b77a8c94ba6a9da440"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/derbyjs/derby"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1321"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-17T22:26:37Z",
+    "nvd_published_at": null
+  }
+}

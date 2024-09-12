@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6927-3vr9-fxf2",
+  "modified": "2024-03-01T20:08:23Z",
+  "published": "2024-03-01T20:08:23Z",
+  "aliases": [
+    "CVE-2024-27298"
+  ],
+  "summary": "ZDI-CAN-19105: Parse Server literalizeRegexPart SQL Injection",
+  "details": "### Impact\n\nThis vulnerability allows SQL injection when Parse Server is configured to use the PostgreSQL database.\n\n### Patches\n\nThe algorithm to detect SQL injection has been improved.\n\n### Workarounds\n\nNone.\n\n### References\n\n- https://github.com/parse-community/parse-server/security/advisories/GHSA-6927-3vr9-fxf2\n- https://github.com/parse-community/parse-server/releases/tag/6.5.0 (fixed in Parse Server 6)\n- https://github.com/parse-community/parse-server/releases/tag/7.0.0-alpha.20 (fixed in Parse Server 7 alpha release)\n\n### Credits\n\n- Mikhail Shcherbakov (https://twitter.com/yu5k3) working with Trend Micro Zero Day Initiative (finder)\n- Ehsan Persania (remediation developer)\n- Manuel Trezza (coordinator)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "parse-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.5.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "parse-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.0.0-alpha.1"
+            },
+            {
+              "fixed": "7.0.0-alpha.20"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/parse-community/parse-server/security/advisories/GHSA-6927-3vr9-fxf2"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-27298"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/parse-community/parse-server/commit/a6e654943536932904a69b51e513507fcf90a504"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/parse-community/parse-server/commit/cbefe770a7260b54748a058b8a7389937dc35833"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/parse-community/parse-server"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/parse-community/parse-server/releases/tag/6.5.0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/parse-community/parse-server/releases/tag/7.0.0-alpha.20"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-89"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-01T20:08:23Z",
+    "nvd_published_at": "2024-03-01T18:15:28Z"
+  }
+}

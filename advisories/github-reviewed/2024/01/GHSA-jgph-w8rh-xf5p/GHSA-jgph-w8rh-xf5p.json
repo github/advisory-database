@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jgph-w8rh-xf5p",
+  "modified": "2024-01-29T14:22:17Z",
+  "published": "2024-01-23T12:49:10Z",
+  "aliases": [
+    "CVE-2023-44401"
+  ],
+  "summary": "View permissions are bypassed for paginated lists of ORM data",
+  "details": "### Impact\n`canView` permission checks are bypassed for ORM data in paginated GraphQL query results where the total number of records is greater than the number of records per page.\n\nNote that this also affects GraphQL queries which have a limit applied, even if the query isn’t paginated per se.\n\nThis has been fixed by ensuring no new records are pulled in from the database after performing `canView` permission checks for each page of results. This may result in some pages in your query results having less than the maximum number of records per page even when there are more pages of results.\n\nThis behaviour is consistent with how pagination works in other areas of Silverstripe CMS, such as in `GridField`, and is a result of having to perform permission checks in PHP rather than in the database directly.\n\nYou can choose to disable these permission checks by disabling the `CanViewPermission` plugin following the instructions in [overriding default plugins](https://docs.silverstripe.org/en/5/developer_guides/graphql/plugins/overview/#overriding-default-plugins).\n\nNote that this vulnerability does not affect version 3.x.\n\n**Base CVSS:** [5.3](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N/E:F/RL:O/RC:C&version=3.1)\n**Reported by:** Eduard Briem from Hothouse Creative, Nelson\n\n### References\nhttps://www.silverstripe.org/download/security-releases/CVE-2023-44401\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/graphql"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0"
+            },
+            {
+              "fixed": "4.3.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/graphql"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0"
+            },
+            {
+              "fixed": "5.1.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-graphql/security/advisories/GHSA-jgph-w8rh-xf5p"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-44401"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/silverstripe/graphql/CVE-2023-44401.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/silverstripe/silverstripe-graphql"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.silverstripe.org/download/security-releases/CVE-2023-44401"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-863"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-23T12:49:10Z",
+    "nvd_published_at": "2024-01-23T14:15:37Z"
+  }
+}

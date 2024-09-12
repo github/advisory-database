@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5293-3fgp-cr3x",
+  "modified": "2024-01-30T21:58:47Z",
+  "published": "2022-05-13T01:18:19Z",
+  "aliases": [
+    "CVE-2017-1000086"
+  ],
+  "summary": "Missing permission checks in Jenkins Periodic Backup Plugin allow every user to change settings",
+  "details": "The Periodic Backup Plugin did not perform any permission checks, allowing any user with Overall/Read access to change its settings, trigger backups, restore backups, download backups, and also delete all previous backups via log rotation. Additionally, the plugin was not requiring requests to its API be sent via POST, thereby opening itself to Cross-Site Request Forgery attacks.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:periodicbackup"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.5"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.4"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-1000086"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2017-07-10"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/100437"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-862"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-30T21:58:47Z",
+    "nvd_published_at": "2017-10-05T01:29:00Z"
+  }
+}

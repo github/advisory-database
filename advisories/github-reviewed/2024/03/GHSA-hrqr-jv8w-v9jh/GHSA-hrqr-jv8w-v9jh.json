@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hrqr-jv8w-v9jh",
+  "modified": "2024-03-05T20:30:03Z",
+  "published": "2024-03-05T16:19:44Z",
+  "aliases": [
+    "CVE-2024-27931"
+  ],
+  "summary": "Insufficient permission checking in `Deno.makeTemp*` APIs",
+  "details": "### Impact\n\nInsufficient validation of parameters in `Deno.makeTemp*` APIs would allow for creation of files outside of the allowed directories. This may allow the user to overwrite important files on the system that may affect other systems.\n\nA user may provide a prefix or suffix to a `Deno.makeTemp*` API containing path traversal characters. The permission check would prompt for the base directory of the API, but the final file that was created would be outside of this directory:\n\n```\n$ mkdir /tmp/good\n$ mkdir /tmp/bad\n$ deno repl --allow-write=/tmp/good\n> Deno.makeTempFileSync({ dir: \"/tmp/bad\" })\n┌ ⚠️  Deno requests write access to \"/tmp/bad\".\n├ Requested by `Deno.makeTempFile()` API.\n├ Run again with --allow-write to bypass this prompt.\n└ Allow? [y/n/A] (y = yes, allow; n = no, deny; A = allow all write permissions) > n\n❌ Denied write access to \"/tmp/bad\".\nUncaught PermissionDenied: Requires write access to \"/tmp/bad\", run again with the --allow-write flag\n    at Object.makeTempFileSync (ext:deno_fs/30_fs.js:176:10)\n    at <anonymous>:1:27\n> Deno.makeTempFileSync({ dir: \"/tmp/good\", prefix: \"../bad/\" })\n\"/tmp/good/../bad/a9432ef5\"\n$ ls -l /tmp/bad/a9432ef5\n-rw-------@ 1 user  group  0 Mar  4 09:20 /tmp/bad/a9432ef5\n```\n\n### Patches\n\nThis is fixed in Deno 1.41.1.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "deno"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.41.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/denoland/deno/security/advisories/GHSA-hrqr-jv8w-v9jh"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-27931"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/denoland/deno"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-05T16:19:44Z",
+    "nvd_published_at": "2024-03-05T17:15:07Z"
+  }
+}

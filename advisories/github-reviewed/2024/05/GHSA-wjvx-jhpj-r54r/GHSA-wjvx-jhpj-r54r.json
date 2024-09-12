@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wjvx-jhpj-r54r",
+  "modified": "2024-05-03T20:25:33Z",
+  "published": "2024-05-03T20:25:33Z",
+  "aliases": [
+    "CVE-2024-34072"
+  ],
+  "summary": "sagemaker-python-sdk vulnerable to Deserialization of Untrusted Data",
+  "details": "### Impact\n\nsagemaker.base_deserializers.NumpyDeserializer module before v2.218.0 allows potentially unsafe deserialization when untrusted data is passed as pickled object arrays. This consequently may allow an unprivileged third party to cause remote code execution, denial of service, affecting both confidentiality and integrity.\n\nImpacted versions: <2.218.0.\n\n### Credit \n\nWe would like to thank HiddenLayer for collaborating on this issue through the coordinated vulnerability disclosure process.\n\n\n### Workarounds\n\nDo not pass pickled numpy object arrays which originated from an untrusted source, or that could have been tampered with. Only pass pickled numpy object arrays from sources you trust.\n\n\n### References\n\nIf you have any questions or comments about this advisory we ask that you contact AWS/Amazon Security via our vulnerability reporting page [1] or directly via email to [aws-security@amazon.com](mailto:aws-security@amazon.com). Please do not create a public GitHub issue.\n[1] Vulnerability reporting page: https://aws.amazon.com/security/vulnerability-reporting\n\nFixed by: [https://github.com/aws/sagemaker-python-sdk/pull/4557](https://github.com/aws/sagemaker-python-sdk/pull/4557)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "sagemaker"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.218.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/aws/sagemaker-python-sdk/security/advisories/GHSA-wjvx-jhpj-r54r"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-34072"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/aws/sagemaker-python-sdk/pull/4557"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/aws/sagemaker-python-sdk/commit/72e0c9712aec6fbb82fb40fda091dfc2a42c70a0"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/aws/sagemaker-python-sdk"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-502"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-03T20:25:33Z",
+    "nvd_published_at": "2024-05-03T11:15:22Z"
+  }
+}

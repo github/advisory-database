@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xhg9-xwch-vr7x",
+  "modified": "2024-03-13T15:38:21Z",
+  "published": "2024-03-13T15:38:21Z",
+  "aliases": [
+    "CVE-2024-1410"
+  ],
+  "summary": "quiche vulnerable to unbounded storage of information related to connection ID retirement",
+  "details": "### Impact\n\nCloudflare quiche was discovered to be vulnerable to unbounded storage of information related to connection ID retirement, which could lead to excessive resource consumption. Each QUIC connection possesses a set of connection Identifiers (IDs); see [RFC 9000 Section 5.1](https://datatracker.ietf.org/doc/html/rfc9000#section-5.1). Endpoints declare the number of active connection IDs they are willing to support using the active_connection_id_limit transport parameter. The peer can create new IDs using a NEW_CONNECTION_ID frame but must stay within the active ID limit. This is done by retirement of old IDs, the endpoint sends NEW_CONNECTION_ID includes a value in the retire_prior_to field, which elicits a RETIRE_CONNECTION_ID frame as confirmation. An unauthenticated remote attacker can exploit the vulnerability by sending NEW_CONNECTION_ID frames and manipulating the connection (e.g. by restricting the peer's congestion window size) so that RETIRE_CONNECTION_ID frames can only be sent at a slower rate than they are received, leading to storage of information related to connection IDs in an unbounded queue. \n\n### Patches\n\nQuiche versions 0.19.2 and 0.20.1 are the earliest to address this problem. There is no workaround for affected versions.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "quiche"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.19.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "quiche"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.20.0"
+            },
+            {
+              "fixed": "0.20.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudflare/quiche/security/advisories/GHSA-xhg9-xwch-vr7x"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-1410"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudflare/quiche/commit/0c5733a84c41e9e178adc866b11ce59ac264f5af"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudflare/quiche/commit/5be8143126f8cfa8a483d4a5ae475b9a46053fa1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudflare/quiche/commit/7ab42af5f5e97f20f1d63b7ea2f9ab0536678c40"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudflare/quiche/commit/a983998c4408605905ee9a6ab0fc00e68436ac67"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cloudflare/quiche"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudflare/quiche/releases/tag/0.19.2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudflare/quiche/releases/tag/0.20.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-13T15:38:21Z",
+    "nvd_published_at": "2024-03-12T18:15:07Z"
+  }
+}

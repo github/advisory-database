@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f7cq-5v43-8pwp",
+  "modified": "2024-05-23T15:19:41Z",
+  "published": "2024-05-23T15:19:41Z",
+  "aliases": [
+
+  ],
+  "summary": "Traefik vulnerable to GO issue allowing malformed DNS message to cause infinite loop",
+  "details": "### Impact\n\nThere is a vulnerability in [GO managing malformed DNS message](https://groups.google.com/g/golang-announce/c/wkkO4P9stm0), which impacts Traefik.\nThis vulnerability could be exploited to cause a denial of service.\n\n### References\n\n- [CVE-2024-24788](https://www.cve.org/CVERecord?id=CVE-2024-24788)\n\n### Patches\n\n- https://github.com/traefik/traefik/releases/tag/v2.11.3\n- https://github.com/traefik/traefik/releases/tag/v3.0.1\n\n### Workarounds\n\nNo workaround.\n\n### For more information\n\nIf you have any questions or comments about this advisory, please [open an issue](https://github.com/traefik/traefik/issues).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/traefik/traefik/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.11.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/traefik/traefik/v3"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.0.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/traefik/traefik"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.7.34"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/traefik/traefik/security/advisories/GHSA-f7cq-5v43-8pwp"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-5fq7-4mxc-535h"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/traefik/traefik"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/traefik/traefik/releases/tag/v2.11.3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/traefik/traefik/releases/tag/v3.0.1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.cve.org/CVERecord?id=CVE-2024-24788"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1395"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-23T15:19:41Z",
+    "nvd_published_at": null
+  }
+}

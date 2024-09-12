@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-25gq-jvx2-vg9x",
+  "modified": "2024-05-23T16:59:26Z",
+  "published": "2024-05-23T16:59:25Z",
+  "aliases": [
+
+  ],
+  "summary": "Silverstripe X-Forwarded-Host request hostname injection",
+  "details": "A potential hostname injection vulnerability has been found which could allow attackers to alter url resolution.\n\nIf a request contains the X-Forwarded-Host HTTP header a website would then use its value in place of the actual HTTP hostname. In cases where caching is enabled, this could allow an attacker to potentially embed a remote url as the base_url for any site. This would then cause other visitors to the site to be redirected unknowingly.\n\nThis header is necessary for servers running behind a reverse proxy (such as nginx). Such servers are likely not vulnerable to this risk.\n\nA fix has been merged into the default installer, although existing projects which do not run behind a reverse proxy should update their htaccess as below:\n```\n<IfModule mod_headers.c>\n    # Remove X-Forwarded-Host header sent as a part of any request from the web\n    RequestHeader unset X-Forwarded-Host\n</IfModule>\n```",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.1.0"
+            },
+            {
+              "fixed": "3.1.13"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/commit/75137dbab28c0efd28b07e50044a50c5af4e46aa"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/silverstripe/framework/SS-2015-013-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/silverstripe/silverstripe-framework"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.silverstripe.org/software/download/security-releases/ss-2015-013"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-601"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-23T16:59:25Z",
+    "nvd_published_at": null
+  }
+}

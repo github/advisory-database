@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7pmh-vrww-25xx",
+  "modified": "2024-08-30T18:43:23Z",
+  "published": "2024-08-30T18:43:23Z",
+  "aliases": [
+    "CVE-2020-15101"
+  ],
+  "summary": "freewvs's nested directory structure can interrupt scan",
+  "details": "### Impact\nA directory structure of more than 1000 nested directories can interrupt a freewvs scan due to Python's recursion limit and os.walk(). This can be problematic in a case where an administrator scans the dirs of potentially untrusted users.\n\n### Patches\nThis has been fixed in this commit by limiting the recursion to 500 directories:\nhttps://github.com/schokokeksorg/freewvs/commit/83a6b55c0435c69f447488b791555e6078803143\n\nThis issue was discovered by Hanno Böck.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:N/I:N/A:L"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:A/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "freewvs"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.1.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/schokokeksorg/freewvs/security/advisories/GHSA-7pmh-vrww-25xx"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-15101"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/schokokeksorg/freewvs/commit/83a6b55c0435c69f447488b791555e6078803143"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/freewvs/PYSEC-2020-233.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/schokokeksorg/freewvs"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-674"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-30T18:43:23Z",
+    "nvd_published_at": "2020-07-14T22:15:00Z"
+  }
+}

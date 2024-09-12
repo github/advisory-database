@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-438c-3975-5x3f",
+  "modified": "2024-03-28T13:28:10Z",
+  "published": "2024-03-26T21:23:47Z",
+  "aliases": [
+    "CVE-2024-29203"
+  ],
+  "summary": "TinyMCE Cross-Site Scripting (XSS) vulnerability in handling iframes",
+  "details": "### Impact\nA [cross-site scripting (XSS)](https://owasp.org/www-community/attacks/xss/) vulnerability was discovered in TinyMCE’s content insertion code.  This allowed `iframe` elements containing malicious code to execute when inserted into the editor.  These `iframe` elements are restricted in their permissions by same-origin browser protections, but could still trigger operations such as downloading of malicious assets.\n\n### Fix\nTinyMCE 6.8.1 introduced a new `sandbox_iframes` boolean option which adds the `sandbox=\"\"` attribute to every `iframe` element by default when enabled. This will prevent cross-origin, and in special cases same-origin, XSS by embedded resources in `iframe` elements. From TinyMCE 7.0.0 onwards the default value of this option is `true`.\n\nIn TinyMCE 7.0.0 a new `sandbox_iframes_exclusions` option was also added, allowing a list of domains to be specified that should be excluded from having the `sandbox=\"\"` attribute applied when the `sandbox_iframes` option is enabled. By default, this option is set to an array of domains that are provided in embed code by popular websites. To sandbox `iframe` elements from every domain, set this option to `[]`.\n\n### Workarounds\nThe HTTP Content-Security-Policy (CSP) `frame-src` or `object-src` can be configured to restrict or block the loading of unauthorized URLS.  Refer to the [TinyMCE Content Security Policy Guide](https://www.tiny.cloud/docs/tinymce/latest/tinymce-and-csp/).\n\n### References\n- [TinyMCE 6.8.1](https://www.tiny.cloud/docs/tinymce/6/6.8.1-release-notes/#new-convert_unsafe_embeds-option-that-controls-whether-object-and-embed-elements-will-be-converted-to-more-restrictive-alternatives-namely-img-for-image-mime-types-video-for-video-mime-types-audio-audio-mime-types-or-iframe-for-other-or-unspecified-mime-types)\n- [TinyMCE 7.0.0](https://www.tiny.cloud/docs/tinymce/7/7.0-release-notes/#sandbox_iframes-editor-option-is-now-defaulted-to-true)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "tinymce"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.8.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "TinyMCE"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.8.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "tinymce/tinymce"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.8.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/tinymce/tinymce/security/advisories/GHSA-438c-3975-5x3f"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-29203"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tinymce/tinymce/commit/bcdea2ad14e3c2cea40743fb48c63bba067ae6d1"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/tinymce/tinymce"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.tiny.cloud/docs/tinymce/6/6.8.1-release-notes/#new-convert_unsafe_embeds-option-that-controls-whether-object-and-embed-elements-will-be-converted-to-more-restrictive-alternatives-namely-img-for-image-mime-types-video-for-video-mime-types-audio-audio-mime-types-or-iframe-for-other-or-unspecified-mime-types"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.tiny.cloud/docs/tinymce/7/7.0-release-notes/#sandbox_iframes-editor-option-is-now-defaulted-to-true"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-26T21:23:47Z",
+    "nvd_published_at": "2024-03-26T14:15:08Z"
+  }
+}

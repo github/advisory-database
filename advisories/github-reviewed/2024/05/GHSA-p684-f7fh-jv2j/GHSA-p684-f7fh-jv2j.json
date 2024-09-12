@@ -1,0 +1,164 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-p684-f7fh-jv2j",
+  "modified": "2024-05-30T00:42:18Z",
+  "published": "2024-05-30T00:42:18Z",
+  "aliases": [
+    "CVE-2015-2309"
+  ],
+  "summary": "Symfony has unsafe methods in the Request class",
+  "details": "All 2.0.X, 2.1.X, 2.2.X, 2.3.X, 2.4.X, 2.5.X, and 2.6.X versions of the Symfony HttpFoundation component are affected by this security issue.\n\nThis issue has been fixed in Symfony 2.3.27, 2.5.11, and 2.6.6. Note that no fixes are provided for Symfony 2.0, 2.1, 2.2, and 2.4 as they are not maintained anymore.\n\n### Description\nThe Symfony\\Component\\HttpFoundation\\Request class provides a mechanism that ensures it does not trust HTTP header values coming from a \"non-trusted\" client. Unfortunately, it assumes that the remote address is always a trusted client if at least one trusted proxy is involved in the request; this allows a man-in-the-middle attack between the latest trusted proxy and the web server.\n\nThe following methods are impacted: getPort(), isSecure(), and getHost(), and getClientIps().\n\n### Resolution\nAll impacted methods now check that the remote address is trusted, which fixes the issue.\n\nThe patch for this issue is available [here](https://github.com/symfony/symfony/pull/14166).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/http-foundation"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.3.27"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/http-foundation"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.4.0"
+            },
+            {
+              "fixed": "2.5.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/http-foundation"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.6.0"
+            },
+            {
+              "fixed": "2.6.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/symfony"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.3.27"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/symfony"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.4.0"
+            },
+            {
+              "fixed": "2.5.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/symfony"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.6.0"
+            },
+            {
+              "fixed": "2.6.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/symfony/symfony/pull/14166"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/symfony/symfony/commit/6c73f0ce9302a0091bbfbb96f317e400ce16ef84"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/symfony/http-foundation/CVE-2015-2309.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/symfony/symfony/CVE-2015-2309.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://symfony.com/cve-2015-2309"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-30T00:42:18Z",
+    "nvd_published_at": null
+  }
+}

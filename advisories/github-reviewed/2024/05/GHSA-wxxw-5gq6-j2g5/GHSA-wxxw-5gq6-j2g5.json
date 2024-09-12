@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wxxw-5gq6-j2g5",
+  "modified": "2024-05-15T18:31:02Z",
+  "published": "2024-05-15T18:31:02Z",
+  "aliases": [
+
+  ],
+  "summary": "contao/core Insufficient input validation allows for code injection and remote execution",
+  "details": "contao/core versions 2.x prior to 2.11.17 and 3.x prior to 3.2.9 are vulnerable to arbitrary code execution on the server due to insufficient input validation. In fact, attackers can remove or change pathconfig.php by entering a URL, meaning that the entire Contao installation will no longer be accessible or malicious code can be executed.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "contao/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.11.17"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "contao/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.2.9"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/contao/core/issues/6855"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/contao/core/commit/d45503568751a868193929ef349a49ae5e6686f0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/contao/core/commit/d4a14f167e0cbb2e77c7829299e5b36f55c1ebce"
+    },
+    {
+      "type": "WEB",
+      "url": "https://c-c-a.org/aktuelles/news/details/eine-neue-kritische-sicherheitsluecke-in-contao-entdeckt"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/contao/core/2014-04-07.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20240214121817/https://contao.org/en/news/new-security-hole-found-in-contao"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-15T18:31:02Z",
+    "nvd_published_at": null
+  }
+}

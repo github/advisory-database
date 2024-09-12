@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-p4jx-q62p-x5jr",
+  "modified": "2024-05-16T17:46:38Z",
+  "published": "2024-05-16T09:33:08Z",
+  "aliases": [
+    "CVE-2024-4263"
+  ],
+  "summary": "MLflow allows low privilege users to delete any artifact",
+  "details": "A broken access control vulnerability exists in mlflow/mlflow versions before 2.10.1, where low privilege users with only EDIT permissions on an experiment can delete any artifacts. This issue arises due to the lack of proper validation for DELETE requests by users with EDIT permissions, allowing them to perform unauthorized deletions of artifacts. The vulnerability specifically affects the handling of artifact deletions within the application, as demonstrated by the ability of a low privilege user to delete a directory inside an artifact using a DELETE request, despite the official documentation stating that users with EDIT permission can only read and update artifacts, not delete them.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "mlflow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.10.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-4263"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mlflow/mlflow/commit/b43e0e3de5b500554e13dc032ba2083b2d6c94b8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mlflow/mlflow"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/mlflow/PYSEC-2024-51.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.com/bounties/bfa116d3-2af8-4c4a-ac34-ccde7491ae11"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-284"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-16T17:46:38Z",
+    "nvd_published_at": "2024-05-16T09:15:16Z"
+  }
+}

@@ -1,0 +1,150 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xh4m-99qp-w483",
+  "modified": "2024-03-01T23:43:06Z",
+  "published": "2022-05-14T03:05:26Z",
+  "aliases": [
+    "CVE-2018-11041"
+  ],
+  "summary": "Cloud Foundry UAA open redirect",
+  "details": "Cloud Foundry UAA, versions later than 4.6.0 and prior to 4.19.0 except 4.10.1 and 4.7.5 and uaa-release versions later than v48 and prior to v60 except v55.1 and v52.9, does not validate redirect URL values on a form parameter used for internal UAA redirects on the login page, allowing open redirects. A remote attacker can craft a malicious link that, when clicked, will redirect users to arbitrary websites after a successful login attempt.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.cloudfoundry.identity:cloudfoundry-identity-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.7.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.cloudfoundry.identity:cloudfoundry-identity-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.8.0"
+            },
+            {
+              "fixed": "4.10.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.cloudfoundry.identity:cloudfoundry-identity-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.11.0"
+            },
+            {
+              "fixed": "4.12.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.cloudfoundry.identity:cloudfoundry-identity-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.13.0"
+            },
+            {
+              "fixed": "4.19.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-11041"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudfoundry/uaa/commit/238ce572fdaebbb8357b265d2f77eb9761199a09"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudfoundry/uaa/commit/57a15dfb7e0e3a59019ebe951793b586512b196"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudfoundry/uaa/commit/7a8f157f7e2feed2d0ebb63b163ff735b6340b9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudfoundry/uaa/commit/7d750e036cd52c5d30e73e28cbcae23126d7154"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudfoundry/uaa/commit/83c8627c2da7845043b65e6ba354a64b4f9c6e2f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudfoundry/uaa/commit/8a599448781acd481aa9dab1b0bde3424e00ced"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudfoundry/uaa/commit/d17b23fc3bf9b86f111774925afadfced75315c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudfoundry/uaa/commit/f6362a8f1865314aa507fc5de772848b7e55236"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cloudfoundry/uaa"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.cloudfoundry.org/blog/cve-2018-11041"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-601"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-01T23:43:06Z",
+    "nvd_published_at": "2018-06-25T15:29:00Z"
+  }
+}

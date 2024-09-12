@@ -1,0 +1,260 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-242p-4v39-2v8g",
+  "modified": "2024-03-14T21:40:41Z",
+  "published": "2024-03-12T15:39:46Z",
+  "aliases": [
+    "CVE-2024-28199"
+  ],
+  "summary": "Cross-site Scripting (XSS) possible with maliciously formed HTML attribute names and values in Phlex",
+  "details": "There is a potential cross-site scripting (XSS) vulnerability that can be exploited via maliciously crafted user data. This was due to improper case-sensitivity in the code that was meant to prevent these attacks.\n\n### Impact\n\nIf you render an `<a>` tag with an `href` attribute set to a user-provided link, that link could potentially execute JavaScript when clicked by another user.\n\n```ruby\na(href: user_profile) { \"Profile\" }\n```\n\nIf you splat user-provided attributes when rendering any HTML or SVG tag, malicious event attributes could be included in the output, executing JavaScript when the events are triggered by another user.\n\n```ruby\nh1(**JSON.parse(user_attributes))\n```\n\n### Patches\nPatches are [available on RubyGems](https://rubygems.org/gems/phlex) for all `1.x` minor versions. The patched versions are:\n\n- [1.9.1](https://rubygems.org/gems/phlex/versions/1.9.1)\n- [1.8.2](https://rubygems.org/gems/phlex/versions/1.8.2)\n- [1.7.1](https://rubygems.org/gems/phlex/versions/1.7.1)\n- [1.6.2](https://rubygems.org/gems/phlex/versions/1.6.2)\n- [1.5.2](https://rubygems.org/gems/phlex/versions/1.5.2)\n- [1.4.1](https://rubygems.org/gems/phlex/versions/1.4.1)\n- [1.3.3](https://rubygems.org/gems/phlex/versions/1.3.3)\n- [1.2.2](https://rubygems.org/gems/phlex/versions/1.2.2)\n- [1.1.1](https://rubygems.org/gems/phlex/versions/1.1.1)\n- [1.0.1](https://rubygems.org/gems/phlex/versions/1.0.1)\n\nIf you are on `main`, it has been patched since [`aa50c60`](https://github.com/phlex-ruby/phlex/commit/aa50c604cdee1d0ce7ef068a4c66cbd5d43f96a1)\n\n### Workarounds\nConfiguring a [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy) that does not allow [`unsafe-inline`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy#unsafe-inline) would effectively prevent this vulnerability from being exploited.\n\n### References\n\nIn addition to upgrading to a patched version of Phlex, we strongly recommend configuring a Content Security Policy header that does not allow `unsafe-inline`. Here’s how you can configure a Content Security Policy header in Rails. https://guides.rubyonrails.org/security.html#content-security-policy-header",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "phlex"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.9.0"
+            },
+            {
+              "fixed": "1.9.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "1.9.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "phlex"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.8.0"
+            },
+            {
+              "fixed": "1.8.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "phlex"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.7.0"
+            },
+            {
+              "fixed": "1.7.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "1.7.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "phlex"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.6.0"
+            },
+            {
+              "fixed": "1.6.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "phlex"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.5.0"
+            },
+            {
+              "fixed": "1.5.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "phlex"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.4.0"
+            },
+            {
+              "fixed": "1.4.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "1.4.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "phlex"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.3.0"
+            },
+            {
+              "fixed": "1.3.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "phlex"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.2.0"
+            },
+            {
+              "fixed": "1.2.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "phlex"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.1.0"
+            },
+            {
+              "fixed": "1.1.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "1.1.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "phlex"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.0.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/phlex-ruby/phlex/security/advisories/GHSA-242p-4v39-2v8g"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28199"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/phlex-ruby/phlex/commit/aa50c604cdee1d0ce7ef068a4c66cbd5d43f96a1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy"
+    },
+    {
+      "type": "WEB",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy#unsafe-inline"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/phlex-ruby/phlex"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/phlex/CVE-2024-28199.yml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-12T15:39:46Z",
+    "nvd_published_at": "2024-03-11T23:15:47Z"
+  }
+}

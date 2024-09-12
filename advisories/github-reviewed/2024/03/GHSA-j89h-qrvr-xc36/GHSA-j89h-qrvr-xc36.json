@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-j89h-qrvr-xc36",
+  "modified": "2024-03-19T18:31:22Z",
+  "published": "2024-03-18T20:30:41Z",
+  "aliases": [
+    "CVE-2024-28249"
+  ],
+  "summary": "Unencrypted traffic between nodes when using IPsec and L7 policies",
+  "details": "### Impact\n\nIn Cilium clusters with IPsec enabled and traffic matching Layer 7 policies:\n\n- Traffic that should be IPsec-encrypted between a node's Envoy proxy and pods on other nodes is sent unencrypted\n- Traffic that should be IPsec-encrypted between a node's DNS proxy and pods on other nodes is sent unencrypted\n\n**Note:** For clusters running in native routing mode, IPsec encryption is not applied to connections which are selected by a L7 Egress Network Policy or a DNS Policy. This is a known limitation of Cilium's IPsec encryption which will continue to apply after upgrading to the latest Cilium versions described below.\n\n### Patches\n\nThis issue affects: \n\n- Cilium v1.15 before v1.15.2\n- Cilium v1.14 before v1.14.8\n- Cilium v1.13 before v1.13.13\n- Cilium v1.4 to v1.12 inclusive\n\nThis issue has been resolved in:\n\n- Cilium v1.15.2\n-  Cilium v1.14.8\n-  Cilium v1.13.13\n\n### Workarounds\nThere is no workaround to this issue.\n\n### Acknowledgements\nThe Cilium community has worked together with members of Isovalent to prepare these mitigations. Special thanks to @jschwinger233, @julianwiedmann, @giorio94, and @jrajahalme for their work in triaging and resolving this issue.   \n\n### For more information\nIf you have any questions or comments about this advisory, please reach out on [Slack](https://docs.cilium.io/en/latest/community/community/#slack).\n\nIf you think you have found a vulnerability in Cilium, we strongly encourage you to report it to our private security mailing list at [security@cilium.io](mailto:security@cilium.io). This is a private mailing list that only members of the Cilium internal security team are subscribed to, and your report will be treated as top priority.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:A/AC:H/PR:N/UI:N/S:C/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cilium/cilium"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.13.13"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cilium/cilium"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.14.0"
+            },
+            {
+              "fixed": "1.14.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cilium/cilium"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.15.0"
+            },
+            {
+              "fixed": "1.15.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/security/advisories/GHSA-j89h-qrvr-xc36"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28249"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cilium/cilium"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/releases/tag/v1.13.13"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/releases/tag/v1.14.8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/releases/tag/v1.15.2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-311"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-18T20:30:41Z",
+    "nvd_published_at": "2024-03-18T22:15:08Z"
+  }
+}

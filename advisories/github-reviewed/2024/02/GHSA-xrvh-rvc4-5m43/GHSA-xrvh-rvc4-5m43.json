@@ -1,0 +1,178 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xrvh-rvc4-5m43",
+  "modified": "2024-02-26T17:19:44Z",
+  "published": "2024-02-26T16:22:12Z",
+  "aliases": [
+    "CVE-2024-26483"
+  ],
+  "summary": "Kirby vulnerable to unrestricted file upload of user avatar images",
+  "details": "### TL;DR\n\nThis vulnerability affects all Kirby sites that might have potential attackers in the group of authenticated Panel users.\n\nThe attack requires user interaction by another user or visitor and *cannot* be automated.\n\n----\n\n### Introduction\n\nUnrestricted upload of files with a dangerous type is a type of vulnerability that allows to circumvent expectations and protections in the server setup or backend code. Uploaded files are not checked for their compliance with the intended purpose of the upload target, which can introduce secondary attack vectors.\n\nWhile the vulnerability described here does *not* allow critical attacks like remote code execution (RCE), it can still be abused to upload unexpected file types that could for example make it possible to perform cross-site scripting (XSS) attacks.\n\n### Impact\n\nUsers with Panel access can upload a user avatar in their own account view. This avatar is intended to be an image, however the file type or file extension was not validated on the backend. This effectively allowed to upload many types of files that would then be stored with the filename `profile` and the provided file extension.\n\nWhile the upload is protected against dangerous file types such as HTML files or executable PHP files, this could be abused to upload unexpected files such as PDFs that would then be available via a direct link. These links could be shared to other users.\n\n### Patches\n\nThe problem has been patched in [Kirby 3.6.6.5](https://github.com/getkirby/kirby/releases/tag/3.6.6.5), [Kirby 3.7.5.4](https://github.com/getkirby/kirby/releases/tag/3.7.5.4), [Kirby 3.8.4.3](https://github.com/getkirby/kirby/releases/tag/3.8.4.3), [Kirby 3.9.8.1](https://github.com/getkirby/kirby/releases/tag/3.9.8.1), [Kirby 3.10.0.1](https://github.com/getkirby/kirby/releases/tag/3.10.0.1), and [Kirby 4.1.1](https://github.com/getkirby/kirby/releases/tag/4.1.1). Please update to one of these or a [later version](https://github.com/getkirby/kirby/releases) to fix the vulnerability.\n\nIn all of the mentioned releases, we have added validations that prevent any files that don't have an image file extension or MIME type from being uploaded as a user avatar.\n\n### Credits\n\nThanks to Natwara Archeepsamooth (@PlyNatwara) for responsibly reporting the identified issue.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getkirby/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.6.6.5"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.6.6.4"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getkirby/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.7.0"
+            },
+            {
+              "fixed": "3.7.5.4"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.7.5.3"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getkirby/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.8.0"
+            },
+            {
+              "fixed": "3.8.4.3"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.8.4.2"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getkirby/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.9.0"
+            },
+            {
+              "fixed": "3.9.8.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.9.8"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getkirby/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.10.0"
+            },
+            {
+              "fixed": "3.10.0.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "3.10.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getkirby/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0"
+            },
+            {
+              "fixed": "4.1.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 4.1.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/getkirby/kirby/security/advisories/GHSA-xrvh-rvc4-5m43"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-26483"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/getkirby/kirby"
+    },
+    {
+      "type": "WEB",
+      "url": "https://shrouded-trowel-50c.notion.site/Kirby-CMS-4-1-0-Unrestricted-File-Upload-dc60ce3132f04442b73f2dba2631fae0?pvs=4"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-26T16:22:12Z",
+    "nvd_published_at": null
+  }
+}

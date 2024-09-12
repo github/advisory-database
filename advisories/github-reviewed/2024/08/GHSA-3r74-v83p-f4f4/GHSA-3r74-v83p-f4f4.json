@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3r74-v83p-f4f4",
+  "modified": "2024-08-19T17:29:25Z",
+  "published": "2024-08-19T17:29:25Z",
+  "aliases": [
+    "CVE-2024-43379"
+  ],
+  "summary": "Trufflehog vulnerable to Blind SSRF in some Detectors",
+  "details": "### Impact\n_What kind of vulnerability is it? Who is impacted?_\n\nThis vulnerability allows a malicious actor to craft data in a way that, when scanned by specific detectors, could trigger the detector to make an unauthorized request to an endpoint chosen by the attacker. For an exploit to be effective, the target endpoint must be an unauthenticated GET endpoint that produces side effects. The victim must scan the maliciously crafted data and have such an endpoint targeted for the exploit to succeed.\n\n### Patches\n_Has the problem been patched? What versions should users upgrade to?_\n\nThe vulnerability has been resolved in TruffleHog v3.81.9 and later versions. Users should upgrade to this or a more recent version to mitigate the issue.\n\n_Special thanks to Karan Bamal, Security Researcher at Sentinel One for this discovery_",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:N/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:A/VC:N/VI:N/VA:N/SC:N/SI:L/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/trufflesecurity/trufflehog/v3"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.81.9"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/trufflesecurity/trufflehog/security/advisories/GHSA-3r74-v83p-f4f4"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-43379"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/trufflesecurity/trufflehog/commit/fe5624c70923355128868cffd647b6e2cfe11443"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/trufflesecurity/trufflehog"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-918"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-19T17:29:25Z",
+    "nvd_published_at": "2024-08-19T15:15:08Z"
+  }
+}

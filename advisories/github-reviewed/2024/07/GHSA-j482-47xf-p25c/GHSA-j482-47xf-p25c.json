@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-j482-47xf-p25c",
+  "modified": "2024-07-19T19:38:16Z",
+  "published": "2024-07-17T09:30:48Z",
+  "aliases": [
+    "CVE-2024-39863"
+  ],
+  "summary": "Apache Airflow Potential Cross-site Scripting Vulnerability",
+  "details": "Apache Airflow versions before 2.9.3 have a vulnerability that allows an authenticated attacker to inject a malicious link when installing a provider. Users are recommended to upgrade to version 2.9.3, which fixes this issue.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:P/VC:N/VI:N/VA:N/SC:L/SI:L/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "apache-airflow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.9.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-39863"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/airflow/pull/40475"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/airflow/commit/f18f48492dc69f392e45567580b6ddb0c070ea58"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/airflow"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/gxkvs279f1mbvckv5q65worr6how20o3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74",
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-17T17:59:08Z",
+    "nvd_published_at": "2024-07-17T08:15:01Z"
+  }
+}

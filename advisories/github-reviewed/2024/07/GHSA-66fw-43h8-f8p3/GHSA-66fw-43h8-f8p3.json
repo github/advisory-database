@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-66fw-43h8-f8p3",
+  "modified": "2024-07-26T21:14:54Z",
+  "published": "2024-07-26T21:14:54Z",
+  "aliases": [
+
+  ],
+  "summary": "XMP Toolkit's `XmpFile::close` can trigger undefined behavior",
+  "details": "Affected versions of the crate failed to catch C++ exceptions raised within the `XmpFile::close` function. If such an exception occured, it would trigger undefined behavior, typically a process abort.\n\nThis is best demonstrated in [issue #230](https://github.com/adobe/xmp-toolkit-rs/issues/230), where a race condition causes the `close` call to fail due to file I/O errors.\n\nThis was fixed in [PR #232](https://github.com/adobe/xmp-toolkit-rs/pull/232) (released as crate version 1.9.0), which now safely handles the exception.\n\nFor backward compatibility, the existing API ignores the error. A new API `XmpFile::try_close` was added to allow callers to receive and process the error result.\n\nUsers of all prior versions of `xmp_toolkit` are encouraged to update to version 1.9.0 to avoid undefined behavior.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "xmp_toolkit"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.9.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/adobe/xmp-toolkit-rs/issues/230"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/adobe/xmp-toolkit-rs/issues/233"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/adobe/xmp-toolkit-rs/pull/232"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/adobe/xmp-toolkit-rs"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2024-0360.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-754"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-26T21:14:54Z",
+    "nvd_published_at": null
+  }
+}

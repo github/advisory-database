@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4fp6-574p-fc35",
+  "modified": "2024-03-18T19:57:20Z",
+  "published": "2024-02-09T15:31:26Z",
+  "aliases": [
+    "CVE-2024-23319"
+  ],
+  "summary": "Mattermost Jira Plugin vulnerable to Cross-Site Request Forgery",
+  "details": "Mattermost Jira Plugin fails to protect against logout CSRF allowing an attacker to post a specially crafted message that would disconnect a user's Jira connection in Mattermost only by viewing the message.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/mattermost/mattermost-plugin-jira"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.1.2-0.20230830170046-f4cf4c6de017"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23319"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mattermost/mattermost-plugin-jira/commit/f4cf4c6de017ef6aa4428d393b78f418dd84cd8e"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mattermost/mattermost-plugin-jira"
+    },
+    {
+      "type": "WEB",
+      "url": "https://mattermost.com/security-updates"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/vuln/GO-2024-2539"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-09T18:14:44Z",
+    "nvd_published_at": "2024-02-09T15:15:08Z"
+  }
+}

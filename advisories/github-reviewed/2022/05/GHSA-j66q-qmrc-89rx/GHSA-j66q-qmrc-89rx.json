@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-j66q-qmrc-89rx",
+  "modified": "2024-04-22T21:10:25Z",
+  "published": "2022-05-24T17:36:44Z",
+  "aliases": [
+    "CVE-2020-22083"
+  ],
+  "summary": "jsonpickle unsafe deserialization",
+  "details": "jsonpickle through 1.4.2 allows remote code execution during deserialization of a malicious payload through the `decode()` function. This CVE is disputed by the project author as intended functionality.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "jsonpickle"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "jsonpickle.decode"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.4.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-22083"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jsonpickle/jsonpickle/issues/332"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jsonpickle/jsonpickle/issues/332#issuecomment-747807494"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jsonpickle/jsonpickle/issues/335"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/security/cve/CVE-2020-22083"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gist.github.com/j0lt-github/bb543e77a1a10c33cb56cf23d0837874"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/j0lt-github/python-deserialization-attack-payload-generator"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jsonpickle/jsonpickle"
+    },
+    {
+      "type": "WEB",
+      "url": "https://versprite.com/blog/application-security/into-the-jar-jsonpickle-exploitation"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-502"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-01T20:58:40Z",
+    "nvd_published_at": "2020-12-17T16:15:00Z"
+  }
+}

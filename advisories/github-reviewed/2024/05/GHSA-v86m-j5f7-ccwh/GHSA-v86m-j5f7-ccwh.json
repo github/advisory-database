@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v86m-j5f7-ccwh",
+  "modified": "2024-05-20T16:51:20Z",
+  "published": "2024-05-20T16:51:20Z",
+  "aliases": [
+
+  ],
+  "summary": "Passbolt Api E-mail HTML injection",
+  "details": "Passbolt sends e-mail to users to warn them about different type of events such as the creation, modification or deletion of a password. Those e-mails may contain user-specified input, such as a password’s title or description.\n\nPassbolt does not escape the user’s input properly, resulting in the user being able to inject HTML code in an e-mail.\n\nAn authenticated attacker could share a password containing an img HTML tag in its description with an other user to obtain information about their mail user-agent.\n\nThis vulnerability has a very low impact. Most MUA do not embed remote images to protect their users’ privacy.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "passbolt/passbolt_api"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.7.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/passbolt/passbolt_api/commit/00f0ebe37d78815adee26d5e80cf2250fe878647"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/passbolt/passbolt_api/2019-02-11-3.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/passbolt/passbolt_api"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.passbolt.com/incidents/20190211_multiple_vulnerabilities"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-20T16:51:20Z",
+    "nvd_published_at": null
+  }
+}

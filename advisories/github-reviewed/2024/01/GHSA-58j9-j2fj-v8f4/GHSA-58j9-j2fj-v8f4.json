@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-58j9-j2fj-v8f4",
+  "modified": "2024-01-19T20:31:21Z",
+  "published": "2024-01-19T20:31:21Z",
+  "aliases": [
+
+  ],
+  "summary": "SurrealDB vulnerable to Uncontrolled CPU Consumption via WebSocket Interface",
+  "details": "SurrealDB depends on the `tungstenite` and `tokio-tungstenite` crates used by the `axum` crate, which handles connections to the SurrealDB WebSocket interface. On versions before `0.20.1`, the `tungstenite` crate presented an issue which allowed the parsing of HTTP headers during the client handshake to continuously consume high CPU when the headers were very long. All affected crates have been updated in SurrealDB version `1.1.0`.\n\nFrom the original advisory for [CVE-2023-43669](https://nvd.nist.gov/vuln/detail/CVE-2023-43669):\n\"The Tungstenite crate through 0.20.0 for Rust allows remote attackers to cause a denial of service (minutes of CPU consumption) via an excessive length of an HTTP header in a client handshake. The length affects both how many times a parse is attempted (e.g., thousands of times) and the average amount of data for each parse attempt (e.g., millions of bytes).\"\n\n### Impact\n\nA remote unauthenticated attacker may cause a SurrealDB server that exposes its WebSocket interface to consume high CPU by sending an HTTP request with a very long header to the WebSocket interface, potentially leading to denial of service.\n\n### Patches\n\n- Version 1.1.0 and later are not affected by this issue.\n\n### Workarounds\n\nUsers unable to update may be able to limit access to the WebSocket interface (i.e. the `/rpc` endpoint) via reverse proxy if not in use or only used by a limited number of trusted clients. Alternatively, a reverse proxy may be used to strip or truncate request headers exceeding a reasonable length before reaching the SurrealDB server.\n\n### References\n\n- #2807\n- https://nvd.nist.gov/vuln/detail/CVE-2023-43669\n- https://rustsec.org/advisories/RUSTSEC-2023-0065.html\n- https://github.com/snapview/tungstenite-rs/issues/376",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "surrealdb"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.1.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/surrealdb/surrealdb/security/advisories/GHSA-58j9-j2fj-v8f4"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-43669"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/snapview/tungstenite-rs/issues/376"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/surrealdb/surrealdb/pull/2807"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/surrealdb/surrealdb/commit/87859158d3750b03564613de70b5ec4ae090549d"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/surrealdb/surrealdb"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2023-0065.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-19T20:31:21Z",
+    "nvd_published_at": null
+  }
+}

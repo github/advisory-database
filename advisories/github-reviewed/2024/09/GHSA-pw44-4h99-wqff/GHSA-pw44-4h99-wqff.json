@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-pw44-4h99-wqff",
+  "modified": "2024-09-10T19:42:56Z",
+  "published": "2024-09-10T19:42:56Z",
+  "aliases": [
+    "CVE-2024-45595"
+  ],
+  "summary": "D-Tale vulnerable to Remote Code Execution through the Query input on Chart Builder",
+  "details": "### Impact\nUsers hosting D-Tale publicly can be vulnerable to remote code execution allowing attackers to run malicious code on the server.\n\n### Patches\nUsers should upgrade to version 3.14.1 where the \"Custom Filter\" input is turned off by default. You can find out more information on how to turn it back on [here](https://github.com/man-group/dtale#custom-filter)\n\n### Workarounds\nThe only workaround for versions earlier than 3.14.1 is to only host D-Tale to trusted users.\n\n### References\nSee \"Custom Filter\" [documentation](https://github.com/man-group/dtale#custom-filter)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:L/VI:L/VA:N/SC:L/SI:L/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "dtale"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.14.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/man-group/dtale/security/advisories/GHSA-pw44-4h99-wqff"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-45595"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/man-group/dtale/commit/b6e30969390520d1400b55acbb13e5487b8472e8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/man-group/dtale"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/man-group/dtale#custom-filter"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74",
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-09-10T19:42:56Z",
+    "nvd_published_at": "2024-09-10T16:15:21Z"
+  }
+}

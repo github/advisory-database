@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4hvc-qwr2-f8rv",
+  "modified": "2024-08-05T21:29:22Z",
+  "published": "2024-08-05T21:29:22Z",
+  "aliases": [
+    "CVE-2023-42809"
+  ],
+  "summary": "Redisson vulnerable to Deserialization of Untrusted Data",
+  "details": "Redisson is a Java Redis client that uses the Netty framework. Prior to version 3.22.0, some of the messages received from the Redis server contain Java objects that the client deserializes without further validation. Attackers that manage to trick clients into communicating with a malicious server can include especially crafted objects in its responses that, once deserialized by the client, force it to execute arbitrary code. This can be abused to take control of the machine the client is running in. Version 3.22.0 contains a patch for this issue.\n\nSome post-fix advice is available. Do NOT use `Kryo5Codec` as deserialization codec, as it is still vulnerable to arbitrary object deserialization due to the `setRegistrationRequired(false)` call. On the contrary, `KryoCodec` is safe to use. The fix applied to `SerializationCodec` only consists of adding an optional allowlist of class names, even though making this behavior the default is recommended. When instantiating `SerializationCodec` please use the `SerializationCodec(ClassLoader classLoader, Set<String> allowedClasses)` constructor to restrict the allowed classes for deserialization.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:A/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.redisson:redisson"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.22.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-42809"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/redisson/redisson/commit/fe6a2571801656ff1599ef87bdee20f519a5d1fe"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/redisson/redisson"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://securitylab.github.com/advisories/GHSL-2023-053_Redisson"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-502"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-05T21:29:22Z",
+    "nvd_published_at": "2023-10-04T20:15:10Z"
+  }
+}

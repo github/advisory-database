@@ -1,0 +1,142 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-82m2-cv7p-4m75",
+  "modified": "2024-07-18T21:58:12Z",
+  "published": "2024-07-18T21:30:38Z",
+  "aliases": [
+    "CVE-2024-5321"
+  ],
+  "summary": "Kubernetes sets incorrect permissions on Windows containers logs",
+  "details": "A security issue was discovered in Kubernetes clusters with Windows nodes where BUILTIN\\Users may be able to read container logs and NT AUTHORITY\\Authenticated Users may be able to modify container logs.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:L/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "k8s.io/kubernetes"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.27.16"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "k8s.io/kubernetes"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.28.0"
+            },
+            {
+              "fixed": "1.28.12"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "k8s.io/kubernetes"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.29.0"
+            },
+            {
+              "fixed": "1.29.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "k8s.io/kubernetes"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.30.0"
+            },
+            {
+              "fixed": "1.30.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-5321"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kubernetes/kubernetes/issues/126161"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kubernetes/kubernetes/commit/23660a78ae462a6c8c75ac7ffd9af97550dda1aa"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kubernetes/kubernetes/commit/84beb2915fa28ae477fe0676be8ba94ccd2b811a"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kubernetes/kubernetes/commit/90589b8f63d28bcd3db89749950ebc48ed07c190"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kubernetes/kubernetes/commit/de2033033b1d202ecaaa79d41861a075df8b49c1"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/kubernetes/kubernetes"
+    },
+    {
+      "type": "WEB",
+      "url": "https://groups.google.com/g/kubernetes-security-announce/c/81c0BHkKNt0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-276"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-18T21:58:12Z",
+    "nvd_published_at": "2024-07-18T19:15:12Z"
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g3cc-pvjj-9xq9",
+  "modified": "2024-04-22T22:47:01Z",
+  "published": "2022-05-13T01:48:47Z",
+  "aliases": [
+    "CVE-2018-10406"
+  ],
+  "summary": "Yelp OSXCollector Improper Certificate Validation",
+  "details": "An issue was discovered in Yelp OSXCollector. A maliciously crafted Universal/fat binary can evade third-party code signing checks. By not completing full inspection of the Universal/fat binary, the user of the third-party tool will believe that the code is signed by Apple, but the malicious unsigned code will execute.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "osxcollector"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.10"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-10406"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Yelp/osxcollector/pull/160"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Yelp/osxcollector"
+    },
+    {
+      "type": "WEB",
+      "url": "https://thehackernews.com/2018/06/apple-mac-code-signing.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.okta.com/security-blog/2018/06/issues-around-third-party-apple-code-signing-checks"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-295"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-22T22:47:01Z",
+    "nvd_published_at": "2018-06-13T22:29:00Z"
+  }
+}

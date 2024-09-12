@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-22q8-ghmq-63vf",
+  "modified": "2024-02-12T15:42:14Z",
+  "published": "2024-02-12T15:42:14Z",
+  "aliases": [
+
+  ],
+  "summary": "libgit2-sys affected by memory corruption, denial of service, and arbitrary code execution in libgit2",
+  "details": "The [libgit2](https://github.com/libgit2/libgit2/) project fixed three security issues in the 1.7.2 release. These issues are:\n\n* The `git_revparse_single` function can potentially enter an infinite loop on a well-crafted input, potentially causing a Denial of Service. This function is exposed in the `git2` crate via the [`Repository::revparse_single`](https://docs.rs/git2/latest/git2/struct.Repository.html#method.revparse_single) method.\n* The `git_index_add` function may cause heap corruption and possibly lead to arbitrary code execution. This function is exposed in the `git2` crate via the [`Index::add`](https://docs.rs/git2/latest/git2/struct.Index.html#method.add) method.\n* The smart transport negotiation may experience an out-of-bounds read when a remote server did not advertise capabilities.\n\nThe `libgit2-sys` crate bundles libgit2, or optionally links to a system libgit2 library. In either case, versions of the libgit2 library less than 1.7.2 are vulnerable. The 0.16.2 release of `libgit2-sys` bundles the fixed version of 1.7.2, and requires a system libgit2 version of at least 1.7.2.\n\nIt is recommended that all users upgrade.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "libgit2-sys"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "libgit2_sys::git_index_add",
+          "libgit2_sys::git_revparse_single"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.16.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/rust-lang/git2-rs/pull/1017"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rust-lang/git2-rs/commit/9e57876be78924c1e5f3f268bb599e3981fe58bb"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/rust-lang/git2-rs"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2024-0013.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-12T15:42:14Z",
+    "nvd_published_at": null
+  }
+}

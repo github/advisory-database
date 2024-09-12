@@ -1,0 +1,122 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-97jm-g33h-f46g",
+  "modified": "2024-05-23T19:50:27Z",
+  "published": "2024-05-23T19:50:27Z",
+  "aliases": [
+
+  ],
+  "summary": "silverstripe/framework ReadOnly transformation for formfields exploitable",
+  "details": "Form fields returning isReadonly() as true are vulnerable to reflected XSS injections. This includes ReadonlyField, LookupField, HTMLReadonlyField, as well as special purpose fields like TimeField_Readonly. Values submitted to through these form fields are not filtered out from the form session data, and might be shown to the user depending on the form behaviour. For example, form validation errors cause the form to re-render with previously submitted values by default.\n\nSilverStripe forms automatically load values from request data (GET and POST), which enables malicious use of URLs if your form uses these fields and doesn't overwrite data on form construction.\n\nReadonly and disabled form fields are already filtered out in Form->saveInto(), so maliciously submitted data on these fields doesn't make it into the database unless you are accessing form values directly in your saving logic.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.1.21"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.2.0"
+            },
+            {
+              "fixed": "3.2.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.3.0"
+            },
+            {
+              "fixed": "3.3.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.4.0"
+            },
+            {
+              "fixed": "3.4.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/commit/8336cb96b9600dacafa8a525c92662345b52cfae"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/silverstripe/framework/SS-2016-010-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/silverstripe/silverstripe-framework"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.silverstripe.org/download/security-releases/ss-2016-010"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-23T19:50:27Z",
+    "nvd_published_at": null
+  }
+}

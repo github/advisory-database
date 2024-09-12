@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7577-f8fp-5977",
+  "modified": "2024-01-30T22:12:23Z",
+  "published": "2022-05-14T02:57:57Z",
+  "aliases": [
+    "CVE-2018-1999029"
+  ],
+  "summary": "Stored Cross-Site Scripting Vulnerability in Jenkins Shelve Project Plugin",
+  "details": "A cross-site scripting vulnerability exists in Jenkins Shelve Project Plugin 1.5 and earlier in ShelveProjectAction/index.jelly, ShelvedProjectsAction/index.jelly that allows attackers with Job/Configure permission to define JavaScript that would be executed in another user's browser when that other user performs some UI actions.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:shelve-project-plugin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.5"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-1999029"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2018-07-30/#SECURITY-1001"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-30T22:12:23Z",
+    "nvd_published_at": "2018-08-01T13:29:00Z"
+  }
+}

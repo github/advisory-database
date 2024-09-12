@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qjpf-2jhx-3758",
+  "modified": "2024-01-29T21:53:55Z",
+  "published": "2024-01-24T18:31:02Z",
+  "aliases": [
+    "CVE-2024-23904"
+  ],
+  "summary": "Arbitrary file read vulnerability in Jenkins Log Command Plugin",
+  "details": "Jenkins Log Command Plugin 1.0.2 and earlier does not disable a feature of its command parser that replaces an '@' character followed by a file path in an argument with the file's contents, allowing unauthenticated attackers to read content from arbitrary files on the Jenkins controller file system.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:log-command"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.0.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23904"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/log-command-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2024-01-24/#SECURITY-3334"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/01/24/6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-24T21:51:30Z",
+    "nvd_published_at": "2024-01-24T18:15:09Z"
+  }
+}

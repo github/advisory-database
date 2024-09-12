@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mg7h-9qfx-4r83",
+  "modified": "2024-06-07T20:46:14Z",
+  "published": "2024-06-07T20:46:14Z",
+  "aliases": [
+
+  ],
+  "summary": "ZendFramework Potential Proxy Injection Vulnerabilities",
+  "details": "`Zend\\Session\\Validator\\RemoteAddr` and `Zend\\View\\Helper\\ServerUrl` were found to be improperly parsing HTTP headers for proxy information, which could potentially allow an attacker to spoof a proxied IP or host name.\n\nIn `Zend\\Session\\Validator\\RemoteAddr`, if the client is behind a proxy server, the detection of the proxy URL was incorrect, and could lead to invalid results on subsequent lookups.\n\nIn `Zend\\View\\Helper\\ServerUrl`, if the server lives behind a proxy, the helper would always generate a URL based on the proxy host, regardless of whether or not this was desired; additionally, it did not take into account the proxy port or protocol, if provided.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "zendframework/zendframework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.0.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/zendframework/zendframework/commit/1040acaf70d297ec7214934d8ddc3e811d249b5c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zendframework/zendframework/commit/ad8fdc3378710b7cfbe2a271dbb0e3256cffb599"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zendframework/zendframework/commit/ada1fab92f6d5c7ad96c5a63f3196d925e3f5887"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zendframework/zendframework/commit/b914ecdd4d17ab5b61f15ccdc02a6e9b255b15d8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zendframework/zendframework/commit/c3819abbf2c9571069c893d27ae6170bda413925"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zendframework/zendframework/commit/cfaf5ea095c93f3e70343358a3a88c3924d7ed7d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://framework.zend.com/security/advisory/ZF2012-04"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/zendframework/zendframework/ZF2012-04.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/zendframework/zendframework"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-07T20:46:14Z",
+    "nvd_published_at": null
+  }
+}

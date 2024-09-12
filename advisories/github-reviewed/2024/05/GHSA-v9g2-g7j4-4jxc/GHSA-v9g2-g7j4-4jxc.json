@@ -1,0 +1,142 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v9g2-g7j4-4jxc",
+  "modified": "2024-05-23T14:00:16Z",
+  "published": "2024-05-23T14:00:15Z",
+  "aliases": [
+    "CVE-2024-28188"
+  ],
+  "summary": "jupyter-scheduler's endpoint is missing authentication",
+  "details": "### Impact\n\n`jupyter_scheduler` is missing an authentication check in Jupyter Server on an API endpoint (`GET /scheduler/runtime_environments`) which lists the names of the Conda environments on the server. In affected versions, `jupyter_scheduler` allows an unauthenticated user to obtain the list of Conda environment names on the server. This reveals any information that may be present in a Conda environment name.\n\nThis issue does **not** allow an unauthenticated third party to read, modify, or enter the Conda environments present on the server where `jupyter_scheduler` is running. This issue only reveals the list of Conda environment names.\n\nImpacted versions: `>=1.0.0,<=1.1.5 ; ==1.2.0 ; >=1.3.0,<=1.8.1 ; >=2.0.0,<=2.5.1`\n\n### Patches\n\n* `jupyter-scheduler==1.1.6`\n* `jupyter-scheduler==1.2.1`\n* `jupyter-scheduler==1.8.2`\n* `jupyter-scheduler==2.5.2`\n\n### Workarounds\n\nServer operators who are unable to upgrade can disable the `jupyter-scheduler` extension with:\n\n```\njupyter server extension disable jupyter-scheduler\n```\n\n### References\n\nIf you have any questions or comments about this advisory we ask that you contact AWS/Amazon Security via our vulnerability reporting page [1] or directly via email to [aws-security@amazon.com](mailto:aws-security@amazon.com). Please do not create a public GitHub issue.\n\n[1] Vulnerability reporting page: https://aws.amazon.com/security/vulnerability-reporting\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "jupyter-scheduler"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.0"
+            },
+            {
+              "fixed": "1.1.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "jupyter-scheduler"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.2.0"
+            },
+            {
+              "fixed": "1.2.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "1.2.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "jupyter-scheduler"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.3.0"
+            },
+            {
+              "fixed": "1.8.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "jupyter-scheduler"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.5.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/jupyter-server/jupyter-scheduler/security/advisories/GHSA-v9g2-g7j4-4jxc"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28188"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jupyter-server/jupyter_server/pull/1392"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jupyter-server/jupyter-scheduler/commit/06435a2277bb2b8f441ec9cedafa474572b92c5d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jupyter-server/jupyter-scheduler/commit/a621b386397280cc8ee5a208dca4607cb71cdd65"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jupyter-server/jupyter-scheduler/commit/d428ac871909444e175ba421bf8ab4980d6ebf9f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jupyter-server/jupyter-scheduler/commit/f4137a779fdf0cc4a9688a42dd8c6e7ade60f044"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jupyter-server/jupyter-scheduler"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200",
+      "CWE-287"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-23T14:00:15Z",
+    "nvd_published_at": "2024-05-23T12:15:10Z"
+  }
+}

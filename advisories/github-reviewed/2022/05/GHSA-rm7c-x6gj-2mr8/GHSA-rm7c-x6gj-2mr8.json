@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rm7c-x6gj-2mr8",
+  "modified": "2024-04-24T21:35:03Z",
+  "published": "2022-05-24T17:34:51Z",
+  "aliases": [
+    "CVE-2020-10763"
+  ],
+  "summary": "Heketi logs sensitive information",
+  "details": "An information-disclosure flaw was found in the way Heketi before 10.1.0 logs sensitive information. This flaw allows an attacker with local access to the Heketi server to read potentially sensitive information such as gluster-block passwords.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/heketi/heketi"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "10.1.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-10763"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/heketi/heketi/commit/be1583833924e62d2581824a0addcba0aed33c99"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1845387"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/heketi/heketi/releases/tag/v10.1.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-532"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-24T21:35:03Z",
+    "nvd_published_at": "2020-11-24T17:15:00Z"
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cf72-vg59-4j4h",
+  "modified": "2024-08-21T14:53:27Z",
+  "published": "2024-08-20T19:59:32Z",
+  "aliases": [
+    "CVE-2024-43396"
+  ],
+  "summary": "Khoj Vulnerable to Stored Cross-site Scripting In Automate (Preview feature)",
+  "details": "### Summary\nThe Automation feature allows a user to insert arbitrary HTML inside the task instructions, resulting in a Stored XSS. \n\n### Details\nThe `q` parameter for the `/api/automation` endpoint does not get correctly sanitized when rendered on the page, resulting in the ability of users to inject arbitrary HTML/JS.\n\n### PoC\n```\nPOST /api/automation?q=%22%3E%3C%2Ftextarea%3E%3Cimg%20src%3Dx%20onerror%3Dalert(document.cookie)%3E%3Cscript%3Ealert(2)%3C%2Fscript%3E\n```\n\n### Impact\nStored XSS:\n![image](https://github.com/khoj-ai/khoj/assets/115566010/6b5b9f60-e05c-448b-82b4-bf010ad8a4f0)\n\n### Fix\n- Added a Content Security Policy to all config pages on the web client, including the automation page\n- Used DOM scripting to construct all components on the config pages, including the automation page",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:N/VI:N/VA:N/SC:L/SI:L/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "khoj"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.15.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/khoj-ai/khoj/security/advisories/GHSA-cf72-vg59-4j4h"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-43396"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/khoj-ai/khoj/commit/1c7a562880eeb7354325545d2cf6c5d1d1134812"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/khoj-ai/khoj/commit/55be90cdd2f9d6a09c8bf9ceea52fc36b9201626"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/khoj-ai/khoj"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-20T19:59:32Z",
+    "nvd_published_at": "2024-08-20T21:15:14Z"
+  }
+}

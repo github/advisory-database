@@ -1,0 +1,122 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f2wr-c4c4-xjg7",
+  "modified": "2024-04-24T21:47:30Z",
+  "published": "2022-05-13T01:09:17Z",
+  "aliases": [
+    "CVE-2017-7670"
+  ],
+  "summary": "Apache Traffic Control vulnerable to Slowloris-style Denial of Service attack",
+  "details": "The Traffic Router component of the incubating Apache Traffic Control project is vulnerable to a Slowloris style Denial of Service attack. TCP connections made on the configured DNS port will remain in the `ESTABLISHED` state until the client explicitly closes the connection or Traffic Router is restarted. If connections remain in the `ESTABLISHED` state indefinitely and accumulate in number to match the size of the thread pool dedicated to processing DNS requests, the thread pool becomes exhausted. Once the thread pool is exhausted, Traffic Router is unable to service any DNS request, regardless of transport protocol.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/apache/trafficcontrol"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.8.0"
+            },
+            {
+              "fixed": "1.8.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/apache/trafficcontrol"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0-RC0"
+            },
+            {
+              "fixed": "2.0.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/apache/trafficcontrol"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.1.0-RC0"
+            },
+            {
+              "fixed": "2.1.0-RC1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "2.1.0-RC0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-7670"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/trafficcontrol/pull/633"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/trafficcontrol/pull/634"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/trafficcontrol/commit/738c10fa1b5861e4cc3944dc7c3065d16f4a708c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/trafficcontrol"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread.html/42b207e9f526353b504591684bd02a5e9fcb4b8f28534253d07740a0@%3Cusers.trafficcontrol.apache.org%3E"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread.html/bb09fc29e9c2ee85b118a3d5748a8a523d30cf691ff8b606c6a1748c@%3Ccommits.trafficcontrol.apache.org%3E"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread.html/r3c675031ac220b5eae64a9c84a03ee60045c6045738607dca4a96cb8@%3Ccommits.trafficcontrol.apache.org%3E"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-24T21:47:30Z",
+    "nvd_published_at": "2017-07-10T18:29:00Z"
+  }
+}

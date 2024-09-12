@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-67m4-qxp3-j6hh",
+  "modified": "2024-01-30T20:57:59Z",
+  "published": "2024-01-30T20:57:59Z",
+  "aliases": [
+    "CVE-2024-23838"
+  ],
+  "summary": "TrueLayer.Client SSRF when fetching payment or payment provider",
+  "details": "### Impact\nThe vulnerability could potentially allow a malicious actor to gain control over the destination URL of the HttpClient used in the API classes. For applications using the SDK, requests to unexpected resources on local networks or to the internet could be made which could lead to information disclosure.\n\n### Patches\nVersions of TrueLayer.Client `v1.6.0` and later are not affected.\n\n### Workarounds\nThe issue can be mitigated by having strict egress rules limiting the destinations to which requests can be made, and applying strict validation to any user input passed to the TrueLayer.Client library.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "TrueLayer.Client"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.6.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/TrueLayer/truelayer-dotnet/security/advisories/GHSA-67m4-qxp3-j6hh"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23838"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/TrueLayer/truelayer-dotnet/commit/75e436ed5360faa73d6e7ce3a9903a3c49505e3e"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/TrueLayer/truelayer-dotnet"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-918"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-30T20:57:59Z",
+    "nvd_published_at": "2024-01-30T17:15:11Z"
+  }
+}

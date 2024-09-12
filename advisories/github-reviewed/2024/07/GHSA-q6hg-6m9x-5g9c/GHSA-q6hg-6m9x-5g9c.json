@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-q6hg-6m9x-5g9c",
+  "modified": "2024-07-10T14:19:51Z",
+  "published": "2024-07-10T14:19:51Z",
+  "aliases": [
+    "CVE-2024-39696"
+  ],
+  "summary": "Evmos vulnerable to exploit of smart contract account and vesting",
+  "details": "### Summary\n\nThis advisory board aims to describe two vulnerabilities found in the Evmos codebase:\n\n- _Authorization check on the fundVestingAccount_: unauthorized spend of funds.\n\n### Details\n\n#### Authorization check on the fundVestingAccount\n\nWith the current implementation, a user can create a vesting account with a 3rd party account (EOA or contract) as funder. Then, this user can create an authorization for the contract.CallerAddress, this is the authorization checked in the code. But the funds are taken from the funder address provided in the message. Consequently, the user can fund a vesting account with a 3rd party account without its permission. The funder address can be any address, so this vulnerability can be used to drain all the accounts in the chain.\n\n### Severity\nBased on [ImmuneFi Severity Classification System](https://immunefisupport.zendesk.com/hc/en-us/articles/13332717597585-Severity-Classification-System) the severity was evaluated to Critical since the attack could have lead to direct loss of funds.\n\n### Patches\nThe issue has been patched in versions >=V19.0.0",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/evmos/evmos/v18"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "19.0.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 18.0.1"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/evmos/evmos/security/advisories/GHSA-q6hg-6m9x-5g9c"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-39696"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/evmos/evmos/commit/0a620e176617a835ac697eea494afea09185dfaf"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/evmos/evmos"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-863"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-10T14:19:51Z",
+    "nvd_published_at": "2024-07-05T19:15:10Z"
+  }
+}

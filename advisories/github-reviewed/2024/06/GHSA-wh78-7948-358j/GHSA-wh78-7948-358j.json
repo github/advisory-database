@@ -1,0 +1,127 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wh78-7948-358j",
+  "modified": "2024-06-20T18:53:00Z",
+  "published": "2024-06-13T19:29:36Z",
+  "aliases": [
+    "CVE-2024-37307"
+  ],
+  "summary": "Cilium leaks sensitive information in cilium-bugtool",
+  "details": "### Impact\n\nThe output of `cilium-bugtool` can contain sensitive data when the tool is run (with the `--envoy-dump` flag set) against Cilium deployments with the Envoy proxy enabled.\n\nUsers of the following features are affected:\n\n- [TLS inspection](https://docs.cilium.io/en/stable/security/tls-visibility/#gs-tls-inspection)\n- [Ingress with TLS termination](https://docs.cilium.io/en/stable/network/servicemesh/tls-termination/#gs-ingress-tls)\n- [Gateway API with TLS termination](https://docs.cilium.io/en/stable/network/servicemesh/gateway-api/https/)\n- [Kafka network policies with API key filtering](https://docs.cilium.io/en/stable/security/policy/language/#kafka-beta)\n\nThe sensitive data includes:\n\n- The CA certificate, certificate chain, and private key used by Cilium HTTP Network Policies, and when using Ingress/Gateway API\n- The API keys used in Kafka-related network policy\n\n`cilium-bugtool` is a debugging tool that is typically invoked manually and does not run during the normal operation of a Cilium cluster.\n\n### Patches\n\nThis issue affects:\n\n- Cilium v1.13 between v1.13.0 and v1.13.16 inclusive\n- Cilium v1.14 between v1.14.0 and v1.14.11 inclusive\n- Cilium v1.15 between v1.15.0 and v1.15.5 inclusive\n\nThis issue has been patched in:\n\n- Cilium v1.15.6\n- Cilium v1.14.12\n- Cilium v1.13.17\n\n### Workarounds\n\nThere is no workaround to this issue.\n\n### Acknowledgements\n\nThe Cilium community has worked together with members of Isovalent to prepare these mitigations. Special thanks to @sayboras for their work on triaging and remediating this issue.\n\n### For more information\n\nIf you have any questions or comments about this advisory, please reach out on [Slack](https://docs.cilium.io/en/latest/community/community/#slack).\n\nIf you think you have found a vulnerability affecting Cilium, we strongly encourage you to report it to our security mailing list at [security@cilium.io](mailto:security@cilium.io). This is a private mailing list for the Cilium security team, and your report will be treated as top priority.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:C/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cilium/cilium"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.13.0"
+            },
+            {
+              "fixed": "1.13.17"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cilium/cilium"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.14.0"
+            },
+            {
+              "fixed": "1.14.12"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cilium/cilium"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.15.0"
+            },
+            {
+              "fixed": "1.15.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/security/advisories/GHSA-wh78-7948-358j"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-37307"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/commit/0191b1ebcfdd61cefd06da0315a0e7d504167407"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/commit/224e288a5bf40d0bb0f16c9413693b319633431a"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/commit/9299c0fd0024e33397cffc666ff851e82af28741"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/commit/958d7b77274bf2c272d8cdfd812631d644250653"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/commit/9eb25ba40391a9b035d7e66401b862818f4aac4b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/commit/bf9a1ae1b2d2b2c9cca329d7aa96aa4858032a61"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cilium/cilium"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/vuln/GO-2024-2922"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-13T19:29:36Z",
+    "nvd_published_at": "2024-06-13T16:15:11Z"
+  }
+}

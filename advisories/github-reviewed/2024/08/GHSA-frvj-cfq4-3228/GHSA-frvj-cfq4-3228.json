@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-frvj-cfq4-3228",
+  "modified": "2024-08-02T21:32:26Z",
+  "published": "2024-08-02T21:13:13Z",
+  "aliases": [
+    "CVE-2024-36116"
+  ],
+  "summary": "Path traversal in Reposilite javadoc file expansion (arbitrary file creation/overwrite) (`GHSL-2024-073`)",
+  "details": "### Summary\nReposilite v3.5.10 is affected by an Arbitrary File Upload vulnerability via path traversal in expanding of Javadoc archives.\n\n### Details\nReposilite provides support for JavaDocs files, which are archives that contain documentation for artifacts. Specifically, [JavadocEndpoints.kt](https://github.com/dzikoysk/reposilite/blob/68b73f19dc9811ccf10936430cf17f7b0e622bd6/reposilite-backend/src/main/kotlin/com/reposilite/javadocs/infrastructure/JavadocEndpoints.kt#L28) controller allows to expand the javadoc archive into the server's file system and return its content. The problem is in the way how the archives are expanded, specifically how the new filename is created:\n\n[JavadocContainerService.kt#L127-L136](https://github.com/dzikoysk/reposilite/blob/68b73f19dc9811ccf10936430cf17f7b0e622bd6/reposilite-backend/src/main/kotlin/com/reposilite/javadocs/JavadocContainerService.kt#L127-L136)\n\n```kotlin\njarFile.entries().asSequence().forEach { file ->\n    if (file.isDirectory) {\n        return@forEach\n    }\n\n     val path = Paths.get(javadocUnpackPath.toString() + \"/\" + file.name)\n\n    path.parent?.also { parent -> Files.createDirectories(parent) }\n    jarFile.getInputStream(file).copyToAndClose(path.outputStream())\n}.asSuccess<Unit, ErrorResponse>()\n```\n\nThe `file.name` taken from the archive can contain path traversal characters, such as '/../../../anything.txt', so the resulting extraction path can be outside the target directory.\n\n### Impact\n\nIf the archive is taken from an untrusted source, such as Maven Central or JitPack for example, an attacker can craft a special archive to overwrite any local file on Reposilite instance. This could lead to remote code execution, for example by placing a new plugin into the '$workspace$/plugins' directory. Alternatively, an attacker can overwrite the content of any other package.\n\nNote that the attacker can use its own malicious package from Maven Central to overwrite any other package on Reposilite.\n\n### Steps to reproduce\n\n1. Create a malicious javadoc archive that contains filenames with path traversal characters:\n```bash\nzip test-1.0-javadoc.jar ../../../../../../../../tmp/evil.txt index.html\n```\nMake sure that `../../../../../../../../tmp/evil.txt` and `index.html` files exist on the system where you create this archive.\n\n2. Publish this archive to the repository which Reposilite is mirroring, such as Maven Central or JitPack. For the test purposes, I used my own server that imitates the upstream maven repository:\nhttp://artsploit.com/maven/com/artsploit/reposilite-zipslip/1.0/reposilite-zipslip-1.0-javadoc.jar\n\n3. Start Reposilite with 'releases' repository mirroring to 'http://artsploit.com/maven/'\n\n4. Now, if the attacker send the request to http://localhost:8080/javadoc/releases/com/artsploit/reposilite-zipslip/1.0, the aforementioned archive will be obtained from  the http://artsploit.com/maven/com/artsploit/reposilite-zipslip/1.0/reposilite-zipslip-1.0-javadoc.jar address and its 'evil.txt' file will be expanded to '$workspace$/tmp/evil.txt'. Note that to perform this action, an attacker does not need to provide any credentials, as fetching from the mirrored repository does not require authentication.\n\n6. Confirm that '$workspace$/tmp/evil.txt' is created on the server where Reposilite is running.\n\n### Remediation\n\nNormalize (remove all occurrences of `/../`) the `file.name` variable before concatenating it with `javadocUnpackPath`. E.g.:\n\n```kotlin\nval path = Paths.get(javadocUnpackPath.toString() + \"/\" + Paths.get(file.name).normalize().toString())\n```\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.reposilite:reposilite-backend"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.3.0"
+            },
+            {
+              "fixed": "3.5.12"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/dzikoysk/reposilite/security/advisories/GHSA-frvj-cfq4-3228"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dzikoysk/reposilite/commit/848173738e4375482c70365db5cebae29f125eaa"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/dzikoysk/reposilite"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dzikoysk/reposilite/releases/tag/3.5.12"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-02T21:13:13Z",
+    "nvd_published_at": null
+  }
+}

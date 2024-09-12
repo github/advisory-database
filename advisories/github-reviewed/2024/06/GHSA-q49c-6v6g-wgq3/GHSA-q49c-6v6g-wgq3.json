@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-q49c-6v6g-wgq3",
+  "modified": "2024-06-05T13:27:16Z",
+  "published": "2024-06-04T12:31:06Z",
+  "aliases": [
+    "CVE-2024-37065"
+  ],
+  "summary": "Skops unsafe deserialization",
+  "details": "Deserialization of untrusted data can occur in versions 0.6 or newer of the skops python library, enabling a maliciously crafted model to run arbitrary code on an end user's system when loaded.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "skops"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.6"
+            },
+            {
+              "last_affected": "0.9"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-37065"
+    },
+    {
+      "type": "WEB",
+      "url": "https://hiddenlayer.com/sai-security-advisory/skops-june2024"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "http://github.com/skops-dev/skops"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-502"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-05T13:27:16Z",
+    "nvd_published_at": "2024-06-04T12:15:13Z"
+  }
+}

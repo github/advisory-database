@@ -1,0 +1,117 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qxrv-gp6x-rc23",
+  "modified": "2024-09-11T16:08:19Z",
+  "published": "2024-07-22T17:42:33Z",
+  "aliases": [
+    "CVE-2024-41132"
+  ],
+  "summary": "SixLabors ImageSharp has Excessive Memory Allocation in Gif Decoder",
+  "details": "### Impact\n_What kind of vulnerability is it? Who is impacted?_\n\nA vulnerability discovered in the ImageSharp library, where the processing of specially crafted files can lead to excessive memory usage in the Gif decoder. The vulnerability is triggered when ImageSharp attempts to process image files that are designed to exploit this flaw.\n\n### Patches\n_Has the problem been patched? What versions should users upgrade to?_\n\nThe problem has been patched. All users are advised to upgrade to v3.1.5 or v2.1.9.\n\n### Workarounds\n_Is there a way for users to fix or remediate the vulnerability without upgrading?_\n\nBefore calling `Image.Decode(Async)`, use `Image.Identify` to determine the image dimensions in order to enforce a limit.\n\n### References\n_Are there any links users can visit to find out more?_\n- https://github.com/SixLabors/ImageSharp/pull/2759\n- https://github.com/SixLabors/ImageSharp/pull/2764\n- https://github.com/SixLabors/ImageSharp/pull/2770\n- ImageSharp: [Security Considerations](https://docs.sixlabors.com/articles/imagesharp/security.html)\n- ImageSharp.Web: [Securing Processing Commands](https://docs.sixlabors.com/articles/imagesharp.web/processingcommands.html#securing-processing-commands)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "SixLabors.ImageSharp"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.1.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "SixLabors.ImageSharp"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.1.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/SixLabors/ImageSharp/security/advisories/GHSA-qxrv-gp6x-rc23"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-41132"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/SixLabors/ImageSharp/pull/2759"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/SixLabors/ImageSharp/pull/2764"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/SixLabors/ImageSharp/pull/2770"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/SixLabors/ImageSharp/commit/59de13c8cc47f2b402e2c43aa7024511d029d515"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/SixLabors/ImageSharp/commit/9816ca45016c5d3859986f3c600e8934bc450a56"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/SixLabors/ImageSharp/commit/b496109051cc39feee1f6cde48fca6481de17f9a"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.sixlabors.com/articles/imagesharp.web/processingcommands.html#securing-processing-commands"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.sixlabors.com/articles/imagesharp/security.html"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/SixLabors/ImageSharp"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-770",
+      "CWE-789"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-22T17:42:33Z",
+    "nvd_published_at": "2024-07-22T15:15:04Z"
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7wxf-r2qv-9xwr",
+  "modified": "2024-03-21T18:25:19Z",
+  "published": "2024-02-29T22:14:47Z",
+  "aliases": [
+    "CVE-2024-27291"
+  ],
+  "summary": "Docassemble open redirect",
+  "details": "### Impact\nIt is possible to create a URL that acts as an open redirect.\n\n### Patches\nThe vulnerability has been patched in version 1.4.97 of the master branch. The Docker image on docker.io has been patched.\n\n### Workarounds\nIf upgrading is not possible, manually apply the changes of [4801ac7](https://github.com/jhpyle/docassemble/commit/4801ac7ff7c90df00ac09523077930cdb6dea2aa) and restart the server (e.g., by pressing Save on the Configuration screen).\n\n### Credit\n\nThe vulnerability was discovered by Riyush Ghimire (@richighimi).\n\n### For more information\nIf you have any questions or comments about this advisory:\n\n* Open an issue in [docassemble](https://github.com/jhpyle/docassemble/issues)\n* Join the [Slack channel](https://join.slack.com/t/docassemble/shared_invite/zt-2cspzjo9j-YyE7SrLmi5muAvnPv~Bz~A)\n* Email us at jhpyle@gmail.com",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "docassemble.webapp"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.4.97"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/jhpyle/docassemble/security/advisories/GHSA-7wxf-r2qv-9xwr"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-27291"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jhpyle/docassemble/commit/4801ac7ff7c90df00ac09523077930cdb6dea2aa"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jhpyle/docassemble"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-601"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-29T22:14:47Z",
+    "nvd_published_at": "2024-03-21T02:52:19Z"
+  }
+}

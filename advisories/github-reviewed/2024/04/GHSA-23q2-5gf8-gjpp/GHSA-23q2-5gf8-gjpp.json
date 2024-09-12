@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-23q2-5gf8-gjpp",
+  "modified": "2024-04-19T17:26:32Z",
+  "published": "2024-04-19T17:26:32Z",
+  "aliases": [
+
+  ],
+  "summary": "Enabling Authentication does not close all logged in socket connections immediately ",
+  "details": "### Summary\nThis is basically [GHSA-88j4-pcx8-q4q](https://github.com/louislam/uptime-kuma/security/advisories/GHSA-88j4-pcx8-q4q3) but instead of changing passwords, when enabling authentication.\n\n### PoC\n- Open Uptime Kuma with authentication disabled\n- Enable authentication using another window\n- Access the platform using the previously logged-in window\n- Note that access (read-write) remains despite the enabled authentication\n- Expected behaviour:\n  - After enabling authentication, all previously connected sessions should be invalidated, requiring users to log in.\n- Actual behaviour:\n  - The system retains sessions and never logs out users unless explicitly done by clicking logout or refreshing the page.\n\n### Impact\nSee [GHSA-g9v2-wqcj-j99g](https://github.com/louislam/uptime-kuma/security/advisories/GHSA-g9v2-wqcj-j99g) and [GHSA-88j4-pcx8-q4q](https://github.com/louislam/uptime-kuma/security/advisories/GHSA-88j4-pcx8-q4q3)\n\nTBH this is quite a niche edge case, so I don't know if this even warrants a security report.  \n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "uptime-kuma"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.23.12"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.23.11"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/louislam/uptime-kuma/security/advisories/GHSA-23q2-5gf8-gjpp"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/louislam/uptime-kuma/security/advisories/GHSA-88j4-pcx8-q4q3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/louislam/uptime-kuma/security/advisories/GHSA-g9v2-wqcj-j99g"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/louislam/uptime-kuma/commit/7a9e2f5de69aa0bb884ead25d1dcc833bb8c6579"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/louislam/uptime-kuma"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-384"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-19T17:26:32Z",
+    "nvd_published_at": null
+  }
+}

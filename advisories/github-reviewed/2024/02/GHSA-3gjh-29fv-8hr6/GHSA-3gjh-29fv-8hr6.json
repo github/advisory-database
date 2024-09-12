@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3gjh-29fv-8hr6",
+  "modified": "2024-02-03T00:18:10Z",
+  "published": "2024-02-03T00:18:10Z",
+  "aliases": [
+
+  ],
+  "summary": "Nervos CKB Snappy decompress length can be very large and causes out of memory error ",
+  "details": "### Impact\n\nAdversary can create message which compressed size is less than the package limit but the decompressed length is very large such as 1G. It will cost the node many memories to process the network messages, and on the system with less than 1G memory, the process is killed directly because of out of memory error.\n\n### Patches\n\nThe node must check the decompress length before allocating the memory for the message.\n\n### References\n\n* https://github.com/nervosnetwork/ckb/blob/687d797f1888dd05d1f38ce6d1bef3e5b9b6e38b/network/src/compress.rs#L68\n* https://github.com/BurntSushi/rust-snappy/blob/master/src/decompress.rs#L106\n* https://github.com/BurntSushi/rust-snappy/blob/6cfb836463b9b3ac48ca7cd15d0a50d030e95769/src/decompress.rs#L30",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "ckb"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.34.2"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.34.1"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/nervosnetwork/ckb/security/advisories/GHSA-3gjh-29fv-8hr6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-03T00:18:10Z",
+    "nvd_published_at": null
+  }
+}

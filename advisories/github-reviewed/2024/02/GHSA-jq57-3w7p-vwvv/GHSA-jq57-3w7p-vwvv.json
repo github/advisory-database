@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jq57-3w7p-vwvv",
+  "modified": "2024-03-21T18:25:22Z",
+  "published": "2024-02-29T22:14:46Z",
+  "aliases": [
+    "CVE-2024-27292"
+  ],
+  "summary": "Docassemble unauthorized access through URL manipulation",
+  "details": "### Impact\nThe vulnerability allows attackers to gain unauthorized access to information on the system through URL manipulation. It affects versions 1.4.53 to 1.4.96.\n\n### Patches\nThe vulnerability has been patched in version 1.4.97 of the master branch. The Docker image on docker.io has been patched.\n\n### Workarounds\nIf upgrading is not possible, manually apply the changes of [97f77dc](https://github.com/jhpyle/docassemble/commit/97f77dc486a26a22ba804765bfd7058aabd600c9) and restart the server.\n\n### Credit\n\nThe vulnerability was discovered by Riyush Ghimire (@richighimi).\n\n### For more information\nIf you have any questions or comments about this advisory:\n\n* Open an issue in [docassemble](https://github.com/jhpyle/docassemble/issues)\n* Join the [Slack channel](https://join.slack.com/t/docassemble/shared_invite/zt-2cspzjo9j-YyE7SrLmi5muAvnPv~Bz~A)\n* Email us at jhpyle@gmail.com",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "docassemble.webapp"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.4.53"
+            },
+            {
+              "fixed": "1.4.97"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "docassemble.base"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.4.53"
+            },
+            {
+              "fixed": "1.4.97"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/jhpyle/docassemble/security/advisories/GHSA-jq57-3w7p-vwvv"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-27292"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jhpyle/docassemble/commit/97f77dc486a26a22ba804765bfd7058aabd600c9"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jhpyle/docassemble"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-706"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-29T22:14:46Z",
+    "nvd_published_at": "2024-03-21T02:52:19Z"
+  }
+}

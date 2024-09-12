@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7g7c-qhf3-x59p",
+  "modified": "2024-05-20T17:36:29Z",
+  "published": "2024-05-20T17:36:28Z",
+  "aliases": [
+
+  ],
+  "summary": "propel/propel1 SQL injection possible with limit() on MySQL",
+  "details": "The limit() query method is susceptible to catastrophic SQL injection with MySQL.\n\nFor example, given a model User for a table users:\n```\nUserQuery::create()->limit('1;DROP TABLE users')->find();\n```\nThis will drop the users table!\n\nThe cause appears to be a lack of integer casting of the limit input in either Criteria::setLimit() or in DBMySQL::applyLimit(). The code comments there seem to imply that casting was avoided due to overflow issues with 32-bit integers.\n\nThis is surprising behavior since one of the primary purposes of an ORM is to prevent basic SQL injection.\n\nThis affects all versions of Propel: 1.x, 2.x, and 3.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "propel/propel1"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1"
+            },
+            {
+              "fixed": "1.7.2"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.7.1"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/propelorm/Propel/issues/1052"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/propelorm/Propel/pull/1054"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/propelorm/Propel/commit/b72093201f8e225410f62a246653ac039e31c90a"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/propel/propel1/2018-02-14.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/propelorm/Propel"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-89"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-20T17:36:28Z",
+    "nvd_published_at": null
+  }
+}

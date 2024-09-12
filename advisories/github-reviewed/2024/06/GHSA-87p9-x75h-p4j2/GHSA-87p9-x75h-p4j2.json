@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-87p9-x75h-p4j2",
+  "modified": "2024-06-17T15:26:55Z",
+  "published": "2024-06-06T21:27:43Z",
+  "aliases": [
+    "CVE-2024-37152"
+  ],
+  "summary": "Unauthenticated Access to sensitive settings in Argo CD",
+  "details": "# Summary\nThe CVE allows unauthorized access to the sensitive settings exposed by  /api/v1/settings endpoint without authentication. \n\n# Details\n## **Unauthenticated Access:**\n\n### Endpoint: /api/v1/settings\nDescription: This endpoint is accessible without any form of authentication as expected. All sensitive settings are hidden except `passwordPattern`. \n\nPatches\nA patch for this vulnerability has been released in the following Argo CD versions:\n\nv2.11.3\nv2.10.12\nv2.9.17\n\n\n# Impact\n## Unauthenticated Access:\n\n* Type: Unauthorized Information Disclosure.\n* Affected Parties: All users and administrators of the Argo CD instance.\n* Potential Risks: Exposure of sensitive configuration data, including but not limited to deployment settings, security configurations, and internal network information.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/argoproj/argo-cd/v2/server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.9.3"
+            },
+            {
+              "fixed": "2.9.17"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/argoproj/argo-cd/v2/server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.10.0"
+            },
+            {
+              "fixed": "2.10.12"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/argoproj/argo-cd/v2/server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.11.0"
+            },
+            {
+              "fixed": "2.11.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/security/advisories/GHSA-87p9-x75h-p4j2"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-37152"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/commit/256d90178b11b04bc8174d08d7b663a2a7b1771b"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/argoproj/argo-cd"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/vuln/GO-2024-2902"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22",
+      "CWE-287",
+      "CWE-306",
+      "CWE-384"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-06T21:27:43Z",
+    "nvd_published_at": "2024-06-06T16:15:13Z"
+  }
+}

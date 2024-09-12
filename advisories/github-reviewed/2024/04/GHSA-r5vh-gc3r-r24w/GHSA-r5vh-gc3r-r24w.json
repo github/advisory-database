@@ -1,0 +1,119 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r5vh-gc3r-r24w",
+  "modified": "2024-04-10T22:01:48Z",
+  "published": "2024-04-10T17:14:59Z",
+  "aliases": [
+    "CVE-2024-31988"
+  ],
+  "summary": "XWiki Platform CSRF remote code execution through the realtime HTML Converter API",
+  "details": "### Impact\nWhen the realtime editor is installed in XWiki, it allows arbitrary remote code execution with the interaction of an admin user with programming right. More precisely, by getting an admin user to either visit a crafted URL or to view an image with this URL that could be in a comment, the attacker can get the admin to execute arbitrary XWiki syntax including scripting macros with Groovy or Python code. This compromises the confidentiality, integrity and availability of the whole XWiki installation.\n\nTo reproduce on an XWiki installation, as an admin, click on `<xwiki-host>/xwiki/bin/get/RTFrontend/ConvertHTML?wiki=xwiki&space=Main&page=WebHome&text=%7B%7Bvelocity%7D%7D%24logtool.error%28%22Hello%20from%20Velocity%20%21%22%29%7B%7B%2Fvelocity%7D%7D`. If the error \"Hello from Velocity!\" gets logged then the installation is vulnerable.\n\n### Patches\nThis vulnerability has been patched in XWiki 14.10.19, 15.5.4 and 15.9.\n\n### Workarounds\nUpdate `RTFrontend.ConvertHTML` following this [patch](https://github.com/xwiki/xwiki-platform/commit/4896712ee6483da623f131be2e618f1f2b79cb8d#diff-32a2a63950724b24e63587570cd95a41cf689111b8ba61c48dabee9effec6d61).\nThis will, however, break some synchronization processes in the realtime editor, so upgrading should be the preferred way on installations where this editor is used.\n\n### References\n* https://jira.xwiki.org/browse/XWIKI-21424\n* https://github.com/xwiki/xwiki-platform/commit/4896712ee6483da623f131be2e618f1f2b79cb8d\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-realtime-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "13.9-rc-1"
+            },
+            {
+              "fixed": "14.10.19"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-realtime-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "15.0-rc-1"
+            },
+            {
+              "fixed": "15.5.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-realtime-ui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "15.6-rc-1"
+            },
+            {
+              "fixed": "15.9"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-r5vh-gc3r-r24w"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-31988"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/4896712ee6483da623f131be2e618f1f2b79cb8d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/9f8cc88497418750b09ce9fde5d67d840f038fbf"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/d88da4572fb7d4f95e1f54bb0cce33fce3df08d9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/d9f5043da289ff106f08e23576746fd8baf98794"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-21424"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-10T17:14:59Z",
+    "nvd_published_at": "2024-04-10T21:15:07Z"
+  }
+}

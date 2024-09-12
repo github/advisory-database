@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5xvc-rwv8-86p7",
+  "modified": "2024-08-02T21:37:54Z",
+  "published": "2024-03-26T21:30:47Z",
+  "aliases": [
+    "CVE-2024-25420"
+  ],
+  "summary": "Ignite Realtime Openfire privilege escalation vulnerability",
+  "details": "An issue in Ignite Realtime Openfire v.4.8.0 and before allows a remote attacker to escalate privileges via the admin.authorizedJIDs system property component.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.igniterealtime.openfire:xmppserver"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.8.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-25420"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/igniterealtime/Openfire/commit/5c022bfa82d71d1710381ab395b100cdbcb8f310"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/igniterealtime/Openfire"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/igniterealtime/Openfire/blob/main/xmppserver/src/main/java/org/jivesoftware/openfire/admin/AdminManager.java"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.hackthebox.com/blog/openfire-cves-explained-CVE-2024-25420-CVE-2024-25421"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.igniterealtime.org/projects/openfire"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-273",
+      "CWE-863"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-27T21:59:21Z",
+    "nvd_published_at": "2024-03-26T21:15:52Z"
+  }
+}

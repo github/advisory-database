@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8gj9-r4hv-3jjw",
+  "modified": "2024-07-24T14:59:48Z",
+  "published": "2024-07-24T09:30:40Z",
+  "aliases": [
+    "CVE-2024-39676"
+  ],
+  "summary": "Apache Pinot: Unauthorized endpoint exposed sensitive information",
+  "details": "Exposure of Sensitive Information to an Unauthorized Actor vulnerability in Apache Pinot.\n\nThis issue affects Apache Pinot: from 0.1 before 1.0.0.\n\nUsers are recommended to upgrade to version 1.0.0 and configure RBAC, which fixes the issue.\n\nDetails: \n\nWhen using a request to path `/appconfigs` to the controller, it can lead to the disclosure of sensitive information such as system information (e.g. arch, os version), environment information (e.g. maxHeapSize) and Pinot configurations (e.g. zookeeper path). This issue was addressed by the Role-based Access Control https://docs.pinot.apache.org/operators/tutorials/authentication/basic-auth-access-control , so that `/appConfigs` and all other APIs can be access controlled. Only authorized users have access to it. Note the user needs to add the admin role accordingly to the RBAC guide to control access to this endpoint, and in the future version of Pinot, a default admin role is planned to be added.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.pinot:pinot-controller"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.1"
+            },
+            {
+              "fixed": "1.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-39676"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.pinot.apache.org/operators/tutorials/authentication/basic-auth-access-control"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/pinot"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/hsm0b2w8qr0sqy4rj1mfnnw286tslpzc"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-24T14:59:48Z",
+    "nvd_published_at": "2024-07-24T08:15:02Z"
+  }
+}

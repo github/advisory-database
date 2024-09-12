@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4qqq-9vqf-3h3f",
+  "modified": "2024-05-20T20:22:55Z",
+  "published": "2024-05-14T20:14:33Z",
+  "aliases": [
+    "CVE-2024-1968"
+  ],
+  "summary": "Scrapy leaks the authorization header on same-domain but cross-origin redirects",
+  "details": "### Impact\n\nSince version 2.11.1, Scrapy drops the `Authorization` header when a request is redirected to a different domain. However, it keeps the header if the domain remains the same but the scheme (http/https) or the port change, all scenarios where the header should also be dropped.\n\nIn the context of a man-in-the-middle attack, this could be used to get access to the value of that `Authorization` header\n\n### Patches\n\nUpgrade to Scrapy 2.11.2.\n\n### Workarounds\n\nThere is no easy workaround for unpatched versions of Scrapy. You can replace the built-in redirect middlewares with custom ones patched for this issue, but you have to patch them yourself, manually.\n\n### References\n\nThis security issue was reported and fixed by @szarny at https://huntr.com/bounties/27f6a021-a891-446a-ada5-0226d619dd1a/.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "Scrapy"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.11.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/scrapy/scrapy/security/advisories/GHSA-4qqq-9vqf-3h3f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/scrapy/scrapy/commit/1d0502f25bbe55a22899af915623fda1aaeb9dd8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/scrapy/scrapy"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.com/bounties/27f6a021-a891-446a-ada5-0226d619dd1a"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-14T20:14:33Z",
+    "nvd_published_at": null
+  }
+}

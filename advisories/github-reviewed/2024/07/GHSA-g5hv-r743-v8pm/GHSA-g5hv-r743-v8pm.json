@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g5hv-r743-v8pm",
+  "modified": "2024-08-02T15:52:52Z",
+  "published": "2024-07-17T09:30:49Z",
+  "aliases": [
+    "CVE-2024-39877"
+  ],
+  "summary": "Apache Airflow has DAG Author Code Execution possibility in airflow-scheduler",
+  "details": "Apache Airflow 2.4.0, and versions before 2.9.3, has a vulnerability that allows authenticated DAG authors to craft a doc_md parameter in a way that could execute arbitrary code in the scheduler context, which should be forbidden according to the Airflow Security model. Users should upgrade to version 2.9.3 or later which has removed the vulnerability.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "apache-airflow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.4.0"
+            },
+            {
+              "fixed": "2.9.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-39877"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/airflow/pull/40522"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/airflow/commit/8159f6e24704f5e0e3b3217cf79ecf5083dce531"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/airflow"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/1xhj9dkp37d6pzn24ll2mf94wbqnb2y1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-277",
+      "CWE-94"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-17T17:59:44Z",
+    "nvd_published_at": "2024-07-17T08:15:02Z"
+  }
+}

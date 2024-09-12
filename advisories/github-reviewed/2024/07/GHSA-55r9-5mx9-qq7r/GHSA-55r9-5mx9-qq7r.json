@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-55r9-5mx9-qq7r",
+  "modified": "2024-07-10T18:34:34Z",
+  "published": "2024-07-09T21:04:00Z",
+  "aliases": [
+    "CVE-2024-39897"
+  ],
+  "summary": "Cache driver GetBlob() allows read access to any blob without access control check",
+  "details": "### Summary\n\nCache driver `GetBlob()` allows read access to any blob without access control check\n\n### Details\n\nIf a Zot `accessControl` policy allows users read access to some repositories but restricts read access to other repositories and `dedupe` is enabled (it is enabled by default), then an attacker who knows the name of an image and the digest of a blob (that they do not have read access to), they may maliciously read it via a second repository they do have read access to. This allows an attacker to read an image that the `accessControl` policy denies.\n\nThis attack is possible because [`ImageStore.CheckBlob()` calls `checkCacheBlob()`](https://github.com/project-zot/zot/blob/v2.1.0-rc2/pkg/storage/imagestore/imagestore.go#L1158-L1159) to find the blob a global cache by searching for the digest. If it is found, it is copied to the user requested repository with `copyBlob()`.\n\nThis cache behavior is intentionally used in [`RouteHandler.CreateBlobUpload()`](https://github.com/project-zot/zot/blob/v2.1.0-rc2/pkg/api/routes.go#L1194-L1197) to implement cross repository blob mount (`POST /v2/<name>/blobs/uploads/?mount=<digest>&from=<repository name>`) in Zot. This is still missing an access control to check read access on the source repository.\n\nThis cache behavior is unexpectedly also used in [`RouteHandler.CheckBlob()`](https://github.com/project-zot/zot/blob/v2.1.0-rc2/pkg/api/routes.go#L886) too for `HEAD /v2/<name>/blobs/<digest>`. If a blob is requested that does not exist on the requested repository, Zot will search for it in a global cache (possibly returning a result from an from an incorrect repository) and then will store it into the `ImageStore` for the requested repository.\n\n[`RouteHandler.GetBlob()`](https://github.com/project-zot/zot/blob/v2.1.0-rc2/pkg/api/routes.go#L1000) does _not_ call `ImageStore.CheckBlob()` so it is not directly vulnerable. However an attacker with only limited read access may first call `CheckBlob()` to fetch the blob from the cache, then call `GetBlob()` to read the blob.\n\n### Mitigation\n\nThe attack may be mitigated by configuring `\"dedupe\": false` in the `\"storage\"` settings. This disables Zot's cache drivers. `dedupe` is enabled by default using the BoltDB cache driver.\n\n### Impact\n\nAn attacker can read images that the `accessControl` policy denies if they have read access to any other second repository.\n\nThis attack only allows accessing blobs (both config and layers) by digest. Manifests cannot be accessed.\n\nThis attack requires the attacker to know the name of a private image and its layer digests. A scenario where this might happen is if a project has public CI build logs but publishes the image to a private repository. Many image build tools log layer digests.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "zotregistry.io/zot"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.1.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "zotregistry.dev/zot"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.1.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/project-zot/zot/security/advisories/GHSA-55r9-5mx9-qq7r"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-39897"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/project-zot/zot/commit/aaee0220e46bdadd12115ac67c19f9d3153eb1df"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/project-zot/zot"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-639"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-09T21:04:00Z",
+    "nvd_published_at": "2024-07-09T19:15:12Z"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rmqv-7v3j-mr7p",
+  "modified": "2024-04-16T14:04:36Z",
+  "published": "2024-04-16T00:30:34Z",
+  "withdrawn": "2024-04-16T14:04:36Z",
+  "aliases": [
+
+  ],
+  "summary": "Duplicate Advisory: Scrapy decompression bomb vulnerability",
+  "details": "## Duplicate Advisory\nThis advisory has been withdrawn because it is a duplicate of GHSA-7j7m-v7m3-jqm7. This link is maintained to preserve external references.\n\n## Original Description\nThe scrapy/scrapy project is vulnerable to XML External Entity (XXE) attacks due to the use of lxml.etree.fromstring for parsing untrusted XML data without proper validation. This vulnerability allows attackers to perform denial of service attacks, access local files, generate network connections, or circumvent firewalls by submitting specially crafted XML data. ",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "scrapy"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.11.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-3572"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/scrapy/scrapy/commit/809bfac4890f75fc73607318a04d2ccba71b3d9f"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/scrapy/scrapy"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.com/bounties/c4a0fac9-0c5a-4718-9ee4-2d06d58adabb"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-409"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-16T12:42:26Z",
+    "nvd_published_at": "2024-04-16T00:15:12Z"
+  }
+}

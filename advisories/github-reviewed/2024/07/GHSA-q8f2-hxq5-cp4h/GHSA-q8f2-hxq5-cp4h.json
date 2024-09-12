@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-q8f2-hxq5-cp4h",
+  "modified": "2024-07-19T14:17:55Z",
+  "published": "2024-07-18T22:14:28Z",
+  "aliases": [
+    "CVE-2024-40642"
+  ],
+  "summary": "Absent Input Validation in BinaryHttpParser",
+  "details": "### Summary\n`BinaryHttpParser` does not properly validate input values thus giving attackers almost complete control over the HTTP requests constructed from the parsed output. Attackers can abuse several issues individually to perform various injection attacks including HTTP request smuggling, desync attacks, HTTP header injections, request queue poisoning, caching attacks and Server Side Request Forgery (SSRF). Attacker could also combine several issues to create well-formed messages for other text-based protocols which may result in attacks beyond the HTTP protocol.\n\n### Details\n\n**Path, Authority, Scheme**\nThe BinaryHttpParser class implements the readRequestHead method which performs most of the relevant parsing of the received request. The data structure prefixes values with a variable length integer value. The algorithm to create a variable length integer value is below:\n\n```\ndef encode_int(n):\n    if n < 64:\n        base = 0x00\n        l = 1\n    elif n in range(64, 16384):\n        base = 0x4000\n        l = 2\n    elif n in range(16384, 1073741824):\n        base = 0x80000000\n        l = 4\n    else:\n        base = 0xc000000000000000\n        l = 8\n   encoded = base | n\n   return encoded.to_bytes()\n```\n\nThe parsing code below first gets the lengths of the values from the prefixed variable length integer. After it has all of the lengths and calculates all of the indices, the parser casts the applicable slices of the ByteBuf to String. Finally, it passes these values into a new `DefaultBinaryHttpRequest` object where no further parsing or validation occurs.\n\n```\n//netty-incubator-codec-ohttp/codec-bhttp/src/main/java/io/netty/incubator/codec/bhttp/BinaryHttpParser.java\n\npublic final class BinaryHttpParser {\n   ...\n    private static BinaryHttpRequest readRequestHead(ByteBuf in, boolean knownLength, int maxFieldSectionSize) {\n        ...\n        final long pathLength = getVariableLengthInteger(in, pathLengthIdx, pathLengthBytes);\n        ...\n        final int pathIdx = pathLengthIdx + pathLengthBytes;\n        ...\n/*417*/ String method = in.toString(methodIdx, (int) methodLength, StandardCharsets.US_ASCII);\n/*418*/ String scheme = in.toString(schemeIdx, (int) schemeLength, StandardCharsets.US_ASCII);\n/*419*/ String authority = in.toString(authorityIdx, (int) authorityLength, StandardCharsets.US_ASCII);\n/*420*/ String path = in.toString(pathIdx, (int) pathLength, StandardCharsets.US_ASCII);\n\n/*422*/ BinaryHttpRequest request = new DefaultBinaryHttpRequest(HttpVersion.HTTP_1_1, HttpMethod.valueOf(method),\n                scheme, authority, path, headers);\n        in.skipBytes(sumBytes);\n        return request;\n    }\n   ...\n}\n```\n\n**Request Method**\nOn line 422 above, the parsed method value is passed into `HttpMethod.valueOf` method. The return value from this is passed to the `DefaultBinaryHttpRequest` constructor.\n\nBelow is the code for HttpMethod.valueOf:\n\n```\n    public static HttpMethod valueOf(String name) {\n        // fast-path\n        if (name == HttpMethod.GET.name()) {\n            return HttpMethod.GET;\n        }\n        if (name == HttpMethod.POST.name()) {\n            return HttpMethod.POST;\n        }\n        // \"slow\"-path\n        HttpMethod result = methodMap.get(name);\n        return result != null ? result : new HttpMethod(name);\n    }\n```\n\nIf the result of `methodMap.get` is not `null`, then a new arbitrary `HttpMethod` instance will be returned using the provided name value.\n\n`methodMap` is an instance of type `EnumNameMap` which is also defined within the `HttpMethod` class:\n\n```\n        EnumNameMap(Node<T>... nodes) {\n            this.values = (Node[])(new Node[MathUtil.findNextPositivePowerOfTwo(nodes.length)]);\n            this.valuesMask = this.values.length - 1;\n            Node[] var2 = nodes;\n            int var3 = nodes.length;\n\n            for(int var4 = 0; var4 < var3; ++var4) {\n                Node<T> node = var2[var4];\n                int i = hashCode(node.key) & this.valuesMask;\n                if (this.values[i] != null) {\n                    throw new IllegalArgumentException(\"index \" + i + \" collision between values: [\" + this.values[i].key + \", \" + node.key + ']');\n                }\n\n                this.values[i] = node;\n            }\n\n        }\n\n        T get(String name) {\n            Node<T> node = this.values[hashCode(name) & this.valuesMask];\n            return node != null && node.key.equals(name) ? node.value : null;\n        }\n```\n\nNote that `EnumNameMap.get()` returns a boolean value, which is not `null`. Therefore, any arbitrary http verb used within a `BinaryHttpRequest` will yield a valid `HttpMethod` object. When the `HttpMethod` object is constructed, the name is checked for whitespace and similar characters. Therefore, we cannot perform complete injection attacks using the HTTP verb alone. However, when combined with the other input validation issues, such as that in the path field, we can construct somewhat arbitrary data blobs that satisfy text-based protocol message formats.\n\n### Impact\nMethod is partially validated while other values are not validated at all. Software that relies on netty to apply input validation for binary HTTP data may be vulnerable to various injection and protocol based attacks.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.netty.incubator:netty-incubator-codec-bhttp"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.0.13.Final"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/netty/netty-incubator-codec-ohttp/security/advisories/GHSA-q8f2-hxq5-cp4h"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-40642"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/netty/netty-incubator-codec-ohttp/commit/b687a0cf6ea1030232ea204d73bce82f2698e571"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/netty/netty-incubator-codec-ohttp"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-18T22:14:28Z",
+    "nvd_published_at": "2024-07-18T23:15:02Z"
+  }
+}

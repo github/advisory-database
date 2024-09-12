@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cg34-w3fm-82h3",
+  "modified": "2024-05-20T20:17:03Z",
+  "published": "2024-05-20T09:30:50Z",
+  "withdrawn": "2024-05-20T20:17:03Z",
+  "aliases": [
+
+  ],
+  "summary": "Duplicate Advisory: Scrapy leaks the authorization header on same-domain but cross-origin redirects ",
+  "details": "## Duplicate Advisory\nThis advisory has been withdrawn because it is a duplicate of GHSA-4qqq-9vqf-3h3f. This link is maintained to preserve external references.\n\n## Original Description\nIn scrapy/scrapy, an issue was identified where the Authorization header is not removed during redirects that only change the scheme (e.g., HTTPS to HTTP) but remain within the same domain. This behavior contravenes the Fetch standard, which mandates the removal of Authorization headers in cross-origin requests when the scheme, host, or port changes. Consequently, when a redirect downgrades from HTTPS to HTTP, the Authorization header may be inadvertently exposed in plaintext, leading to potential sensitive information disclosure to unauthorized actors. The flaw is located in the _build_redirect_request function of the redirect middleware.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "scrapy"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.11.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-1968"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/scrapy/scrapy/commit/1d0502f25bbe55a22899af915623fda1aaeb9dd8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.com/bounties/27f6a021-a891-446a-ada5-0226d619dd1a"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-20T20:17:03Z",
+    "nvd_published_at": "2024-05-20T08:15:08Z"
+  }
+}

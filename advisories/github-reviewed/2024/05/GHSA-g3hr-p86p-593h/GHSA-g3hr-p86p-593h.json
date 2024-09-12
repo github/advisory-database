@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g3hr-p86p-593h",
+  "modified": "2024-05-28T15:47:57Z",
+  "published": "2024-05-28T15:47:57Z",
+  "aliases": [
+    "CVE-2024-35219"
+  ],
+  "summary": "OpenAPI Generator Online - Arbitrary File Read/Delete",
+  "details": "### Impact\nAttackers can exploit the vulnerability to read and delete files and folders from an arbitrary, writable directory as anyone can set the output folder when submitting the request via the `outputFolder` option.\n\n### Patches\nThe issue was fixed via https://github.com/OpenAPITools/openapi-generator/pull/18652 (included in v7.6.0 release)  by removing the usage of the `outputFolder` option.\n\n### Workarounds\nNo workaround available.\n\n### References\nNo other reference available.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.openapitools:openapi-generator-online"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "7.6.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenAPITools/openapi-generator/security/advisories/GHSA-g3hr-p86p-593h"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-35219"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenAPITools/openapi-generator/pull/18652"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenAPITools/openapi-generator/commit/edbb021aadae47dcfe690313ce5119faf77f800d"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/OpenAPITools/openapi-generator"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-28T15:47:57Z",
+    "nvd_published_at": "2024-05-27T16:15:09Z"
+  }
+}

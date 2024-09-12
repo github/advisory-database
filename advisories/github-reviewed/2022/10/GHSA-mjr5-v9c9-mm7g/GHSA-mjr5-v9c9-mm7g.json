@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mjr5-v9c9-mm7g",
+  "modified": "2024-04-23T17:43:45Z",
+  "published": "2022-10-01T00:00:20Z",
+  "aliases": [
+    "CVE-2022-40277"
+  ],
+  "summary": "Joplin Remote Code Execution",
+  "details": "Joplin version 2.8.8 allows an external attacker to execute arbitrary commands remotely on any client that opens a link in a malicious markdown file, via Joplin. This is possible because the application does not properly validate the schema/protocol of existing links in the markdown file before passing them to the `shell.openExternal` function.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "joplin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "2.8.8"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-40277"
+    },
+    {
+      "type": "WEB",
+      "url": "https://fluidattacks.com/advisories/skrillex"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/laurent22/joplin"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-23T17:43:45Z",
+    "nvd_published_at": "2022-09-30T17:15:00Z"
+  }
+}

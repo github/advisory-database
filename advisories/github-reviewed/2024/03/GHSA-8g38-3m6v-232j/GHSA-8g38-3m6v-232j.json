@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8g38-3m6v-232j",
+  "modified": "2024-03-13T22:28:40Z",
+  "published": "2024-03-13T15:30:03Z",
+  "aliases": [
+    "CVE-2024-27097"
+  ],
+  "summary": "Potential log injection in reset user endpoint in CKAN",
+  "details": "A user endpoint didn't perform filtering on an incoming parameter, which was added directly to the application log. This could lead to an attacker injecting false log entries or corrupt the log file format.\n\n### Patches\nThis has been fixed in the CKAN 2.9.11 and 2.10.4 versions\n\n### Workarounds\nOverride the `/user/reset` endpoint to filter the `id` parameter in order to exclude newlines\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ckan"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.9.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ckan"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.10.0"
+            },
+            {
+              "fixed": "2.10.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ckan/ckan/security/advisories/GHSA-8g38-3m6v-232j"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-27097"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ckan/ckan/commit/5fa133e7e9019573066455b5d442e93c62b3fc93"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ckan/ckan/commit/81b56c55e5e3651d7fcf9642cd5a489a9b62212c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ckan/ckan/commit/d81f411bff2da7347c343a83e17f5814475b5b64"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.ckan.org/en/2.10/changelog.html#v-2-10-4-2024-03-13"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ckan/ckan"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-117",
+      "CWE-532"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-13T15:30:03Z",
+    "nvd_published_at": "2024-03-13T21:15:58Z"
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mv64-86g8-cqq7",
+  "modified": "2024-04-25T23:34:44Z",
+  "published": "2024-04-25T18:30:39Z",
+  "aliases": [
+    "CVE-2024-1726"
+  ],
+  "summary": "Quarkus: security checks in resteasy reactive may trigger a denial of service",
+  "details": "A flaw was discovered in the RESTEasy Reactive implementation in Quarkus. Due to security checks for some JAX-RS endpoints being performed after serialization, more processing resources are consumed while the HTTP request is checked. In certain configurations, if an attacker has knowledge of any POST, PUT, or PATCH request paths, they can potentially identify vulnerable endpoints and trigger excessive resource usage as the endpoints process the requests. This can result in a denial of service.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.quarkus.resteasy.reactive:resteasy-reactive"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.8.0.CR1"
+            },
+            {
+              "fixed": "3.8.0"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "3.8.0.CR1"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.quarkus.resteasy.reactive:resteasy-reactive"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.3.0.CR1"
+            },
+            {
+              "fixed": "3.7.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.quarkus.resteasy.reactive:resteasy-reactive"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.2.11.Final"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-1726"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/quarkusio/quarkus/commit/34c1a63baf5401d0d578a23a1a4deb4b841ce65b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/quarkusio/quarkus/commit/96d93427f3b4a7d3cff34d8b7b883e13cecd359c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2024:1662"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/security/cve/CVE-2024-1726"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2265158"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/quarkusio/quarkus"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-281"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-25T23:34:44Z",
+    "nvd_published_at": "2024-04-25T17:15:48Z"
+  }
+}

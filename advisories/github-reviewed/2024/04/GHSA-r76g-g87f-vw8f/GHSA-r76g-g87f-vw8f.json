@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r76g-g87f-vw8f",
+  "modified": "2024-06-10T19:33:51Z",
+  "published": "2024-04-24T20:03:48Z",
+  "aliases": [
+    "CVE-2019-11245"
+  ],
+  "summary": "Kubelet Incorrect Privilege Assignment",
+  "details": "In kubelet v1.13.6 and v1.14.2, containers for pods that do not specify an explicit `runAsUser` attempt to run as uid 0 (root) on container restart, or if the image was previously pulled to the node. If the pod specified `mustRunAsNonRoot: true`, the kubelet will refuse to start the container as root. If the pod did not specify `mustRunAsNonRoot: true`, the kubelet will run the container as uid 0.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:L/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "k8s.io/kubernetes/cmd/kubelet"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.14.0"
+            },
+            {
+              "fixed": "1.14.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "k8s.io/kubernetes/cmd/kubelet"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.13.0"
+            },
+            {
+              "fixed": "1.13.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-11245"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kubernetes/kubernetes/issues/78308"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kubernetes/kubernetes/pull/76665"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kubernetes/kubernetes/pull/76665/commits/26e3c8674e66f0d10170d34f5445f0aed207387f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1715726"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-r76g-g87f-vw8f"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/kubernetes/kubernetes"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/vuln/GO-2024-2780"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.netapp.com/advisory/ntap-20190919-0003"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-266",
+      "CWE-703"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-24T20:03:48Z",
+    "nvd_published_at": null
+  }
+}

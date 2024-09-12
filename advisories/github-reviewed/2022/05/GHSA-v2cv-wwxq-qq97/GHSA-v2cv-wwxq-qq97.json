@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v2cv-wwxq-qq97",
+  "modified": "2024-07-08T19:56:40Z",
+  "published": "2022-05-24T16:51:39Z",
+  "aliases": [
+    "CVE-2019-14271"
+  ],
+  "summary": "Moby Docker cp broken with debian containers",
+  "details": "In Docker 19.03.x before 19.03.1 linked against the GNU C Library (aka glibc), code injection can occur when the nsswitch facility dynamically loads a library inside a chroot that contains the contents of the container.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/docker/docker"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "19.03.0"
+            },
+            {
+              "fixed": "19.03.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-14271"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/moby/issues/39449"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/moby/pull/39612"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/moby/commit/11e48badcb67554b3d795241855028f28d244545"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/moby/commit/fa8dd90ceb7bcb9d554d27e0b9087ab83e54bd2b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.docker.com/engine/release-notes"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/moby/moby"
+    },
+    {
+      "type": "WEB",
+      "url": "https://seclists.org/bugtraq/2019/Sep/21"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.netapp.com/advisory/ntap-20190828-0003"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.debian.org/security/2019/dsa-4521"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.opensuse.org/opensuse-security-announce/2019-08/msg00084.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-665",
+      "CWE-94"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-01T21:22:37Z",
+    "nvd_published_at": "2019-07-29T18:15:00Z"
+  }
+}

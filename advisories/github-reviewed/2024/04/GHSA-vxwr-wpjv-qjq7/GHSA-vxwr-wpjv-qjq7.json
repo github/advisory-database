@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vxwr-wpjv-qjq7",
+  "modified": "2024-04-10T22:00:51Z",
+  "published": "2024-04-10T17:11:45Z",
+  "aliases": [
+    "CVE-2024-31981"
+  ],
+  "summary": "XWiki Platform: Privilege escalation (PR) from user registration through PDFClass",
+  "details": "### Impact\nRemote code execution is possible via PDF export templates.\nTo reproduce on an installation, register a new user account with username `PDFClass` if `XWiki.PDFClass` does not exist.\nOn `XWiki.PDFClass`, use the class editor to add a \"style\" property of type \"TextArea\" and content type \"Plain Text\".\nThen, add an object of class `PDFClass` and set the \"style\" attribute to `$services.logging.getLogger('PDFClass').error(\"I got programming: $services.security.authorization.hasAccess('programming')\")`.\nFinally, go to `<host>/xwiki/bin/export/Main/WebHome?format=pdf&pdftemplate=XWiki.PDFClass`. If the logs contain \"ERROR PDFClass - I got programming: true\", the instance is vulnerable.\n\n### Patches\nThis vulnerability has been patched in XWiki 14.10.20, 15.5.4 and 15.10-rc-1.\n\n### Workarounds\nIf PDF templates are not typically used on the instance, an administrator can create the document `XWiki.PDFClass` and block its edition, after making sure that it does not contain a `style` attribute.\nOtherwise, the instance needs to be updated.\n\n### References\n- https://jira.xwiki.org/browse/XWIKI-21337\n- https://github.com/xwiki/xwiki-platform/commit/d28e21a670c69880b951e415dd2ddd69d273eae9\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-oldcore"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.1"
+            },
+            {
+              "fixed": "14.10.20"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-oldcore"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "15.0-rc-1"
+            },
+            {
+              "fixed": "15.5.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-oldcore"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "15.6-rc-1"
+            },
+            {
+              "fixed": "15.10-rc-1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-vxwr-wpjv-qjq7"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-31981"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/480186f9d2fca880513da8bc5a609674d106cbd3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/a4ad14d9c1605a5ab957237e505ebbb29f5b9d73"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/d28e21a670c69880b951e415dd2ddd69d273eae9"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-21337"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-862"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-10T17:11:45Z",
+    "nvd_published_at": "2024-04-10T20:15:08Z"
+  }
+}

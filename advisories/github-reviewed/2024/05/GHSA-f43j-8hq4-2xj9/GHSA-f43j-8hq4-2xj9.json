@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f43j-8hq4-2xj9",
+  "modified": "2024-05-27T23:16:00Z",
+  "published": "2024-05-27T23:16:00Z",
+  "aliases": [
+
+  ],
+  "summary": "silverstripe/framework uploaded PHP script execution in assets",
+  "details": "A weakness in the .htaccess rules preventing requests to uploaded PHP scripts allows PHP scripts that had made their way into the assets directory to be successfully executed through the use of a specially crafted URL. There are protections in place to disallow upload of PHP scripts through the CMS, meaning this weakness does not lead to direct vulnerabilities.\n\nIn addition, sites hosted on the New Zealand Common Web Platform or SilverStripe Platform have additional configuration in place which prevents PHP script execution in assets, even in a malicious party manages to upload these into the folder.\n\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0-rc1"
+            },
+            {
+              "fixed": "4.0.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.1.0-rc1"
+            },
+            {
+              "fixed": "4.1.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/commit/5b7eca2b6327556e2d5ad31bb00511b187e5992a"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/silverstripe/framework/SS-2018-012-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/silverstripe/silverstripe-framework"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.silverstripe.org/download/security-releases/ss-2018-012"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-27T23:16:00Z",
+    "nvd_published_at": null
+  }
+}

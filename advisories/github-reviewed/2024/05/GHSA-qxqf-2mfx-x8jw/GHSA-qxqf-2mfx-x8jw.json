@@ -1,0 +1,172 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qxqf-2mfx-x8jw",
+  "modified": "2024-05-20T14:57:07Z",
+  "published": "2024-05-20T14:57:07Z",
+  "aliases": [
+    "CVE-2024-28109"
+  ],
+  "summary": "veraPDF has potential XSLT injection vulnerability when using policy files",
+  "details": "### Impact\n\nExecuting policy checks using custom schematron files invokes an XSL transformation that may theoretically lead to a remote code execution (RCE) vulnerability.\n\n### Patches\n\nThis has been patched and users should upgrade to veraPDF v1.24.2\n\n### Workarounds\n\nThis doesn't affect the standard validation and policy checks functionality, veraPDF's common use cases. Most veraPDF users don't insert any custom XSLT code into policy profiles, which are based on Schematron syntax rather than direct XSL transforms. For users who do, only load custom policy files from sources you trust.\n\n### References\n\nOriginal issue: <https://github.com/veraPDF/veraPDF-library/issues/1415>\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.verapdf:core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.24.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.verapdf:core-jakarta"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.24.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.verapdf:core-arlington"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.25.127"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.verapdf:library-arlington"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.25.127"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.verapdf:library"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.24.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.verapdf:library-jakarta"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.24.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/veraPDF/veraPDF-library/security/advisories/GHSA-qxqf-2mfx-x8jw"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28109"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/veraPDF/veraPDF-library/issues/1415"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/veraPDF/veraPDF-library/commit/614ffa477a2cf0819e4b0df1ab133610e0da25fb"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/veraPDF/veraPDF-library/commit/9386ecbe1a1d1fb9e886d19df28851ed07890d9f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/veraPDF/veraPDF-library/commit/d5314cbdf4e058e0716f80dbdad2dbd8d96e6bfe"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/veraPDF/veraPDF-library"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-91"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-20T14:57:07Z",
+    "nvd_published_at": "2024-03-28T14:15:13Z"
+  }
+}

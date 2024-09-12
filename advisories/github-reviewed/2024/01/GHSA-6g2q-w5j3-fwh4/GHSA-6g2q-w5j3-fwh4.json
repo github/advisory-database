@@ -1,0 +1,121 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6g2q-w5j3-fwh4",
+  "modified": "2024-01-31T23:22:45Z",
+  "published": "2024-01-31T23:22:45Z",
+  "aliases": [
+    "CVE-2021-21334"
+  ],
+  "summary": "containerd environment variable leak",
+  "details": "## Impact\n\nContainers launched through containerd's CRI implementation (through Kubernetes, crictl, or any other pod/container client that uses the containerd CRI service) that share the same image may receive incorrect environment variables, including values that are defined for other containers.  If the affected containers have different security contexts, this may allow sensitive information to be unintentionally shared.\n\nIf you are not using containerd’s CRI implementation (through one of the mechanisms described above), you are not vulnerable to this issue.\n\nIf you are not launching multiple containers or Kubernetes pods from the same image which have different environment variables, you are not vulnerable to this issue.\n\nIf you are not launching multiple containers or Kubernetes pods from the same image in rapid succession, you have reduced likelihood of being vulnerable to this issue\n\n## Patches\n\nThis vulnerability has been fixed in containerd 1.3.10 and containerd 1.4.4.  Users should update to these versions as soon as they are released.\n\n## Workarounds\n\nThere are no known workarounds.\n\n## For more information\n\nIf you have any questions or comments about this advisory:\n\n* [Open an issue](https://github.com/containerd/containerd/issues/new/choose)\n* Email us at security@containerd.io if you think you’ve found a security bug.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:C/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/containerd/containerd"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.4.0"
+            },
+            {
+              "fixed": "1.4.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/containerd/containerd"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.3.10"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/containerd/containerd/security/advisories/GHSA-6g2q-w5j3-fwh4"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-21334"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/containerd/cri/pull/1628"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/containerd/cri/pull/1629"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/containerd/containerd/commit/05f951a3781f4f2c1911b05e61c160e9c30eaa8e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/containerd/containerd/commit/2d9c8aa4b3f4313982c5c999af57212a1c5d144b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/containerd/containerd/commit/cbcb2f57fbe221986f96b552855eb802f63193de"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/containerd/containerd/releases/tag/v1.3.10"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/containerd/containerd/releases/tag/v1.4.4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/KUE2Z2ZUWBHRU36ZGBD2YSJCYB6ELPXE"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/QIBPKSX5IOWPM3ZPFB3JVLXWDHSZTTWT"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/VTXHA5JOWQRCCUZH7ZQBEYN6KZKJEYSD"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.gentoo.org/glsa/202105-33"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200",
+      "CWE-668"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-31T23:22:45Z",
+    "nvd_published_at": "2021-03-10T22:15:00Z"
+  }
+}

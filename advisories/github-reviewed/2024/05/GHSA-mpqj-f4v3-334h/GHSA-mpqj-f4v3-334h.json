@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mpqj-f4v3-334h",
+  "modified": "2024-05-23T19:46:36Z",
+  "published": "2024-05-23T19:46:36Z",
+  "aliases": [
+
+  ],
+  "summary": "Silverstripe Cross-site scripting vulnerability in VersionedRequestFilter",
+  "details": "A cross-site scripting vulnerability in VersionedRequestFilter has been found.\n\nIf an incoming user request should not be able to access the requested stage, an error message is created for display on the CMS login page that they are redirected to. In this error message, the URL of the requested page is interpolated into the error message without being escaped; hence, arbitrary HTML can be injected into the CMS login page.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.3.2"
+            },
+            {
+              "fixed": "3.3.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.4.0"
+            },
+            {
+              "fixed": "3.4.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/commit/3fa84cf0c64a539d78600c36364817a8e38411d8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/commit/41be95c95a55031412ee4056aeee5c2c69595836"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/silverstripe/framework/SS-2016-007-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/silverstripe/silverstripe-framework"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.silverstripe.org/download/security-releases/ss-2016-007"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-23T19:46:36Z",
+    "nvd_published_at": null
+  }
+}

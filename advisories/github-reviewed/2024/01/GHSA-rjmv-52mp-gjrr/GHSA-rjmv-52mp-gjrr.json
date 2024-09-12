@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rjmv-52mp-gjrr",
+  "modified": "2024-02-08T22:49:10Z",
+  "published": "2024-01-30T20:56:50Z",
+  "aliases": [
+    "CVE-2024-22193"
+  ],
+  "summary": "vantage6 may create unencrypted tasks in encrypted collaboration",
+  "details": "### Impact\nThere are no checks on whether the input is encrypted if a task is created in an encrypted collaboration. Therefore, a user may accidentally create a task with sensitive input data that will then be stored unencrypted in a database.\n\n### Workarounds\nThis is not an issue with the normal workflow, only if e.g. a user with the python client sets encryption to the wrong value.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "vantage6"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.2.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/vantage6/vantage6/security/advisories/GHSA-rjmv-52mp-gjrr"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-22193"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vantage6/vantage6/commit/6383283733b81abfcacfec7538dc4dc882e98074"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/vantage6/PYSEC-2024-32.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vantage6/vantage6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-922"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-30T20:56:50Z",
+    "nvd_published_at": "2024-01-30T16:15:48Z"
+  }
+}

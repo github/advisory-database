@@ -1,0 +1,135 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mv8g-fhh6-6267",
+  "modified": "2024-05-07T21:02:02Z",
+  "published": "2022-05-17T00:27:18Z",
+  "aliases": [
+    "CVE-2016-9013"
+  ],
+  "summary": "Django user with hardcoded password created when running tests on Oracle",
+  "details": "Django 1.8.x before 1.8.16, 1.9.x before 1.9.11, and 1.10.x before 1.10.3 use a hardcoded password for a temporary database user created when running tests with an Oracle database, which makes it easier for remote attackers to obtain access to the database server by leveraging failure to manually specify a password in the database settings TEST dictionary.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "django"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.10"
+            },
+            {
+              "fixed": "1.10.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "django"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.9"
+            },
+            {
+              "fixed": "1.9.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "django"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.8"
+            },
+            {
+              "fixed": "1.8.16"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2016-9013"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/django/django/commit/34e10720d81b8d407aa14d763b6a7fe8f13b4f2e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/django/django/commit/4844d86c7728c1a5a3bbce4ad336a8d32304072b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/django/django/commit/70f99952965a430daf69eeb9947079aae535d2d0"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/django/django"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/OG5ROMUPS6C7BXELD3TAUUH7OBYV56WQ"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/QXDKJYHN74BWY3P7AR2UZDVJREQMRE6S"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.djangoproject.com/weblog/2016/nov/01/security-releases"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.debian.org/security/2017/dsa-3835"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/94069"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securitytracker.com/id/1037159"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.ubuntu.com/usn/USN-3115-1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-798"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-22T22:58:32Z",
+    "nvd_published_at": "2016-12-09T20:59:00Z"
+  }
+}

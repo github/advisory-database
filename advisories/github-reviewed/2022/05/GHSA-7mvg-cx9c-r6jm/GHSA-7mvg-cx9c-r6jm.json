@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7mvg-cx9c-r6jm",
+  "modified": "2024-01-30T21:21:32Z",
+  "published": "2022-05-24T16:44:55Z",
+  "aliases": [
+    "CVE-2019-10312"
+  ],
+  "summary": "Missing permission check in Jenkins Ansible Tower Plugin",
+  "details": "A missing permission check in Jenkins Ansible Tower Plugin 0.9.1 and earlier in the TowerInstallation.TowerInstallationDescriptor#doFillTowerCredentialsIdItems method allowed attackers with Overall/Read permission to enumerate credentials ID of credentials stored in Jenkins.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:ansible-tower"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.9.2"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.9.1"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-10312"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2019-04-30/#SECURITY-1355"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2019/04/30/5"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/108159"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-862"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-30T21:21:32Z",
+    "nvd_published_at": "2019-04-30T13:29:00Z"
+  }
+}

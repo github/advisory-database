@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v5fm-hr72-27hx",
+  "modified": "2024-04-05T15:34:59Z",
+  "published": "2023-07-20T00:30:25Z",
+  "aliases": [
+    "CVE-2023-3300"
+  ],
+  "summary": "Nomad Search API Leaks Information About CSI Plugins",
+  "details": "A vulnerability was identified in Nomad such that the search HTTP API can reveal names of available CSI plugins to unauthenticated users or users without the plugin:read policy. This vulnerability, CVE-2023-3300, affects Nomad since 0.11 and was fixed in 1.6.0, 1.5.7, and 1.4.11.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/hashicorp/nomad"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.11.0"
+            },
+            {
+              "fixed": "1.4.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/hashicorp/nomad"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.5.0"
+            },
+            {
+              "fixed": "1.5.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-3300"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hashicorp/nomad/commit/a8789d3872bbf1b1f420f28b0f7ad8532a41d5e3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://discuss.hashicorp.com/t/hcsec-2023-22-nomad-search-api-leaks-information-about-csi-plugins/56272"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/hashicorp/nomad"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/vuln/GO-2024-2671"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-862"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-01T19:17:38Z",
+    "nvd_published_at": "2023-07-20T00:15:10Z"
+  }
+}

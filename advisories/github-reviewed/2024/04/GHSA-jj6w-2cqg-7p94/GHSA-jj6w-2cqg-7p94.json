@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jj6w-2cqg-7p94",
+  "modified": "2024-04-12T17:25:15Z",
+  "published": "2024-04-12T17:25:15Z",
+  "aliases": [
+    "CVE-2022-25775"
+  ],
+  "summary": "Mautic SQL Injection in dynamic Reports",
+  "details": "### Impact\nPrior to the patched version, logged in users of Mautic are vulnerable to an SQL injection vulnerability in the Reports bundle.\n\nThe user could retrieve and alter data like sensitive data, login, and depending on database permission the attacker can manipulate file systems.\n\n### Patches\nUpdate to 4.4.12 or 5.0.4\n\n### Workarounds\nNo\n\n### References\n- https://owasp.org/www-community/attacks/SQL_Injection\n- https://owasp.org/www-community/attacks/Blind_SQL_Injection",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "mautic/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.14.1"
+            },
+            {
+              "fixed": "4.4.12"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "mautic/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0-alpha"
+            },
+            {
+              "fixed": "5.0.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/mautic/mautic/security/advisories/GHSA-jj6w-2cqg-7p94"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mautic/mautic/commit/cab65e0acc4f23c4f07c117dee1b69dac5abed3f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mautic/mautic/commit/e75b1eea16309588f069169b5882cf53f854dbd8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mautic/mautic"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-89"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-12T17:25:15Z",
+    "nvd_published_at": null
+  }
+}

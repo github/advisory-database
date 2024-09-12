@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-p5q9-86w4-2xr5",
+  "modified": "2024-03-04T17:26:01Z",
+  "published": "2024-02-27T15:30:31Z",
+  "aliases": [
+    "CVE-2023-51747"
+  ],
+  "summary": "SMTP smuggling in Apache James",
+  "details": "Apache James prior to versions 3.8.1 and 3.7.5 is vulnerable to SMTP smuggling.\n\nA lenient behaviour in line delimiter handling might create a difference of interpretation between the sender and the receiver which can be exploited by an attacker to forge an SMTP envelop, allowing for instance to bypass SPF checks.\n\nThe patch implies enforcement of CRLF as a line delimiter as part of the DATA transaction.\n\nWe recommend James users to upgrade to non vulnerable versions.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.james:james-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.7.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.james:james-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.8.0"
+            },
+            {
+              "fixed": "3.8.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "3.8.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-51747"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/james-project/commit/d1ef102540e504c067b6c1721a6f1e7eee9c6fc6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/james-project/commit/d5cd8bb098aa78d8d62c9645f3c532689ef1cb03"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/james-project"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/rxkwbkh9vgbl9rzx1fkllyk3krhgydko"
+    },
+    {
+      "type": "WEB",
+      "url": "https://postfix.org/smtp-smuggling.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://sec-consult.com/blog/detail/smtp-smuggling-spoofing-e-mails-worldwide"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/02/27/4"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-27T18:58:24Z",
+    "nvd_published_at": "2024-02-27T14:15:27Z"
+  }
+}

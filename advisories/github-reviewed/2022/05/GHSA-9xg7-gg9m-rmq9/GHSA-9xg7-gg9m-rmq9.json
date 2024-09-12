@@ -1,0 +1,109 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9xg7-gg9m-rmq9",
+  "modified": "2024-02-08T21:27:24Z",
+  "published": "2022-05-02T03:37:17Z",
+  "aliases": [
+    "CVE-2009-2659"
+  ],
+  "summary": "Django Admin Media Handler Vulnerable to Directory Traversal",
+  "details": "The Admin media handler in `core/servers/basehttp.py` in Django 1.0 and 0.96 does not properly map URL requests to expected \"static media files,\" which allows remote attackers to conduct directory traversal attacks and read arbitrary files via a crafted URL.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "Django"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.96.0"
+            },
+            {
+              "fixed": "0.96.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "Django"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0"
+            },
+            {
+              "fixed": "1.0.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2009-2659"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/django/django/commit/da85d76fd6ca846f3b0ff414e042ddb5e62e2e69"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/django/django/commit/df7f917b7f51ba969faa49d000ffc79572c5dcb4"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/django/django"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20111211001428/http://www.securityfocus.com/bid/35859"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.redhat.com/archives/fedora-package-announce/2009-August/msg00055.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.redhat.com/archives/fedora-package-announce/2009-August/msg00069.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=539134"
+    },
+    {
+      "type": "WEB",
+      "url": "http://code.djangoproject.com/changeset/11353"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.djangoproject.com/weblog/2009/jul/28/security"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2009/07/29/2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-08T21:27:24Z",
+    "nvd_published_at": "2009-08-04T16:30:00Z"
+  }
+}

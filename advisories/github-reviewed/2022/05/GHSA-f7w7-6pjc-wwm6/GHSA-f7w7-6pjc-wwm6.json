@@ -1,0 +1,920 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f7w7-6pjc-wwm6",
+  "modified": "2024-02-22T19:39:26Z",
+  "published": "2022-05-02T03:46:22Z",
+  "aliases": [
+    "CVE-2009-3555"
+  ],
+  "summary": "Apache Tomcat affected by vulnerability in TLS and SSL protocol",
+  "details": "The TLS protocol, and the SSL protocol 3.0 and possibly earlier, as used in Microsoft Internet Information Services (IIS) 7.0, mod_ssl in the Apache HTTP Server 2.2.14 and earlier, OpenSSL before 0.9.8l, GnuTLS 2.8.5 and earlier, Mozilla Network Security Services (NSS) 3.12.4 and earlier, multiple Cisco products, and other products, does not properly associate renegotiation handshakes with an existing connection, which allows man-in-the-middle attackers to insert data into HTTPS sessions, and possibly other types of sessions protected by TLS or SSL, by sending an unauthenticated request that is processed retroactively by a server in a post-renegotiation context, related to a \"plaintext injection\" attack, aka the \"Project Mogul\" issue.\n\nApache Tomcat was affected by this issue and introduced a workaround in versions 7.0.10, 6.0.32, and 5.5.33.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.tomcat:tomcat"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.0.0"
+            },
+            {
+              "fixed": "7.0.10"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.tomcat:tomcat"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.0.0"
+            },
+            {
+              "fixed": "6.0.32"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.tomcat:tomcat"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0"
+            },
+            {
+              "fixed": "5.5.33"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2009-3555"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/tomcat/commit/14e4efd925da58b9fa63f20969fb7349b8a9c30d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/tomcat/commit/2d4ca03acc27cc883c404d1745d92f983b6fada3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/tomcat/commit/30af3f5630542a2340781f66553e734a6fd69701"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/tomcat/commit/328a523cbb2a2d4cd55283180614d4e03e2f8f02"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/tomcat/commit/3d315ac9dfaa2c03b4df82938d78bf5b755766b3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/tomcat/commit/56f67141e82e16f68a860c3af9b7342da35cbe7d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/tomcat/commit/b4e9488629bf03b4b65abf335e536e85386d1366"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/tomcat/commit/df9633116b5fec8f47f1f008fb89a6e9d5895cd0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://oval.cisecurity.org/repository/search/definition/oval:org.mitre.oval:def:11617"
+    },
+    {
+      "type": "WEB",
+      "url": "https://oval.cisecurity.org/repository/search/definition/oval:org.mitre.oval:def:11578"
+    },
+    {
+      "type": "WEB",
+      "url": "https://oval.cisecurity.org/repository/search/definition/oval:org.mitre.oval:def:10088"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread.html/rf8e8c091182b45daa50d3557cad9b10bb4198e3f08cf8f1c66a1b08d@<dev.tomcat.apache.org>"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread.html/re3b72cbb13e1dfe85c4a06959a3b6ca6d939b407ecca80db12b54220@<dev.tomcat.apache.org>"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread.html/f8e0814e11c7f21f42224b6de111cb3f5e5ab5c15b78924c516d4ec2@<dev.tomcat.apache.org>"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread.html/ba661b0edd913b39ff129a32d855620dd861883ade05fd88a8ce517d@<dev.tomcat.apache.org>"
+    },
+    {
+      "type": "WEB",
+      "url": "https://kb.bluecoat.com/index?page=content&id=SA50"
+    },
+    {
+      "type": "WEB",
+      "url": "https://h20566.www2.hpe.com/portal/site/hpsc/public/kb/docDisplay?docId=emr_na-c05150888"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.redhat.com/archives/fedora-package-announce/2009-December/msg01029.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.redhat.com/archives/fedora-package-announce/2009-December/msg01020.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.redhat.com/archives/fedora-package-announce/2009-December/msg00944.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.redhat.com/archives/fedora-package-announce/2009-December/msg00645.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.redhat.com/archives/fedora-package-announce/2009-December/msg00634.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.redhat.com/archives/fedora-package-announce/2009-December/msg00449.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.redhat.com/archives/fedora-package-announce/2009-December/msg00442.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.redhat.com/archives/fedora-package-announce/2009-December/msg00428.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://tomcat.apache.org/security-7.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://tomcat.apache.org/security-6.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://tomcat.apache.org/security-5.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://svn.resiprocate.org/rep/ietf-drafts/ekr/draft-rescorla-tls-renegotiate.txt"
+    },
+    {
+      "type": "WEB",
+      "url": "https://support.f5.com/kb/en-us/solutions/public/10000/700/sol10737.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://oval.cisecurity.org/repository/search/definition/oval:org.mitre.oval:def:8535"
+    },
+    {
+      "type": "WEB",
+      "url": "https://oval.cisecurity.org/repository/search/definition/oval:org.mitre.oval:def:8366"
+    },
+    {
+      "type": "WEB",
+      "url": "https://oval.cisecurity.org/repository/search/definition/oval:org.mitre.oval:def:7973"
+    },
+    {
+      "type": "WEB",
+      "url": "https://oval.cisecurity.org/repository/search/definition/oval:org.mitre.oval:def:7478"
+    },
+    {
+      "type": "WEB",
+      "url": "https://oval.cisecurity.org/repository/search/definition/oval:org.mitre.oval:def:7315"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/tomcat"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2010:0408"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2010:0339"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2010:0338"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2010:0337"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2010:0167"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2010:0166"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2010:0165"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2010:0164"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2010:0163"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2010:0162"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2010:0155"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2010:0130"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2010:0119"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2010:0011"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2009:1694"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2009:1580"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2009:1579"
+    },
+    {
+      "type": "WEB",
+      "url": "https://exchange.xforce.ibmcloud.com/vulnerabilities/54158"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.microsoft.com/en-us/security-updates/securitybulletins/2010/ms10-049"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bz.apache.org/bugzilla/show_bug.cgi?id=50325"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=533125"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.mozilla.org/show_bug.cgi?id=545755"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.mozilla.org/show_bug.cgi?id=526689"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/security/cve/CVE-2009-3555"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2015:1591"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2011:0880"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2010:0987"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2010:0986"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2010:0865"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2010:0807"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2010:0786"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2010:0770"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2010:0768"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2010:0440"
+    },
+    {
+      "type": "WEB",
+      "url": "http://archives.neohapsis.com/archives/bugtraq/2013-11/0120.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://blog.g-sec.lu/2009/11/tls-sslv3-renegotiation-vulnerability.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://blogs.iss.net/archive/sslmitmiscsrf.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://blogs.sun.com/security/entry/vulnerability_in_tls_protocol_during"
+    },
+    {
+      "type": "WEB",
+      "url": "http://clicky.me/tlsvuln"
+    },
+    {
+      "type": "WEB",
+      "url": "http://extendedsubset.com/?p=8"
+    },
+    {
+      "type": "WEB",
+      "url": "http://extendedsubset.com/Renegotiating_TLS.pdf"
+    },
+    {
+      "type": "WEB",
+      "url": "http://h20000.www2.hp.com/bizsupport/TechSupport/Document.jsp?objectID=c01945686"
+    },
+    {
+      "type": "WEB",
+      "url": "http://h20000.www2.hp.com/bizsupport/TechSupport/Document.jsp?objectID=c02436041"
+    },
+    {
+      "type": "WEB",
+      "url": "http://itrc.hp.com/service/cki/docDisplay.do?docId=emr_na-c02273751"
+    },
+    {
+      "type": "WEB",
+      "url": "http://kbase.redhat.com/faq/docs/DOC-20491"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.apple.com/archives/security-announce/2010//May/msg00001.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.apple.com/archives/security-announce/2010//May/msg00002.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.apple.com/archives/security-announce/2010/Jan/msg00000.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.fedoraproject.org/pipermail/package-announce/2010-April/039561.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.fedoraproject.org/pipermail/package-announce/2010-April/039957.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.fedoraproject.org/pipermail/package-announce/2010-May/040652.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.fedoraproject.org/pipermail/package-announce/2010-October/049455.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.fedoraproject.org/pipermail/package-announce/2010-October/049528.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.fedoraproject.org/pipermail/package-announce/2010-October/049702.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.gnu.org/archive/html/gnutls-devel/2009-11/msg00029.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.opensuse.org/opensuse-security-announce/2009-11/msg00009.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.opensuse.org/opensuse-security-announce/2010-04/msg00001.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.opensuse.org/opensuse-security-announce/2010-05/msg00001.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.opensuse.org/opensuse-security-announce/2010-05/msg00002.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.opensuse.org/opensuse-security-announce/2010-06/msg00001.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.opensuse.org/opensuse-security-announce/2010-10/msg00006.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.opensuse.org/opensuse-security-announce/2010-12/msg00005.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.opensuse.org/opensuse-security-announce/2010-12/msg00006.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.opensuse.org/opensuse-security-announce/2011-07/msg00013.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.opensuse.org/opensuse-security-announce/2011-07/msg00014.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://marc.info/?l=apache-httpd-announce&m=125755783724966&w=2"
+    },
+    {
+      "type": "WEB",
+      "url": "http://marc.info/?l=bugtraq&m=126150535619567&w=2"
+    },
+    {
+      "type": "WEB",
+      "url": "http://marc.info/?l=bugtraq&m=127128920008563&w=2"
+    },
+    {
+      "type": "WEB",
+      "url": "http://marc.info/?l=bugtraq&m=127419602507642&w=2"
+    },
+    {
+      "type": "WEB",
+      "url": "http://marc.info/?l=bugtraq&m=127557596201693&w=2"
+    },
+    {
+      "type": "WEB",
+      "url": "http://marc.info/?l=bugtraq&m=130497311408250&w=2"
+    },
+    {
+      "type": "WEB",
+      "url": "http://marc.info/?l=bugtraq&m=132077688910227&w=2"
+    },
+    {
+      "type": "WEB",
+      "url": "http://marc.info/?l=bugtraq&m=133469267822771&w=2"
+    },
+    {
+      "type": "WEB",
+      "url": "http://marc.info/?l=bugtraq&m=134254866602253&w=2"
+    },
+    {
+      "type": "WEB",
+      "url": "http://marc.info/?l=bugtraq&m=142660345230545&w=2"
+    },
+    {
+      "type": "WEB",
+      "url": "http://marc.info/?l=cryptography&m=125752275331877&w=2"
+    },
+    {
+      "type": "WEB",
+      "url": "http://openbsd.org/errata45.html#010_openssl"
+    },
+    {
+      "type": "WEB",
+      "url": "http://openbsd.org/errata46.html#004_openssl"
+    },
+    {
+      "type": "WEB",
+      "url": "http://seclists.org/fulldisclosure/2009/Nov/139"
+    },
+    {
+      "type": "WEB",
+      "url": "http://security.gentoo.org/glsa/glsa-200912-01.xml"
+    },
+    {
+      "type": "WEB",
+      "url": "http://security.gentoo.org/glsa/glsa-201203-22.xml"
+    },
+    {
+      "type": "WEB",
+      "url": "http://security.gentoo.org/glsa/glsa-201406-32.xml"
+    },
+    {
+      "type": "WEB",
+      "url": "http://slackware.com/security/viewer.php?l=slackware-security&y=2009&m=slackware-security.597446"
+    },
+    {
+      "type": "WEB",
+      "url": "http://sunsolve.sun.com/search/document.do?assetkey=1-26-273350-1"
+    },
+    {
+      "type": "WEB",
+      "url": "http://sunsolve.sun.com/search/document.do?assetkey=1-66-273029-1"
+    },
+    {
+      "type": "WEB",
+      "url": "http://sunsolve.sun.com/search/document.do?assetkey=1-66-274990-1"
+    },
+    {
+      "type": "WEB",
+      "url": "http://sunsolve.sun.com/search/document.do?assetkey=1-77-1021653.1-1"
+    },
+    {
+      "type": "WEB",
+      "url": "http://sunsolve.sun.com/search/document.do?assetkey=1-77-1021752.1-1"
+    },
+    {
+      "type": "WEB",
+      "url": "http://support.apple.com/kb/HT4004"
+    },
+    {
+      "type": "WEB",
+      "url": "http://support.apple.com/kb/HT4170"
+    },
+    {
+      "type": "WEB",
+      "url": "http://support.apple.com/kb/HT4171"
+    },
+    {
+      "type": "WEB",
+      "url": "http://support.avaya.com/css/P8/documents/100070150"
+    },
+    {
+      "type": "WEB",
+      "url": "http://support.avaya.com/css/P8/documents/100081611"
+    },
+    {
+      "type": "WEB",
+      "url": "http://support.avaya.com/css/P8/documents/100114315"
+    },
+    {
+      "type": "WEB",
+      "url": "http://support.avaya.com/css/P8/documents/100114327"
+    },
+    {
+      "type": "WEB",
+      "url": "http://support.citrix.com/article/CTX123359"
+    },
+    {
+      "type": "WEB",
+      "url": "http://support.zeus.com/zws/media/docs/4.3/RELEASE_NOTES"
+    },
+    {
+      "type": "WEB",
+      "url": "http://support.zeus.com/zws/news/2010/01/13/zws_4_3r5_released"
+    },
+    {
+      "type": "WEB",
+      "url": "http://sysoev.ru/nginx/patch.cve-2009-3555.txt"
+    },
+    {
+      "type": "WEB",
+      "url": "http://tomcat.apache.org/native-doc/miscellaneous/changelog-1.1.x.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://ubuntu.com/usn/usn-923-1"
+    },
+    {
+      "type": "WEB",
+      "url": "http://wiki.rpath.com/Advisories:rPSA-2009-0155"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www-01.ibm.com/support/docview.wss?uid=swg1IC67848"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www-01.ibm.com/support/docview.wss?uid=swg1IC68054"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www-01.ibm.com/support/docview.wss?uid=swg1IC68055"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www-01.ibm.com/support/docview.wss?uid=swg1PM12247"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www-01.ibm.com/support/docview.wss?uid=swg21426108"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www-01.ibm.com/support/docview.wss?uid=swg21432298"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www-01.ibm.com/support/docview.wss?uid=swg24006386"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www-01.ibm.com/support/docview.wss?uid=swg24025312"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www-1.ibm.com/support/search.wss?rs=0&q=PM00675&apar=only"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.arubanetworks.com/support/alerts/aid-020810.txt"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.betanews.com/article/1257452450"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.cisco.com/en/US/products/products_security_advisory09186a0080b01d1d.shtml"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.debian.org/security/2009/dsa-1934"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.debian.org/security/2011/dsa-2141"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.debian.org/security/2015/dsa-3253"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.educatedguesswork.org/2009/11/understanding_the_tls_renegoti.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.hitachi.co.jp/Prod/comp/soft1/security/info/vuls/HS10-030/index.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.ietf.org/mail-archive/web/tls/current/msg03928.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.ietf.org/mail-archive/web/tls/current/msg03948.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.ingate.com/Relnote.php?ver=481"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.itrc.hp.com/service/cki/docDisplay.do?docId=emr_na-c02512995"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.kb.cert.org/vuls/id/120541"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.links.org/?p=780"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.links.org/?p=786"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.links.org/?p=789"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.mandriva.com/security/advisories?name=MDVSA-2010:076"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.mandriva.com/security/advisories?name=MDVSA-2010:084"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.mandriva.com/security/advisories?name=MDVSA-2010:089"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.mozilla.org/security/announce/2010/mfsa2010-22.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openoffice.org/security/cves/CVE-2009-3555.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openssl.org/news/secadv_20091111.txt"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2009/11/05/3"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2009/11/05/5"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2009/11/06/3"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2009/11/07/3"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2009/11/20/1"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2009/11/23/10"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.opera.com/docs/changelogs/unix/1060"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.opera.com/support/search/view/944"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.oracle.com/technetwork/topics/security/cpuapr2011-301950.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.oracle.com/technetwork/topics/security/cpuoct2010-175626.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.oracle.com/technetwork/topics/security/javacpuoct2010-176258.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.proftpd.org/docs/RELEASE_NOTES-1.3.2c"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.redhat.com/support/errata/RHSA-2010-0119.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.redhat.com/support/errata/RHSA-2010-0130.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.redhat.com/support/errata/RHSA-2010-0155.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.redhat.com/support/errata/RHSA-2010-0165.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.redhat.com/support/errata/RHSA-2010-0167.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.redhat.com/support/errata/RHSA-2010-0337.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.redhat.com/support/errata/RHSA-2010-0338.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.redhat.com/support/errata/RHSA-2010-0339.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.redhat.com/support/errata/RHSA-2010-0768.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.redhat.com/support/errata/RHSA-2010-0770.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.redhat.com/support/errata/RHSA-2010-0786.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.redhat.com/support/errata/RHSA-2010-0807.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.redhat.com/support/errata/RHSA-2010-0865.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.redhat.com/support/errata/RHSA-2010-0986.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.redhat.com/support/errata/RHSA-2010-0987.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.redhat.com/support/errata/RHSA-2011-0880.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securegoose.org/2009/11/tls-renegotiation-vulnerability-cve.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.tombom.co.uk/blog/?p=85"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.ubuntu.com/usn/USN-1010-1"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.ubuntu.com/usn/USN-927-1"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.ubuntu.com/usn/USN-927-4"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.ubuntu.com/usn/USN-927-5"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.us-cert.gov/cas/techalerts/TA10-222A.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.us-cert.gov/cas/techalerts/TA10-287A.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.vmware.com/security/advisories/VMSA-2010-0019.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.vmware.com/security/advisories/VMSA-2011-0003.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.vmware.com/support/vsphere4/doc/vsp_vc41_u1_rel_notes.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-295"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-22T19:39:23Z",
+    "nvd_published_at": "2009-11-09T17:30:00Z"
+  }
+}

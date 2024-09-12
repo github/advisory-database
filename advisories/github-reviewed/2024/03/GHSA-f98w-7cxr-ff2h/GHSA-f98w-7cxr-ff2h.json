@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f98w-7cxr-ff2h",
+  "modified": "2024-03-25T22:32:05Z",
+  "published": "2024-03-25T19:38:34Z",
+  "aliases": [
+    "CVE-2024-28245"
+  ],
+  "summary": "KaTeX's `\\includegraphics` does not escape filename",
+  "details": "### Impact\nKaTeX users who render untrusted mathematical expressions could encounter malicious input using `\\includegraphics` that runs arbitrary JavaScript, or generate invalid HTML.\n\n### Patches\nUpgrade to KaTeX v0.16.10 to remove this vulnerability.\n\n### Workarounds\n* Avoid use of or turn off the `trust` option, or set it to forbid `\\includegraphics` commands.\n* Forbid inputs containing the substring `\"\\\\includegraphics\"`.\n* Sanitize HTML output from KaTeX.\n\n### Details\n`\\includegraphics` did not properly quote its filename argument, allowing it to generate invalid or malicious HTML that runs scripts.\n\n### For more information\nIf you have any questions or comments about this advisory:\n\n* Open an issue or security advisory in the [KaTeX repository](https://github.com/KaTeX/KaTeX/)\n* Email us at katex-security@mit.edu",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "katex"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.11.0"
+            },
+            {
+              "fixed": "0.16.10"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/KaTeX/KaTeX/security/advisories/GHSA-f98w-7cxr-ff2h"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28245"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/KaTeX/KaTeX/commit/c5897fcd1f73da9612a53e6b5544f1d776e17770"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/KaTeX/KaTeX"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-116"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-25T19:38:34Z",
+    "nvd_published_at": "2024-03-25T20:15:08Z"
+  }
+}

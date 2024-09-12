@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-ww7p-8gfg-v82r",
+  "modified": "2024-08-05T21:29:23Z",
+  "published": "2024-08-05T21:29:22Z",
+  "aliases": [
+    "CVE-2023-47623"
+  ],
+  "summary": "Scrypted Cross-site Scripting vulnerability",
+  "details": "Scrypted is a home video integration and automation platform. In versions 0.55.0 and prior (corresponding to `@scrypted/core` 0.1.142 and prior), a reflected cross-site scripting vulnerability exists in the login page via the `redirect_uri` parameter. By specifying a url with the javascript scheme (`javascript:`), an attacker can run arbitrary JavaScript code after the login. As of time of publication, no known patches are available.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:L/VI:L/VA:N/SC:L/SI:L/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@scrypted/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.1.142"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-47623"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/koush/scrypted"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/koush/scrypted/blob/v0.55.0/plugins/core/ui/src/Login.vue#L79"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://securitylab.github.com/advisories/GHSL-2023-218_GHSL-2023-219_scrypted"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-05T21:29:22Z",
+    "nvd_published_at": "2023-12-13T22:15:43Z"
+  }
+}

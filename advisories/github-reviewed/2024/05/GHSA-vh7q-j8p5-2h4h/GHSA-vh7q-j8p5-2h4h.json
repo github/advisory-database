@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vh7q-j8p5-2h4h",
+  "modified": "2024-05-27T23:21:53Z",
+  "published": "2024-05-27T23:21:53Z",
+  "aliases": [
+
+  ],
+  "summary": "silverstripe/framework sends passwords back to browsers under some circumstances",
+  "details": "Under some circumstances a form may populate a PasswordField with submitted data, reflecting submitted data back to a user. The user will only see their own submissions for password data, which is not considered best practice. We are not aware of data leaks to other users, devices or sessions.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.5.5-rc1"
+            },
+            {
+              "fixed": "3.7.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.3-rc1"
+            },
+            {
+              "fixed": "4.0.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.1.0-rc1"
+            },
+            {
+              "fixed": "4.1.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/commit/c28f411abd4837cdd9dbf87c4457976e678131cb"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/commit/f688bcb1a370e41df1b573a24fa3994b3895bacf"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/silverstripe/framework/SS-2018-013-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/silverstripe/silverstripe-framework"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.silverstripe.org/download/security-releases/ss-2018-013"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-27T23:21:53Z",
+    "nvd_published_at": null
+  }
+}

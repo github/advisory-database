@@ -1,0 +1,150 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-p6w9-r443-r752",
+  "modified": "2024-08-08T17:00:32Z",
+  "published": "2024-08-08T14:53:57Z",
+  "aliases": [
+    "CVE-2024-42357"
+  ],
+  "summary": "Shopware vulnerable to blind SQL-injection in DAL aggregations",
+  "details": "### Impact\n\nThe Shopware application API contains a search functionality which enables users to search through information stored within their Shopware instance. The searches performed by this function can be aggregated using the parameters in the “aggregations”\nobject. The ‘name’ field in this “aggregations” object is vulnerable SQL-injection and can be exploited using SQL parameters.\n\n### Patches\n\nUpdate to Shopware 6.6.5.1 or 6.5.8.13\n\n### Workarounds\n\nFor older versions of 6.1, 6.2, 6.3 and 6.4 corresponding security measures are also available via a plugin. For the full range of functions, we recommend updating to the latest Shopware version.\n\n### Credit\n\n[LogicalTrust](https://logicaltrust.net)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "shopware/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.5.8.13"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 6.5.8.12"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "shopware/platform"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.5.8.13"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 6.5.8.12"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "shopware/platform"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.6.0.0"
+            },
+            {
+              "fixed": "6.6.5.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 6.6.5.0"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "shopware/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.6.0.0"
+            },
+            {
+              "fixed": "6.6.5.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 6.6.5.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/shopware/shopware/security/advisories/GHSA-p6w9-r443-r752"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-42357"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/shopware/core/commit/63c05615694790f5790a04ef889f42b764fa53c9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/shopware/core/commit/a784aa1cec0624e36e0ee4d41aeebaed40e0442f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/shopware/shopware/commit/57ea2f3c59483cf7c0f853e7a0d68c23ded1fe5b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/shopware/shopware/commit/8504ba7e56e53add6a1d5b9d45015e3d899cd0ac"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/shopware/shopware"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-89"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-08T14:53:57Z",
+    "nvd_published_at": "2024-08-08T15:15:18Z"
+  }
+}

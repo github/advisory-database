@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-66j8-c83m-gj5f",
+  "modified": "2024-05-02T18:59:28Z",
+  "published": "2024-04-09T18:30:22Z",
+  "aliases": [
+    "CVE-2024-31864"
+  ],
+  "summary": "Apache Zeppelin remote code execution by adding malicious JDBC connection string",
+  "details": "Improper Control of Generation of Code ('Code Injection') vulnerability in Apache Zeppelin.\n\nThe attacker can inject sensitive configuration or malicious code when connecting MySQL database via JDBC driver. This issue affects Apache Zeppelin: before 0.11.1.\n\nUsers are recommended to upgrade to version 0.11.1, which fixes the issue.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.zeppelin:zeppelin-jdbc"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.11.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-31864"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/zeppelin/pull/4709"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/zeppelin/commit/e65b5430e43c076c138a1f56e3f2aba1324118f2"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/zeppelin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://issues.apache.org/jira/browse/ZEPPELIN-5990"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/752qdk0rnkd9nqtornz734zwb7xdwcdb"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.cve.org/CVERecord?id=CVE-2020-11974"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/04/09/8"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-11T20:13:39Z",
+    "nvd_published_at": "2024-04-09T16:15:08Z"
+  }
+}

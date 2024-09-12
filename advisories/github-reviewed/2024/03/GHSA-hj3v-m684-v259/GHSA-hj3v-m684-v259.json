@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hj3v-m684-v259",
+  "modified": "2024-03-11T03:37:15Z",
+  "published": "2024-03-08T15:06:53Z",
+  "aliases": [
+    "CVE-2024-28122"
+  ],
+  "summary": "JWX vulnerable to a denial of service attack using compressed JWE message",
+  "details": "### Summary\nThis vulnerability allows an attacker with a trusted public key to cause a Denial-of-Service (DoS) condition by crafting a malicious JSON Web Encryption (JWE) token with an exceptionally high compression ratio. When this token is processed by the recipient, it results in significant memory allocation and processing time during decompression.\n\n### Details\n\n**The attacker needs to obtain a valid public key to compress the payload**. It needs to be valid so that the recipient can use to successfully decompress the payload. Furthermore in context JWT processing in the v2 versions, the recipient must explicitly allow JWE handling .\n\nThe attacker then crafts a message with high compression ratio, e.g. a payload with very high frequency of repeating patterns that can decompress to a much larger size.  If the payload is large enough, recipient who is decompressing the data will have to allocate a large amount of memory, which then can lead to a denial of service.\n\nThe original report includes a reference to [1], but there are some very subtle differences between this library and the aforementioned issue. The most important aspect is that the referenced issue focuses on JWT processing, whereas this library is intentionally divided into parts that comprise JOSE, i.e. JWT, JWS, JWE, JWK. In particular, v2 of this library does not attempt to handle JWT payload enveloped in a JWE message automatically (v1 attempted to do this automatically, but it was never stable).\n\nReflecting this subtle difference, the approach taken to mitigate this vulnerability is slightly different from the referenced issue. The referenced issue limits the size of JWT when parsing, but the fixes for this library limits the maximum size of the decompressed data when decrypting JWE messages. Therefore the fix in this library is applicable regardless of the usage context, and a limit is now imposed on the size of the message that our JWE implementation can handle.\n\n### Proof of Concept\n\nModified from the original report to fit the vulnerability better:\n\n```go\n// The value below just needs to be \"large enough\" so that the it puts enough strain on the\n// recipient's environment. The value below is a safe size on my machine to run the test\n// without causing problems. When you increase the payload size, at some point the processing\n// will be slow enough to virtually freeze the program or cause a memory allocation error\nconst payloadSize = 1 << 31\n\nprivkey, err := rsa.GenerateKey(rand.Reader, 2048)\nrequire.NoError(t, err, `rsa.GenerateKey should succeed`)\npubkey := &privkey.PublicKey\npayload := strings.Repeat(\"x\", payloadSize)\n\nencrypted, err := jwe.Encrypt([]byte(payload), jwe.WithKey(jwa.RSA_OAEP, pubkey), jwe.WithContentEncryption(\"A128CBC-HS256\"), jwe.WithCompress(jwa.Deflate))\nrequire.NoError(t, err, `jwe.Encrypt should succeed`)\n_, err = jwe.Decrypt(encrypted, jwe.WithKey(jwa.RSA_OAEP, privkey)) // Will be allocating large amounts of memory\nrequire.Error(t, err, `jwe.Decrypt should fail`)\n```\n\n###  References\n\n[1] [CVE-2024-21319](https://github.com/AzureAD/azure-activedirectory-identitymodel-extensions-for-dotnet/security/advisories/GHSA-8g9c-28fc-mcx2)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/lestrrat-go/jwx/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.21"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/lestrrat-go/jwx"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.2.29"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/lestrrat-go/jwx/security/advisories/GHSA-hj3v-m684-v259"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28122"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/lestrrat-go/jwx/commit/d01027d74c7376d66037a10f4f64af9af26a7e34"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/lestrrat-go/jwx/commit/d43f2ceb7f0c13714dfe8854d6439766e86faa76"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/lestrrat-go/jwx"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/lestrrat-go/jwx/releases/tag/v1.2.29"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/lestrrat-go/jwx/releases/tag/v2.0.21"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-08T15:06:53Z",
+    "nvd_published_at": "2024-03-09T01:15:06Z"
+  }
+}

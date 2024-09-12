@@ -1,0 +1,168 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v77v-x634-9m56",
+  "modified": "2024-05-30T00:38:38Z",
+  "published": "2024-05-30T00:38:38Z",
+  "aliases": [
+    "CVE-2014-5244"
+  ],
+  "summary": "Symfony vulnerable to denial of service via a malicious HTTP Host header",
+  "details": "All 2.0.X, 2.1.X, 2.2.X, 2.3.X, 2.4.X, and 2.5.X versions of the Symfony HttpFoundation component are affected by this security issue.\n\nThis issue has been fixed in Symfony 2.3.19, 2.4.9, and 2.5.4. Note that no fixes are provided for Symfony 2.0, 2.1, and 2.2 as they are not maintained anymore.\n\nDescription\nWhen an arbitrarily long hostname is sent by a client, its parsing in `Request::getHost()` can lead to a DoS attack, due to the way we validate the hostname via a regular expression.\n\nResolution\nThe regular expression used to parse and validate the hostname from the HTTP request has been modified to avoid too much sensitivity to the submitted value length.\n\nThe patch for this issue is available here: https://github.com/symfony/symfony/pull/11828",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/http-foundation"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.3.19"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/http-foundation"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.4.0"
+            },
+            {
+              "fixed": "2.4.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/http-foundation"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.5.0"
+            },
+            {
+              "fixed": "2.5.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/symfony"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.3.19"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/symfony"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.4.0"
+            },
+            {
+              "fixed": "2.4.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symfony/symfony"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.5.0"
+            },
+            {
+              "fixed": "2.5.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/symfony/symfony/pull/11828"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/symfony/symfony/commit/1ee96a8b1b0987ffe2a62dca7ad268bf9edfa9b8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/symfony/http-foundation/CVE-2014-5244.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/symfony/symfony/CVE-2014-5244.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://symfony.com/blog/cve-2014-5244-denial-of-service-with-a-malicious-http-host-header"
+    },
+    {
+      "type": "WEB",
+      "url": "https://symfony.com/cve-2014-5244"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1333"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-30T00:38:38Z",
+    "nvd_published_at": null
+  }
+}

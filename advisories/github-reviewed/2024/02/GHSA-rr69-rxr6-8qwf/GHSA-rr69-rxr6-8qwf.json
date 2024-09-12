@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rr69-rxr6-8qwf",
+  "modified": "2024-02-09T16:03:32Z",
+  "published": "2024-02-09T16:03:32Z",
+  "aliases": [
+
+  ],
+  "summary": "serde-json-wasm stack overflow during recursive JSON parsing",
+  "details": "When parsing untrusted, deeply nested JSON, the stack may overflow, possibly enabling a Denial of Service attack. This was fixed by adding a check for recursion depth.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "serde-json-wasm"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.0"
+            },
+            {
+              "fixed": "1.0.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "1.0.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "serde-json-wasm"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.5.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/CosmWasm/serde-json-wasm/commit/a9a9b9bf243862bd2afbf6853fca97f30dc4f620"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/CosmWasm/serde-json-wasm/commit/e78f9e28b3a2151d3175ee88ab2a001bf9515429"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/CosmWasm/serde-json-wasm"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2024-0012.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-09T16:03:32Z",
+    "nvd_published_at": null
+  }
+}

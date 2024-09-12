@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cmh9-rx85-xj38",
+  "modified": "2024-02-20T16:40:10Z",
+  "published": "2024-02-13T18:34:16Z",
+  "aliases": [
+    "CVE-2024-25122"
+  ],
+  "summary": "XSS sidekiq-unique-jobs UI server vulnerability",
+  "details": "### Summary\n\nCross site scripting (XSS) potentially exposing cookies / sessions / localStorage, fixed by `sidekiq-unique-jobs` v8.0.7.\n\nSpecifically, this is a Reflected (Server-Side), Non-Self, Cross Site Scripting vulnerability, considered a **_P3_** on the BugCrowd [taxonomy](https://bugcrowd.com/vulnerability-rating-taxonomy) with the following categorization:\nCross-Site Scripting (XSS) > Reflected > Non-Self\n\nIt was initially thought there was a second vulnerability (RCE), but it was a false alarm.  Injection is impossible with Redis:\n\n> String escaping and NoSQL injection\n> The Redis protocol has no concept of string escaping, so injection is impossible under normal circumstances using a normal client library. The protocol uses prefixed-length strings and is completely binary safe.\n\nRef: https://redis.io/docs/management/security/\n\n**XSS Vulnerability**\n\nSpecially crafted `GET` request parameters handled by any of the following endpoints of `sidekiq-unique-jobs`' \"admin\" web UI, allow a super-user attacker, or an unwitting, but authorized, victim, who has received a disguised / crafted link, to successfully execute malicious code, which could potentially steal cookies, session data, or local storage data from the app the `sidekiq-unique-jobs` web UI is mounted in.\n\n1. `/changelogs`\n2. `/locks`\n3. `/expiring_locks`\n\nThis means if your `sidekiq-unique-jobs` web UI is mounted at `/sidekiq`, the vulnerable paths are:\n\n1. `/sidekiq/changelogs`\n2. `/sidekiq/locks`\n3. `/sidekiq/expiring_locks`\n\nXSS vulnerability is an instance of [CAPEC-32: XSS Through HTTP Query Strings](https://capec.mitre.org/data/definitions/32.html), which is related to [CWE-80](https://cwe.mitre.org/data/definitions/80.html). In certain cases where it results in a server error with status 500, it could be considered a vector for uncontrolled resource consumption, given that errors can be much more resource intensive that normal requests, and thus [CWE-400](https://cwe.mitre.org/data/definitions/400.html) & [CWE-754](https://cwe.mitre.org/data/definitions/754.html) may also be relevant.\n\n### Details\n\nFix for the XSS vulnerability was released in `sidekiq-unique-jobs` [v8.0.7](https://github.com/mhenrixon/sidekiq-unique-jobs/releases/tag/v8.0.7).\n\nThis is an analogous attack vector to that which affected `sidekiq` gem from version v7.0.4 to v7.0.7, and was given identifiers [GHSA-h3r8-h5qw-4r35](https://github.com/advisories/GHSA-h3r8-h5qw-4r35) & [CVE-2023-1892](https://github.com/advisories/GHSA-h3r8-h5qw-4r35).\n\nThe vulnerability in `sidekiq-unique-jobs`' was *not* fixed by `sidekiq` [v7.0.8](https://github.com/sidekiq/sidekiq/blob/main/Changes.md#708), nor the more recent `sidekiq` [v7.2.0](https://github.com/sidekiq/sidekiq/blob/main/Changes.md#720) releases; they are similar but unrelated, distinct vulnerabilities in adjacent projects.\n\nNote #1: The admin web UI for `sidekiq-unique-jobs` is not protected by any authorization constraint in the default configuration. Auth constraints must be configured by the programmer.  It is recommended and expected that users will configure authorization constrains on the \"admin\" UI.  This is not specifically related to the vulnerability but may make users who fail to constrain their \"admin\" UI even more vulnerable.\n\nNote #2: Most users of the library will not have configured the UI on a sandboxed subdomain, making all their cookies, localStorage data and session secrets [vulnerable to exposure](https://liveoverflow.com/do-not-use-alert-1-in-xss/).  The purpose of a sandboxed subdomain is expressly to prevent leaking sensitive data through XSS attacks.\n\nXSS Fix PR: https://github.com/mhenrixon/sidekiq-unique-jobs/pull/829\n\n### PoC\n\n**XSS**\n\nUse a string like:\n```\n%22%3E%3Cimg/src/onerror=alert(document.domain)%3E\n```\nas the value for one of the parameters that are handled without escaping.\nReference: https://liveoverflow.com/do-not-use-alert-1-in-xss/\n\n1. Visit [/sidekiq/changelogs](http://localhost:3000/sidekiq/changelogs) -  with a crafted query string like one of the following:\n  a. Screenshot: ![XSS changelogs sidekiq-unique-jobs lte v8 0 6](https://github.com/mhenrixon/sidekiq-unique-jobs/assets/19505/61788878-96af-4f97-8c11-b4c343b30c89)\n  b. `filter` is XSS vulnerable: `?filter=%22%3E%3Cimg/src/onerror=alert(document.domain)%3E`\n  c. `count` is vulnerable to triggering an application error (status 500), potentially allowing resource exhaustion `?count=%22%3E%3Cimg/src/onerror=alert(document.domain)%3E`\n    1. Screenshot: ![1c changelogs count](https://github.com/mhenrixon/sidekiq-unique-jobs/assets/19505/4c2cfe41-b8f5-49ef-90eb-4a20841874f9)\n2. Visit [/sidekiq/locks](http://localhost:3000/sidekiq/locks) - with a crafted query string like one of the following:\n  a. Screenshot: ![XSS locks sidekiq-unique-jobs lte v8 0 6](https://github.com/mhenrixon/sidekiq-unique-jobs/assets/19505/4a60cf44-8caa-42a3-a812-3ace81c21e0c)\n  b. `filter` is XSS vulnerable: `?filter=%22%3E%3Cimg/src/onerror=alert(document.domain)%3E`\n  c. `count` is vulnerable to triggering an application error (status 500), potentially allowing resource exhaustion `?count=%22%3E%3Cimg/src/onerror=alert(document.domain)%3E`\n    1. Screenshot: ![2c locks count](https://github.com/mhenrixon/sidekiq-unique-jobs/assets/19505/630d98a6-a3b4-46c8-b7a4-ca8c0e306c13)\n3. Visit [/sidekiq/expiring_locks](http://localhost:3000/sidekiq/expiring_locks) - with a crafted query string like one of the following: \n  a. Screenshot: ![XSS expiring_locks sidekiq-unique-jobs lte v8 0 6](https://github.com/mhenrixon/sidekiq-unique-jobs/assets/19505/7566515e-1edb-4436-8ec4-672c28437534)\n  b. `filter` is XSS vulnerable: `?filter=%22%3E%3Cimg/src/onerror=alert(document.domain)%3E`\n\n### Impact\n\nThis is a vulnerability of critical severity, which impacts many thousands of sites, since `sidekiq-unique-jobs` is widely deployed across the industry, with multiple attack vectors.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "sidekiq-unique-jobs"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.0.0"
+            },
+            {
+              "fixed": "8.0.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "sidekiq-unique-jobs"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.0.0.rc7"
+            },
+            {
+              "fixed": "7.1.33"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/mhenrixon/sidekiq-unique-jobs/security/advisories/GHSA-cmh9-rx85-xj38"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-25122"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mhenrixon/sidekiq-unique-jobs/commit/cd09ba6108f98973b6649a6149790c3d4502b4cc"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mhenrixon/sidekiq-unique-jobs/commit/ec3afd920c1b55843c72f748a87baac7f8be82ed"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mhenrixon/sidekiq-unique-jobs"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/sidekiq-unique-jobs/CVE-2024-25122.yml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400",
+      "CWE-754",
+      "CWE-79",
+      "CWE-80"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-13T18:34:16Z",
+    "nvd_published_at": "2024-02-13T19:15:11Z"
+  }
+}

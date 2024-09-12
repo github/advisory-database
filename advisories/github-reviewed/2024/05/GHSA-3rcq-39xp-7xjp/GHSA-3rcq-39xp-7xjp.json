@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3rcq-39xp-7xjp",
+  "modified": "2024-05-21T14:49:48Z",
+  "published": "2024-05-21T14:49:48Z",
+  "aliases": [
+    "CVE-2024-4435"
+  ],
+  "summary": "ic-stable-structures vulnerable to BTreeMap memory leak when deallocating nodes with overflows",
+  "details": "### Impact\nWhen storing unbounded types in a `BTreeMap`, a node is represented as a linked list of \"memory chunks\". It was discovered recently that when we deallocate a node, in some cases only the first memory chunk is deallocated, and the rest of the memory chunks remain (incorrectly) allocated, causing a memory leak.\n\nIn the worst case, depending on how a canister uses the `BTreeMap`, an adversary could interact with the canister through its API and trigger interactions with the map that keep consuming memory due to the memory leak. This could potentially lead to using an excessive amount of memory, or even running out of memory. \n\nThis issue has been fixed in #212 by changing the logic for deallocating nodes to ensure that all of a node's memory chunks are deallocated. Tests have been added to prevent regressions of this nature moving forward.\n\n**Note:** Users of stable-structure < 0.6.0 are not affected.\n\n### Patches\nThe problem has been fixed in PR #212 and users are asked to upgrade to version `0.6.4`.\n\n### Workarounds\nUsers who are not storing unbounded types in `BTreeMap` are not affected and do not need to upgrade. Otherwise, an upgrade to version `0.6.4` is necessary.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "ic-stable-structures"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.6.0"
+            },
+            {
+              "fixed": "0.6.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/dfinity/stable-structures/security/advisories/GHSA-3rcq-39xp-7xjp"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-4435"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dfinity/stable-structures/pull/212"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dfinity/stable-structures/commit/4f6b8ae521884833498bae26369c353c10f28ea7"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.rs/ic-stable-structures/0.6.4/ic_stable_structures"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/dfinity/stable-structures"
+    },
+    {
+      "type": "WEB",
+      "url": "https://internetcomputer.org/docs/current/developer-docs/smart-contracts/maintain/storage#stable-memory"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-401"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-21T14:49:48Z",
+    "nvd_published_at": "2024-05-21T10:15:10Z"
+  }
+}

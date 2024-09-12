@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hprr-4vfq-fcxw",
+  "modified": "2024-04-22T22:51:01Z",
+  "published": "2022-05-24T19:02:50Z",
+  "aliases": [
+    "CVE-2021-3313"
+  ],
+  "summary": "Plone XSS in User Fullname Property and File Upload",
+  "details": "Plone CMS until version 5.2.4 has a stored Cross-Site Scripting (XSS) vulnerability in the user fullname property and the file upload functionality. The user's input data is not properly encoded when being echoed back to the user. This data can be interpreted as executable code by the browser and allows an attacker to execute JavaScript in the context of the victim's browser if the victim opens a vulnerable page containing an XSS payload.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "plone"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "< 5.2.4"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-3313"
+    },
+    {
+      "type": "WEB",
+      "url": "https://plone.org/download/releases/5.2.3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://plone.org/security/hotfix/20210518/stored-xss-from-file-upload-svg-html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://plone.org/security/hotfix/20210518/stored-xss-from-user-fullname"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.compass-security.com/fileadmin/Research/Advisories/2021-07_CSNC-2021-013_XSS_in_Plone_CMS.txt"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2021/05/22/1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-22T22:51:01Z",
+    "nvd_published_at": "2021-05-20T16:15:00Z"
+  }
+}

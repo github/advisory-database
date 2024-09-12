@@ -1,0 +1,126 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5297-wrrp-rcj7",
+  "modified": "2024-04-08T18:34:00Z",
+  "published": "2024-04-08T15:48:27Z",
+  "aliases": [
+    "CVE-2024-31447"
+  ],
+  "summary": "Shopware Improper Session Handling in store-api account logout",
+  "details": "### Impact\n\nWhen a authentificated request is made to `POST /store-api/account/logout`, the cart will be cleared, but the User won't be logged out. This affects only the direct store-api usage, as the PHP Storefront listens additionally on `CustomerLogoutEvent` and invalidates the session additionally. \n\n### Patches\nThe problem has been fixed with Shopware 6.6.1.0 and 6.5.8.8.\n\n### Workarounds\nWhen you are not able to update, you can install the latest version of the Shopware Security Plugin.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "shopware/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.3.5.0"
+            },
+            {
+              "fixed": "6.5.8.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "shopware/platform"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.3.5.0"
+            },
+            {
+              "fixed": "6.5.8.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "shopware/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.6.0.0-rc1"
+            },
+            {
+              "fixed": "6.6.1.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "shopware/platform"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.6.0.0-rc1"
+            },
+            {
+              "fixed": "6.6.1.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/shopware/shopware/security/advisories/GHSA-5297-wrrp-rcj7"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-31447"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/shopware/shopware/commit/5cc84ddd817ad0c1d07f9b3c79ab346d50514a77"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/shopware/shopware/commit/d29775aa758f70d08e0c5999795c7c26d230e7d3"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/shopware/shopware"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-613"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-08T15:48:27Z",
+    "nvd_published_at": "2024-04-08T16:15:08Z"
+  }
+}

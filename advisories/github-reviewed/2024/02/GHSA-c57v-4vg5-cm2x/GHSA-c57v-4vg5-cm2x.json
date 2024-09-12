@@ -1,0 +1,128 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c57v-4vg5-cm2x",
+  "modified": "2024-07-22T09:31:55Z",
+  "published": "2024-02-07T12:30:25Z",
+  "aliases": [
+    "CVE-2023-51437"
+  ],
+  "summary": "Apache Pulsar SASL Authentication Provider observable timing discrepancy vulnerability",
+  "details": "Observable timing discrepancy vulnerability in Apache Pulsar SASL Authentication Provider can allow an attacker to forge a SASL Role Token that will pass signature verification.\nUsers are recommended to upgrade to version 2.11.3, 3.0.2, or 3.1.1 which fixes the issue. Users should also consider updating the configured secret in the `saslJaasServerRoleTokenSignerSecretPath` file.\n\nAny component matching an above version running the SASL Authentication Provider is affected. That includes the Pulsar Broker, Proxy, Websocket Proxy, or Function Worker.\n\n2.11 Pulsar users should upgrade to at least 2.11.3.\n3.0 Pulsar users should upgrade to at least 3.0.2.\n3.1 Pulsar users should upgrade to at least 3.1.1.\nAny users running Pulsar 2.8, 2.9, 2.10, and earlier should upgrade to one of the above patched versions.\n\nFor additional details on this attack vector, please refer to  https://codahale.com/a-lesson-in-timing-attacks/ .\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.pulsar:pulsar-broker-auth-sasl"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.11.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.pulsar:pulsar-broker-auth-sasl"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.0.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.pulsar:pulsar-broker-auth-sasl"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.1.0"
+            },
+            {
+              "fixed": "3.1.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-51437"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/pulsar/pull/21061"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/pulsar/commit/6274fa01a75d74d559bb7e514c970f1fc07d15bc"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/pulsar/commit/bc1019fa8ed37b8a4c8bb01e3662c6c015e1bc27"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/pulsar/commit/c05954e66ff33098aeb848f4bde51613ace7e47e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/pulsar/commit/c27beca64cc93848c40a374f19eaf4d3cc4f4f03"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/pulsar"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/5kgmvvolf5tzp5rz9xjwfg2ncwvqqgl5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.openwall.com/lists/oss-security/2024/02/07/1"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/02/07/1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200",
+      "CWE-203"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-07T18:23:31Z",
+    "nvd_published_at": "2024-02-07T10:15:08Z"
+  }
+}

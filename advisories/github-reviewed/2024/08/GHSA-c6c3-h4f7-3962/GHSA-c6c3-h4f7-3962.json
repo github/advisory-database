@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c6c3-h4f7-3962",
+  "modified": "2024-08-20T18:36:40Z",
+  "published": "2024-08-20T18:36:40Z",
+  "aliases": [
+    "CVE-2024-43397"
+  ],
+  "summary": "apollo-portal has potential unauthorized access issue",
+  "details": "### Impact\nA vulnerability exists in the synchronization configuration feature that allows users to craft specific requests to bypass permission checks. This exploit enables them to modify a namespace without the necessary permissions.\n\n### Patches\nThe issue was addressed with an input parameter check in #5192, which was released in version [2.3.0](https://github.com/apolloconfig/apollo/releases/tag/v2.3.0).\n\n### Workarounds\nTo mitigate the issue without upgrading, follow the recommended practices to prevent Apollo from being exposed to the internet.\n\n### Credits\nThe vulnerability was reported and reproduced by [Lakeswang](https://github.com/Lakes-bitgetsec).\n\n### References\nFor any questions or comments regarding this advisory:\n* Open an issue in [issue](https://github.com/apolloconfig/apollo/issues)\n* Email us at [apollo-config@googlegroups.com](mailto:apollo-config@googlegroups.com)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:N/VI:L/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.ctrip.framework.apollo:apollo"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.3.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/apolloconfig/apollo/security/advisories/GHSA-c6c3-h4f7-3962"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-43397"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apolloconfig/apollo/pull/5192"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apolloconfig/apollo/commit/f55b419145bf9d4f2f51dd4cd45108229e8d97ed"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apolloconfig/apollo"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apolloconfig/apollo/releases/tag/v2.3.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-284"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-20T18:36:40Z",
+    "nvd_published_at": "2024-08-20T15:15:23Z"
+  }
+}

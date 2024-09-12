@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v6q2-4qr3-5cw6",
+  "modified": "2024-03-19T18:31:16Z",
+  "published": "2024-03-18T20:33:32Z",
+  "aliases": [
+    "CVE-2024-28250"
+  ],
+  "summary": "Unencrypted traffic between nodes when using WireGuard and L7 policies",
+  "details": "### Impact\n\nIn Cilium clusters with WireGuard enabled and traffic matching Layer 7 policies:\n\n- Traffic that should be WireGuard-encrypted is sent unencrypted between a node's Envoy proxy and pods on other nodes.\n- Traffic that should be WireGuard-encrypted is sent unencrypted between a node's DNS proxy and pods on other nodes.\n\n### Patches\n\nThis issue affects:\n\n* In native routing mode (`routingMode=native`):\n  * Cilium v1.14 versions before v1.14.8\n  * Cilium v1.15 versions before v1.15.2\n* In tunneling mode (`routingMode=tunnel`):\n  * Cilium v1.14 versions before v1.14.4\n  * Cilium v1.14.4 if `encryption.wireguard.encapsulate` is set to `false` (default).\n\nThis issue has been resolved in:\n\n* In native routing mode (`routingMode=native`):\n  * Cilium v1.14.8\n  * Cilium v1.15.2\n* In tunneling mode (`routingMode=tunnel`):\n  * Cilium v1.14.4. **NOTE** `encryption.wireguard.encapsulate` must be set to `true`.\n   \n### Workarounds\n\nThere is no workaround to this issue.\n\n### Acknowledgements\nThe Cilium community has worked together with members of Isovalent to prepare these mitigations. Special thanks to @brb, @giorio94, @gandro and @jschwinger233 for their work on triaging and remediating this issue.\n\n### For more information\nIf you have any questions or comments about this advisory, please reach out on [Slack](https://docs.cilium.io/en/latest/community/community/#slack).\n\nIf you think you found a related vulnerability, we strongly encourage you to report security vulnerabilities to our private security mailing list at [security@cilium.io](mailto:security@cilium.io). This is a private mailing list where only members of the Cilium internal security team are subscribed to, and your report will be treated as top priority.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:A/AC:H/PR:N/UI:N/S:C/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cilium/cilium"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.14.0"
+            },
+            {
+              "fixed": "1.14.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cilium/cilium"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.15.0"
+            },
+            {
+              "fixed": "1.15.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/security/advisories/GHSA-v6q2-4qr3-5cw6"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28250"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cilium/cilium"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/releases/tag/v1.13.13"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/releases/tag/v1.14.8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/releases/tag/v1.15.2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-311"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-18T20:33:32Z",
+    "nvd_published_at": "2024-03-18T22:15:08Z"
+  }
+}

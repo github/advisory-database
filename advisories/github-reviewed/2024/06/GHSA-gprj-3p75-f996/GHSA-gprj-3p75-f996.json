@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-gprj-3p75-f996",
+  "modified": "2024-06-12T19:24:05Z",
+  "published": "2024-06-12T17:13:07Z",
+  "aliases": [
+    "CVE-2024-37300"
+  ],
+  "summary": "Globus `identity_provider` restriction ignored when used with `allow_all` in JupyterHub 5.0",
+  "details": "### Impact\n\nJupyterHub < 5.0, when used with `GlobusOAuthenticator`, could be configured to allow all users from a particular institution only. The configuration for this would look like:\n\n```python\n# Require users to be using the \"foo.horse\" identity provider, often an institution or university\nc.GlobusAuthenticator.identity_provider = \"foo.horse\"\n# Allow everyone who has that identity provider to log in\nc.GlobusAuthenticator.allow_all = True\n```\n\nThis worked fine prior to JupyterHub 5.0, because `allow_all` *did not* take precedence over `identity_provider`.\n\nSince JupyterHub 5.0, `allow_all` *does* take precedence over `identity_provider`. On a hub with the same config, now **all** users will be allowed to login, regardless of `identity_provider`. `identity_provider` will basically be ignored.\n\nThis is a [documented change](https://jupyterhub.readthedocs.io/en/stable/howto/upgrading-v5.html#authenticator-allow-all-and-allow-existing-users) in JupyterHub 5.0,\nbut is likely to catch many users by surprise.\n\n### Patches\n\nOAuthenticator 16.3.1 fixes the issue with JupyterHub 5.0, and does not affect previous versions.\n\n### Workarounds\n\nDo not upgrade to JupyterHub 5.0 when using `GlobusOAuthenticator` in the prior configuration.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "oauthenticator"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "16.3.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/jupyterhub/oauthenticator/security/advisories/GHSA-gprj-3p75-f996"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-37300"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jupyterhub/oauthenticator/commit/d1aea05fa89f2beae15ab0fa0b0d071030f79654"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jupyterhub/oauthenticator"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jupyterhub.readthedocs.io/en/stable/howto/upgrading-v5.html#authenticator-allow-all-and-allow-existing-users"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-863"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-12T17:13:07Z",
+    "nvd_published_at": "2024-06-12T16:15:12Z"
+  }
+}

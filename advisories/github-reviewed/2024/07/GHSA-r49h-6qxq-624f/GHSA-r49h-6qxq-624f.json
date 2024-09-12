@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r49h-6qxq-624f",
+  "modified": "2024-08-02T15:58:23Z",
+  "published": "2024-07-31T15:31:19Z",
+  "aliases": [
+    "CVE-2024-7340"
+  ],
+  "summary": "Weave server API vulnerable to arbitrary file leak",
+  "details": "The Weave server API allows remote users to fetch files from a specific directory, but due to a lack of input validation, it is possible to traverse and leak arbitrary files remotely. In various common scenarios, this allows a low-privileged user to assume the role of the server admin.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "weave"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.50.8"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-7340"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/wandb/weave/pull/1657"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/wandb/weave/commit/f43d5fb75e0d52933a52ecd9a0ce2f9b082e6c9f"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/wandb/weave"
+    },
+    {
+      "type": "WEB",
+      "url": "https://research.jfrog.com/vulnerabilities/wandb-weave-server-remote-arbitrary-file-leak-jfsa-2024-001039248"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20",
+      "CWE-22"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-31T20:54:48Z",
+    "nvd_published_at": "2024-07-31T15:15:11Z"
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-88jx-383q-w4qc",
+  "modified": "2024-04-11T17:05:01Z",
+  "published": "2024-04-11T17:05:01Z",
+  "aliases": [
+    "CVE-2024-29902"
+  ],
+  "summary": "Cosign malicious attachments can cause system-wide denial of service",
+  "details": "### Summary\nA remote image with a malicious attachment can cause denial of service of the host machine running Cosign. This can impact other services on the machine that rely on having memory available such as a Redis database which can result in data loss. It can also impact the availability of other services on the machine that will not be available for the duration of the machine denial.\n\n### Details\nThe root cause of this issue is that Cosign reads the attachment from a remote image entirely into memory without checking the size of the attachment first. As such, a large attachment can make Cosign read a large attachment into memory; If the attachments size is larger than the machine has memory available, the machine will be denied of service. The Go runtime will make a `SIGKILL` after a few seconds of system-wide denial.\n\nThe root cause is that Cosign reads the contents of the attachments entirely into memory on line 238 below:\n\nhttps://github.com/sigstore/cosign/blob/9bc3ee309bf35d2f6e17f5d23f231a3d8bf580bc/pkg/oci/remote/remote.go#L228-L239\n\n...and prior to that, neither Cosign nor go-containerregistry checks the size of the attachment and enforces a max cap. In the case of a remote layer of `f *attached`, go-containerregistry will invoke this API:\n\nhttps://github.com/google/go-containerregistry/blob/a0658aa1d0cc7a7f1bcc4a3af9155335b6943f40/pkg/v1/remote/layer.go#L36-L40\n```golang\nfunc (rl *remoteLayer) Compressed() (io.ReadCloser, error) {\n\t// We don't want to log binary layers -- this can break terminals.\n\tctx := redact.NewContext(rl.ctx, \"omitting binary blobs from logs\")\n\treturn rl.fetcher.fetchBlob(ctx, verify.SizeUnknown, rl.digest)\n}\n```\n\nNotice that the second argument to `rl.fetcher.fetchBlob` is `verify.SizeUnknown` which results in not using the `io.LimitReader` in `verify.ReadCloser`:\nhttps://github.com/google/go-containerregistry/blob/a0658aa1d0cc7a7f1bcc4a3af9155335b6943f40/internal/verify/verify.go#L82-L100\n```golang\nfunc ReadCloser(r io.ReadCloser, size int64, h v1.Hash) (io.ReadCloser, error) {\n\tw, err := v1.Hasher(h.Algorithm)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tr2 := io.TeeReader(r, w) // pass all writes to the hasher.\n\tif size != SizeUnknown {\n\t\tr2 = io.LimitReader(r2, size) // if we know the size, limit to that size.\n\t}\n\treturn &and.ReadCloser{\n\t\tReader: &verifyReader{\n\t\t\tinner:    r2,\n\t\t\thasher:   w,\n\t\t\texpected: h,\n\t\t\twantSize: size,\n\t\t},\n\t\tCloseFunc: r.Close,\n\t}, nil\n}\n```\n\n### Impact\nThis issue can allow a supply-chain escalation from a compromised registry to the Cosign user: If an attacher has compromised a registry or the account of an image vendor, they can include a malicious attachment and hurt the image consumer. \n\n### Remediation\nUpdate to the latest version of Cosign, which limits the number of attachments. An environment variable can override this value.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/sigstore/cosign"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "2.2.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/sigstore/cosign/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.2.4"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.2.3"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/sigstore/cosign/security/advisories/GHSA-88jx-383q-w4qc"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-29902"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sigstore/cosign/commit/629f5f8fa672973503edde75f84dcd984637629e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/google/go-containerregistry/blob/a0658aa1d0cc7a7f1bcc4a3af9155335b6943f40/pkg/v1/remote/layer.go#L36-L40"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/sigstore/cosign"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sigstore/cosign/blob/9bc3ee309bf35d2f6e17f5d23f231a3d8bf580bc/pkg/oci/remote/remote.go#L228-L239"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sigstore/cosign/releases/tag/v2.2.4"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-770"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-11T17:05:01Z",
+    "nvd_published_at": "2024-04-10T23:15:06Z"
+  }
+}

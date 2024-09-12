@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2ffv-r4r9-r8xr",
+  "modified": "2024-05-15T21:52:29Z",
+  "published": "2024-05-15T21:52:29Z",
+  "aliases": [
+
+  ],
+  "summary": "Laravel RCE vulnerability in \"cookie\" session driver",
+  "details": "Application's using the \"cookie\" session driver were the primary applications affected by this vulnerability. Since we have not yet released a security release for the Laravel 5.5 version of the framework, we recommend that all applications running Laravel 5.5 and earlier do not use the \"cookie\" session driver in their production deployments.\n\nRegarding the vulnerability, applications using the \"cookie\" session driver that were also exposing an encryption oracle via their application were vulnerable to remote code execution. An encryption oracle is a mechanism where arbitrary user input is encrypted and the encrypted string is later displayed or exposed to the user. This combination of scenarios lets the user generate valid Laravel signed encryption strings for any plain-text string, thus allowing them to craft Laravel session payloads when an application is using the \"cookie\" driver.\n\nThis fix prefixes cookie values with an HMAC hash of the cookie's name before encryption and then verifies a matching hash on decryption, making it impossible to craft a valid cookie payload even if an encryption oracle is exposed via the application.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "illuminate/cookie"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.1.0"
+            },
+            {
+              "fixed": "6.18.31"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "illuminate/cookie"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.0.0"
+            },
+            {
+              "fixed": "7.22.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://blog.laravel.com/laravel-cookie-security-releases"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/illuminate/cookie/2020-07-27-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/illuminate/cookie"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-15T21:52:29Z",
+    "nvd_published_at": null
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g776-759r-pf6x",
+  "modified": "2024-05-30T18:25:25Z",
+  "published": "2024-05-30T18:25:25Z",
+  "aliases": [
+
+  ],
+  "summary": "TYPO3 Broken Access Control in Import Module",
+  "details": "It has been discovered that the Import/Export module is susceptible to broken access control. Regular backend users have access to import functionality which usually only is available to admin users or users having User TSconfig setting options.impexp.enableImportForNonAdminUser explicitly enabled.\n\nDatabase content to be imported however was correctly checked against users’ permissions and not affected. However it was possible to upload files by-passing restrictions of the file abstraction layer (FAL) - however this did not affect executable files which have been correctly secured by fileDenyPattern.\n\nCurrently the only known vulnerability is to directly inject *.form.yaml files which could be used to trigger the vulnerability of TYPO3-CORE-SA-2018-003 (privilege escalation & SQL injection) - which requires the Form Framework (ext:form) being available on an according website. CVSSv3 scoring is based on this scenario.\n\nA valid backend user account is needed in order to exploit this vulnerability.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.3.0"
+            },
+            {
+              "fixed": "9.5.8"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/typo3/cms-core/2019-06-25-7.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/TYPO3-CMS/core"
+    },
+    {
+      "type": "WEB",
+      "url": "https://typo3.org/security/advisory/typo3-core-sa-2019-017"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-863"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-30T18:25:25Z",
+    "nvd_published_at": null
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6h72-m3xw-fp3c",
+  "modified": "2024-01-30T22:44:21Z",
+  "published": "2022-05-13T01:40:56Z",
+  "aliases": [
+    "CVE-2017-1000104"
+  ],
+  "summary": "Improper Privilege Management in Jenkins Config File Provider Plugin",
+  "details": "The Config File Provider Plugin is used to centrally manage configuration files that often include secrets, such as passwords. Users with only Overall/Read access to Jenkins were able to access URLs directly that allowed viewing these files. Access to view these files now requires sufficient permissions to configure the provided files, view the configuration of the folder in which the configuration files are defined, or have Job/Configure permissions to a job able to use these files.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:config-file-provider"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.16.2"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.16.1"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-1000104"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2017-08-07"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-269"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-30T22:44:21Z",
+    "nvd_published_at": "2017-10-05T01:29:00Z"
+  }
+}

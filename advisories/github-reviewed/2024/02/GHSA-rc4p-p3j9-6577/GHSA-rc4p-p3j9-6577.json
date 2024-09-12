@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rc4p-p3j9-6577",
+  "modified": "2024-03-19T18:27:04Z",
+  "published": "2024-02-22T21:41:47Z",
+  "aliases": [
+
+  ],
+  "summary": "pypqc private key retrieval vulnerability",
+  "details": "### Impact\n`kyber512`, `kyber768`, and `kyber1024` only: An attacker able to submit many decapsulation requests against a single private key, and to gain timing information about the decapsulation, could recover the private key. Proof-of-concept exploit exists for a local attacker.\n\nCVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N/E:P/RL:O/RC:C  \n\n### Patches\nVersion 0.0.6.1 and newer of PyPQC is patched.\n\n### Workarounds\nNo workarounds have been reported. The 0.0.6 -> 0.0.6.1 upgrade should be a drop-in replacement; it has no known breaking changes.\n\n### References\n#### Timeline\n1. Cryspen researchers privately reported KyberSlash to the reference implementation maintainers.\n\n2. Peter Schwabe partially patched KyberSlash \\(only \"KyberSlash 1\"\\) in the reference implementation on December 1st, 2023, but did not document or advertise this as a security patch.  \n   https://www.github.com/pq-crystals/kyber/commit/dda29cc63af721981ee2c831cf00822e69be3220\n\n3. Daniel J. Bernstein publicly reported KyberSlash as a security issue on December 15th, 2023.  \n   https://groups.google.com/a/list.nist.gov/g/pqc-forum/c/hWqFJCucuj4/m/-Z-jm_k9AAAJ\n\n4. Daniel J. Bernstein created a webpage for authoritative reference about KyberSlash on December 19th, 2023.  \n   https://kyberslash.cr.yp.to/\n\n5. Thom Wiggers acknowledged KyberSlash as a security issue on December 19th, 2023.  \n   https://www.github.com/PQClean/PQClean/issues/533\n\n6. Prasanna Ravi and Matthias Kannwischer privately reported further details about KyberSlash \\(\"KyberSlash 2\"\\) to the reference implementation maintainers.\n\n7. Peter Schwabe completely patched KyberSlash in the reference implementation on December 29th, 2023.\n   https://www.github.com/pq-crystals/kyber/commit/11d00ff1f20cfca1f72d819e5a45165c1e0a2816\n\n8. Prasanna Ravi and Matthias Kannwischer publicly reported their findings \\(\"KyberSlash 2\"\\) on December 30th, 2023.  \n   https://groups.google.com/a/list.nist.gov/g/pqc-forum/c/ldX0ThYJuBo/m/ovODsdY7AwAJ\n\n9. Daniel J. Bernstein published a proof-of-concept exploit \\(only validated for a local attacker\\) for KyberSlash on December 30th, 2023.  \n   https://groups.google.com/a/list.nist.gov/g/pqc-forum/c/ldX0ThYJuBo/m/uIOqRF5BAwAJ\n\n10. Thom Wiggers completely patched KyberSlash in PQClean on January 25th, 2024.  \n   https://www.github.com/PQClean/PQClean/commit/3b43bc6fe46fe47be38f87af5019a7f1462ae6dd\n\n11. James E. A. completely patched KyberSlash in pypqc and released a security update on January 26th, 2024.  \n   https://www.github.com/JamesTheAwesomeDude/pypqc/commit/b33fec8cd36e865f8db6215c64b2d01f429a1ed6",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "pypqc"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.0.4"
+            },
+            {
+              "fixed": "0.0.6.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/JamesTheAwesomeDude/pypqc/security/advisories/GHSA-rc4p-p3j9-6577"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/JamesTheAwesomeDude/pypqc"
+    },
+    {
+      "type": "WEB",
+      "url": "https://groups.google.com/a/list.nist.gov/g/pqc-forum/c/hWqFJCucuj4/m/-Z-jm_k9AAAJ"
+    },
+    {
+      "type": "WEB",
+      "url": "https://groups.google.com/a/list.nist.gov/g/pqc-forum/c/ldX0ThYJuBo/m/uIOqRF5BAwAJ"
+    },
+    {
+      "type": "WEB",
+      "url": "https://kyberslash.cr.yp.to"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.github.com/JamesTheAwesomeDude/pypqc/commit/b33fec8cd36e865f8db6215c64b2d01f429a1ed6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.github.com/PQClean/PQClean/issues/533"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.github.com/PQClean/PQClean/pull/534#event-11595728485"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.github.com/pq-crystals/kyber/commit/11d00ff1f20cfca1f72d819e5a45165c1e0a2816"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.github.com/pq-crystals/kyber/commit/dda29cc63af721981ee2c831cf00822e69be3220"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-22T21:41:47Z",
+    "nvd_published_at": null
+  }
+}

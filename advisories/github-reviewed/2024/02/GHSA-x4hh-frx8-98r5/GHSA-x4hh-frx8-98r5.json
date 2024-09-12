@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-x4hh-frx8-98r5",
+  "modified": "2024-02-01T20:53:03Z",
+  "published": "2024-02-01T20:53:03Z",
+  "aliases": [
+    "CVE-2024-24752"
+  ],
+  "summary": "Bref's Uploaded Files Not Deleted in Event-Driven Functions",
+  "details": "## Impacted Resources\n\nbref/src/Event/Http/Psr7Bridge.php:94-125\n\n## Description\n\nWhen Bref is used with the Event-Driven Function runtime and the handler is a `RequestHandlerInterface`, then the Lambda event is converted to a PSR7 object.\nDuring the conversion process, if the request is a MultiPart, each part is parsed and for each which contains a file, it is extracted and saved in `/tmp` with a random filename starting with `bref_upload_`.\n\nThe function implementing the logic follows:\n\n```php\nprivate static function parseBodyAndUploadedFiles(HttpRequestEvent $event): array\n{\n    $bodyString = $event->getBody();\n    $files = [];\n    $parsedBody = null;\n    $contentType = $event->getContentType();\n    if ($contentType !== null && $event->getMethod() === 'POST') {\n        if (str_starts_with($contentType, 'application/x-www-form-urlencoded')) {\n            parse_str($bodyString, $parsedBody);\n        } else {\n            $document = new Part(\"Content-type: $contentType\\r\\n\\r\\n\" . $bodyString);\n            if ($document->isMultiPart()) {\n                $parsedBody = [];\n                foreach ($document->getParts() as $part) {\n                    if ($part->isFile()) {\n                        $tmpPath = tempnam(sys_get_temp_dir(), 'bref_upload_');\n                        if ($tmpPath === false) {\n                            throw new RuntimeException('Unable to create a temporary directory');\n                        }\n                        file_put_contents($tmpPath, $part->getBody());\n                        $file = new UploadedFile($tmpPath, filesize($tmpPath), UPLOAD_ERR_OK, $part->getFileName(), $part->getMimeType());\n\n                        self::parseKeyAndInsertValueInArray($files, $part->getName(), $file);\n                    } else {\n                        self::parseKeyAndInsertValueInArray($parsedBody, $part->getName(), $part->getBody());\n                    }\n                }\n            }\n        }\n    }\n    return [$files, $parsedBody];\n}\n```\n\nThe flow mimics what plain PHP does but it does not delete the temporary files when the request has been processed.\n\n## Impact\n\nAn attacker could fill the Lambda instance disk by performing multiple MultiPart requests containing files.\nThe attack has the following requirements and limitations:\n- The Lambda should use the Event-Driven Function runtime.\n- The Lambda should use the `RequestHandlerInterface` handler.\n- The Lambda should implement at least an endpoint accepting POST requests.\n- The attacker can send requests up to 6MB long, so multiple requests are required to fill the disk (the default Lambda disk size is 512MB, therefore with less than 100 requests the disk could be filled).\n\n## PoC\n\n1. Create a new Bref project.\n2. Create an `index.php` file with the following content:\n```php\n<?php\n\nnamespace App;\n\nrequire __DIR__ . '/vendor/autoload.php';\n\nuse Nyholm\\Psr7\\Response;\nuse Psr\\Http\\Message\\ResponseInterface;\nuse Psr\\Http\\Message\\ServerRequestInterface;\nuse Psr\\Http\\Server\\RequestHandlerInterface;\n\nclass MyHttpHandler implements RequestHandlerInterface\n{\n    public function handle(ServerRequestInterface $request): ResponseInterface\n    {\n        return new Response(200, [], exec(\"ls -lah /tmp/bref_upload* | wc -l\"));\n    }\n}\n\nreturn new MyHttpHandler();\n\n```\n3. Use the following `serverless.yml` to deploy the Lambda:\n```yaml\nservice: app\n\nprovider:\n    name: aws\n    region: eu-central-1\n\nplugins:\n    - ./vendor/bref/bref\n\n# Exclude files from deployment\npackage:\n    patterns:\n        - '!node_modules/**'\n        - '!tests/**'\n\nfunctions:\n    api:\n        handler: index.php\n        runtime: php-83\n        events:\n            - httpApi: 'ANY /upload'\n```\n4. Replay the following request multiple times after having replaced the `<HOST>` placeholder with the deployed Lambda domain:\n```\nPOST /upload HTTP/2\nHost: <HOST>\nContent-Type: multipart/form-data; boundary=----WebKitFormBoundaryQqDeSZSSvmn2rfjb\nContent-Length: 180\n\n------WebKitFormBoundaryQqDeSZSSvmn2rfjb\nContent-Disposition: form-data; name=\"a\"; filename=\"a.txt\"\nContent-Type: text/plain\n\ntest\n------WebKitFormBoundaryQqDeSZSSvmn2rfjb--\n```\n5. Notice that each time the request is sent the number of the uploaded temporary files on the disk increases.\n\n## Suggested Remediation\n\nDelete the temporary files after the request has been processed and the response have been generated.\n\n## References\n\n- https://cheatsheetseries.owasp.org/cheatsheets/Denial_of_Service_Cheat_Sheet.html",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "bref/bref"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.1.13"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/brefphp/bref/security/advisories/GHSA-x4hh-frx8-98r5"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-24752"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/brefphp/bref/commit/350788de12880b6fd64c4c318ba995388bec840e"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/brefphp/bref"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/brefphp/bref/blob/2.1.12/src/Event/Http/Psr7Bridge.php#L94-L125"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-01T20:53:03Z",
+    "nvd_published_at": "2024-02-01T16:17:14Z"
+  }
+}

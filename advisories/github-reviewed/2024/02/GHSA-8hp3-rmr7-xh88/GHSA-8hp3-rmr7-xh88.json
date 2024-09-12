@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8hp3-rmr7-xh88",
+  "modified": "2024-02-20T23:47:36Z",
+  "published": "2024-02-17T06:30:35Z",
+  "aliases": [
+    "CVE-2024-21497"
+  ],
+  "summary": "Open Redirect in github.com/greenpau/caddy-security",
+  "details": "All versions of the package github.com/greenpau/caddy-security are vulnerable to Open Redirect via the redirect_url parameter. An attacker could perform a phishing attack and trick users into visiting a malicious website by crafting a convincing URL with this parameter. To exploit this vulnerability, the user must take an action, such as clicking on a portal button or using the browser’s back button, to trigger the redirection.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/greenpau/caddy-security"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.1.23"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-21497"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/greenpau/caddy-security/issues/268"
+    },
+    {
+      "type": "WEB",
+      "url": "https://blog.trailofbits.com/2023/09/18/security-flaws-in-an-sso-plugin-for-caddy"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-GOLANG-GITHUBCOMGREENPAUCADDYSECURITY-6249861"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "github.com/greenpau/caddy-security"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-601"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-20T23:47:36Z",
+    "nvd_published_at": "2024-02-17T05:15:09Z"
+  }
+}

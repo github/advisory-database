@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-37vr-vmg4-jwpw",
+  "modified": "2024-02-09T21:53:14Z",
+  "published": "2024-02-09T18:31:07Z",
+  "aliases": [
+    "CVE-2023-50386"
+  ],
+  "summary": "Apache Solr: Backup/Restore APIs allow for  deployment of executables in malicious ConfigSets ",
+  "details": "Improper Control of Dynamically-Managed Code Resources, Unrestricted Upload of File with Dangerous Type, Inclusion of Functionality from Untrusted Control Sphere vulnerability in Apache Solr.This issue affects Apache Solr from 6.0.0 through 8.11.2, from 9.0.0 before 9.4.1.\n\nIn the affected versions, Solr ConfigSets accepted Java jar and class files to be uploaded through the ConfigSets API.\nWhen backing up Solr Collections, these configSet files would be saved to disk when using the LocalFileSystemRepository (the default for backups).\nIf the backup was saved to a directory that Solr uses in its ClassPath/ClassLoaders, then the jar and class files would be available to use with any ConfigSet, trusted or untrusted.\n\nWhen Solr is run in a secure way (Authorization enabled), as is strongly suggested, this vulnerability is limited to extending the Backup permissions with the ability to add libraries.\nUsers are recommended to upgrade to version 8.11.3 or 9.4.1, which fix the issue.\nIn these versions, the following protections have been added:\n\n  *  Users are no longer able to upload files to a configSet that could be executed via a Java ClassLoader.\n  *  The Backup API restricts saving backups to directories that are used in the ClassLoader.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.solr:solr-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.0.0"
+            },
+            {
+              "fixed": "8.11.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.solr:solr-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.0.0"
+            },
+            {
+              "fixed": "9.4.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-50386"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/lucene-solr/commit/6c8f24eb9e3fe1cb19058173f2e221de3febfeda"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/lucene-solr/commit/7e9a2e67f812032a049836c3aa0b18bf5cd717f9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/solr/commit/644dd3a6d6780d71030f7070754d2f3adce22859"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/solr/commit/c79011e81dada2f9bc4b4df32ffb32152ef81152"
+    },
+    {
+      "type": "WEB",
+      "url": "https://issues.apache.org/jira/browse/SOLR-16949"
+    },
+    {
+      "type": "WEB",
+      "url": "https://solr.apache.org/security.html#cve-2023-50386-apache-solr-backuprestore-apis-allow-for-deployment-of-executables-in-malicious-configsets"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/02/09/1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-434"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-09T21:53:13Z",
+    "nvd_published_at": "2024-02-09T18:15:08Z"
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-x428-565f-8xj2",
+  "modified": "2024-05-30T18:27:24Z",
+  "published": "2024-05-30T18:27:24Z",
+  "aliases": [
+
+  ],
+  "summary": "TYPO3 Arbitrary Code Execution and Cross-Site Scripting in Backend API",
+  "details": "Backend API configuration using Page TSconfig is vulnerable to arbitrary code execution and cross-site scripting. TSconfig fields of page properties in backend forms can be used to inject malicious sequences. Field tsconfig_includes is vulnerable to directory traversal leading to same scenarios as having direct access to TSconfig settings.\n\nA valid backend user account having access to modify values for fields `pages.TSconfig` and `pages.tsconfig_includes` is needed in order to exploit this vulnerability.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.0.0"
+            },
+            {
+              "fixed": "8.7.27"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.0.0"
+            },
+            {
+              "fixed": "9.5.8"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/TYPO3-CMS/core/commit/3a99a0877de6ad9cb39ba73146292b90e13294db"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/TYPO3-CMS/core/commit/822e62ec267fbe3c70a26f1c4f73f47fc615c930"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/typo3/cms-core/2019-06-25-4.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/TYPO3-CMS/core"
+    },
+    {
+      "type": "WEB",
+      "url": "https://typo3.org/security/advisory/typo3-core-sa-2019-019"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22",
+      "CWE-79"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-30T18:27:24Z",
+    "nvd_published_at": null
+  }
+}

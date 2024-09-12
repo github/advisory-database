@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v2vf-jv88-3fp5",
+  "modified": "2024-06-26T17:42:18Z",
+  "published": "2024-06-26T17:42:18Z",
+  "aliases": [
+    "CVE-2024-24764"
+  ],
+  "summary": "October System module has an Open Redirect for Administrator Accounts",
+  "details": "### Impact\n\nThis advisory affects authenticated administrators who may be redirected to an untrusted URL using the PageFinder schema.  The resolver for the page finder link schema (`october://`) allowed external links, therefore allowing an open redirect outside the scope of the active host.\n\nThis vulnerability assumes a trusted user will attack another trusted user and cannot be actively exploited without access to the administration panel and interaction from the other user.\n\n### Patches\n\nThis issue has been patched in v3.5.15.\n\n### References\n\nCredits to:\n- [Benzetaa](https://github.com/benzetaa/)\n\n### For more information\nIf you have any questions or comments about this advisory:\n* Email us at [hello@octobercms.com](mailto:hello@octobercms.com)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:U/C:L/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "october/system"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.2"
+            },
+            {
+              "fixed": "3.5.15"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/octobercms/october/security/advisories/GHSA-v2vf-jv88-3fp5"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-24764"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/octobercms/october"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-601"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-26T17:42:18Z",
+    "nvd_published_at": "2024-06-26T01:15:47Z"
+  }
+}

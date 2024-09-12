@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8vj9-5v5q-fhch",
+  "modified": "2024-04-01T15:52:49Z",
+  "published": "2024-04-01T00:30:43Z",
+  "aliases": [
+    "CVE-2024-27609"
+  ],
+  "summary": "Bonita cross-site scripting vulnerability",
+  "details": "Bonita before 10.1.0.W11 allows stored XSS via a UI screen in the administration panel.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.bonitasoft.console:bonita-web-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "10.1.0.W11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.bonitasoft.platform:platform-resources"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "10.1.0.W11"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-27609"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/bonitasoft/bonita-engine/commit/15dc60a99d97f9407b5089ba26f792cf3bd87f6b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/bonitasoft/bonita-engine/commit/26b24690a80dce11c0a4fa38ea54aeb35ca1e541"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/bonitasoft/bonita-engine/commit/2c84ea1a76f7e7f345c334645e46428e9376b0c9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/bonitasoft/bonita-engine/commit/90469adf2b0ebf33f4c65b583f5c96284c8c1086"
+    },
+    {
+      "type": "WEB",
+      "url": "https://documentation.bonitasoft.com/bonita/latest/release-notes#_fixes_in_bonita_runtime_including_bonita_applications_2"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/bonitasoft/bonita-engine"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-01T15:52:49Z",
+    "nvd_published_at": "2024-04-01T00:15:49Z"
+  }
+}

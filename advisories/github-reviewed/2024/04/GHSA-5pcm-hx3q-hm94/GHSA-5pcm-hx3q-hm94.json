@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5pcm-hx3q-hm94",
+  "modified": "2024-07-25T10:11:23Z",
+  "published": "2024-04-17T21:30:48Z",
+  "aliases": [
+    "CVE-2024-31580"
+  ],
+  "summary": "PyTorch heap buffer overflow vulnerability",
+  "details": "PyTorch before v2.2.0 was discovered to contain a heap buffer overflow vulnerability in the component /runtime/vararg_functions.cpp. This vulnerability allows attackers to cause a Denial of Service (DoS) via a crafted input.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "torch"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.2.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-31580"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pytorch/pytorch/commit/b5c3a17c2c207ebefcb85043f0cf94be9b2fef81"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gist.github.com/1047524396/038c78f2f007345e6f497698ace2aa3d"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pytorch/pytorch"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-PYTHON-TORCH-6649934"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-122"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-25T10:11:23Z",
+    "nvd_published_at": "2024-04-17T19:15:07Z"
+  }
+}

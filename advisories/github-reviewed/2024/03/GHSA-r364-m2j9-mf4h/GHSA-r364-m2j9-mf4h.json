@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r364-m2j9-mf4h",
+  "modified": "2024-04-16T15:51:15Z",
+  "published": "2024-03-27T03:31:16Z",
+  "aliases": [
+    "CVE-2024-2206"
+  ],
+  "summary": "gradio Server-Side Request Forgery vulnerability",
+  "details": "An SSRF vulnerability exists in the gradio-app/gradio due to insufficient validation of user-supplied URLs in the `/proxy` route. Attackers can exploit this vulnerability by manipulating the `self.replica_urls` set through the `X-Direct-Url` header in requests to the `/` and `/config` routes, allowing the addition of arbitrary URLs for proxying. This flaw enables unauthorized proxying of requests and potential access to internal endpoints within the Hugging Face space. The issue arises from the application's inadequate checking of safe URLs in the `build_proxy_request` function.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "gradio"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.18.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-2206"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/gradio-app/gradio/commit/49d9c48537aa706bf72628e3640389470138bdc6"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/gradio-app/gradio"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.com/bounties/2286c1ed-b889-45d6-adda-7014ea06d98e"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-918"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-27T21:58:06Z",
+    "nvd_published_at": "2024-03-27T01:15:46Z"
+  }
+}

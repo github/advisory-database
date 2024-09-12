@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jmqp-37m5-49wh",
+  "modified": "2024-05-14T20:16:33Z",
+  "published": "2024-05-14T20:16:33Z",
+  "aliases": [
+    "CVE-2024-34713"
+  ],
+  "summary": "sshproxy vulnerable to SSH option injection",
+  "details": "### Impact\nAny user authorized to connect to a ssh server using `sshproxy` can inject options to the `ssh` command executed by `sshproxy`.\nAll versions of `sshproxy` are impacted.\n\n### Patches\nThe problem is patched starting on version 1.6.3\n\n### Workarounds\nThe only workaround is to use the `force_command` option in `sshproxy.yaml`, but it's rarely relevant.\n\n### References\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cea-hpc/sshproxy"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.6.3"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.6.2"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/cea-hpc/sshproxy/security/advisories/GHSA-jmqp-37m5-49wh"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-34713"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cea-hpc/sshproxy/commit/3b8bccc874dc4ca2c80c956cad65722abb46f0b9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cea-hpc/sshproxy/commit/f7eabd05d5f0f951e160293692327cad9a7d9580"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cea-hpc/sshproxy"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-77"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-14T20:16:33Z",
+    "nvd_published_at": "2024-05-14T16:17:27Z"
+  }
+}

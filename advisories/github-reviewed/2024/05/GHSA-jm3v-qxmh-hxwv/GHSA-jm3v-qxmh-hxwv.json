@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jm3v-qxmh-hxwv",
+  "modified": "2024-05-14T20:14:43Z",
+  "published": "2024-05-14T20:14:43Z",
+  "aliases": [
+
+  ],
+  "summary": "Scrapy's redirects ignoring scheme-specific proxy settings",
+  "details": "### Impact\n\nWhen using system proxy settings, which are scheme-specific (i.e. specific to `http://` or `https://` URLs), Scrapy was not accounting for scheme changes during redirects.\n\nFor example, an HTTP request would use the proxy configured for HTTP and, when redirected to an HTTPS URL, the new HTTPS request would still use the proxy configured for HTTP instead of switching to the proxy configured for HTTPS. Same the other way around.\n\nIf you have different proxy configurations for HTTP and HTTPS in your system for security reasons (e.g., maybe you don’t want one of your proxy providers to be aware of the URLs that you visit with the other one), this would be a security issue.\n\n### Patches\n\nUpgrade to Scrapy 2.11.2.\n\n### Workarounds\n\nReplace the built-in retry middlewares (`RedirectMiddleware` and `MetaRefreshMiddleware`) and the `HttpProxyMiddleware` middleware with custom ones that implement the fix from Scrapy 2.11.2, and verify that they work as intended.\n\n### References\n\nThis security issue was reported by @redapple at https://github.com/scrapy/scrapy/issues/767.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "Scrapy"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.11.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/scrapy/scrapy/security/advisories/GHSA-jm3v-qxmh-hxwv"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/scrapy/scrapy/issues/767"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/scrapy/scrapy/commit/1d0502f25bbe55a22899af915623fda1aaeb9dd8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/scrapy/scrapy"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-14T20:14:43Z",
+    "nvd_published_at": null
+  }
+}

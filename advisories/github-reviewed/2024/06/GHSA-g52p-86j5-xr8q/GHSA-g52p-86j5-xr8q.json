@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g52p-86j5-xr8q",
+  "modified": "2024-06-07T21:20:39Z",
+  "published": "2024-06-07T21:20:39Z",
+  "aliases": [
+
+  ],
+  "summary": "ZendFramework Potential Cross-site Scripting in Development Environment Error View Script",
+  "details": "The default error handling view script generated using `Zend_Tool` failed to escape request parameters when run in the \"development\" configuration environment, providing a potential XSS attack vector.\n\n`Zend_Tool_Project_Context_Zf_ViewScriptFile` was patched such that the view script template now calls the `escape()` method on dumped request variables.\n\nZend Framework 1.11.4 includes a patch that adds escaping to the generated error/error.phtml view script, ensuring that request variables are escaped appropriately for the browser.\nDo note, however, that this will not update any previously generated code. You will still need to follow the next advice for previously generated error view scripts.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "zendframework/zendframework1"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.0"
+            },
+            {
+              "fixed": "1.11.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/zendframework/zendframework1/ZF2011-01.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/zendframework/zf1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20210120123405/https://framework.zend.com/security/advisory/ZF2011-01"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-07T21:20:39Z",
+    "nvd_published_at": null
+  }
+}

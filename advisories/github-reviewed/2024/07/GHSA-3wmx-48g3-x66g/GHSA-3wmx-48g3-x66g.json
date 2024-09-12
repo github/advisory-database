@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3wmx-48g3-x66g",
+  "modified": "2024-07-25T18:08:25Z",
+  "published": "2024-07-22T06:31:08Z",
+  "aliases": [
+    "CVE-2024-41709"
+  ],
+  "summary": "Backdrop CMS does not sufficiently sanitize field labels before they are displayed in certain places",
+  "details": "Backdrop CMS before 1.27.3 and 1.28.x before 1.28.2 does not sufficiently sanitize field labels before they are displayed in certain places. This vulnerability is mitigated by the fact that an attacker must have a role with the \"administer fields\" permission.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:H/UI:A/VC:N/VI:N/VA:N/SC:L/SI:L/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "backdrop/backdrop"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.27.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "backdrop/backdrop"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.28.0"
+            },
+            {
+              "fixed": "1.28.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-41709"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/backdrop/backdrop/commit/c7ff0500705668e3f58263590812872e44059301"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/backdrop/backdrop/commit/f1dfe710c186fb47c9d949f01f37e5ab42b44030"
+    },
+    {
+      "type": "WEB",
+      "url": "https://backdropcms.org/security/backdrop-sa-core-2024-001"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/backdrop-ops/backdrop-composer"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-25T18:08:25Z",
+    "nvd_published_at": "2024-07-22T06:15:02Z"
+  }
+}

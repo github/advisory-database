@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-gvqv-h7hh-6fcc",
+  "modified": "2024-02-13T19:29:43Z",
+  "published": "2024-02-06T00:30:28Z",
+  "aliases": [
+    "CVE-2024-24595"
+  ],
+  "summary": "Allegro AI ClearML Stores Credentials in Plaintext in MongoDB Instance",
+  "details": "Allegro AI’s open-source version of ClearML stores passwords in plaintext within the MongoDB instance, resulting in a compromised server leaking all user emails and passwords.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "clearml"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.14.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-24595"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/allegroai/clearml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://hiddenlayer.com/research/not-so-clear-how-mlops-solutions-can-muddy-the-waters-of-your-supply-chain"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-312",
+      "CWE-522"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-09T21:36:44Z",
+    "nvd_published_at": "2024-02-05T22:16:08Z"
+  }
+}

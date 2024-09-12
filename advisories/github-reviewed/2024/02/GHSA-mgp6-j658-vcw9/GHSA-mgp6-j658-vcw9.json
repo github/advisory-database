@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mgp6-j658-vcw9",
+  "modified": "2024-02-15T15:00:28Z",
+  "published": "2024-02-09T21:30:57Z",
+  "aliases": [
+    "CVE-2024-1245"
+  ],
+  "summary": "Concrete CMS vulnerable to stored XSS in file tags and description attributes",
+  "details": "Concrete CMS version 9 before 9.2.5 is vulnerable to stored XSS in file tags and description attributes since administrator entered file attributes are not sufficiently sanitized in the Edit Attributes page. A rogue administrator could put malicious code into the file tags or description attributes and, when another administrator opens the same file for editing, the malicious code could execute. The Concrete CMS Security team scored this 2.4 with CVSS v3 vector  AV:N/AC:L/PR:H/UI:R/S:U/C:L/I:N/A:N https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator . \n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "concrete5/concrete5"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.0.0RC1"
+            },
+            {
+              "fixed": "9.2.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-1245"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/concretecms/concretecms/commit/59a07472ad6349a2c5fb455837a54ed1fe3f6953"
+    },
+    {
+      "type": "WEB",
+      "url": "https://documentation.concretecms.org/9-x/developers/introduction/version-history/925-release-notes"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/concretecms/concretecms"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.concretecms.org/about/project-news/security/2024-02-04-security-advisory"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20",
+      "CWE-79"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-09T22:17:37Z",
+    "nvd_published_at": "2024-02-09T20:15:54Z"
+  }
+}

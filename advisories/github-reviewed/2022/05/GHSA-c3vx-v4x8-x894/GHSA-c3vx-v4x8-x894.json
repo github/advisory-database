@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c3vx-v4x8-x894",
+  "modified": "2024-01-24T16:22:35Z",
+  "published": "2022-05-13T01:12:51Z",
+  "aliases": [
+    "CVE-2014-0217"
+  ],
+  "summary": "Moodle does not check for the moodle/course:viewhiddencourses capability",
+  "details": "enrol/index.php in Moodle 2.6.x before 2.6.3 does not check for the moodle/course:viewhiddencourses capability before listing hidden courses, which allows remote attackers to obtain sensitive name and summary information about these courses by leveraging the guest role and visiting a crafted URL.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "moodle/moodle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.6.0"
+            },
+            {
+              "fixed": "2.6.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2014-0217"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moodle/moodle/commit/eaea796e70f6630494d3772684604ab6e907f4ac"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moodle/moodle/commit/fcf199e7a13e453bfe3855c6946e8357fcbdef92"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/moodle/moodle"
+    },
+    {
+      "type": "WEB",
+      "url": "https://moodle.org/mod/forum/discuss.php?d=260365"
+    },
+    {
+      "type": "WEB",
+      "url": "http://git.moodle.org/gw?p=moodle.git&a=search&h=HEAD&st=commit&s=MDL-45126"
+    },
+    {
+      "type": "WEB",
+      "url": "http://openwall.com/lists/oss-security/2014/05/19/1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-24T16:22:35Z",
+    "nvd_published_at": "2014-05-27T00:55:00Z"
+  }
+}

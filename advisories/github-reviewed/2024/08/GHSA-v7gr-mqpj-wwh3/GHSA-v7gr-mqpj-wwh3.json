@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v7gr-mqpj-wwh3",
+  "modified": "2024-08-12T16:01:01Z",
+  "published": "2024-08-09T18:21:07Z",
+  "aliases": [
+    "CVE-2024-42467"
+  ],
+  "summary": "CometVisu Backend for openHAB affected by SSRF/XSS",
+  "details": "The [proxy endpoint](https://github.com/openhab/openhab-webui/blob/1c03c60f84388b9d7da0231df2d4ebb1e17d3fcf/bundles/org.openhab.ui.cometvisu/src/main/java/org/openhab/ui/cometvisu/internal/backend/rest/ProxyResource.java#L83) of openHAB's CometVisu add-on can be accessed without authentication. This proxy-feature can be exploited as Server-Side Request Forgery (SSRF) to induce GET HTTP requests to internal-only servers, in case openHAB is exposed in a non-private network.\n\nFurthermore, this proxy-feature can also be exploited as a Cross-Site Scripting (XSS) vulnerability, as an attacker is able to re-route a request to their server and return a page with malicious JavaScript code. Since the browser receives this data directly from the openHAB CometVisu UI, this JavaScript code will be executed with the origin of the CometVisu UI. This allows an attacker to exploit call endpoints on an openHAB server even if the openHAB server is located in a private network. (e.g. by sending an openHAB admin a link that proxies malicious JavaScript.)\n\nThis vulnerability was discovered with the help of CodeQL's [Server-side request forgery](https://codeql.github.com/codeql-query-help/java/java-ssrf/) query.\n\n## Impact\n\nThis issue may lead up to Remote Code Execution (RCE) when chained with other vulnerabilities (see: GHSL-2024-007).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:N/SC:H/SI:H/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.openhab.ui.bundles:org.openhab.ui.cometvisu"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.2.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 4.2.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/openhab/openhab-webui/security/advisories/GHSA-v7gr-mqpj-wwh3"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-42467"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openhab/openhab-webui/commit/630e8525835c698cf58856aa43782d92b18087f2"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openhab/openhab-webui"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openhab/openhab-webui/blob/1c03c60f84388b9d7da0231df2d4ebb1e17d3fcf/bundles/org.openhab.ui.cometvisu/src/main/java/org/openhab/ui/cometvisu/internal/backend/rest/ProxyResource.java#L83"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-918"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-09T18:21:07Z",
+    "nvd_published_at": "2024-08-12T13:38:34Z"
+  }
+}

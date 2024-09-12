@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-99r4-cjp4-3hmx",
+  "modified": "2024-05-23T13:57:01Z",
+  "published": "2024-05-22T15:49:14Z",
+  "aliases": [
+    "CVE-2024-32969"
+  ],
+  "summary": "vantage6 collaboration admins can extend their influence by expanding the collaboration",
+  "details": "### Impact\nCollaboration administrators can add extra organizations to their collaboration. When doing that, they extend their influence: for instance, for organizations that they include, they can then create new users for which they know the passwords, and use that to read task results of other collaborations that that organization is involved in.\n\nOnly relatively trusted users - with access to manage a collaboration - are able to do this, which reduces the impact.\n\n### Patches\nNo\n\n### Workarounds\nNo\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "vantage6"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.5.0rc3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/vantage6/vantage6/security/advisories/GHSA-99r4-cjp4-3hmx"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-32969"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vantage6/vantage6/commit/27f4ee3fade5f4cbcf3e60899c9a2a91145e0b56"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vantage6/vantage6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-284"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-22T15:49:14Z",
+    "nvd_published_at": "2024-05-23T09:15:09Z"
+  }
+}

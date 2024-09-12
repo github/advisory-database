@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-63h4-w25c-3qv4",
+  "modified": "2024-02-26T20:01:08Z",
+  "published": "2024-02-26T20:01:08Z",
+  "aliases": [
+    "CVE-2024-27087"
+  ],
+  "summary": "Kirby vulnerable to Cross-site scripting (XSS) in the link field \"Custom\" type",
+  "details": "### TL;DR\n\nThis vulnerability affects Kirby sites that use the new [link field](https://getkirby.com/docs/reference/panel/fields/link) and output the entered link without additional validation or sanitization.\n\nThe attack commonly requires user interaction by another user or visitor.\n\nThe link dialog of the writer field is *not* affected as the writer field content is automatically sanitized by the Kirby backend code. You are also already protected if you limit the acceptable link types with the `options` field property.\n\n----\n\n### Introduction\n\nCross-site scripting (XSS) is a type of vulnerability that allows to execute any kind of JavaScript code inside the Panel session of the same or other users. In the Panel, a harmful script can for example trigger requests to Kirby's API with the permissions of the victim.\n\nSuch vulnerabilities are critical if you might have potential attackers in your group of authenticated Panel users. They can escalate their privileges if they get access to the Panel session of an admin user. Depending on your site, other JavaScript-powered attacks are possible.\n\n### Impact\n\nThe new link field introduced in Kirby 4 allows several different link types that each validate the entered link to the relevant URL format. It also includes a \"Custom\" link type for advanced use cases that don't fit any of the pre-defined link formats.\n\nAs the \"Custom\" link type is meant to be flexible, it also allows the `javascript:` URL scheme. In some use cases this can be intended, but it can also be misused by attackers to execute arbitrary JavaScript code when a user or visitor clicks on a link that is generated from the contents of the link field.\n\n### Patches\n\nThe problem has been patched in [Kirby 4.1.1](https://github.com/getkirby/kirby/releases/tag/4.1.1). Please update to this or a [later version](https://github.com/getkirby/kirby/releases) to fix the vulnerability.\n\nIn the patch release, we have updated the link field to hide the \"Custom\" link type by default and added a warning to our [documentation](https://getkirby.com/docs/reference/panel/fields/link#custom-link-type) that this link type should only be enabled if additional validation is performed or no protection against XSS attacks is needed.\n\n### Credits\n\nThanks to Natwara Archeepsamooth (@PlyNatwara) for responsibly informing us about the `javascript:` attack vector.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getkirby/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0"
+            },
+            {
+              "fixed": "4.1.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/getkirby/kirby/security/advisories/GHSA-63h4-w25c-3qv4"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-27087"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getkirby/kirby/commit/cda3dd9a15228d35e62ff86cfa87a67e7c687437"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/getkirby/kirby"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getkirby/kirby/releases/tag/4.1.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-26T20:01:08Z",
+    "nvd_published_at": "2024-02-26T17:15:10Z"
+  }
+}

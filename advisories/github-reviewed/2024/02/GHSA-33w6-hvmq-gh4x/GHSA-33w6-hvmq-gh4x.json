@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-33w6-hvmq-gh4x",
+  "modified": "2024-02-27T21:48:54Z",
+  "published": "2024-02-27T03:31:03Z",
+  "aliases": [
+    "CVE-2024-25711"
+  ],
+  "summary": "diffoscope Path Traversal vulnerability",
+  "details": "diffoscope before 256 allows directory traversal via an embedded filename in a GPG file. Contents of any file, such as ../.ssh/id_rsa, may be disclosed to an attacker. This occurs because the value of the gpg --use-embedded-filenames option is trusted.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "diffoscope"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "256"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-25711"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/diffoscope/PYSEC-2024-41.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/OUNBANAWD6TZH2NRRV4YUIAXEHLUJQ47"
+    },
+    {
+      "type": "WEB",
+      "url": "https://salsa.debian.org/reproducible-builds/diffoscope"
+    },
+    {
+      "type": "WEB",
+      "url": "https://salsa.debian.org/reproducible-builds/diffoscope/-/commit/dfed769904c27d66a14a5903823d9c8c5aae860e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://salsa.debian.org/reproducible-builds/diffoscope/-/issues/361"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-27T21:48:54Z",
+    "nvd_published_at": "2024-02-27T02:15:06Z"
+  }
+}

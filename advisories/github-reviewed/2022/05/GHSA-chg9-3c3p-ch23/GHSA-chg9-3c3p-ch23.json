@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-chg9-3c3p-ch23",
+  "modified": "2024-04-29T14:49:35Z",
+  "published": "2022-05-13T01:30:21Z",
+  "aliases": [
+    "CVE-2015-7764"
+  ],
+  "summary": "Lemur uses static IV per key",
+  "details": "Lemur 0.1.4 does not use sufficient entropy in its IV when encrypting AES in CBC mode.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "lemur"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.1.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2015-7764"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Netflix/lemur/issues/117"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kvesteri/sqlalchemy-utils/issues/166"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Netflix/lemur/commit/394e18f76e5eb534d95160945ebc231ec3b4c794"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Netflix/lemur"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2015/10/20/3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-331"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-29T14:49:35Z",
+    "nvd_published_at": "2017-08-09T16:29:00Z"
+  }
+}

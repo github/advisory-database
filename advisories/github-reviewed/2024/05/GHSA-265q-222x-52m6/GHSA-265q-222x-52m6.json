@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-265q-222x-52m6",
+  "modified": "2024-05-28T13:01:48Z",
+  "published": "2024-05-28T13:01:48Z",
+  "aliases": [
+
+  ],
+  "summary": "silverstripe/framework has potential SQL Injection vulnerability in PostgreSQL database connector",
+  "details": "A potential SQL injection vulnerability was identified by using the silverstripe/postgresql database adapter. While unlikely to be exploitable, we have patched silverstripe/framework to ensure that table names are safely escaped before being passed to database adapters or user code.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0-rc1"
+            },
+            {
+              "fixed": "4.0.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.1.0-rc1"
+            },
+            {
+              "fixed": "4.1.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.2.0-rc1"
+            },
+            {
+              "fixed": "4.2.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/commit/48bd335648188df9dae72be1e5f9c808f3fe1e77"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/commit/fecedc2d98eeaaff6424fb59dc70ef6bdc6dc92d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/silverstripe/framework/SS-2018-020-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/silverstripe/silverstripe-framework"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.silverstripe.org/download/security-releases/ss-2018-020"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-89"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-28T13:01:48Z",
+    "nvd_published_at": null
+  }
+}

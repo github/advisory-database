@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8fxg-mr34-jqr8",
+  "modified": "2024-05-14T18:06:12Z",
+  "published": "2024-05-13T16:46:59Z",
+  "aliases": [
+    "CVE-2023-50718"
+  ],
+  "summary": "NocoDB SQL Injection vulnerability",
+  "details": "### Summary\n---\nAn authenticated attacker with create access could conduct a SQL Injection attack on MySQL DB using unescaped table_name.\n\n### Details\n---\n### SQL Injection vulnerability occurs in **VitessClient.ts**.\n```javascript\nasync columnList(args: any = {}) {\n    const func = this.columnList.name;\n    const result = new Result();\n    log.api(`${func}:args:`, args);\n\n    try {\n      args.databaseName = this.connectionConfig.connection.database;\n\n      const response = await this.sqlClient.raw(\n        `select *, table_name as tn from information_schema.columns where table_name = '${args.tn}' ORDER by ordinal_position`,\n      );\n```\nThe variable **${args.tn}** refers to the table name entered by the user.\nA malicious attacker can escape the existing query by including a special character (') in the table name and insert and execute a new arbitrary SQL query.\n\n### Impact\n---\nThis vulnerability may result in leakage of sensitive data in the database.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "nocodb"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.202.10"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.202.9"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/nocodb/nocodb/security/advisories/GHSA-8fxg-mr34-jqr8"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-50718"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/nocodb/nocodb"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-89"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-13T16:46:59Z",
+    "nvd_published_at": "2024-05-14T14:17:02Z"
+  }
+}

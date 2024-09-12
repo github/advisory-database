@@ -1,0 +1,189 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-25w4-hfqg-4r52",
+  "modified": "2024-08-02T15:45:01Z",
+  "published": "2024-04-25T18:30:39Z",
+  "aliases": [
+    "CVE-2023-5675"
+  ],
+  "summary": "Quarkus: authorization flaw in quarkus resteasy reactive and classic",
+  "details": "A flaw was found in Quarkus. When a Quarkus RestEasy Classic or Reactive JAX-RS endpoint has its methods declared in the abstract Java class or customized by Quarkus extensions using the annotation processor, the authorization of these methods will not be enforced if it is enabled by either 'quarkus.security.jaxrs.deny-unannotated-endpoints' or 'quarkus.security.jaxrs.default-roles-allowed' properties.\n\nWhile backports of this fix exist in versions 3.6.9 and 3.7.1 users of older versions are encouraged to update to the 3.8.x LTS branch.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:L/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.quarkus:quarkus-resteasy-reactive-common-deployment"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.2.10.Final"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.quarkus:quarkus-resteasy-reactive-common"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.2.10.Final"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.quarkus:quarkus-resteasy-reactive-common-deployment"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.3.0"
+            },
+            {
+              "fixed": "3.6.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.quarkus:quarkus-resteasy-reactive-common"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.3.0"
+            },
+            {
+              "fixed": "3.6.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.quarkus:quarkus-resteasy-reactive-common-deployment"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.7.0"
+            },
+            {
+              "fixed": "3.7.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.quarkus:quarkus-resteasy-reactive-common"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.7.0"
+            },
+            {
+              "fixed": "3.7.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-5675"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/quarkusio/quarkus/commit/b7dd69a3012a872f2846d73072ff232e07da74dd"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/quarkusio/quarkus/commit/bf2ef6c504b989f74ceb5947d823b6ab208f8b6e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/quarkusio/quarkus/commit/c026b1cf6f2e07cc50b65c824d922319248d9341"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/quarkusio/quarkus/commit/d802748128cd1932279b7c334f3792d481814ef5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2024:0494"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2024:0495"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/security/cve/CVE-2023-5675"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2245197"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/quarkusio/quarkus"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-285",
+      "CWE-287"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-25T19:54:40Z",
+    "nvd_published_at": "2024-04-25T16:15:08Z"
+  }
+}

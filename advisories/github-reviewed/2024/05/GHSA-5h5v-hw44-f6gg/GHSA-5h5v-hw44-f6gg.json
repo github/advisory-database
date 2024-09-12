@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5h5v-hw44-f6gg",
+  "modified": "2024-05-14T20:13:58Z",
+  "published": "2024-05-14T20:13:58Z",
+  "aliases": [
+    "CVE-2024-34712"
+  ],
+  "summary": "Oceanic allows unsanitized user input to lead to path traversal in URLs",
+  "details": "### Impact\nInput to functions such as `Client.rest.channels.removeBan` is not url-encoded, resulting in specially crafted input such as `../../../channels/{id}` being normalized into the url `/api/v10/channels/{id}`, and deleting a channel rather than removing a ban.\n\n### Workarounds\n* Sanitizing user input, ensuring strings are valid for the purpose they are being used for.\n* Encoding input with `encodeURIComponent` before providing it to the library.\n\n### References\nOceanicJS/Oceanic@8bf8ee8373b8c565fbdbf70a609aba4fbc1a1ffe",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "oceanic.js"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.10.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/OceanicJS/Oceanic/security/advisories/GHSA-5h5v-hw44-f6gg"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-34712"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OceanicJS/Oceanic/commit/8bf8ee8373b8c565fbdbf70a609aba4fbc1a1ffe"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/OceanicJS/Oceanic"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22",
+      "CWE-23"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-14T20:13:58Z",
+    "nvd_published_at": "2024-05-14T16:17:26Z"
+  }
+}

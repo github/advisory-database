@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hxgm-ghmv-xjjm",
+  "modified": "2024-07-08T18:37:54Z",
+  "published": "2024-07-08T18:37:54Z",
+  "aliases": [
+    "CVE-2024-39701"
+  ],
+  "summary": "Directus incorrectly handles `_in` filter",
+  "details": "### Summary\nDirectus >=9.23.0, <=v10.5.3 improperly handles _in, _nin operators.\nIt evaluates empty arrays as valid so expressions like {\"role\": {\"_in\": $CURRENT_USER.some_field}} would evaluate to true allowing the request to pass.\n\n### Details\nThis results in Broken Access Control because the rule fails to do what it was intended to do: Pass rule if **field** matches any of the **values**. ref: https://docs.directus.io/reference/filter-rules.html#filter-operators\nIn my example this would translate to \"Pass rule if **<collection>.role** matches any of **[]**\". Which should fail. This instead passes in Directus <= v10.5.3, >=v9.23.0\n\n### PoC\n{\"role\": {\"_in\": $CURRENT_USER.some_field}} field validation would pass if $CURRENT_USER.some_field is null.\n\nReal scenario: Using https://github.com/u12206050/directus-extension-role-chooser with the specified versions of Directus (I tested on 10.0.0) allows users with access to this feature set their role to whatever role if they don't have any roles assigned (user_roles.role is left with the default value, null) despite the validation rule being \n```yaml\nvalidation:\n    role:\n      _in: $CURRENT_USER.user_roles.role\n```\nLatest version of Directus (v10.8.3 and above) handles the above validation rule correctly.\n\n### Impact\nPermissions fail to open for setups relying on this filter and can lead to users getting access to things they're not supposed to.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:C/C:H/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:H/AT:N/PR:L/UI:N/VC:H/VI:N/VA:N/SC:H/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "directus"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.23.0"
+            },
+            {
+              "fixed": "10.6.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 10.5.3"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/directus/directus/security/advisories/GHSA-hxgm-ghmv-xjjm"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-39701"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/directus/directus"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-284"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-08T18:37:54Z",
+    "nvd_published_at": "2024-07-08T17:15:11Z"
+  }
+}

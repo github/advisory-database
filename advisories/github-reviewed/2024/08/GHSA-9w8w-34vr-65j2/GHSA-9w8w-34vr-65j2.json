@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9w8w-34vr-65j2",
+  "modified": "2024-08-02T21:12:54Z",
+  "published": "2024-08-02T21:12:54Z",
+  "aliases": [
+    "CVE-2024-36115"
+  ],
+  "summary": "Reposilite artifacts vulnerable to Stored Cross-site Scripting",
+  "details": "### Summary\nReposilite v3.5.10 is affected by Stored Cross-Site Scripting (XSS) when displaying artifact's content in the browser.\n\n### Details\nAs a Maven repository manager, Reposilite provides the ability to view the artifacts content in the browser, as well as perform administrative tasks via API. The problem lies in the fact that the artifact's content is served via the same origin (protocol/host/port) as the Admin UI. If the artifact contains HTML content with javascript inside, the javascript is executed within the same origin. Therefore, if an authenticated user is viewing the artifacts content, the javascript inside can access the browser's local storage where the user's password (aka 'token-secret') is stored.\nIt is especially dangerous in scenarios where Reposilite is configured to mirror third party repositories, like the Maven Central Repository. Since anyone can publish an artifact to Maven Central under its own name, such malicious packages can be used to attack the Reposilite instance.\n\n### Steps to reproduce\nTo demonstrate this vulnerability, we can start Reposilite with default settings at localhost:8080 and configure its 'release' repository to mirror https://artsploit.com/maven. This is my own website intended to emulate http://repo1.maven.org/, but it also contains a proof-of-concept payload for this vulnerability. Technically I could publish this payload to Maven Central Repository, but I don't want to clutter it.\n\nThen, as an administrator or authenticated Reposilite user, navigate to http://localhost:8080/releases/com/artsploit/reposilite-xss/1.0/reposilite-xss-1.0.pom in the browser.\nThis file contains the basic `application/xml` payload:\n\n```xml\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<a:script xmlns:a=\"http://www.w3.org/1999/xhtml\">\n    alert(`Secret key: ${localStorage.getItem('token-secret')}`)\n</a:script>\n```\n\nThe script will be executed within the http://localhost:8080/ origin and the leaked token is displayed.\n\n![image](https://github.com/dzikoysk/reposilite/assets/44605151/e6324fc8-fa7f-485c-90b3-19640c179773)\n\n### Impact\nThis issue may lead to the full Reposilite instance compromise. If this attack is performed against the admin user, it's possible to use the admin API to modify settings and artifacts on the instance. In the worst case scenario, an attacker would be able to obtain the Remote code execution on all systems that use artifacts from Reposilite.\n\nIt's important to note that the attacker does not need to lure a victim user to use a malicious artifact, but just open a link in the browser. This link can be silently loaded among the other HTML content, making this attack unnoticeable.\n\nEven if the Reposilite instance is located in an isolated environment, such as behind a VPN or in the local network, this attack is still possible as it can be performed from the admin browser.\n\n### Remediation\n\nWhen serving artifact's content via HTTPS, it's important to understand that this content might be potentially untrusted HTML code, so the javascript execution should be restricted.\nConsider the following options to remediate this vulnerability:\n* [preferred] Use the \"Content-Security-Policy: sandbox;\" header when serving artifact's content. This makes the resource treated as being from a special origin that always fails the same-origin policy (potentially preventing access to data storage/cookies and some JavaScript APIs).\n* [not preferred, but also works] Use the \"Content-Disposition: attachment\" header. This will prevent the browser from displaying the content entirely, so it just saves it to the local filesystem.\n\nAdditionally, we strongly recommend reconsidering how the website authentication works for Reposilite. Storing user's passwords in plaintext in the browser's local storage is not an ideal option. The more robust and secure option would be to issue a one time session ID or a token to the browser after checking the login/password on the server. These session IDs or tokens should have limited validity time, so their compromise would be trickier to exploit.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.reposilite:reposilite-backend"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.3.0"
+            },
+            {
+              "fixed": "3.5.12"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/dzikoysk/reposilite/security/advisories/GHSA-9w8w-34vr-65j2"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-36115"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dzikoysk/reposilite/commit/279a472015ec675c1da449d902dc82e4dd578484"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dzikoysk/reposilite/commit/d11609f427aba255e0f6f54b1105d5d20ab043cf"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/dzikoysk/reposilite"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dzikoysk/reposilite/releases/tag/3.5.12"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-02T21:12:54Z",
+    "nvd_published_at": null
+  }
+}

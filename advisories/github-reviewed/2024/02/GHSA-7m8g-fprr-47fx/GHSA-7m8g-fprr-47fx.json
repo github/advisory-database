@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7m8g-fprr-47fx",
+  "modified": "2024-02-05T23:08:13Z",
+  "published": "2024-02-05T20:22:05Z",
+  "aliases": [
+    "CVE-2024-24574"
+  ],
+  "summary": "phpMyFAQ vulnerable to stored XSS on attachments filename",
+  "details": "### Summary\nUnsafe echo of filename in phpMyFAQ\\phpmyfaq\\admin\\attachments.php leading to allow execute JavaScript code in client side (XSS)\n\n### Details\nOn that snippet code of rendering the file attachments from user tables\n\n```\n<?php foreach ($crumbs as $item) : ?>\n        <tr id=\"attachment_<?= $item->id ?>\" title=\"<?= $item->thema ?>\">\n          <td><?= $item->id ?></td>\n          <td><?= $item->filename ?></td>\n          <td><?= $item->record_lang ?></td>\n          <td><?= Utils::formatBytes($item->filesize) ?></td>\n          <td><?= $item->mime_type ?></td>\n          <td>\n```\n\nThe data directly rendering with short hand echo without any sanitation first, its recommend to use  existing class of `Strings::htmlentities` on use `phpMyFAQ\\Strings;`\n\n```\n<td><?= Strings::htmlentities($item->filename); ?></td>\n<td><?= Strings::htmlentities($item->record_lang); ?></td>\n<td><?= Utils::formatBytes($item->filesize) ?></td>\n<td><?= Strings::htmlentities($item->mime_type); ?></td>\n```\n\nPropose fixing on that pull request https://github.com/thorsten/phpMyFAQ/pull/2827\n\n### PoC\n1. An attacker with permission will upload the attachments image on [http://{base_url}/admin/?action=editentry](http://{base_url}/admin/?action=editentry)\n2. On endpoint of ajax upload image POST /admin/index.php?action=ajax&ajax=att&ajaxaction=upload \n3. Change the originally name file on parameters  filename to a XSS payload \n4. The XSS will trigger on attachment pages /admin/?action=attachments\n\n- Trigger XSS\n![image](https://user-images.githubusercontent.com/37658579/301022211-81da265b-5dce-48bd-a043-8bae0991fe46.png)\n\n- Payload XSS\n<img width=\"1000\" alt=\"image\" src=\"https://user-images.githubusercontent.com/37658579/301022571-d6cdd166-b1f9-4062-87c5-c8bbb308cd5d.png\">\n\n\n\n\n### Impact\n\nThis vulnerability will allow an attacker with a permissions of uploading an attachment to storing the payload of XSS on database specific table `faqattachment` columns `filename.`\n\nThe XSS payload could be rendering on page that listing the file on tables, and impact to others user that on the hierarchy. \n\nThe payload XSS have several attack scenario such like \n\n1. Stealing the cookies (isn’t possible since HttpOnly)\n2. Crashing the application with a looping javascript payload\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "phpmyfaq/phpmyfaq"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.2.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/thorsten/phpMyFAQ/security/advisories/GHSA-7m8g-fprr-47fx"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-24574"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/thorsten/phpMyFAQ/pull/2827"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/thorsten/phpMyFAQ/commit/5479b4a4603cce71aa7eb4437f1c201153a1f1f5"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/thorsten/phpMyFAQ"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.phpmyfaq.de/security/advisory-2024-02-05"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79",
+      "CWE-80"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-05T20:22:05Z",
+    "nvd_published_at": "2024-02-05T21:15:12Z"
+  }
+}

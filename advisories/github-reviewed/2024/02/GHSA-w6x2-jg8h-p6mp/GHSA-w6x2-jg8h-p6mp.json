@@ -1,0 +1,194 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w6x2-jg8h-p6mp",
+  "modified": "2024-02-20T15:17:43Z",
+  "published": "2024-02-13T19:08:10Z",
+  "aliases": [
+    "CVE-2023-30451"
+  ],
+  "summary": "Path Traversal in TYPO3 File Abstraction Layer Storages",
+  "details": "### Problem\nConfigurable storages using the local driver of the File Abstraction Layer (FAL) could be configured to access directories outside of the root directory of the corresponding project. The system setting in `BE/lockRootPath` was not evaluated by the file abstraction layer component. An administrator-level backend user account is required to exploit this vulnerability.\n\n### Solution\nUpdate to TYPO3 versions 8.7.57 ELTS, 9.5.46 ELTS, 10.4.43 ELTS, 11.5.35 LTS, 12.4.11 LTS, 13.0.1 that fix the problem described.\n\n#### ℹ️ **Strong security defaults - Manual actions required**\n\n_see [Important: #102800 changelog](https://docs.typo3.org/c/typo3/cms-core/main/en-us/Changelog/11.5.x/Important-102800-FileAbstractionLayerEnforcesAbsolutePathsToMatchProjectRootOrLockRootPath.html)_\n\nAssuming that a web project is located in the directory `/var/www/example.org` (the \"project root path\" for Composer-based projects) and the publicly accessible directory is located at `/var/www/example.org/public` (the \"public root path\"), accessing resources via the File Abstraction Layer component is limited to the mentioned directories.\n\nTo grant additional access to directories, they must be explicitly configured in the system settings of `$GLOBALS['TYPO3_CONF_VARS']['BE']['lockRootPath']` - either using the Install Tool or according to deployment techniques. The existing setting has been extended to support multiple directories configured as an array of strings.\n\nExample:\n```php\n$GLOBALS['TYPO3_CONF_VARS']['BE']['lockRootPath'] = [\n  ‘/var/shared/documents/’,\n  ‘/var/shared/images/’,\n];\n```\n\n❗ **Storages that reference directories not explicitly granted will be marked as \"offline\" internally - no resources can be used in the website's frontend and backend context.**\n\n### Credits\nThanks to TYPO3 core & security team members Oliver Hader and Benjamin Franzke who fixed the issue.\n\n### References\n* [TYPO3-CORE-SA-2024-001](https://typo3.org/security/advisory/typo3-core-sa-2024-001)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.0.0"
+            },
+            {
+              "fixed": "8.7.57"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 8.7.56"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.0.0"
+            },
+            {
+              "fixed": "9.5.46"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 9.5.45"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "10.0.0"
+            },
+            {
+              "fixed": "10.4.43"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 10.4.42"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "11.0.0"
+            },
+            {
+              "fixed": "11.5.35"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 11.5.34"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "12.0.0"
+            },
+            {
+              "fixed": "12.4.11"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 12.4.10"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "13.0.0"
+            },
+            {
+              "fixed": "13.0.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "13.0.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/TYPO3/typo3/security/advisories/GHSA-w6x2-jg8h-p6mp"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-30451"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/TYPO3/typo3/commit/205115cca3d67594a12d0195c937da0e51eb494a"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/TYPO3/typo3/commit/78fb9287a2f0487c39288070cb0493a5265f1789"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/TYPO3/typo3/commit/accf537c7379b4359bc0f957c4d0c07baddd710a"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/TYPO3/typo3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://typo3.org/security/advisory/typo3-core-sa-2024-001"
+    },
+    {
+      "type": "WEB",
+      "url": "http://packetstormsecurity.com/files/176274/TYPO3-11.5.24-Path-Traversal.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-13T19:08:10Z",
+    "nvd_published_at": null
+  }
+}

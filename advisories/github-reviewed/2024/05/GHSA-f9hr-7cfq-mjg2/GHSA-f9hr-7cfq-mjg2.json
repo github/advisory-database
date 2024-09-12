@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f9hr-7cfq-mjg2",
+  "modified": "2024-05-30T16:13:05Z",
+  "published": "2024-05-30T16:13:05Z",
+  "aliases": [
+
+  ],
+  "summary": "TYPO3 Arbitrary Code Execution via File List Module",
+  "details": "Due to missing file extensions in $GLOBALS['TYPO3_CONF_VARS']['BE'][‘fileDenyPattern’], backend users are allowed to upload *.phar, *.shtml, *.pl or *.cgi files which can be executed in certain web server setups. A valid backend user account is needed in order to exploit this vulnerability.\n\nDerivatives of Debian GNU Linux are handling *.phar files as PHP applications since PHP 7.1 (for unofficial packages) and PHP 7.2 (for official packages).\n\nThe file extension *.shtml is bound to server side includes which are not enabled per default in most common Linux based distributions. File extension *.pl and *.cgi require additional handlers to be configured which is also not the case in most common distributions (except for /cgi-bin/ location).\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.0.0"
+            },
+            {
+              "fixed": "8.7.23"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.0.0"
+            },
+            {
+              "fixed": "9.5.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/TYPO3-CMS/core/commit/45c311d120c359d54cc918e962c374e774239899"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/TYPO3-CMS/core/commit/5095084efae471c5fef7b578f2bc8a5060e1e148"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/typo3/cms-core/2019-01-22-7.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/TYPO3-CMS/core"
+    },
+    {
+      "type": "WEB",
+      "url": "https://typo3.org/security/advisory/typo3-core-sa-2019-008"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-434"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-30T16:13:05Z",
+    "nvd_published_at": null
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-23x9-8hxr-978c",
+  "modified": "2024-05-14T21:10:43Z",
+  "published": "2022-05-17T04:13:50Z",
+  "aliases": [
+    "CVE-2014-2237"
+  ],
+  "summary": "OpenStack Identity (Keystone) Trustee token revocations does not work with memcache backend",
+  "details": "The memcache token backend in OpenStack Identity (Keystone) 2013.1 through 2.013.1.4, 2013.2 through 2013.2.2, and icehouse before icehouse-3, when issuing a trust token with impersonation enabled, does not include this token in the trustee's token-index-list, which prevents the token from being invalidated by bulk token revocation and allows the trustee to bypass intended access restrictions.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "keystone"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "8.0.0a0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2014-2237"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/keystone/commit/813d1254eb4f7a7d40009b23bbadbc4c5cc5daac"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/keystone/commit/a411c944af78c36f2fdb87d305ba452dc52d7ed3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/keystone/commit/b6f0e26da0e2ab0892a5658da281a065e668637b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.launchpad.net/keystone/+bug/1260080"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openstack/keystone"
+    },
+    {
+      "type": "WEB",
+      "url": "http://rhn.redhat.com/errata/RHSA-2014-0580.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2014/03/04/16"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/65895"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-14T21:10:43Z",
+    "nvd_published_at": "2014-04-01T06:35:00Z"
+  }
+}

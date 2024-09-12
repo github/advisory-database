@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-pj27-2xvp-4qxg",
+  "modified": "2024-05-22T13:26:11Z",
+  "published": "2024-05-21T18:09:57Z",
+  "aliases": [
+    "CVE-2024-35220"
+  ],
+  "summary": "@fastify/session reuses destroyed session cookie",
+  "details": "### Impact\n\nWhen restoring the cookie from the session store, the `expires` field is overriden if the `maxAge` field was set.\nThis means a cookie is never correctly detected as expired and thus expired sessions are not destroyed.\n\n### Patches\n\nUpdating to v10.9.0 will solve this.\n\n### Workarounds\n\nNone\n\n### References\n\nPublicly reported at: https://github.com/fastify/session/issues/251",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@fastify/session"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "10.9.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/fastify/session/security/advisories/GHSA-pj27-2xvp-4qxg"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-35220"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/fastify/session/issues/251"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/fastify/session/commit/0495ce5b534c4550f25228821db8098293439f2f"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/fastify/session"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-613"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-21T18:09:57Z",
+    "nvd_published_at": "2024-05-21T21:15:08Z"
+  }
+}

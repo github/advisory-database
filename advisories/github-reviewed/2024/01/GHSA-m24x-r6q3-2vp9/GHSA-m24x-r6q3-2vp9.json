@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-m24x-r6q3-2vp9",
+  "modified": "2024-01-18T15:48:48Z",
+  "published": "2024-01-18T15:48:48Z",
+  "aliases": [
+
+  ],
+  "summary": "Uncaught Exception processing HTTP Headers in SurrealDB",
+  "details": "The `ID`, `DB` and `NS` headers accepted by the SurrealDB HTTP REST API would fail to parse when containing some special characters. This would cause a panic which would crash the SurrealDB server, leading to denial of service.\n\nThis issue only affects the SurrealDB binary; it does not affect the SurrealDB library.\n\n### Impact\n\nAn unauthenticated client may issue an HTTP request to the SurrealDB HTTP REST API containing one of the affected headers with values containing special characters in order to crash the SurrealDB server. This does not require the SurrealDB server to be running with any specific capabilities other than exposing the affected interface.\n\n### Patches\n\n- Version 1.1.0 and later are not affected by this issue.\n\n### Workarounds\n\nConcerned users unable to update may want to limit untrusted access to the SurrealDB HTTP REST API unless such access is required by the application. To limit the impact of the denial of service, SurrealDB administrators may also want to ensure that the SurrealDB process is running so that it can be automatically re-started after a crash.\n\n### References\n\n- #2985 ([diff](https://github.com/surrealdb/surrealdb/pull/2985/files#diff-7ad06ddbb88d77138e5daf40a0dac5443d78947acd69a284a7c2bceb61f9c5f0L83-R119))",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "surrealdb"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.1.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/surrealdb/surrealdb/security/advisories/GHSA-m24x-r6q3-2vp9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/surrealdb/surrealdb/pull/2985"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/surrealdb/surrealdb/commit/a70ddb2e2aed2453730b81781e426486247609cb"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/surrealdb/surrealdb"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-18T15:48:48Z",
+    "nvd_published_at": null
+  }
+}

@@ -1,0 +1,199 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8jhw-289h-jh2g",
+  "modified": "2024-04-04T20:24:27Z",
+  "published": "2024-04-03T16:46:17Z",
+  "aliases": [
+    "CVE-2024-31207"
+  ],
+  "summary": "Vite's `server.fs.deny` did not deny requests for patterns with directories.",
+  "details": "### Summary\n[Vite dev server option](https://vitejs.dev/config/server-options.html#server-fs-deny) `server.fs.deny` did not deny requests for patterns with directories. An example of such a pattern is `/foo/**/*`.\n\n### Impact\nOnly apps setting a custom `server.fs.deny` that includes a pattern with directories, and explicitly exposing the Vite dev server to the network (using `--host` or [`server.host` config option](https://vitejs.dev/config/server-options.html#server-host)) are affected.\n\n### Patches\nFixed in vite@5.2.6, vite@5.1.7, vite@5.0.13, vite@4.5.3, vite@3.2.10, vite@2.9.18\n\n### Details\n`server.fs.deny` uses picomatch with the config of `{ matchBase: true }`. [matchBase](https://github.com/micromatch/picomatch/blob/master/README.md#options:~:text=Description-,basename,-boolean) only matches the basename of the file, not the path due to a bug (https://github.com/micromatch/picomatch/issues/89). The vite config docs read like you should be able to set fs.deny to glob with picomatch. Vite also does not set `{ dot: true }` and that causes [dotfiles not to be denied](https://github.com/micromatch/picomatch/blob/master/README.md#options:~:text=error%20is%20thrown.-,dot,-boolean) unless they are explicitly defined.\n\n**Reproduction**\n\nSet fs.deny to `['**/.git/**']` and then curl for `/.git/config`.\n\n* with `matchBase: true`, you can get any file under  `.git/` (config, HEAD, etc).\n* with `matchBase: false`, you cannot get any file under  `.git/` (config, HEAD, etc).\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "vite"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.7.0"
+            },
+            {
+              "fixed": "2.9.18"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.9.17"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "vite"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.2.10"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.2.8"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "vite"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0"
+            },
+            {
+              "fixed": "4.5.3"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 4.5.2"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "vite"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0"
+            },
+            {
+              "fixed": "5.0.13"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 5.0.12"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "vite"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.1.0"
+            },
+            {
+              "fixed": "5.1.7"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 5.1.6"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "vite"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.2.0"
+            },
+            {
+              "fixed": "5.2.6"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 5.2.5"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/vitejs/vite/security/advisories/GHSA-8jhw-289h-jh2g"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-31207"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vitejs/vite/commit/011bbca350e447d1b499d242804ce62738c12bc0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vitejs/vite/commit/5a056dd2fc80dbafed033062fe6aaf4717309f48"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vitejs/vite/commit/89c7c645f09d16a38f146ef4a1528f218e844d67"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vitejs/vite/commit/96a7f3a41ef2f9351c46f3ab12489bb4efa03cc9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vitejs/vite/commit/ba5269cca81de3f5fbb0f49d58a1c55688043258"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vitejs/vite/commit/d2db33f7d4b96750b35370c70dd2c35ec3b9b649"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vitejs/vite"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200",
+      "CWE-284"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-03T16:46:17Z",
+    "nvd_published_at": "2024-04-04T16:15:09Z"
+  }
+}

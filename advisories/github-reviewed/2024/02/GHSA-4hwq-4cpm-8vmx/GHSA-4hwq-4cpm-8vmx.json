@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4hwq-4cpm-8vmx",
+  "modified": "2024-02-26T22:06:39Z",
+  "published": "2024-02-26T20:11:35Z",
+  "aliases": [
+    "CVE-2024-24564"
+  ],
+  "summary": "Vyper's `extract32` can ready dirty memory",
+  "details": "### Summary\n\nWhen using the built-in `extract32(b, start)`, if the `start` index provided has for side effect to update `b`, the byte array to extract `32` bytes from, it could be that some dirty memory is read and returned by `extract32`.\n\n### Details\n\nBefore evaluating `start`, the function `Extract32.build_IR` caches only:\n\n- The pointer in memory/storage to `b`: https://github.com/vyperlang/vyper/blob/10564dcc37756f3d3684b7a91fd8f4325a38c4d8/vyper/builtins/functions.py#L916-L918\n- The length of `b`: https://github.com/vyperlang/vyper/blob/10564dcc37756f3d3684b7a91fd8f4325a38c4d8/vyper/builtins/functions.py#L920-L922\n\nbut do not cache the actual content of `b`. This means that if the evaluation of `start` changes `b`'s content and length, an outdated length will be used with the new content when extracting 32 bytes from `b`.\n\n### PoC\n\nCalling the function `foo` of the following contract returns `b'uuuuuuuuuuuuuuuuuuuuuuuuuuu\\x00\\x00789'` meaning that `extract32` accessed some dirty memory.\n\n```Vyper\nvar:Bytes[96]\n\n@internal\ndef bar() -> uint256:\n    self.var = b'uuuuuuuuuuuuuuuuuuuuuuuuuuuuuu'\n    self.var = b''\n    return 3\n\n@external\ndef foo() -> bytes32:\n    self.var = b'abcdefghijklmnopqrstuvwxyz123456789'\n    return extract32(self.var, self.bar(), output_type=bytes32)\n    # returns b'uuuuuuuuuuuuuuuuuuuuuuuuuuu\\x00\\x00789'\n```\n\n### Impact\n\nFor contracts that are affected, it means that calling `extract32` returns dirty memory bytes instead of some expected output.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "vyper"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.3.10"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/vyperlang/vyper/security/advisories/GHSA-4hwq-4cpm-8vmx"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-24564"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vyperlang/vyper"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vyperlang/vyper/blob/10564dcc37756f3d3684b7a91fd8f4325a38c4d8/vyper/builtins/functions.py#L916-L918"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vyperlang/vyper/blob/10564dcc37756f3d3684b7a91fd8f4325a38c4d8/vyper/builtins/functions.py#L920-L922"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-125"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-26T20:11:35Z",
+    "nvd_published_at": "2024-02-26T20:19:05Z"
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xj5v-6v4g-jfw6",
+  "modified": "2024-02-29T02:30:42Z",
+  "published": "2024-02-28T22:57:12Z",
+  "aliases": [
+    "CVE-2024-26141"
+  ],
+  "summary": "Rack has possible DoS Vulnerability with Range Header",
+  "details": "# Possible DoS Vulnerability with Range Header in Rack\n\nThere is a possible DoS vulnerability relating to the Range request header in\nRack.  This vulnerability has been assigned the CVE identifier CVE-2024-26141.\n\nVersions Affected:  >= 1.3.0.\nNot affected:       < 1.3.0\nFixed Versions:     3.0.9.1, 2.2.8.1\n\nImpact\n------\nCarefully crafted Range headers can cause a server to respond with an\nunexpectedly large response. Responding with such large responses could lead\nto a denial of service issue.\n\nVulnerable applications will use the `Rack::File` middleware or the\n`Rack::Utils.byte_ranges` methods (this includes Rails applications).\n\nReleases\n--------\nThe fixed releases are available at the normal locations.\n\nWorkarounds\n-----------\nThere are no feasible workarounds for this issue.\n\nPatches\n-------\nTo aid users who aren't able to upgrade immediately we have provided patches for\nthe two supported release series. They are in git-am format and consist of a\nsingle changeset.\n\n* 3-0-range.patch - Patch for 3.0 series\n* 2-2-range.patch - Patch for 2.2 series\n\nCredits\n-------\n\nThank you [ooooooo_q](https://hackerone.com/ooooooo_q) for the report and\npatch",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "rack"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.0.9.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "rack"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.3.0"
+            },
+            {
+              "fixed": "2.2.8.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/rack/rack/security/advisories/GHSA-xj5v-6v4g-jfw6"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-26141"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rack/rack/commit/4849132bef471adb21131980df745f4bb84de2d9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rack/rack/commit/62457686b26d33a15a254c7768c2076e8e02b48b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://discuss.rubyonrails.org/t/possible-dos-vulnerability-with-range-header-in-rack/84944"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/rack/rack"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/rack/CVE-2024-26141.yml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-28T22:57:12Z",
+    "nvd_published_at": "2024-02-29T00:15:51Z"
+  }
+}

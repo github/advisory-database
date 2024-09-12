@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g64r-xf39-q4p5",
+  "modified": "2024-05-02T19:00:12Z",
+  "published": "2024-04-09T09:31:12Z",
+  "aliases": [
+    "CVE-2024-31860"
+  ],
+  "summary": "Apache Zeppelin Path Traversal vulnerability",
+  "details": "Improper Input Validation vulnerability in Apache Zeppelin.\n\nBy adding relative path indicators (e.g `..`), attackers can see the contents for any files in the filesystem that the server account can access. \nThis issue affects Apache Zeppelin from 0.9.0 before 0.11.0.\n\nUsers are recommended to upgrade to version 0.11.0, which fixes the issue.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.zeppelin:zeppelin-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.9.0"
+            },
+            {
+              "fixed": "0.11.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-31860"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/zeppelin/pull/4632"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/zeppelin/commit/f025a697c1d1d0264064d5adf6cb0b20d85041b6"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/zeppelin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/c0zfjnow3oc3dzc8w5rbkzj8lqj5jm5x"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/04/09/2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20",
+      "CWE-22"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-09T16:20:41Z",
+    "nvd_published_at": "2024-04-09T09:15:26Z"
+  }
+}

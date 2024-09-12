@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v5h6-c2hv-hv3r",
+  "modified": "2024-07-08T14:34:57Z",
+  "published": "2024-03-25T19:36:52Z",
+  "aliases": [
+    "CVE-2024-27280"
+  ],
+  "summary": "StringIO buffer overread vulnerability",
+  "details": "An issue was discovered in StringIO 3.0.1, as distributed in Ruby 3.0.x through 3.0.6 and 3.1.x through 3.1.4.\n\nThe `ungetbyte` and `ungetc` methods on a StringIO can read past the end of a string, and a subsequent call to `StringIO.gets` may return the memory value.\n\nThis vulnerability is not affected StringIO 3.0.3 and later, and Ruby 3.2.x and later.\n\nWe recommend to update the StringIO gem to version 3.0.3 or later. In order to ensure compatibility with bundled version in older Ruby series, you may update as follows instead:\n\n* For Ruby 3.0 users: Update to `stringio` 3.0.1.1\n* For Ruby 3.1 users: Update to `stringio` 3.1.0.2\n\nYou can use `gem update stringio` to update it. If you are using bundler, please add `gem \"stringio\", \">= 3.0.1.2\"` to your `Gemfile`.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "stringio"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.0.1.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-27280"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ruby/stringio/commit/0e596524097706263d10900ca180898e4a8f5233"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ruby/stringio/commit/c58c5f54f1eab99665ea6a161d29ff6a7490afc8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://hackerone.com/reports/1399856"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ruby/stringio"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/stringio/CVE-2024-27280.yml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.ruby-lang.org/en/news/2024/03/21/buffer-overread-cve-2024-27280"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-120",
+      "CWE-126"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-25T19:36:52Z",
+    "nvd_published_at": "2024-05-14T15:11:56Z"
+  }
+}

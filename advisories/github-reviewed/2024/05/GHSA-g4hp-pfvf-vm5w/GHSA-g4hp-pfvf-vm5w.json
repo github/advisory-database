@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g4hp-pfvf-vm5w",
+  "modified": "2024-05-23T17:23:55Z",
+  "published": "2024-05-23T17:23:55Z",
+  "aliases": [
+
+  ],
+  "summary": "SilverStripe Vulnerability on 'isDev', 'isTest' and 'flush' $_GET validation",
+  "details": "When a secure token parameter is provided to a SilverStripe site (such as isDev or flush) an empty token parameter can be provided in order to bypass normal authentication parameters.\n\nFor instance, http://www.mysite.com/?isDev=1&isDevtoken will force a site to dev mode. Alternatively, \"flush\" could also be used in succession to cause excessive load on a victim site and risk denial of service.\n\nThe fix in this case is to ensure that empty tokens fail the validation check.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.0.14"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.0.13"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.1.0"
+            },
+            {
+              "fixed": "3.1.13"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/commit/a978b891e13d22dddee7e0735a7032f13964447d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/commit/cb6717c3f85753bdc30087f280720c6d3f639ff3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/silverstripe/framework/SS-2015-014-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/silverstripe/silverstripe-framework"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.silverstripe.org/software/download/security-releases/ss-2015-014"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-639"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-23T17:23:55Z",
+    "nvd_published_at": null
+  }
+}

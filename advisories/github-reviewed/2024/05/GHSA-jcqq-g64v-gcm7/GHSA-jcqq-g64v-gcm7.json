@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jcqq-g64v-gcm7",
+  "modified": "2024-05-14T19:54:27Z",
+  "published": "2024-05-10T15:33:40Z",
+  "aliases": [
+    "CVE-2024-34360"
+  ],
+  "summary": "Previous ATX is not checked to be the newest valid ATX by Smesher when validating incoming ATX",
+  "details": "### Impact\nNodes can publish ATXs which reference the incorrect previous ATX of the Smesher that created the ATX. ATXs are expected to form a single chain from the newest to the first ATX ever published by an identity. Allowing Smeshers to reference an earlier (but not the latest) ATX as previous breaks this protocol rule and can serve as an attack vector where Nodes are rewarded for holding their PoST data for less than one epoch but still being eligible for rewards.\n\n### Patches\n- API needs to be extended to be able to fetch events from a node that dected malicious behavior of this regard by the node\n- go-spacemesh needs to be patched to a) not allow publishing these ATXs any more and b) create malfeasance proofs for identities that published invalid ATXs in the past.\n\n### Workarounds\nn/a\n\n### References\nSpacemesh protocol whitepaper: https://spacemesh.io/blog/spacemesh-white-paper-1/, specifically sections 4.4.2 (\"ATX Contents\") and 4.4.3 (\"ATX validity\")",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/spacemeshos/go-spacemesh"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.5.2-hotfix1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/spacemeshos/api"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.37.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/spacemeshos/go-spacemesh/security/advisories/GHSA-jcqq-g64v-gcm7"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-34360"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/spacemeshos/api/commit/1d5bd972bbe225d024c3e0ae5214ddb6b481716e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/spacemeshos/go-spacemesh/commit/9aff88d54be809ac43d60e8a8b4d65359c356b87"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/spacemeshos/go-spacemesh"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/vuln/GO-2024-2831"
+    },
+    {
+      "type": "WEB",
+      "url": "https://spacemesh.io/blog/spacemesh-white-paper-1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-754"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-10T15:33:40Z",
+    "nvd_published_at": "2024-05-14T15:38:45Z"
+  }
+}

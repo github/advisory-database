@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7wh8-jrq7-p27f",
+  "modified": "2024-05-28T18:28:53Z",
+  "published": "2024-05-28T18:28:53Z",
+  "aliases": [
+
+  ],
+  "summary": "SimpleSAMLphp exposes credentials in session storage",
+  "details": "### Background\nIn order to implement support for the SAML Enhanced Client or Proxy profile, the credentials obtained for authentication were stored in the state in order to pass them to the relevant routines. This, however, led to the credentials being recorded in the user’s session, which can be stored in permanent storage such as the local file system or a remote memcache or database server.\n\n### Description\nWhen an authentication request is received via the ECP profile, the username and password obtained this way were saved to the state array, which is used to pass relevant data to different routines that may need it. This is not a problem in itself. However, when the ECP profile is disabled in the Identity Provider, other bindings such as HTTP-POST or HTTP-Redirect will be used, and since redirections are involved, the state array is then persisted to the user’s session, effectively storing it in the session backend.\n\nThe ECP profile, which uses the SOAP and PAOS bindings, does not involve any HTTP redirection for the user, and for that reason the state array containing the credentials is never persisted to the session. The logic for determining when to save the credentials to the state array assumed wrongly, though, that if the authentication request came in on the SOAP binding, that means the ECP profile is used. This may not be true as ECP can be disabled by configuration in the IdP’s hosted SAML metadata, and in that case SimpleSAMLphp would then try to default to a binding different than PAOS, such as HTTP-POST or HTTP-Redirect, effectively consolidating the entire state array to the user’s session as described before.\n\nIn practice, any Identity Provider with the ECP profile disabled but metadata for an entity that supports ECP, would reject incoming ECP requests, but write the credentials obtained in the request to the user’s session, which will be stored in the session store, whichever is used (local file system in case PHP sessions are used, Memcache, Redis, relational databases, etc).\n\n### Affected versions\nAll SimpleSAMLphp versions 1.16.x are affected, up to 1.16.2.\n\n### Impact\nAn Identity Provider with metadata for trusted entities that support the SAML ECP profile, may end up storing the user’s credentials received from such entities in its own session storage, whatever that is, in case ECP is actually not enabled in the IdP. Under such circumstances, the credentials may be then accessible to administrators, other personnel or even malicious parties who may have access to the systems where sessions or their backups are stored.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "simplesamlphp/simplesamlphp"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.16.0"
+            },
+            {
+              "fixed": "1.16.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/simplesamlphp/simplesamlphp/commit/44d1e3052930d93f0f554c25bc7c7602f8136880"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/simplesamlphp/simplesamlphp/2018-12-20.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/simplesamlphp/simplesamlphp"
+    },
+    {
+      "type": "WEB",
+      "url": "https://simplesamlphp.org/security/201812-01"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-522"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-28T18:28:53Z",
+    "nvd_published_at": null
+  }
+}

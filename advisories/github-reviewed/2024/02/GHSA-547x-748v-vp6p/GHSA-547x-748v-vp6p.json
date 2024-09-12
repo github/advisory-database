@@ -1,0 +1,173 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-547x-748v-vp6p",
+  "modified": "2024-03-06T16:21:30Z",
+  "published": "2024-02-02T06:30:31Z",
+  "aliases": [
+    "CVE-2024-21485"
+  ],
+  "summary": "Dash apps vulnerable to Cross-site Scripting",
+  "details": "Versions of the package dash-core-components before 2.13.0; versions of the package dash-core-components before 2.0.0; versions of the package dash before 2.15.0; versions of the package dash-html-components before 2.0.0; versions of the package dash-html-components before 2.0.16 are vulnerable to Cross-site Scripting (XSS) when the href of the a tag is controlled by an adversary. An authenticated attacker who stores a view that exploits this vulnerability could steal the data that's visible to another user who opens that view - not just the data already included on the page, but they could also, in theory, make additional requests and access other data accessible to this user. In some cases, they could also steal the access tokens of that user, which would allow the attacker to act as that user, including viewing other apps and resources hosted on the same server. \n\n**Note:** \n\nThis is only exploitable in Dash apps that include some mechanism to store user input to be reloaded by a different user.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:R/S:C/C:H/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "dash-core-components"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.13.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "dash-html-components"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "dash-core-components"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "dash"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.15.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "dash-html-components"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.16"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-21485"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/plotly/dash/issues/2729"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/plotly/dash/pull/2732"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/plotly/dash/commit/9920073c9a8619ae8f90fcec1924f2f3a4332a8c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/plotly/dash"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/plotly/dash/releases/tag/v2.15.0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/dash/PYSEC-2024-35.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-JS-DASHCORECOMPONENTS-6183084"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-JS-DASHHTMLCOMPONENTS-6226337"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-PYTHON-DASH-6226335"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-PYTHON-DASHCORECOMPONENTS-6226334"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-PYTHON-DASHHTMLCOMPONENTS-6226336"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-02T18:10:51Z",
+    "nvd_published_at": "2024-02-02T05:15:09Z"
+  }
+}

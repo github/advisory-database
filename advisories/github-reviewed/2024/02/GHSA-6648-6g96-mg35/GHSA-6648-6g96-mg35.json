@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6648-6g96-mg35",
+  "modified": "2024-02-05T23:05:03Z",
+  "published": "2024-02-05T20:20:40Z",
+  "aliases": [
+    "CVE-2024-22202"
+  ],
+  "summary": "phpMyFAQ User Removal Page Allows Spoofing Of User Details",
+  "details": "### Summary\nphpMyFAQ's user removal page allows an attacker to spoof another user's detail, and in turn make a compelling phishing case for removing another user's account.\n\n### Details\nphpMyFAQ's user removal page allows an attacker to spoof another user's detail, and in turn make a compelling phishing case for removing another user's account. Whilst the front-end of this page doesn't allow changing the form details, an attacker can utilize a proxy to intercept this request and submit other data. Upon submitting this form, an email is sent to the administrator informing them that this user wants to delete their account. An administrator has no way of telling the difference between the actual user wishing to delete their account or the attacker issuing this for an account they do not control.\n\n### PoC\nWe are logged in as `hacker` and visit `/user/request-removal`. This brings us to the following page. We are not able to change the `username`, `Your name` and `Your email address` fields on this page.\n![image](https://user-images.githubusercontent.com/44903767/296202382-9e6d6409-3ffb-4983-8895-9903e7dfc663.png)\n\nHowever, we intercept this request using a proxy tool such as BurpSuite.\n![image](https://user-images.githubusercontent.com/44903767/296202522-dd80fe87-e7b7-4fe2-97be-dca03289f506.png)\n\nWe can now edit the request before sending it. We change the fields mentioned above to the details of another user, and send the request.\n![image](https://user-images.githubusercontent.com/44903767/296202705-fa8fd3f8-1417-457e-9d6e-7e4ba0f8744a.png)\n\nThis results in the following email being sent to the administrator. For them, it looks like the victim wants to delete their account.\n![image](https://user-images.githubusercontent.com/44903767/296202935-a5c48e0b-f93e-488a-9716-4f93889100a7.png)\n\n### Impact\nThe impact of this vulnerability is that administrators cannot trust the emails sent by the platform. An attacker can easily make a compelling case to perform phishing and get victim accounts deleted.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "phpmyfaq/phpmyfaq"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.2.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/thorsten/phpMyFAQ/security/advisories/GHSA-6648-6g96-mg35"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-22202"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/thorsten/phpMyFAQ/commit/1348dcecdaec5a5714ad567c16429432417b534d"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/thorsten/phpMyFAQ"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.phpmyfaq.de/security/advisory-2024-02-05"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-284"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-05T20:20:40Z",
+    "nvd_published_at": "2024-02-05T20:15:55Z"
+  }
+}

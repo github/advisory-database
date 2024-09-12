@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9q24-hwmc-797x",
+  "modified": "2024-02-22T21:35:15Z",
+  "published": "2024-02-22T12:30:56Z",
+  "aliases": [
+    "CVE-2024-26578"
+  ],
+  "summary": "Apache Answer Race Condition vulnerability",
+  "details": "Concurrent Execution using Shared Resource with Improper Synchronization ('Race Condition') vulnerability in Apache Answer. This issue affects Apache Answer through 1.2.1.\n\nRepeated submission during registration resulted in the registration of the same user. When users register, if they rapidly submit multiple registrations using scripts, it can result in the creation of multiple user accounts simultaneously with the same name.\n\nUsers are recommended to upgrade to version 1.2.5, which fixes the issue.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/apache/incubator-answer"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.2.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-26578"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/incubator-answer"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/ko0ksnznt2484lxt0zts2ygr82ldkhcb"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/02/22/3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-362"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-22T21:35:15Z",
+    "nvd_published_at": "2024-02-22T10:15:08Z"
+  }
+}

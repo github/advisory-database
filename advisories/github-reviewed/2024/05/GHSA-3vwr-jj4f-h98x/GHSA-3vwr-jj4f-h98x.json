@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3vwr-jj4f-h98x",
+  "modified": "2024-05-15T21:19:07Z",
+  "published": "2024-05-15T21:19:07Z",
+  "aliases": [
+
+  ],
+  "summary": "eZ Publish Remote code execution in file uploads",
+  "details": "This Security Advisory is about a vulnerability in the way eZ Platform and eZ Publish Legacy handles file uploads, which can in the worst case lead to remote code execution (RCE), a very serious threat. An attacker would need access to uploading files to be able to exploit the vulnerability, so if you have strict controls on this and trust all who have this permission, you're not affected. On the basis of the tests we have made, we also believe the vulnerability cannot be exploited as long as our recommended vhost configuration is used. Here is the v2.5 recommendation for Nginx, as an example:\n\nhttps://github.com/ezsystems/ezplatform/blob/2.5/doc/nginx/vhost.template#L31\n\nThis vhost template specifies that only the file app.php in the web root is executed, while vulnerable configurations allow execution of any php file. Apache is affected in the same way as Nginx, and is also protected by using the recommended configuration. The build-in webserver in PHP stays vulnerable, as it doesn't use this type of configuration (this webserver should only be used for development, never for production). We cannot be 100% certain our configuration is not vulnerable. We also do not know if all our users use the recommended configuration, so we send out this fix to be on the safe side.\n\nThe fix includes a blacklist feature for uploaded filenames, such as \".php\". The file types on the blacklist cannot be uploaded. The blacklist is configurable. In eZ Platform you will find it as ezsettings.default.io.file_storage.file_type_blacklist in eZ/Bundle/EzPublishCoreBundle/Resources/config/default_settings.yml in vendors/ezsystems/ezpublish-kernel. In eZ Publish Legacy you will find it as FileExtensionBlackList in settings/file.ini. By default it blocks these file types: php, php3, phar, phpt, pht, phtml, pgif. The fix also inclues a new block against path traversal attacks, though this kind of attack was not reproducible in our tests.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "ezsystems/ezpublish-kernel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.5.0"
+            },
+            {
+              "fixed": "7.5.6.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "ezsystems/ezpublish-kernel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.13.0"
+            },
+            {
+              "fixed": "6.13.6.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "ezsystems/ezpublish-kernel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.4.0"
+            },
+            {
+              "fixed": "5.4.14.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://ezplatform.com/security-advisories/ezsa-2020-001-remote-code-execution-in-file-uploads"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/ezsystems/ezpublish-kernel/2020-03-03-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ezsystems/ezpublish-kernel"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20210304031629/https://developers.ibexa.co/security-advisories/ezsa-2020-001-remote-code-execution-in-file-uploads"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-15T21:19:07Z",
+    "nvd_published_at": null
+  }
+}

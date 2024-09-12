@@ -1,0 +1,130 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-x634-34m9-96mp",
+  "modified": "2024-04-08T18:53:05Z",
+  "published": "2022-05-13T01:07:33Z",
+  "aliases": [
+    "CVE-2018-14635"
+  ],
+  "summary": "OpensStack Neutron Denial of Service Vulnerability",
+  "details": "When using the Linux bridge ml2 driver, non-privileged tenants are able to create and attach ports without specifying an IP address, bypassing IP address validation. A potential denial of service could occur if an IP address, conflicting with existing guests or routers, is then assigned from outside of the allowed allocation pool. Versions of openstack-neutron before 13.0.0.0b2, 12.0.3 and 11.0.5 are vulnerable.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "neutron"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "13.0.0.0b1"
+            },
+            {
+              "fixed": "13.0.0.0b2"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "13.0.0.0b1"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "neutron"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "12.0.0"
+            },
+            {
+              "fixed": "12.0.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "neutron"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "11.0.0"
+            },
+            {
+              "fixed": "11.0.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-14635"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/neutron/commit/54aa6e81cb17b33ce4d5d469cc11dec2869c762d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2018:2710"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2018:2715"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2018:2721"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2018:3792"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.launchpad.net/neutron/+bug/1757482"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2018-14635"
+    },
+    {
+      "type": "WEB",
+      "url": "https://git.openstack.org/cgit/openstack/neutron/commit/?id=54aa6e81cb17b33ce4d5d469cc11dec2869c762d"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openstack/neutron"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-08T18:53:04Z",
+    "nvd_published_at": "2018-09-10T19:29:00Z"
+  }
+}

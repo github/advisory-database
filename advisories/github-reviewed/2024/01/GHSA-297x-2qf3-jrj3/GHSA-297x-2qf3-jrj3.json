@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-297x-2qf3-jrj3",
+  "modified": "2024-01-29T16:25:51Z",
+  "published": "2024-01-21T18:30:34Z",
+  "aliases": [
+    "CVE-2024-23730"
+  ],
+  "summary": "Unsafe yaml deserialization in llama-hub",
+  "details": "The OpenAPI and ChatGPT plugin loaders in LlamaHub (aka llama-hub) before 0.0.67 allow attackers to execute arbitrary code because safe_load is not used for YAML.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "llama-hub"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.0.67"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23730"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/run-llama/llama-hub/commit/c01416e737c7747a213a79881b8308c41d043515"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/run-llama/llama-hub"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/run-llama/llama-hub/blob/v0.0.67/CHANGELOG.md"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/run-llama/llama-hub/releases/tag/v0.0.67"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-502"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-22T21:23:34Z",
+    "nvd_published_at": "2024-01-21T17:15:44Z"
+  }
+}

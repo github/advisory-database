@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7r3j-qmr4-jfpj",
+  "modified": "2024-05-31T20:33:21Z",
+  "published": "2024-05-28T15:47:00Z",
+  "aliases": [
+    "CVE-2024-32978"
+  ],
+  "summary": "Kaminari Insecure File Permissions Vulnerability",
+  "details": "A moderate severity security vulnerability has been identified in the Kaminari pagination library for Ruby on Rails, concerning insecure file permissions. This advisory outlines the vulnerability, affected versions, and provides guidance for mitigation.\n\n### Impact\n\nThis vulnerability is of moderate severity due to the potential for unauthorized write access to particular Ruby files managed by the library. Such access could lead to the alteration of application behavior or data integrity issues.\n\n### Resolution\n\nThose who use the `gem install` command, such as `gem install kaminari -v 0.16.1`, `gem unpack kaminari -v 0.16.1`, or `bundle install` to download the package would **_not_** be affected and no action is required. \n\nThose who manually download and decompressing the affected versions are advised to update to 0.16.2 or later version of Kaminari where file permissions have been adjusted to enhance security.\n\n### Workarounds\n\nIf upgrading is not feasible immediately, manually adjusting the file permissions on the server to `644` to restrict access is a viable interim measure.\n\n#### All Affected Versions:\n\n```\nlib/kaminari/models/page_scope_methods.rb\n```\n\nIn addition to the previously mentioned files, security tools like AWS Inspector might also identify other files as unsafe. These files, although not loaded or used at runtime, may still be flagged. To avoid any potential confusion in your logs and ensure system integrity, we recommend updating the permissions for these files as well. This proactive measure helps maintain a clean security posture and minimizes unnecessary alerts.\n\n#### Version 0.15.0 and 0.15.1:\n\n```\nspec/models/mongo_mapper/mongo_mapper_spec.rb\n```\n\n#### Version 0.16.0:\n\n```\nspec/models/mongo_mapper/mongo_mapper_spec.rb\nspec/models/mongoid/mongoid_spec.rb\n```\n\n#### Version 0.16.1:\n\n```\nspec/models/active_record/scopes_spec.rb\nspec/models/mongo_mapper/mongo_mapper_spec.rb\nspec/models/mongoid/mongoid_spec.rb\ngemfiles/data_mapper_12.gemfile\ngemfiles/active_record_32.gemfile\n```\n\n### References\n\nOfficial Kaminari repository link (this page)\n\n### Acknowledgements\n\nWe thank [Gareth Jones](https://github.com/G-Rath) for discovering and reporting this issue. Their diligent work is instrumental in our ongoing efforts to maintain and improve software security.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "kaminari"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.15.0"
+            },
+            {
+              "fixed": "0.16.2"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.16.1"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/kaminari/kaminari/security/advisories/GHSA-7r3j-qmr4-jfpj"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-32978"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/kaminari/kaminari"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/kaminari/CVE-2024-32978.yml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-276"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-28T15:47:00Z",
+    "nvd_published_at": "2024-05-27T16:15:08Z"
+  }
+}

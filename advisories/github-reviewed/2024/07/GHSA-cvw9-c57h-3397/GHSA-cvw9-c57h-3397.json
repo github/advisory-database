@@ -1,0 +1,145 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cvw9-c57h-3397",
+  "modified": "2024-07-09T21:56:02Z",
+  "published": "2024-07-05T20:03:55Z",
+  "aliases": [
+    "CVE-2024-39683"
+  ],
+  "summary": "ZITADEL Vulnerable to Session Information Leakage",
+  "details": "### Impact\n\nZITADEL provides users the ability to list all user sessions of the current user agent (browser) by API and in the Console UI.\n\nDue to a missing check, user sessions without that information (e.g. when created though the session service) were incorrectly listed exposing potentially other user's sessions.\n\nNote that the Login UI was never affected and there was no possibility to take over such a session.\n\n### Patches\n\n2.x versions are fixed on >= [2.55.1](https://github.com/zitadel/zitadel/releases/tag/v2.55.1)\n2.54.x versions are fixed on >= [2.54.5](https://github.com/zitadel/zitadel/releases/tag/v2.54.5)\n2.53.x versions are fixed on >= [2.53.8](https://github.com/zitadel/zitadel/releases/tag/v2.53.8)\n\nZITADEL recommends upgrading to the latest versions available in due course.\n\n### Workarounds\n\nThere is no workaround since a patch is already available.\n\n### References\n\n- https://github.com/zitadel/zitadel/pull/8231\n- https://discord.com/channels/927474939156643850/1254096852937347153\n- https://github.com/zitadel/zitadel/issues/8213\n\n### Questions\nIf you have any questions or comments about this advisory, please email us at [security@zitadel.com](mailto:security@zitadel.com)\n\n### Credits\nThanks to @cybertransformer, @Avolicious, @AmirhoseinBrz and @srividyaj for finding and reporting the vulnerability.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:P/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/zitadel/zitadel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.53.8"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.53.7"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/zitadel/zitadel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.54.0"
+            },
+            {
+              "fixed": "2.54.5"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.54.4"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/zitadel/zitadel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.55.0"
+            },
+            {
+              "fixed": "2.55.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/security/advisories/GHSA-cvw9-c57h-3397"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-39683"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/issues/8213"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/pull/8231"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/commit/4a262e42abac2208b02fefaf68ba1a5121649f04"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/commit/c2093ce01507ca8fc811609ff5d391693360c3da"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/commit/d04f208486a418a45b884b9ca8433e5ad9790d73"
+    },
+    {
+      "type": "WEB",
+      "url": "https://discord.com/channels/927474939156643850/1254096852937347153"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/zitadel/zitadel"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/releases/tag/v2.53.8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/releases/tag/v2.54.5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/releases/tag/v2.55.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-05T20:03:55Z",
+    "nvd_published_at": "2024-07-03T20:15:04Z"
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2q6j-gqc4-4gw3",
+  "modified": "2024-01-19T19:28:13Z",
+  "published": "2024-01-16T21:13:36Z",
+  "aliases": [
+    "CVE-2022-31021"
+  ],
+  "summary": "Breaking unlinkability in Identity Mixer using malicious keys",
+  "details": "# CL Signatures Issuer Key Correctness Proof lacks of prime strength checking\n\nA weakness in the Hyperledger AnonCreds specification that is not mitigated in the Ursa and AnonCreds implementations is that the Issuer does not publish a key correctness proof demonstrating that a generated private key is sufficient to meet the unlinkability guarantees of AnonCreds. A sufficient private key is one in which it's components `p` and `q` are safe primes, such that:\n\n- `p` and `q` are both prime numbers\n- `p` and `q` are not equal\n- `p` and `q` have the same, sufficiently large, size\n  - For example, using two values both 1024 bits long is sufficient, whereas using one value 2040 bits long and the other 8 bits long is not.\n\nThe Ursa and AnonCreds CL-Signatures implementations always generate a sufficient private key. A malicious issuer could in theory create a custom CL Signature implementation (derived from the Ursa or AnonCreds CL-Signatures implementations) that uses weakened private keys such that presentations from holders could be shared by verifiers  to the issuer who could determine the holder to which the credential was issued.\n\n### Impact\n\nThis vulnerability could impact holders of AnonCreds credentials implemented using the CL-signature scheme in the Ursa and AnonCreds implementations of CL Signatures.\n\n### Mitigations\n\n[Jan Camenisch and Markus Michels. Proving in zero-knowledge that a number is the product of two safe primes] (pages 12-13) demonstrates a key correctness proof that could be used to show the issuer has generated a sufficiently strong private key, proving the characteristics listed above.\n\nIn a future version of AnonCreds, the additional key correctness proof could be published separately or added to the Credential Definition. In the meantime, Issuers in existing ecosystems can share such a proof with their ecosystem co-participants in an ad hoc manner.\n\n[Jan Camenisch and Markus Michels. Proving in zero-knowledge that a number is the product of two safe primes]: https://www.brics.dk/RS/98/29/BRICS-RS-98-29.pdf\n\nThe lack of such a published key correctness proof allows a malicious Issuer to deliberately generate a private key that lacks the requirements listed above, enabling the Issuer to perform a brute force attack on presentations provided to colluding verifiers that breaks the unlinkability guarantee of AnonCreds.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "anoncreds-clsignatures"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "< 0.3"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "ursa"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.3.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/hyperledger-archives/ursa/security/advisories/GHSA-2q6j-gqc4-4gw3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hyperledger/ursa/security/advisories/GHSA-2q6j-gqc4-4gw3"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-31021"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/hyperledger-archives/ursa"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.brics.dk/RS/98/29/BRICS-RS-98-29.pdf"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-829"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-16T21:13:36Z",
+    "nvd_published_at": "2024-01-16T22:15:37Z"
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-x32m-mvfj-52xv",
+  "modified": "2024-03-22T20:05:19Z",
+  "published": "2024-03-18T17:21:17Z",
+  "aliases": [
+    "CVE-2024-21652"
+  ],
+  "summary": "Bypassing Brute Force Protection via Application Crash and In-Memory Data Loss",
+  "details": "### Summary\nAn attacker can exploit a chain of vulnerabilities, including a Denial of Service (DoS) flaw and in-memory data storage weakness, to effectively bypass the application's brute force login protection. This makes the application susceptible to brute force attacks, compromising the security of all user accounts.\n\n### Details\nThe issue arises from two main vulnerabilities:\n\n1. The application crashes due to a previously described DoS vulnerability caused by unsafe array modifications in a multi-threaded environment.\n2. The application saves the data of failed login attempts in-memory, without persistent storage. When the application crashes and restarts, this data is lost, resetting the brute force protections.\n\n```go\n// LoginAttempts is a timestamped counter for failed login attempts\n\ntype LoginAttempts struct {  \n// Time of the last failed login LastFailed time.Time `json:\"lastFailed\"` // Number of consecutive login failures FailCount int `json:\"failCount\"`\n\n}\n```\n\nBy chaining these vulnerabilities, an attacker can circumvent the limitations placed on the number of login attempts.\n\n### PoC\n1. Run the provided PoC script.\n2. Observe that the script makes 6 login attempts, one more than the set limit of 5 failed attempts.\n3. This is made possible because the script triggers a server restart via the DoS vulnerability after 5 failed attempts, thus resetting the counter for failed login attempts.\n\n### Impact\nThis is a critical security vulnerability that allows attackers to bypass the brute force login protection mechanism. Not only can they crash the service affecting all users, but they can also make unlimited login attempts, increasing the risk of account compromise.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/argoproj/argo-cd/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.8.13"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/argoproj/argo-cd/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.9.0"
+            },
+            {
+              "fixed": "2.9.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/argoproj/argo-cd/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.10.0"
+            },
+            {
+              "fixed": "2.10.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/security/advisories/GHSA-x32m-mvfj-52xv"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-21652"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/commit/17b0df1168a4c535f6f37e95f25ed7cd81e1fa4d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/commit/6e181d72b31522f886a2afa029d5b26d7912ec7b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/commit/cebb6538f7944c87ca2fecb5d17f8baacc431456"
+    },
+    {
+      "type": "WEB",
+      "url": "https://argo-cd.readthedocs.io/en/stable/security_considerations/#cve-2020-8827-insufficient-anti-automationanti-brute-force"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/argoproj/argo-cd"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-307"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-18T17:21:17Z",
+    "nvd_published_at": "2024-03-18T18:15:09Z"
+  }
+}

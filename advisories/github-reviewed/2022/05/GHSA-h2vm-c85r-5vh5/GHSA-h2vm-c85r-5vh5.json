@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h2vm-c85r-5vh5",
+  "modified": "2024-04-29T11:13:39Z",
+  "published": "2022-05-14T03:35:52Z",
+  "aliases": [
+    "CVE-2018-7490"
+  ],
+  "summary": "uWSGI Directory Traversal vulnerability",
+  "details": "uWSGI before 2.0.17 mishandles a `DOCUMENT_ROOT` check during use of the `--php-docroot` option, allowing directory traversal.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "uWSGI"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.17"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-7490"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/unbit/uwsgi/commit/0a480f435ea6feb63deb410ad2bf376ed3f05f8a"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/unbit/uwsgi"
+    },
+    {
+      "type": "WEB",
+      "url": "https://uwsgi-docs.readthedocs.io/en/latest/Changelog-2.0.17.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.debian.org/security/2018/dsa-4142"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.exploit-db.com/exploits/44223"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-29T11:13:39Z",
+    "nvd_published_at": "2018-02-26T22:29:00Z"
+  }
+}

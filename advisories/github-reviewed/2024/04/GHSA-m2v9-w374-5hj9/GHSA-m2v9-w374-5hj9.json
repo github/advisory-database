@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-m2v9-w374-5hj9",
+  "modified": "2024-04-25T19:50:35Z",
+  "published": "2024-04-25T19:50:35Z",
+  "aliases": [
+    "CVE-2024-32648"
+  ],
+  "summary": "vyper default functions don't respect nonreentrancy keys",
+  "details": "### Summary\nPrior to v0.3.0, `__default__()` functions did not respect the `@nonreentrancy` decorator and the lock was not emitted. This is a known bug and was already visible in the issue tracker (https://github.com/vyperlang/vyper/issues/2455), but it is being re-issued as an advisory so that tools relying on the advisory publication list can incorporate it into their searches.\n\nA contract search was additionally performed and no vulnerable contracts were found in production.\n\n### PoC\n```vyper\n@external\n@payable\n@nonreentrant(\"default\")\ndef __default__():\n    pass\n```\n\nafter codegen:\n```\n[seq,\n  [if, [lt, calldatasize, 4], [goto, fallback]],\n  [mstore, 28, [calldataload, 0]],\n  [with, _func_sig, [mload, 0], seq],\n  [seq_unchecked,\n    [label, fallback],\n    [seq,\n      pass,\n      # Line 5\n      pass,\n      pass,\n      # Line 4\n      stop]]],\n```\n\n### Impact\nNo vulnerable production contracts were found. Additionally, using a lock on a `default` function is a very sparsely used pattern. As such, the impact is `low`.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "vyper"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.3.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.2.16"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/vyperlang/vyper/security/advisories/GHSA-m2v9-w374-5hj9"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-32648"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vyperlang/vyper/issues/2455"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vyperlang/vyper/commit/93287e5ac184b53b395c907d40701f721daf8177"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vyperlang/vyper"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-667"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-25T19:50:35Z",
+    "nvd_published_at": "2024-04-25T18:15:09Z"
+  }
+}

@@ -1,0 +1,155 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hhhv-q57g-882q",
+  "modified": "2024-03-30T06:30:42Z",
+  "published": "2024-03-07T17:40:57Z",
+  "aliases": [
+    "CVE-2024-28176"
+  ],
+  "summary": "jose vulnerable to resource exhaustion via specifically crafted JWE with compressed plaintext",
+  "details": "A vulnerability has been identified in the JSON Web Encryption (JWE) decryption interfaces, specifically related to the [support for decompressing plaintext after its decryption](https://www.rfc-editor.org/rfc/rfc7516.html#section-4.1.3). This allows an adversary to exploit specific scenarios where the compression ratio becomes exceptionally high. As a result, the length of the JWE token, which is determined by the compressed content's size, can land below application-defined limits. In such cases, other existing application level mechanisms for preventing resource exhaustion may be rendered ineffective.\n\nNote that as per [RFC 8725](https://www.rfc-editor.org/rfc/rfc8725.html#name-avoid-compression-of-encryp) compression of data SHOULD NOT be done before encryption, because such compressed data often reveals information about the plaintext. For this reason the v5.x major version of `jose` removed support for compressed payloads entirely and is therefore NOT affected by this advisory.\n\n### Impact\n\nUnder certain conditions it is possible to have the user's environment consume unreasonable amount of CPU time or memory during JWE Decryption operations.\n\n### Affected users\n\nThe impact is limited only to Node.js users utilizing the JWE decryption APIs to decrypt JWEs from untrusted sources.\n\nYou are NOT affected if any of the following applies to you\n\n- Your code uses jose version v5.x where JWE Compression is not supported anymore\n- Your code runs in an environment other than Node.js (e.g. Deno, CF Workers), which is the only runtime where JWE Compression is implemented out of the box\n- Your code does not use the JWE decryption APIs\n- Your code only accepts JWEs produced by trusted sources\n\n### Patches\n\n`v2.0.7` and `v4.15.5` releases limit the decompression routine to only allow decompressing up to 250 kB of plaintext. In v4.x it is possible to further adjust this limit via the `inflateRaw` decryption option implementation. In v2.x it is possible to further adjust this limit via the `inflateRawSyncLimit` decryption option.\n\n### Workarounds\n\nIf you cannot upgrade and do not want to support compressed JWEs you may detect and reject these tokens early by checking the token's protected header\n\n```js\nconst { zip } = jose.decodeProtectedHeader(token)\nif (zip !== undefined) {\n  throw new Error('JWE Compression is not supported')\n}\n```\n\nIf you wish to continue supporting JWEs with compressed payloads in these legacy release lines you must upgrade (v1.x and v2.x to version v2.0.7, v3.x and v4.x to version v4.15.5) and review the limits put forth by the patched releases.\n\n### For more information\nIf you have any questions or comments about this advisory please open a discussion in the project's [repository](https://github.com/panva/jose/discussions/new?category=q-a&title=GHSA-hhhv-q57g-882q%20advisory%20question)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "jose"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "4.15.5"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 4.15.4"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "jose-node-cjs-runtime"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.15.5"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 4.15.4"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "jose-node-esm-runtime"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.15.5"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 4.15.4"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "jose"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/panva/jose/security/advisories/GHSA-hhhv-q57g-882q"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28176"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/panva/jose/commit/02a65794f7873cdaf12e81e80ad076fcdc4a9314"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/panva/jose/commit/1b91d88d2f8233f3477a5f4579aa5f8057b2ee8b"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/panva/jose"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/I6MMWFBOXJA6ZCXNVPDFJ4XMK5PVG5RG"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/KXKGNCRU7OTM5AHC7YIYBNOWI742PRMY"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/UG5FSEYJ3GP27FZXC5YAAMMEC5XWKJHG"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/UJO2U5ACZVACNQXJ5EBRFLFW6DP5BROY"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/XJDO5VSIAOGT2WP63AXAAWNRSVJCNCRH"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-07T17:40:57Z",
+    "nvd_published_at": "2024-03-09T01:15:07Z"
+  }
+}

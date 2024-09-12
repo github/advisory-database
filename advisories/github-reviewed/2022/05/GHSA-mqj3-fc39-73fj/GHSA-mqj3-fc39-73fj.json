@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mqj3-fc39-73fj",
+  "modified": "2024-01-30T21:24:54Z",
+  "published": "2022-05-24T22:00:03Z",
+  "aliases": [
+    "CVE-2019-10324"
+  ],
+  "summary": "Cross-site request forgery vulnerability in Jenkins Artifactory Plugin",
+  "details": "A cross-site request forgery vulnerability in Jenkins Artifactory Plugin 3.2.2 and earlier in ReleaseAction#doSubmit, GradleReleaseApiAction#doStaging, MavenReleaseApiAction#doStaging, and UnifiedPromoteBuildAction#doSubmit allowed attackers to schedule a release build, perform release staging for Gradle and Maven projects, and promote previously staged builds, respectively.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:artifactory"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.2.3"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.2.2"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-10324"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jenkinsci/artifactory-plugin/commit/687cc2b4e9ad62c0bdcee4afc9e8e90c5089ee58"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2019-05-31/#SECURITY-1347"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2019/05/31/2"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/108540"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-30T21:24:54Z",
+    "nvd_published_at": "2019-05-31T15:29:00Z"
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-phg6-44m7-hx3h",
+  "modified": "2024-03-14T20:37:57Z",
+  "published": "2024-03-14T20:37:57Z",
+  "aliases": [
+    "CVE-2024-22417"
+  ],
+  "summary": "Whoogle Search Cross-site Scripting vulnerability",
+  "details": "Whoogle Search is a self-hosted metasearch engine. In versions 0.8.3 and prior, the `element` method in `app/routes.py` does not validate the user-controlled `src_type` and `element_url` variables and passes them to the `send` method which sends a `GET` request on lines 339-343 in `requests.py`. The returned contents of the URL are then passed to and reflected back to the user in the `send_file` function on line 484, together with the user-controlled `src_type`, which allows the attacker to control the HTTP response content type leading to a cross-site scripting vulnerability. An attacker could craft a special URL to point to a malicious website and send the link to a victim. The fact that the link would contain a trusted domain (e.g. from one of public Whoogle instances) could be used to trick the user into clicking the link.The malicious website could, for example, be a copy of a real website, meant to steal a person’s credentials to the website, or trick that person in another way. Version 0.8.4 contains a patch for this issue.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "whoogle-search"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.8.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-22417"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/benbusby/whoogle-search/commit/3a2e0b262e4a076a20416b45e6b6f23fd265aeda"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/benbusby/whoogle-search"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/benbusby/whoogle-search/blob/92e8ede24e9277a5440d403f75877209f1269884/app/request.py#L339-L343"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/benbusby/whoogle-search/blob/92e8ede24e9277a5440d403f75877209f1269884/app/routes.py#L465-L490"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/benbusby/whoogle-search/blob/92e8ede24e9277a5440d403f75877209f1269884/app/routes.py#L466"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/benbusby/whoogle-search/blob/92e8ede24e9277a5440d403f75877209f1269884/app/routes.py#L476"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/benbusby/whoogle-search/blob/92e8ede24e9277a5440d403f75877209f1269884/app/routes.py#L479"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/benbusby/whoogle-search/blob/92e8ede24e9277a5440d403f75877209f1269884/app/routes.py#L484C6-L484C7"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/whoogle-search/PYSEC-2024-19.yaml"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://securitylab.github.com/advisories/GHSL-2023-186_GHSL-2023-189_benbusby_whoogle-search"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-14T20:37:57Z",
+    "nvd_published_at": "2024-01-23T18:15:18Z"
+  }
+}

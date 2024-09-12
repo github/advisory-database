@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-j96g-47x2-46hv",
+  "modified": "2024-04-25T21:36:37Z",
+  "published": "2022-05-14T03:15:07Z",
+  "aliases": [
+    "CVE-2017-12868"
+  ],
+  "summary": "SimpleSAMLphp Session fixation issue and authentication bypass in the authcrypt module",
+  "details": "The secureCompare method in lib/SimpleSAML/Utils/Crypto.php in SimpleSAMLphp 1.14.13 and earlier, when used with PHP before 5.6, allows attackers to conduct session fixation attacks or possibly bypass authentication by leveraging missing character conversions before an XOR operation.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "simplesamlphp/simplesamlphp"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.14.12"
+            },
+            {
+              "fixed": "1.14.14"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-12868"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/simplesamlphp/simplesamlphp/commit/4bc629658e7b7d17c9ac3fe0da7dc5df71f1b85e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/simplesamlphp/simplesamlphp/CVE-2017-12868.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/simplesamlphp/simplesamlphp"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.debian.org/debian-lts-announce/2017/12/msg00007.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.debian.org/debian-lts-announce/2018/06/msg00017.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://simplesamlphp.org/security/201705-01"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-384"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-25T21:36:37Z",
+    "nvd_published_at": "2017-09-01T13:29:00Z"
+  }
+}

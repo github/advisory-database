@@ -1,0 +1,150 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r84p-88g2-2vx2",
+  "modified": "2024-03-11T18:49:58Z",
+  "published": "2022-05-13T00:01:12Z",
+  "aliases": [
+    "CVE-2022-29885"
+  ],
+  "summary": "Apache Tomcat EncryptInterceptor error leads to Uncontrolled Resource Consumption",
+  "details": "The documentation of Apache Tomcat 10.1.0-M1 to 10.1.0-M14, 10.0.0-M1 to 10.0.20, 9.0.13 to 9.0.62 and 8.5.38 to 8.5.78 for the EncryptInterceptor incorrectly stated it enabled Tomcat clustering to run over an untrusted network. This was not correct. While the EncryptInterceptor does provide confidentiality and integrity protection, it does not protect against all risks associated with running over any untrusted network, particularly DoS risks.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.tomcat:tomcat"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "10.1.0-M1"
+            },
+            {
+              "fixed": "10.1.0-M15"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.tomcat:tomcat"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "10.0.0-M1"
+            },
+            {
+              "fixed": "10.0.21"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.tomcat:tomcat"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.0.13"
+            },
+            {
+              "fixed": "9.0.63"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.tomcat:tomcat"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.5.38"
+            },
+            {
+              "fixed": "8.5.79"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-29885"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/tomcat/commit/0fa7721f11d565a2cd2e44366c388ad6a3e6357d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/tomcat/commit/36826ea638457d7e17876a70f89cb435b6db0d91"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/tomcat/commit/b679bc627f5a4ea6510af95adfb7476b07eba890"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/tomcat/commit/eaafd28296c54d983e28a47953c1f5cb2c334f48"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/tomcat"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/2b4qmhbcyqvc7dyfpjyx54c03x65vhcv"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.debian.org/debian-lts-announce/2022/10/msg00029.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.netapp.com/advisory/ntap-20220629-0002"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.debian.org/security/2022/dsa-5265"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.oracle.com/security-alerts/cpujul2022.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-11T18:49:58Z",
+    "nvd_published_at": "2022-05-12T08:15:00Z"
+  }
+}

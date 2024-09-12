@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4mh8-9689-38vr",
+  "modified": "2024-08-07T15:10:52Z",
+  "published": "2024-07-25T21:31:20Z",
+  "aliases": [
+    "CVE-2024-1724"
+  ],
+  "summary": "snapd failed to restrict writes to the $HOME/bin path",
+  "details": "In snapd versions prior to 2.62, when using AppArmor for enforcement of sandbox permissions, snapd failed to restrict writes to the $HOME/bin path. In Ubuntu, when this path exists, it is automatically added to the users PATH. An attacker who could convince a user to install a malicious snap which used the 'home' plug could use this vulnerability to install arbitrary scripts into the users PATH which may then be run by the user outside of the expected snap sandbox and hence allow them to escape confinement.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/snapcore/snapd"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.62"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-1724"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/snapcore/snapd/pull/13689"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/snapcore/snapd/commit/aa191f97713de8dc3ce3ac818539f0b976eb8ef6"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/snapcore/snapd"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gld.mcphail.uk/posts/explaining-cve-2024-1724"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/vuln/GO-2024-3007"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-732"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-26T21:34:22Z",
+    "nvd_published_at": "2024-07-25T19:15:09Z"
+  }
+}

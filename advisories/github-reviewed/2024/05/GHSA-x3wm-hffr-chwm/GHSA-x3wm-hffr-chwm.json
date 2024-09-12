@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-x3wm-hffr-chwm",
+  "modified": "2024-05-15T17:10:49Z",
+  "published": "2024-05-15T17:10:49Z",
+  "aliases": [
+    "CVE-2024-32888"
+  ],
+  "summary": "Amazon JDBC Driver for Redshift SQL Injection via line comment generation",
+  "details": "### Impact\n\nSQL injection is possible when using the non-default connection property `preferQueryMode=simple` in combination with application code which has a vulnerable SQL that negates a parameter value.\n\nThere is no vulnerability in the driver when using the default, extended query mode. Note that `preferQueryMode` is not a supported parameter in Redshift JDBC driver, and is inherited code from Postgres JDBC driver. Users who do not override default settings to utilize this unsupported query mode are not affected.\n\n### Patch\n\nThis issue is patched in driver version 2.1.0.28.\n\n### Workarounds\n\nDo not use the connection property `preferQueryMode=simple`. (NOTE: If you do not explicitly specify a query mode, then you are using the default of extended query mode and are not affected by this issue.)\n\n### References\n\nSimilar to finding in Postgres JDBC: https://github.com/pgjdbc/pgjdbc/security/advisories/GHSA-24rp-q3w6-vc56\n\nIf you have any questions or comments about this advisory, we ask that you contact AWS Security via our [vulnerability reporting page](https://aws.amazon.com/security/vulnerability-reporting) or directly via email to [aws-security@amazon.com](mailto:aws-security@amazon.com). Please do not create a public GitHub issue.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.amazon.redshift:redshift-jdbc42"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.1.0.28"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/aws/amazon-redshift-jdbc-driver/security/advisories/GHSA-x3wm-hffr-chwm"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pgjdbc/pgjdbc/security/advisories/GHSA-24rp-q3w6-vc56"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-32888"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/aws/amazon-redshift-jdbc-driver/commit/0d354a5f26ca23f7cac4e800e3b8734220230319"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/aws/amazon-redshift-jdbc-driver/commit/12a5e8ecfbb44c8154fc66041cca2e20ecd7b339"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/aws/amazon-redshift-jdbc-driver/commit/bc93694201a291493778ce5369a72befeca5ba7d"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/aws/amazon-redshift-jdbc-driver"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-89"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-15T17:10:49Z",
+    "nvd_published_at": "2024-05-15T03:15:12Z"
+  }
+}

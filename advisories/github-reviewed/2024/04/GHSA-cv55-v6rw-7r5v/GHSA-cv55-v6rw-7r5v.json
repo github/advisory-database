@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cv55-v6rw-7r5v",
+  "modified": "2024-04-10T22:01:40Z",
+  "published": "2024-04-10T17:14:47Z",
+  "aliases": [
+    "CVE-2024-31987"
+  ],
+  "summary": "XWiki Platform remote code execution from account via custom skins support",
+  "details": "### Impact\nAny user who can edit any page like their profile can create a custom skin with a template override that is executed with programming right, thus allowing remote code execution. \n\nTo reproduce, as a user without edit, script or admin right, add an object of class `XWiki.XWikiSkins` to your profile. Name it whatever you want and set the Base Skin to `flamingo`.\nAdd an object of class `XWikiSkinFileOverrideClass` and set the path to `macros.vm` and the content to:\n```\n#macro(mediumUserAvatar $username)\n  #resizedUserAvatar($username 50)\n  $services.logging.getLogger('Skin').error(\"I got programming: $services.security.authorization.hasAccess('programming')\")\n#end\n```\nBack to your profile, click `Test this skin`. Force a refresh, just in case.\nIf the error \"Skin - I got programming: true\" gets logged, the installation is vulnerable.\n\n### Patches\nThis has been patched in XWiki 14.10.19, 15.5.4 and 15.10RC1.\n\n### Workarounds\nWe're not aware of any workaround except upgrading.\n\n### References\n* https://jira.xwiki.org/browse/XWIKI-21478\n* https://github.com/xwiki/xwiki-platform/commit/3d4dbb41f52d1a6e39835cfb1695ca6668605a39 (>= 15.8 RC1)\n* https://github.com/xwiki/xwiki-platform/commit/da177c3c972e797d92c1a31e278f946012c41b56 (< 15.8 RC1)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-oldcore"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.4-milestone-1"
+            },
+            {
+              "fixed": "14.10.19"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-oldcore"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "15.0-rc-1"
+            },
+            {
+              "fixed": "15.5.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-oldcore"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "15.6-rc-1"
+            },
+            {
+              "fixed": "15.10-rc-1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-cv55-v6rw-7r5v"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-31987"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/3d4dbb41f52d1a6e39835cfb1695ca6668605a39"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/626d2a5dbf95b4e719ae13bf1a0a9c76e4edd5a2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/da177c3c972e797d92c1a31e278f946012c41b56"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-21478"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-862"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-10T17:14:47Z",
+    "nvd_published_at": "2024-04-10T21:15:07Z"
+  }
+}

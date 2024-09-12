@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w799-v85j-88pg",
+  "modified": "2024-07-25T18:32:34Z",
+  "published": "2024-07-17T03:31:38Z",
+  "aliases": [
+    "CVE-2024-6535"
+  ],
+  "summary": "Skupper uses a static cookie secret for the openshift oauth-proxy",
+  "details": "A flaw was found in Skupper. When Skupper is initialized with the console-enabled and with console-auth set to Openshift, it configures the openshift oauth-proxy with a static cookie-secret. In certain circumstances, this may allow an attacker to bypass authentication to the Skupper console via a specially-crafted cookie.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/skupperproject/skupper"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.0.0-20240703184342-c26bce4079ff"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-6535"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/skupperproject/skupper/commit/d2cb3782e807853694ee66b6e3d4a1917485eb71"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2024:4865"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2024:4871"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/security/cve/CVE-2024-6535"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2296024"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/skupperproject/skupper"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1392",
+      "CWE-287"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-17T16:01:10Z",
+    "nvd_published_at": "2024-07-17T03:15:01Z"
+  }
+}

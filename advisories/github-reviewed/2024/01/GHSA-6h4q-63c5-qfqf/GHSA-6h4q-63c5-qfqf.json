@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6h4q-63c5-qfqf",
+  "modified": "2024-01-24T21:53:25Z",
+  "published": "2024-01-13T06:30:26Z",
+  "aliases": [
+    "CVE-2023-52288"
+  ],
+  "summary": "Path traversal in flaskcode",
+  "details": "An issue was discovered in the flaskcode package through 0.0.8 for Python. An unauthenticated directory traversal, exploitable with a GET request to a /resource-data/<file_path>.txt URI (from views.py), allows attackers to read arbitrary files.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "flaskcode"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.0.8"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-52288"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gitlab.com/daniele_m/cve-list/-/blob/main/README.md"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-24T21:53:25Z",
+    "nvd_published_at": "2024-01-13T04:15:08Z"
+  }
+}

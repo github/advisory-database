@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xfhp-jf8p-mh5w",
+  "modified": "2024-06-28T21:43:53Z",
+  "published": "2024-06-25T18:31:22Z",
+  "aliases": [
+    "CVE-2024-6257"
+  ],
+  "summary": "HashiCorp go-getter Vulnerable to Code Execution On Git Update Via Git Config Manipulation",
+  "details": "HashiCorp’s go-getter library can be coerced into executing Git update on an existing maliciously modified Git Configuration, potentially leading to arbitrary code execution. When go-getter is performing a Git operation, go-getter will try to clone the given repository in a specified destination. Cloning initializes a git config to the provided destination and if the repository needs to get updated go-getter will pull the new changes .\n\nAn attacker may alter the Git config after the cloning step to set an arbitrary Git configuration to achieve code execution.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/hashicorp/go-getter"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.7.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-6257"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hashicorp/go-getter/commit/268c11cae8cf0d9374783e06572679796abe9ce9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://discuss.hashicorp.com/t/hcsec-2024-13-hashicorp-go-getter-vulnerable-to-code-execution-on-git-update-via-git-config-manipulation/68081"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-xfhp-jf8p-mh5w"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/hashicorp/go-getter"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-77"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-25T20:14:06Z",
+    "nvd_published_at": "2024-06-25T17:15:10Z"
+  }
+}

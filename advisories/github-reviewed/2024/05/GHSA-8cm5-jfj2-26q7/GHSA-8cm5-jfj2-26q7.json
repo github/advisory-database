@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8cm5-jfj2-26q7",
+  "modified": "2024-05-31T20:44:41Z",
+  "published": "2024-05-29T15:25:51Z",
+  "aliases": [
+    "CVE-2024-34715"
+  ],
+  "summary": "Fides Webserver Logs Hosted Database Password Partial Exposure Vulnerability",
+  "details": "The Fides webserver requires a connection to a hosted PostgreSQL database for persistent storage of application data. If the password used by the webserver for this database connection includes special characters such as `@` and `$`, webserver startup fails and the part of the password following the special character is exposed in webserver error logs.\n\nThis is caused by improper escaping of the SQLAlchemy password string, see [here](https://docs.sqlalchemy.org/en/14/core/engines.html#escaping-special-characters-such-as-signs-in-passwords) and [here](https://github.com/sqlalchemy/sqlalchemy/discussions/6615) for more info.\n\n### Impact\nPartial exposure of hosted database password in webserver logs\n\n### Patches\nThe vulnerability has been patched in Fides version `2.37.0`. Users are advised to upgrade to this version or later to secure their systems against this threat.\n\n### Workarounds\nThere are no workarounds.\n\n### Proof of Concept\n1. Create a hosted PostgreSQL database for Fides with a password including `@` or `$` e.g. `p@ssword`\n2. Run Fides and observe failure, sample log attached\n\n```\nfides  | 2024-02-28 14:27:52.609 | ERROR    | fides.api.db.database:configure_db:117 - Unable to configure database: sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) could not translate host name \"ssword@fides-db\" to address: Name or service not known\n```",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ethyca-fides"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.37.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ethyca/fides/security/advisories/GHSA-8cm5-jfj2-26q7"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-34715"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ethyca/fides/commit/6ab37b1ffe2b1a3bd35b706a82f78e061086141c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.sqlalchemy.org/en/14/core/engines.html#escaping-special-characters-such-as-signs-in-passwords"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ethyca/fides"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sqlalchemy/sqlalchemy/discussions/6615"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-116",
+      "CWE-532"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-29T15:25:51Z",
+    "nvd_published_at": "2024-05-29T17:16:20Z"
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g6f5-4w43-2x63",
+  "modified": "2024-05-29T13:04:32Z",
+  "published": "2024-05-29T13:04:32Z",
+  "aliases": [
+
+  ],
+  "summary": "ScnSocialAuth Cross-site Scripting vulnerability in login redirect param",
+  "details": "ScnSocialAuth version 1.15.2 has been released and includes a security for this vulnerability. Fix has been applied in https://github.com/SocalNick/ScnSocialAuth/commit/4a00966c41bc37251586d007564c5c891eba3700\n\n### Affected versions\nAll versions below 1.15.2 are affected. dev-master is fixed starting from https://github.com/SocalNick/ScnSocialAuth/commit/4a00966c41bc37251586d007564c5c891eba3700\n\n### Exploits\nBecause of missing escaping of the URL param redirect a XSS attack is possible.\nFor example: Setting the redirect param to `\"><a%20href=\"http://github.com\">GitHub.com</a><inpu%20type=\"hidden\"%20\"` would result in a link added to the login page.\n\n### Resolution\nIf you are using any version of ScnSocialAuth below 1.15.2 please upgrade immediately by running composer update.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "socalnick/scn-social-auth"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.15.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/socalnick/scnsocialauth/issues/184"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/SocalNick/ScnSocialAuth/commit/4a00966c41bc37251586d007564c5c891eba3700"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/socalnick/scn-social-auth/2015-01-15.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/SocalNick/ScnSocialAuth/commit"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-29T13:04:32Z",
+    "nvd_published_at": null
+  }
+}

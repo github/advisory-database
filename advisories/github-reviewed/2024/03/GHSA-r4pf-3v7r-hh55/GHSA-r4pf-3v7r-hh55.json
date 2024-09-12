@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r4pf-3v7r-hh55",
+  "modified": "2024-03-06T21:36:08Z",
+  "published": "2024-03-04T20:42:45Z",
+  "aliases": [
+    "CVE-2024-27303"
+  ],
+  "summary": "electron-builder's NSIS installer - execute arbitrary code on the target machine (Windows only)",
+  "details": "### Impact\nWindows-Only: The NSIS installer makes a system call to open cmd.exe via NSExec in the `.nsh` installer script. NSExec by default searches the current directory of where the installer is located before searching `PATH`. This means that if an attacker can place a malicious executable file named cmd.exe in the same folder as the installer, the installer will run the malicious file.\n\n### Patches\nFixed in https://github.com/electron-userland/electron-builder/pull/8059\n\n### Workarounds\nNone, it executes at the installer-level before the app is present on the system, so there's no way to check if it exists in a current installer.\n\n### References\nhttps://cwe.mitre.org/data/definitions/426.html\nhttps://cwe.mitre.org/data/definitions/427",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "app-builder-lib"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "24.13.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/electron-userland/electron-builder/security/advisories/GHSA-r4pf-3v7r-hh55"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-27303"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/electron-userland/electron-builder/pull/8059"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/electron-userland/electron-builder/commit/8f4acff3c2d45c1cb07779bb3fe79644408ee387"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/electron-userland/electron-builder"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-426",
+      "CWE-427"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-04T20:42:45Z",
+    "nvd_published_at": "2024-03-06T19:15:08Z"
+  }
+}

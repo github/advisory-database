@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3867-jc5c-66qf",
+  "modified": "2024-01-17T20:29:33Z",
+  "published": "2024-01-17T20:29:33Z",
+  "aliases": [
+    "CVE-2024-22407"
+  ],
+  "summary": "Broken Access Control order API in Shopware",
+  "details": "### Impact\n\nIn the Shopware CMS, the state handler for orders fails to sufficiently verify user authorizations for actions that modify the payment, delivery, and/or order status. Due to this inadequate implementation, users lacking 'write' permissions for orders are still able to change the order state.\n\n### Patches\nUpdate to Shopware 6.5.7.4\n\n### Workarounds\nFor older versions of 6.1, 6.2, 6.3 and 6.4 corresponding security measures are also available via a plugin. For the full range of functions, we recommend updating to the latest Shopware version.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "shopware/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.5.7.4"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 6.5.7.3"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "shopware/platform"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.5.7.4"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 6.5.7.3"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/shopware/shopware/security/advisories/GHSA-3867-jc5c-66qf"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-22407"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/shopware/core/commit/78142489264f9262eaaa436ba036df40026a06be"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/shopware/shopware/commit/fb25e24ca51650009ffa2520f1e67b48b911354a"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/shopware/shopware"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-284"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-17T20:29:33Z",
+    "nvd_published_at": "2024-01-16T23:15:08Z"
+  }
+}

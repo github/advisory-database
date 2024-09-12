@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fq6h-4g8v-qqvm",
+  "modified": "2024-03-06T15:35:17Z",
+  "published": "2024-02-07T17:30:37Z",
+  "aliases": [
+    "CVE-2024-24815"
+  ],
+  "summary": "CKEditor4 Cross-site Scripting vulnerability caused by incorrect CDATA detection",
+  "details": "### Affected packages\nThe vulnerability has been discovered in the core HTML parsing module and may affect all editor instances that:\n* Enabled [full-page editing](https://ckeditor.com/docs/ckeditor4/latest/features/fullpage.html) mode,\n* or enabled [CDATA](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dtd.html#property-S-cdata) elements in [Advanced Content Filtering](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_advanced_content_filter.html) configuration (defaults to `script` and `style` elements).\n\n### Impact\n\nA potential vulnerability has been discovered in CKEditor 4 HTML processing core module. The vulnerability allowed to inject malformed HTML content bypassing Advanced Content Filtering mechanism, which could result in executing JavaScript code. An attacker could abuse faulty CDATA content detection and use it to prepare an intentional attack on the editor. It affects all users using the CKEditor 4 at version < 4.24.0-lts.\n\n### Patches\nThe problem has been recognized and patched. The fix will be available in version 4.24.0-lts.\n\n### For more information\nEmail us at [security@cksource.com](mailto:security@cksource.com) if you have any questions or comments about this advisory.\n\n### Acknowledgements\nThe CKEditor 4 team would like to thank [Michal Frýba](https://cz.linkedin.com/in/michal-fryba) from [ALEF NULA](https://www.alefnula.com/) for recognizing and reporting this vulnerability.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "ckeditor4"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.24.0-lts"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "ckeditor/ckeditor"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.24.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ckeditor/ckeditor4/security/advisories/GHSA-fq6h-4g8v-qqvm"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-24815"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ckeditor/ckeditor4/commit/8ed1a3c93d0ae5f49f4ecff5738ab8a2972194cb"
+    },
+    {
+      "type": "WEB",
+      "url": "https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dtd.html#property-S-cdata"
+    },
+    {
+      "type": "WEB",
+      "url": "https://ckeditor.com/docs/ckeditor4/latest/features/fullpage.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://ckeditor.com/docs/ckeditor4/latest/guide/dev_advanced_content_filter.html"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ckeditor/ckeditor4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.drupal.org/sa-contrib-2024-009"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-07T17:30:37Z",
+    "nvd_published_at": "2024-02-07T16:15:47Z"
+  }
+}

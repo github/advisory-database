@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-x6xq-whh3-gg32",
+  "modified": "2024-08-27T20:31:40Z",
+  "published": "2024-08-27T18:14:29Z",
+  "aliases": [
+    "CVE-2024-43783"
+  ],
+  "summary": "Apollo Router Coprocessors may cause Denial-of-Service when handling request bodies",
+  "details": "## Impact\n\nInstances of the Apollo Router using either of the following may be impacted by a denial-of-service vulnerability.\n\n1. External Coprocessing with specific configurations; or\n2. Native Rust Plugins accessing the Router request body in the RouterService layer \n\nRouter customizations using Rhai scripts are **not** impacted.\n\n### When using External Coprocessing:\n\nInstances of the Apollo Router running versions >=1.21.0 and <1.52.1 are impacted by a denial-of-service vulnerability if **all** of the following are true:\n\n1. Router has been configured to support External Coprocessing.\n2. Router has been configured to send request bodies to coprocessors. This is a non-default configuration and must be configured intentionally by administrators.\n\nYou can identify if you are impacted by reviewing your router's configuration YAML for the following config:\n\n```yaml\n...\ncoprocessor:\n  url: http://localhost:9000 # likely different in your environment\n  router:\n    request:\n      body: true # this must be set to 'true' to be impacted\n...\n```\nExternal Coprocessing was initially made available as an experimental feature with [Router version 1.21.0](https://github.com/apollographql/router/releases/tag/v1.21.0) on 2023-06-20 and was made generally available with [Router version 1.38.0](https://github.com/apollographql/router/releases/tag/v1.38.0) on 2024-01-19. More information about the Router’s [External Coprocessing feature is available here](https://www.apollographql.com/docs/router/customizations/coprocessor).\n\n### When using Native Rust Plugins:\n\nInstances of the Apollo Router running versions >=1.7.0 and <1.52.1 are impacted by a denial-of-service vulnerability if **all** of the following are true:\n\n1. Router has been configured to use a custom-developed Native Rust Plugin\n2. The plugin accesses `Request.router_request` in the `RouterService` layer\n3. You are accumulating the body from `Request.router_request` into memory\n\nTo use a plugin, you need to be running a customized Router binary. Additionally, you need to have a `plugins` section with at least one plugin defined in your Router’s configuration YAML. That plugin would also need to define a custom `router_service` method.\n\nYou can check for a defined plugin by reviewing for the following in your Router’s configuration YAML:\n\n```yaml\n...\nplugins:\n    custom_plugin_name:\n        # custom config here\n...\n```\n\nYou can check for a custom `router_service` method in a plugin, by reviewing for the following function signature in your plugin’s source:\n\n```rust\nfn router_service(&self, service: router::BoxService) -> router::BoxService\n```\n\nMore information about the Router’s [Native Rust Plugin feature is available here](https://www.apollographql.com/docs/router/customizations/native).\n\n## Impact Detail\n\nIf using an impacted configuration, the Router will load entire HTTP request bodies into memory without respect to other HTTP request size-limiting configurations like `limits.http_max_request_bytes`. This can cause the Router to be out-of-memory (OOM) terminated if a sufficiently large request is sent to the Router.\n\nBy default, the Router sets `limits.http_max_request_bytes` to 2 MB. More information about the Router’s [request limiting features is available here](https://www.apollographql.com/docs/router/configuration/overview/#request-limits).\n\n## Patches\n\n[Apollo Router 1.52.1](https://github.com/apollographql/router/releases/tag/v1.52.1)\n\nIf you have an impacted configuration as defined above, please upgrade to at least Apollo Router 1.52.1.\n\n## Workarounds\nIf you cannot upgrade, you can mitigate the denial-of-service opportunity impacting External Coprocessors by setting the `coprocessor.router.request.body` configuration option to `false`. Please note that changing this configuration option will change the information sent to any coprocessors you have configured and may impact functionality implemented by those coprocessors. \n\nIf you have developed a Native Rust Plugin and cannot upgrade, you can update your plugin to either not accumulate the request body or enforce a maximum body size limit. \n\nYou can also mitigate this issue by limiting HTTP body payload sizes prior to the Router (e.g., in a proxy or web application firewall appliance).\n\n## References\n[Apollo Router 1.52.1 Release Notes](https://github.com/apollographql/router/releases/tag/v1.52.1)\n[External Coprocessing documentation](https://www.apollographql.com/docs/router/customizations/coprocessor)\n[HTTP Request Limiting documentation](https://www.apollographql.com/docs/router/configuration/overview/#request-limits)\n[Native Rust Plugin documentation](https://www.apollographql.com/docs/router/customizations/native)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "apollo-router"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.7.0"
+            },
+            {
+              "fixed": "1.52.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/apollographql/router/security/advisories/GHSA-x6xq-whh3-gg32"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-43783"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apollographql/router/commit/7a9c020608a62dcaa306b72ed0f6980f15923b14"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apollographql/router"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apollographql/router/releases/tag/v1.52.1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.apollographql.com/docs/router/configuration/overview/#request-limits"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.apollographql.com/docs/router/customizations/coprocessor"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.apollographql.com/docs/router/customizations/native"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-770"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-27T18:14:29Z",
+    "nvd_published_at": "2024-08-27T18:15:15Z"
+  }
+}

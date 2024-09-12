@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hmx6-r76c-85g9",
+  "modified": "2024-03-29T14:00:36Z",
+  "published": "2024-02-22T22:09:22Z",
+  "aliases": [
+    "CVE-2024-1729"
+  ],
+  "summary": "Gradio apps vulnerable to timing attacks to guess password",
+  "details": "### Impact\nThis security policy is with regards to a timing attack that allows users of Gradio apps to potentially guess the password of password-protected Gradio apps. This relies on the fact that string comparisons in Python terminate early, as soon as there is a string mismatch. Because Gradio apps are, by default, not rate-limited, a user could brute-force millions of guesses to figure out the correct username and password.\n\n### Patches\nYes, the problem has been patched in Gradio version 4.19.2 or higher. We have no knowledge of this exploit being used against users of Gradio applications, but we encourage all users to upgrade to Gradio 4.19.2 or higher.\n\nFixed in: https://github.com/gradio-app/gradio/commit/e329f1fd38935213fe0e73962e8cbd5d3af6e87b",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "gradio"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.19.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/gradio-app/gradio/security/advisories/GHSA-hmx6-r76c-85g9"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-1729"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/gradio-app/gradio/commit/e329f1fd38935213fe0e73962e8cbd5d3af6e87b"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/gradio-app/gradio"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/gradio-app/gradio/releases/tag/gradio%404.19.2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.com/bounties/f6a10a8d-f538-4cb7-9bb2-85d9f5708124"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-367"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-22T22:09:22Z",
+    "nvd_published_at": "2024-03-29T05:15:45Z"
+  }
+}

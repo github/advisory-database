@@ -1,0 +1,224 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rggv-cv7r-mw98",
+  "modified": "2024-05-02T18:38:17Z",
+  "published": "2024-02-26T20:13:46Z",
+  "aliases": [
+    "CVE-2024-22201"
+  ],
+  "summary": "Connection leaking on idle timeout when TCP congested",
+  "details": "### Impact\nIf an HTTP/2 connection gets TCP congested, when an idle timeout occurs the HTTP/2 session is marked as closed, and then a GOAWAY frame is queued to be written.\nHowever it is not written because the connection is TCP congested.\nWhen another idle timeout period elapses, it is then supposed to hard close the connection, but it delegates to the HTTP/2 session which reports that it has already been closed so it does not attempt to hard close the connection.\n\nThis leaves the connection in ESTABLISHED state (i.e. not closed), TCP congested, and idle.\n\nAn attacker can cause many connections to end up in this state, and the server may run out of file descriptors, eventually causing the server to stop accepting new connections from valid clients.\n\nThe client may also be impacted (if the server does not read causing a TCP congestion), but the issue is more severe for servers.\n\n### Patches\nPatched versions:\n* 9.4.54\n* 10.0.20\n* 11.0.20\n* 12.0.6\n\n### Workarounds\nDisable HTTP/2 and HTTP/3 support until you can upgrade to a patched version of Jetty.\nHTTP/1.x is not affected.\n\n### References\n* https://github.com/jetty/jetty.project/issues/11256.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.eclipse.jetty.http2:http2-common"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.3.0"
+            },
+            {
+              "fixed": "9.4.54"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 9.4.53"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.eclipse.jetty.http2:http2-common"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "10.0.0"
+            },
+            {
+              "fixed": "10.0.20"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 10.0.19"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.eclipse.jetty.http3:http3-common"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "10.0.8"
+            },
+            {
+              "fixed": "10.0.20"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 10.0.19"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.eclipse.jetty.http2:http2-common"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "11.0.0"
+            },
+            {
+              "fixed": "11.0.20"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 11.0.19"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.eclipse.jetty.http3:http3-common"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "11.0.8"
+            },
+            {
+              "fixed": "11.0.20"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 11.0.19"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.eclipse.jetty.http2:jetty-http2-common"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "12.0.0"
+            },
+            {
+              "fixed": "12.0.6"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 12.0.5"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.eclipse.jetty.http3:jetty-http3-common"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "12.0.0"
+            },
+            {
+              "fixed": "12.0.6"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 12.0.5"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/jetty/jetty.project/security/advisories/GHSA-rggv-cv7r-mw98"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-22201"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jetty/jetty.project/issues/11256"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jetty/jetty.project/issues/11259"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jetty/jetty.project/commit/0839a208cdc3fcfe25206a77af59ba9fda260188"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jetty/jetty.project/commit/b953871c9a5ff4fbca4a2499848f75182dbd9810"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jetty/jetty.project"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.debian.org/debian-lts-announce/2024/04/msg00002.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.netapp.com/advisory/ntap-20240329-0001"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/03/20/2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-26T20:13:46Z",
+    "nvd_published_at": "2024-02-26T16:27:56Z"
+  }
+}

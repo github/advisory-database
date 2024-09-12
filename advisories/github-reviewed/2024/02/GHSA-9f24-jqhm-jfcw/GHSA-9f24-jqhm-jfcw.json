@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9f24-jqhm-jfcw",
+  "modified": "2024-04-19T09:30:47Z",
+  "published": "2024-02-16T15:59:38Z",
+  "aliases": [
+    "CVE-2024-24750"
+  ],
+  "summary": "fetch(url) leads to a memory leak in undici",
+  "details": "### Impact\n\nCalling `fetch(url)` and not consuming the incoming body ((or consuming it very slowing) will lead to a memory leak. \n\n### Patches\n\nPatched in v6.6.1\n\n### Workarounds\n\nMake sure to always consume the incoming body.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "undici"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "fetch()"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.0.0"
+            },
+            {
+              "fixed": "6.6.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 6.6.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/nodejs/undici/security/advisories/GHSA-9f24-jqhm-jfcw"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-24750"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nodejs/undici/commit/87a48113f1f68f60aa09abb07276d7c35467c663"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/nodejs/undici"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nodejs/undici/releases/tag/v6.6.1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.netapp.com/advisory/ntap-20240419-0006"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-16T15:59:38Z",
+    "nvd_published_at": "2024-02-16T22:15:07Z"
+  }
+}

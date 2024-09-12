@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7945-5mcv-f2pp",
+  "modified": "2024-03-08T17:33:46Z",
+  "published": "2024-03-08T17:33:46Z",
+  "aliases": [
+
+  ],
+  "summary": "LibOSDP vulnerable to a null pointer deref in osdp_reply_name",
+  "details": "### Issue:\nAt ospd_common.c, on the osdp_reply_name function, any reply id between REPLY_ACK and REPLY_XRD is valid, but names array do not declare all of the range. On a case of an undefined reply id within the range, name will be null (`name = names[reply_id - REPLY_ACK];`). Null name will casue a crash on next line: `if (name[0] == '\\0')` as null[0] is invalid.\n\n### Attack:\nAs this logic is not limited to a secure connection, attacker may trigger this vulnerability without any prior knowledge.\n\n### Impact\nDenial of Service\n\n### Patch\nThe issue has been patched in 24409e98a260176765956ec766a04cb35984fab1\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "libosdp"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.4.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/goToMain/libosdp/security/advisories/GHSA-7945-5mcv-f2pp"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/goToMain/libosdp/commit/24409e98a260176765956ec766a04cb35984fab1"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/goToMain/libosdp"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-08T17:33:46Z",
+    "nvd_published_at": null
+  }
+}

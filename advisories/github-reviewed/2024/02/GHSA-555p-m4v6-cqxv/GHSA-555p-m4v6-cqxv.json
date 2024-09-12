@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-555p-m4v6-cqxv",
+  "modified": "2024-02-28T18:06:24Z",
+  "published": "2024-02-28T18:06:24Z",
+  "aliases": [
+
+  ],
+  "summary": "ASA-2024-004: Default configuration param for Evidence may limit window of validity",
+  "details": "## ASA-2024-004: Default configuration param for Evidence may limit window of validity\n\n**Component**: CometBFT\n**Criticality**: Low\n**Affected versions**: All\n**Affected users**: Validators, Chain Builders + Maintainers\n\n## Summary\n\nA default configuration in CometBFT has been found to be small for common use cases, and may prevent the slashing mechanism from working in specific cases.  The default values for `EvidenceParams.MaxAgeNumBlocks` and `EvidenceParams.MaxAgeDuration` consensus parameters may not be sufficient for common use cases to provide coverage for the entire unbonding period for a chain (`Staking.UnbondingTime`). If the conditions of both of these parameters are exceeded, evidence may be prematurely expired and considered no longer valid, potentially allowing for unpunished Byzantine behavior if evidence is discovered outside of that window.\n\n## Next Steps for Chains and Validators\n\nIt is recommended that chain ecosystems and their maintainers set the consensus parameters `EvidenceParams.MaxAgeNumBlocks` and `EvidenceParams.MaxAgeDuration` to values appropriate for their use case:  \n- `EvidenceParams.MaxAgeDuration` (set in nanoseconds) should exceed the duration of the chain’s unbonding period\n- `EvidenceParams.MaxAgeNumBlocks` should exceed the number of estimated blocks that will be produced by your chain throughout the unbonding period\n\nFor more information about evidence in CometBFT, please see: https://docs.cometbft.com/v0.37/spec/consensus/evidence.\n\nFor more information about the cosmos-sdk  `x/staking` and `x/slashing` modules, and `UnbondingTime` parameter, please see: https://docs.cosmos.network/v0.50/build/modules/staking and https://docs.cosmos.network/v0.50/build/modules/slashing.\n\nCometBFT is designed to be configurable by chains, and implements many different configuration variables and parameters to allow chain developers, validators, node operators, and chain participants to customize it best to their use case. \n\nAs more chains adopt the Interchain Stack for new and cutting-edge use cases, the CometBFT team recommends that all chains regularly evaluate their consensus parameters and configurations to ensure they meet the needs of their ecosystem as their networks mature. \n\nA Github Security Advisory for this issue is available in the [CometBFT repository](https://github.com/cometbft/cometbft/security/advisories/GHSA-555p-m4v6-cqxv). For more information about CometBFT, see https://docs.cometbft.com/. \n\nThis issue was reported to the Cosmos Bug Bounty Program on HackerOne on February 15, 2024. If you believe you have found a bug in the Interchain Stack or would like to contribute to the program by reporting a bug, please see https://hackerone.com/cosmos.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cometbft/cometbft"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.38.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/cometbft/cometbft/security/advisories/GHSA-555p-m4v6-cqxv"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cometbft/cometbft"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1188"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-28T18:06:24Z",
+    "nvd_published_at": null
+  }
+}

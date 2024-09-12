@@ -1,0 +1,173 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c7fc-cm7p-92r2",
+  "modified": "2024-04-29T09:48:45Z",
+  "published": "2022-05-24T16:51:42Z",
+  "aliases": [
+    "CVE-2019-10141"
+  ],
+  "summary": "Openstack ironic-inspector has SQL injection vulnerability in node_cache",
+  "details": "A vulnerability was found in openstack-ironic-inspector all versions excluding 5.0.2, 6.0.3, 7.2.4, 8.0.3 and 8.2.1. A SQL-injection vulnerability was found in openstack-ironic-inspector's node_cache.find_node(). This function makes a SQL query using unfiltered data from a server reporting inspection results (by a POST to the /v1/continue endpoint). Because the API is unauthenticated, the flaw could be exploited by an attacker with access to the network on which ironic-inspector is listening. Because of how ironic-inspector uses the query results, it is unlikely that data could be obtained. However, the attacker could pass malicious data and create a denial of service.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ironic-inspector"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.0.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ironic-inspector"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.1.0"
+            },
+            {
+              "fixed": "6.0.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ironic-inspector"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.1.0"
+            },
+            {
+              "fixed": "7.2.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ironic-inspector"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.0.0"
+            },
+            {
+              "fixed": "8.0.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ironic-inspector"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.1.0"
+            },
+            {
+              "fixed": "8.2.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-10141"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/ironic-inspector/commit/9d107900b2e0b599397b84409580d46e0ed16291"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2019:2505"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2019-10141"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.openstack.org/releasenotes/ironic-inspector/ocata.html#relnotes-5-0-2-7-origin-stable-ocata"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.openstack.org/releasenotes/ironic-inspector/pike.html#relnotes-6-0-3-4-stable-pike"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.openstack.org/releasenotes/ironic-inspector/queens.html#relnotes-7-2-4-stable-queens"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.openstack.org/releasenotes/ironic-inspector/rocky.html#relnotes-8-0-3-stable-rocky"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.openstack.org/releasenotes/ironic-inspector/stein.html#relnotes-8-2-1-stable-stein"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openstack/ironic-inspector"
+    },
+    {
+      "type": "WEB",
+      "url": "https://review.opendev.org/c/openstack/ironic-inspector/+/660234"
+    },
+    {
+      "type": "WEB",
+      "url": "https://storyboard.openstack.org/#!/story/2005678"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-89"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-29T09:48:45Z",
+    "nvd_published_at": "2019-07-30T17:15:00Z"
+  }
+}

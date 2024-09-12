@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f98p-2hc5-fm7v",
+  "modified": "2024-05-20T18:43:57Z",
+  "published": "2024-05-20T18:43:57Z",
+  "aliases": [
+    "CVE-2024-34899"
+  ],
+  "summary": "AVideo cross-site scripting vulnerability in the view/about.php page",
+  "details": "The PHP file view/about.php is vulnerable to an XSS issue due to no sanitization of the user agent.\n\nAt line [53], the website gets the user-agent from the headers through $_SERVER['HTTP_USER_AGENT'] and echo it without any sanitization.\n\nIn PHP, echo a user generated statement, here the User-Agent Header, without any sanitization allows an attacker to inject malicious scripts into the output of a web page, which are then executed in the browser of anyone viewing that page.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "wwbn/avideo"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "14.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/WWBN/AVideo/security/advisories/GHSA-f98p-2hc5-fm7v"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-34899"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/WWBN/AVideo/commit/345711562621d879e63a817d01a229bf0aae7a1d"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/WWBN/AVideo"
+    },
+    {
+      "type": "WEB",
+      "url": "https://hackerdna.com/courses/cve/cve-2024-34899"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-20T18:43:57Z",
+    "nvd_published_at": null
+  }
+}

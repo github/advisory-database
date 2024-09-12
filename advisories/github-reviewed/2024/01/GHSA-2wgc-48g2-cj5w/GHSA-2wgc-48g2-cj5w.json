@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2wgc-48g2-cj5w",
+  "modified": "2024-02-08T22:48:30Z",
+  "published": "2024-01-30T20:56:46Z",
+  "aliases": [
+    "CVE-2024-21653"
+  ],
+  "summary": "vantage6 has insecure SSH configuration for node and server containers",
+  "details": "### Impact\nNodes and servers get a ssh config by default that permits root login with password authentication. In a proper deployment, the SSH service is not exposed so there is no risk, but not all deployments are ideal. The default should therefore be less permissive.\n\nWe will probably opt to completely remove the ssh option as it is only used for debugging. Later, we can add a debug mode where we can activate it if necessary.\n\n### Workarounds\nRemove the ssh part from the docker file and build your own docker image",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "vantage6"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.2.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/vantage6/vantage6/security/advisories/GHSA-2wgc-48g2-cj5w"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-21653"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vantage6/vantage6/commit/3fcc6e6a8bd1142fd7a558d8fdd2b246e55c8841"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/vantage6-server/PYSEC-2024-34.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vantage6/vantage6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-284"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-30T20:56:46Z",
+    "nvd_published_at": "2024-01-30T16:15:47Z"
+  }
+}

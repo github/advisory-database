@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-22f2-v57c-j9cx",
+  "modified": "2024-06-10T18:30:52Z",
+  "published": "2024-02-28T22:57:26Z",
+  "aliases": [
+    "CVE-2024-25126"
+  ],
+  "summary": "Rack vulnerable to ReDoS in content type parsing (2nd degree polynomial)",
+  "details": "### Summary\n\n```ruby\nmodule Rack\n  class MediaType\n    SPLIT_PATTERN = %r{\\s*[;,]\\s*}\n```\nThe above regexp is subject to ReDos. 50K blank characters as a prefix to the header will take over 10s to split.\n\n### PoC\n\nA simple HTTP request with lots of blank characters in the content-type header:\n\n```ruby\nrequest[\"Content-Type\"] = (\" \" * 50_000) + \"a,\"\n```\n\n### Impact\n\nIt's a very easy to craft ReDoS. Like all ReDoS the impact is debatable.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "rack"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.0.9.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "rack"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.4"
+            },
+            {
+              "fixed": "2.2.8.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/rack/rack/security/advisories/GHSA-22f2-v57c-j9cx"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-25126"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rack/rack/commit/6efb2ceea003c4b195815a614e00438cbd543462"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rack/rack/commit/d9c163a443b8cadf4711d84bd2c58cb9ef89cf49"
+    },
+    {
+      "type": "WEB",
+      "url": "https://discuss.rubyonrails.org/t/denial-of-service-vulnerability-in-rack-content-type-parsing/84941"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/rack/rack"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/rack/CVE-2024-25126.yml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.debian.org/debian-lts-announce/2024/04/msg00022.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.netapp.com/advisory/ntap-20240510-0005"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1333"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-28T22:57:26Z",
+    "nvd_published_at": "2024-02-29T00:15:51Z"
+  }
+}

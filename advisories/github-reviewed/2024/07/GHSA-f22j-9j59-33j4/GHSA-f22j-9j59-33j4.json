@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f22j-9j59-33j4",
+  "modified": "2024-07-15T17:35:53Z",
+  "published": "2024-07-15T09:36:22Z",
+  "aliases": [
+    "CVE-2023-41916"
+  ],
+  "summary": "Apache Linkis DataSource allows arbitrary file reading",
+  "details": "In Apache Linkis = 1.4.0, due to the lack of effective filtering of parameters, an attacker configuring malicious Mysql JDBC parameters in the DataSource Manager Module will trigger arbitrary file reading. Therefore, the parameters in the Mysql JDBC URL should be blacklisted. This attack requires the attacker to obtain an authorized account from Linkis before it can be carried out. \n\nVersions of Apache Linkis = 1.4.0 will be affected. \n\nWe recommend users upgrade the version of Linkis to version 1.6.0.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.linkis:linkis-datasource"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.4.0"
+            },
+            {
+              "fixed": "1.6.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-41916"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/linkis"
+    },
+    {
+      "type": "WEB",
+      "url": "https://linkis.apache.org/download/release-notes-1.6.0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/dxkpwyoxy1jpdwlpqp15zvo0jxn4v729"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-552"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-15T17:35:53Z",
+    "nvd_published_at": "2024-07-15T08:15:02Z"
+  }
+}

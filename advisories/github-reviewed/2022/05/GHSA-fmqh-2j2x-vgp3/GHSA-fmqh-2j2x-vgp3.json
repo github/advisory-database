@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fmqh-2j2x-vgp3",
+  "modified": "2024-04-23T22:17:36Z",
+  "published": "2022-05-17T03:47:57Z",
+  "aliases": [
+    "CVE-2016-7572"
+  ],
+  "summary": "Drupal Unprivileged access to config export",
+  "details": "The system.temporary route in Drupal 8.x before 8.1.10 does not properly check for \"Export configuration\" permission, which allows remote authenticated users to bypass intended access restrictions and read a full config export via unspecified vectors.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "drupal/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.0"
+            },
+            {
+              "fixed": "8.1.10"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "drupal/drupal"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.0"
+            },
+            {
+              "fixed": "8.1.10"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2016-7572"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/drupal/core/CVE-2016-7572.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/drupal/drupal/CVE-2016-7572.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/drupal/core"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.drupal.org/SA-CORE-2016-004"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/93101"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securitytracker.com/id/1036886"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-23T22:17:36Z",
+    "nvd_published_at": "2016-10-03T18:59:00Z"
+  }
+}

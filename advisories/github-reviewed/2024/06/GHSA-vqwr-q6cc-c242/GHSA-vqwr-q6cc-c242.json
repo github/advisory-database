@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vqwr-q6cc-c242",
+  "modified": "2024-06-12T17:12:45Z",
+  "published": "2024-06-12T03:31:15Z",
+  "aliases": [
+    "CVE-2024-4315"
+  ],
+  "summary": "parisneo/lollms Local File Inclusion (LFI) attack",
+  "details": "parisneo/lollms version 9.5 is vulnerable to Local File Inclusion (LFI) attacks due to insufficient path sanitization. The `sanitize_path_from_endpoint` function fails to properly sanitize Windows-style paths (backward slash `\\`), allowing attackers to perform directory traversal attacks on Windows systems. This vulnerability can be exploited through various routes, including `personalities` and `/del_preset`, to read or delete any file on the Windows filesystem, compromising the system's availability.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "lollms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "9.5.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-4315"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/parisneo/lollms/commit/95ad36eeffc6a6be3e3f35ed35a384d768f0ecf6"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ParisNeo/lollms"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.com/bounties/8a1b0197-2c36-4276-b92b-630a2a9bb09c"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-12T17:12:45Z",
+    "nvd_published_at": "2024-06-12T01:15:49Z"
+  }
+}

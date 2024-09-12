@@ -1,0 +1,122 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jwv5-8mqv-g387",
+  "modified": "2024-05-20T22:06:33Z",
+  "published": "2024-03-15T19:46:21Z",
+  "aliases": [
+    "CVE-2024-28175"
+  ],
+  "summary": "Cross-site scripting on application summary component",
+  "details": "### Summary\n\nDue to the improper URL protocols filtering of links specified in the `link.argocd.argoproj.io` annotations in the application summary component, an attacker can achieve cross-site scripting with elevated permissions.\n\n### Impact\n\nAll unpatched versions of Argo CD starting with v1.0.0 are vulnerable to a cross-site scripting (XSS) bug allowing a malicious user to inject a javascript: link in the UI. When clicked by a victim user, the script will execute with the victim's permissions (up to and including admin).\n\nThis vulnerability allows an attacker to perform arbitrary actions on behalf of the victim via the API, such as creating, modifying, and deleting Kubernetes resources.\n\n### Patches\nA patch for this vulnerability has been released in the following Argo CD versions:\n\n* v2.10.3\n* v2.9.8\n* v2.8.12\n\n### Workarounds\n\nThere are no completely-safe workarounds besides **upgrading**. The safest alternative, if upgrading is not possible, would be to create a [Kubernetes admission controller](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/) to reject any resources with an annotation starting with `link.argocd.argoproj.io` or reject the resource if the value use an improper URL protocol. This validation will need to be applied in all clusters managed by ArgoCD.\n\n#### Mitigations\n\n1. Avoid clicking external links presented in the UI.\nThe link's title is user-configurable. So even if you hover the link, and the tooltip looks safe, the link might be malicious. The only way to be certain that the link is safe is to inspect the page's source.\n2. Carefully limit who has permissions to edit Kubernetes resource manifests (this is configured in [RBAC](https://argo-cd.readthedocs.io/en/stable/operator-manual/rbac/) for ArgoCD). \nThe external-links are set as annotations on Kubernetes resources. Any persona with write access to resources managed by ArgoCD could be an actor.\n\n### References\n[Documentation for the external links feature](https://argo-cd.readthedocs.io/en/stable/user-guide/external-url/)\n\n### Credits\n\nDisclosed by [RyotaK](https://ryotak.net) (@Ry0taK)\n\n### For more information\n\n- Open an issue in [the Argo CD issue tracker](https://github.com/argoproj/argo-cd/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc) or [discussions](https://github.com/argoproj/argo-cd/discussions)\n- Join us on [Slack](https://argoproj.github.io/community/join-slack) in channel #argo-cd",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/argoproj/argo-cd"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.0"
+            },
+            {
+              "last_affected": "1.8.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/argoproj/argo-cd/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.9.0"
+            },
+            {
+              "fixed": "2.9.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/argoproj/argo-cd/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.10.0"
+            },
+            {
+              "fixed": "2.10.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/argoproj/argo-cd/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.8.12"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/security/advisories/GHSA-jwv5-8mqv-g387"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28175"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/commit/479b5544b57dc9ef767d49f7003f39602c480b71"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/argoproj/argo-cd"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-15T19:46:21Z",
+    "nvd_published_at": "2024-03-13T21:16:00Z"
+  }
+}

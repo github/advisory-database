@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qhjc-hg94-245v",
+  "modified": "2024-05-15T21:18:20Z",
+  "published": "2024-05-15T21:18:20Z",
+  "aliases": [
+
+  ],
+  "summary": "eZ Platform Prevent accepting app.php in URL in Platform.sh",
+  "details": "The recommended rewrite rules in eZ Platform prevent users from including the front-controller script (normally \"app.php\") in URLs. This prevents certain vulnerabilities related to caching. However, this is not possible when using eZ Platform Cloud (i.e. running eZ Platform on the Platform.sh cloud service), nor can it be done within the .platform.app.yaml configuration file. Therefore we need to reject such requests in the application itself. This advisory adds the prevention within the front controller script itself.\n \nIf you use eZ Platform Cloud / Platform.sh we recommend that you install this security update as soon as possible. It is distributed via Composer as ezsystems/ezplatform 1.7.9.1, and 1.13.5.1, and 2.5.4. This is the commit: https://github.com/ezsystems/ezplatform/commit/34ce86722b36a172e587068fe64a84faa7320cc2\n\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "ezsystems/ezplatform"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.5.0"
+            },
+            {
+              "fixed": "2.5.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "ezsystems/ezplatform"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.13.0"
+            },
+            {
+              "fixed": "1.13.5.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "ezsystems/ezplatform"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.7.0"
+            },
+            {
+              "fixed": "1.7.9.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ezsystems/ezplatform/commit/34ce86722b36a172e587068fe64a84faa7320cc2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/ezsystems/ezplatform/2019-09-03-2.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ezsystems/ezplatform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://share.ez.no/community-project/security-advisories/ezsa-2019-007-prevent-accepting-app.php-in-url-in-platform.sh"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-15T21:18:20Z",
+    "nvd_published_at": null
+  }
+}

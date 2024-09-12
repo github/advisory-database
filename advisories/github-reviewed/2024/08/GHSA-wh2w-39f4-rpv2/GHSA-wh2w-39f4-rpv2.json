@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wh2w-39f4-rpv2",
+  "modified": "2024-08-30T18:41:16Z",
+  "published": "2024-08-30T18:41:16Z",
+  "aliases": [
+    "CVE-2020-11093"
+  ],
+  "summary": "Hyperledger Indy's update process of a DID does not check who signs the request",
+  "details": "# Name\nUpdating a DID with a nym transaction will be written to the ledger if neither ROLE or VERKEY are being changed, regardless of sender.\n\n# Description\nA malicious DID with no particular role can ask an update for another DID (but cannot modify its verkey or role). This is bad because:\n1. Any DID can write a nym transaction to the ledger (i.e., any DID can spam the ledger with nym transactions).\n1. Any DID can change any other DID's alias. \n1. The update transaction modifies the ledger metadata associated with a DID. \n\n# Expected vs Observed\nWe expect that if a DID (with no role) wants to update another DID (not its own or one it is the endorser), then the nodes should refuse the request. We can see that requirements in the [Indy default auth_rules](https://github.com/hyperledger/indy-node/blob/master/docs/source/auth_rules.md) in Section \"Who is the owner\" in the last point of \"Endorser using\". \n\nWe observe that with a normal DID, we can update the field `from` for a random DID, for example, the one of a TRUSTEE. It creates then a new transaction on the ledger.\n\n# Explanation of the attack\nWe first begin to connect to the pool and open a wallet. Then, we will use a TRUSTEE (but can also be a STEWARD or an ENDORSER) DID `V4SGRU86Z58d6TV7PBUe6f`. We ask the information about `V4SGRU86Z58d6TV7PBUe6f` with a get-nym. We create a new DID `V4SGRU86Z58d6TV7PBUe1a` signed by `V4SGRU86Z58d6TV7PBUe6f` with no role. For the rest of the attack, we will use `V4SGRU86Z58d6TV7PBUe1a` to sign new transactions. We send a `ledger nym did=V4SGRU86Z58d6TV7PBUe6f extra=hello` to see if `V4SGRU86Z58d6TV7PBUe1a` can send an update of a TRUSTEE identity. When we ask information to the ledger about `V4SGRU86Z58d6TV7PBUe6f`, it answers that the `from` field is `V4SGRU86Z58d6TV7PBUe1a` (to compare with the first get-nym we did with `from` field = `V4SGRU86Z58d6TV7PBUe6f`). To see the log of the attack, I modified my indy-cli to print the json request and the json response directly on the terminal. You can find the log file `indy.log` in this archive.\n\n# Implementation notes\n[NymHandler](https://github.com/hyperledger/indy-node/blob/e5676b703d625e42c9547333bd03bb8307ed534c/indy_node/server/request_handlers/domain_req_handlers/nym_handler.py) method `update_state`, line 62. I think that we need to check if the DID which signs the transaction, owns the DID or is its endorser.\n\n# Steps to Reproduce\n\n## Environment\nUbuntu 18.04\nDocker version 19.03.8\n[indy-cli](https://github.com/hyperledger/indy-sdk/tree/master/cli)\n[indy-ci](https://github.com/hyperledger/indy-sdk/tree/master/ci) Dockerfile is copied in this archive\nTo install indy-cli, run `./install_indy_cli.sh`\n\n\n## Command\nHere is the script to create the container, run the attack and remove the container and the image. Find below the command to execute each step separately.\n```\n./full_attack.sh\n```\n\n### Installation of the environment\nInstall indy-cli and create an image with tag `test` from Dockerfile\n```\n./install.sh\n```\n\n### Exploit\n```\nindy-cli proof_of_concept\n```\n\n### Uninstallation of the environment\nSuppress the container `test` and remove the image `test`\n```\n./uninstall.sh\n```\n# Analysis\nWe are grateful to @alexandredeleze for discovering and responsibly disclosing the issue.\n\nWe were previously aware that any DID on the ledger can \"update\" the state (seqNo + txnTime) if it doesn't change the state data itself. We considered this a minor bug because only the seqNo and txnTime changed. But seeing that this can also affect the \"parent\" DID means that it has a higher severity.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "indy-node"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.12.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/hyperledger/indy-node/security/advisories/GHSA-wh2w-39f4-rpv2"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-11093"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hyperledger/indy-node/commit/55056f22c83b7c3520488b615e1577e0f895d75a"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/hyperledger/indy-node"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hyperledger/indy-node/blob/master/CHANGELOG.md#1124"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hyperledger/indy-node/blob/master/docs/source/auth_rules.md"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/indy-node/PYSEC-2020-48.yaml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-347"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-30T18:41:16Z",
+    "nvd_published_at": "2020-12-24T20:15:00Z"
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v4xv-795h-rv4h",
+  "modified": "2024-01-23T14:44:22Z",
+  "published": "2024-01-23T14:44:22Z",
+  "aliases": [
+    "CVE-2024-23345"
+  ],
+  "summary": "XSS potential in rendered Markdown fields (comments, description, notes, etc.)",
+  "details": "### Impact\n\nAll users of Nautobot versions earlier than 1.6.10 or 2.1.2 are potentially impacted.\n\nDue to inadequate input sanitization, any user-editable fields that support Markdown rendering, including:\n\n- `Circuit.comments`\n- `Cluster.comments`\n- `CustomField.description`\n- `Device.comments`\n- `DeviceRedundancyGroup.comments`\n- `DeviceType.comments`\n- `Job.description`\n- `JobLogEntry.message`\n- `Location.comments`\n- `Note.note`\n- `PowerFeed.comments`\n- `Provider.noc_contact`\n- `Provider.admin_contact`\n- `Provider.comments`\n- `ProviderNetwork.comments`\n- `Rack.comments`\n- `Tenant.comments`\n- `VirtualMachine.comments`\n- Contents of any custom fields of type `markdown`\n- Job class `description` attributes\n- The `SUPPORT_MESSAGE` system configuration setting\n\nare potentially susceptible to cross-site scripting (XSS) attacks via maliciously crafted data.\n\n### Patches\n\nFixed in Nautobot versions 1.6.10 and 2.1.2.\n\n### References\n\nhttps://github.com/nautobot/nautobot/pull/5133\nhttps://github.com/nautobot/nautobot/pull/5134\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:R/S:C/C:L/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "nautobot"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "nautobot.utilities.templatetags.helpers.render_markdown"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.1.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "nautobot"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "nautobot.utilities.templatetags.helpers.render_markdown"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.6.10"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/nautobot/nautobot/security/advisories/GHSA-v4xv-795h-rv4h"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23345"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nautobot/nautobot/pull/5133"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nautobot/nautobot/pull/5134"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nautobot/nautobot/commit/17effcbe84a72150c82b138565c311bbee357e80"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nautobot/nautobot/commit/64312a4297b5ca49b6cdedf477e41e8e4fd61cce"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/nautobot/nautobot"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/nautobot/PYSEC-2024-16.yaml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-23T14:44:22Z",
+    "nvd_published_at": "2024-01-23T00:15:26Z"
+  }
+}

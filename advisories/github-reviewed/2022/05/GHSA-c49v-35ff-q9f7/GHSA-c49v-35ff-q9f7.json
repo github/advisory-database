@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c49v-35ff-q9f7",
+  "modified": "2024-04-22T19:00:49Z",
+  "published": "2022-05-24T17:29:01Z",
+  "aliases": [
+    "CVE-2020-25750"
+  ],
+  "summary": "DotPlant2 Improper Restriction of XML External Entity Reference",
+  "details": "An issue was discovered in DotPlant2 before 2020-09-14. In class Pay2PayPayment in payment/Pay2PayPayment.php, there is an XXE vulnerability in the checkResult function. The user input ($_POST['xml']) is used for simplexml_load_string without sanitization. NOTE: This vulnerability only affects products that are no longer supported by the maintainer.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "devgroup/dotplant"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2020-09-14"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-25750"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/DevGroup-ru/dotplant2/issues/400"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/DevGroup-ru/dotplant2/commit/fee86c7052c227762c7325eb5c2811d9323f8429"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-611"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-22T19:00:49Z",
+    "nvd_published_at": "2020-09-18T04:15:00Z"
+  }
+}

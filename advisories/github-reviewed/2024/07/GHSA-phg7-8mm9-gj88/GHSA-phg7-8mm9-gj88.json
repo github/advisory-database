@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-phg7-8mm9-gj88",
+  "modified": "2024-07-10T17:28:12Z",
+  "published": "2024-07-07T15:31:12Z",
+  "aliases": [
+    "CVE-2024-40614"
+  ],
+  "summary": "EGroupware mishandles an ORDER BY clause",
+  "details": "EGroupware before 23.1.20240624 mishandles an ORDER BY clause. This leads to json.php menuaction=EGroupware\\Api\\Etemplate\\Widget\\Nextmatch::ajax_get_rows sort.id SQL injection by authenticated users for Address Book or InfoLog sorting.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "egroupware/egroupware"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "23.1.20240624"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-40614"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/EGroupware/egroupware/commit/553829d30cc2ccdc0e5a8c5a0e16fa03a3399a3f"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/EGroupware/egroupware"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/EGroupware/egroupware/compare/23.1.20240430...23.1.20240624"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/EGroupware/egroupware/releases/tag/23.1.20240624"
+    },
+    {
+      "type": "WEB",
+      "url": "https://help.egroupware.org/t/egroupware-maintenance-security-release-23-1-20240624/78438"
+    },
+    {
+      "type": "WEB",
+      "url": "https://syss.de"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.syss.de/fileadmin/dokumente/Publikationen/Advisories/SYSS-2024-047.txt"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.syss.de/pentest-blog/sql-injection-schwachstelle-in-egroupware-syss-2024-047"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-89"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-08T15:00:36Z",
+    "nvd_published_at": "2024-07-07T15:15:09Z"
+  }
+}

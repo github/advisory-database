@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hhf8-f5w9-g6vh",
+  "modified": "2024-04-02T18:21:49Z",
+  "published": "2024-04-02T18:21:49Z",
+  "aliases": [
+    "CVE-2024-30173"
+  ],
+  "summary": "OpenID Connect Authentication (oidc) Typo3 extension Authentication Bypass",
+  "details": "The authentication service of the extension does not verify the OpenID Connect authentication state from the user lookup chain. Instead, the authentication service authenticates every valid frontend user from the user lookup chain, where the  frontend user field “tx_oidc” is not empty.\n\nIn scenarios, where either ext:felogin is active or where `$GLOBALS['TYPO3_CONF_VARS'][‘FE’][‘checkFeUserPid’]` is disabled, an attacker can login to OpenID Connect frontend user accounts by providing a valid username and any password. ",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:L/A:N/E:F/RL:O/RC:C"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "causal/oidc"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.1.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/causal/oidc/CVE-2024-30173.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xperseguers/t3ext-oidc"
+    },
+    {
+      "type": "WEB",
+      "url": "https://typo3.org/security/advisory/typo3-ext-sa-2024-002"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-284"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-02T18:21:49Z",
+    "nvd_published_at": null
+  }
+}

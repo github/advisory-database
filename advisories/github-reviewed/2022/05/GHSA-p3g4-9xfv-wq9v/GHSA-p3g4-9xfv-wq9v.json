@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-p3g4-9xfv-wq9v",
+  "modified": "2024-01-30T23:18:21Z",
+  "published": "2022-05-14T03:40:05Z",
+  "aliases": [
+    "CVE-2018-1000058"
+  ],
+  "summary": "Arbitrary code execution due to incomplete sandbox protection in Pipeline: Supporting APIs Plugin",
+  "details": "Jenkins Pipeline: Supporting APIs Plugin 2.17 and earlier have an arbitrary code execution due to incomplete sandbox protection: Methods related to Java deserialization like readResolve implemented in Pipeline scripts were not subject to sandbox protection, and could therefore execute arbitrary code. This could be exploited e.g. by regular Jenkins users with the permission to configure Pipelines in Jenkins, or by trusted committers to repositories containing Jenkinsfiles.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins.workflow:workflow-support"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.18"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.17"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-1000058"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2018-02-05"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/103034"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-502"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-30T23:18:21Z",
+    "nvd_published_at": "2018-02-09T23:29:00Z"
+  }
+}

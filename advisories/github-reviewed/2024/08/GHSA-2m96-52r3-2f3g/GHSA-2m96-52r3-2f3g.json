@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2m96-52r3-2f3g",
+  "modified": "2024-08-21T14:55:22Z",
+  "published": "2024-08-19T17:29:36Z",
+  "aliases": [
+    "CVE-2024-43380"
+  ],
+  "summary": "fugit parse and parse_nat stall on lengthy input",
+  "details": "### Impact\n\nThe fugit \"natural\" parser, that turns \"every wednesday at 5pm\" into \"0 17 * * 3\", accepted any length of input and went on attempting to parse it, not returning promptly, as expected. The parse call could hold the thread with no end in sight.\n\nFugit dependents that do not check (user) input length for plausability are impacted.\n\n### Patches\n\nProblem was reported in #104 and the fix was released in [fugit 1.11.1](https://rubygems.org/gems/fugit/versions/1.11.1)\n\n### Workarounds\n\nBy making sure that `Fugit.parse(s)`, `Fugit.do_parse(s)`, `Fugit.parse_nat(s)`, `Fugit.do_parse_nat(s)`, `Fugit::Nat.parse(s)`, and `Fugit::Nat.do_parse(s)` are not fed strings too long. 1000 chars feels ok, while 10_000 chars makes it stall.\n\nIn fewer words, making sure those fugit methods are not fed unvetted input strings.\n\n### References\n\ngh-104\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "fugit"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.11.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/floraison/fugit/security/advisories/GHSA-2m96-52r3-2f3g"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-43380"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/floraison/fugit/issues/104"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/floraison/fugit/commit/ad2c1c9c737213d585fff0b51c927d178b2c05a5"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/floraison/fugit"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/fugit/CVE-2024-43380.yml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-19T17:29:36Z",
+    "nvd_published_at": "2024-08-19T15:15:08Z"
+  }
+}

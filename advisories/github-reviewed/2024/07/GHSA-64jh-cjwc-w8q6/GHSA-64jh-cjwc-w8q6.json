@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-64jh-cjwc-w8q6",
+  "modified": "2024-08-26T19:19:52Z",
+  "published": "2024-07-25T21:31:20Z",
+  "aliases": [
+    "CVE-2024-29068"
+  ],
+  "summary": "snapd failed to properly check the file type when extracting a snap",
+  "details": "In snapd versions prior to 2.62, snapd failed to properly check the file type when extracting a snap. The snap format is a squashfs file-system image and so can contain files that are non-regular files (such as pipes or sockets etc). Various file entries within the snap squashfs image (such as icons etc) are directly read by snapd when it is extracted. An attacker who could convince a user to install a malicious snap which contained non-regular files at these paths could then cause snapd to block indefinitely trying to read from such files and cause a denial of service.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:H/UI:R/S:U/C:H/I:N/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:L/AC:H/AT:N/PR:N/UI:P/VC:H/VI:N/VA:H/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/snapcore/snapd"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.62"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-29068"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/snapcore/snapd/pull/13682"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/snapcore/snapd/commit/b66fee81606a1c05f965a876ccbaf44174194063"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/snapcore/snapd"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/vuln/GO-2024-3008"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-26T21:32:48Z",
+    "nvd_published_at": "2024-07-25T20:15:04Z"
+  }
+}

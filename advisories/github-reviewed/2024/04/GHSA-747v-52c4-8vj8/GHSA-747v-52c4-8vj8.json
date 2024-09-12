@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-747v-52c4-8vj8",
+  "modified": "2024-04-09T18:52:51Z",
+  "published": "2024-04-09T18:52:51Z",
+  "aliases": [
+    "CVE-2024-28191"
+  ],
+  "summary": "Contao: Unencoded insert tags in the frontend",
+  "details": "### Impact\n\nIt is possible to inject insert tags via the form generator if the submitted form data is output on the page in a specific way.\n\n### Patches\n\nUpdate to Contao 4.13.40 or 5.3.4.\n\n### Workarounds\n\nDo not output the submitted form data on the website.\n\n### References\n\nhttps://contao.org/en/security-advisories/insert-tag-injection-via-the-form-generator\n\n### For more information\n\nIf you have any questions or comments about this advisory, open an issue in [contao/contao](https://github.com/contao/contao/issues/new/choose).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "contao/core-bundle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0"
+            },
+            {
+              "fixed": "4.13.40"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "contao/core-bundle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0-RC1"
+            },
+            {
+              "fixed": "5.3.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/contao/contao/security/advisories/GHSA-747v-52c4-8vj8"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28191"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/contao/contao/commit/388859dcf110ca70e0fae68a2a5579ab6a702919"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/contao/contao/commit/474a2fc25f1d84d786aba8c6d234af99e64d016b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://contao.org/en/security-advisories/insert-tag-injection-via-the-form-generator"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/contao/contao"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-09T18:52:51Z",
+    "nvd_published_at": "2024-04-09T14:15:08Z"
+  }
+}

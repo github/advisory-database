@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-pvmm-55r5-g3mm",
+  "modified": "2024-09-10T19:01:52Z",
+  "published": "2024-09-10T15:53:27Z",
+  "aliases": [
+    "CVE-2024-45591"
+  ],
+  "summary": "XWiki Platform document history including authors of any page exposed to unauthorized actors",
+  "details": "### Impact\nThe REST API exposes the history of any page in XWiki of which the attacker knows the name. The exposed information includes for each modification of the page the time of the modification, the version number, the author of the modification (both username and displayed name) and the version comment. This information is exposed regardless of the rights setup, and even when the wiki is configured to be fully private.\n\nOn a private wiki, this can be tested by accessing `/xwiki/rest/wikis/xwiki/spaces/Main/pages/WebHome/history`, if this shows the history of the main page then the installation is vulnerable.\n\n### Patches\nThis has been patched in XWiki 15.10.9 and XWiki 16.3.0RC1.\n\n### Workarounds\nThere aren't any known workarounds apart from upgrading to a fixed version.\n\n### References\n* https://jira.xwiki.org/browse/XWIKI-22052\n* https://github.com/xwiki/xwiki-platform/commit/9cbca9808300797c67779bb9a665d85cf9e3d4b8\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-rest-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.8.0"
+            },
+            {
+              "fixed": "15.10.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-rest-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "16.0.0-rc-1"
+            },
+            {
+              "fixed": "16.3.0-rc-1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-pvmm-55r5-g3mm"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-45591"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/26482ee5d29fc21f31134d1ee13db48716e89e0f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/9cbca9808300797c67779bb9a665d85cf9e3d4b8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-22052"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-359",
+      "CWE-862"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-09-10T15:53:27Z",
+    "nvd_published_at": "2024-09-10T16:15:21Z"
+  }
+}

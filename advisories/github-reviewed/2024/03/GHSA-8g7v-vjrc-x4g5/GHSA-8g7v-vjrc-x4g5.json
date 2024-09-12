@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8g7v-vjrc-x4g5",
+  "modified": "2024-03-20T15:44:08Z",
+  "published": "2024-03-20T14:45:21Z",
+  "aliases": [
+    "CVE-2023-41877"
+  ],
+  "summary": "GeoServer log file path traversal vulnerability",
+  "details": "### Impact\n\nThis vulnerability requires GeoServer Administrator with access to the admin console  to misconfigured the **Global Settings** for **log file location** to an arbitrary location.\n\nThis can be used to read files via the admin console **GeoServer Logs** page. It is also possible to leverage RCE or cause denial of service by overwriting key GeoServer files.\n\n### Patches\n\nAs this issue requires GeoServer administrators access, often representing a trusted party, the vulnerability has not yet attracted a volunteer or resources.\n\nInterested parties are welcome to contact geoserver-security@lists.osgeo.org for recommendations on developing a fix.\n\n### Workarounds\n\nA system administrator responsible for running GeoServer can define  the ``GEOSERVER_LOG_FILE`` parameter, preventing the global setting provided from being used.\n\nThe ``GEOSERVER_LOG_LOCATION`` parameter can be set as system property, environment variable, or servlet context parameter.\n\nEnvironmental variable:\n```bash\nexport GEOSERVER_LOG_LOCATION=/var/opt/geoserver/logs\n```\n\nSystem property:\n```bash\n-DGEOSERVER_LOG_LOCATION=/var/opt/geoserver/logs\n```\n\nWeb application ``WEB-INF/web.xml``:\n```xml\n  <context-param>\n    <param-name> GEOSERVER_LOG_LOCATION </param-name>\n    <param-value>/var/opt/geoserver/logs</param-value>\n  </context-param>\n```\n\nTomcat **conf/Catalina/localhost/geoserver.xml**:\n```xml\n<Context>\n  <Parameter name=\"GEOSERVER_LOG_LOCATION\"\n             value=\"/var/opt/geoserver/logs\" override=\"false\"/>\n</Context>\n```\n\n### References\n\n* [Log location](https://docs.geoserver.org/latest/en/user/configuration/globalsettings.html#log-location) (User Manual)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.geoserver:gs-main"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "2.23.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/geoserver/geoserver/security/advisories/GHSA-8g7v-vjrc-x4g5"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-41877"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.geoserver.org/latest/en/user/configuration/globalsettings.html#log-location"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/geoserver/geoserver"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-20T14:45:21Z",
+    "nvd_published_at": "2024-03-20T15:15:07Z"
+  }
+}

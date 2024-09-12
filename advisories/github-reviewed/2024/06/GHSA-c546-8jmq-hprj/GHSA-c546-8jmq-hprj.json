@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c546-8jmq-hprj",
+  "modified": "2024-06-06T22:22:19Z",
+  "published": "2024-06-06T21:30:36Z",
+  "aliases": [
+    "CVE-2024-2032"
+  ],
+  "summary": "Race condition in zenml",
+  "details": "A race condition vulnerability exists in zenml-io/zenml versions up to and including 0.55.3, which allows for the creation of multiple users with the same username when requests are sent in parallel. This issue was fixed in version 0.55.5. The vulnerability arises due to insufficient handling of concurrent user creation requests, leading to data inconsistencies and potential authentication problems. Specifically, concurrent processes may overwrite or corrupt user data, complicating user identification and posing security risks. This issue is particularly concerning for APIs that rely on usernames as input parameters, such as PUT /api/v1/users/test_race, where it could lead to further complications.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:H/PR:H/UI:R/S:U/C:N/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "zenml"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.55.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-2032"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zenml-io/zenml/commit/afcaf741ef9114c9b32f722f101b97de3d8d147b"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/zenml-io/zenml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.com/bounties/6199cd5d-611f-4ea9-96c5-52a952ba5a56"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-366"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-06T22:22:19Z",
+    "nvd_published_at": "2024-06-06T19:15:53Z"
+  }
+}

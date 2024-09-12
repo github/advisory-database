@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8h22-8cf7-hq6g",
+  "modified": "2024-06-10T18:30:52Z",
+  "published": "2024-02-27T21:41:16Z",
+  "aliases": [
+    "CVE-2024-26144"
+  ],
+  "summary": "Rails has possible Sensitive Session Information Leak in Active Storage",
+  "details": "# Possible Sensitive Session Information Leak in Active Storage\n\nThere is a possible sensitive session information leak in Active Storage.  By\ndefault, Active Storage sends a `Set-Cookie` header along with the user's\nsession cookie when serving blobs.  It also sets `Cache-Control` to public.\nCertain proxies may cache the Set-Cookie, leading to an information leak.\n\nThis vulnerability has been assigned the CVE identifier CVE-2024-26144.\n\nVersions Affected:  >= 5.2.0, < 7.1.0\nNot affected:       < 5.2.0, > 7.1.0\nFixed Versions:     7.0.8.1, 6.1.7.7\n\nImpact\n------\nA proxy which chooses to caches this request can cause users to share\nsessions. This may include a user receiving an attacker's session or vice\nversa.\n\nThis was patched in 7.1.0 but not previously identified as a security\nvulnerability.\n\nAll users running an affected release should either upgrade or use one of the\nworkarounds immediately.\n\nReleases\n--------\nThe fixed releases are available at the normal locations.\n\nWorkarounds\n-----------\nUpgrade to Rails 7.1.X, or configure caching proxies not to cache the\nSet-Cookie headers.\n\nCredits\n-------\n\nThanks to [tyage](https://hackerone.com/tyage) for reporting this!\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "activestorage"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.2.0"
+            },
+            {
+              "fixed": "6.1.7.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "activestorage"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.0.0"
+            },
+            {
+              "fixed": "7.0.8.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/rails/rails/security/advisories/GHSA-8h22-8cf7-hq6g"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-26144"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rails/rails/commit/723f54566023e91060a67b03353e7c03e7436433"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rails/rails/commit/78fe149509fac5b05e54187aaaef216fbb5fd0d3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://discuss.rubyonrails.org/t/possible-sensitive-session-information-leak-in-active-storage/84945"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/rails/rails"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/actionpack/CVE-2024-26144.yml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/activestorage/CVE-2024-26144.yml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.netapp.com/advisory/ntap-20240510-0013"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-27T21:41:16Z",
+    "nvd_published_at": "2024-02-27T16:15:46Z"
+  }
+}

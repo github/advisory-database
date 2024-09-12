@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wmxc-v39r-p9wf",
+  "modified": "2024-04-04T14:21:49Z",
+  "published": "2024-04-04T00:33:11Z",
+  "aliases": [
+    "CVE-2024-2689"
+  ],
+  "summary": "Temporal Server Denial of Service",
+  "details": "Denial of Service in Temporal Server prior to version 1.20.5, 1.21.6, and 1.22.7 allows an authenticated user who has permissions to interact with workflows and has crafted an invalid UTF-8 string for submission to potentially cause a crashloop. If left unchecked, the task containing the invalid UTF-8 will become stuck in the queue, causing an increase in queue lag. Eventually, all processes handling these queues will become stuck and the system will run out of resources. The workflow ID of the failing task will be visible in the logs, and can be used to remove that workflow as a mitigation. Version 1.23 is not impacted. In this context, a user is an operator of Temporal Server.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/temporalio/temporal"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.22.0-rc1"
+            },
+            {
+              "fixed": "1.22.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/temporalio/temporal"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.21.0"
+            },
+            {
+              "fixed": "1.21.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/temporalio/temporal"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.20.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-2689"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/temporalio/temporal/commit/2099dfd945accbf794404c3b8d990d109de19f06"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/temporalio/temporal/commit/679e3dc2ca8bd39e02c760f686cc8807f817bbfd"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/temporalio/temporal/commit/f1fab97129f964dcca17d1f7c344f38666d1ee5f"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/temporalio/temporal"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/temporalio/temporal/releases"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-04T14:21:49Z",
+    "nvd_published_at": "2024-04-03T22:15:07Z"
+  }
+}

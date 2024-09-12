@@ -1,0 +1,220 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mrj3-f2h4-7w45",
+  "modified": "2024-03-28T17:52:18Z",
+  "published": "2024-03-28T17:52:17Z",
+  "aliases": [
+    "CVE-2024-29888"
+  ],
+  "summary": "Saleor: Customers' addresses leak when using Warehouse as a `Pickup: Local stock only` delivery method",
+  "details": "### Summary\nUsing `Pickup: Local stock only` as a click-and-collect points could cause a leak of customer addresses\n\n### Details\nWhen using `Pickup: Local stock only` click-and-collect as a delivery method in specific conditions the customer could overwrite the warehouse address with its own, which exposes its address as click-and-collect address.\n\n### Impact\nThe vulnerability can cause the leak of customer's address when using click-and-collect delivery option marked as `Local stock only`. It has impact on all orders with click-and-collect delivery method marked as `Pickup:Local stock only`\nThe affected versions: `>=3.14.56 <3.14.61`, `>=3.15.31 <3.15.37`, `>=3.16.27 <3.16.34`, `>=3.17.25 <3.17.32`, `>=3.18.19 <3.18.28`, `>=3.19.5 <3.19.15`\nThis issue has been patched in versions: `3.14.61`, `3.15.37`, `3.16.34`, `3.17.32`, `3.18.28`, `3.19.15`\n\n\n### Workaround\nWe strongly recommend upgrading to the latest versions, in case of inability to upgrade straight away, possible workarounds are:\n- turn off click-and-collect delivery method on warehouse view when `Pickup` option is set to `Local stock only`.\n- cherry-pick the changes from PRs: https://github.com/saleor/saleor/pull/15694 & https://github.com/saleor/saleor/pull/15697\n\n### References\n- Commits introducing the issue (https://github.com/saleor/saleor/commit/22a1aa3ef0bc54156405f69146788016a7f3f761 main, https://github.com/saleor/saleor/commit/997f7ea4f576543ec88679a86bfe1b14f7f2ff26 3.14, https://github.com/saleor/saleor/commit/ef003c76a304c89ddb2dc65b7f1d5b3b2ba1c640 3.15, https://github.com/saleor/saleor/commit/39abb0f4e4fe6503f81bfbb871227e4f70bcdd5c 3.16, https://github.com/saleor/saleor/commit/b7cecda8b603f7472790150bb4508c7b655946d4 3.17, https://github.com/saleor/saleor/commit/dccc2c842b4e2e09470929c80f07dc137e439182 3.18, https://github.com/saleor/saleor/commit/d8ba545c16ad3153febc5b5be8fd2ef75da9fc95 3.19)\n- https://github.com/saleor/saleor/commit/47cedfd7d6524d79bdb04708edcdbb235874de6b (main branch)\nhttps://github.com/saleor/saleor/releases/tag/3.14.60\nhttps://github.com/saleor/saleor/releases/tag/3.14.61\nhttps://github.com/saleor/saleor/releases/tag/3.15.36\nhttps://github.com/saleor/saleor/releases/tag/3.15.37\nhttps://github.com/saleor/saleor/releases/tag/3.16.33\nhttps://github.com/saleor/saleor/releases/tag/3.16.34\nhttps://github.com/saleor/saleor/releases/tag/3.17.31\nhttps://github.com/saleor/saleor/releases/tag/3.17.32\nhttps://github.com/saleor/saleor/releases/tag/3.18.27\nhttps://github.com/saleor/saleor/releases/tag/3.18.28\nhttps://github.com/saleor/saleor/releases/tag/3.19.14\nhttps://github.com/saleor/saleor/releases/tag/3.19.15\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "saleor"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.14.56"
+            },
+            {
+              "fixed": "3.14.61"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "saleor"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.15.31"
+            },
+            {
+              "fixed": "3.15.37"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "saleor"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.16.27"
+            },
+            {
+              "fixed": "3.16.34"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "saleor"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.17.25"
+            },
+            {
+              "fixed": "3.17.32"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "saleor"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.18.19"
+            },
+            {
+              "fixed": "3.18.28"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "saleor"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.19.5"
+            },
+            {
+              "fixed": "3.19.15"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/saleor/saleor/security/advisories/GHSA-mrj3-f2h4-7w45"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-29888"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/saleor/saleor/pull/15697"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/saleor/saleor/pull/15694"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/saleor/saleor/commit/997f7ea4f576543ec88679a86bfe1b14f7f2ff26"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/saleor/saleor/commit/b7cecda8b603f7472790150bb4508c7b655946d4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/saleor/saleor/commit/d8ba545c16ad3153febc5b5be8fd2ef75da9fc95"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/saleor/saleor/commit/dccc2c842b4e2e09470929c80f07dc137e439182"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/saleor/saleor/commit/ef003c76a304c89ddb2dc65b7f1d5b3b2ba1c640"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/saleor/saleor/commit/47cedfd7d6524d79bdb04708edcdbb235874de6b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/saleor/saleor/commit/39abb0f4e4fe6503f81bfbb871227e4f70bcdd5c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/saleor/saleor/commit/22a1aa3ef0bc54156405f69146788016a7f3f761"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/saleor/saleor/releases/tag/3.14.61"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/saleor/saleor/releases/tag/3.15.37"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/saleor/saleor/releases/tag/3.16.34"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/saleor/saleor/releases/tag/3.17.32"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/saleor/saleor/releases/tag/3.18.28"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/saleor/saleor/releases/tag/3.19.15"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/saleor/saleor"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-359"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-28T17:52:17Z",
+    "nvd_published_at": "2024-03-27T19:15:49Z"
+  }
+}

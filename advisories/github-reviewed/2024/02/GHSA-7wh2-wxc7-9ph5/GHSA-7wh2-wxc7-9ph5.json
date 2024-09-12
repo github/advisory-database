@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7wh2-wxc7-9ph5",
+  "modified": "2024-02-09T21:13:40Z",
+  "published": "2024-02-08T18:23:49Z",
+  "aliases": [
+    "CVE-2024-24810"
+  ],
+  "summary": "WiX Toolset's .be TEMP folder is vulnerable to DLL redirection attacks that allow the attacker to escalate privileges",
+  "details": "### Summary\n.be TEMP folder is vulnerable to DLL redirection attacks that allow the attacker to escalate privileges.\n\n### Details\nIf the bundle is not run as admin, the user's TEMP folder is used and not the system TEMP folder. A utility is able to monitor the user's TEMP folder for changes and drop its own DLL into the **.be/<bundle>.Local** folder immediately when the .be folder is created. When the burn engine elevates, the malicious DLL receives elevated privileges.\n\n### PoC\nAs a standard, non-admin user:\n1. Monitor the user's TEMP folder for changes using ReadDirectoryChangesW\n2. On FILE_ACTION_ADDED, check if the folder name is .be\n3. Create a folder in .be named after the bundle + .Local (e.g. MyInstaller.exe.Local)\n4. Put the malicious COMCTL32.DLL in the .Local folder following the naming used for the real DLL (e.g. MyInstaller.exe.Local/x86_microsoft.windows.common-controls_.../COMCTL32.dll)\n5. Do hacker things when the engine escalates and the malicious DLL is loaded\n\nProper naming for the path can be obtained by using GetModuleHandle(\"comctl32.dll\") and GetModuleFileName.\n\n### Impact\nDLL redirection utilizing .exe.Local Windows capability. This impacts any installer built with the WiX installer framework.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "wix"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0"
+            },
+            {
+              "fixed": "4.0.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "wix"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.14.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/wixtoolset/issues/security/advisories/GHSA-7wh2-wxc7-9ph5"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-24810"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/wixtoolset/wix/commit/fec38b6461d0551339139a2fe52403a61942adc0"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/wixtoolset/wix"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-426"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-08T18:23:49Z",
+    "nvd_published_at": "2024-02-07T03:15:50Z"
+  }
+}

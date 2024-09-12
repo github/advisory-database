@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6fj5-m822-rqx8",
+  "modified": "2024-06-10T18:39:20Z",
+  "published": "2024-01-31T23:16:46Z",
+  "aliases": [
+    "CVE-2021-21285"
+  ],
+  "summary": "moby docker daemon crash during image pull of malicious image",
+  "details": "### Impact\n\nPulling an intentionally malformed Docker image manifest crashes the `dockerd` daemon.\n\n### Patches\n\nVersions 20.10.3 and 19.03.15 contain patches that prevent the daemon from crashing.\n\n### Credits\n\nMaintainers would like to thank Josh Larsen, Ian Coldwater, Duffie Cooley, Rory McCune for working on the vulnerability and Brad Geesaman for responsibly disclosing it to security@docker.com.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/moby/moby"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "19.3.15"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/moby/moby"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "20.10.0-beta1"
+            },
+            {
+              "fixed": "20.10.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/moby/security/advisories/GHSA-6fj5-m822-rqx8"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-21285"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/moby/commit/8d3179546e79065adefa67cc697c09d0ab137d30"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.docker.com/engine/release-notes/#20103"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/moby/releases/tag/v19.03.15"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/moby/releases/tag/v20.10.3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.gentoo.org/glsa/202107-23"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.netapp.com/advisory/ntap-20210226-0005"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.debian.org/security/2021/dsa-4865"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400",
+      "CWE-754"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-31T23:16:46Z",
+    "nvd_published_at": "2021-02-02T18:15:00Z"
+  }
+}

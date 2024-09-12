@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c4wx-3x5q-hf4w",
+  "modified": "2024-04-25T21:54:34Z",
+  "published": "2022-05-24T17:17:57Z",
+  "aliases": [
+    "CVE-2019-20390"
+  ],
+  "summary": "Subrion CMS Cross-Site Request Forgery (CSRF) vulnerability",
+  "details": "A Cross-Site Request Forgery (CSRF) vulnerability was discovered in Subrion CMS 4.2.1 that allows a remote attacker to remove files on the server without a victim's knowledge, by enticing an authenticated user to visit an attacker's web page. The application fails to validate the CSRF token for a GET request. An attacker can craft a panel/uploads/read.json?cmd=rm URL (removing this token) and send it to the victim.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "intelliants/subrion"
+      },
+      "versions": [
+        "4.2.1"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-20390"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/intelliants/subrion"
+    },
+    {
+      "type": "WEB",
+      "url": "http://packetstormsecurity.com/files/157700/Subrion-CMS-4.2.1-Cross-Site-Request-Forgery.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-25T21:54:34Z",
+    "nvd_published_at": "2020-05-15T18:15:00Z"
+  }
+}

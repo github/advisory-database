@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6667-f46p-pg88",
+  "modified": "2024-09-10T22:16:09Z",
+  "published": "2022-05-17T19:57:32Z",
+  "aliases": [
+    "CVE-2014-4659"
+  ],
+  "summary": "Ansible sets unsafe permissions for sources.list",
+  "details": "Ansible before 1.5.5 sets 0644 permissions for `sources.list`, which might allow local users to obtain sensitive credential information in opportunistic circumstances by reading a file that uses the `&quot;deb http://user:pass@server:port/&quot;` format.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ansible"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.5.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2014-4659"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ansible/ansible/commit/a0e027fe362fbc209dbeff2f72d6e95f39885c69"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ansible/ansible/blob/release1.5.5/CHANGELOG.md"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/ansible/PYSEC-2020-201.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20200229060001/https://www.securityfocus.com/bid/68234"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-522"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-31T00:03:35Z",
+    "nvd_published_at": "2020-02-20T15:15:00Z"
+  }
+}

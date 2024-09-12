@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fvrh-wrpf-6q7h",
+  "modified": "2024-05-28T14:22:30Z",
+  "published": "2023-02-10T18:30:32Z",
+  "aliases": [
+    "CVE-2023-24230"
+  ],
+  "summary": "Formwork Cross-site Scripting (XSS) from Page title field",
+  "details": "### Description\nA stored cross-site scripting (XSS) vulnerability in Formwork v1.12.1 allows attackers to execute arbitrary web scripts or HTML via a crafted payload injected into the Page title field.\n\nOnly users with access to Administration Panel with page editing permission can inject raw HTML in the Page title field.\n\n### Patched versions\nThis vulnerability has been patched in [Formwork 1.13.0](https://github.com/getformwork/formwork/releases/tag/1.13.0).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getformwork/formwork"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.13.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-24230"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getformwork/formwork/commit/8781ee17ca9b9b7b0b57e090e7f2ba1b27dc1415"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/getformwork/formwork"
+    },
+    {
+      "type": "WEB",
+      "url": "https://medium.com/@0x2bit/formwork-1-12-1-stored-xss-vulnerability-at-page-title-b6efba27891a"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-28T14:22:30Z",
+    "nvd_published_at": "2023-02-10T16:15:00Z"
+  }
+}

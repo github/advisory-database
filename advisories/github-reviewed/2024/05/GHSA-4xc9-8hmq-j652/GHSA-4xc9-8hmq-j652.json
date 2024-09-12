@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4xc9-8hmq-j652",
+  "modified": "2024-08-16T18:15:47Z",
+  "published": "2024-05-06T14:20:40Z",
+  "aliases": [
+    "CVE-2024-32972"
+  ],
+  "summary": "go-ethereum vulnerable to DoS via malicious p2p message",
+  "details": "### Impact\n\nA vulnerable node can be made to consume very large amounts of memory when handling specially crafted p2p messages sent from an attacker node.\n\nIn order to carry out the attack, the attacker establishes a peer connections to the victim, and sends a malicious `GetBlockHeadersRequest` message with a `count` of  `0`, using the `ETH` protocol. \n\nIn `descendants := chain.GetHeadersFrom(num+count-1, count-1)`, the value of `count-1` is passed to the function `GetHeadersFrom(number, count uint64)` as parameter `count`. Due to integer overflow, `UINT64_MAX` value is then passed as the `count` argument to function `GetHeadersFrom(number, count uint64)`. This allows an attacker to bypass `maxHeadersServe` and request all headers from the latest block back to the genesis block. \n\n### Patches\n\nThe fix has been included in geth version `1.13.15` and onwards. \n\nThe vulnerability was patched in: https://github.com/ethereum/go-ethereum/pull/29534\n\n### Workarounds\n\nNo workarounds have been made public. \n\n### References\n\nNo more information is released at this time.\n\n### Credit\n\nThis issue was disclosed responsibly by DongHan Kim via the Ethereum bug bounty program. Thank you for your cooperation. ",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/ethereum/go-ethereum"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.13.15"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ethereum/go-ethereum/security/advisories/GHSA-4xc9-8hmq-j652"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-32972"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-4xc9-8hmq-j652"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ethereum/go-ethereum"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ethereum/go-ethereum/compare/v1.13.14...v1.13.15"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-06T14:20:40Z",
+    "nvd_published_at": "2024-05-06T15:15:23Z"
+  }
+}

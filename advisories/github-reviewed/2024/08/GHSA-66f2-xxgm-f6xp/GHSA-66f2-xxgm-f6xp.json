@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-66f2-xxgm-f6xp",
+  "modified": "2024-08-05T21:29:27Z",
+  "published": "2024-08-05T21:29:27Z",
+  "aliases": [
+    "CVE-2024-36421"
+  ],
+  "summary": "Flowise Cors Misconfiguration in packages/server/src/index.ts",
+  "details": "Flowise is a drag & drop user interface to build a customized large language model flow. In version 1.4.3 of Flowise, A CORS misconfiguration sets the Access-Control-Allow-Origin header to all, allowing arbitrary origins to connect to the website. In the default configuration (unauthenticated), arbitrary origins may be able to make requests to Flowise, stealing information from the user. This CORS misconfiguration may be chained with the path injection to allow an attacker attackers without access to Flowise to read arbitrary files from the Flowise server. As of time of publication, no known patches are available.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "flowise"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.4.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-36421"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/FlowiseAI/Flowise"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FlowiseAI/Flowise/blob/e93ce07851cdc0fcde12374f301b8070f2043687/packages/server/src/index.ts#L122"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://securitylab.github.com/advisories/GHSL-2023-232_GHSL-2023-234_Flowise"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-346"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-05T21:29:27Z",
+    "nvd_published_at": "2024-07-01T16:15:04Z"
+  }
+}

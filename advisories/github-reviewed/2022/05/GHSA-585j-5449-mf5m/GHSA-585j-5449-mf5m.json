@@ -1,0 +1,138 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-585j-5449-mf5m",
+  "modified": "2024-04-23T22:36:53Z",
+  "published": "2022-05-14T03:35:58Z",
+  "aliases": [
+    "CVE-2017-6927"
+  ],
+  "summary": "Drupal cross-site scripting vulnerability",
+  "details": "Drupal 8.4.x versions before 8.4.5 and Drupal 7.x versions before 7.57 has a Drupal.checkPlain() JavaScript function which is used to escape potentially dangerous text before outputting it to HTML (as JavaScript output does not typically go through Twig autoescaping). This function does not correctly handle all methods of injecting malicious HTML, leading to a cross-site scripting vulnerability under certain circumstances. The PHP functions which Drupal provides for HTML escaping are not affected.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "drupal/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.4.0"
+            },
+            {
+              "fixed": "8.4.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "drupal/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.0"
+            },
+            {
+              "fixed": "7.57"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "drupal/drupal"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.4.0"
+            },
+            {
+              "fixed": "8.4.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "drupal/drupal"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.0"
+            },
+            {
+              "fixed": "7.57"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-6927"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/drupal/core/CVE-2017-6927.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/drupal/drupal/CVE-2017-6927.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/drupal/core"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.debian.org/debian-lts-announce/2018/02/msg00030.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.debian.org/security/2018/dsa-4123"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.drupal.org/sa-core-2018-001"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/103138"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-23T22:36:53Z",
+    "nvd_published_at": "2018-03-01T23:29:00Z"
+  }
+}

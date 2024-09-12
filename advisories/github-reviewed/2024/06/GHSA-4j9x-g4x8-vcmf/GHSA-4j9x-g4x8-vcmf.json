@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4j9x-g4x8-vcmf",
+  "modified": "2024-06-07T21:15:56Z",
+  "published": "2024-06-07T21:15:56Z",
+  "aliases": [
+
+  ],
+  "summary": "ZendFramework potential XML eXternal Entity injection vectors",
+  "details": "`Zend_Feed_Rss` and `Zend_Feed_Atom` were found to contain potential XML eXternal Entity (XXE) vectors due to insecure usage of PHP's DOM extension. External entities could be specified by adding a specific DOCTYPE element to feeds; exploiting this vulnerability could coerce opening arbitrary files and/or TCP connections.\n\nA similar issue was fixed for 1.11.13 and 1.12.0, in the `Zend_Feed::import()` factory method; however, the reporter of the issue discovered that the individual classes contained similar functionality in their constructors which remained vulnerable.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "zendframework/zendframework1"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.11.0"
+            },
+            {
+              "fixed": "1.11.15"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "zendframework/zendframework1"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.12.0"
+            },
+            {
+              "fixed": "1.12.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://framework.zend.com/security/advisory/ZF2012-05"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/zendframework/zendframework1/ZF2012-05.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/zendframework/zf1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-611"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-07T21:15:56Z",
+    "nvd_published_at": null
+  }
+}

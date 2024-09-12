@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fgxv-gw55-r5fq",
+  "modified": "2024-03-12T15:16:05Z",
+  "published": "2024-03-04T20:42:33Z",
+  "aliases": [
+    "CVE-2024-27302"
+  ],
+  "summary": "Authorization Bypass Through User-Controlled Key in go-zero",
+  "details": "### Summary\nHello go-zero maintainer team, I would like to report a security concerning your CORS Filter feature. \n\n### Details\nGo-zero allows user to specify a [CORS Filter](https://github.com/zeromicro/go-zero/blob/master/rest/internal/cors/handlers.go) with a configurable allows param - which is an array of domains allowed in CORS policy.\n\nHowever, the `isOriginAllowed` uses `strings.HasSuffix` to check the origin, which leads to bypass via domain like `evil-victim.com`\n```go\nfunc isOriginAllowed(allows []string, origin string) bool {\n\tfor _, o := range allows {\n\t\tif o == allOrigins {\n\t\t\treturn true\n\t\t}\n\n\t\tif strings.HasSuffix(origin, o) {\n\t\t\treturn true\n\t\t}\n\t}\n\n\treturn false\n}\n```\n\n### PoC\nUse code below as a PoC. Only requests from `safe.com` should bypass the CORS Filter\n```go\npackage main\n\nimport (\n\t\"errors\"\n\t\"net/http\"\n\n\t\"github.com/zeromicro/go-zero/rest\"\n)\n\nfunc main() {\n\tsvr := rest.MustNewServer(rest.RestConf{Port: 8888}, rest.WithRouter(mockedRouter{}), rest.WithCors(\"safe.com\"))\n\tsvr.Start()\n}\n\ntype mockedRouter struct{}\n\n// some sensitive path\nfunc (m mockedRouter) ServeHTTP(w http.ResponseWriter, r *http.Request) {\n\t// check user's cookie\n\t// ...\n\t// return sensitive data\n\tw.Write([]byte(\"social_id: 420101198008292930\"))\n}\n\nfunc (m mockedRouter) Handle(_, _ string, handler http.Handler) error {\n\treturn errors.New(\"foo\")\n}\n\nfunc (m mockedRouter) SetNotFoundHandler(_ http.Handler) {\n}\n\nfunc (m mockedRouter) SetNotAllowedHandler(_ http.Handler) {\n}\n```\nSend a request to localhost:8888 with `Origin:not-safe.com`\nYou can see the origin reflected in response, which bypass the CORS Filter\n![image](https://user-images.githubusercontent.com/70683161/221365842-9d76a3a4-a79d-413a-85b7-06b50b0a7807.png)\n\n### Impact\nThis vulnerability is capable of breaking CORS policy and thus allowing any page to make requests, retrieve data on behalf of other users.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/zeromicro/go-zero"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.4.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/zeromicro/go-zero/security/advisories/GHSA-fgxv-gw55-r5fq"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-27302"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zeromicro/go-zero/commit/d9d79e930dff6218a873f4f02115df61c38b15db"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/zeromicro/go-zero"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-639"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-04T20:42:33Z",
+    "nvd_published_at": "2024-03-06T19:15:08Z"
+  }
+}

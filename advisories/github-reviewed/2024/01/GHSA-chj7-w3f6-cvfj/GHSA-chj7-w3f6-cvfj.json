@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-chj7-w3f6-cvfj",
+  "modified": "2024-01-29T16:25:04Z",
+  "published": "2024-01-20T21:30:25Z",
+  "aliases": [
+    "CVE-2024-0521"
+  ],
+  "summary": "Code Injection in paddlepaddle",
+  "details": "The vulnerability arises from the way the url parameter is incorporated into the command string without proper validation or sanitization. If the url is constructed from untrusted sources, an attacker could potentially inject malicious commands.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:L/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "paddlepaddle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.6.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-0521"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/PaddlePaddle/Paddle"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.com/bounties/a569c64b-1e2b-4bed-a19f-47fd5a3da453"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-23T14:41:50Z",
+    "nvd_published_at": "2024-01-20T21:15:43Z"
+  }
+}

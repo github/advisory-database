@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2jcw-r79x-4r5v",
+  "modified": "2024-01-25T20:43:53Z",
+  "published": "2022-05-13T01:12:49Z",
+  "aliases": [
+    "CVE-2015-0216"
+  ],
+  "summary": "Moodle does not set the RISK_XSS bit for graders",
+  "details": "access.php in the Lesson module in Moodle 2.8.x before 2.8.2 does not set the RISK_XSS bit for graders, which allows remote authenticated users to conduct cross-site scripting (XSS) attacks via crafted essay feedback.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "moodle/moodle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.8.0"
+            },
+            {
+              "fixed": "2.8.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2015-0216"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moodle/moodle/commit/b9c86823c70a1cba20bca1c4b5b032ee1559e22d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moodle/moodle/commit/c80603ddc4ba4e7d85ea2b79f644a4a041cee137"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/moodle/moodle"
+    },
+    {
+      "type": "WEB",
+      "url": "https://moodle.org/mod/forum/discuss.php?d=278616"
+    },
+    {
+      "type": "WEB",
+      "url": "http://git.moodle.org/gw?p=moodle.git&a=search&h=HEAD&st=commit&s=MDL-48034"
+    },
+    {
+      "type": "WEB",
+      "url": "http://openwall.com/lists/oss-security/2015/01/19/1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-25T20:43:53Z",
+    "nvd_published_at": "2015-06-01T19:59:00Z"
+  }
+}

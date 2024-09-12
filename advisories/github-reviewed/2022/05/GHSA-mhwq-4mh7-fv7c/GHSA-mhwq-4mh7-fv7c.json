@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mhwq-4mh7-fv7c",
+  "modified": "2024-01-30T22:45:53Z",
+  "published": "2022-05-13T01:40:55Z",
+  "aliases": [
+    "CVE-2017-1000096"
+  ],
+  "summary": "Arbitrary code execution due to incomplete sandbox protection in Jenkins Pipeline",
+  "details": "Arbitrary code execution due to incomplete sandbox protection: Constructors, instance variable initializers, and instance initializers in Pipeline scripts were not subject to sandbox protection, and could therefore execute arbitrary code. This could be exploited e.g. by regular Jenkins users with the permission to configure Pipelines in Jenkins, or by trusted committers to repositories containing Jenkinsfiles.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins.workflow:workflow-cps"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.36.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.36"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-1000096"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2017-07-10"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/99571"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-732"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-30T22:45:53Z",
+    "nvd_published_at": "2017-10-05T01:29:00Z"
+  }
+}

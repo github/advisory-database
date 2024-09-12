@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-q25c-c977-4cmh",
+  "modified": "2024-07-24T17:34:39Z",
+  "published": "2024-06-06T21:30:36Z",
+  "aliases": [
+    "CVE-2024-3095"
+  ],
+  "summary": "Server-Side Request Forgery in langchain-community.retrievers.web_research.WebResearchRetriever",
+  "details": "A Server-Side Request Forgery (SSRF) vulnerability exists in the Web Research Retriever component in langchain-community (langchain-community.retrievers.web_research.WebResearchRetriever). The vulnerability arises because the Web Research Retriever does not restrict requests to remote internet addresses, allowing it to reach local addresses. This flaw enables attackers to execute port scans, access local services, and in some scenarios, read instance metadata from cloud environments. The vulnerability is particularly concerning as it can be exploited to abuse the Web Explorer server as a proxy for web attacks on third parties and interact with servers in the local network, including reading their response data. This could potentially lead to arbitrary code execution, depending on the nature of the local services. The vulnerability is limited to GET requests, as POST requests are not possible, but the impact on confidentiality, integrity, and availability is significant due to the potential for stolen credentials and state-changing interactions with internal APIs.\n\nThe patched code:\n* Requires users to opt-in\n* Suggests using a proxy to prevent requests to local addresses",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:P/AC:H/PR:L/UI:N/S:C/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "langchain-community"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.2.9"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-3095"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/langchain-ai/langchain/pull/24451"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/langchain-ai/langchain/commit/604dfe2d99246b0c09f047c604f0c63eafba31e7"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/langchain-ai/langchain"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/langchain-ai/langchain/releases/tag/langchain-community%3D%3D0.2.9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.com/bounties/e62d4895-2901-405b-9559-38276b6a5273"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-918"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-06T22:41:06Z",
+    "nvd_published_at": "2024-06-06T19:15:59Z"
+  }
+}

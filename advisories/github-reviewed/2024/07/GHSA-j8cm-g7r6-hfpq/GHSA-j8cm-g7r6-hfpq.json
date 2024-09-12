@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-j8cm-g7r6-hfpq",
+  "modified": "2024-07-18T14:51:27Z",
+  "published": "2024-07-17T18:30:55Z",
+  "aliases": [
+    "CVE-2024-40640"
+  ],
+  "summary": "vodozemac's usage of non-constant time base64 decoder could lead to leakage of secret key material",
+  "details": "Versions before 0.7.0 of vodozemac use a non-constant time base64 implementation for importing key material for Megolm group sessions and `PkDecryption` Ed25519 secret keys. This flaw might allow an attacker to infer some information about the secret key material through a side-channel attack.\n\n### Impact\n\nThe use of a non-constant time base64 implementation might allow an attacker to observe timing variations in the encoding and decoding operations of the secret key material. This could potentially provide insights into the underlying secret key material.\n\nThe impact of this vulnerability is considered low because exploiting the attacker is required to have access to high precision timing measurements, as well as repeated access to the base64 encoding or decoding processes.  Additionally, the estimated leakage amount is bounded and low according to the referenced paper.\n\n### Patches\n\nThe patch is in commit 734b6c6948d4b2bdee3dd8b4efa591d93a61d272.\n\n### Workarounds\nNone.\n\n### References\nA detailed description of the precise attack can be found at https://arxiv.org/abs/2108.04600. We kindly thank Soatok for pointing out this research to us.\n\n### For more information\nIf you have any questions or comments about this advisory please email us at [security at matrix.org](mailto:security@matrix.org).\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "vodozemac"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.7.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/matrix-org/vodozemac/security/advisories/GHSA-j8cm-g7r6-hfpq"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-40640"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/matrix-org/vodozemac/commit/734b6c6948d4b2bdee3dd8b4efa591d93a61d272"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/matrix-org/vodozemac/commit/77765dace11266ef9523301624a01265c6e0f790"
+    },
+    {
+      "type": "WEB",
+      "url": "https://arxiv.org/abs/2108.04600"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/matrix-org/vodozemac"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2024-0354.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-208"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-17T18:30:55Z",
+    "nvd_published_at": "2024-07-17T18:15:04Z"
+  }
+}

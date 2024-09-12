@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h5hm-73hg-frrm",
+  "modified": "2024-01-30T22:11:46Z",
+  "published": "2022-05-14T02:56:39Z",
+  "aliases": [
+    "CVE-2018-1999034"
+  ],
+  "summary": "Jenkins Inedo ProGet Plugin globally and unconditionally disabled SSL/TLS certificate validation",
+  "details": "A man in the middle vulnerability exists in Jenkins Inedo ProGet Plugin 0.8 and earlier in ProGetApi.java, ProGetConfig.java, ProGetConfiguration.java that allows attackers to impersonate any service that Jenkins connects to.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.inedo.proget:inedo-proget"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.8"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-1999034"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2018-07-30/#SECURITY-933"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-295"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-30T22:11:46Z",
+    "nvd_published_at": "2018-08-01T13:29:00Z"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jw44-4f3j-q396",
+  "modified": "2024-03-15T19:06:55Z",
+  "published": "2024-03-03T21:31:25Z",
+  "aliases": [
+    "CVE-2019-25210"
+  ],
+  "summary": "Helm shows secrets in clear text",
+  "details": "An issue was discovered in Cloud Native Computing Foundation (CNCF) Helm. It displays values of secrets when the --dry-run flag is used. This is a security concern in some use cases, such as a --dry-run call by a CI/CD tool. NOTE: the vendor's position is that this behavior was introduced intentionally, and cannot be removed without breaking backwards compatibility (some users may be relying on these values).",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "helm.sh/helm/v3"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "last_affected": "3.14.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-25210"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/helm/helm/issues/7275"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/helm/helm"
+    },
+    {
+      "type": "WEB",
+      "url": "https://helm.sh/blog/response-cve-2019-25210"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.cncf.io/projects/helm"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-05T14:39:00Z",
+    "nvd_published_at": "2024-03-03T21:15:49Z"
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2qmw-pvf7-4mw6",
+  "modified": "2024-09-06T21:38:47Z",
+  "published": "2024-07-11T21:31:13Z",
+  "aliases": [
+    "CVE-2024-6468"
+  ],
+  "summary": "Hashicorp Vault vulnerable to Improper Check or Handling of Exceptional Conditions ",
+  "details": "Vault and Vault Enterprise did not properly handle requests originating from unauthorized IP addresses when the TCP listener option, proxy_protocol_behavior, was set to deny_unauthorized. When receiving a request from a source IP address that was not listed in proxy_protocol_authorized_addrs, the Vault API server would shut down and no longer respond to any HTTP requests, potentially resulting in denial of service.\n\nWhile this bug also affected versions of Vault up to 1.17.1 and 1.16.5, a separate regression in those release series did not allow Vault operators to configure the deny_unauthorized option, thus not allowing the conditions for the denial of service to occur.\n\nFixed in Vault and Vault Enterprise 1.17.2, 1.16.6, and 1.15.12",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/hashicorp/vault"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.10.0"
+            },
+            {
+              "fixed": "1.15.12"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/hashicorp/vault"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.16.0-rc1"
+            },
+            {
+              "fixed": "1.16.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/hashicorp/vault"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.17.0-rc1"
+            },
+            {
+              "fixed": "1.17.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-6468"
+    },
+    {
+      "type": "WEB",
+      "url": "https://discuss.hashicorp.com/t/hcsec-2024-14-vault-vulnerable-to-denial-of-service-when-setting-a-proxy-protocol-behavior/68518"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-2qmw-pvf7-4mw6"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/hashicorp/vault"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-703"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-12T14:02:32Z",
+    "nvd_published_at": "2024-07-11T21:15:12Z"
+  }
+}

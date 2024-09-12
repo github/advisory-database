@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5j5r-6mv9-m255",
+  "modified": "2024-05-02T13:54:03Z",
+  "published": "2024-03-06T18:30:38Z",
+  "aliases": [
+    "CVE-2024-28156"
+  ],
+  "summary": "Jenkins Build Monitor View Plugin vulnerable to stored Cross-site Scripting",
+  "details": "Jenkins Build Monitor View Plugin 1.14-860.vd06ef2568b_3f and earlier does not escape Build Monitor View names, resulting in a stored cross-site scripting (XSS) vulnerability exploitable by attackers able to configure Build Monitor Views.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:build-monitor-plugin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.14-860.vd06ef2568b"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28156"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/build-monitor-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2024-03-06/#SECURITY-3280"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/03/06/3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-06T19:27:59Z",
+    "nvd_published_at": "2024-03-06T17:15:10Z"
+  }
+}

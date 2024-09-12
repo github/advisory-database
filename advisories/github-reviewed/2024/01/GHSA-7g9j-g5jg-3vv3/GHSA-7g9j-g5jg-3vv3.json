@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7g9j-g5jg-3vv3",
+  "modified": "2024-02-09T18:47:01Z",
+  "published": "2024-01-24T20:53:48Z",
+  "aliases": [
+
+  ],
+  "summary": "Unauthenticated Nonce Increment in snow",
+  "details": "### Impact\nThere was a logic bug where unauthenticated payloads could still cause a nonce increment in snow's internal state. For an attacker with the ability to inject packets into the channel Noise is talking over, this allows a denial-of-service type attack which could prevent communication as it causes the sending and receiving side to be expecting different nonce values than would arrive.\n\nNote that this only affects those who are using the stateful `TransportState`, not those using `StatelessTransportState`.\n\n### Patches\nThis has been patched in version 0.9.5, and all users are recommended to update.\n\n### References\nThere will be a more formal report of this in the near future.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "snow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.9.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/mcginty/snow/security/advisories/GHSA-7g9j-g5jg-3vv3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mcginty/snow/commit/12e8ae55547ae297d5f70599e5c884ea891303eb"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mcginty/snow"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2024-0011.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-440"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-24T20:53:48Z",
+    "nvd_published_at": null
+  }
+}

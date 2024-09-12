@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wj6h-64fc-37mp",
+  "modified": "2024-01-23T00:31:48Z",
+  "published": "2024-01-22T21:35:27Z",
+  "aliases": [
+    "CVE-2024-23342"
+  ],
+  "summary": "Minerva timing attack on P-256 in python-ecdsa",
+  "details": "python-ecdsa has been found to be subject to a Minerva timing attack on the P-256 curve. Using the `ecdsa.SigningKey.sign_digest()` API function and timing signatures an attacker can leak the internal nonce which may allow for private key discovery. Both ECDSA signatures, key generation, and ECDH operations are affected. ECDSA signature verification is unaffected. The python-ecdsa project considers side channel attacks out of scope for the project and there is no planned fix.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ecdsa"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "ecdsa.SigningKey.sign_digest"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.18.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/tlsfuzzer/python-ecdsa/security/advisories/GHSA-wj6h-64fc-37mp"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23342"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/tlsfuzzer/python-ecdsa"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tlsfuzzer/python-ecdsa/blob/master/SECURITY.md"
+    },
+    {
+      "type": "WEB",
+      "url": "https://minerva.crocs.fi.muni.cz"
+    },
+    {
+      "type": "WEB",
+      "url": "https://securitypitfalls.wordpress.com/2018/08/03/constant-time-compare-in-python"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-203",
+      "CWE-208",
+      "CWE-385"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-22T21:35:27Z",
+    "nvd_published_at": "2024-01-23T00:15:26Z"
+  }
+}

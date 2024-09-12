@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-x8mf-jcmf-r79f",
+  "modified": "2024-06-26T20:00:04Z",
+  "published": "2024-06-26T18:30:28Z",
+  "aliases": [
+    "CVE-2024-39460"
+  ],
+  "summary": "Bitbucket OAuth access token exposed in the build log by Bitbucket Branch Source Plugin ",
+  "details": "Bitbucket Branch Source Plugin 886.v44cf5e4ecec5 and earlier prints the Bitbucket OAuth access token as part of the Bitbucket URL in the build log in some cases.\n\nBitbucket Branch Source Plugin 887.va_d359b_3d2d8d does not include the Bitbucket OAuth access token as part of the Bitbucket URL in the build log.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:cloudbees-bitbucket-branch-source"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "887.va"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 886.v44cf5e4ecec5"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-39460"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jenkinsci/bitbucket-branch-source-plugin/commit/ad359b3d2d8d6c114025d81abc59b3c9acb636df"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/bitbucket-branch-source-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2024-06-26/#SECURITY-3363"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/06/26/2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-532"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-26T20:00:03Z",
+    "nvd_published_at": "2024-06-26T17:15:27Z"
+  }
+}

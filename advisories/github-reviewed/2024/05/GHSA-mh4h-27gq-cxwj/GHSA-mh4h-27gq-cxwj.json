@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mh4h-27gq-cxwj",
+  "modified": "2024-05-15T20:44:16Z",
+  "published": "2024-05-15T20:44:16Z",
+  "aliases": [
+
+  ],
+  "summary": "Drupal core Access bypass",
+  "details": "The Media Library module has a security vulnerability whereby it doesn't sufficiently restrict access to media items in certain configurations.\n\nSolution:\nIf you are using Drupal 8.7.x, you should upgrade to Drupal 8.7.11.\nIf you are using Drupal 8.8.x, you should upgrade to Drupal 8.8.1.\nVersions of Drupal 8 prior to 8.7.x are end-of-life and do not receive security coverage.\n\nAlternatively, you may mitigate this vulnerability by unchecking the \"Enable advanced UI\" checkbox on `/admin/config/media/media-library`. (This mitigation is not available in 8.7.x.)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "drupal/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.0.0"
+            },
+            {
+              "fixed": "8.7.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "drupal/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.8.0"
+            },
+            {
+              "fixed": "8.8.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/drupal/core/2019-12-18-3.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/drupal/core"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.drupal.org/sa-core-2019-011"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-15T20:44:16Z",
+    "nvd_published_at": null
+  }
+}

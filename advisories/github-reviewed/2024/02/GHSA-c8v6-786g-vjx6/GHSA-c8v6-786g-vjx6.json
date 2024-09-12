@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c8v6-786g-vjx6",
+  "modified": "2024-03-06T23:50:38Z",
+  "published": "2024-02-29T03:33:14Z",
+  "aliases": [
+    "CVE-2023-51774"
+  ],
+  "summary": "json-jwt allows bypass of identity checks via a sign/encryption confusion attack",
+  "details": "The json-jwt (aka JSON::JWT) gem 1.16.x before 1.16.6, 1.15.x before 1.15.3.1 for Ruby sometimes allows bypass of identity checks via a sign/encryption confusion attack. For example, JWE can sometimes be used to bypass JSON::JWT.decode.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "json-jwt"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.16.0"
+            },
+            {
+              "fixed": "1.16.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "json-jwt"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.15.3.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-51774"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nov/json-jwt/issues/120"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nov/json-jwt/issues/121"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nov/json-jwt/commit/593ea8bcaf2629048bad8c036191f2da0a2e713c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nov/json-jwt/commit/9c4d842a9465bd7960570ca326c3de79b4abc9d0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/P3ngu1nW/CVE_Request/blob/main/novjson-jwt.md"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/nov/json-jwt"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/json-jwt/CVE-2023-51774.yml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-01T16:56:21Z",
+    "nvd_published_at": "2024-02-29T01:42:05Z"
+  }
+}

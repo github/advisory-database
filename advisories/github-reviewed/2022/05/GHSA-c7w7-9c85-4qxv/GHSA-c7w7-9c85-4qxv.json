@@ -1,0 +1,117 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c7w7-9c85-4qxv",
+  "modified": "2024-04-29T10:57:39Z",
+  "published": "2022-05-24T17:26:41Z",
+  "aliases": [
+    "CVE-2020-17376"
+  ],
+  "summary": "OpenStack Nova Live migration fails to update persistent domain XML",
+  "details": "An issue was discovered in Guest.migrate in `virt/libvirt/guest.py` in OpenStack Nova before 19.3.1, 20.x before 20.3.1, and 21.0.0. By performing a soft reboot of an instance that has previously undergone live migration, a user may gain access to destination host devices that share the same paths as host devices previously referenced by the virtual machine on the source host. This can include block devices that map to different Cinder volumes at the destination than at the source. Only deployments allowing host-based connections (for instance, root and ephemeral devices) are affected.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "nova"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "19.3.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "nova"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "20.0.0"
+            },
+            {
+              "fixed": "20.3.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "nova"
+      },
+      "versions": [
+        "21.0.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-17376"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/1bb8ee95d4c3ddc3f607ac57526b75af1b7fbcff"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/2faf17995dd9daa6f0b91e44be43264e447c678d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/a721ca5f510ce3c8ef24f22dac9e475b3d7651db"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/b9ea91d17703f5b324a50727b6503ace0f4e95eb"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/c438fd9a0eb1903306a53ab44e3ae80660d8a429"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openstack/nova"
+    },
+    {
+      "type": "WEB",
+      "url": "https://launchpad.net/bugs/1890501"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.openstack.org/ossa/OSSA-2020-006.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2020/08/25/4"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-611"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-29T10:57:39Z",
+    "nvd_published_at": "2020-08-26T19:15:00Z"
+  }
+}

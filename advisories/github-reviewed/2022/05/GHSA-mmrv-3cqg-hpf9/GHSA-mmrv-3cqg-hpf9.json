@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mmrv-3cqg-hpf9",
+  "modified": "2024-01-30T22:25:59Z",
+  "published": "2022-05-13T01:31:35Z",
+  "aliases": [
+    "CVE-2019-1003007"
+  ],
+  "summary": "Sandbox Bypass via CSRF in Jenkins Warnings Plugin ",
+  "details": "A cross-site request forgery vulnerability exists in Jenkins Warnings Plugin 5.0.0 and earlier in src/main/java/hudson/plugins/warnings/GroovyParser.java that allows attackers to execute arbitrary code via a form validation HTTP endpoint.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jvnet.hudson.plugins:warnings"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.0.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 5.0.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-1003007"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/warnings-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2019-01-28/#SECURITY-1295%20%281%29"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2019-01-28/#SECURITY-1295%20(1)"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-30T22:25:59Z",
+    "nvd_published_at": "2019-02-06T16:29:00Z"
+  }
+}

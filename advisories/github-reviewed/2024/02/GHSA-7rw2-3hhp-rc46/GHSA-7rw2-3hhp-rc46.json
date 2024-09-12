@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7rw2-3hhp-rc46",
+  "modified": "2024-02-21T00:34:14Z",
+  "published": "2024-02-21T00:24:56Z",
+  "aliases": [
+    "CVE-2024-26140"
+  ],
+  "summary": "Cross-site Scripting Vulnerability in Statement Browser",
+  "details": "### Impact\nA maliciously crafted xAPI statement could be used to perform script or other tag injection in the LRS Statement Browser.\n\n### Patches\nThe problem is patched in version 1.2.17 of the LRS library and [version 0.7.5 of SQL LRS](https://github.com/yetanalytics/lrsql/releases/tag/v0.7.5).\n\n### Workarounds\nNo workarounds exist, we recommend upgrading to version 1.2.17 of the library or version 0.7.5 of SQL LRS immediately.\n\n### References\n* [LRS Tag](https://github.com/yetanalytics/lrs/releases/tag/v1.2.17)\n* [LRS lib on Clojars](https://clojars.org/com.yetanalytics/lrs/versions/1.2.17)\n* [SQL LRS 0.7.5 Release](https://github.com/yetanalytics/lrsql/releases/tag/v0.7.5)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:N/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.yetanalytics:lrs"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.2.17"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/yetanalytics/lrs/security/advisories/GHSA-7rw2-3hhp-rc46"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-26140"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/yetanalytics/lrs/commit/d7f4883bc2252337d25e8bba2c7f9d172f5b0621"
+    },
+    {
+      "type": "WEB",
+      "url": "https://clojars.org/com.yetanalytics/lrs/versions/1.2.17"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/yetanalytics/lrs"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/yetanalytics/lrs/releases/tag/v1.2.17"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/yetanalytics/lrsql/releases/tag/v0.7.5"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-21T00:24:56Z",
+    "nvd_published_at": "2024-02-20T22:15:08Z"
+  }
+}

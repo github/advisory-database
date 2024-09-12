@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r3jc-vhf4-6v32",
+  "modified": "2024-08-21T18:26:29Z",
+  "published": "2024-08-21T18:26:29Z",
+  "aliases": [
+    "CVE-2024-41675"
+  ],
+  "summary": "CKAN has Cross-site Scripting vector in the Datatables view plugin",
+  "details": "The [Datatables view plugin](https://docs.ckan.org/en/2.10/maintaining/data-viewer.html#datatables-view) did not properly escape record data coming from the DataStore, leading to a potential XSS vector.\n\n\n### Impact\nSites running CKAN >= 2.7.0 with the `datatables_view` plugin activated. This is a plugin included in CKAN core, that not activated by default but it is widely used to preview tabular data.\n\n### Patches\nThis vulnerability has been fixed in CKAN 2.10.5 and 2.11.0\n\n### Workarounds\nPrevent importing of tabular files to the DataStore via DataPusher, XLoader,etc, at least those published from untrusted sources.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:P/VC:N/VI:N/VA:N/SC:H/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ckan"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.7.0"
+            },
+            {
+              "fixed": "2.10.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ckan/ckan/security/advisories/GHSA-r3jc-vhf4-6v32"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-41675"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ckan/ckan/commit/9e89ce8220ab1445e0bd85a67994a51d9d3d2688"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ckan/ckan/commit/d7dfe8c427b1c63c75d788a609f3b7d7620a25a1"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ckan/ckan"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-21T18:26:29Z",
+    "nvd_published_at": "2024-08-21T15:15:08Z"
+  }
+}

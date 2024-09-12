@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-93x3-m7pw-ppqm",
+  "modified": "2024-05-14T20:01:07Z",
+  "published": "2024-05-13T14:57:13Z",
+  "aliases": [
+    "CVE-2024-34077"
+  ],
+  "summary": "Mantis Bug Tracker (MantisBT) allows user account takeover in the signup/reset password process",
+  "details": "Insufficient access control in the registration and password reset process allows an attacker to reset another user's password and takeover their account, if the victim has an incomplete request pending.\n\nThe exploit is only possible while the verification token is valid, i.e for 5 minutes after the confirmation URL sent by e-mail has been opened, and the user did not complete the process by updating their password.\n\nA brute-force attack calling account_update.php with increasing user IDs is possible. \n \n### Impact\n\nA successful takeover would grant the attacker full access to the compromised account, including sensitive information and functionalities associated with the account, the extent of which depends on its privileges and the data it has access to.\n\n### Patches\n\n92d11a01b195a1b6717a2f205218089158ea6d00\n\n### Workarounds\n\nMitigate the risk by reducing the verification token's validity (change the value of the `TOKEN_EXPIRY_AUTHENTICATED` constant in *constants_inc.php*).\n\n### References\n\nhttps://mantisbt.org/bugs/view.php?id=34433\n\n### Credits\n\nAlexander Christian, from Vantage Point Security Indonesia\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "mantisbt/mantisbt"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.26.2"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.26.1"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/mantisbt/mantisbt/security/advisories/GHSA-93x3-m7pw-ppqm"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-34077"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mantisbt/mantisbt/commit/92d11a01b195a1b6717a2f205218089158ea6d00"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mantisbt/mantisbt"
+    },
+    {
+      "type": "WEB",
+      "url": "https://mantisbt.org/bugs/view.php?id=34433"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-305",
+      "CWE-620"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-13T14:57:13Z",
+    "nvd_published_at": "2024-05-14T15:38:28Z"
+  }
+}

@@ -1,0 +1,134 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wr3j-pwj9-hqq6",
+  "modified": "2024-03-21T18:59:28Z",
+  "published": "2024-03-21T18:59:28Z",
+  "aliases": [
+    "CVE-2024-29180"
+  ],
+  "summary": "Path traversal in webpack-dev-middleware",
+  "details": "### Summary\n_The **webpack-dev-middleware** middleware does not validate the supplied URL address sufficiently before returning the local file. It is possible to access any file on the developer's machine._\n\n### Details\nThe middleware can either work with the physical filesystem when reading the files or it can use a virtualized in-memory _memfs_ filesystem.\nIf _writeToDisk_ configuration option is set to **true**, the physical filesystem is used:\n[https://github.com/webpack/webpack-dev-middleware/blob/7ed24e0b9f53ad1562343f9f517f0f0ad2a70377/src/utils/setupOutputFileSystem.js#L21](https://github.com/webpack/webpack-dev-middleware/blob/7ed24e0b9f53ad1562343f9f517f0f0ad2a70377/src/utils/setupOutputFileSystem.js#L21)\n\nThe _**getFilenameFromUrl**_ method is used to parse URL and build the local file path.\nThe public path prefix is stripped from the URL, and the **unsecaped** path suffix is appended to the _outputPath_:\n[https://github.com/webpack/webpack-dev-middleware/blob/7ed24e0b9f53ad1562343f9f517f0f0ad2a70377/src/utils/getFilenameFromUrl.js#L82](https://github.com/webpack/webpack-dev-middleware/blob/7ed24e0b9f53ad1562343f9f517f0f0ad2a70377/src/utils/getFilenameFromUrl.js#L82)\nAs the URL is not unescaped and normalized automatically before calling the midlleware, it is possible to use _%2e_ and _%2f_ sequences to perform path traversal attack.\n\n### PoC\n_A blank project can be created containing the following configuration file **webpack.config.js**:_\n`module.exports = {\n  devServer: {\n    devMiddleware: {\n      writeToDisk: true\n    }\n  }\n};\n`\n\nWhen started, it is possible to access any local file, e.g. _/etc/passwd_:\n`$ curl localhost:8080/public/..%2f..%2f..%2f..%2f../etc/passwd`\n```\nroot:x:0:0:root:/root:/bin/bash\ndaemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin\nbin:x:2:2:bin:/bin:/usr/sbin/nologin\nsys:x:3:3:sys:/dev:/usr/sbin/nologin\nsync:x:4:65534:sync:/bin:/bin/sync\ngames:x:5:60:games:/usr/games:/usr/sbin/nologin\n```\n\n### Impact\nThe developers using _webpack-dev-server_ or _webpack-dev-middleware_ are affected by the issue. When the project is started, an attacker might access any file on the developer's machine and exfiltrate the content (e.g. password, configuration files, private source code, ...).\n\nIf the development server is listening on a public IP address (or **0.0.0.0**), an attacker on the local network can access the local files without any interaction from the victim (direct connection to the port).\n\nIf the server allows access from third-party domains (CORS, **_Allow-Access-Origin: *_** ), an attacker can send a malicious link to the victim. When visited, the client side script can connect to the local server and exfiltrate the local files.\n\n### Recommendation\nThe URL should be unescaped and normalized before any further processing.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "webpack-dev-middleware"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.0.0"
+            },
+            {
+              "fixed": "7.1.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "webpack-dev-middleware"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.0.0"
+            },
+            {
+              "fixed": "6.1.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "webpack-dev-middleware"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.3.4"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 5.3.3"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/webpack/webpack-dev-middleware/security/advisories/GHSA-wr3j-pwj9-hqq6"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-29180"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/webpack/webpack-dev-middleware/commit/189c4ac7d2344ec132a4689e74dc837ec5be0132"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/webpack/webpack-dev-middleware/commit/9670b3495da518fe667ff3428c5e4cb9f2f3d353"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/webpack/webpack-dev-middleware/commit/e10008c762e4d5821ed6990348dabf0d4d93a10e"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/webpack/webpack-dev-middleware"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/webpack/webpack-dev-middleware/blob/7ed24e0b9f53ad1562343f9f517f0f0ad2a70377/src/utils/getFilenameFromUrl.js#L82"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/webpack/webpack-dev-middleware/blob/7ed24e0b9f53ad1562343f9f517f0f0ad2a70377/src/utils/setupOutputFileSystem.js#L21"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/webpack/webpack-dev-middleware/releases/tag/v5.3.4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/webpack/webpack-dev-middleware/releases/tag/v6.1.2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/webpack/webpack-dev-middleware/releases/tag/v7.1.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-21T18:59:28Z",
+    "nvd_published_at": "2024-03-21T17:15:09Z"
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xg9w-r469-m455",
+  "modified": "2024-06-07T20:27:03Z",
+  "published": "2024-06-07T20:27:03Z",
+  "aliases": [
+
+  ],
+  "summary": "ZendFramework Potential Information Disclosure and Insufficient Entropy vulnerabilities",
+  "details": "In Zend Framework 2, the `Zend\\Math\\Rand` component generates random bytes using the OpenSSL or Mcrypt extensions when available but will otherwise use PHP's `mt_rand()` function as a fallback. All outputs from `mt_rand()` are predictable for the same PHP process if an attacker can brute force the seed used by the Marsenne-Twister algorithm in a Seed Recovery Attack. This attack can be successfully applied with minimum effort if the attacker has access to either a random number from `mt_rand()` or a Session ID generated without using additional entropy. This makes `mt_rand()` unsuitable for generating non-trivial random bytes since it has Insufficient Entropy to protect against brute force attacks on the seed.\n\nThe `Zend\\Validate\\Csrf` component generates CSRF tokens by SHA1 hashing a salt, random number possibly generated using `mt_rand()` and a form name. Where the salt is known, an attacker can brute force the SHA1 hash with minimum effort to discover the random number when `mt_rand()` is utilised as a fallback to the OpenSSL and Mcrypt extensions. This constitutes an Information Disclosure where the recovered random number may itself be brute forced to recover the seed value and predict the output of other `mt_rand()` calls for the same PHP process. This may potentially lead to vulnerabilities in areas of an application where `mt_rand()` calls exist beyond the scope of Zend Framework.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "zendframework/zendframework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.0.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "zendframework/zendframework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.1.0"
+            },
+            {
+              "fixed": "2.1.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/zendframework/zendframework/commit/6975695dfdb201bda0aea02bcc11b4a85ddc89fa"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zendframework/zendframework/commit/97b98e7208f93613ab358432e56b6e2245153807"
+    },
+    {
+      "type": "WEB",
+      "url": "https://framework.zend.com/security/advisory/ZF2013-02"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/zendframework/zendframework/ZF2013-02.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/zendframework/zendframework"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-330"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-07T20:27:03Z",
+    "nvd_published_at": null
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-p4fx-qf2h-jpmj",
+  "modified": "2024-08-22T17:18:16Z",
+  "published": "2024-08-22T17:18:16Z",
+  "aliases": [
+    "CVE-2024-41659"
+  ],
+  "summary": "memos CORS Misconfiguration in server.go (GHSL-2024-034)",
+  "details": "memos is a privacy-first, lightweight note-taking service. A CORS misconfiguration exists in memos 0.20.1 and earlier where an arbitrary origin is reflected with Access-Control-Allow-Credentials set to true. This may allow an attacking website to make a cross-origin request, allowing the attacker to read private information or make privileged changes to the system as the vulnerable user account.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/usememos/memos"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.21.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-41659"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/usememos/memos/commit/8101a5e0b162044c16385bee4f12a4a653d050b9"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/usememos/memos"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/usememos/memos/blob/v0.20.1/server/server.go#L163"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://securitylab.github.com/advisories/GHSL-2024-034_memos"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-942"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-22T17:18:16Z",
+    "nvd_published_at": "2024-08-20T20:15:08Z"
+  }
+}

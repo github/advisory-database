@@ -1,0 +1,113 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xw35-rrcp-g7xm",
+  "modified": "2024-08-07T14:19:47Z",
+  "published": "2024-07-19T19:59:08Z",
+  "aliases": [
+    "CVE-2024-41121"
+  ],
+  "summary": "Woodpecker's custom workspace allow to overwrite plugin entrypoint executable",
+  "details": "### Impact\nThe server allow to create any user who can trigger a pipeline run malicious workflows:\n- Those workflows can either lead to a host takeover that runs the agent executing the workflow.\n- Or allow to extract the secrets who would be normally provided to the plugins who's entrypoint are overwritten.\n\n### Patches\nhttps://github.com/woodpecker-ci/woodpecker/pull/3933\n\n### Workarounds\n_Is there a way for users to fix or remediate the vulnerability without upgrading?_\n**Enable the \"gated\" repo feature and review each change upfront**\n\n### References\n- https://github.com/woodpecker-ci/woodpecker/pull/3933\n- https://github.com/woodpecker-ci/woodpecker-security/pull/11\n- https://github.com/woodpecker-ci/woodpecker-security/issues/8 (info will be published later at https://github.com/woodpecker-ci/woodpecker/issues/3924)\n- https://github.com/woodpecker-ci/woodpecker-security/issues/9 (info will be published later at https://github.com/woodpecker-ci/woodpecker/issues/3924)\n- https://github.com/woodpecker-ci/woodpecker/issues/3924 (info will be published later once we got adoption of the update)\n\n### Credits\n\n- Daniel Kilimnik [@D_K_Dev](https://x.com/D_K_Dev) (Neodyme AG)\n- Felipe Custodio Romero [@_localo_](https://x.com/_localo_) (Neodyme AG)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "go.woodpecker-ci.org/woodpecker/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.7.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "go.woodpecker-ci.org/woodpecker"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.7.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/woodpecker-ci/woodpecker/security/advisories/GHSA-xw35-rrcp-g7xm"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-41121"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/woodpecker-ci/woodpecker-security/issues/8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/woodpecker-ci/woodpecker-security/issues/9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/woodpecker-ci/woodpecker/issues/3924"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/woodpecker-ci/woodpecker-security/pull/11"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/woodpecker-ci/woodpecker/pull/3933"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/woodpecker-ci/woodpecker/commit/764329ed1dbc47c4a517ccc749e3feb34059fac8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/woodpecker-ci/woodpecker"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/vuln/GO-2024-2999"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22",
+      "CWE-74"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-19T19:59:08Z",
+    "nvd_published_at": "2024-07-19T20:15:08Z"
+  }
+}

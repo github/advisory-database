@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5g73-69p4-7gvx",
+  "modified": "2024-01-29T21:53:03Z",
+  "published": "2024-01-22T03:30:26Z",
+  "aliases": [
+    "CVE-2024-23752"
+  ],
+  "summary": "Code execution in pandasai",
+  "details": "GenerateSDFPipeline in synthetic_dataframe in PandasAI (aka pandas-ai) through 1.5.17 allows attackers to trigger the generation of arbitrary Python code that is executed by SDFCodeExecutor. An attacker can create a dataframe that provides an English language specification of this Python code. NOTE: the vendor previously attempted to restrict code execution in response to a separate issue, CVE-2023-39660.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "pandasai"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.5.17"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23752"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/gventuri/pandas-ai/issues/868"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/gventuri/pandas-ai"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-862",
+      "CWE-94"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-22T21:28:23Z",
+    "nvd_published_at": "2024-01-22T01:15:08Z"
+  }
+}

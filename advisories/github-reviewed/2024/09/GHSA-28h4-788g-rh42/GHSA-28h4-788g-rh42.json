@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-28h4-788g-rh42",
+  "modified": "2024-09-09T19:30:14Z",
+  "published": "2024-09-09T18:18:28Z",
+  "aliases": [
+    "CVE-2024-45406"
+  ],
+  "summary": "Craft CMS vulnerable to stored XSS in breadcrumb list and title fields",
+  "details": "### Summary\nMultiple Stored XSS can be triggered by the breadcrumb list and title fields with user input.\n\n### Details\n1. In the **/admin/categories** page, category title isn't sanitized and triggered xss.\n2. In the category edit page under the **/admin/categories/**, category title in breadcrumb list isn't sanitized and triggered xss.\n3. In the **/admin/entries** page, entry title isn't sanitized and triggered xss.\n4. In the entry edit page under the **/admin/entries/**, entry title in breadcrumb list isn't sanitized and triggered xss.\n5. In the **/admin/myaccount** and pages under it, username or full name in breadcrumb list isn't sanitized and triggered xss.\n\n### Impact\nMalicious users can tamper with the control panel.\n\n### PoC\n#### 1. In the **/admin/categories** page, category title isn't sanitized and triggered xss.\n```\n1. Access to the Settings -> Categories ( /admin/settings/categories )\n2. Create new category group\n3. Access to the Categories page ( /admin/categories/ )\n4. Push the New category button\n5. Input the Title column : xss<script>alert('xss')</script>\n6. Push the Create Category or Save button\n7. Access to the Categories page again and it triggers xss\n``` \n![image](https://github.com/craftcms/cms/assets/83068208/a1b2890e-731b-4fc4-b189-26591f4486fd)\n![image](https://github.com/craftcms/cms/assets/83068208/4e0f35c7-fbb0-4d38-a0b5-9e28750ff706)\n![image](https://github.com/craftcms/cms/assets/83068208/e046b9db-d83c-4f81-ad91-165c5afedeb9)\n\n#### 2. In the category edit page under the **/admin/categories/**, category title in breadcrumb list isn't sanitized and triggered xss.\n```\n1. Access to the Settings -> Categories ( /admin/settings/categories )\n2. Create new category group\n3. Access to the Categories page ( /admin/categories/ )\n4. Push the New category button\n5. Input the Title column : xss<script>alert('xss')</script>\n6. Push the Create Category or Save button\n7. Access to the Category edit page again and it triggers xss\n``` \n![image](https://github.com/craftcms/cms/assets/83068208/a1b2890e-731b-4fc4-b189-26591f4486fd)\n![image](https://github.com/craftcms/cms/assets/83068208/f7543a11-58eb-4099-9ee2-3461816c52ea)\n![image](https://github.com/craftcms/cms/assets/83068208/f01bbb80-4417-42ca-bf51-b38860f6c74a)\n\n#### 3. In the **/admin/entries** page, entry title isn't sanitized and triggered xss.\n```\n1. Access to the Settings -> Entry Types ( /admin/settings/entry-types )\n2. Create new entry type\n3. Access to the Settings -> Sections ( /admin/settings/sections )\n4. Create new section\n5. Access to the Entries page ( /admin/entries )\n6. Push the New entry button\n7. Input the Title column : xss<script>alert('xss')</script>\n8. Push the Create entry or Save button\n9. Access to the Entries page again and it triggers xss\n``` \n![image](https://github.com/craftcms/cms/assets/83068208/ba700899-947f-4421-a1b7-3f0cc2c0da30)\n![image](https://github.com/craftcms/cms/assets/83068208/b255a999-e48c-46be-b732-4482ea9cee9a)\n![image](https://github.com/craftcms/cms/assets/83068208/445d8e0c-71b6-49c7-8f4a-37541dcc9c85)\n\n#### 4. In the entry edit page under the **/admin/entries/**, entry title in breadcrumb list isn't sanitized and triggered xss.\n```\n1. Access to the Settings -> Entry Types ( /admin/settings/entry-types )\n2. Create new entry type\n3. Access to the Settings -> Sections ( /admin/settings/sections )\n4. Create new section\n5. Access to the Entries page ( /admin/entries )\n6. Push the New entry button\n7. Input the Title column : xss<script>alert('xss')</script>\n8. Push the Create entry or Save button\n9. Access to the Entriy edit page again and it triggers xss\n``` \n![image](https://github.com/craftcms/cms/assets/83068208/ba700899-947f-4421-a1b7-3f0cc2c0da30)\n![image](https://github.com/craftcms/cms/assets/83068208/a59a122b-b9e7-4695-be13-eb8a1c2d36df)\n![image](https://github.com/craftcms/cms/assets/83068208/b0d27446-7ac6-47e7-ac02-20c924698b13)\n\n#### 5. In the **/admin/myaccount** and pages under it, username or full name in breadcrumb list isn't sanitized and triggered xss.\n```\n1. Access to the My Account Page ( /admin/myaccount )\n2. Input the Full Name column : xss<script>alert('xss')</script>\n3. Push the the Save button\n4. Access to the My Account page ( /admin/myaccount ) or pages under it ( /admin/myaccount/addresses , /admin/myaccount/preferences , etc.) and it triggers xss\n``` \n![image](https://github.com/craftcms/cms/assets/83068208/3be45bdd-0757-42a8-bc5d-320ab2339fd0)\n![image](https://github.com/craftcms/cms/assets/83068208/e1be7446-1c54-42bc-af9a-a8ac81a2d7bf)\n![image](https://github.com/craftcms/cms/assets/83068208/5fa06b26-fecd-40f5-bc8b-171f881f8a2a)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:L/I:L/A:L"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:P/VC:N/VI:N/VA:N/SC:L/SI:L/SA:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "craftcms/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0"
+            },
+            {
+              "fixed": "5.1.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/craftcms/cms/security/advisories/GHSA-28h4-788g-rh42"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-45406"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/craftcms/cms/commit/b7348942f8131b3868ec6f46d615baae50151bb8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/craftcms/cms"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79",
+      "CWE-80"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-09-09T18:18:28Z",
+    "nvd_published_at": "2024-09-09T17:15:13Z"
+  }
+}

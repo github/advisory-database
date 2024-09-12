@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hcmv-jmqh-fjgm",
+  "modified": "2024-07-22T17:40:40Z",
+  "published": "2024-07-22T17:40:40Z",
+  "aliases": [
+    "CVE-2024-41129"
+  ],
+  "summary": "ops leaking secrets if `subprocess.CalledProcessError` happens with a `secret-*` CLI command",
+  "details": "### Summary\n\nThe issue here is that we pass the secret content as one of the args via CLI. This issue may affect any of our charms that are using: Juju (>=3.0), Juju secrets and not correctly capturing and processing `subprocess.CalledProcessError`.\n\nThere are two points that may log this command, in different files:\n\nFirst, if there is an error during a secret handling, there will be a `subprocess.CalledProcessError`, which will contain the CLI comand + all its args. This is going to be logged in any logging level. This exception, if not caught by the charm, will bubble up to the `/var/log/juju/` logs and syslog journal. Now, on Ubuntu 22.04, these logs are protected with:\n```\n$ juju ssh -m controller 0 -- ls -la /var/log/juju/\ntotal 224\ndrwxr-xr-x 2 syslog adm      4096 Jul 14 10:59 .\ndrwxrwxr-x 9 root   syslog   4096 Jul 14 10:58 ..\n-rw-r----- 1 syslog adm     20124 Jul 14 11:10 audit.log\n-rw-r----- 1 syslog adm    110432 Jul 14 11:10 logsink.log\n-rw-r----- 1 syslog adm     80783 Jul 14 11:06 machine-0.log\n-rw-r----- 1 syslog adm       766 Jul 14 11:10 machine-lock.log\n-rw-r--r-- 1 root   root        0 Jul 14 10:59 slow-query.log\n-rw-r----- 1 syslog adm      3732 Jul 14 11:10 unit-controller-0.log\n```\n\nSecond, certain audit setups may log terminal commands, which would result in this command being logged with its secrets. It is unknown if this is done on ubuntu security benchmarks, such as CIS hardening.\n\nKeep in mind these logs may be copied or even backed up. Which exposes it to more services in the user's environment (e.g. CI runs in GH - although these are dummy password generated per test only).\n\nPassing secrets straight via CLI is not advised. Here are some ways out:\n1) Redacting: which commands and which args represent secrets are known, so they can be redacted. It would also mean capturing a `subprocess.CalledProcessError`, redacting its content and reissuing the same type of exception; this will not cover the case `auditd` is set to log CLI commands, if that is a risk\n2) Temp files: secret-add, for example, can use a secret file instead, [as can be seen here](https://github.com/juju/juju/blob/20b7d944acc985ce91419728529d5fb2abd14d68/cmd/juju/secrets/add.go#L62). However, if ops uses a file, ops will need to be sure to correctly remove it later\n3) stdin: not sure it is accepted by secret-* commands, but generally, secrets are not shown on CLI whilst typing them; auditd may not capture that stdin\n\n### Severity Rationale\n\nThis is a [CWE-532](https://cwe.mitre.org/data/definitions/532.html). Potentially, these secrets can lead to privilege escalation but Ubuntu default is to have logs only accessible to `adm` group users.\n\nMarking this issue as \"Moderate\", as this report is not presenting a clear way on how to get access to the logs themselves: either getting local access to an `adm` group user (e.g. ubuntu) or recovering logs stored on a 3rd party service.\n\n### Details\n```\n2024-07-12T14:27:58.0175389Z unit-opensearch-3: 14:27:53 ERROR unit.opensearch/3.juju-log certificates:11: Uncaught exception while in charm code:\n2024-07-12T14:27:58.0175524Z Traceback (most recent call last):\n2024-07-12T14:27:58.0175957Z   File \"/var/lib/juju/agents/unit-opensearch-3/charm/venv/ops/model.py\", line 3180, in _run\n2024-07-12T14:27:58.0176165Z     result = subprocess.run(args, **kwargs)  # type: ignore\n2024-07-12T14:27:58.0176381Z   File \"/usr/lib/python3.10/subprocess.py\", line 526, in run\n2024-07-12T14:27:58.0176561Z     raise CalledProcessError(retcode, process.args,\n2024-07-12T14:27:58.0177749Z subprocess.CalledProcessError: Command '('/var/lib/juju/tools/unit-opensearch-3/secret-add', '--label', 'opensearch:app:app-admin', '--owner', 'application', 'keystore-password-ca=aUE...')' returned non-zero exit status 1.\n2024-07-12T14:27:58.0177765Z\n2024-07-12T14:27:58.0178023Z The above exception was the direct cause of the following exception:\n2024-07-12T14:27:58.0178038Z\n2024-07-12T14:27:58.0178168Z Traceback (most recent call last):\n2024-07-12T14:27:58.0178588Z   File \"/var/lib/juju/agents/unit-opensearch-3/charm/./src/charm.py\", line 213, in <module>\n2024-07-12T14:27:58.0178724Z     main(OpenSearchOperatorCharm)\n2024-07-12T14:27:58.0179129Z   File \"/var/lib/juju/agents/unit-opensearch-3/charm/venv/ops/main.py\", line 548, in main\n2024-07-12T14:27:58.0179237Z     manager.run()\n2024-07-12T14:27:58.0179640Z   File \"/var/lib/juju/agents/unit-opensearch-3/charm/venv/ops/main.py\", line 527, in run\n2024-07-12T14:27:58.0179745Z     self._emit()\n2024-07-12T14:27:58.0180150Z   File \"/var/lib/juju/agents/unit-opensearch-3/charm/venv/ops/main.py\", line 516, in _emit\n2024-07-12T14:27:58.0180359Z     _emit_charm_event(self.charm, self.dispatcher.event_name)\n2024-07-12T14:27:58.0180840Z   File \"/var/lib/juju/agents/unit-opensearch-3/charm/venv/ops/main.py\", line 147, in _emit_charm_event\n2024-07-12T14:27:58.0180974Z     event_to_emit.emit(*args, **kwargs)\n2024-07-12T14:27:58.0181537Z   File \"/var/lib/juju/agents/unit-opensearch-3/charm/venv/ops/framework.py\", line 348, in emit\n2024-07-12T14:27:58.0181656Z     framework._emit(event)\n2024-07-12T14:27:58.0182091Z   File \"/var/lib/juju/agents/unit-opensearch-3/charm/venv/ops/framework.py\", line 860, in _emit\n2024-07-12T14:27:58.0182211Z     self._reemit(event_path)\n2024-07-12T14:27:58.0182659Z   File \"/var/lib/juju/agents/unit-opensearch-3/charm/venv/ops/framework.py\", line 950, in _reemit\n2024-07-12T14:27:58.0182770Z     custom_handler(event)\n2024-07-12T14:27:58.0183492Z   File \"/var/lib/juju/agents/unit-opensearch-3/charm/lib/charms/tls_certificates_interface/v3/tls_certificates.py\", line 1811, in _on_relation_changed\n2024-07-12T14:27:58.0183743Z     self.on.certificate_available.emit(\n2024-07-12T14:27:58.0184173Z   File \"/var/lib/juju/agents/unit-opensearch-3/charm/venv/ops/framework.py\", line 348, in emit\n2024-07-12T14:27:58.0184291Z     framework._emit(event)\n2024-07-12T14:27:58.0184717Z   File \"/var/lib/juju/agents/unit-opensearch-3/charm/venv/ops/framework.py\", line 860, in _emit\n2024-07-12T14:27:58.0184887Z     self._reemit(event_path)\n2024-07-12T14:27:58.0186171Z   File \"/var/lib/juju/agents/unit-opensearch-3/charm/venv/ops/framework.py\", line 950, in _reemit\n2024-07-12T14:27:58.0186306Z     custom_handler(event)\n2024-07-12T14:27:58.0187043Z   File \"/var/lib/juju/agents/unit-opensearch-3/charm/lib/charms/opensearch/v0/opensearch_tls.py\", line 209, in _on_certificate_available\n2024-07-12T14:27:58.0187320Z     self.store_new_ca(self.charm.secrets.get_object(scope, cert_type.val))\n2024-07-12T14:27:58.0187942Z   File \"/var/lib/juju/agents/unit-opensearch-3/charm/lib/charms/opensearch/v0/opensearch_tls.py\", line 444, in store_new_ca\n2024-07-12T14:27:58.0188242Z     self._create_keystore_pwd_if_not_exists(Scope.APP, CertType.APP_ADMIN, \"ca\")\n2024-07-12T14:27:58.0188981Z   File \"/var/lib/juju/agents/unit-opensearch-3/charm/lib/charms/opensearch/v0/opensearch_tls.py\", line 432, in _create_keystore_pwd_if_not_exists\n2024-07-12T14:27:58.0189119Z     self.charm.secrets.put_object(\n2024-07-12T14:27:58.0189738Z   File \"/var/lib/juju/agents/unit-opensearch-3/charm/lib/charms/opensearch/v0/opensearch_secrets.py\", line 359, in put_object\n2024-07-12T14:27:58.0189944Z     self._add_or_update_juju_secret(scope, key, value, merge)\n2024-07-12T14:27:58.0190652Z   File \"/var/lib/juju/agents/unit-opensearch-3/charm/lib/charms/opensearch/v0/opensearch_secrets.py\", line 272, in _add_or_update_juju_secret\n2024-07-12T14:27:58.0190815Z     return self._add_juju_secret(scope, key, value)\n2024-07-12T14:27:58.0191462Z   File \"/var/lib/juju/agents/unit-opensearch-3/charm/lib/charms/opensearch/v0/opensearch_secrets.py\", line 228, in _add_juju_secret\n2024-07-12T14:27:58.0191660Z     secret = scope_obj.add_secret(safe_value, label=label)\n2024-07-12T14:27:58.0192110Z   File \"/var/lib/juju/agents/unit-opensearch-3/charm/venv/ops/model.py\", line 477, in add_secret\n2024-07-12T14:27:58.0192241Z     id = self._backend.secret_add(\n2024-07-12T14:27:58.0192686Z   File \"/var/lib/juju/agents/unit-opensearch-3/charm/venv/ops/model.py\", line 3624, in secret_add\n2024-07-12T14:27:58.0192948Z     result = self._run('secret-add', *args, return_output=True)\n2024-07-12T14:27:58.0193356Z   File \"/var/lib/juju/agents/unit-opensearch-3/charm/venv/ops/model.py\", line 3182, in _run\n2024-07-12T14:27:58.0193489Z     raise ModelError(e.stderr) from e\n2024-07-12T14:27:58.0193685Z ops.model.ModelError: ERROR this unit is not the leader\n2024-07-12T14:27:58.0193692Z\n```\n\nFrom CI: https://github.com/canonical/opensearch-operator/actions/runs/9908987369/job/27376377521?pr=364\n\n### PoC\n1) Deploy anything with juju\n2) Run a dummy secret-add call that will fail\n3) See the uncaught subprocess error\n\n### Impact\nJuju secrets are generally composed of private keys, passwords, etc; generally valuable credentials that, if leaked, will likely allow an attacker to get privileged access to its target or other targets in the environment.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:U/C:H/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:H/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ops"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.15.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/canonical/operator/security/advisories/GHSA-hcmv-jmqh-fjgm"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-41129"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/canonical/operator/commit/fea6d2072435a62170d4c01272572f1a7e916e61"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/canonical/operator"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-532"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-22T17:40:40Z",
+    "nvd_published_at": "2024-07-22T15:15:03Z"
+  }
+}

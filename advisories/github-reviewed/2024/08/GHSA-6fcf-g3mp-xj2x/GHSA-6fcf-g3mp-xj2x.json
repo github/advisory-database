@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6fcf-g3mp-xj2x",
+  "modified": "2024-08-05T21:29:24Z",
+  "published": "2024-08-05T21:29:24Z",
+  "aliases": [
+    "CVE-2024-29028"
+  ],
+  "summary": "memos vulnerable to Server-Side Request Forgery in /o/get/httpmeta",
+  "details": "memos is a privacy-first, lightweight note-taking service. In memos 0.13.2, an SSRF vulnerability exists at the /o/get/httpmeta that allows unauthenticated users to enumerate the internal network and receive limited html values in json form. This vulnerability is fixed in 0.16.1.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/usememos/memos"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.16.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-29028"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/usememos/memos/commit/6ffc09d86a1302c384ef085aa70c7bddb3ce7ba9"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/usememos/memos"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://securitylab.github.com/advisories/GHSL-2023-154_GHSL-2023-156_memos"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-918"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-05T21:29:24Z",
+    "nvd_published_at": "2024-04-19T15:15:50Z"
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6h78-85v2-mmch",
+  "modified": "2024-02-02T20:43:55Z",
+  "published": "2024-02-02T20:43:55Z",
+  "aliases": [
+    "CVE-2007-3215"
+  ],
+  "summary": "PHPMailer Shell command injection",
+  "details": "PHPMailer before 1.7.4, when configured to use sendmail, allows remote attackers to execute arbitrary shell commands via shell metacharacters in the SendmailSend function in `class.phpmailer.php`.\n\n### Impact\nShell command injection, remotely exploitable if host application does not filter user data appropriately.\n\n### Patches\nFixed in 1.7.4\n\n### Workarounds\nFilter and validate user-supplied data before putting in the into the `Sender` property.\n\n### References\nhttps://nvd.nist.gov/vuln/detail/CVE-2007-3215\n\n### For more information\nIf you have any questions or comments about this advisory:\n* Open a private issue in [the PHPMailer project](https://github.com/PHPMailer/PHPMailer)",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "phpmailer/phpmailer"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.7.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/PHPMailer/PHPMailer/security/advisories/GHSA-6h78-85v2-mmch"
+    },
+    {
+      "type": "WEB",
+      "url": "https://cxsecurity.com/issue/WLB-2007060063"
+    },
+    {
+      "type": "WEB",
+      "url": "https://exchange.xforce.ibmcloud.com/vulnerabilities/34818"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/PHPMailer/PHPMailer"
+    },
+    {
+      "type": "WEB",
+      "url": "https://seclists.org/fulldisclosure/2011/Oct/223"
+    },
+    {
+      "type": "WEB",
+      "url": "https://sourceforge.net/p/phpmailer/bugs/192"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20070714054359/http://larholm.com/2007/06/11/phpmailer-0day-remote-execution"
+    },
+    {
+      "type": "WEB",
+      "url": "https://yehg.net/lab/pr0js/advisories/%5BvTiger_5.2.1%5D_rce"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-02T20:43:55Z",
+    "nvd_published_at": null
+  }
+}

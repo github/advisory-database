@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2g4c-8fpm-c46v",
+  "modified": "2024-03-27T21:57:42Z",
+  "published": "2024-03-27T21:57:42Z",
+  "aliases": [
+    "CVE-2024-21505"
+  ],
+  "summary": "web3-utils Prototype Pollution vulnerability",
+  "details": "### Impact: \nThe mergeDeep() function in the web3-utils package has been identified for Prototype Pollution vulnerability. An attacker has the ability to modify an object's prototype, which could result in changing the behavior of all objects that inherit from the impacted prototype by providing carefully crafted input to function.\n\n### Patches: \nIt has been fixed in web3-utils version 4.2.1 so all packages and apps depending on web3-utils >=4.0.1 and <=4.2.0 should upgrade to web3-utils 4.2.1.\n\n### Workarounds: \nNone\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "web3-utils"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.1"
+            },
+            {
+              "fixed": "4.2.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/web3/web3.js/security/advisories/GHSA-2g4c-8fpm-c46v"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-21505"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/web3/web3.js/commit/8ed041c6635d807b3da8960ad49e125e3d1b0e80"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/web3/web3.js"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-JS-WEB3UTILS-6229337"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1321"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-27T21:57:42Z",
+    "nvd_published_at": null
+  }
+}

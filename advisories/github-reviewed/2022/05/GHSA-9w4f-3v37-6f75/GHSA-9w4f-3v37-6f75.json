@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9w4f-3v37-6f75",
+  "modified": "2024-04-29T16:18:48Z",
+  "published": "2022-05-17T03:33:24Z",
+  "aliases": [
+    "CVE-2015-3010"
+  ],
+  "summary": "ceph-deploy allows local users to obtain sensitive information by reading the file",
+  "details": "ceph-deploy before 1.5.23 uses weak permissions (644) for `ceph/ceph.client.admin.keyring`, which allows local users to obtain sensitive information by reading the file.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ceph-deploy"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.5.23"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2015-3010"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ceph/ceph-deploy/pull/272"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ceph/ceph-deploy/commit/eee56770393bf19ed2dd5389226c6190c08dee3f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.suse.com/show_bug.cgi?id=920926"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ceph/ceph-deploy"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20200228233028/http://www.securityfocus.com/bid/74043"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.fedoraproject.org/pipermail/package-announce/2015-April/155576.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.fedoraproject.org/pipermail/package-announce/2015-April/155631.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://rhn.redhat.com/errata/RHSA-2015-1092.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2015/04/09/11"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2015/04/09/9"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-29T16:18:48Z",
+    "nvd_published_at": "2015-06-16T16:59:00Z"
+  }
+}

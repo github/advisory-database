@@ -1,0 +1,131 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v725-c588-h936",
+  "modified": "2024-05-14T21:27:20Z",
+  "published": "2022-08-04T00:00:26Z",
+  "aliases": [
+    "CVE-2022-37394"
+  ],
+  "summary": "OpenStack Nova Changing vnic_type breaks compute service restart",
+  "details": "An issue was discovered in OpenStack Nova before 23.2.2, 24.x before 24.1.2, and 25.x before 25.0.2. By creating a neutron port with the direct vnic_type, creating an instance bound to that port, and then changing the vnic_type of the bound port to macvtap, an authenticated user may cause the compute service to fail to restart, resulting in a possible denial of service. Only Nova deployments configured with SR-IOV are affected.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "nova"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "23.2.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "nova"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "24.0.0"
+            },
+            {
+              "fixed": "24.1.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "nova"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "25.0.0"
+            },
+            {
+              "fixed": "25.0.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-37394"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/0c87681135cfb3ce61d2a0392928c1dbc1fe5fde"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/1a98a1a650d065a8ab3e1c474f3b9fd537dc2206"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/4954f993680c75fd9d3d507f2dcd00300c9b3d44"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/a28c82719545d5c8ee7f3ff1361b3a796e05095a"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/e43bf900dc8ca66578603bed333c56b215b1876e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/f8c91eb75fc5504a37fc3b4be1d65d33dbc9b511"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.launchpad.net/ossa/+bug/1981813"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openstack/nova"
+    },
+    {
+      "type": "WEB",
+      "url": "https://review.opendev.org/c/openstack/nova/+/849985"
+    },
+    {
+      "type": "WEB",
+      "url": "https://review.opendev.org/c/openstack/nova/+/850003"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-14T21:27:20Z",
+    "nvd_published_at": "2022-08-03T07:15:00Z"
+  }
+}

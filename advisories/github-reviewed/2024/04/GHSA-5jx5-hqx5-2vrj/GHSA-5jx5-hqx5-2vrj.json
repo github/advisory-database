@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5jx5-hqx5-2vrj",
+  "modified": "2024-06-10T20:07:01Z",
+  "published": "2024-04-08T21:31:16Z",
+  "aliases": [
+    "CVE-2024-28224"
+  ],
+  "summary": "Ollama DNS rebinding vulnerability",
+  "details": "Ollama before 0.1.29 has a DNS rebinding vulnerability that can inadvertently allow remote access to the full API, thereby letting an unauthorized user chat with a large language model, delete a model, or cause a denial of service (resource exhaustion).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/ollama/ollama"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.1.29"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28224"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ollama/ollama"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ollama/ollama/releases"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/vuln/GO-2024-2699"
+    },
+    {
+      "type": "WEB",
+      "url": "https://research.nccgroup.com/2024/04/08/technical-advisory-ollama-dns-rebinding-attack-cve-2024-28224"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.nccgroup.trust/us/our-research/?research=Technical+advisories"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-290",
+      "CWE-350"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-08T22:20:11Z",
+    "nvd_published_at": "2024-04-08T19:15:07Z"
+  }
+}

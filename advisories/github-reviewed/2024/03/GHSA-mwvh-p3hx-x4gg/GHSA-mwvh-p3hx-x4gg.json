@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mwvh-p3hx-x4gg",
+  "modified": "2024-03-20T18:13:09Z",
+  "published": "2024-03-20T18:13:09Z",
+  "aliases": [
+
+  ],
+  "summary": "Ibexa Kernel's files with blacklisted extensions can be still saved to drafts",
+  "details": "### Impact\nFile validation can be configured to reject certain files by file type. When this happens, validation fails, and the content can't be published. However, the file can be saved when saving the content draft. This means unwanted files can be present in storage, even if they are not easily accessible due to the content not being published. The fix ensures these unwanted file types are never stored. An attacker would need to have existing access to create content with a file field type to exploit this.\n\n### Patches\nSee \"Patched versions\".\nCommit: https://github.com/ezsystems/ezplatform-kernel/commit/7e472317f7c75f45f72f74c38406952d8bea0de1\n\n### References\nhttps://developers.ibexa.co/security-advisories/ibexa-sa-2024-002-file-validation-and-workflow-stages",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "ezsystems/ezplatform-kernel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.3.0"
+            },
+            {
+              "fixed": "1.3.35"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ezsystems/ezplatform-kernel/security/advisories/GHSA-mwvh-p3hx-x4gg"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ezsystems/ezplatform-kernel/commit/7e472317f7c75f45f72f74c38406952d8bea0de1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://developers.ibexa.co/security-advisories/ibexa-sa-2024-002-file-validation-and-workflow-stages"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ezsystems/ezplatform-kernel"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-434"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-20T18:13:09Z",
+    "nvd_published_at": null
+  }
+}

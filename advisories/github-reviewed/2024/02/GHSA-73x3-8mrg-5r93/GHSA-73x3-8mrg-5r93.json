@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-73x3-8mrg-5r93",
+  "modified": "2024-02-21T23:30:19Z",
+  "published": "2024-02-21T03:30:37Z",
+  "aliases": [
+    "CVE-2023-42498"
+  ],
+  "summary": "Liferay Portal Language Override edit screen and Liferay DXP vulnerable to reflected Cross-site Scripting",
+  "details": "Reflected cross-site scripting (XSS) vulnerability in the Language Override edit screen in Liferay Portal 7.4.3.8 through 7.4.3.97, and Liferay DXP 2023.Q3 before patch 5, and 7.4 update 4 through 92 allows remote attackers to inject arbitrary web script or HTML via the `_com_liferay_portal_language_override_web_internal_portlet_PLOPortlet_key` parameter.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.liferay.portal:release.portal.bom"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.4.3.8"
+            },
+            {
+              "last_affected": "7.4.3.97"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.liferay.portal:release.dxp.bom"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2023.Q3"
+            },
+            {
+              "fixed": "2023.Q3.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.liferay.portal:release.dxp.bom"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.4.13.u4"
+            },
+            {
+              "last_affected": "7.4.13.u92"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-42498"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/liferay/liferay-portal"
+    },
+    {
+      "type": "WEB",
+      "url": "https://liferay.dev/portal/security/known-vulnerabilities/-/asset_publisher/jekt/content/cve-2023-42498"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-21T23:30:19Z",
+    "nvd_published_at": "2024-02-21T03:15:08Z"
+  }
+}

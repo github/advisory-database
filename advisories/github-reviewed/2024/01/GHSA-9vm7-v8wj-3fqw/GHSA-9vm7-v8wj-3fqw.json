@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9vm7-v8wj-3fqw",
+  "modified": "2024-01-23T14:43:50Z",
+  "published": "2024-01-23T14:43:50Z",
+  "aliases": [
+
+  ],
+  "summary": "keycloak-core: open redirect via \"form_post.jwt\" JARM response mode",
+  "details": "An incomplete fix was found in Keycloak Core patch. An attacker can steal authorization codes or tokens from clients using a wildcard in the JARM response mode \"form_post.jwt\". It is observed that changing the response_mode parameter in the original proof of concept from \"form_post\" to \"form_post.jwt\" can bypass the security patch implemented to address CVE-2023-6134.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.keycloak:keycloak-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "23.0.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/keycloak/keycloak/security/advisories/GHSA-9vm7-v8wj-3fqw"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/keycloak/keycloak"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-601"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-23T14:43:50Z",
+    "nvd_published_at": null
+  }
+}

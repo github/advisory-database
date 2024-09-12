@@ -1,0 +1,213 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hfrg-4jwr-jfpj",
+  "modified": "2024-03-28T13:29:55Z",
+  "published": "2024-03-18T20:34:00Z",
+  "aliases": [
+    "CVE-2024-28855"
+  ],
+  "summary": "Improper HTML sanitization in ZITADEL",
+  "details": "### Impact\n\nZITADEL uses Go templates to render the login UI.\n\nDue to a improper use of the `text/template` instead of the `html/template` package, the Login UI did not sanitize input parameters. An attacker could create a malicious link, where he injected code which would be rendered as part of the login screen.\nWhile it was possible to inject HTML including javascript, the execution of such scripts would be prevented by the Content Security Policy.\n\n### Patches\n\n2.x versions are fixed on >= [2.47.3](https://github.com/zitadel/zitadel/releases/tag/v2.47.3)\n2.46.x versions are fixed on >= [2.46.1](https://github.com/zitadel/zitadel/releases/tag/v2.46.1)\n2.45.x versions are fixed on >= [2.45.1](https://github.com/zitadel/zitadel/releases/tag/v2.45.1)\n2.44.x versions are fixed on >= [2.44.3](https://github.com/zitadel/zitadel/releases/tag/v2.44.3)\n2.43.x versions are fixed on >= [2.43.9](https://github.com/zitadel/zitadel/releases/tag/v2.43.9)\n2.42.x versions are fixed on >= [2.42.15](https://github.com/zitadel/zitadel/releases/tag/v2.42.15)\n2.41.x versions are fixed on >= [2.41.15](https://github.com/zitadel/zitadel/releases/tag/v2.41.15)\n\nZITADEL recommends upgrading to the latest versions available in due course.\n\n### Workarounds\n\nThere is no workaround since a patch is already available.\n\n### Questions\n\nIf you have any questions or comments about this advisory, please email us at [security@zitadel.com](mailto:security@zitadel.com)\n\n### Credits\n\nThanks to Daniel Philipp - owt and Thomas Wickham - synopsis for reporting this.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/zitadel/zitadel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.41.15"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/zitadel/zitadel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.42.0"
+            },
+            {
+              "fixed": "2.42.15"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/zitadel/zitadel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.43.0"
+            },
+            {
+              "fixed": "2.43.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/zitadel/zitadel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.44.0"
+            },
+            {
+              "fixed": "2.44.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/zitadel/zitadel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.45.0"
+            },
+            {
+              "fixed": "2.45.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "2.45.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/zitadel/zitadel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.46.0"
+            },
+            {
+              "fixed": "2.46.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "2.46.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/zitadel/zitadel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.47.0"
+            },
+            {
+              "fixed": "2.47.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/security/advisories/GHSA-hfrg-4jwr-jfpj"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28855"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/commit/07ec2efa9dc62f7a6c3a58c112b2879d24bc3e3c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/zitadel/zitadel"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/releases/tag/v2.41.15"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/releases/tag/v2.42.15"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/releases/tag/v2.43.9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/releases/tag/v2.44.3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/releases/tag/v2.45.1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/releases/tag/v2.46.1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/releases/tag/v2.47.3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-18T20:34:00Z",
+    "nvd_published_at": "2024-03-18T22:15:08Z"
+  }
+}

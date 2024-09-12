@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cpcw-9h9m-wqw9",
+  "modified": "2024-02-16T21:57:45Z",
+  "published": "2024-02-06T15:32:06Z",
+  "aliases": [
+    "CVE-2024-24590"
+  ],
+  "summary": "Allegro AI ClearML vulnerable to deserialization of untrusted data",
+  "details": "Deserialization of untrusted data can occur in versions 0.17.0 to 1.14.2 of the client SDK of Allegro AI’s ClearML platform, enabling a maliciously uploaded artifact to run arbitrary code on an end user’s system when interacted with.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "clearml"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.17.0"
+            },
+            {
+              "last_affected": "1.14.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-24590"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/allegroai/clearml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://hiddenlayer.com/research/not-so-clear-how-mlops-solutions-can-muddy-the-waters-of-your-supply-chain"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-502"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-06T20:28:52Z",
+    "nvd_published_at": "2024-02-06T15:15:09Z"
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rv95-896h-c2vc",
+  "modified": "2024-03-25T22:24:57Z",
+  "published": "2024-03-25T19:40:26Z",
+  "aliases": [
+    "CVE-2024-29041"
+  ],
+  "summary": "Express.js Open Redirect in malformed URLs",
+  "details": "### Impact\n\nVersions of Express.js prior to 4.19.2 and pre-release alpha and beta versions before 5.0.0-beta.3 are affected by an open redirect vulnerability using malformed URLs.\n\nWhen a user of Express performs a redirect using a user-provided URL Express performs an encode [using `encodeurl`](https://github.com/pillarjs/encodeurl) on the contents before passing it to the `location` header. This can cause malformed URLs to be evaluated in unexpected ways by common redirect allow list implementations in Express applications, leading to an Open Redirect via bypass of a properly implemented allow list.\n\nThe main method impacted is `res.location()` but this is also called from within `res.redirect()`.\n\n### Patches\n\nhttps://github.com/expressjs/express/commit/0867302ddbde0e9463d0564fea5861feb708c2dd\nhttps://github.com/expressjs/express/commit/0b746953c4bd8e377123527db11f9cd866e39f94\n\nAn initial fix went out with `express@4.19.0`, we then patched a feature regression in `4.19.1` and added improved handling for the bypass in `4.19.2`.\n\n### Workarounds\n\nThe fix for this involves pre-parsing the url string with either `require('node:url').parse` or `new URL`. These are steps you can take on your own before passing the user input string to `res.location` or `res.redirect`.\n\n### References\n\nhttps://github.com/expressjs/express/pull/5539\nhttps://github.com/koajs/koa/issues/1800\nhttps://expressjs.com/en/4x/api.html#res.location",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "express"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.19.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "express"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0-alpha.1"
+            },
+            {
+              "fixed": "5.0.0-beta.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/expressjs/express/security/advisories/GHSA-rv95-896h-c2vc"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-29041"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/koajs/koa/issues/1800"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/expressjs/express/pull/5539"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/expressjs/express/commit/0867302ddbde0e9463d0564fea5861feb708c2dd"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/expressjs/express/commit/0b746953c4bd8e377123527db11f9cd866e39f94"
+    },
+    {
+      "type": "WEB",
+      "url": "https://expressjs.com/en/4x/api.html#res.location"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/expressjs/express"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1286",
+      "CWE-601"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-25T19:40:26Z",
+    "nvd_published_at": "2024-03-25T21:15:46Z"
+  }
+}

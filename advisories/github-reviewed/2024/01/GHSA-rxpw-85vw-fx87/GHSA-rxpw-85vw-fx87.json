@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rxpw-85vw-fx87",
+  "modified": "2024-01-26T20:12:00Z",
+  "published": "2024-01-26T20:12:00Z",
+  "aliases": [
+    "CVE-2024-23820"
+  ],
+  "summary": "OpenFGA denial of service",
+  "details": "## Overview\nOpenFGA is vulnerable to a DoS attack. In some scenarios that depend on the model and tuples used, a call to ListObjects may not  release memory properly. So when a sufficiently high number of those calls are executed, the OpenFGA server can create an \"out of memory\" error and terminate.\n\n## Fix\nUpgrade to v1.4.3. This upgrade is backwards compatible.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/openfga/openfga"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.4.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/openfga/openfga/security/advisories/GHSA-rxpw-85vw-fx87"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23820"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openfga/openfga/commit/908ac85c8b7769c8042cca31886df8db01976c39"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openfga/openfga"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openfga/openfga/releases/tag/v1.4.3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-401",
+      "CWE-770"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-26T20:12:00Z",
+    "nvd_published_at": "2024-01-26T17:15:13Z"
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wx24-vqrg-m6m5",
+  "modified": "2024-05-23T14:20:47Z",
+  "published": "2024-05-22T21:30:35Z",
+  "aliases": [
+    "CVE-2024-25738"
+  ],
+  "summary": "VuFind Server-Side Request Forgery (SSRF) vulnerability",
+  "details": "A Server-Side Request Forgery (SSRF) vulnerability in the /Upgrade/FixConfig route in Open Library Foundation VuFind 2.0 through 9.1 before 9.1.1 allows a remote attacker to overwrite local configuration files to gain access to the administrator panel and achieve Remote Code Execution. A mitigating factor is that it requires the allow_url_include PHP runtime setting to be on, which is off in default installations. It also requires the /Upgrade route to be exposed, which is exposed by default after installing VuFind, and is recommended to be disabled by setting autoConfigure to false in config.ini.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "vufind/vufind"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0"
+            },
+            {
+              "fixed": "9.1.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-25738"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vufind-org/vufind/commit/a19577d3d87d68e5c3f8ade63added44882a193c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vufind-org/vufind"
+    },
+    {
+      "type": "WEB",
+      "url": "https://vufind.org/wiki/security:cve-2024-25738"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-918"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-23T14:20:46Z",
+    "nvd_published_at": "2024-05-22T19:15:08Z"
+  }
+}

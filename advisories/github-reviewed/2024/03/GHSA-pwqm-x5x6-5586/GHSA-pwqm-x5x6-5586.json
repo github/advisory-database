@@ -1,0 +1,128 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-pwqm-x5x6-5586",
+  "modified": "2024-04-16T18:51:51Z",
+  "published": "2024-03-28T17:27:40Z",
+  "aliases": [
+    "CVE-2024-28860"
+  ],
+  "summary": "Cilium has insecure IPsec transport encryption",
+  "details": "### Impact\n\nUsers of [IPsec transparent encryption](https://docs.cilium.io/en/stable/security/network/encryption-ipsec/) in Cilium may be vulnerable to cryptographic attacks that render the transparent encryption ineffective.\n\nIn particular, Cilium is vulnerable to the following attacks by a man-in-the-middle attacker:\n\n- Chosen plaintext attacks\n- Key recovery attacks\n- Replay attacks\n\nThese attacks are possible due to an ESP sequence number collision when multiple nodes are configured with the same key. Fixed versions of Cilium use unique keys for each IPsec tunnel established between nodes, resolving all of the above attacks.\n\n**Important:** After upgrading, users must perform a key rotation using the instructions [here](https://docs.cilium.io/en/latest/security/network/encryption-ipsec/#key-rotation) to ensure that they are no longer vulnerable to this issue. Please note that the key rotation instructions have recently been updated, and users must use the new instructions to properly establish secure IPsec tunnels. To validate that the new instructions have been followed properly, ensure that the IPsec Kubernetes secret contains a \"+\" sign.\n\n### Patches\n\nAll prior versions of Cilium that support IPsec transparent encryption (Cilium 1.4 onwards) are affected by this issue.\n\nPatched versions:\n\n- Cilium 1.15.3\n- Cilium 1.14.9\n- Cilium 1.13.14\n\n### Workarounds\n\nThere is no workaround to this issue. IPsec transparent encryption users are strongly encouraged to upgrade.\n\n### Acknowledgements\n\nThe Cilium community has worked together with members of Cure53 and Isovalent to prepare these mitigations. Special thanks to @NikAleksandrov and @pchaigno for their work on remediating the issue. Thanks to Marsh Ray, Senior Software Developer at Microsoft, for input and guidance on the fix.\n\n### For more information\nIf you have any questions or comments about this advisory, please reach out on [Slack](https://docs.cilium.io/en/latest/community/community/#slack).\n\nAs usual, if you think you found a related vulnerability, we strongly encourage you to report security vulnerabilities to our private security mailing list: [security@cilium.io](mailto:security@cilium.io) - first, before disclosing them in any public forums. This is a private mailing list where only members of the Cilium internal security team are subscribed to, and is treated as top priority.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:A/AC:H/PR:N/UI:N/S:C/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cilium/cilium"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.4.0"
+            },
+            {
+              "fixed": "1.13.14"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.13.13"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cilium/cilium"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.14.0"
+            },
+            {
+              "fixed": "1.14.9"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.14.7"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/cilium/cilium"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.15.0"
+            },
+            {
+              "fixed": "1.15.3"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.15.2"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/security/advisories/GHSA-pwqm-x5x6-5586"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28860"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/commit/311fbce5280491cddceab178d83b06fa23688c72"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/commit/a1742b478306fa256cd27df1039dfae0537b4149"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cilium/cilium/commit/a652c123331852cca90c74202f993d4170fd37fa"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.cilium.io/en/stable/security/network/encryption-ipsec"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cilium/cilium"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/vuln/GO-2024-2666"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-326"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-28T17:27:40Z",
+    "nvd_published_at": "2024-03-27T19:15:48Z"
+  }
+}

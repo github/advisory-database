@@ -1,0 +1,113 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-49jv-37hm-6gfp",
+  "modified": "2024-05-14T21:13:54Z",
+  "published": "2022-05-14T01:58:44Z",
+  "aliases": [
+    "CVE-2016-2140"
+  ],
+  "summary": "OpenStack Nova host data access through resize/migration",
+  "details": "The libvirt driver in OpenStack Compute (Nova) before 2015.1.4 (kilo) and 12.0.x before 12.0.3 (liberty), when using raw storage and use_cow_images is set to false, allows remote authenticated users to read arbitrary files via a crafted qcow2 header in an ephemeral or root disk.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "nova"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "12.0.0"
+            },
+            {
+              "fixed": "12.0.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2016-2140"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/0b194187db9da28225cb5e62be3b45aff5a1c793"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/116b1210ab772c55d1ed1f715687d83877c92701"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/f302bf04ab5dda89cf8ceaeed309006da90c0666"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2016:0363"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2016:0364"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2016:0365"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2016:0366"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/security/cve/CVE-2016-2140"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.launchpad.net/nova/+bug/1548450"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1313454"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openstack/nova"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.openstack.org/ossa/OSSA-2016-007.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://seclists.org/oss-sec/2016/q1/563"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2016/03/08/6"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/84277"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-14T21:13:54Z",
+    "nvd_published_at": "2016-04-12T14:59:00Z"
+  }
+}

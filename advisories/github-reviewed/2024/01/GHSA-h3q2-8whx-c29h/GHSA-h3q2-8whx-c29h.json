@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h3q2-8whx-c29h",
+  "modified": "2024-03-04T18:45:24Z",
+  "published": "2024-01-30T20:57:52Z",
+  "aliases": [
+    "CVE-2024-23840"
+  ],
+  "summary": "`goreleaser release --debug` shows secrets",
+  "details": "### Summary\nHello 👋 \n\n`goreleaser release --debug` log shows secret values used in the in the custom publisher.\n\n\nHow to reproduce the issue:\n\n- Define a custom publisher as the one below. Make sure to provide a custom script to the `cmd` field and to provide a secret to `env` \n\n```\n#.goreleaser.yml \npublishers:\n  - name: my-publisher\n  # IDs of the artifacts we want to sign\n    ids:\n      - linux_archives\n      - linux_package\n    cmd: \"./build/package/linux_notarize.sh\"\n    env:\n      - VERSION={{ .Version }}\n      - SECRET_1={{.Env.SECRET_1}}\n      - SECRET_2={{.Env.SECRET_2}}\n```\n\n- run `goreleaser release --debug`\n\nYou should see your secret value in the gorelease log. The log shows also the `GITHUB_TOKEN`\n\nExample:\n\n```\nrunning                                        cmd= ....\nSECRET_1=secret_value\n```\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/goreleaser/goreleaser"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.23.0"
+            },
+            {
+              "fixed": "1.24.0"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "1.23.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/goreleaser/goreleaser/security/advisories/GHSA-h3q2-8whx-c29h"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23840"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/goreleaser/goreleaser/commit/d5b6a533ca1dc3366983d5d31ee2d2b6232b83c0"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/goreleaser/goreleaser"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-532"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-30T20:57:52Z",
+    "nvd_published_at": "2024-01-30T17:15:11Z"
+  }
+}

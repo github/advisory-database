@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9qxr-qj54-h672",
+  "modified": "2024-04-20T00:31:52Z",
+  "published": "2024-04-04T14:20:54Z",
+  "aliases": [
+    "CVE-2024-30261"
+  ],
+  "summary": "Undici's fetch with integrity option is too lax when algorithm is specified but hash value is in incorrect",
+  "details": "### Impact\n\nIf an attacker can alter the `integrity` option passed to `fetch()`, they can let `fetch()` accept requests as valid even if they have been tampered.\n\n### Patches\n\nFixed in https://github.com/nodejs/undici/commit/d542b8cd39ec1ba303f038ea26098c3f355974f3.\nFixes has been released in v5.28.4 and v6.11.1.\n\n\n### Workarounds\n\nEnsure that `integrity` cannot be tampered with.\n\n### References\n\nhttps://hackerone.com/reports/2377760\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:R/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "undici"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.28.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "undici"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.0.0"
+            },
+            {
+              "fixed": "6.11.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/nodejs/undici/security/advisories/GHSA-9qxr-qj54-h672"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-30261"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nodejs/undici/commit/2b39440bd9ded841c93dd72138f3b1763ae26055"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/nodejs/undici/commit/d542b8cd39ec1ba303f038ea26098c3f355974f3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://hackerone.com/reports/2377760"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/nodejs/undici"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/HQVHWAS6WDXXIU7F72XI55VZ2LTZUB33"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/NC3V3HFZ5MOJRZDY5ZELL6REIRSPFROJ"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/P6Q4RGETHVYVHDIQGTJGU5AV6NJEI67E"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-284"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-04T14:20:54Z",
+    "nvd_published_at": "2024-04-04T15:15:39Z"
+  }
+}

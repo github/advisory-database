@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cq6m-74r4-x77g",
+  "modified": "2024-02-28T21:03:01Z",
+  "published": "2022-05-13T01:07:00Z",
+  "aliases": [
+    "CVE-2015-5172"
+  ],
+  "summary": "Cloud Foundry Runtime has Weak Password Recovery Mechanism for Forgotten Password",
+  "details": "Cloud Foundry Runtime cf-release before 216, UAA before 2.5.2, and Pivotal Cloud Foundry (PCF) Elastic Runtime before 1.7.0 allow attackers to have unspecified impact by leveraging failure to expire password reset links.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.cloudfoundry.identity:cloudfoundry-identity-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.5.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2015-5172"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudfoundry/uaa/commit/cd31cc397fe17389d95b83d6a9caa46eebc54faf"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cloudfoundry/uaa"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pivotal.io/security/cve-2015-5170-5173"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-640"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-28T21:03:01Z",
+    "nvd_published_at": "2017-10-24T17:29:00Z"
+  }
+}

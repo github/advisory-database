@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qc6v-5g5m-8cw2",
+  "modified": "2024-07-15T17:55:15Z",
+  "published": "2024-07-15T17:55:15Z",
+  "aliases": [
+
+  ],
+  "summary": "ZITADEL Go's GRPC example code vulnerability - GO-2024-2687 HTTP/2 CONTINUATION flood in net/http",
+  "details": "### Summary\nApplications using the `zitadel-go` `v3` library (`next` branch) might be impacted by package vulnerabilities.\nThe output of `govulncheck` suggests that only `example` code seems to be impacted, based on 1 of the 3 potential vulnerabilities. This vulnerability is located in the transitive dependency `golang.org/x/net v0.19.0`, [CVE-2023-45288](https://www.cve.org/CVERecord?id=CVE-2023-45288)\n\n### Patches\n3.0.0-next versions are fixed on >= [3.0.0-next.3](https://github.com/zitadel/zitadel-go/releases/tag/v3.0.0-next.3)\n\nZITADEL recommends upgrading to the latest versions available in due course.\n\n### Workarounds\n\nIf updating the zitadel-go library is not an option, updating the affected (transient) dependencies works as a workaround.\n\n### Details\n\n#### Direct deps:\n\n- [GO-2024-2631](https://pkg.go.dev/vuln/GO-2024-2631) Decompression bomb vulnerability in github.com/go-jose/go-jose\n  - github.com/go-jose/go-jose/v3 Fixed in v3.0.3.\n\nThis module is necessary because [github.com/go-jose/go-jose/v3](https://pkg.go.dev/github.com/go-jose/go-jose/v3@v3.0.1) is imported in `github.com/zitadel/zitadel-go/v3/pkg/client/system`.\n\n- [GO-2024-2611](https://pkg.go.dev/vuln/GO-2024-2611) Infinite loop in JSON unmarshaling in google.golang.org/protobuf\n  - google.golang.org/protobuf/encoding/protojson\n  - google.golang.org/protobuf/internal/encoding/json Fixed in v1.33.0.\n\nThis module is necessary because [google.golang.org/protobuf/reflect/protoreflect](https://pkg.go.dev/google.golang.org/protobuf@v1.31.0/reflect/protoreflect) is imported in `github.com/zitadel/zitadel-go/v3/example/api/grpc/proto`.\n\n#### Transitive deps:\n- [GO-2024-2687](https://pkg.go.dev/vuln/GO-2024-2687) HTTP/2 CONTINUATION flood in net/http\n  - golang.org/x/net/http2 Fixed in v0.23.0.\n\nThis module is necessary because [golang.org/x/net/trace](https://pkg.go.dev/golang.org/x/net@v0.19.0/trace) is imported in:\n  - `github.com/zitadel/zitadel-go/v3/example/api/grpc`\n  - `google.golang.org/grpc`\n\n#### `govulncheck`\n\n```console\n=== Symbol Results ===\n\nVulnerability #1: GO-2024-2687\n    HTTP/2 CONTINUATION flood in net/http\n  More info: https://pkg.go.dev/vuln/GO-2024-2687\n  Module: golang.org/x/net\n    Found in: golang.org/x/net@v0.19.0\n    Fixed in: golang.org/x/net@v0.23.0\n    Example traces found:\n      #1: example/api/grpc/proto/api_grpc.pb.go:239:34: proto.exampleServiceAddTasksServer.Recv calls grpc.serverStream.RecvMsg, which eventually calls http2.ConnectionError.Error\n      #2: pkg/client/auth.go:92:20: client.ScopeProjectID calls fmt.Sprintf, which eventually calls http2.ErrCode.String\n      #3: pkg/client/auth.go:92:20: client.ScopeProjectID calls fmt.Sprintf, which eventually calls http2.FrameHeader.String\n      #4: pkg/client/auth.go:92:20: client.ScopeProjectID calls fmt.Sprintf, which eventually calls http2.FrameType.String\n      #5: example/api/grpc/main.go:63:24: grpc.main calls grpc.Server.Serve, which eventually calls http2.Framer.ReadFrame\n      #6: example/api/grpc/main.go:63:24: grpc.main calls grpc.Server.Serve, which eventually calls http2.Framer.WriteContinuation\n      #7: example/api/grpc/main.go:63:24: grpc.main calls grpc.Server.Serve, which eventually calls http2.Framer.WriteData\n      #8: example/api/grpc/main.go:63:24: grpc.main calls grpc.Server.Serve, which eventually calls http2.Framer.WriteGoAway\n      #9: example/api/grpc/main.go:63:24: grpc.main calls grpc.Server.Serve, which eventually calls http2.Framer.WriteHeaders\n      #10: example/api/grpc/main.go:63:24: grpc.main calls grpc.Server.Serve, which eventually calls http2.Framer.WritePing\n      #11: example/api/grpc/main.go:63:24: grpc.main calls grpc.Server.Serve, which eventually calls http2.Framer.WriteRSTStream\n      #12: example/api/grpc/main.go:63:24: grpc.main calls grpc.Server.Serve, which eventually calls http2.Framer.WriteSettings\n      #13: example/api/grpc/main.go:63:24: grpc.main calls grpc.Server.Serve, which eventually calls http2.Framer.WriteSettingsAck\n      #14: example/api/grpc/main.go:63:24: grpc.main calls grpc.Server.Serve, which eventually calls http2.Framer.WriteWindowUpdate\n      #15: example/api/grpc/proto/api_grpc.pb.go:239:34: proto.exampleServiceAddTasksServer.Recv calls grpc.serverStream.RecvMsg, which eventually calls http2.GoAwayError.Error\n      #16: pkg/client/auth.go:92:20: client.ScopeProjectID calls fmt.Sprintf, which eventually calls http2.Setting.String\n      #17: pkg/client/auth.go:92:20: client.ScopeProjectID calls fmt.Sprintf, which eventually calls http2.SettingID.String\n      #18: example/api/grpc/main.go:63:24: grpc.main calls grpc.Server.Serve, which eventually calls http2.SettingsFrame.ForeachSetting\n      #19: example/api/grpc/proto/api_grpc.pb.go:239:34: proto.exampleServiceAddTasksServer.Recv calls grpc.serverStream.RecvMsg, which eventually calls http2.StreamError.Error\n      #20: example/app/app.go:111:27: app.main calls http.ListenAndServe, which eventually calls http2.chunkWriter.Write\n      #21: example/api/grpc/proto/api_grpc.pb.go:239:34: proto.exampleServiceAddTasksServer.Recv calls grpc.serverStream.RecvMsg, which eventually calls http2.connError.Error\n      #22: pkg/client/auth.go:92:20: client.ScopeProjectID calls fmt.Sprintf, which eventually calls http2.duplicatePseudoHeaderError.Error\n      #23: pkg/client/auth.go:23:42: client.JWTAuthentication calls profile.NewJWTProfileTokenSource, which eventually calls http2.gzipReader.Close\n      #24: pkg/authentication/state.go:20:26: authentication.State.Encrypt calls crypto.EncryptAES, which eventually calls http2.gzipReader.Read\n      #25: pkg/client/auth.go:92:20: client.ScopeProjectID calls fmt.Sprintf, which eventually calls http2.headerFieldNameError.Error\n      #26: pkg/client/auth.go:92:20: client.ScopeProjectID calls fmt.Sprintf, which eventually calls http2.headerFieldValueError.Error\n      #27: pkg/client/auth.go:92:20: client.ScopeProjectID calls fmt.Sprintf, which eventually calls http2.pseudoHeaderError.Error\n      #28: example/app/app.go:111:27: app.main calls http.ListenAndServe, which eventually calls http2.stickyErrWriter.Write\n      #29: pkg/client/auth.go:23:42: client.JWTAuthentication calls profile.NewJWTProfileTokenSource, which eventually calls http2.transportResponseBody.Close\n      #30: pkg/authentication/state.go:20:26: authentication.State.Encrypt calls crypto.EncryptAES, which eventually calls http2.transportResponseBody.Read\n      #31: pkg/client/auth.go:92:20: client.ScopeProjectID calls fmt.Sprintf, which eventually calls http2.writeData.String\n\nYour code is affected by 1 vulnerability from 1 module.\nThis scan also found 2 vulnerabilities in packages you import and 1\nvulnerability in modules you require, but your code doesn't appear to call these\nvulnerabilities.\n```\n\n### PoC\nNo specific configuration required.\n\n### Impact\nIndirect package vulnerability. Users following example code might be impacted.\n\n### References\n\n- https://pkg.go.dev/vuln/GO-2024-2631\n- https://pkg.go.dev/vuln/GO-2024-2611\n- https://pkg.go.dev/vuln/GO-2024-2687\n\n### Credits\n\nThanks to @helpisdev for reporting this.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/zitadel/zitadel-go/v3"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0-next.1"
+            },
+            {
+              "fixed": "3.0.0-next.3"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.0.0-next.2"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel-go/security/advisories/GHSA-qc6v-5g5m-8cw2"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/zitadel/zitadel-go"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel-go/releases/tag/v3.0.0-next.3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/vuln/GO-2024-2611"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/vuln/GO-2024-2631"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/vuln/GO-2024-2687"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.cve.org/CVERecord?id=CVE-2023-45288"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-15T17:55:15Z",
+    "nvd_published_at": null
+  }
+}

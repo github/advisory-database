@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h3mr-q96r-37v4",
+  "modified": "2024-04-24T17:50:29Z",
+  "published": "2022-05-13T01:50:50Z",
+  "aliases": [
+    "CVE-2018-19274"
+  ],
+  "summary": "phpBB Remote Code Execution",
+  "details": "Passing an absolute path to a file_exists check in phpBB before 3.2.4 allows Remote Code Execution through Object Injection by employing Phar deserialization when an attacker has access to the Admin Control Panel with founder permissions.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "phpbb/phpbb"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.2.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-19274"
+    },
+    {
+      "type": "WEB",
+      "url": "https://blog.ripstech.com/2018/phpbb3-phar-deserialization-to-remote-code-execution"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/phpbb/phpbb-app"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.debian.org/debian-lts-announce/2018/11/msg00029.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.phpbb.com/community/viewtopic.php?f=14&t=2492206"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-502"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-24T17:50:29Z",
+    "nvd_published_at": "2018-11-17T13:29:00Z"
+  }
+}

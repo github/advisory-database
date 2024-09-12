@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-268v-2qq7-84pf",
+  "modified": "2024-01-30T21:58:23Z",
+  "published": "2022-05-13T01:18:20Z",
+  "aliases": [
+    "CVE-2017-1000243"
+  ],
+  "summary": "Missing permission check in Jenkins Favorite Plugin",
+  "details": "Jenkins Favorite Plugin up to and including 2.1.0 does not perform permission checks when changing favorite status, allowing any user to set any other user's favorites",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jvnet.hudson.plugins:favorite"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.3.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-1000243"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/favorite-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2017-06-06"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/101946"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-862"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-30T21:58:23Z",
+    "nvd_published_at": "2017-11-01T13:29:00Z"
+  }
+}

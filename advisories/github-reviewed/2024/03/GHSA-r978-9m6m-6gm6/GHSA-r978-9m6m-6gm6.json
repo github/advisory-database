@@ -1,0 +1,118 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r978-9m6m-6gm6",
+  "modified": "2024-05-02T18:45:40Z",
+  "published": "2024-03-15T12:30:37Z",
+  "aliases": [
+    "CVE-2024-23944"
+  ],
+  "summary": "Apache ZooKeeper vulnerable to information disclosure in persistent watchers handling",
+  "details": "Information disclosure in persistent watchers handling in Apache ZooKeeper due to missing ACL check. It allows an attacker to monitor child znodes by attaching a persistent watcher (addWatch command) to a parent which the attacker has already access to. ZooKeeper server doesn't do ACL check when the persistent watcher is triggered and as a consequence, the full path of znodes that a watch event gets triggered upon is exposed to the owner of the watcher. It's important to note that only the path is exposed by this vulnerability, not the data of znode, but since znode path can contain sensitive information like user name or login ID, this issue is potentially critical.\n\nUsers are recommended to upgrade to version 3.9.2, 3.8.4 which fixes the issue.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.zookeeper:zookeeper"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.8.0"
+            },
+            {
+              "fixed": "3.8.4"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.8.3"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.zookeeper:zookeeper"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.9.0"
+            },
+            {
+              "fixed": "3.9.2"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.9.1"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.zookeeper:zookeeper"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.6.0"
+            },
+            {
+              "last_affected": "3.7.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23944"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/zookeeper/commit/29c7b9462681f47c2ac12e609341cf9f52abac5c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/zookeeper/commit/65b91d2d9a56157285c2a86b106e67c26520b01d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/zookeeper/commit/daf7cfd04005cff1a4f7cab5ab13d41db88d0cd8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/zookeeper"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/96s5nqssj03rznz9hv58txdb2k1lr79k"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/03/14/2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-15T19:35:37Z",
+    "nvd_published_at": "2024-03-15T11:15:08Z"
+  }
+}

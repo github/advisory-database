@@ -1,0 +1,118 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-99rx-9x8v-9j8p",
+  "modified": "2024-05-14T21:27:09Z",
+  "published": "2022-05-17T01:29:42Z",
+  "aliases": [
+    "CVE-2013-7130"
+  ],
+  "summary": "OpenStack Nova Live migration can leak root disk into ephemeral storage",
+  "details": "The i_create_images_and_backing (aka create_images_and_backing) method in libvirt driver in OpenStack Compute (Nova) Grizzly, Havana, and Icehouse, when using KVM live block migration, does not properly create all expected files, which allows attackers to obtain snapshot root disk contents of other users via ephemeral storage.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "nova"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "12.0.0a0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2013-7130"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/15ee7e17f63f5583307a546ecf28952c364c88f9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/b0d36683fe064b32cbef013e1c0c46bd018ab9a1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/cbeb5e51886b0296349fc476305bfe3d63c627c3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.launchpad.net/nova/+bug/1251590"
+    },
+    {
+      "type": "WEB",
+      "url": "https://exchange.xforce.ibmcloud.com/vulnerabilities/90652"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openstack/nova"
+    },
+    {
+      "type": "WEB",
+      "url": "https://review.openstack.org/#/c/68658"
+    },
+    {
+      "type": "WEB",
+      "url": "https://review.openstack.org/#/c/68659"
+    },
+    {
+      "type": "WEB",
+      "url": "https://review.openstack.org/#/c/68660"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.fedoraproject.org/pipermail/package-announce/2014-February/127732.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.fedoraproject.org/pipermail/package-announce/2014-February/127735.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://osvdb.org/102416"
+    },
+    {
+      "type": "WEB",
+      "url": "http://rhn.redhat.com/errata/RHSA-2014-0231.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://secunia.com/advisories/56450"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2014/01/23/5"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/65106"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.ubuntu.com/usn/USN-2247-1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-14T21:27:09Z",
+    "nvd_published_at": "2014-02-06T17:00:00Z"
+  }
+}

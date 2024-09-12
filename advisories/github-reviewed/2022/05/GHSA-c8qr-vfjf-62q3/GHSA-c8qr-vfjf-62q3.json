@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c8qr-vfjf-62q3",
+  "modified": "2024-01-30T22:29:21Z",
+  "published": "2022-05-13T01:36:51Z",
+  "aliases": [
+    "CVE-2017-2654"
+  ],
+  "summary": "Emails were sent to addresses not associated with actual users of Jenkins by Email Extension Plugin",
+  "details": "jenkins-email-ext before version 2.57.1 is vulnerable to an Information Exposure. The Email Extension Plugins is able to send emails to a dynamically created list of users based on the changelogs, like authors of SCM changes since the last successful build. This could in some cases result in emails being sent to people who have no user account in Jenkins, and in rare cases even people who were not involved in whatever project was being built, due to some mapping based on the local-part of email addresses.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:email-ext"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.57.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-2654"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2017-2654"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2017-03-20"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-30T22:29:21Z",
+    "nvd_published_at": "2018-08-06T22:29:00Z"
+  }
+}

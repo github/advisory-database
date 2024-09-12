@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-p2gx-4434-pf6g",
+  "modified": "2024-08-02T13:58:22Z",
+  "published": "2024-03-06T12:30:29Z",
+  "aliases": [
+    "CVE-2024-26580"
+  ],
+  "summary": "Apache InLong: Logged-in user could exploit an arbitrary file read vulnerability",
+  "details": "Deserialization of Untrusted Data vulnerability in Apache InLong.This issue affects Apache InLong: from 1.8.0 through 1.10.0, the attackers can \n\nuse the specific payload to read from an arbitrary file. Users are advised to upgrade to Apache InLong's 1.11.0 or cherry-pick [1] to solve it.\n\n[1]  https://github.com/apache/inlong/pull/9673",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.inlong:manager-common"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.8.0"
+            },
+            {
+              "fixed": "1.11.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-26580"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/inlong/pull/9673"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/inlong/commit/1b63af3e1f208602f60b5ce19af7413443c3027c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/inlong"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/xvomf66l58x4dmoyzojflvx52gkzcdmk"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/03/06/1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-502"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-06T17:05:57Z",
+    "nvd_published_at": "2024-03-06T12:15:45Z"
+  }
+}

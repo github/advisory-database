@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2q8v-3gqq-4f8p",
+  "modified": "2024-01-19T16:19:51Z",
+  "published": "2024-01-19T16:19:51Z",
+  "aliases": [
+    "CVE-2024-22419"
+  ],
+  "summary": "concat built-in can corrupt memory in vyper",
+  "details": " ### Summary\n`concat` built-in can write over the bounds of the memory buffer that was allocated for it and thus overwrite existing valid data. The root cause is that the `build_IR` for `concat` doesn't properly adhere to the API of copy functions (for `>=0.3.2` the `copy_bytes` function).\n\nA contract search was performed and no vulnerable contracts were found in production.\n\nTracked in issue https://github.com/vyperlang/vyper/issues/3737\n\n### Details\nThe `build_IR` allocates a new internal variable for the concatenation: https://github.com/vyperlang/vyper/blob/3b310d5292c4d1448e673d7b3adb223f9353260e/vyper/builtins/functions.py#L534-L550\n\nNotice that the buffer is allocated for the `maxlen` + 1 word to actually hold the length of the array.\n\nLater the `copy_bytes` function is used to copy the actual source arguments to the destination: https://github.com/vyperlang/vyper/blob/3b310d5292c4d1448e673d7b3adb223f9353260e/vyper/builtins/functions.py#L569-L572\n\nThe `dst_data` is defined via:\n- `data ptr` - to skip the 1 word that holds the length\n- `offset`  - to skip the source arguments that were already written to the buffer\n  - the `offset` is increased via: `[\"set\", ofst, [\"add\", ofst, arglen]]`, ie it is increased by the length of the source argument\n\nNow, the `copy_bytes` function has multiple control flow paths, the following ones are of interest:\n1) https://github.com/vyperlang/vyper/blob/3b310d5292c4d1448e673d7b3adb223f9353260e/vyper/codegen/core.py#L270-L273\n2)  https://github.com/vyperlang/vyper/blob/3b310d5292c4d1448e673d7b3adb223f9353260e/vyper/codegen/core.py#L301-L320\n\nNote that the function itself contains the following note: \nhttps://github.com/vyperlang/vyper/blob/3b310d5292c4d1448e673d7b3adb223f9353260e/vyper/codegen/core.py#L245-L247\n\nThat is we can ask for a copy of `1B` yet a whole word is copied.\n\nConsider the first interesting path -  if the `dst_data`'s distance to the end of the concat data buffer is `< 32B`, the `copy_op = STORE(dst, LOAD(src))` from `copy_bytes` will result in buffer overflow as it essentially will `mstore` to `dst_data` the `mload` of the source (mload will load whole word and the distance of the `dst_data` to the word boundary is `<32B`).\n\nFrom the two mentioned paths in `copy_bytes` it can be seen that both sources from memory and storage can cause the corruption.\n\n### PoC\nThe main attack vector that was found was when the `concat` is inside an `internal` function.  Suppose we have an `external` function that calls `internal` one. In such case the address space is divided such that the memory for the internal function is in _lower_  portion of the adr space. As such the buffer overflow can overwrite _valid_ data of the caller.\n\nHere is a simple example:\n```python\n#@version ^0.3.9\n\n@internal\ndef bar() -> uint256:\n    sss: String[2] = concat(\"a\", \"b\") \n    return 1\n\n\n@external\ndef foo() -> int256:\n    a: int256 = -1\n    b: uint256 = self.bar()\n    return a \n```\n\n`foo` should clearly return `-1`, but it returns `452312848583266388373324160190187140051835877600158453279131187530910662655`\n\n`-1` was used intentionally due to its bit structure but the value here is fairly irelevant. In this example during the second iteration of the for loop in the `build_IR` `mload` to `dst+1` will be executed (because len('a') == 1), thus the function will write `1B` over the bounds of the buffer. The string 'b' is stored such that its right-most byte is a zero byte. So a zero byte will be written over the bounds.  So when `-1` is considered it's left-most B will be overwritten to all 0. Therefore it can be seen: `452312848583266388373324160190187140051835877600158453279131187530910662655 == (2**248-1)` will output `True`.\n\n#### IR\nIf we look at the contract's IR (vyper --no optimize -f ir), we see:\n```\n# Line 30\n                          /* a: int256 = -1 */ [mstore, 320, -1 <-1>],\n```\nAnd for the second iteration of the loop in concat:\n```\n len,\n                        [mload, arg],\n                        [seq,\n                          [with,\n                            src,\n                            [add, arg, 32],\n                            [with,\n                              dst,\n                              [add, [add, 256 <concat destination>, 32], concat_ofst],\n                              [mstore, dst, [mload, src]]]],\n                          [set, concat_ofst, [add, concat_ofst, len]]]]],\n                    [mstore, 256 <concat destination>, concat_ofst],\n                    256 <concat destination>]],\n```\nSo the address of the `int` is 320. \n\nThe `dst` is defined as: `[add, [add, 256 <concat destination>, 32], concat_ofst],`.\nIn the second iteration the `concat_ofst` will be 1 because `len('a)==1` so `256+32+1 = 289`. Now this address will be `mstored` to - so the last mstored B will have the address `289+32=320` which clearly overlaps with the address of the `int a`.\n\n#### PoC 2\nDue to how `immutables` are handled, they can be corrupted too:\n```python\n#@version ^0.3.9\n\ni: immutable(int256)\n\n@external\ndef __init__():\n    i = -1\n    s: String[2] = concat(\"a\", \"b\")\n\n@external\ndef foo() -> int256:\n    return i\n```\n\nOutput of calling `foo()` = `452312848583266388373324160190187140051835877600158453279131187530910662655`.\n\n### Impact\nThe buffer overflow can result in the change of semantics of the contract. The overflow is length-dependent and thus it might go unnoticed during contract testing.\n\nHowever, certainly not all usages of `concat` will result in overwritten valid data as we require it to be in an `internal` function and close to the `return` statement where other memory allocations don't occur. \n\n### Concluding remarks\nThe bug based on the fast path in `copy_bytes` was likely introduced in: `548d35d720fb6fd8efbdc0ce525bed259a73f0b9`. `git bisect` was used between v0.3.1 and v0.3.2, `forge test` was run and the test asserted that the function indeed returns -1.\n\nFor the general case, `0.3.0` and `0.3.1` are also affected. This issue has been addressed in commit `55e18f6d1` which will be included in future releases. ",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "vyper"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.3.0"
+            },
+            {
+              "last_affected": "0.3.10"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/vyperlang/vyper/security/advisories/GHSA-2q8v-3gqq-4f8p"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-22419"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vyperlang/vyper/issues/3737"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/vyperlang/vyper/commit/55e18f6d128b2da8986adbbcccf1cd59a4b9ad6f"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vyperlang/vyper"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-120",
+      "CWE-787"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-19T16:19:51Z",
+    "nvd_published_at": "2024-01-18T19:15:10Z"
+  }
+}

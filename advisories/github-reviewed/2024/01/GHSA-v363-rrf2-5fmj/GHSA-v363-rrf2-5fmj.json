@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v363-rrf2-5fmj",
+  "modified": "2024-01-17T20:31:11Z",
+  "published": "2024-01-17T20:31:11Z",
+  "aliases": [
+
+  ],
+  "summary": "ferris-says has undefined behavior when not using UTF-8",
+  "details": "Affected versions receive a `&[u8]` from the caller through a safe API, and pass it directly to the unsafe `str::from_utf8_unchecked` function.\n\nThe behavior of `ferris_says::say` is undefined if the bytes from the caller don't happen to be valid UTF-8.\n\nThe flaw was corrected in [ferris-says#21] by using the safe `str::from_utf8` instead, and returning an error on invalid input. However this fix has not yet been published to crates.io as a patch version for 0.2.\n\nSeparately, [ferris-says#32] has introduced a different API for version 0.3 which accepts input as `&str` rather than `&[u8]`, so is unaffected by this bug.\n\n[ferris-says#21]: https://github.com/rust-lang/ferris-says/pull/21\n[ferris-says#32]: https://github.com/rust-lang/ferris-says/pull/32",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "ferris-says"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.1.2"
+            },
+            {
+              "last_affected": "0.2.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "ferris-says"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.3.0"
+            },
+            {
+              "fixed": "0.3.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/rust-lang/ferris-says/pull/21"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rust-lang/ferris-says/commit/bb661f29e0d88968c495a4ea4dc63ff0e2c2c11a"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mgattozzi/ferris-says"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2024-0001.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-17T20:31:11Z",
+    "nvd_published_at": null
+  }
+}

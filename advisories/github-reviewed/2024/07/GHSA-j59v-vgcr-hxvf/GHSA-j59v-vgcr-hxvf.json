@@ -1,0 +1,118 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-j59v-vgcr-hxvf",
+  "modified": "2024-07-01T19:20:57Z",
+  "published": "2024-07-01T19:20:57Z",
+  "aliases": [
+    "CVE-2024-34696"
+  ],
+  "summary": " GeoServer's Server Status shows sensitive environmental variables and Java properties",
+  "details": "GeoServer's Server Status page and REST API (at `/geoserver/rest/about/status`) lists *all* environment variables and Java properties to *any* GeoServer user with administrative rights as part of those modules' status message.\n\nThese variables/properties can also contain sensitive information, such as database passwords or API keys/tokens, for example:\n\n* Data stores defined with [parameterized catalog settings][catalog] (`-DALLOW_ENV_PARAMETRIZATION=true`) which need a password or access key.\n\n* GeoServer's official Docker image [uses environment variables to configure PostgreSQL JNDI resources, including credentials][docker-jndi] (`POSTGRES_HOST`, `POSTGRES_USERNAME`, `POSTGRES_PASSWORD`)\n\nAdditionally, many community-developed GeoServer container images `export` other credentials from their start-up scripts as environment variables to the GeoServer (`java`) process, such as:\n\n* GeoServer `admin` and master (`root`) passwords\n\n* Tomcat management application password\n\n* HTTPS/TLS certificate key store password\n\n* AWS S3 bucket access keys\n\nThe precise scope of the issue depends on which container image is used and how it is configured.\n\n> [!NOTE]\n> Some container images allow passing secrets as files (eg: `POSTGRES_PASSWORD_FILE`), or randomly generating passwords on start-up. While this is promoted as best-practice[^secret-files], if its start-up script [`export`s these as environment variables][bash-export] to GeoServer, they are **also** impacted by this issue.\n\n[bash-export]: https://www.gnu.org/software/bash/manual/html_node/Bourne-Shell-Builtins.html#index-export\n[catalog]: https://docs.geoserver.org/latest/en/user/datadirectory/configtemplate.html\n[docker-jndi]: https://github.com/geoserver/docker/blob/master/README.md#how-to-enable-a-postgresql-jndi-resource\n\n### Impact\n\nThe “about status” API endpoint (at `/geoserver/rest/about/status`) which powers the Server Status page is only available to administrators.\n\nDepending on the operating environment, administrators might have legitimate access to credentials in other ways, but this issue defeats more sophisticated controls (like break-glass access to secrets or role accounts).\n\nBy default, GeoServer only allows same-origin authenticated API access. This limits the scope for a third-party attacker to use an administrator’s credentials to gain access to credentials (ie: requires XSS).\n\nWe were unable to determine any other conditions under which the GeoServer REST API may be available more broadly.\n\n### Fixes / remediation\n\nGeoServer 2.24.4 and 2.25.1 hide **all** environment variables and Java system properties *by default*, with *no further action required by GeoServer administrators*.\n\n[There are new settings to allow an administrator to display these again][showing] – effectively **reverting** this security fix. We strongly recommend administrators leave these settings as-is, and use alternative mechanisms to access environment variables (instructions below).\n\nIf you're using GeoServer in a container runtime (such as Docker or Kubernetes) or from some other distributor's packages, you'll need to wait for the maintainer to update the version of GeoServer used in their image.\n\n> [!WARNING]\n> If you run GeoServer with [parameterized catalog settings][catalog] (`-DALLOW_ENV_PARAMETRIZATION=true`), a GeoServer administrator could use this to access any environment variable or Java property by including it in some field which is rendered by the UI (such as the description field), **even with this fix**.\n\n[showing]: https://docs.geoserver.org/latest/en/user/production/config.html#showing-environment-variables-and-java-system-properties\n\n### Advice for container / Docker image maintainers\n\nUpdate container images to use GeoServer 2.24.4 or 2.25.1 to get the bug fix.\n\nPlease leave environment variables and Java system properties hidden by default. If you provide the option to re-enable it, [communicate the impact and risks][showing] so that users can make an informed choice.\n\nContainer images should practice \"defence in depth\", to limit the impact when it is configured to show environment variables and/or properties:\n\n* Pass secrets to the container as either:\n\n  * files which are only readable by the GeoServer process/UID, or,\n  * references (identifiers) to a secret stored in a cloud provider's metadata or secret management service\n\n* Pass secrets to GeoServer by generating configuration files as part of your start-up scripts, rather than passing variables/properties or relying on [parameterized catalog settings][catalog].\n\n* Ensure any configuration files with secrets are not readable by other users.\n\n* Clear all environment variables which contain secrets _before_ starting GeoServer.\n\n  _Alternatively:_ start up GeoServer with *only* the environment variables it needs, and no secrets.\n\n* **Don't** pass secrets as command-line flags – these are shown in `ps` to all users!\n\n### Alternatives for displaying GeoServer's environment variables\n\n* **On Linux,** you can get all environment variables [set at _start-up time_][linux-environ] for a running process with:\n\n  ```sh\n  tr '\\0' '\\n' < /proc/${GEOSERVER_PID}/environ\n  ```\n\n* **On Windows,** [SysInternals' Process Explorer][proc-exp] can show running processes' environment variables.\n\n* Current versions of **macOS** do not allow arbitrary access to other running processes' environment variables. Disabling these restrictions (on a macOS level) would significantly reduce the overall security of the system.\n\n[linux-environ]: https://unix.stackexchange.com/a/70636\n[proc-exp]: https://learn.microsoft.com/en-us/sysinternals/downloads/process-explorer\n\n[^secret-files]: [Docker Compose: How to use secrets in Docker Compose](https://docs.docker.com/compose/use-secrets/), [Docker Swarm: Build support for Docker Secrets into your images](https://docs.docker.com/engine/swarm/secrets/#build-support-for-docker-secrets-into-your-images)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.geoserver.web:gs-web-app"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.10.0"
+            },
+            {
+              "fixed": "2.24.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.geoserver.web:gs-web-app"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.25.0"
+            },
+            {
+              "fixed": "2.25.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.geoserver:gs-main"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.10.0"
+            },
+            {
+              "fixed": "2.24.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.geoserver:gs-main"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.25.0"
+            },
+            {
+              "fixed": "2.25.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/geoserver/geoserver/security/advisories/GHSA-j59v-vgcr-hxvf"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-34696"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/geoserver/geoserver"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-01T19:20:57Z",
+    "nvd_published_at": "2024-07-01T15:15:16Z"
+  }
+}

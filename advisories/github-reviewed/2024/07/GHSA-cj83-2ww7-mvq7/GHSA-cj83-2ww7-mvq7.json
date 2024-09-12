@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cj83-2ww7-mvq7",
+  "modified": "2024-07-05T17:53:37Z",
+  "published": "2024-07-03T17:03:45Z",
+  "aliases": [
+    "CVE-2024-39316"
+  ],
+  "summary": "Rack ReDoS Vulnerability in HTTP Accept Headers Parsing",
+  "details": "### Summary\n\nA Regular Expression Denial of Service (ReDoS) vulnerability exists in the `Rack::Request::Helpers` module when parsing HTTP Accept headers. This vulnerability can be exploited by an attacker sending specially crafted `Accept-Encoding` or `Accept-Language` headers, causing the server to spend excessive time processing the request and leading to a Denial of Service (DoS).\n\n### Details\n\nThe fix for https://github.com/rack/rack/security/advisories/GHSA-54rr-7fvw-6x8f was not applied to the main branch and thus while the issue was fixed for the Rack v3.0 release series, it was not fixed in the v3.1 release series until v3.1.5.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "rack"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.1.0"
+            },
+            {
+              "fixed": "3.1.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/rack/rack/security/advisories/GHSA-54rr-7fvw-6x8f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rack/rack/security/advisories/GHSA-cj83-2ww7-mvq7"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-39316"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rack/rack/commit/412c980450ca729ee37f90a2661f166a9665e058"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/rack/rack"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/rack/CVE-2024-39316.yml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1333"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-03T17:03:45Z",
+    "nvd_published_at": "2024-07-02T16:15:04Z"
+  }
+}

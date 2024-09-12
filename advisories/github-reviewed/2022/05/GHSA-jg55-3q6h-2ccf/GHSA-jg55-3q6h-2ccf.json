@@ -1,0 +1,132 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jg55-3q6h-2ccf",
+  "modified": "2024-01-23T18:24:09Z",
+  "published": "2022-05-02T03:18:37Z",
+  "aliases": [
+    "CVE-2009-0816"
+  ],
+  "summary": "Typo3 Backend XSS Vulnerability",
+  "details": "An Information Disclosure vulnerability in jumpUrl mechanism, used to track access on web pages and provided files, allows a remote attacker to read arbitrary files on a host.\n\nThe expected value of a mandatory hash secret, intended to invalidate such requests, is exposed to remote users allowing them to bypass access control by providing the correct value.\n\nThere's no authentication required to exploit this vulnerability. The vulnerability allows to read any file, the web server user account has access to.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.3.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "< 3.9.0"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0"
+            },
+            {
+              "fixed": "4.0.12"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.1.0"
+            },
+            {
+              "fixed": "4.1.10"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.2.0"
+            },
+            {
+              "fixed": "4.2.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms"
+      },
+      "versions": [
+        "4.3alpha1"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2009-0816"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20210507104956/http://www.securitytracker.com/id?1021709"
+    },
+    {
+      "type": "WEB",
+      "url": "http://typo3.org/teams/security/security-bulletins/typo3-sa-2009-002"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.debian.org/security/2009/dsa-1720"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2009/02/10/6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-23T18:24:09Z",
+    "nvd_published_at": "2009-03-05T02:30:00Z"
+  }
+}

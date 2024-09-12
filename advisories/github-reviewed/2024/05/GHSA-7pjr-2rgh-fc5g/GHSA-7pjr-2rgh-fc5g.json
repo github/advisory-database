@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7pjr-2rgh-fc5g",
+  "modified": "2024-05-14T20:17:27Z",
+  "published": "2024-05-14T20:17:27Z",
+  "aliases": [
+    "CVE-2024-34717"
+  ],
+  "summary": "Anonymous PrestaShop customer can download other customers' invoices",
+  "details": "### Impact\nSince PrestaShop 8.1.5, any invoice can be downloaded from front-office in anonymous mode, by supplying a random secure_key parameter in the url.\n\n### Patches\nPatched in 8.1.6\n\n### Workarounds\nUpgrade to 8.1.6\n\nThank you to Samuel Bodevin, who found this vulnerability and shared it with the PrestaShop team.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "prestashop/prestashop"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.1.5"
+            },
+            {
+              "fixed": "8.1.6"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "8.1.5"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/PrestaShop/PrestaShop/security/advisories/GHSA-7pjr-2rgh-fc5g"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-34717"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/PrestaShop/PrestaShop/commit/46b9a2b430dd2008ac061fbcbae9f7af55a7920a"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/PrestaShop/PrestaShop"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/PrestaShop/PrestaShop/releases/tag/8.1.6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-14T20:17:27Z",
+    "nvd_published_at": "2024-05-14T16:17:28Z"
+  }
+}

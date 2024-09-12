@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4m7h-34xm-4wjv",
+  "modified": "2024-09-03T20:05:33Z",
+  "published": "2024-03-05T21:30:25Z",
+  "aliases": [
+    "CVE-2024-2179"
+  ],
+  "summary": "Concrete CMS Stored Cross-site Scripting vulnerability",
+  "details": "Concrete CMS version 9 before 9.2.7 is vulnerable to Stored XSS via the Name field of a Group type since there is insufficient validation of administrator provided data for that field. A rogue administrator could inject malicious code into the Name field which might be executed when users visit the affected page. The Concrete CMS security team gave this vulnerability a CVSS v3.1 score of 2.2 with a vector of AV:N/AC:H/PR:H/UI:N/S:U/C:L/I:N/A:N  Concrete versions below 9 do not include group types so they are not affected by this vulnerability. Thanks Luca Fuda for reporting.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "concrete5/concrete5"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "9.2.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-2179"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/concretecms/concretecms/commit/ac1ec9b069acac79869b2988e1f56cc5565a3dd4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://documentation.concretecms.org/9-x/developers/introduction/version-history/927-release-notes"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/concretecms/concretecms"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20",
+      "CWE-79"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-06T17:05:06Z",
+    "nvd_published_at": "2024-03-05T21:15:09Z"
+  }
+}

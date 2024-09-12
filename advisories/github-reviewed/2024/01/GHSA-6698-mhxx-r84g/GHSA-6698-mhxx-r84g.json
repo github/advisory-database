@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6698-mhxx-r84g",
+  "modified": "2024-01-19T19:28:25Z",
+  "published": "2024-01-16T21:13:40Z",
+  "aliases": [
+    "CVE-2024-22192"
+  ],
+  "summary": "Ursa CL-Signatures Revocation allows verifiers to generate unique identifiers for holders",
+  "details": "### Summary\n\nThe revocation scheme that is part of the Ursa CL-Signatures implementations has a flaw that could impact the privacy guarantees defined by the AnonCreds verifiable credential model. Notably, a malicious verifier may be able to generate a unique identifier for a holder providing a verifiable presentation that includes a Non-Revocation proof.\n\n### Details\n\nThe revocation scheme that is part of the Ursa CL-Signatures implementations has a flaw that could impact the privacy guarantees defined by the AnonCreds verifiable credential model, potentially allowing a malicious verifier to generate a unique identifier for a holder that provides a verifiable presentation that includes a Non-Revocation proof.\n\nThe flaws affects all CL-Signature versions published from the [Hyperledger Ursa] repository to the [Ursa Rust Crate], and is fixed in all versions published from the [Hyperledger AnonCreds CL-Signatures] repository to the [AnonCreds CL-Signatures Rust Crate].\n\nThe addressing the flaw requires updating AnonCreds holder software (such as mobile wallets) to a corrected CL-Signature implementation, such as the [AnonCreds CL Signatures Rust Crate]. Verifying presentations from corrected holders requires a updating the verifier software to a corrected CL-Signatures implementation. An updated verifier based on AnonCreds CL-Signatures can verify presentations from holders built on either the flawed Ursa CL-Signature implementation or a corrected CL-Signature implementation\n\n[Hyperledger Ursa]: https://github.com/hyperledger-archives/ursa\n[Ursa Rust Crate]: https://crates.io/crates/ursa\n[Hyperledger AnonCreds CL-Signatures]: https://github.com/hyperledger/anoncreds-clsignatures-rs\n[AnonCreds CL-Signatures Rust Crate]: https://crates.io/crates/anoncreds-clsignatures\n\nThe flaw occurs as a result of generating a verifiable presentation that includes a Non-Revocation proof from a flawed implementation.\n\n### Impact\nThe impact of the flaw is that a malicious verifier may be able to determine a unique identifier for a holder presenting a Non-Revocation proof.\n\n### Mitigation\n\nUpgrade libraries/holder applications that generate AnonCreds verifiable presentations using the [Ursa Rust Crate] to any version of the [AnonCreds CL-Signatures Rust Crate].",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "ursa"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.3.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "anoncreds-clsignatures"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.1.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/hyperledger-archives/ursa/security/advisories/GHSA-6698-mhxx-r84g"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-22192"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hyperledger/anoncreds-clsignatures-rs/commit/1e55780c890b027fa51e361e188a7743a0bf473f"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/hyperledger-archives/ursa"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-327"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-16T21:13:40Z",
+    "nvd_published_at": "2024-01-16T22:15:46Z"
+  }
+}

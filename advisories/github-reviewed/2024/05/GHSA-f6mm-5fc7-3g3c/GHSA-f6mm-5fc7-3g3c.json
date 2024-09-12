@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f6mm-5fc7-3g3c",
+  "modified": "2024-05-15T17:17:10Z",
+  "published": "2024-05-15T17:17:10Z",
+  "aliases": [
+
+  ],
+  "summary": "goreleaser shows environment by default",
+  "details": "### Summary\nSince #4787 the log output is printed on the INFO level, while previously it was logged on DEBUG. This means if the `go build` output is non-empty, goreleaser leaks the environment.\n\n### PoC\n* Create a Go project with dependencies, do not pull them yet (or run goreleaser later in a container, or delete `$GOPATH/pkg`).\n* Make sure to have secrets set in the environment\n* Make sure to not have `go mod tidy` in a before hook\n* Run `goreleaser release --clean`\n* Go prints lots of `go: downloading ...` lines, which triggers the \"if output not empty, log it\" line, which includes the environment.\n\n### Impact\nCredentials and tokens are leaked.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/goreleaser/goreleaser"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.26.0"
+            },
+            {
+              "fixed": "1.26.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "1.26.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/goreleaser/goreleaser/security/advisories/GHSA-f6mm-5fc7-3g3c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/goreleaser/goreleaser/pull/4787"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/goreleaser/goreleaser/commit/22f734e41f7a5111a031a3a4eb714c1b6aa6456b"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/goreleaser/goreleaser"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-532"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-15T17:17:10Z",
+    "nvd_published_at": null
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6523-jf4r-c962",
+  "modified": "2024-07-18T20:21:21Z",
+  "published": "2024-07-17T12:31:11Z",
+  "aliases": [
+    "CVE-2024-31411"
+  ],
+  "summary": "Apache StreamPipes has potential remote code execution (RCE) via file upload",
+  "details": "Unrestricted Upload of File with dangerous type vulnerability in Apache StreamPipes.\nSuch a dangerous type might be an executable file that may lead to a remote code execution (RCE).\nThe unrestricted upload is only possible for authenticated and authorized users.\n\nThis issue affects Apache StreamPipes: through 0.93.0.\n\nUsers are recommended to upgrade to version 0.95.0, which fixes the issue.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.streampipes:streampipes-parent"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.95.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-31411"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/streampipes"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/streampipes/releases/tag/release%2F0.95.0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/b0657okbwzg5xxs11hphvc9qrd9s70mt"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-434"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-18T20:21:21Z",
+    "nvd_published_at": "2024-07-17T10:15:01Z"
+  }
+}

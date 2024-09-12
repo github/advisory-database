@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jhvf-7c85-3c9g",
+  "modified": "2024-04-16T15:49:36Z",
+  "published": "2024-04-01T21:30:46Z",
+  "aliases": [
+    "CVE-2024-3135"
+  ],
+  "summary": "LocalAI cross-site request forgery vulnerability",
+  "details": "A Cross-Site Request Forgery (CSRF) vulnerability exists in the mudler/localai application, allowing attackers to craft malicious webpages that, when visited by a victim, perform unauthorized actions on the victim's local LocalAI instance without their consent. This vulnerability enables attackers to exhaust system resources, consume credits, and fill disk space by making numerous resource-intensive API calls, such as generating images or uploading files. The vulnerability stems from the application's acceptance of simple request content-types without requiring CSRF tokens or implementing other CSRF mitigation measures. Successful exploitation does not require network access to the vulnerable LocalAI environment.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/go-skynet/LocalAI"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "2.7.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-3135"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mudler/LocalAI"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.com/bounties/7afdc4d3-4b68-45ea-96d0-cf9ed3712ae8"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-02T14:01:01Z",
+    "nvd_published_at": "2024-04-01T19:15:46Z"
+  }
+}

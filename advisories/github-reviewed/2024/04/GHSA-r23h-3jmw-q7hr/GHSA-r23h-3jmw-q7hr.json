@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r23h-3jmw-q7hr",
+  "modified": "2024-04-24T20:01:46Z",
+  "published": "2024-04-24T20:01:46Z",
+  "aliases": [
+    "CVE-2020-10937"
+  ],
+  "summary": "Access Restriction Bypass in go-ipfs",
+  "details": "An issue was discovered in IPFS (aka go-ipfs) 0.4.23. An attacker can generate ephemeral identities (Sybils) and leverage the IPFS connection management reputation system to poison other nodes' routing tables, eclipsing the nodes that are the target of the attack from the rest of the network. Later versions, in particular go-ipfs 0.7, mitigate this.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/ipfs/go-ipfs"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.7.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-10937"
+    },
+    {
+      "type": "WEB",
+      "url": "https://blog.ipfs.io/2020-10-30-dht-hardening"
+    },
+    {
+      "type": "WEB",
+      "url": "https://graz.pure.elsevier.com/en/publications/total-eclipse-of-the-heart-disrupting-the-interplanetary-file-sys"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-284"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-24T20:01:46Z",
+    "nvd_published_at": null
+  }
+}

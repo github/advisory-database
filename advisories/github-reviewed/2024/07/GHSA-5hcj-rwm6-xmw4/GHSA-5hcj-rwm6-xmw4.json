@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5hcj-rwm6-xmw4",
+  "modified": "2024-08-05T21:15:12Z",
+  "published": "2024-07-31T18:48:40Z",
+  "aliases": [
+    "CVE-2024-41948"
+  ],
+  "summary": "biscuit-java vulnerable to public key confusion in third party block",
+  "details": "### Impact\nTokens with third-party blocks containing trusted annotations generated through a third party block request. Due to implementation issues in biscuit-java,  third party block support in published versions is inoperating. Nevertheless, to synchronize with other implementations, we publish this advisory and the related fix.\n\n### Description\nThird-party blocks can be generated without transferring the whole token to the third-party authority. Instead, a `ThirdPartyBlock` request can be sent, providing only the necessary info to generate a third-party block and to sign it:\n\nthe public key of the previous block (used in the signature)\nthe public keys part of the token symbol table (for public key interning in datalog expressions)\nA third-part block request forged by a malicious user can trick the third-party authority into generating datalog trusting the wrong keypair.\n\nConsider the following example (nominal case)\n* Authority A emits the following token: `check if thirdparty(\"b\") trusting ${pubkeyB}`\n* The well-behaving holder then generates a third-party block request based on the token and sends it to third-party authority B\n* Third-party B generates the following third-party block `thirdparty(\"b\"); check if thirdparty(\"c\") trusting ${pubkeyC}`\n* The token holder now must obtain a third-party block from third party C to be able to use the token\n\nNow, with a malicious user:\n* Authority A emits the following token: `check if thirdparty(\"b\") trusting ${pubkeyB}`\n* The holder then attenuates the token with the following third party block `thirdparty(\"c\")`, signed with a keypair pubkeyD, privkeyD) they generate\n* The holder then generates a third-party block request based on this token, but alter the `ThirdPartyBlockRequest` publicKeys field and replace pubkeyD with pubkeyC\n* Third-party B generates the following third-party block `thirdparty(\"b\"); check if thirdparty(\"c\") trusting ${pubkeyC}`\n* Due to the altered symbol table, the actual meaning of the block is `thirdparty(\"b\"); check if thirdparty(\"c\") trusting ${pubkeyD}`\n* The attacker can now use the token without obtaining a third-party block from C.\n\n### Patches\n_Has the problem been patched? What versions should users upgrade to?_\n\n### Workarounds\n_Is there a way for users to fix or remediate the vulnerability without upgrading?_\n\n### References\n_Are there any links users can visit to find out more?_\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:C/C:N/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:H/UI:N/VC:N/VI:L/VA:N/SC:N/SI:L/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.biscuitsec:biscuit"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "4.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/biscuit-auth/biscuit-java/security/advisories/GHSA-5hcj-rwm6-xmw4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/biscuit-auth/biscuit/security/advisories/GHSA-rgqv-mwc3-c78m"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-41948"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/biscuit-auth/biscuit-java/commit/2e05e7b3f8f2aae38f33294f19419e2d638cb564"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/biscuit-auth/biscuit-java"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/biscuit-auth/biscuit-java/releases/tag/4.0.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1259"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-31T18:48:40Z",
+    "nvd_published_at": "2024-08-01T22:15:28Z"
+  }
+}

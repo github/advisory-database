@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mqr2-w7wj-jjgr",
+  "modified": "2024-08-02T15:40:05Z",
+  "published": "2024-04-10T15:30:39Z",
+  "aliases": [
+    "CVE-2024-21507"
+  ],
+  "summary": "mysql2 cache poisoning vulnerability",
+  "details": "Versions of the package mysql2 before 3.9.3 are vulnerable to Improper Input Validation through the `keyFromFields` function, resulting in cache poisoning. An attacker can inject a colon `:` character within a value of the attacker-crafted key.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:L"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:N/VA:L/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "mysql2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.9.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-21507"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sidorares/node-mysql2/pull/2424"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sidorares/node-mysql2/commit/0d54b0ca6498c823098426038162ef10df02c818"
+    },
+    {
+      "type": "WEB",
+      "url": "https://blog.slonser.info/posts/mysql2-attacker-configuration"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/sidorares/node-mysql2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-JS-MYSQL2-6591300"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-12T13:49:53Z",
+    "nvd_published_at": "2024-04-10T05:15:48Z"
+  }
+}

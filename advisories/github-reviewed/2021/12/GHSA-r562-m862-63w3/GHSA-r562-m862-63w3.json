@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r562-m862-63w3",
+  "modified": "2024-04-22T22:34:38Z",
+  "published": "2021-12-09T00:00:28Z",
+  "aliases": [
+    "CVE-2021-37941"
+  ],
+  "summary": "APM Java Agent Local Privilege Escalation",
+  "details": "A local privilege escalation issue was found with the APM Java agent, where a user on the system could attach a malicious file to an application running with the APM Java agent. Using this vector, a malicious or compromised user account could use the agent to run commands at a higher level of permissions than they possess. This vulnerability affects users that have set up the agent via the attacher cli 3, the attach API 2, as well as users that have enabled the profiling_inferred_spans_enabled option",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "elastic-apm"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.10.0"
+            },
+            {
+              "fixed": "1.27.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-37941"
+    },
+    {
+      "type": "WEB",
+      "url": "https://discuss.elastic.co/t/apm-java-agent-security-update/289627"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/elastic/apm-agent-python"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-269"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-22T22:34:38Z",
+    "nvd_published_at": "2021-12-08T22:15:00Z"
+  }
+}

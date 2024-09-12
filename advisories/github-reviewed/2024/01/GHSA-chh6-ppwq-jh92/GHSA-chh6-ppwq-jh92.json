@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-chh6-ppwq-jh92",
+  "modified": "2024-01-30T23:54:26Z",
+  "published": "2024-01-30T23:54:26Z",
+  "aliases": [
+    "CVE-2020-15113"
+  ],
+  "summary": "Improper Preservation of Permissions in etcd",
+  "details": "### Vulnerability type\nAccess Controls\n\n### Detail\netcd creates certain directory paths (etcd data directory and the directory path when provided to automatically generate self-signed certificates for TLS connections with clients) with restricted access permissions (700) by using the os.MkdirAll. This function does not perform any permission checks when a given directory path exists already.\n### Specific Go Package Affected\ngithub.com/etcd-io/etcd/pkg/fileutil\n### Workarounds\nMake sure these directories have the desired permit (700).\n\n### References\nFind out more on this vulnerability in the [security audit report](https://github.com/etcd-io/etcd/blob/master/security/SECURITY_AUDIT.pdf)\n\n### For more information\nIf you have any questions or comments about this advisory:\n* Contact the [etcd security committee](https://github.com/etcd-io/etcd/blob/master/security/security-release-process.md#product-security-committee-psc)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:H/PR:H/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/etcd-io/etcd"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.4.0-rc.0"
+            },
+            {
+              "fixed": "3.4.10"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/etcd-io/etcd"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.3.23"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/etcd-io/etcd/security/advisories/GHSA-chh6-ppwq-jh92"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-15113"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/etcd-io/etcd/commit/6be5c54c94298ae6746a574d2af8227d0c9a998b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/etcd-io/etcd/commit/e5424fc474b274c9e6b5205165015bc2035745f2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/L6B6R43Y7M3DCHWK3L3UVGE2K6WWECMP"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-281"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-30T23:54:26Z",
+    "nvd_published_at": "2020-08-05T20:15:00Z"
+  }
+}

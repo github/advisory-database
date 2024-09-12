@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g5vj-wj9x-4jg9",
+  "modified": "2024-05-29T18:53:48Z",
+  "published": "2024-05-29T18:53:48Z",
+  "aliases": [
+
+  ],
+  "summary": "symbiote/silverstripe-multivaluefield Possible PHP Object Injection via Multi-Value Field Extension",
+  "details": "A potential deserialisation vulnerability has been identified in the symbiote/silverstripe-multivaluefield which could allow an attacker to exploit implementations of this module via object injection.\n\nSupport for handling PHP objects as values in this module has been deprecated, and the serialisation technique has been switched to using JSON for handling arrays.\n\nAs well as this, a potential XSS (cross-site scripting) vulnerability has been identified and remediated.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "symbiote/silverstripe-multivaluefield"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.1.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/symbiote/silverstripe-multivaluefield/commit/31fbc8c208431fc7d7e96da6fa39ca057d978953"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/symbiote/silverstripe-multivaluefield/commit/f523dfcb13b2bd9eb110ffa0c83087a49322ad3b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/symbiote/silverstripe-multivaluefield/SS-2018-017-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/symbiote/silverstripe-multivaluefield"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.silverstripe.org/download/security-releases/ss-2018-017"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74",
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-29T18:53:48Z",
+    "nvd_published_at": null
+  }
+}

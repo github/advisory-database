@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qv5p-6wrc-79wg",
+  "modified": "2024-04-25T21:37:22Z",
+  "published": "2022-05-13T01:53:07Z",
+  "aliases": [
+    "CVE-2018-6521"
+  ],
+  "summary": "SimpleSAMLphp Use of insecure connection charset (sqlauth module)",
+  "details": "The sqlauth module in SimpleSAMLphp before 1.15.2 relies on the MySQL utf8 charset, which truncates queries upon encountering four-byte characters. There might be a scenario in which this allows remote attackers to bypass intended access restrictions.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "simplesamlphp/simplesamlphp"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.15.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-6521"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/simplesamlphp/simplesamlphp/CVE-2018-6521.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/simplesamlphp/simplesamlphp"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.debian.org/debian-lts-announce/2018/02/msg00008.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://simplesamlphp.org/security/201801-03"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.debian.org/security/2018/dsa-4127"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-25T21:37:22Z",
+    "nvd_published_at": "2018-02-02T01:29:00Z"
+  }
+}

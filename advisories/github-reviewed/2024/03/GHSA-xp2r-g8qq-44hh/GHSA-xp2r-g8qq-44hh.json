@@ -1,0 +1,157 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xp2r-g8qq-44hh",
+  "modified": "2024-05-02T18:41:11Z",
+  "published": "2024-03-12T21:30:59Z",
+  "aliases": [
+    "CVE-2024-27135"
+  ],
+  "summary": "Apache Pulsar: Improper Input Validation in Pulsar Function Worker allows Remote Code Execution",
+  "details": "Improper input validation in the Pulsar Function Worker allows a malicious authenticated user to execute arbitrary Java code on the Pulsar Function worker, outside of the sandboxes designated for running user-provided functions. This vulnerability also applies to the Pulsar Broker when it is configured with \"functionsWorkerEnabled=true\".\n\nThis issue affects Apache Pulsar versions from 2.4.0 to 2.10.5, from 2.11.0 to 2.11.3, from 3.0.0 to 3.0.2, from 3.1.0 to 3.1.2, and 3.2.0. \n\n2.10 Pulsar Function Worker users should upgrade to at least 2.10.6.\n2.11 Pulsar Function Worker users should upgrade to at least 2.11.4.\n3.0 Pulsar Function Worker users should upgrade to at least 3.0.3.\n3.1 Pulsar Function Worker users should upgrade to at least 3.1.3.\n3.2 Pulsar Function Worker users should upgrade to at least 3.2.1.\n\nUsers operating versions prior to those listed above should upgrade to the aforementioned patched versions or newer versions.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.pulsar:pulsar-functions-worker"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.4.0"
+            },
+            {
+              "fixed": "2.10.6"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.10.5"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.pulsar:pulsar-functions-worker"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.11.0"
+            },
+            {
+              "fixed": "2.11.4"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.11.3"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.pulsar:pulsar-functions-worker"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.0.3"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.0.2"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.pulsar:pulsar-functions-worker"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.1.0"
+            },
+            {
+              "fixed": "3.1.3"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.1.2"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.pulsar:pulsar-functions-worker"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.2.0"
+            },
+            {
+              "fixed": "3.2.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-27135"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/pulsar"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/dh8nj2vmb2br6thjltq74lk9jxkz62wn"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pulsar.apache.org/security/CVE-2024-27135"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/03/12/9"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-13T21:59:37Z",
+    "nvd_published_at": "2024-03-12T19:15:47Z"
+  }
+}

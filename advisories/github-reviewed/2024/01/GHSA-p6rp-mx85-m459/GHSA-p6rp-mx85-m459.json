@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-p6rp-mx85-m459",
+  "modified": "2024-02-09T17:52:48Z",
+  "published": "2024-01-31T09:30:18Z",
+  "aliases": [
+    "CVE-2024-22236"
+  ],
+  "summary": "Spring Cloud Contract vulnerable to local information disclosure",
+  "details": "In Spring Cloud Contract, versions 4.1.x prior to 4.1.1, versions 4.0.x prior to 4.0.5, and versions 3.1.x prior to 3.1.10, test execution is vulnerable to local information disclosure via temporary directory created with unsafe permissions through the shaded com.google.guava:guava dependency in the org.springframework.cloud:spring-cloud-contract-shade dependency.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.springframework.cloud:spring-cloud-contract-shade"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.1.0"
+            },
+            {
+              "fixed": "4.1.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "4.1.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.springframework.cloud:spring-cloud-contract-shade"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0"
+            },
+            {
+              "fixed": "4.0.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.springframework.cloud:spring-cloud-contract-shade"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.1.0"
+            },
+            {
+              "fixed": "3.1.10"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-22236"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/spring-cloud/spring-cloud-contract"
+    },
+    {
+      "type": "WEB",
+      "url": "https://spring.io/security/cve-2024-22236"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-732"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-31T18:07:41Z",
+    "nvd_published_at": "2024-01-31T07:15:07Z"
+  }
+}

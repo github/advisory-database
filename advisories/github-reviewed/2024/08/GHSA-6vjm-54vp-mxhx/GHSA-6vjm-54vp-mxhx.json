@@ -1,0 +1,155 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6vjm-54vp-mxhx",
+  "modified": "2024-08-07T14:13:30Z",
+  "published": "2024-08-05T17:19:11Z",
+  "aliases": [
+
+  ],
+  "summary": "Juju's unprivileged user running on charm node can leak any secret or relation data accessible to the local charm",
+  "details": "An issue was discovered in Juju that resulted in the leak of the sensitive context ID, which allows a local unprivileged attacker to access other sensitive data or relation accessible to the local charm. A potential exploit where a user can run a bash loop attempting to execute hook tools. If running while another hook is executing, we log an error with the context ID, making it possible for the user to then use that ID in a following call successfully. This means an unprivileged user can access anything available via a hook tool such as config, relation data and secrets.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/juju/juju"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.9.50"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/juju/juju"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.1.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/juju/juju"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.2.0"
+            },
+            {
+              "fixed": "3.3.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/juju/juju"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.4.0"
+            },
+            {
+              "fixed": "3.4.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/juju/juju"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.5.0"
+            },
+            {
+              "fixed": "3.5.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/juju/juju/security/advisories/GHSA-6vjm-54vp-mxhx"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-6984"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/juju/juju/commit/da929676853092a29ddf8d589468cf85ba3efaf2"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/juju/juju"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/vuln/GO-2024-3010"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/vuln/GO-2024-3040"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-209",
+      "CWE-269",
+      "CWE-284"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-05T17:19:11Z",
+    "nvd_published_at": null
+  }
+}

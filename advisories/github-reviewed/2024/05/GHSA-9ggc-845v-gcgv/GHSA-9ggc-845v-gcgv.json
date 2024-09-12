@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9ggc-845v-gcgv",
+  "modified": "2024-05-14T20:40:56Z",
+  "published": "2024-05-13T16:04:37Z",
+  "aliases": [
+    "CVE-2024-34353"
+  ],
+  "summary": "matrix-sdk-crypto contains a log exposure of private key of the server-side key backup",
+  "details": "### Introduction\n\nIn Matrix, the server-side *key backup* stores encrypted copies of Matrix message keys. This facilitates key sharing between a user's devices and provides a redundant copy in case all devices are lost. The key backup uses asymmetric cryptography, with each server-side key backup assigned a unique public-private key pair.\n\n### Impact\n\nDue to a logic bug introduced in https://github.com/matrix-org/matrix-rust-sdk/pull/2961/commits/71136e44c03c79f80d6d1a2446673bc4d53a2067, the matrix-sdk-crypto crate version 0.7.0 will sometimes log the private part of the backup key pair to Rust debug logs (using the `tracing` crate).\n\n### Patches\nThis issue has been resolved in matrix-sdk-crypto [version 0.7.1](https://github.com/matrix-org/matrix-rust-sdk/releases/tag/matrix-sdk-crypto-0.7.1).\n\n### Workarounds\nNone.\n\n### References\n\n- [crates.io release](https://crates.io/crates/matrix-sdk-crypto/0.7.1)\n\n### For more information\n\nIf you have any questions or comments about this advisory, please email us at [security at matrix.org](mailto:security@matrix.org).\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "matrix-sdk-crypto"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.7.0"
+            },
+            {
+              "fixed": "0.7.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "0.7.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/matrix-org/matrix-rust-sdk/security/advisories/GHSA-9ggc-845v-gcgv"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-34353"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/matrix-org/matrix-rust-sdk/commit/71136e44c03c79f80d6d1a2446673bc4d53a2067"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/matrix-org/matrix-rust-sdk/commit/fa10bbb5dd0f9120a51aa1854cec752e25790bb0"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/matrix-org/matrix-rust-sdk"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/matrix-org/matrix-rust-sdk/releases/tag/matrix-sdk-crypto-0.7.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-532"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-13T16:04:37Z",
+    "nvd_published_at": "2024-05-14T15:38:43Z"
+  }
+}

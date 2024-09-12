@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4pwp-cx67-5cpx",
+  "modified": "2024-01-31T23:11:17Z",
+  "published": "2024-01-31T23:11:17Z",
+  "aliases": [
+    "CVE-2019-19499"
+  ],
+  "summary": "Grafana Arbitrary File Read",
+  "details": "Grafana <= 6.4.3 has an Arbitrary File Read vulnerability, which could be exploited by an authenticated attacker that has privileges to modify the data source configurations.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N/E:P"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/grafana/grafana/pkg/tsdb/mysql"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.4.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-19499"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/grafana/grafana/pull/20192"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/grafana/grafana/blob/master/CHANGELOG.md#644-2019-11-06"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.netapp.com/advisory/ntap-20200918-0003"
+    },
+    {
+      "type": "WEB",
+      "url": "https://swarm.ptsecurity.com/grafana-6-4-3-arbitrary-file-read"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200",
+      "CWE-22",
+      "CWE-89"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-31T23:11:17Z",
+    "nvd_published_at": "2020-08-28T15:15:00Z"
+  }
+}

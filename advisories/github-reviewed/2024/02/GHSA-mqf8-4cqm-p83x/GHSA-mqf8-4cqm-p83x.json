@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mqf8-4cqm-p83x",
+  "modified": "2024-02-08T18:30:36Z",
+  "published": "2024-02-08T06:30:23Z",
+  "aliases": [
+    "CVE-2024-25146"
+  ],
+  "summary": "Liferay Portal allows attackers to discover the existence of sites",
+  "details": "Liferay Portal 7.2.0 through 7.4.1, and older unsupported versions, and Liferay DXP 7.3 before service pack 3, 7.2 before fix pack 18, and older unsupported versions returns with different responses depending on whether a site does not exist or if the user does not have permission to access the site, which allows remote attackers to discover the existence of sites by enumerating URLs. This vulnerability occurs if locale.prepend.friendly.url.style=2 and if a custom 404 page is used.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.liferay.portal:release.portal.bom"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.2.0"
+            },
+            {
+              "fixed": "7.4.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.liferay.portal:release.dxp.bom"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.3.0"
+            },
+            {
+              "fixed": "7.3.10.u4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.liferay.portal:release.dxp.bom"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.2.0"
+            },
+            {
+              "fixed": "7.2.10.fp18"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-25146"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/liferay/liferay-portal"
+    },
+    {
+      "type": "WEB",
+      "url": "https://liferay.dev/portal/security/known-vulnerabilities/-/asset_publisher/jekt/content/cve-2024-25146"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-203",
+      "CWE-204"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-08T18:30:36Z",
+    "nvd_published_at": "2024-02-08T04:15:08Z"
+  }
+}

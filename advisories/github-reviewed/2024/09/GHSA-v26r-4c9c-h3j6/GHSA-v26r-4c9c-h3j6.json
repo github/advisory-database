@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v26r-4c9c-h3j6",
+  "modified": "2024-09-04T17:18:40Z",
+  "published": "2024-09-03T20:21:14Z",
+  "aliases": [
+    "CVE-2024-45305"
+  ],
+  "summary": "gix-path uses local config across repos when it is the highest scope",
+  "details": "### Summary\n\n`gix-path` executes `git` to find the path of a configuration file that belongs to the `git` installation itself, but mistakenly treats the local repository's configuration as system-wide if no higher scoped configuration is found. In rare cases, this causes a less trusted repository to be treated as more trusted, or leaks sensitive information from one repository to another, such as sending credentials to another repository's remote.\n\n### Details\n\nIn `gix_path::env`, the underlying implementation of the `installation_config` and `installation_config_prefix` functions calls `git config -l --show-origin` and parses the first line of the output to extract the path to the configuration file holding the configuration variable of highest [scope](https://git-scm.com/docs/git-config#SCOPES):\n\nhttps://github.com/Byron/gitoxide/blob/12251eb052df30105538fa831e641eea557f13d8/gix-path/src/env/git/mod.rs#L91\n\nhttps://github.com/Byron/gitoxide/blob/12251eb052df30105538fa831e641eea557f13d8/gix-path/src/env/git/mod.rs#L112\n\nWhile the configuration variable of highest scope is not usually in the local scope, there are practical situations where this occurs:\n\n- A configuration file truly associated with the installation is not present on all systems and can occasionally be empty. Likewise, there may be no variables in the global scope.\n- Configuration files associated with those higher scopes may be deliberately skipped by setting the `GIT_CONFIG_SYSTEM` and `GIT_CONFIG_GLOBAL` environment variables to `/dev/null` (or to `NUL` on Windows). This prevents `gix-path` from finding the path of configuration files for those scopes, while not preventing downstream components such as the function in `gix-config` from reporting a local path as being associated with the installation.\n- The `GIT_CONFIG_NOSYSTEM` environment variable can be used to disable configuration associated with the installation. (`GIT_CONFIG_NOSYSTEM=1` is more powerful than `GIT_CONFIG_SYSTEM=/dev/null` on systems where an additional \"unknown\" scope is associated with the installation, as occurs on macOS with Apple Git.) This will cause the local scope to be the highest nonempty scope under even more situations, though in practice it is less dangerous because most, though possibly not all, downstream components would disregard the value.\n\nA user may use either or both of the latter two techniques to turn off an undesired configuration or to create a more replicable environment. Such a user would expect that this results in a more controlled configuration.\n\nOften, when located inside one repository, a user performs operations on that repository or that are not specific to any repository. In such use, local configuration is typically desired or at least acceptable, and mistaking it as coming from another scope is not typically harmful.\n\nHowever, sometimes a user is in one repository and operates on another repository. A major case where this occurs is cloning one repository while located in another. This can be done in an ad-hoc fashion, including when cloning the repository outside of the one we are inside. It may also potentially be automated by an application for purposes such as submodule handling. Two kinds of problems are anticipated:\n\n- A less secure configuration may be set for a specific repository where it is judged acceptable, even though it would not be wanted for other repositories, such as to enable a protocol or set up debugging.\n- More likely, a configuration that supplies secrets for use in one repository's remote can be used to send those secrets to another repository's remote.\n\n### PoC\n\nIn this example, we send mock `Authorization: Basic ...` credentials meant for one repository's remote to another remote, by running `gix` while inside the first repository to clone the second repository.\n\nThese instructions are written for a Unix shell, but they will work in other shells, including in PowerShell on Windows if the method of setting environment variables is adapted and `/dev/null` is replaced with `NUL`. This procedure is likely to demonstrate the problem on all systems *except* macOS. This is due to the high-scoped \"unknown\" configuration that usually accompanies Apple Git, and reflects that gix-path is in practice much less vulnerable on macOS (though still potentially vulnerable).\n\n1. Install [`dummyhttp`](https://crates.io/crates/dummyhttp) to serve as a local HTTP server for the demonstration.\n\n2. Obtain a build of `gitoxide` with the `max` feature set enabled. While this vulnerability affects other builds, this example requires `max` for `http.extraHeader` support.\n\n   Running `cargo install gitoxide` will install such a build though it may build against a patched version of `gix-path`. Cloning the repository (12251eb052df30105538fa831e641eea557f13d8 and earlier are affected) and building with `cargo build` or `cargo install --path .` are also sufficient. In contrast, installing from published binaries with `binstall` or `quickinstall` does not provide the `max` feature, as of this writing.\n\n3. Run: `dummyhttp -i 127.0.0.1 -c 403 -v`\n\n4. In a separate terminal, create a new local repository and set up a mock remote and `http.extraHeader` configuration:\n\n   ```sh\n   git init myrepo\n   cd myrepo\n   git remote add origin http://127.0.0.1:8080/mygit.git\n   git config --local http.extraHeader 'Authorization: Basic abcde'\n   ```\n\n5. Make sure the testing setup is working by running `gix fetch` in the repository and checking that it fails in the expected way. In the terminal where that is run, a message should be shown indicating an HTTP 403 error. The more interesting output is in the terminal where `dummyhttp` is running, which should look like this:\n\n   ```text\n   2024-30-30 03:30:16 127.0.0.1:55689 GET /myrepo.git/info/refs?service=git-upload-pack HTTP/1.1\n   ┌─Incoming request\n   │ GET /myrepo.git/info/refs?service=git-upload-pack HTTP/1.1\n   │ Accept: */*\n   │ Authorization: Basic abcde\n   │ Git-Protocol: version=2\n   │ Host: 127.0.0.1:8080\n   │ User-Agent: git/oxide-0.42.2\n   ┌─Outgoing response\n   │ HTTP/1.1 403 Forbidden\n   │ Content-Length: 9\n   │ Content-Type: text/plain; charset=utf-8\n   │ Date: Fri, 30 Aug 2024 03:30:16 -0400\n   ```\n\n   Some details may differ, especially dates and times. But `Authorization: Basic abcde` should be shown.\n\n6. Now, in the terminal where you ran `gix fetch`, try cloning a separate repository:\n\n   ```sh\n   gix clone http://127.0.0.1:8080/other.git\n   ```\n\n   Check the output appended in the terminal where `dummyhttp` is running. This is to observe that `Authorization: Basic abcde` was rightly *not* sent.\n\n   Alternatively, if it *does* appear, then your system may be in one of the uncommon configurations that is vulnerable without further action.\n\n7. Now rerun that command, but with a modified environment, to cause `gix-path` to wrongly treat configuration from the local scope as being associated with the `git` installation:\n\n   ```sh\n   env GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_GLOBAL=/dev/null gix clone http://127.0.0.1:8080/other.git\n   ```\n\n   Check the output appended in the terminal where `dummyhttp` is running. Observe that `Authorization: Basic abcde` was wrongly sent.\n\nWhile this procedure uses the same remote host for both repositories, this is not a required element. If the second repository had a different, untrusted host, the extra header would still be sent.\n\n### Impact\n\nIt is believed to be very difficult to exploit this vulnerability deliberately, due to the need either to anticipate a situation in which higher-scoped configuration variables would be absent, or to arrange for this to happen. Although any operating system may be affected, users running Apple Git on macOS are much less likely to be affected.\n\nIn the example shown above, more secure general practices would avoid it: using a credential manager, or even using `http.<url>.extraHeader` with as specific a `<url>` as possible, rather than the more general `http.extraHeader`. Many scenarios are analogous: if each repository's configuration is as secure as possible for how the repository is used, and secrets are stored securely and separately, then the circumstances under which an unacceptably unsecure configuration is used, or under which a leak of credentials would occur, become unlikely.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:H/PR:N/UI:R/S:U/C:L/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:L/AC:H/AT:N/PR:N/UI:P/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "gix-path"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.10.10"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/Byron/gitoxide/security/advisories/GHSA-v26r-4c9c-h3j6"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-45305"
+    },
+    {
+      "type": "WEB",
+      "url": "https://git-scm.com/docs/git-config#SCOPES"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Byron/gitoxide"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Byron/gitoxide/blob/12251eb052df30105538fa831e641eea557f13d8/gix-path/src/env/git/mod.rs#L112"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Byron/gitoxide/blob/12251eb052df30105538fa831e641eea557f13d8/gix-path/src/env/git/mod.rs#L91"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2024-0367.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-706"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-09-03T20:21:14Z",
+    "nvd_published_at": "2024-09-02T18:15:36Z"
+  }
+}

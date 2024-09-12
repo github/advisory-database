@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g6c9-f4xm-9j4x",
+  "modified": "2024-06-24T21:14:32Z",
+  "published": "2024-06-22T06:30:37Z",
+  "aliases": [
+    "CVE-2024-4940"
+  ],
+  "summary": "Open redirect in gradio",
+  "details": "An open redirect vulnerability exists in the gradio-app/gradio, affecting the latest version. The vulnerability allows an attacker to redirect users to arbitrary websites, which can be exploited for phishing attacks, Cross-site Scripting (XSS), Server-Side Request Forgery (SSRF), amongst others. This issue is due to improper validation of user-supplied input in the handling of URLs. Attackers can exploit this vulnerability by crafting a malicious URL that, when processed by the application, redirects the user to an attacker-controlled web page.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "gradio"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "4.36.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-4940"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/gradio-app/gradio"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.com/bounties/35aaea93-6895-4f03-9c1b-cd992665aa60"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-601"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-24T21:14:32Z",
+    "nvd_published_at": "2024-06-22T06:15:11Z"
+  }
+}

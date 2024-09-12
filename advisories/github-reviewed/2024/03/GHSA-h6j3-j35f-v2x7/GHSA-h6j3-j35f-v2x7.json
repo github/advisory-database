@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h6j3-j35f-v2x7",
+  "modified": "2024-05-15T14:30:10Z",
+  "published": "2024-03-06T17:02:06Z",
+  "aliases": [
+
+  ],
+  "summary": "PocketMine-MP server crash with certain invalid JSON payloads in `LoginPacket` due to dependency vulnerability (3rd time)",
+  "details": "### Impact\nAn attacker could crash PocketMine-MP by sending malformed JSON in LoginPacket.\n\n[netresearch/jsonmapper](https://github.com/cweiske/JsonMapper) allows objects to be hydrated from scalar types in JSON. However, due to the lack of validation in the code for this feature, it may output improperly initialized objects if applied to objects whose constructors don't handle the input values.\n\nCode handling these objects in PocketMine-MP could then crash due to `@required` properties not being set within the objects.\n\nIn addition, because JsonMapper does not respect `bStrictObjectTypes` when processing arrays, it's not possible to avoid the issue by disabling the feature.\n\nDue to the relatively high number of security issues arising from unexpected behaviour in JsonMapper, the team is exploring options to replace it.\n\n### Patches\nIn the meantime, the issue was fixed by pmmp/netresearch-jsonmapper@b96a209f9e8b76b899a0d0918493cd87eb3c02a7 and 6872661fd03649cc7a8762c41c16e9ee5a4de1c9.\n\n### Workarounds\nDetecting the malicious data that triggers this issue is of rather high difficulty, so it's not likely that a plugin would be able to easily remediate this.\n\n### References\nhttps://github.com/cweiske/jsonmapper/pull/225\nhttps://github.com/cweiske/jsonmapper/issues/226\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "pocketmine/pocketmine-mp"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.11.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pmmp/PocketMine-MP/security/advisories/GHSA-h6j3-j35f-v2x7"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cweiske/jsonmapper/issues/226"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cweiske/jsonmapper/pull/225"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pmmp/PocketMine-MP/commit/6872661fd03649cc7a8762c41c16e9ee5a4de1c9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pmmp/netresearch-jsonmapper/commit/b96a209f9e8b76b899a0d0918493cd87eb3c02a7"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pmmp/PocketMine-MP"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-06T17:02:06Z",
+    "nvd_published_at": null
+  }
+}

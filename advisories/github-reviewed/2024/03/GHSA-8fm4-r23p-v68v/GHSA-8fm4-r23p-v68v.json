@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8fm4-r23p-v68v",
+  "modified": "2024-05-02T14:03:15Z",
+  "published": "2024-03-06T18:30:38Z",
+  "aliases": [
+    "CVE-2024-28154"
+  ],
+  "summary": "Jenkins MQ Notifier Plugin exposes sensitive information in build logs",
+  "details": "Jenkins MQ Notifier Plugin 1.4.0 and earlier logs potentially sensitive build parameters as part of debug information in build logs by default.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.sonymobile.jenkins.plugins.mq:mq-notifier"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.4.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28154"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jenkinsci/mq-notifier-plugin/commit/46c9f228a3317eb87562bc3d99f7e184bdcecbfe"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/mq-notifier-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2024-03-06/#SECURITY-3180"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/03/06/3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-06T19:21:33Z",
+    "nvd_published_at": "2024-03-06T17:15:10Z"
+  }
+}

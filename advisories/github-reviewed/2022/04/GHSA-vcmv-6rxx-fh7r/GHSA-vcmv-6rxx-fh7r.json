@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vcmv-6rxx-fh7r",
+  "modified": "2024-05-08T19:51:54Z",
+  "published": "2022-04-22T00:24:18Z",
+  "aliases": [
+    "CVE-2011-4076"
+  ],
+  "summary": "OpenStack Nova Exposure of Sensitive Information to an Unauthorized Actor",
+  "details": "OpenStack Nova before 2012.1 allows someone with access to an EC2_ACCESS_KEY (equivalent to a username) to obtain the EC2_SECRET_KEY (equivalent to a password). Exposing the EC2_ACCESS_KEY via http or tools that allow man-in-the-middle over https could allow an attacker to easily obtain the EC2_SECRET_KEY. An attacker could also presumably brute force values for EC2_ACCESS_KEY.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "nova"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "12.0.0a0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2011-4076"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/b1ab6da1495784ff581000018a6047fd19cf82c4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/nova/commit/beee11edbfdd82cd81bc9c0fd75912c167892c2b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/security/cve/cve-2011-4076"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.launchpad.net/nova/+bug/868360"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2011-4076"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security-tracker.debian.org/tracker/CVE-2011-4076"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.openwall.com/lists/oss-security/2011/10/25/4"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-08T19:51:54Z",
+    "nvd_published_at": "2019-11-26T04:15:00Z"
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9822-6m93-xqf4",
+  "modified": "2024-06-10T18:30:52Z",
+  "published": "2024-02-27T21:41:12Z",
+  "aliases": [
+    "CVE-2024-26143"
+  ],
+  "summary": "Rails has possible XSS Vulnerability in Action Controller",
+  "details": "# Possible XSS Vulnerability in Action Controller\n\nThere is a possible XSS vulnerability when using the translation helpers\n(`translate`, `t`, etc) in Action Controller. This vulnerability has been\nassigned the CVE identifier CVE-2024-26143.\n\nVersions Affected:  >= 7.0.0.\nNot affected:       < 7.0.0\nFixed Versions:     7.1.3.1, 7.0.8.1\n\nImpact\n------\nApplications using translation methods like `translate`, or `t` on a\ncontroller, with a key ending in \"_html\", a `:default` key which contains\nuntrusted user input, and the resulting string is used in a view, may be\nsusceptible to an XSS vulnerability.\n\nFor example, impacted code will look something like this:\n\n```ruby\nclass ArticlesController < ApplicationController\n  def show  \n    @message = t(\"message_html\", default: untrusted_input)\n    # The `show` template displays the contents of `@message`\n  end\nend\n```\n\nTo reiterate the pre-conditions, applications must:\n\n* Use a translation function from a controller (i.e. _not_ I18n.t, or `t` from\n  a view)\n* Use a key that ends in `_html`\n* Use a default value where the default value is untrusted and unescaped input\n* Send the text to the victim (whether that's part of a template, or a\n  `render` call)\n\nAll users running an affected release should either upgrade or use one of the\nworkarounds immediately.\n\nReleases\n--------\nThe fixed releases are available at the normal locations.\n\nWorkarounds\n-----------\nThere are no feasible workarounds for this issue.\n\nPatches\n-------\nTo aid users who aren't able to upgrade immediately we have provided patches for\nthe two supported release series. They are in git-am format and consist of a\nsingle changeset.\n\n*  7-0-translate-xss.patch - Patch for 7.0 series\n*  7-1-translate-xss.patch - Patch for 7.1 series\n\nCredits\n-------\n\nThanks to [ooooooo_q](https://hackerone.com/ooooooo_q) for the patch and fix!",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "actionpack"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.0.0"
+            },
+            {
+              "fixed": "7.0.8.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "actionpack"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.1.0"
+            },
+            {
+              "fixed": "7.1.3.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "rails"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.0.0"
+            },
+            {
+              "fixed": "7.0.8.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "rails"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.1.0"
+            },
+            {
+              "fixed": "7.1.3.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/rails/rails/security/advisories/GHSA-9822-6m93-xqf4"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-26143"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rails/rails/commit/4c83b331092a79d58e4adffe4be5f250fa5782cc"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rails/rails/commit/5187a9ef51980ad1b8e81945ebe0462d28f84f9e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://discuss.rubyonrails.org/t/possible-xss-vulnerability-in-action-controller/84947"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/rails/rails"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/actionpack/CVE-2024-26143.yml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.netapp.com/advisory/ntap-20240510-0004"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-27T21:41:12Z",
+    "nvd_published_at": "2024-02-27T16:15:46Z"
+  }
+}

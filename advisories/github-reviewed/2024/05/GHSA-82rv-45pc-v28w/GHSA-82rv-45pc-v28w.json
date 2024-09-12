@@ -1,0 +1,112 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-82rv-45pc-v28w",
+  "modified": "2024-05-15T21:22:03Z",
+  "published": "2024-05-15T21:22:03Z",
+  "aliases": [
+
+  ],
+  "summary": "eZ Publish Legacy Patch EZSA-2018-001 for Several vulnerabilities",
+  "details": "This security advisory fixes 4 separate vulnerabilities in eZ Publish Legacy, and we recommend that you install it as soon as possible if you are using Legacy by itself or via the LegacyBridge.\n \nFirst, it increases the randomness, and thus the security, of the pseudo-random bytes used to generate a hash for the \"forgot password\" feature. This protects accounts against being taken over through attacks trying to predict the hash. If the increased randomness is not available in your PHP installation, it will now log a warning.\n \nSecond, it improves security of the information collector feature, by ensuring no collection emails will be sent from invalid manipulated forms.\n \nThird, it stops the possible leaking of the names of content objects that should not be readable for certain users, on installations where these users can create or edit XML text.\n \nFourth, it protects against cross-site scripting (XSS) in the Matrix data type, on installations where users are allowed to edit content classes / content types.\n\nWe recommend that you install the security update as soon as possible.\n\nTo install, use Composer to update to one of the \"Resolving versions\" mentioned above, or apply these patches manually:\nhttps://github.com/ezsystems/ezpublish-legacy/commit/917711eb7ffe2b52a3e9fe12505f6810a63696f7\nhttps://github.com/ezsystems/ezpublish-legacy/commit/6db0e6b7739481f27d954548388bd3f0ed2c6fdd\nhttps://github.com/ezsystems/ezpublish-legacy/commit/efcd2b61b15eaaf74e0ff28d6c723cf28e655dab\nhttps://github.com/ezsystems/ezpublish-legacy/commit/f9ffaf590b63b4f552142cfd4441afbbfb3f19b1",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "ezsystems/ezpublish-legacy"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2011.0.0"
+            },
+            {
+              "fixed": "2017.12.2.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "ezsystems/ezpublish-legacy"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.4.0"
+            },
+            {
+              "fixed": "5.4.11.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "ezsystems/ezpublish-legacy"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.3.0"
+            },
+            {
+              "fixed": "5.3.12.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/ezsystems/ezpublish-legacy/commit/6db0e6b7739481f27d954548388bd3f0ed2c6fdd"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ezsystems/ezpublish-legacy/commit/917711eb7ffe2b52a3e9fe12505f6810a63696f7"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ezsystems/ezpublish-legacy/commit/efcd2b61b15eaaf74e0ff28d6c723cf28e655dab"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ezsystems/ezpublish-legacy/commit/f9ffaf590b63b4f552142cfd4441afbbfb3f19b1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/ezsystems/ezpublish-legacy/2018-02-26-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ezsystems/ezpublish-legacy"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20210614192631/http://share.ez.no/community-project/security-advisories/ezsa-2018-001-several-vulnerabilities-in-forgot-password-information-collector-xml-text-and-matrix-field-type-features"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-15T21:22:03Z",
+    "nvd_published_at": null
+  }
+}

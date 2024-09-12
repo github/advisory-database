@@ -1,0 +1,245 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v333-7h2p-5fhv",
+  "modified": "2024-08-07T15:20:30Z",
+  "published": "2024-07-31T20:59:13Z",
+  "aliases": [
+    "CVE-2024-41953"
+  ],
+  "summary": "ZITADEL has improper HTML sanitization in emails and Console UI",
+  "details": "### Impact\n\nZITADEL uses HTML for emails and renders certain information such as usernames dynamically. That information can be entered by users or administrators. Due to a missing output sanitization, these emails could include malicious code.\nThis may potentially lead to a threat where an attacker, without privileges, could send out altered notifications that are part of the registration processes. An attacker could create a malicious link, where the injected code would be rendered as part of the email.\n\nDuring investigation of this issue a related issue was found and mitigated, where on the user's detail page the username was not sanitized and would also render HTML, giving an attacker the same vulnerability.\n\nWhile it was possible to inject HTML including javascript, the execution of such scripts would be prevented by most email clients and the Content Security Policy in Console UI.\n\n### Patches\n\n2.x versions are fixed on >= [2.58.1](https://github.com/zitadel/zitadel/releases/tag/v2.58.1)\n2.57.x versions are fixed on >= [2.57.1](https://github.com/zitadel/zitadel/releases/tag/v2.57.1)\n2.56.x versions are fixed on >= [2.56.2](https://github.com/zitadel/zitadel/releases/tag/v2.56.2)\n2.55.x versions are fixed on >= [2.55.5](https://github.com/zitadel/zitadel/releases/tag/v2.55.5)\n2.54.x versions are fixed on >= [2.54.8](https://github.com/zitadel/zitadel/releases/tag/v2.54.8)\n2.53.x versions are fixed on >= [2.53.9](https://github.com/zitadel/zitadel/releases/tag/v2.53.9)\n2.52.x versions are fixed on >= [2.52.9](https://github.com/zitadel/zitadel/releases/tag/v2.52.3)\n\n### Workarounds\n\nThere is no workaround since a patch is already available.\n\n### Questions\n\nIf you have any questions or comments about this advisory, please email us at [security@zitadel.com](mailto:security@zitadel.com)\n\n### Credits\n\nThanks to Sushmita Poudel and David Underwood for reporting this.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:L/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/zitadel/zitadel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.52.0"
+            },
+            {
+              "fixed": "2.52.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/zitadel/zitadel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.53.0"
+            },
+            {
+              "fixed": "2.53.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/zitadel/zitadel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.54.0"
+            },
+            {
+              "fixed": "2.54.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/zitadel/zitadel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.55.0"
+            },
+            {
+              "fixed": "2.55.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/zitadel/zitadel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.56.0"
+            },
+            {
+              "fixed": "2.56.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/zitadel/zitadel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.57.0"
+            },
+            {
+              "fixed": "2.57.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "2.57.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/zitadel/zitadel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.58.0"
+            },
+            {
+              "fixed": "2.58.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "2.58.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/security/advisories/GHSA-v333-7h2p-5fhv"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-41953"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/commit/0e1f99e987b5851caec45a72660fe9f67e425747"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/commit/38da602ee1cfc35c0d7918c298fbfc3f3674133b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/commit/4b59cac67bb89c1f3f84a2041dd273d11151d29f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/commit/c1a3fc72dde16e987d8a09aa291e7c2edfc928f7"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/commit/c353f82f89c6982c0888c6763363296cf4263cb2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/commit/d04ac6df8f2f0243e649b802a8bfa6176cef0923"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/commit/f846616a3f022e88e3ea8cea05d3254ad86f1615"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/vuln/GO-2024-3015"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/releases/tag/v2.58.1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/releases/tag/v2.57.1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/releases/tag/v2.56.2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/releases/tag/v2.55.5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/releases/tag/v2.54.8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/releases/tag/v2.53.9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zitadel/zitadel/releases/tag/v2.52.3"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/zitadel/zitadel"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-31T20:59:13Z",
+    "nvd_published_at": "2024-07-31T17:15:10Z"
+  }
+}

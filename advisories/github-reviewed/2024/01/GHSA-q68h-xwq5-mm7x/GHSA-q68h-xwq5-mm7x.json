@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-q68h-xwq5-mm7x",
+  "modified": "2024-01-24T14:21:29Z",
+  "published": "2024-01-24T14:21:29Z",
+  "aliases": [
+    "CVE-2023-47115"
+  ],
+  "summary": "Cross-site Scripting Vulnerability on Avatar Upload",
+  "details": "# Introduction\n\nThis write-up describes a vulnerability found in [Label Studio](https://github.com/HumanSignal/label-studio), a popular open source data labeling tool. The vulnerability affects all versions of Label Studio prior to `1.9.2` and was tested on version `1.8.2`.\n\n# Overview\n\n[Label Studio](https://github.com/HumanSignal/label-studio) has a cross-site scripting (XSS) vulnerability that could be exploited when an authenticated user uploads a crafted image file for their avatar that gets rendered as a HTML file on the website.\n\n# Description\n\nThe following [code snippet in Label Studio](https://github.com/HumanSignal/label-studio/blob/1.8.2/label_studio/users/functions.py#L18-L49) shows that the only verification check is that the file is an image by extracting the dimensions from the file.\n\n```python\n\ndef hash_upload(instance, filename):\n    filename = str(uuid.uuid4())[0:8] + '-' + filename\n    return settings.AVATAR_PATH + '/' + filename <3>\n\n\ndef check_avatar(files):\n    images = list(files.items())\n    if not images:\n        return None\n\n    filename, avatar = list(files.items())[0]  # get first file\n    w, h = get_image_dimensions(avatar) <1>\n    if not w or not h:\n        raise forms.ValidationError(\"Can't read image, try another one\")\n\n    # validate dimensions\n    max_width = max_height = 1200\n    if w > max_width or h > max_height:\n        raise forms.ValidationError('Please use an image that is %s x %s pixels or smaller.'\n                                    % (max_width, max_height))\n\n    # validate content type\n    main, sub = avatar.content_type.split('/') <2>\n    if not (main == 'image' and sub.lower() in ['jpeg', 'jpg', 'gif', 'png']):\n        raise forms.ValidationError(u'Please use a JPEG, GIF or PNG image.')\n\n    # validate file size\n    max_size = 1024 * 1024\n    if len(avatar) > max_size:\n        raise forms.ValidationError('Avatar file size may not exceed ' + str(max_size/1024) + ' kb')\n\n    return avatar\n```\n1. Attempts to get image dimensions to validate the uploaded avatar file is an image.\n2. Extracts the `Content-Type` from the upload `POST` request. A user can easily bypass this verification by changing the mimetype of the uploaded file to an allowed type (eg. `image/jpeg`).\n3. The file extension of the uploaded file is never validated and is saved to the filesystem.\n\n[Label Studio serves avatar images using Django's built-in `serve` view](https://github.com/HumanSignal/label-studio/blob/1.8.2/label_studio/users/urls.py#L25-L26), which is [not secure for production use according to Django's documentation](https://docs.djangoproject.com/en/4.2/ref/views/#serving-files-in-development).\n\n```python\n    re_path(r'^data/' + settings.AVATAR_PATH + '/(?P<path>.*)$', serve,\n            kwargs={'document_root': join(settings.MEDIA_ROOT, settings.AVATAR_PATH)}),\n```\n\nThe issue with the Django `serve` view is that it determines the `Content-Type` of the response by the file extension in the URL path. Therefore, an attacker can upload an image that contains malicious HTML code and name the file with a `.html` extension to be rendered as a HTML page. The only file extension validation is performed on the client-side, which can be easily bypassed.\n\n# Proof of Concept\n\nBelow are the steps to reproduce this issue and execute JavaScript code in the context of the Label Studio website.\n\n1. Using any JPEG or PNG image, add in the comment field in the metadata the HTML code `<script>alert(document.domain)</script>`. This can be done using the `exiftool` command as shown below that was used to create the following image.\n\n```bash\nexiftool -Comment='<script>alert(document.domain)</script>' penguin.jpg\n```\n\n![xss-penguin](https://user-images.githubusercontent.com/139727151/266989884-c2cd9b4f-f374-416e-a468-acf41f52e088.jpg)\n\n2. On Label Studio, navigate to account & settings page and intercept the upload request of the avatar image using a tool such as Burp Suite. Modify the filename in the request to have a `.html` extension.\n\n3. Right click the image on the avatar profile and copy the URL. Send this to a victim and it will display an alert box with the host name of the Label Studio instance as shown below.\n\n![xss-alert](https://user-images.githubusercontent.com/139727151/266989952-6fb74c6e-9961-447c-a602-5a6f36627ae6.png)\n\n# Impact\n\nExecuting arbitrary JavaScript could result in an attacker performing malicious actions on Label Studio users if they visit the crafted avatar image. For an example, an attacker can craft a JavaScript payload that adds a new Django Super Administrator user if a Django administrator visits the image.\n\n# Remediation Advice\n\n* Validate the file extension on the server side, not in client-side code.\n* Remove the use of Django's `serve` view and implement a secure controller for viewing uploaded avatar images.\n* Consider saving file content in the database rather than on the filesystem to mitigate against other file related vulnerabilities.\n* Avoid trusting user controlled inputs.\n\n# Discovered\n- August 2023, Alex Brown, elttam",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "label-studio"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.9.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/HumanSignal/label-studio/security/advisories/GHSA-q68h-xwq5-mm7x"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-47115"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/HumanSignal/label-studio/commit/a7a71e594f32ec4af8f3f800d5ccb8662e275da3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.djangoproject.com/en/4.2/ref/views/#serving-files-in-development"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/HumanSignal/label-studio"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/HumanSignal/label-studio/blob/1.8.2/label_studio/users/functions.py#L18-L49"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/HumanSignal/label-studio/blob/1.8.2/label_studio/users/urls.py#L25-L26"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-24T14:21:29Z",
+    "nvd_published_at": "2024-01-23T23:15:08Z"
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-43wq-xrcm-3vgr",
+  "modified": "2024-07-11T19:10:43Z",
+  "published": "2024-07-10T06:33:51Z",
+  "aliases": [
+    "CVE-2024-21521"
+  ],
+  "summary": "@discordjs/opus vulnerable to Denial of Service",
+  "details": "All versions of the package @discordjs/opus are vulnerable to Denial of Service (DoS) due to providing an input object with a property toString to several different functions. Exploiting this vulnerability could lead to a process crash.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@discordjs/opus"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.9.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-21521"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gist.github.com/dellalibera/98c48fd74bb240adbd7841a5c02aba9e"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/discordjs/opus"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/discordjs/opus/blob/814e500c2785c5207ace19650192629beba2728b/src/node-opus.cc#L47"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-JS-DISCORDJSOPUS-6370643"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-10T20:23:30Z",
+    "nvd_published_at": "2024-07-10T05:15:10Z"
+  }
+}

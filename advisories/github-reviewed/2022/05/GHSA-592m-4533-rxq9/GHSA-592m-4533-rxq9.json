@@ -1,0 +1,138 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-592m-4533-rxq9",
+  "modified": "2024-04-25T21:06:35Z",
+  "published": "2022-05-24T17:15:19Z",
+  "aliases": [
+    "CVE-2020-9280"
+  ],
+  "summary": "SilverStripe Folders migrated from 3.x may be unsafe to upload to",
+  "details": "In SilverStripe through 4.5, files uploaded via Forms to folders migrated from Silverstripe CMS 3.x may be put to the default \"/Uploads\" folder instead. This affects installations which allowed upload folder protection via the optional silverstripe/secureassets module under 3.x. This module is installed and enabled by default on the Common Web Platform (CWP). The vulnerability only affects files uploaded after an upgrade to 4.x.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0"
+            },
+            {
+              "fixed": "4.4.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/userforms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0"
+            },
+            {
+              "fixed": "5.4.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/assets"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.0"
+            },
+            {
+              "fixed": "1.4.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/assets"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.5.0"
+            },
+            {
+              "fixed": "1.5.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-9280"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-assets/commit/6779fd3c8c1c05a3db5035bf6e541c9483d161fc"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-userforms/commit/3bbad2044279ade5e5a5d0ae1822bafe479f8a26"
+    },
+    {
+      "type": "WEB",
+      "url": "https://forum.silverstripe.org/c/releases"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/silverstripe/assets/CVE-2020-9280.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/silverstripe/silverstripe-framework"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.silverstripe.org/download/security-releases"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.silverstripe.org/download/security-releases/cve-2020-9280"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-434"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-25T21:06:35Z",
+    "nvd_published_at": "2020-04-15T21:15:00Z"
+  }
+}

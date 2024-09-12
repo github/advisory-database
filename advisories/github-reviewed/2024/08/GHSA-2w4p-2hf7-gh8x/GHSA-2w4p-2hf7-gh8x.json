@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2w4p-2hf7-gh8x",
+  "modified": "2024-08-05T21:18:58Z",
+  "published": "2024-08-05T21:18:58Z",
+  "aliases": [
+    "CVE-2022-23553"
+  ],
+  "summary": "Alpine allows URL access filter bypass",
+  "details": "Alpine is a scaffolding library in Java. Alpine prior to version 1.10.4 allows URL access filter bypass. This issue has been fixed in version 1.10.4. There are no known workarounds.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "us.springett:alpine"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.10.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-23553"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/stevespringett/Alpine/commit/a7432184b9137ea095799a77f9ced370553acbd7"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/stevespringett/Alpine"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/stevespringett/Alpine/blob/alpine-parent-1.10.2/alpine/src/main/java/alpine/filters/BlacklistUrlFilter.java#L107-L121"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/stevespringett/Alpine/blob/alpine-parent-1.10.2/alpine/src/main/java/alpine/filters/WhitelistUrlFilter.java#L115-L127"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/stevespringett/Alpine/releases/tag/alpine-parent-1.10.4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://securitylab.github.com/advisories"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://securitylab.github.com/advisories/GHSL-2021-1009-Alpine"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-863"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-05T21:18:58Z",
+    "nvd_published_at": "2022-12-28T19:15:09Z"
+  }
+}

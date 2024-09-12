@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vp66-gf7w-9m4x",
+  "modified": "2024-02-20T23:47:50Z",
+  "published": "2024-02-17T06:30:34Z",
+  "aliases": [
+    "CVE-2024-21492"
+  ],
+  "summary": "Insufficient Session Expiration in github.com/greenpau/caddy-security",
+  "details": "All versions of the package github.com/greenpau/caddy-security are vulnerable to Insufficient Session Expiration due to improper user session invalidation upon clicking the \"Sign Out\" button. User sessions remain valid even after requests are sent to /logout and /oauth2/google/logout. Attackers who gain access to an active but supposedly logged-out session can perform unauthorized actions on behalf of the user.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/greenpau/caddy-security"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.1.23"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-21492"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/greenpau/caddy-security/issues/272"
+    },
+    {
+      "type": "WEB",
+      "url": "https://blog.trailofbits.com/2023/09/18/security-flaws-in-an-sso-plugin-for-caddy"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-GOLANG-GITHUBCOMGREENPAUCADDYSECURITY-5920787"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "github.com/greenpau/caddy-security"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-613"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-20T23:47:50Z",
+    "nvd_published_at": "2024-02-17T05:15:08Z"
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3rrg-p8xc-3457",
+  "modified": "2024-01-30T22:39:03Z",
+  "published": "2022-05-14T03:33:40Z",
+  "aliases": [
+    "CVE-2018-1000113"
+  ],
+  "summary": "Stored cross-site scripting vulnerability in Jenkins TestLink Plugin",
+  "details": "A cross-site scripting vulnerability exists in Jenkins TestLink Plugin 2.12 and earlier in TestLinkBuildAction/summary.jelly and others that allow an attacker who can control e.g. TestLink report names to have Jenkins serve arbitrary HTML and JavaScript",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:testlink"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.13"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.12"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-1000113"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2018-02-26/#SECURITY-731"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-30T22:39:03Z",
+    "nvd_published_at": "2018-03-13T13:29:00Z"
+  }
+}

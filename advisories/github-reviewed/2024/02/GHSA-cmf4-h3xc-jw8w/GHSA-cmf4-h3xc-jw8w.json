@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cmf4-h3xc-jw8w",
+  "modified": "2024-02-01T00:16:02Z",
+  "published": "2024-02-01T00:16:02Z",
+  "aliases": [
+    "CVE-2022-21703"
+  ],
+  "summary": "Grafana Cross Site Request Forgery (CSRF)",
+  "details": "Today we are releasing Grafana 8.3.5 and 7.5.15. This patch release includes MEDIUM severity security fix for Cross Site Request Forgery for Grafana.\n\nRelease v.8.3.5, only containing security fixes:\n\n- [Download Grafana 8.3.5](https://grafana.com/grafana/download/8.3.5)\n- [Release notes](https://grafana.com/docs/grafana/latest/release-notes/release-notes-8-3-5/)\n\nRelease v.7.5.15, only containing security fixes:\n\n- [Download Grafana 7.5.15](https://grafana.com/grafana/download/7.5.15)\n- [Release notes](https://grafana.com/docs/grafana/latest/release-notes/release-notes-7-5-15/)\n\n## CSRF ([CVE-2022-21703](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-21703))\n\n### Summary\nOn Jan. 18, security researchers [jub0bs](https://twitter.com/jub0bs) and [abrahack](https://twitter.com/theabrahack) contacted Grafana to disclose a CSRF vulnerability which allows anonymous attackers to elevate their privileges by mounting cross-origin attacks against authenticated high-privilege Grafana users (for example, Editors or Admins). \n\nWe believe that this vulnerability is rated at CVSS 6.8 (CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:N/A:N). \n\n### Impact\nAn attacker can exploit this vulnerability for privilege escalation by tricking an authenticated user into inviting the attacker as a new user with high privileges. \n\n### Affected versions with MEDIUM severity \nAll Grafana >=3.0-beta1 versions are affected by this vulnerability.\n\n### Solutions and mitigations\n\nAll installations after Grafana v3.0-beta1 should be upgraded as soon as possible.\n\nNote that if you are running Grafana behind any reverse proxy, you need to make sure that you are passing the original Host and Origin headers from the client request to Grafana.\n\nIn the case of Apache Server, you need to add `ProxyPreserveHost on` in your proxy [configuration](https://httpd.apache.org/docs/2.4/mod/mod_proxy.html). In case of NGINX, you can need to add `proxy_set_header Host $http_host;` in your [configuration](http://nginx.org/en/docs/http/ngx_http_proxy_module.html).\n\nAppropriate patches have been applied to [Grafana Cloud](https://grafana.com/cloud) and as always, we closely coordinated with all cloud providers licensed to offer Grafana Pro. They have received early notification under embargo and confirmed that their offerings are secure at the time of this announcement. This is applicable to Amazon Managed Grafana.\n\n### Timeline and postmortem\n\nHere is a detailed timeline starting from when we originally learned of the issue. All times in UTC.\n- 2022-01-18 03:00 Issue submitted by external researchers\n- 2022-01-18 17:25 Vulnerability confirmed reproducible \n- 2022-01-19 07:40 CVSS score confirmed 6.8 at maximum and MEDIUM impact\n- 2022-01-19 07:40 Begin mitigation for Grafana Cloud\n- 2022-01-19 17:00 CVE requested \n- 2022-01-19 19:50 GitHub issues CVE-2022-21703\n- 2022-01-21 10:50 PR with fix opened\n- 2022-01-21 14:13 Private release planned for 2022-01-25, and public release planned for 2022-02-01.\n- 2022-01-25 12:00 Private release\n- 2022-02-01 12:00 During the public release process, we realized that private 7.x release was incomplete. Abort public release, send second private release to customers using 7.x\n- 2022-02-08 12:00 Public release\n\n### Acknowledgement\n\nWe would like to thank [jub0bs](https://twitter.com/jub0bs) and [abrahack](https://twitter.com/theabrahack) for responsibly disclosing the vulnerability.\n\n### Reporting security issues\n\nIf you think you have found a security vulnerability, please send a report to security@grafana.com. This address can be used for all of Grafana Labs' open source and commercial products (including, but not limited to Grafana, Grafana Cloud, Grafana Enterprise, and grafana.com). We can accept only vulnerability reports at this address. We would prefer that you encrypt your message to us by using our PGP key. The key fingerprint is\n\nF988 7BEA 027A 049F AE8E 5CAA D125 8932 BE24 C5CA\n\nThe key is available from keyserver.ubuntu.com.\n\n### Security announcements\n\nWe maintain a [security category](https://community.grafana.com/c/support/security-announcements) on our blog, where we will always post a summary, remediation, and mitigation details for any patch containing security fixes.\n\nYou can also subscribe to our [RSS feed](https://grafana.com/tags/security/index.xml).\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/grafana/grafana/pkg/web"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0-beta1"
+            },
+            {
+              "fixed": "7.5.15"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/grafana/grafana/pkg/web"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.0.0"
+            },
+            {
+              "fixed": "8.3.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/grafana/grafana/security/advisories/GHSA-cmf4-h3xc-jw8w"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-21703"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/grafana/grafana/pull/45083"
+    },
+    {
+      "type": "WEB",
+      "url": "https://grafana.com/blog/2022/02/08/grafana-7.5.15-and-8.3.5-released-with-moderate-severity-security-fixes"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/2PFW6Q2LXXWTFRTMTRN4ZGADFRQPKJ3D"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/36GUEPA5TPSC57DZTPYPBL6T7UPQ2FRH"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/HLAQRRGNSO5MYCPAXGPH2OCSHOGHSQMQ"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.netapp.com/advisory/ntap-20220303-0005"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-01T00:16:02Z",
+    "nvd_published_at": "2022-02-08T21:15:00Z"
+  }
+}

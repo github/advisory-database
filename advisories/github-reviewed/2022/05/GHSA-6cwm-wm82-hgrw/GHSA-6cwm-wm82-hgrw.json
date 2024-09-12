@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6cwm-wm82-hgrw",
+  "modified": "2024-07-03T21:05:45Z",
+  "published": "2022-05-24T17:47:06Z",
+  "aliases": [
+    "CVE-2020-7924"
+  ],
+  "summary": "MongoDB Tools Improper Certificate Validation vulnerability",
+  "details": "Usage of specific command line parameter in MongoDB Tools which was originally intended to just skip hostname checks, may result in MongoDB skipping all certificate validation. This may result in accepting invalid certificates.This issue affects: MongoDB Inc. MongoDB Database Tools 3.6 versions later than 3.6.5; 3.6 versions prior to 3.6.21; 4.0 versions prior to 4.0.21; 4.2 versions prior to 4.2.11; 100 versions prior to 100.2.0. MongoDB Inc. Mongomirror 0 versions later than 0.6.0.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/mongodb/mongo-tools"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "100.0.0"
+            },
+            {
+              "fixed": "100.2.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-7924"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mongodb/mongo-tools/commit/8c1800b5155084f954a39a1f2f259efac3bb86de"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-6cwm-wm82-hgrw"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mongodb/mongo-tools"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.mongodb.org/browse/TOOLS-2587"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-295"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-13T20:32:52Z",
+    "nvd_published_at": "2021-04-12T17:15:00Z"
+  }
+}

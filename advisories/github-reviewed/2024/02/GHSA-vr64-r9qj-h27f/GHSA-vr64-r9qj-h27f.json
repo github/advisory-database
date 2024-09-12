@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vr64-r9qj-h27f",
+  "modified": "2024-08-13T21:57:26Z",
+  "published": "2024-02-29T03:33:18Z",
+  "aliases": [
+    "CVE-2024-22871"
+  ],
+  "summary": "Reading specially crafted serializable objects from an untrusted source may cause an infinite loop and denial of service",
+  "details": "Any program on the JVM may read serialized objects via [java.io.ObjectInputStream.readObject()](https://docs.oracle.com/javase/8/docs/api/java/io/ObjectInputStream.html#readObject--). Reading serialized objects from an untrusted source is **inherently unsafe** (this affects any program running on any version of the JVM) and is a prerequisite for this vulnerability.\n\nClojure classes that represent infinite seqs (Cycle, infinite Repeat, and Iterate) do not define hashCode() and use the parent ASeq.hashCode(), which walks the seq to compute the hash, yielding an infinite loop. Classes like java.util.HashMap call hashCode() on keys during deserialization of a serialized map. \n\nThe exploit requires:\n\n1. Crafting a serialized HashMap object with an infinite seq object as a key.\n2. Sending that to a program that reads serialized objects via ObjectInputStream.readObject().\n\nThis will cause the program to enter an infinite loop on the reading thread and thus a denial of service (DoS). \n\nThe affected Clojure classes (Cycle, Repeat, Iterate) exist in Clojure 1.7.0-1.11.1, 1.12.0-alpha1-1.12.0-alpha8.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.clojure:clojure"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.7.0"
+            },
+            {
+              "fixed": "1.11.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.clojure:clojure"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.12.0-alpha1"
+            },
+            {
+              "fixed": "1.12.0-alpha9"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-22871"
+    },
+    {
+      "type": "WEB",
+      "url": "https://clojure.atlassian.net/browse/CLJ-2839"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/clojure/clojure"
+    },
+    {
+      "type": "WEB",
+      "url": "https://hackmd.io/%40fe1w0/rymmJGida"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/25FKUOYXQZGGJMFUM5HJABWMIX2TILRV"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/SWWK2SO2MH4SXPO6L444MM6LHVLVFULV"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/YFPGUDXMW6OXKIDGCOZFEAXO74VQIB2T"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-502"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-01T16:56:52Z",
+    "nvd_published_at": "2024-02-29T02:15:09Z"
+  }
+}

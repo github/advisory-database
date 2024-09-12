@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r4ph-mx67-x58p",
+  "modified": "2024-07-08T18:34:12Z",
+  "published": "2022-05-24T17:24:28Z",
+  "aliases": [
+    "CVE-2020-13997"
+  ],
+  "summary": "Shopware database password is leaked to an unauthenticated users",
+  "details": "In Shopware 6 before 6.2.3, the database password is leaked to an unauthenticated user when a DriverException occurs and verbose error handling is enabled. This vulnerability does not affect the shopware 5 release branch (`shopware/shopware` on packagist).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "shopware/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.0.0"
+            },
+            {
+              "fixed": "6.2.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "shopware/platform"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.0.0"
+            },
+            {
+              "fixed": "6.2.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-13997"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.shopware.com/en/shopware-6-en/security-updates/security-update-07-2020"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/shopware/shopware"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.shopware.com/en/changelog/#6-2-3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-209"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-24T22:41:45Z",
+    "nvd_published_at": "2020-07-28T21:15:00Z"
+  }
+}

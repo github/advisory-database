@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8j3x-w35r-rw4r",
+  "modified": "2024-02-17T12:30:26Z",
+  "published": "2024-01-25T21:32:14Z",
+  "aliases": [
+    "CVE-2023-6267"
+  ],
+  "summary": "Quarkus Improper Handling of Insufficient Permissions or Privileges and Improper Handling of Exceptional Conditions vulnerability",
+  "details": "A flaw was found in the json payload. If annotation based security is used to secure a REST resource, the JSON body that the resource may consume is being processed (deserialized) prior to the security constraints being evaluated and applied. This does not happen with configuration based security.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.quarkus.resteasy.reactive:resteasy-reactive"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.13.9.Final"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.quarkus.resteasy.reactive:resteasy-reactive"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0.Final"
+            },
+            {
+              "fixed": "3.2.9.Final"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-6267"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2024:0494"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2024:0495"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/security/cve/CVE-2023-6267"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2251155"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/quarkusio/quarkus"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-280",
+      "CWE-755"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-31T22:38:58Z",
+    "nvd_published_at": "2024-01-25T19:15:08Z"
+  }
+}

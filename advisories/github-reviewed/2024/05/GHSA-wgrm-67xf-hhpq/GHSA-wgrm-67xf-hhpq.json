@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wgrm-67xf-hhpq",
+  "modified": "2024-06-10T20:18:18Z",
+  "published": "2024-05-07T10:25:08Z",
+  "aliases": [
+    "CVE-2024-4367"
+  ],
+  "summary": "PDF.js vulnerable to arbitrary JavaScript execution upon opening a malicious PDF",
+  "details": "### Impact\nIf pdf.js is used to load a malicious PDF, and PDF.js is configured with `isEvalSupported` set to `true` (which is the default value), unrestricted attacker-controlled JavaScript will be executed in the context of the hosting domain.\n\n### Patches\nThe patch removes the use of `eval`:\nhttps://github.com/mozilla/pdf.js/pull/18015\n\n### Workarounds\nSet the option `isEvalSupported` to `false`. \n\n### References\nhttps://bugzilla.mozilla.org/show_bug.cgi?id=1893645",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "pdfjs-dist"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.2.67"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 4.1.392"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/mozilla/pdf.js/security/advisories/GHSA-wgrm-67xf-hhpq"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-4367"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mozilla/pdf.js/pull/18015"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mozilla/pdf.js/commit/85e64b5c16c9aaef738f421733c12911a441cec6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.mozilla.org/show_bug.cgi?id=1893645"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mozilla/pdf.js"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.debian.org/debian-lts-announce/2024/05/msg00010.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.debian.org/debian-lts-announce/2024/05/msg00012.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.mozilla.org/security/advisories/mfsa2024-21"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.mozilla.org/security/advisories/mfsa2024-22"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.mozilla.org/security/advisories/mfsa2024-23"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-07T10:25:08Z",
+    "nvd_published_at": "2024-05-14T18:15:12Z"
+  }
+}

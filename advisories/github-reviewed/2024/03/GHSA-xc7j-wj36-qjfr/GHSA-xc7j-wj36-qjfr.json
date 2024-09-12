@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xc7j-wj36-qjfr",
+  "modified": "2024-03-06T17:01:27Z",
+  "published": "2024-03-06T17:01:27Z",
+  "aliases": [
+
+  ],
+  "summary": "PocketMine-MP BookEditPacket crash when inventory slot in the packet is invalid",
+  "details": "### Summary\nIf a client sends a BookEditPacket with InventorySlot greater than 35, the server will crash due to an unhandled exception thrown by `BaseInventory->getItem()`.\n\n### Details\nCrashes at https://github.com/pmmp/PocketMine-MP/blob/b744e09352a714d89220719ab6948a010ac636fc/src/network/mcpe/handler/InGamePacketHandler.php#L873\n\n### PoC\nUsing Gophertunnel, use `serverConn.WritePacket(&packet.BookEdit{InventorySlot: 36})`\n\n### Impact\nServer crash, all servers\n\n### Patched versions\nThis issue was fixed by 47f011966092f275cc1b11f8de635e89fd9651a7, and the fix was released in 5.11.2.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "pocketmine/pocketmine-mp"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.11.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pmmp/PocketMine-MP/security/advisories/GHSA-xc7j-wj36-qjfr"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pmmp/PocketMine-MP/commit/47f011966092f275cc1b11f8de635e89fd9651a7"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pmmp/PocketMine-MP"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pmmp/PocketMine-MP/blob/b744e09352a714d89220719ab6948a010ac636fc/src/network/mcpe/handler/InGamePacketHandler.php#L873"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-06T17:01:27Z",
+    "nvd_published_at": null
+  }
+}

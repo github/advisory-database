@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g4gc-rh26-m3p5",
+  "modified": "2024-09-09T22:34:51Z",
+  "published": "2024-09-09T21:31:22Z",
+  "aliases": [
+    "CVE-2024-7260"
+  ],
+  "summary": "Keycloak Open Redirect vulnerability",
+  "details": "An open redirect vulnerability was found in Keycloak. A specially crafted URL can be constructed where the `referrer` and `referrer_uri` parameters are made to trick a user to visit a malicious webpage. A trusted URL can trick users and automation into believing that the URL is safe, when, in fact, it redirects to a malicious server. This issue can result in a victim inadvertently trusting the destination of the redirect, potentially leading to a successful phishing attack or other types of attacks.\n\nOnce a crafted URL is made, it can be sent to a Keycloak admin via email for example. This will trigger this vulnerability when the user visits the page and clicks the link. A malicious actor can use this to target users they know are Keycloak admins for further attacks. It may also be possible to bypass other domain-related security checks, such as supplying this as a OAuth redirect uri. The malicious actor can further obfuscate the `redirect_uri` using URL encoding, to hide the text of the actual malicious website domain.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:P/VC:L/VI:L/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.keycloak:keycloak-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "24.0.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-7260"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2024:6502"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2024:6503"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/security/cve/CVE-2024-7260"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2301875"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/keycloak/keycloak"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-601"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-09-09T22:34:51Z",
+    "nvd_published_at": "2024-09-09T19:15:14Z"
+  }
+}

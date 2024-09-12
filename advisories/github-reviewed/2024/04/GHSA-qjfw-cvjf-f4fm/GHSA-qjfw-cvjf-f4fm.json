@@ -1,0 +1,133 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qjfw-cvjf-f4fm",
+  "modified": "2024-05-02T18:58:15Z",
+  "published": "2024-04-03T18:06:45Z",
+  "aliases": [
+    "CVE-2024-2653"
+  ],
+  "summary": "AMPHP Denial of Service via HTTP/2 CONTINUATION Frames",
+  "details": "`amphp/http` will collect HTTP/2 `CONTINUATION` frames in an unbounded buffer and will not check the header size limit until it has received the `END_HEADERS` flag, resulting in an OOM crash. `amphp/http-client` and `amphp/http-server` are indirectly affected if they're used with an unpatched version of `amphp/http`. Early versions of `amphp/http-client` with HTTP/2 support (v4.0.0-rc10 to 4.0.0) are also directly affected.\n\n## Acknowledgements\n\nThank you to [Bartek Nowotarski](https://nowotarski.info/) for reporting the vulnerability.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "amphp/http"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.1.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.1.0"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "amphp/http"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.7.3"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.7.2"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "amphp/http-client"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0-rc10"
+            },
+            {
+              "last_affected": "4.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/amphp/http-client/security/advisories/GHSA-w8gf-g2vq-j2f4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/amphp/http/security/advisories/GHSA-qjfw-cvjf-f4fm"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-2653"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/amphp/http/commit/3a33e68a3b53f7279217238e89748cf0cb30b8a6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/amphp/http/commit/881cc33da236fbcd0cb0cf6c2bfc7efcf80ede76"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/amphp/http-client/CVE-2024-2653.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/amphp/http/CVE-2024-2653.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/amphp/http"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.kb.cert.org/vuls/id/421644"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/04/03/16"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-03T18:06:45Z",
+    "nvd_published_at": "2024-04-03T18:15:07Z"
+  }
+}

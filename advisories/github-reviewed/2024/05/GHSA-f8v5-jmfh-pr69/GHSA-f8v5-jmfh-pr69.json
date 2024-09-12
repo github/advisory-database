@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-f8v5-jmfh-pr69",
+  "modified": "2024-05-15T19:35:22Z",
+  "published": "2024-05-15T17:15:51Z",
+  "aliases": [
+    "CVE-2024-34082"
+  ],
+  "summary": "Grav Vulnerable to Arbitrary File Read to Account Takeover",
+  "details": "### Summary\nA low privilege user account with page edit privilege can read any server files using Twig Syntax. This includes Grav user account files - /grav/user/accounts/*.yaml. This file stores hashed user password, 2FA secret, and the password reset token. This can allow an adversary to compromise any registered account by resetting a password for a user to get access to the password reset token from the file or by cracking the hashed password.\n\n### Proof Of Concept\n`{{ read_file('/var/www/html/grav/user/accounts/riri.yaml') }}`\n\nUse the above Twig template syntax in a page and observe that the administrator riri's authentication details are exposed accessible by any unauthenticated user. \n\n![file-read-2-ATO](https://github.com/getgrav/grav/assets/48800246/9dee4daa-f029-40dd-9646-94c794d3f254)\n\nAs an additional proof of concept for reading system files, observe the `/etc/passwd` file read using the following Twig syntax:\n`{{ read_file('/etc/passwd') }}`\n\n![file-read-etc-passwd](https://github.com/getgrav/grav/assets/48800246/e45de4d4-f81f-42cf-8466-aa36b225ca94)\n\n### Impact\nThis can allow a low privileged user to perform a full account takeover of other registered users including Adminsitrators. This can also allow an adversary to read any file in the web server.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "getgrav/grav"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.7.46"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/getgrav/grav/security/advisories/GHSA-f8v5-jmfh-pr69"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-34082"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getgrav/grav/commit/b6bba9eb99bf8cb55b8fa8d23f18873ca594e348"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/getgrav/grav"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22",
+      "CWE-269"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-15T17:15:51Z",
+    "nvd_published_at": "2024-05-15T17:15:12Z"
+  }
+}

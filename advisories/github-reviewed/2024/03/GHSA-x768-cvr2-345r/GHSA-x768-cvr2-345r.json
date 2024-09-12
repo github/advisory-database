@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-x768-cvr2-345r",
+  "modified": "2024-03-29T19:05:26Z",
+  "published": "2024-03-29T19:05:26Z",
+  "aliases": [
+    "CVE-2024-28867"
+  ],
+  "summary": "Un-sanitized metric name or labels can be used to take over exported metrics",
+  "details": "### Impact\n\nIn code which applies _un-sanitized string values into metric names or labels_, like this:\n\n```swift\nlet lang = try? request.query-get(String.self, at: \"lang\")\nCounter (\n  label: \"language\", \n  dimensions: [(\"lang\", lang ?? \"unknown\" )]\n)\n```\n\nan attacker could make use of this and send a `?lang` query parameter containing newlines, `}`  or similar characters which can lead to the attacker taking over the exported format -- including creating unbounded numbers of stored metrics, inflating server memory usage, or causing \"bogus\" metrics.\n\n### Patches\nThe default strategy to sanitize labels was moved deeper into the library, preventing illegal characters from appearing in name, label keys and values.\n\nMetric names and label names are now validated against the following requirement: `[a-zA-Z_:][a-zA-Z0-9_:]*` (for metric names) and `[a-zA-Z_][a-zA-Z0-9_]*` (for metric label names). Label values are not validated as they are allowed to contain any unicode characters. Developers _must_ validate labels themselves and not allow malicious input.\n\nThe approach taken here mirrors the approach taken in the Go reference implementation.\n\n### Discussion\n\nIt is **strongly discouraged** to use un-sanitized user input as names or labels in general, because they can lead to un-bounded growth of metrics, even as this vulnerability is patched and result in a Denial-of-Service attack opportunity -- **regardless** how well the library is sanitizing the inputs. We strongly recommend only using a sanitized set of values for your metrics names and labels. E.g., a `\"lang\"` label, should only use an expected set of values that can be used, and ignore other ones -- otherwise a determined attacker could create one metric per different label key, leading to unbounded memory use growth as metrics with distinct values must be kept in memory.\n\n**Validating label values:**\n\nThe library will **NOT** automatically validate and replace strings offered as label values.\nDevelopers **must** validate label values themselves, and it is strongly recommended to only accept a well known set of values.\n\nIt is possible to configure the `PrometheusSanitizer` to apply whatever validation you deem necessary:\n\n```swift\nlet mySanitizer = PrometheusSanitizer { metricName, labels in\n  // ... your logic here ...\n  (metricName, labels)\n}\n\nlet registry = PrometheusCollectorRegistry(sanitizer: mySanitizer)\nlet factory = PrometheusMetricsFactory(factory: registry)\n\n// swift-metrics\nMetricsSystem.bootstrap(factory)\n```\n\n\n\n### Workarounds\n\nDevelopers must validate user input before using it as metric names, label names or values. This follows common practice of not trusting any user input without sanitization.\n\n### Credits\n\nWe would like to thank Jonas Dörr for bringing out attention to the issue.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "SwiftURL",
+        "name": "github.com/swift-server/swift-prometheus"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0-alpha.1"
+            },
+            {
+              "fixed": "2.0.0-alpha.2"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "2.0.0-alpha.1"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/swift-server/swift-prometheus/security/advisories/GHSA-x768-cvr2-345r"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28867"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/swift-server/swift-prometheus/commit/bfcd4bbfabe11aae4b035424ee9724582e288501"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/swift-server/swift-prometheus"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-29T19:05:26Z",
+    "nvd_published_at": "2024-03-29T15:15:11Z"
+  }
+}

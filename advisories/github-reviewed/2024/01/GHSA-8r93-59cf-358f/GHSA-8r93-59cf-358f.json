@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8r93-59cf-358f",
+  "modified": "2024-01-31T21:46:14Z",
+  "published": "2024-01-24T18:31:02Z",
+  "aliases": [
+    "CVE-2024-23902"
+  ],
+  "summary": "CSRF vulnerability in Jenkins GitLab Branch Source Plugin",
+  "details": "Jenkins GitLab Branch Source Plugin 684.vea_fa_7c1e2fe3 and earlier does not require POST requests for a form validation endpoint, resulting in a cross-site request forgery (CSRF) vulnerability.\n\nThis vulnerability allows attackers to connect to an attacker-specified URL.\n\nGitLab Branch Source Plugin 688.v5fa_356ee8520 requires POST requests for the affected form validation endpoint.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.jenkins.plugins:gitlab-branch-source"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "688.v5fa"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23902"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jenkinsci/gitlab-branch-source-plugin/commit/5fa356ee852091af900498db07259afe78d7aad2"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/gitlab-branch-source-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2024-01-24/#SECURITY-3251"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/01/24/6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-24T21:50:26Z",
+    "nvd_published_at": "2024-01-24T18:15:09Z"
+  }
+}

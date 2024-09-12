@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8c85-4rr5-chr4",
+  "modified": "2024-05-15T21:06:22Z",
+  "published": "2024-05-15T21:06:22Z",
+  "aliases": [
+
+  ],
+  "summary": "Cross-site Scripting (XSS) in DemoBundle/ezdemo bundled VideoJS",
+  "details": "This Security Advisory is about a vulnerability in VideoJS, which is bundled in DemoBundle and the ezdemo legacy extension. Older releases of VideoJS contain an XSS vulnerability in the Flash-based video player. This is bundled in DemoBundle, and in the Legacy \"ezdemo\" and \"ezdemo-ls-extension\" extensions. Among the branches still receiving security advisories, only eZ Publish Platform 5.4 and eZ Publish Legacy 5.4 are affected. However, it may be possible to make this software work in newer branches, so please check whether you have it installed even if you're using eZ Platform 1.x or 2.x.\n\nBecause DemoBundle / ezdemo are only intended for demo purposes, they are not supported software. For that reason, and given the old age of the software, and manpower issues during the Coronavirus crisis, we are taking the unusual step of simply removing the affected file. This resolves the vulnerability, but also breaks the video playback feature. It may be possible to make it work again by upgrading to a current version of VideoJS, but it is unlikely that we will do this, given the reasons already mentioned.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "ezsystems/demobundle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.4.0"
+            },
+            {
+              "fixed": "5.4.6.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://ezplatform.com/security-advisories/ezsa-2020-003-xss-in-demobundle-ezdemo-bundled-videojs"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/ezsystems/demobundle/2020-04-21-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ezsystems/DemoBundle"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20201024034648/https://ezplatform.com/security-advisories/ezsa-2020-003-xss-in-demobundle-ezdemo-bundled-videojs"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-15T21:06:22Z",
+    "nvd_published_at": null
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-ph62-fv59-vf9h",
+  "modified": "2024-05-27T21:50:44Z",
+  "published": "2024-05-27T21:50:43Z",
+  "aliases": [
+
+  ],
+  "summary": "silverstripe/framework users inadvertently passing sensitive data to LoginAttempt",
+  "details": "All user login attempts are logged in the database in the LoginAttempt table. However, this table contains information in plain text, and may possible contain sensitive information, such as user passwords mis-typed into the username field.\n\nIn order to address this a one-way hash is applied to the Email field before being stored.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.5.0-rc1"
+            },
+            {
+              "fixed": "3.5.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.6.0-rc1"
+            },
+            {
+              "fixed": "3.6.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0-rc1"
+            },
+            {
+              "fixed": "4.0.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/commit/3e2bcaa0b49277ff7f7004b265a7fa80d0b92e5c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/commit/c5d6eb816d4ac5e9fa3d8bc4bd82de95719eb22d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/commit/f1dd3d6f03eb1d94c29c495994a1da9176a758d9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/silverstripe/framework/SS-2017-009-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/silverstripe/silverstripe-framework"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.silverstripe.org/download/security-releases/ss-2017-009"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-311"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-27T21:50:43Z",
+    "nvd_published_at": null
+  }
+}

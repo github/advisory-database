@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c69x-5xmw-v44x",
+  "modified": "2024-04-10T16:42:59Z",
+  "published": "2024-03-06T15:25:08Z",
+  "aliases": [
+    "CVE-2024-24767"
+  ],
+  "summary": "CasaOS Improper Restriction of Excessive Authentication Attempts vulnerability",
+  "details": "### Summary\nHere it is observed that the CasaOS doesn't defend against password brute force attacks, which leads to having full access to the server.\n\n### Details\nThe web application lacks control over the login attempts i.e. why attacker can use a password brute force attack to find and get full access over the.\n\n### PoC\n1. Capture login request in proxy tool like Burp Suite and select password field.\n\n![1](https://user-images.githubusercontent.com/63414468/297156515-0272bfd7-f386-4c22-b3bd-c4dbdc1298bf.PNG)\n\n2. Here I have started attack with total number of 271 password tries where the last one is the correct password and as we can see in the following image we get a **400 Bad Request** status code with the message \"**Invalid Password**\" and response length **769** on 1st request which was sent at **_Tue, 16 Jan 2024 18:31:32 GMT_**\n\n![2](https://user-images.githubusercontent.com/63414468/297157815-c158995b-7d46-4a5a-aef9-bcbbcf596b15.png)\n\n**Note**:  _We have tested this vulnerability with more than 3400 tries. We have used 271 request counts just for demo purposes._\n\n\n3. Here the attack is completed and we can see in the following image we get **200 OK** status code with the message \"**Ok**\" and response length **1509** on 271st request which was sent at **_Tue, 16 Jan 2024 18:32:01 GMT_**.\n\n![3](https://user-images.githubusercontent.com/63414468/297159282-3f4788b5-6217-4f32-8be6-40ac117710e3.png)\n\nThis means attacker can try 271 requests in 56 seconds.\n\n### Impact\nThis vulnerability allows attackers to get super user-level access over the server.\n\n\n### Mitigation\nIt is recommended to implement a proper rate-limiting mechanism on the server side where the configuration might be like:\nIf a specific IP address fails to login more than 5 times concurrently then that IP address must be blocked for at least 30 seconds. This will reduce the possibility of password brute-forcing attacks.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/IceWhaleTech/CasaOS-UserService"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.4.4.3"
+            },
+            {
+              "fixed": "0.4.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/IceWhaleTech/CasaOS-UserService/security/advisories/GHSA-c69x-5xmw-v44x"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-24767"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/IceWhaleTech/CasaOS-UserService/commit/62006f61b55951048dbace4ebd9e483274838699"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/IceWhaleTech/CasaOS-UserService"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/IceWhaleTech/CasaOS-UserService/releases/tag/v0.4.7"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/vuln/GO-2024-2614"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-307"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-06T15:25:08Z",
+    "nvd_published_at": "2024-03-06T18:15:46Z"
+  }
+}

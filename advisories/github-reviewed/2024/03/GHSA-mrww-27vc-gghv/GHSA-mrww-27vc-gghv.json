@@ -1,0 +1,170 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mrww-27vc-gghv",
+  "modified": "2024-03-14T21:45:18Z",
+  "published": "2024-03-04T20:43:24Z",
+  "aliases": [
+    "CVE-2024-27304"
+  ],
+  "summary": "pgx SQL Injection via Protocol Message Size Overflow",
+  "details": "### Impact\n\nSQL injection can occur if an attacker can cause a single query or bind message to exceed 4 GB in size. An integer overflow in the calculated message size can cause the one large message to be sent as multiple messages under the attacker's control.\n\n### Patches\n\nThe problem is resolved in v4.18.2 and v5.5.4.\n\n### Workarounds\n\nReject user input large enough to cause a single query or bind message to exceed 4 GB in size.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/jackc/pgx"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.18.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/jackc/pgx"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0"
+            },
+            {
+              "fixed": "5.5.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/jackc/pgproto3"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.3.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/jackc/pgproto3/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.3.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/jackc/pgx/v4"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.18.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/jackc/pgx/v5"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0"
+            },
+            {
+              "fixed": "5.5.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/jackc/pgproto3/security/advisories/GHSA-7jwh-3vrq-q3m8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jackc/pgx/security/advisories/GHSA-mrww-27vc-gghv"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jackc/pgproto3/commit/945c2126f6db8f3bea7eeebe307c01fe92bca007"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jackc/pgx/commit/adbb38f298c76e283ffc7c7a3f571036fea47fd4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jackc/pgx/commit/c543134753a0c5d22881c12404025724cb05ffd8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jackc/pgx/commit/f94eb0e2f96782042c96801b5ac448f44f0a81df"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jackc/pgx"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-190",
+      "CWE-89"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-04T20:43:24Z",
+    "nvd_published_at": "2024-03-06T19:15:08Z"
+  }
+}

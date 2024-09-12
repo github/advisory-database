@@ -1,13 +1,13 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-c2hm-mjxv-89r4",
-  "modified": "2023-09-04T17:02:00Z",
+  "modified": "2024-07-05T18:07:13Z",
   "published": "2023-09-04T17:02:00Z",
   "aliases": [
 
   ],
   "summary": "Multiple soundness issues in lexical",
-  "details": "`lexical` contains multiple soundness issues:\n\n 1. [Bytes::read() allows creating instances of types with invalid bit patterns](https://github.com/Alexhuszagh/rust-lexical/issues/102)\n 1. [BytesIter::read() advances iterators out of bounds](https://github.com/Alexhuszagh/rust-lexical/issues/101)\n 1. [The `BytesIter` trait has safety invariants but is public and not marked `unsafe`](https://github.com/Alexhuszagh/rust-lexical/issues/104)\n 1. [`write_float()` calls `MaybeUninit::assume_init()` on uninitialized data, which is is not allowed by the Rust abstract machine](https://github.com/Alexhuszagh/rust-lexical/issues/95)\n\nThe crate also has some correctness issues and appears to be unmaintained.\n\n## Alternatives\n\nFor quickly parsing floating-point numbers third-party crates are no longer needed. A fast float parsing algorith by the author of `lexical` has been [merged](https://github.com/rust-lang/rust/pull/86761) into libcore.\n\nFor quickly parsing integers, consider `atoi` and `btoi` crates (100% safe code). `atoi_radix10` provides even faster parsing, but only with `-C target-cpu=native`, and at the cost of some `unsafe`.\n\nFor formatting integers in a `#[no_std]` context consider the [`numtoa`](https://crates.io/crates/numtoa) crate.\n\nFor working with big numbers consider `num-bigint` and `num-traits`.\n",
+  "details": "`lexical` contains multiple soundness issues:\n\n 1. [Bytes::read() allows creating instances of types with invalid bit patterns](https://github.com/Alexhuszagh/rust-lexical/issues/102)\n 1. [BytesIter::read() advances iterators out of bounds](https://github.com/Alexhuszagh/rust-lexical/issues/101)\n 1. [The `BytesIter` trait has safety invariants but is public and not marked `unsafe`](https://github.com/Alexhuszagh/rust-lexical/issues/104)\n 1. [`write_float()` calls `MaybeUninit::assume_init()` on uninitialized data, which is is not allowed by the Rust abstract machine](https://github.com/Alexhuszagh/rust-lexical/issues/95)\n\nThe crate also has some correctness issues and appears to be unmaintained.\n\n## Alternatives\n\nFor quickly parsing floating-point numbers third-party crates are no longer needed. A fast float parsing algorithm by the author of `lexical` has been [merged](https://github.com/rust-lang/rust/pull/86761) into libcore.\n\nFor quickly parsing integers, consider `atoi` and `btoi` crates (100% safe code). `atoi_radix10` provides even faster parsing, but only with `-C target-cpu=native`, and at the cost of some `unsafe`.\n\nFor formatting integers in a `#[no_std]` context consider the [`numtoa`](https://crates.io/crates/numtoa) crate.\n\nFor working with big numbers consider `num-bigint` and `num-traits`.\n",
   "severity": [
 
   ],

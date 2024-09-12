@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v8vj-cv27-hjv8",
+  "modified": "2024-08-06T18:35:21Z",
+  "published": "2024-02-26T18:30:31Z",
+  "aliases": [
+    "CVE-2024-27444"
+  ],
+  "summary": "LangChain Experimental vulnerable to arbitrary code execution",
+  "details": "langchain_experimental (aka LangChain Experimental) before 0.0.52, part of LangChain before 0.1.8, allows an attacker to bypass the CVE-2023-44467 fix and execute arbitrary code via the `__import__`, `__subclasses__`, `__builtins__`, `__globals__`, `__getattribute__`, `__bases__`, `__mro__`, or `__base__` attribute in Python code. These are not prohibited by `pal_chain/base.py`.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "langchain-experimental"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.0.52"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-27444"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/langchain-ai/langchain/commit/de9a6cdf163ed00adaf2e559203ed0a9ca2f1de7"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/langchain-ai/langchain"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-749"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-26T21:00:12Z",
+    "nvd_published_at": "2024-02-26T16:28:00Z"
+  }
+}

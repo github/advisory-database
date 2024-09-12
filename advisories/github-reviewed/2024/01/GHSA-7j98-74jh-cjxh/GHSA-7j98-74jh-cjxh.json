@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7j98-74jh-cjxh",
+  "modified": "2024-02-09T03:32:58Z",
+  "published": "2024-01-16T15:30:28Z",
+  "aliases": [
+    "CVE-2023-6395"
+  ],
+  "summary": "Privilege escalation for users that can access mock configuration",
+  "details": "The Mock software contains a vulnerability wherein an attacker could potentially exploit privilege escalation, enabling the execution of arbitrary code with root user privileges. This weakness stems from the absence of proper sandboxing during the expansion and execution of Jinja2 templates, which may be included in certain configuration parameters. While the Mock documentation advises treating users added to the mock group as privileged, certain build systems invoking mock on behalf of users might inadvertently permit less privileged users to define configuration tags. These tags could then be passed as parameters to mock during execution, potentially leading to the utilization of Jinja2 templates for remote privilege escalation and the execution of arbitrary code as the root user on the build server.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "templated_dictionary"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.4.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-6395"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xsuchy/templated-dictionary/commit/0740bd0ca8d487301881541028977d120f8b8933"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xsuchy/templated-dictionary/commit/bcd90f0dafa365575c4b101e6f5d98c4ef4e4b69"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/security/cve/CVE-2023-6395"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2252206"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xsuchy/templated-dictionary"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/62SP2BJC2AFLFJJAEHPGZ3ZINTBTI7AN"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/NBFYREAJH4T7GXXQZ4GJEREN4Q3AHS3K"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/01/16/1"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/01/16/3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-25T21:13:03Z",
+    "nvd_published_at": "2024-01-16T15:15:08Z"
+  }
+}

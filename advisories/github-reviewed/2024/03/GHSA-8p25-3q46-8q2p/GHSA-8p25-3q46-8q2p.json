@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8p25-3q46-8q2p",
+  "modified": "2024-03-01T20:09:19Z",
+  "published": "2024-03-01T20:09:19Z",
+  "aliases": [
+    "CVE-2024-27081"
+  ],
+  "summary": "ESPHome vulnerable to remote code execution via arbitrary file write",
+  "details": "### Summary\nSecurity misconfiguration in edit configuration file API in dashboard component of ESPHome version 2023.12.9 (command line installation) allows authenticated remote attackers to read and write arbitrary files under the configuration directory rendering remote code execution possible.\n\n### Details\nIt is possible to abuse this path traversal vulnerability both in command line installation and Home Assistant add-on, but it is possible to read and write files only under the configuration directory. \n\nThe vulnerability is present and exploitable in the command line installation, but it was not possible to confirm an impact in the home assistant add-on version.\n\n### PoC\n<img width=\"482\" alt=\"/edit?configuration=/config/.esphome/esphome.json\" src=\"https://github.com/esphome/esphome/assets/115887876/d2da3180-976e-4bed-b4b9-35ac960a7fb4\">\n<br/>\n\n<img width=\"344\" alt=\"/edit?configuration=/config/.esphome/build/test01/src/main.cpp (firmware for board named test01)\" src=\"https://github.com/esphome/esphome/assets/115887876/707fb6d7-d4a8-461e-bbb7-05382471e925\">\n<br/>\n\n<img width=\"482\" alt=\"RCE payload POST request on /edit?configuration=.esphome/platformio/packages/tool-esptoolpy/esptool.py\" src=\"https://github.com/esphome/esphome/assets/115887876/c6cb28d8-352d-4fea-b77a-705f63be94e3\">\n<br/>\n\n<img width=\"482\" alt=\"Arbitrary code execution during ESP board flashing\" src=\"https://github.com/esphome/esphome/assets/115887876/5eb0f14c-ceb2-4b15-8898-c02c610763d1\">\n\n\n### Impact\nThe issue gives read and write access to files under the configuration directory and allows malicious users to write arbitrary code in python scripts executed during the compilation and flashing of firmwares for ESP boards. \n\nIf chained with GHSA-9p43-hj5j-96h5 and GHSA-5925-88xh-6h99, this issue could allow an unauthenticated remote user to gain remote code execution on the machine hosting the dashboard.\n\nIt also allows accessing sensitive information such as esphome.json and board firmware source code allowing a user to modify the board firmware, and leaking secrets such as: WiFi network credentials, fallback hotspot WiFi credentials, OTA component authentication password and API encryption key.\n\n### Credits\nSpike Reply Cybersecurity Team\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "esphome"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2023.12.9"
+            },
+            {
+              "fixed": "2024.2.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "2023.12.9"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/esphome/esphome/security/advisories/GHSA-8p25-3q46-8q2p"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-27081"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/esphome/esphome/commit/d814ed1d4adc71fde47c4df41215bee449884513"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/esphome/esphome"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-01T20:09:19Z",
+    "nvd_published_at": "2024-02-26T17:15:10Z"
+  }
+}

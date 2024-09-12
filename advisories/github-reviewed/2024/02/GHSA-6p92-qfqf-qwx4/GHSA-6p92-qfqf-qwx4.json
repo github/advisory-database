@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6p92-qfqf-qwx4",
+  "modified": "2024-02-12T21:35:52Z",
+  "published": "2024-02-12T15:08:48Z",
+  "aliases": [
+    "CVE-2024-23833"
+  ],
+  "summary": "OpenRefine JDBC Attack Vulnerability",
+  "details": "### Summary\nA jdbc attack vulnerability exists in OpenRefine(version<=3.7.7)\n\n### Details\n#### Vulnerability Recurrence\nStart by constructing a malicious MySQL Server (using the open source project MySQL_Fake_Server here).\n![image](https://user-images.githubusercontent.com/31120718/296241211-96c6a647-8572-4859-837d-dac3d3f52ab0.png)\nThen go to the Jdbc connection trigger vulnerability\n![image](https://user-images.githubusercontent.com/31120718/296241309-af2c404d-0651-4d4b-86d6-8111cef0295b.png)\n#### Vulnerability Analysis\nThis vulnerability is the bypass of `CVE-2023-41887` vulnerability repair, the main vulnerability principle is actually the use of official syntax features, as shown in the following figure, when the connection we can perform parameter configuration in the Host part\n![image](https://user-images.githubusercontent.com/31120718/296241439-db45840c-e3bd-4047-b1ac-499f7aeb4848.png)\nIn `com.google.refine.extension.database.mysql.MySQLConnectionManager#getConnection` method in the final JdbcUrl structure\n![image](https://user-images.githubusercontent.com/31120718/296241473-fc63b0a9-6ecf-47a0-ac7d-d68d833c7c27.png)\nThat is, in the ` toURI` method call here, you can see that the Host part is directly concatenated for any verification, which can be bypassed using the address feature of mysql\n![image](https://user-images.githubusercontent.com/31120718/296241511-e27ba08c-500a-4ed5-b662-96e5e4a8af5f.png)\nThat is, in the toURI method call here, you can see that the Host part is directly concatenated for any verification, which can be bypassed using the address feature of mysql\n![image](https://user-images.githubusercontent.com/31120718/296241733-83d6d0a5-197c-4bcf-835e-0c54b4b8b80f.png)\n\n\n\n### PoC\n_Complete instructions, including specific configuration details, to reproduce the vulnerability._\n```\nType: MySQL\nHost: 127.0.0.1:3306,(host=127.0.0.1,port=3306,autoDeserialize=true,allowLoadLocalInfile=true,allowUrlInLocalInfile=true,allowLoadLocalInfileInPath=true),127.0.0.1\nPort: 3306\nUser: win_hosts\nDatabase: test\n```\n\n\n### Impact \nDue to the newer MySQL driver library in the latest version of OpenRefine (8.0.30), there is no associated deserialization utilization point, so original code execution cannot be achieved, but attackers can use this vulnerability to read sensitive files on the target server.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.openrefine:database"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.7.8"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.7.7"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenRefine/OpenRefine/security/advisories/GHSA-6p92-qfqf-qwx4"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23833"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenRefine/OpenRefine/commit/41ccf574847d856e22488a7c0987ad8efa12a84a"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/OpenRefine/OpenRefine"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-12T15:08:48Z",
+    "nvd_published_at": "2024-02-12T21:15:08Z"
+  }
+}

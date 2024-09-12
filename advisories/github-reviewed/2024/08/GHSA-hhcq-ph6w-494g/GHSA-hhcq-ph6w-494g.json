@@ -1,0 +1,150 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hhcq-ph6w-494g",
+  "modified": "2024-08-12T19:17:21Z",
+  "published": "2024-08-08T14:42:58Z",
+  "aliases": [
+    "CVE-2024-42354"
+  ],
+  "summary": "Shopware vulnerable to Improper Access Control with ManyToMany associations in store-api",
+  "details": "### Impact\n\nThe store-API works with regular entities and not expose all fields for the public API; fields need to be marked as ApiAware in the EntityDefinition. So only ApiAware fields of the EntityDefinition will be encoded to the final JSON. \n\nThe processing of the Criteria did not considered ManyToMany associations and so they were not considered properly and the protections didn't get used.\n\nThis issue cannot be reproduced with the default entities by Shopware, but can be triggered with extensions.\n\n### Patches\nUpdate to Shopware 6.6.5.1 or 6.5.8.13.\n\n### Workarounds\nFor older versions of 6.2, 6.3,  and 6.4, corresponding security measures are also available via a plugin. For the full range of functions, we recommend updating to the latest Shopware version.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:A/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "shopware/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.5.8.13"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 6.5.8.12"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "shopware/platform"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "6.5.8.13"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 6.5.8.12"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "shopware/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.6.0.0"
+            },
+            {
+              "fixed": "6.6.5.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 6.6.5.0"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "shopware/platform"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.6.0.0"
+            },
+            {
+              "fixed": "6.6.5.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 6.6.5.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/shopware/shopware/security/advisories/GHSA-hhcq-ph6w-494g"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-42354"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/shopware/core/commit/a784aa1cec0624e36e0ee4d41aeebaed40e0442f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/shopware/core/commit/d35ee2eda5c995faeb08b3dad127eab65c64e2a2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/shopware/shopware/commit/8504ba7e56e53add6a1d5b9d45015e3d899cd0ac"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/shopware/shopware/commit/ad83d38809df457efef21c37ce0996430334bf01"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/shopware/shopware"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-284"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-08T14:42:58Z",
+    "nvd_published_at": "2024-08-08T15:15:17Z"
+  }
+}

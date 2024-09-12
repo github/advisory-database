@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-x7q2-wr7g-xqmf",
+  "modified": "2024-07-11T17:26:08Z",
+  "published": "2024-07-10T06:33:52Z",
+  "aliases": [
+    "CVE-2024-39329"
+  ],
+  "summary": "Django vulnerable to user enumeration attack",
+  "details": "An issue was discovered in Django 5.0 before 5.0.7 and 4.2 before 4.2.14. The `django.contrib.auth.backends.ModelBackend.authenticate()` method allows remote attackers to enumerate users via a timing attack involving login requests for users with an unusable password.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "Django"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0"
+            },
+            {
+              "fixed": "5.0.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "Django"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.2"
+            },
+            {
+              "fixed": "4.2.14"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-39329"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/django/django/commit/07cefdee4a9d1fcd9a3a631cbd07c78defd1923b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/django/django/commit/156d3186c96e3ec2ca73b8b25dc2ef366e38df14"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.djangoproject.com/en/dev/releases/security"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/django/django"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/django/PYSEC-2024-57.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://groups.google.com/forum/#%21forum/django-announce"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.djangoproject.com/weblog/2024/jul/09/security-releases"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-208"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-10T21:42:19Z",
+    "nvd_published_at": "2024-07-10T05:15:12Z"
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-63g3-9jq3-mccv",
+  "modified": "2024-05-14T22:17:23Z",
+  "published": "2024-05-14T22:17:22Z",
+  "aliases": [
+    "CVE-2022-21713"
+  ],
+  "summary": "Grafana API IDOR",
+  "details": "Today we are releasing Grafana 8.3.5 and 7.5.14. This patch release includes MEDIUM severity security fix for Grafana Teams API IDOR.\n\nRelease v.8.3.5, only containing security fixes:\n\n- [Download Grafana 8.3.5](https://grafana.com/grafana/download/8.3.5)\n- [Release notes](https://grafana.com/docs/grafana/latest/release-notes/release-notes-8-3-5/)\n\nRelease v.7.5.15, only containing security fixes:\n\n- [Download Grafana 7.5.15](https://grafana.com/grafana/download/7.5.15)\n- [Release notes](https://grafana.com/docs/grafana/latest/release-notes/release-notes-7-5-15/)\n\n## Teams API IDOR([CVE-2022-21713](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-21713))\n\nOn Jan. 18, an external security researcher, Kürşad ALSAN from [NSPECT.IO](https://www.nspect.io) ([@nspectio](https://twitter.com/nspectio) on Twitter), contacted Grafana to disclose an IDOR (Insecure Direct Object Reference) vulnerability on Grafana Teams APIs.\n\nWe believe that this vulnerability is rated at CVSS 4.3 (CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N).  \n\n### Impact\n\nThis vulnerability only impacts the following API endpoints:\n\n- `/teams/:teamId` - an authenticated attacker can view unintended data by querying for the specific team ID.\n- `/teams/:search` - an authenticated attacker can search for teams and see the total number of available teams, including for those teams that the user does not have access to.\n- `/teams/:teamId/members` - when editors_can_admin flag is enabled, an authenticated attacker can see unintended data by querying for the specific team ID.\n\n### Affected versions with MEDIUM severity \nAll Grafana >=5.0.0-beta1 versions are affected by this vulnerability.\n\n### Solutions and mitigations\n\nAll installations after Grafana v5.0.0-beta1 should be upgraded as soon as possible.\n\nAppropriate patches have been applied to [Grafana Cloud](https://grafana.com/cloud) and as always, we closely coordinated with all cloud providers licensed to offer Grafana Pro. They have received early notification under embargo and confirmed that their offerings are secure at the time of this announcement. This is applicable to Amazon Managed Grafana.\n\n### Timeline and postmortem\n\nHere is a detailed timeline starting from when we originally learned of the issue. All times in UTC.\n\n- 2022-01-18 05:000 Issue submitted by external researcher\n- 2022-01-21 17:45 Issue escalated and the vulnerability confirmed reproducible\n- 2022-01-24 13:37 CVE requested\n- 2022-01-24 14:40 Private release planned for 2022-01-25, and public release planned for 2022-02-01.\n- 2022-01-24 17:00 PR with fix opened\n- 2022-01-24 19:00 GitHub has issued CVE-2022-21713 \n- 2022-01-25 12:00 Private release\n- 2022-02-01 12:00 During public release process, we realized that private 7.x release was incomplete. Abort public release, send second private release to customers using 7.x\n- 2022-02-08 13:00 Public release\n\n### Acknowledgements\nWe would like to thank Kürşad ALSAN from [NSPECT.IO](https://www.nspect.io) ([@nspectio](https://twitter.com/nspectio) on Twitter) for responsibly disclosing the vulnerability.\n\n### Reporting security issues\n\nIf you think you have found a security vulnerability, please send a report to security@grafana.com. This address can be used for all of Grafana Labs' open source and commercial products (including, but not limited to Grafana, Grafana Cloud, Grafana Enterprise, and grafana.com). We can accept only vulnerability reports at this address. We would prefer that you encrypt your message to us by using our PGP key. The key fingerprint is\n\nF988 7BEA 027A 049F AE8E 5CAA D125 8932 BE24 C5CA\n\nThe key is available from keyserver.ubuntu.com.\n\n### Security announcements\n\nWe maintain a [security category](https://community.grafana.com/c/support/security-announcements) on our blog, where we will always post a summary, remediation, and mitigation details for any patch containing security fixes.\n\nYou can also subscribe to our [RSS feed](https://grafana.com/tags/security/index.xml).\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/grafana/grafana"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0-beta1"
+            },
+            {
+              "fixed": "7.5.15"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/grafana/grafana"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.0.0"
+            },
+            {
+              "fixed": "8.3.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/grafana/grafana/security/advisories/GHSA-63g3-9jq3-mccv"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-21713"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/grafana/grafana/pull/45083"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/grafana/grafana"
+    },
+    {
+      "type": "WEB",
+      "url": "https://grafana.com/blog/2022/02/08/grafana-7.5.15-and-8.3.5-released-with-moderate-severity-security-fixes"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/2PFW6Q2LXXWTFRTMTRN4ZGADFRQPKJ3D"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/36GUEPA5TPSC57DZTPYPBL6T7UPQ2FRH"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/HLAQRRGNSO5MYCPAXGPH2OCSHOGHSQMQ"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.netapp.com/advisory/ntap-20220303-0005"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-639",
+      "CWE-863"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-14T22:17:22Z",
+    "nvd_published_at": "2022-02-08T21:15:20Z"
+  }
+}

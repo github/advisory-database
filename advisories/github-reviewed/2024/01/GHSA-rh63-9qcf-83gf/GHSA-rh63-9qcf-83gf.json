@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rh63-9qcf-83gf",
+  "modified": "2024-02-27T19:23:58Z",
+  "published": "2024-01-19T15:06:07Z",
+  "aliases": [
+    "CVE-2024-21484"
+  ],
+  "summary": "Marvin Attack of RSA and RSAOAEP decryption in jsrsasign",
+  "details": "### Impact\nRSA PKCS#1.5 or RSAOAEP ciphertexts may be decrypted by this Marvin attack vulnerability.\n\n### Patches\nupdate to jsrsasign 11.0.0.\n\n### Workarounds\nFind and replace RSA and RSAOAEP decryption with other crypto library.\n\n### References\nhttps://people.redhat.com/~hkario/marvin/\nhttps://github.com/kjur/jsrsasign/issues/598\nhttps://security.snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-6070732\nhttps://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-21484",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "jsrsasign"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "11.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/kjur/jsrsasign/security/advisories/GHSA-rh63-9qcf-83gf"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-21484"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kjur/jsrsasign/issues/598"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/kjur/jsrsasign"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kjur/jsrsasign/releases/tag/11.0.0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://people.redhat.com/~hkario/marvin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-JAVA-ORGWEBJARSBOWER-6070734"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-JAVA-ORGWEBJARSBOWERGITHUBKJUR-6070733"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-6070732"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-JS-JSRSASIGN-6070731"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-203"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-19T15:06:07Z",
+    "nvd_published_at": "2024-01-22T05:15:08Z"
+  }
+}

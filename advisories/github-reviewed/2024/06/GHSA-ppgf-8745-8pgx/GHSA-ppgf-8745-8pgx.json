@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-ppgf-8745-8pgx",
+  "modified": "2024-06-05T16:41:48Z",
+  "published": "2024-06-05T16:41:48Z",
+  "aliases": [
+
+  ],
+  "summary": "Insecure Deserialization & Arbitrary Code Execution in TYPO3 CMS",
+  "details": "Phar files (formerly known as \"PHP archives\") can act als self extracting archives which leads to the fact that source code is executed when Phar files are invoked. The Phar file format is not limited to be stored with a dedicated file extension - \"bundle.phar\" would be valid as well as \"bundle.txt\" would be. This way, Phar files can be obfuscated as image or text file which would not be denied from being uploaded and persisted to a TYPO3 installation. Due to a missing sanitization of user input, those Phar files can be invoked by manipulated URLs in TYPO3 backend forms. A valid backend user account is needed to exploit this vulnerability. In theory the attack vector would be possible in the TYPO3 frontend as well, however no functional exploit has been identified so far.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.0.0"
+            },
+            {
+              "fixed": "7.6.30"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.0.0"
+            },
+            {
+              "fixed": "8.7.17"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "typo3/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.0.0"
+            },
+            {
+              "fixed": "9.3.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/typo3/cms/2018-07-12-2.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://typo3.org/security/advisory/typo3-core-sa-2018-002"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-502"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-05T16:41:48Z",
+    "nvd_published_at": null
+  }
+}

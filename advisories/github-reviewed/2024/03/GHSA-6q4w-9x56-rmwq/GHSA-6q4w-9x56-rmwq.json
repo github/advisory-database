@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6q4w-9x56-rmwq",
+  "modified": "2024-03-21T18:29:15Z",
+  "published": "2024-03-06T17:04:08Z",
+  "aliases": [
+    "CVE-2024-27933"
+  ],
+  "summary": "Deno arbitrary file descriptor close via `op_node_ipc_pipe()` leading to permission prompt bypass",
+  "details": "### Summary\n\nUse of raw file descriptors in `op_node_ipc_pipe()` leads to premature close of arbitrary file descriptors, allowing standard input to be re-opened as a different resource resulting in permission prompt bypass.\n\n\n### Details\n\nNode child_process IPC relies on the JS side to pass the raw IPC file descriptor to `op_node_ipc_pipe()`, which returns a `IpcJsonStreamResource` ID associated with the file descriptor. On closing the resource, the raw file descriptor is closed together.\n\nAlthough closing a file descriptor is seemingly a harmless task, this has been known to be exploitable:\n- With `--allow-read` and `--allow-write` permissions, one can open `/dev/ptmx` as stdin. This device happily accepts TTY ioctls and pipes anything written into it back to the reader. \n  - This has been presented in a hacking competition (WACON 2023 Quals \"dino jail\").\n  - However, the precondition of this challenge was heavily contrived: fd 0 has manually been closed by FFI and `setuid()` was used to drop permissions and deny access to `/proc` since global write permissions are usually equivalent to arbitrary code execution (`/proc/self/mem`).\n\nAs this vulnerability conveniently allows us to close stdin (fd 0) without any FFI, we can open any resource that when read returns `y`, `Y` or `A` as its first character ([runtimes/permissions/prompter.rs](https://github.com/denoland/deno/blob/v1.39.0/runtime/permissions/prompter.rs#L265)) to bypass the prompt.\n\nThere is a caveat however - all stdio/stdin/stderr streams are [locked](https://github.com/denoland/deno/blob/v1.39.0/runtime/permissions/prompter.rs#L214), after which [`clear_stdin()`](https://github.com/denoland/deno/blob/v1.39.0/runtime/permissions/prompter.rs#L220) is called. This invokes [`libc::tcflush(0, libc::TCIFLUSH)`](https://github.com/denoland/deno/blob/v1.39.0/runtime/permissions/prompter.rs#L99) which fails on a non-TTY file descriptor.\n\nThis can be exploited by widening the race window between `clear_stdin()` and the next [`stdin_lock.read_line()`](https://github.com/denoland/deno/blob/v1.39.0/runtime/permissions/prompter.rs#L256). Notably, the prompt message contains the requested resource name (path) which is filtered by [`strip_ansi_codes_and_ascii_control()`](https://github.com/denoland/deno/blob/v1.39.0/runtime/permissions/prompter.rs#L225). This is also concatenated by [`write!()`](https://github.com/denoland/deno/blob/v1.39.0/runtime/permissions/prompter.rs#L241) to make a single buffer printed out to stderr. Thus, if we request a very long resource name, the window will widen allowing us to easily and stably race another Worker that closes fd 0 and opens a resource starting with an `A\\n` within the race window.\n\nNote that attacker does not need any permissions to exploit this bug to a full permission prompt bypass, as Cache API can be used to create and open files with controlled content without any permissions. Refer to the Impact section for more details.\n\n\n### PoC\n\nTesting environment is Docker image `denoland/deno:alpine-1.39.0@sha256:95064390f2c115673762bfc4fe15b1a7f81c859038b8c02b277ede7cd8a2ccbf`.\n\nBelow PoC closes stdout (fd 1) and then prints two lines, one on stdout and one on stderr. Only the latter line is shown as stdout file descriptor is closed.\n\n```js\nconst ops = Deno[Deno.internal].core.ops;\n\n// open fd 1 as ipc stream resource\nconst rid = ops.op_node_ipc_pipe(1);\n\n// close resource & fd 1\nDeno.close(rid);\n\n// this should not be seen (stdout)\nconsole.log('not seen');\n\n// but this is seen (stderr)\nconsole.error('seen');\n```\n\nBelow is `/proc/$(pgrep deno)/fd` right after executing the last line of the above PoC. We see that fd 1 is indeed missing.\n\n```text\ntotal 0\ndr-x------ 2 root root 30 Dec 18 07:07 ./\ndr-xr-xr-x 9 root root  0 Dec 18 07:07 ../\nlrwx------ 1 root root 64 Dec 18 07:07 0 -> /dev/pts/0\nl-wx------ 1 root root 64 Dec 18 07:07 10 -> 'pipe:[159305]'\nlr-x------ 1 root root 64 Dec 18 07:07 11 -> 'pipe:[159306]'\nl-wx------ 1 root root 64 Dec 18 07:07 12 -> 'pipe:[159306]'\nlrwx------ 1 root root 64 Dec 18 07:07 13 -> /deno-dir/dep_analysis_cache_v1\nl-wx------ 1 root root 64 Dec 18 07:07 14 -> 'pipe:[159305]'\nl-wx------ 1 root root 64 Dec 18 07:07 15 -> 'pipe:[159306]'\nlrwx------ 1 root root 64 Dec 18 07:07 16 -> /deno-dir/node_analysis_cache_v1\nlrwx------ 1 root root 64 Dec 18 07:07 17 -> /dev/pts/0\nlrwx------ 1 root root 64 Dec 18 07:07 18 -> /dev/pts/0\nlrwx------ 1 root root 64 Dec 18 07:07 19 -> /dev/pts/0\nlrwx------ 1 root root 64 Dec 18 07:07 2 -> /dev/pts/0\nlrwx------ 1 root root 64 Dec 18 07:07 20 -> 'anon_inode:[eventpoll]'\nlrwx------ 1 root root 64 Dec 18 07:07 21 -> 'anon_inode:[eventfd]'\nlrwx------ 1 root root 64 Dec 18 07:07 22 -> 'anon_inode:[eventpoll]'\nlrwx------ 1 root root 64 Dec 18 07:07 23 -> 'socket:[159302]'\nlrwx------ 1 root root 64 Dec 18 07:07 24 -> 'anon_inode:[eventpoll]'\nlrwx------ 1 root root 64 Dec 18 07:07 25 -> 'anon_inode:[eventfd]'\nlrwx------ 1 root root 64 Dec 18 07:07 26 -> 'anon_inode:[eventpoll]'\nlrwx------ 1 root root 64 Dec 18 07:07 27 -> 'socket:[159302]'\nlrwx------ 1 root root 64 Dec 18 07:07 28 -> 'socket:[159310]'\nlrwx------ 1 root root 64 Dec 18 07:07 29 -> 'socket:[159308]'\nlrwx------ 1 root root 64 Dec 18 07:07 3 -> 'anon_inode:[eventpoll]'\nlrwx------ 1 root root 64 Dec 18 07:07 30 -> 'socket:[159309]'\nlrwx------ 1 root root 64 Dec 18 07:07 4 -> 'anon_inode:[eventfd]'\nlrwx------ 1 root root 64 Dec 18 07:07 5 -> 'anon_inode:[eventpoll]'\nlrwx------ 1 root root 64 Dec 18 07:07 6 -> 'socket:[159302]'\nlrwx------ 1 root root 64 Dec 18 07:07 7 -> 'socket:[159303]'\nlrwx------ 1 root root 64 Dec 18 07:07 8 -> 'socket:[159302]'\nlr-x------ 1 root root 64 Dec 18 07:07 9 -> 'pipe:[159305]'\n```\n\n\n### Impact\n\nUse of raw file descriptors in `op_node_ipc_pipe()` leads to premature close of arbitrary file descriptors. This allow standard input (fd 0) to be closed and re-opened for a different resource, which allows a silent permission prompt bypass. This is exploitable by an attacker controlling the code executed inside a Deno runtime to obtain arbitrary code execution on the host machine regardless of permissions.\n\nThis bug is **known to be exploitable** - there is a working exploit that achieves arbitrary code execution by bypassing prompts from zero permissions, additionally abusing the fact that Cache API lacks filesystem permission checks. The attack can be conducted silently as stderr can also be closed, suppressing all prompt outputs.\n\n> Note that Deno's security model is currently described as follows:\n> - All runtime I/O is considered to be privileged and must always be guarded by a runtime permission. This includes filesystem access, network access, etc.\n>   - The only exception to this is runtime storage explosion attacks that are isolated to a part of the file system, caused by evaluated code (for example, caching big dependencies or no limits on runtime caches such as the Web Cache API).\n>\n> Although it is ambiguous if the fundamental lack of file system permission checks on Web Cache API is a vulnerability or not, the reporter have not reported this as a vulnerability assuming that this is a known risk (or a feature).\n\nAffected version of Deno is 1.39.0.\n\n- Introduced with commit 5a91a06\n- Fixed with commit 55fac9f\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "deno"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.39.0"
+            },
+            {
+              "fixed": "1.39.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "1.39.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/denoland/deno/security/advisories/GHSA-6q4w-9x56-rmwq"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-27933"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/denoland/deno/commit/55fac9f5ead6d30996400e8597c969b675c5a22b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/denoland/deno/commit/5a91a065b882215dde209baf626247e54c21a392"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/denoland/deno"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/denoland/deno/blob/v1.39.0/runtime/permissions/prompter.rs#L214"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/denoland/deno/blob/v1.39.0/runtime/permissions/prompter.rs#L220"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/denoland/deno/blob/v1.39.0/runtime/permissions/prompter.rs#L225"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/denoland/deno/blob/v1.39.0/runtime/permissions/prompter.rs#L241"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/denoland/deno/blob/v1.39.0/runtime/permissions/prompter.rs#L256"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/denoland/deno/blob/v1.39.0/runtime/permissions/prompter.rs#L265"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/denoland/deno/blob/v1.39.0/runtime/permissions/prompter.rs#L99"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-863"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-06T17:04:08Z",
+    "nvd_published_at": "2024-03-21T02:52:22Z"
+  }
+}

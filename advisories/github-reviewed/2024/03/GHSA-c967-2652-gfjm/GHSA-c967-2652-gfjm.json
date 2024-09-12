@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c967-2652-gfjm",
+  "modified": "2024-03-14T21:43:21Z",
+  "published": "2024-03-06T15:23:53Z",
+  "aliases": [
+    "CVE-2024-24766"
+  ],
+  "summary": "CasaOS Username Enumeration",
+  "details": "### Summary\n\nThe Casa OS Login page has disclosed the username enumeration vulnerability in the login page.\n\n### Details\n\nIt is observed that the attacker can enumerate the CasaOS username using the application response. If the username is incorrect application gives the error \"**User does not exist**\",  If the password is incorrect application gives the error \"**Invalid password**\". \n\n### PoC\n\nCapture the login request in a tool like Burp Suit and use the intruder tab for trying multiple usernames. \nKeep checking the response of each request if the response says **Invalid password** then the username is right.\n\n### Impact\n\nUsing this error attacker can enumerate the username of CasaOS. \n\n### The logic behind the issue\n\nIf the username is incorrect, then throw an error \"User does not exist\" else throw an error \"Invalid password\".\n\nThis condition can be vice versa like:\n\nIf the password is incorrect, then throw an error \"Invalid password\" else throw an error \"User does not exist\".\n\n### Mitigation\n\nSince this is the condition we have to implement a single error which can be \"Username/Password is Incorrect!!!\"\n\n\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/IceWhaleTech/CasaOS-UserService"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.4.4.3"
+            },
+            {
+              "fixed": "0.4.7"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/IceWhaleTech/CasaOS-UserService/security/advisories/GHSA-c967-2652-gfjm"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-24766"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/IceWhaleTech/CasaOS-UserService/commit/c75063d7ca5800948e9c09c0a6efe9809b5d39f7"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/IceWhaleTech/CasaOS-UserService"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/IceWhaleTech/CasaOS-UserService/releases/tag/v0.4.7"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-204"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-06T15:23:53Z",
+    "nvd_published_at": "2024-03-06T19:15:07Z"
+  }
+}

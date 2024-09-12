@@ -1,0 +1,148 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4685-2x5r-65pj",
+  "modified": "2024-04-05T15:07:16Z",
+  "published": "2024-04-05T15:03:03Z",
+  "aliases": [
+    "CVE-2024-3250"
+  ],
+  "summary": "Pebble service manager's file pull API allows access by any user",
+  "details": "### Impact\n\nNote: \"Pebble\" here refers to [Canonical's service manager](https://github.com/canonical/pebble), not the [Let's Encrypt ACME test server](https://github.com/letsencrypt/pebble).\n\nThe API behind `pebble pull`, used to read files from the workload container by Juju charms, allows access from any user, instead of just admin. In Juju Kubernetes sidecar charms, Pebble and the charm run as root, so they have full access. But if another restricted unix user gains local access to the container host, they could hit the Pebble `GET /v1/files?action=read` API and would be allowed to read any file in the workload container, for example an ssh key or database password or other sensitive information. If there are ssh keys they could then potentially ssh into the workload, or if something like a database password they could log into the database.\n\nNote that this requires local user access to the host machine. It seems unlikely that an attacker could gain this level of access in a Juju Kubernetes context, but if someone did and there's sensitive information in files accessible to Pebble, the consequences are bad.\n\nTo reproduce the issue, go back to the Pebble version in Juju 2.9 (5842ea68c9c7), do `pebble run` as root in one terminal window, then in another terminal window, as a regular user, use the `pebble pull` CLI. You will be able to pull any file as a regular user.\n\n### Patches\n\nThe original patch is commit https://github.com/canonical/pebble/commit/cd326225b9b0be067da7d8858e2c912078cbbbd5. There's also https://github.com/canonical/pebble/pull/406, which fixes this issue in more recent Pebble versions (that PR also fixes a separate issue we introduced more recently, but hasn't been released in Juju yet).\n\nWe released the fix in the following Pebble versions:\n\n- https://github.com/canonical/pebble/releases/tag/v1.1.1\n- https://github.com/canonical/pebble/releases/tag/v1.4.2\n- https://github.com/canonical/pebble/releases/tag/v1.7.4\n- https://github.com/canonical/pebble/releases/tag/v1.10.2\n\nJuju will be releasing patch versions with this fix shortly:\n\n- Juju 2.9.49 (Pebble v1.1.1)\n- Juju 3.1.8 (Pebble v1.4.2)\n- Juju 3.3.4 (Pebble v1.4.2)\n- Juju 3.4.2 (Pebble v1.7.4)\n- Juju 3.5.0 (Pebble v1.10.2)\n\n### References\n\n* https://www.cve.org/CVERecord?id=CVE-2024-3250\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/canonical/pebble"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.2.0"
+            },
+            {
+              "fixed": "1.4.2"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "< 1.4.1"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/canonical/pebble"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.5.0"
+            },
+            {
+              "fixed": "1.7.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/canonical/pebble"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.8.0"
+            },
+            {
+              "fixed": "1.10.2"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "< 1.10.1"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/canonical/pebble"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.1.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/canonical/pebble/security/advisories/GHSA-4685-2x5r-65pj"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-3250"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/canonical/pebble/pull/406"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/canonical/pebble/commit/4ca343d3889533143477e21c63867f2f3c3b5645"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/canonical/pebble/commit/a5f6f062a11ea156697b854264385ff7e1985fd8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/canonical/pebble/commit/b8abd1ff0090f3e0749e81eb1fc3ea16ba95f514"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/canonical/pebble/commit/cd326225b9b0be067da7d8858e2c912078cbbbd5"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/canonical/pebble"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.cve.org/CVERecord?id=CVE-2024-3250"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-862"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-05T15:03:03Z",
+    "nvd_published_at": null
+  }
+}

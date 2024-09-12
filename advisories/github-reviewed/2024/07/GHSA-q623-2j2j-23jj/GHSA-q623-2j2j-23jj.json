@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-q623-2j2j-23jj",
+  "modified": "2024-07-29T17:01:23Z",
+  "published": "2024-07-29T06:30:24Z",
+  "aliases": [
+    "CVE-2024-41637"
+  ],
+  "summary": "RaspAP allows an attacker to escalate privileges",
+  "details": "RaspAP before 3.1.5 allows an attacker to escalate privileges: the www-data user has write access to the restapi.service file and also possesses Sudo privileges to execute several critical commands without a password.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "billz/raspap-webgui"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "3.1.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-41637"
+    },
+    {
+      "type": "WEB",
+      "url": "https://blog.0xzon.dev/2024-07-27-CVE-2024-41637"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/RaspAP/raspap-webgui"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-269",
+      "CWE-77"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-29T17:01:23Z",
+    "nvd_published_at": "2024-07-29T06:15:02Z"
+  }
+}

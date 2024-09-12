@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v24p-7p4j-qvvf",
+  "modified": "2024-04-09T18:52:47Z",
+  "published": "2024-04-09T18:52:46Z",
+  "aliases": [
+    "CVE-2024-28190"
+  ],
+  "summary": "Contao: Cross site scripting in the file manager",
+  "details": "### Impact\n\nUsers can insert malicious code into file names when uploading files, which is then executed in tooltips and popups in the backend.\n\n### Patches\n\nUpdate to Contao 4.13.40 or Contao 5.3.4.\n\n### Workarounds\n\nDisable uploads for untrusted users.\n\n### References\n\nhttps://contao.org/en/security-advisories/cross-site-scripting-in-the-file-manager\n\n### For more information\n\nIf you have any questions or comments about this advisory, open an issue in [contao/contao](https://github.com/contao/contao/issues/new/choose).\n\n### Credits\n\nThanks to Alexander Wuttke for reporting this vulnerability.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "contao/core-bundle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0"
+            },
+            {
+              "fixed": "4.13.40"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "contao/core-bundle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0-RC1"
+            },
+            {
+              "fixed": "5.3.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/contao/contao/security/advisories/GHSA-v24p-7p4j-qvvf"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28190"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/contao/contao/commit/878d28dbe0f408740555d6fc8b634bd3f8febfce"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/contao/contao/commit/b794e14fff070101bf6a885da9b1a83395093b4d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://contao.org/en/security-advisories/cross-site-scripting-in-the-file-manager"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/contao/contao"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-09T18:52:46Z",
+    "nvd_published_at": "2024-04-09T14:15:08Z"
+  }
+}

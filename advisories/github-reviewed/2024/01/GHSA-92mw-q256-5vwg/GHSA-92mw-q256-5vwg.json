@@ -1,0 +1,164 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-92mw-q256-5vwg",
+  "modified": "2024-01-19T20:37:53Z",
+  "published": "2024-01-19T20:37:53Z",
+  "aliases": [
+    "CVE-2024-22424"
+  ],
+  "summary": "github.com/argoproj/argo-cd Cross-Site Request Forgery vulnerability",
+  "details": "### Impact\n\nThe Argo CD API prior to versions 2.10-rc2, 2.9.4, 2.8.8, and 2.7.16 are vulnerable to a cross-server request forgery (CSRF) attack when the attacker has the ability to write HTML to a page on the same parent domain as Argo CD.\n\nA CSRF attack works by tricking an authenticated Argo CD user into loading a web page which contains code to call Argo CD API endpoints on the victim’s behalf. For example, an attacker could send an Argo CD user a link to a page which looks harmless but in the background calls an Argo CD API endpoint to create an application running malicious code.\n\nArgo CD uses the “Lax” SameSite cookie policy to prevent CSRF attacks where the attacker controls an external domain. The malicious external website can attempt to call the Argo CD API, but the web browser will refuse to send the Argo CD auth token with the request.\n\nMany companies host Argo CD on an internal subdomain, such as [https://argo-cd.internal.example.com](https://argo-cd.example.com/). If an attacker can place malicious code on, for example, https://test.internal.example.com/, they can still perform a CSRF attack. In this case, the “Lax” SameSite cookie does not prevent the browser from sending the auth cookie, because the destination is a parent domain of the Argo CD API.\n\nBrowsers generally block such attacks by applying CORS policies to sensitive requests with sensitive content types. Specifically, browsers will send a “preflight request” for POSTs with content type “application/json” asking the destination API “are you allowed to accept requests from my domain?” If the destination API does not answer “yes,” the browser will block the request.\n\nBefore the patched versions, Argo CD did not validate that requests contained the correct content type header. So an attacker could bypass the browser’s CORS check by setting the content type to something which is considered “not sensitive” such as “text/plain.” The browser wouldn’t send the preflight request, and Argo CD would happily accept the contents (which are actually still JSON) and perform the requested action (such as running malicious code).\n\n### Patches\n\nA patch for this vulnerability has been released in the following Argo CD versions:\n\n* 2.10-rc2\n* 2.9.4\n* 2.8.8\n* 2.7.16\n\n🚨 **The patch contains a breaking API change.** 🚨 The Argo CD API will no longer accept non-GET requests which do not specify application/json as their Content-Type. The accepted content types list is configurable, and it is possible (but discouraged) to disable the content type check completely.\n\n### Workarounds\n\nThe only way to completely resolve the issue is to upgrade.\n\n### Credits\n\nThe Argo CD team would like to express their gratitude to An Trinh of [Calif](https://calif.io/) who reported the issue confidentially according to our [guidelines](https://github.com/argoproj/argo-cd/blob/master/SECURITY.md#reporting-a-vulnerability) and published a helpful [blog post](https://blog.calif.io/p/argo-cd-csrf) to describe the issue. We would also like to thank them for actively participating in the review for the patch.\n\n### References\n\n* The problem was originally reported in a [GitHub issue](https://github.com/argoproj/argo-cd/issues/2496)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/argoproj/argo-cd"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.1.0"
+            },
+            {
+              "last_affected": "1.8.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/argoproj/argo-cd/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.7.16"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/argoproj/argo-cd/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.8.0-rc1"
+            },
+            {
+              "fixed": "2.8.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/argoproj/argo-cd/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.9.0-rc1"
+            },
+            {
+              "fixed": "2.9.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/argoproj/argo-cd/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.10.0-rc1"
+            },
+            {
+              "fixed": "2.10-rc2"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "2.10.0-rc1"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/security/advisories/GHSA-92mw-q256-5vwg"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-22424"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/issues/2496"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/pull/16860"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/commit/0b459f224b3186707809be8240dfc3a6028f42a0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/commit/13fe3ca589f6f2ded6001ce114e354602ed058b3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/commit/3c5878ecf41581942281e9c95745f073bdfbf9c3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/commit/f569aa105e0fe5940bc736c68e2fc90ee4a6ed94"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/argoproj/argo-cd"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-19T20:37:53Z",
+    "nvd_published_at": "2024-01-19T01:15:09Z"
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-292x-hjr8-226f",
+  "modified": "2024-03-01T23:42:43Z",
+  "published": "2022-05-13T01:34:08Z",
+  "aliases": [
+    "CVE-2018-15761"
+  ],
+  "summary": "Cloud Foundry UAA Privilege Escalation",
+  "details": "Cloud Foundry UAA release, versions prior to v64.0, and UAA, versions prior to 4.23.0, contains a validation error which allows for privilege escalation. A remote authenticated user may modify the url and content of a consent page to gain a token with arbitrary scopes that escalates their privileges.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.cloudfoundry.identity:cloudfoundry-identity-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.23.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-15761"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudfoundry/uaa/commit/3f0730a015d10166de23b7e036743c185f0576a6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/cloudfoundry/uaa/commit/95b7d9e7fae534a362b98de1df5bf501cd52c481"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cloudfoundry/uaa"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.cloudfoundry.org/blog/cve-2018-15761"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-01T23:42:43Z",
+    "nvd_published_at": "2018-11-19T14:29:00Z"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9wrw-p9rm-r782",
+  "modified": "2024-05-17T23:06:54Z",
+  "published": "2024-05-17T23:06:54Z",
+  "aliases": [
+
+  ],
+  "summary": "onelogin/php-saml Improper signature validation on LogoutRequest/LogoutResponse.",
+  "details": "In order to verify Signatures on Logoutrequests and LogoutResponses we use\nthe verifySignature of the class XMLSecurityKey from the xmlseclibs library.\nThat method end up calling openssl_verify() depending on the signature algorithm used.\n\nThe openssl_verify() function returns 1 when the signature was successfully verified,\n0 if it failed to verify with the given key, and -1 in case an error occurs.\nPHP allows translating numerical values to boolean implicitly, with the following correspondences:\n- 0 equals false.\n- Non-zero equals true.\n\nThis means that an implicit conversion to boolean of the values returned by openssl_verify()\nwill convert an error state, signaled by the value -1, to a successful verification of the\nsignature (represented by the boolean true).\n\nThe LogoutRequest/LogoutResponse signature validator was performing an implicit conversion to boolean\nof the values returned by the verify() method, which subsequently will return the same output\nas openssl_verify() under most circumstances.\nThis means an error during signature verification is treated as a successful verification by the method.\n\nSince the signature validation of SAMLResponses were not affected, the impact of this security\nvulnerability is lower, but an update of the php-saml toolkit is recommended.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "onelogin/php-saml"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.10.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/onelogin/php-saml/commit/949359f5cad5e1d085c4e5447d9aa8f49a6e82a1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/onelogin/php-saml/2017-02-28.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/SAML-Toolkits/php-saml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-17T23:06:54Z",
+    "nvd_published_at": null
+  }
+}

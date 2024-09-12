@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-879p-8gw4-mcpw",
+  "modified": "2024-03-15T19:01:10Z",
+  "published": "2024-03-15T19:01:10Z",
+  "aliases": [
+
+  ],
+  "summary": " fgr Vulnerable to Insecure Default Variable Initialization",
+  "details": "### Impact\nAny users whom would not desire a traceback to be included in their logs whenever an error is raised in their code will be affected.\n\nIf users have inadvertently created a scenario in their code that could cause a traceback to include sensitive information _and_ a malicious entity gained access to their log stream, this could create an issue.\n\n### Patches\nNone yet... users will need to upgrade to `0.4.*`\n\n### Workarounds\nNo particularly reasonable ones at present.\n\n### References\n* https://cwe.mitre.org/data/definitions/453.html\n* https://www.invicti.com/web-vulnerability-scanner/vulnerabilities/stack-trace-disclosure-python/",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:H/PR:H/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "fgr"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.3.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/dan1hc/fgr/security/advisories/GHSA-879p-8gw4-mcpw"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/dan1hc/fgr"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-453"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-15T19:01:10Z",
+    "nvd_published_at": null
+  }
+}

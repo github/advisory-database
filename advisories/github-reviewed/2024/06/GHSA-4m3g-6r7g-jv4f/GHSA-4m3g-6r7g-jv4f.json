@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4m3g-6r7g-jv4f",
+  "modified": "2024-06-05T14:15:50Z",
+  "published": "2024-06-05T14:15:50Z",
+  "aliases": [
+
+  ],
+  "summary": "Arbitrary JavaScript execution due to using outdated libraries",
+  "details": "### Summary\ngradio-pdf projects with dependencies on the pdf.js library are vulnerable to CVE-2024-4367, which allows arbitrary JavaScript execution.\n\n### PoC\n1. Generate a pdf file with a malicious script in the fontmatrix. (This will run `alert(‘XSS’)`.)\n[poc.pdf](https://github.com/user-attachments/files/15516798/poc.pdf)\n\n2. Run the app. In this PoC, I've used the demo for a simple proof.\n![1](https://github.com/freddyaboulton/gradio-pdf/assets/114328108/d1bb7626-3d0f-4984-8873-297658d6e77e)\n\n3. Upload a PDF file containing the script.\n![2](https://github.com/freddyaboulton/gradio-pdf/assets/114328108/803d8080-c946-446e-bb34-cf5640e1b4de)\n\n4. Check that the script is running.\n![3](https://github.com/freddyaboulton/gradio-pdf/assets/114328108/4956b95f-acca-4bb1-a3c2-7dfc96adf890)\n\n\n### Impact\nMalicious scripts can be injected into the code, and when linked with vulnerabilities such as CSRF, it can cause even greater damage. In particular, It can become a source of further attacks, especially when linked to social engineering.\n\n### Mitigation\nUpgrade the pdf.js to v4.2.67, which removes the vulnerability. (or set the option `isEvalSupported` to `false`.)\n\n### Reference\n1. https://codeanlabs.com/blog/research/cve-2024-4367-arbitrary-js-execution-in-pdf-js/\n2. https://github.com/mozilla/pdf.js/pull/18015",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:C/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "gradio_pdf"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.0.10"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/freddyaboulton/gradio-pdf/security/advisories/GHSA-4m3g-6r7g-jv4f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/freddyaboulton/gradio-pdf/commit/67edd0c625fae7b855186727ee9678297602ee45"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/freddyaboulton/gradio-pdf"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-05T14:15:50Z",
+    "nvd_published_at": null
+  }
+}

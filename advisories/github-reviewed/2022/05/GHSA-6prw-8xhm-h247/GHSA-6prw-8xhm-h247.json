@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6prw-8xhm-h247",
+  "modified": "2024-04-29T16:52:51Z",
+  "published": "2022-05-17T02:57:25Z",
+  "aliases": [
+    "CVE-2015-8034"
+  ],
+  "summary": "Salt uses weak permissions on the cache data",
+  "details": "The state.sls function in Salt before 2015.8.3 uses weak permissions on the cache data, which allows local users to obtain sensitive information by reading the file.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "salt"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2015.8.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2015-8034"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/saltstack/salt/issues/28455"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.saltstack.com/en/latest/topics/releases/2015.8.3.html"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/saltstack/salt"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20200227192308/http://www.securityfocus.com/bid/96390"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-29T16:52:51Z",
+    "nvd_published_at": "2017-01-30T22:59:00Z"
+  }
+}

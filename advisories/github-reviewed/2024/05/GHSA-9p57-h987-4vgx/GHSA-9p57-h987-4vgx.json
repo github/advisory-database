@@ -1,0 +1,112 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9p57-h987-4vgx",
+  "modified": "2024-05-03T20:17:02Z",
+  "published": "2024-05-01T16:37:21Z",
+  "aliases": [
+    "CVE-2024-32970"
+  ],
+  "summary": "Phlex vulnerable to Cross-site Scripting (XSS) via maliciously formed HTML attribute names and values",
+  "details": "There is a potential cross-site scripting (XSS) vulnerability that can be exploited via maliciously crafted user data.\n\nThe reason these issues were not detected before is the escapes were working as designed. However, their design didn't take into account just how recklessly permissive browser are when it comes to executing unsafe JavaScript via HTML attributes.\n\n### Impact\n\nIf you render an `<a>` tag with an `href` attribute set to a user-provided link, that link could potentially execute JavaScript when clicked by another user.\n\n```ruby\na(href: user_profile) { \"Profile\" }\n```\n\nIf you splat user-provided attributes when rendering any HTML or SVG tag, malicious event attributes could be included in the output, executing JavaScript when the events are triggered by another user.\n\n```ruby\nh1(**JSON.parse(user_attributes))\n```\n\n### Patches\nPatches are [available on RubyGems](https://rubygems.org/gems/phlex) for all minor versions released in the last year.\n\n- [1.10.2](https://rubygems.org/gems/phlex/versions/1.10.2)\n- [1.9.3](https://rubygems.org/gems/phlex/versions/1.9.3)\n\nIf you are on `main`, it has been patched since [`da8f943`](https://github.com/phlex-ruby/phlex/commit/da8f94342a84cff9d78c98bcc3b3604ee2e577d2)\n\n### Workarounds\nConfiguring a [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy) that does not allow [`unsafe-inline`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy#unsafe-inline) would effectively prevent this vulnerability from being exploited.\n\n### References\n\nIn addition to upgrading to a patched version of Phlex, we strongly recommend configuring a Content Security Policy header that does not allow `unsafe-inline`. Here’s how you can configure a Content Security Policy header in Rails. https://guides.rubyonrails.org/security.html#content-security-policy-header",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "phlex"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.9.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "phlex"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.10.0"
+            },
+            {
+              "fixed": "1.10.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/phlex-ruby/phlex/security/advisories/GHSA-9p57-h987-4vgx"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-32970"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/phlex-ruby/phlex/commit/da8f94342a84cff9d78c98bcc3b3604ee2e577d2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy"
+    },
+    {
+      "type": "WEB",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy#unsafe-inline"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/payloadbox/xss-payload-list"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/phlex-ruby/phlex"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/phlex/CVE-2024-32970.yml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rubygems.org/gems/phlex"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rubygems.org/gems/phlex/versions/1.10.2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rubygems.org/gems/phlex/versions/1.9.3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-01T16:37:21Z",
+    "nvd_published_at": "2024-04-30T23:15:06Z"
+  }
+}

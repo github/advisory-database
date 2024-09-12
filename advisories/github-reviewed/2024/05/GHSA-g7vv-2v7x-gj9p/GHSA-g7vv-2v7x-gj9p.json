@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g7vv-2v7x-gj9p",
+  "modified": "2024-06-10T18:30:57Z",
+  "published": "2024-05-03T19:33:28Z",
+  "aliases": [
+    "CVE-2024-34062"
+  ],
+  "summary": "tqdm CLI arguments injection attack",
+  "details": "### Impact\nAny optional non-boolean CLI arguments (e.g. `--delim`, `--buf-size`, `--manpath`) are passed through python's `eval`, allowing arbitrary code execution. Example:\n\n```sh\npython -m tqdm --manpath=\"\\\" + str(exec(\\\"import os\\nos.system('echo hi && killall python3')\\\")) + \\\"\"\n```\n\n### Patches\nhttps://github.com/tqdm/tqdm/commit/4e613f84ed2ae029559f539464df83fa91feb316 released in `tqdm>=4.66.3`\n\n### Workarounds\nNone\n\n### References\n- https://github.com/tqdm/tqdm/releases/tag/v4.66.3",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "tqdm"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.4.0"
+            },
+            {
+              "fixed": "4.66.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/tqdm/tqdm/security/advisories/GHSA-g7vv-2v7x-gj9p"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-34062"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tqdm/tqdm/commit/4e613f84ed2ae029559f539464df83fa91feb316"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/tqdm/tqdm"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/PA3GIGHPWAHCTT4UF57LTPZGWHAX3GW6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/QRECVQCCESHBS3UJOWNXQUIX725TKNY6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/VA337CYUS4SLRFV2P6MX6MZ2LKFURKJC"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-03T19:33:28Z",
+    "nvd_published_at": "2024-05-03T10:15:08Z"
+  }
+}

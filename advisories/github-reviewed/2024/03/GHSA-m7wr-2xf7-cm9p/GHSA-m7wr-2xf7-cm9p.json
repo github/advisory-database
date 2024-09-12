@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-m7wr-2xf7-cm9p",
+  "modified": "2024-03-12T15:15:00Z",
+  "published": "2024-03-04T20:13:11Z",
+  "aliases": [
+    "CVE-2024-27289"
+  ],
+  "summary": "pgx SQL Injection via Line Comment Creation",
+  "details": "### Impact\n\nSQL injection can occur when all of the following conditions are met:\n\n1. The non-default simple protocol is used.\n2. A placeholder for a numeric value must be immediately preceded by a minus.\n3. There must be a second placeholder for a string value after the first placeholder; both\nmust be on the same line.\n4. Both parameter values must be user-controlled.\n\ne.g. \n\nSimple mode must be enabled:\n\n```go\n// connection string includes \"prefer_simple_protocol=true\"\n// or\n// directly enabled in code\nconfig.ConnConfig.PreferSimpleProtocol = true\n```\n\nParameterized query:\n\n```sql\nSELECT * FROM example WHERE result=-$1 OR name=$2;\n```\n\nParameter values:\n\n`$1` => `-42`\n`$2` => `\"foo\\n 1 AND 1=0 UNION SELECT * FROM secrets; --\"`\n\nResulting query after preparation:\n\n```sql\nSELECT * FROM example WHERE result=--42 OR name= 'foo\n1 AND 1=0 UNION SELECT * FROM secrets; --';\n```\n\n### Patches\n\nThe problem is resolved in v4.18.2.\n\n### Workarounds\n\nDo not use the simple protocol or do not place a minus directly before a placeholder.\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/jackc/pgx"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.18.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/jackc/pgx/v4"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.18.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/jackc/pgx/security/advisories/GHSA-m7wr-2xf7-cm9p"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jackc/pgx/commit/f94eb0e2f96782042c96801b5ac448f44f0a81df"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jackc/pgx"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-89"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-04T20:13:11Z",
+    "nvd_published_at": "2024-03-06T19:15:08Z"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-j7fx-v37j-v3w7",
+  "modified": "2024-04-25T22:32:04Z",
+  "published": "2022-05-13T01:51:05Z",
+  "aliases": [
+    "CVE-2018-20465"
+  ],
+  "summary": "Craft CMS Vulnerable to Server-Side Template Injection",
+  "details": "Craft CMS through 3.0.34 allows remote authenticated administrators to read sensitive information via server-side template injection, as demonstrated by a `{%` string for `craft.app.config.DB.user` and `craft.app.config.DB.password` in the URI Format of the Site Settings, which causes a cleartext username and password to be displayed in a URI field.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "craftcms/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "3.0.34"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-20465"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/phuctam/Server-Side-Template-Injection-in-CraftCMS-/issues/1"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/craftcms/cms"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/craftcms/cms/blob/master/CHANGELOG-v3.md"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1336",
+      "CWE-311"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-25T22:32:04Z",
+    "nvd_published_at": "2018-12-25T23:29:00Z"
+  }
+}

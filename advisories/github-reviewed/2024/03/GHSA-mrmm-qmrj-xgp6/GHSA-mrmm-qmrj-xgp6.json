@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mrmm-qmrj-xgp6",
+  "modified": "2024-03-07T17:26:06Z",
+  "published": "2024-03-07T09:30:33Z",
+  "aliases": [
+    "CVE-2024-0917"
+  ],
+  "summary": "PaddlePaddle vulnerable to remote code execution",
+  "details": "remote code execution in paddlepaddle/paddle 2.6.0",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "paddlepaddle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "2.6.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-0917"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/PaddlePaddle/Paddle"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/PaddlePaddle/Paddle/blob/develop/python/paddle/distributed/fleet/utils/fs.py#L723"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.com/bounties/2d840735-e255-4700-9709-6f7361829119"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-07T17:26:06Z",
+    "nvd_published_at": "2024-03-07T09:15:38Z"
+  }
+}

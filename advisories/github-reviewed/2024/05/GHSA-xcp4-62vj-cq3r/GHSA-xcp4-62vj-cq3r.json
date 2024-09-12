@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xcp4-62vj-cq3r",
+  "modified": "2024-05-14T20:04:06Z",
+  "published": "2024-05-13T16:04:55Z",
+  "aliases": [
+    "CVE-2024-34706"
+  ],
+  "summary": "@valtimo/components exposes access token to form.io",
+  "details": "### Impact\nWhen opening a form in Valtimo, the access token (JWT) of the user is exposed to `api.form.io` via the the `x-jwt-token` header. An attacker can retrieve personal information from this token, or use it to execute requests to the Valtimo REST API on behalf of the logged-in user.\n\nThis issue is caused by a misconfiguration of the Form.io component.\n\n### Attack requirements ###\nThe following conditions have to be met in order to perform this attack:\n- An attacker needs to have access to the network traffic on the `api.form.io` domain.\n- The content of the `x-jwt-token` header is logged or otherwise available to the attacker.\n- An attacker needs to have network access to the Valtimo API.\n- An attacker needs to act within the time-to-live of the access token. The default TTL in Keycloak is 5 minutes.\n\n### Patches\nVersions 10.8.4, 11.1.6 and 11.2.2 have been patched",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@valtimo/components"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "10.8.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@valtimo/components"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "11.0.0"
+            },
+            {
+              "fixed": "11.1.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@valtimo/components"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "11.2.0"
+            },
+            {
+              "fixed": "11.2.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/valtimo-platform/valtimo-frontend-libraries/security/advisories/GHSA-xcp4-62vj-cq3r"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-34706"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/valtimo-platform/valtimo-frontend-libraries/commit/1aaba5ef5750dafebbc7476fb08bf2375a25f19e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/valtimo-platform/valtimo-frontend-libraries/commit/8c2dbf2a41180d2b0358d878290e4d37168f0fb6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/valtimo-platform/valtimo-frontend-libraries/commit/d65e05fd2784bd4a628778b34a5b79ce2f0cef8c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/valtimo-platform/valtimo-frontend-libraries"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-532"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-13T16:04:55Z",
+    "nvd_published_at": "2024-05-14T15:39:29Z"
+  }
+}

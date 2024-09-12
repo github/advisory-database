@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hvmj-356c-gpf4",
+  "modified": "2024-04-30T08:34:20Z",
+  "published": "2022-05-17T03:00:54Z",
+  "aliases": [
+    "CVE-2016-9639"
+  ],
+  "summary": "Salt allows deleted minions to read or write to minions with the same id",
+  "details": "Salt before 2015.8.11 allows deleted minions to read or write to minions with the same id, related to caching.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "salt"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2015.8.11"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2016-9639"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.saltproject.io/en/latest/topics/releases/2015.8.11.html#new-master-configuration-parameter"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.saltstack.com/en/2015.8/ref/configuration/master.html#rotate-aes-key"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/saltstack/salt"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20200227212146/http://www.securityfocus.com/bid/94553"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2016/11/25/2"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2016/11/25/3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-284"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-30T08:34:20Z",
+    "nvd_published_at": "2017-02-07T17:59:00Z"
+  }
+}

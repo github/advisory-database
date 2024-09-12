@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-j22r-3rf3-cv25",
+  "modified": "2024-07-19T22:39:54Z",
+  "published": "2024-07-19T21:31:11Z",
+  "aliases": [
+    "CVE-2024-39123"
+  ],
+  "summary": "Calibre-Web Cross Site Scripting (XSS)",
+  "details": "In janeczku Calibre-Web 0.6.0 to 0.6.21, the edit_book_comments function is vulnerable to Cross Site Scripting (XSS) due to improper sanitization performed by the clean_string function. The vulnerability arises from the way the clean_string function handles HTML sanitization.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:P/VC:N/VI:N/VA:N/SC:L/SI:L/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "calibreweb"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.6.0"
+            },
+            {
+              "last_affected": "0.6.21"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-39123"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/janeczku/calibre-web"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pentesttoolscom/vulnerability-research/tree/master/CVE-2024-39123"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-19T22:39:54Z",
+    "nvd_published_at": "2024-07-19T20:15:07Z"
+  }
+}

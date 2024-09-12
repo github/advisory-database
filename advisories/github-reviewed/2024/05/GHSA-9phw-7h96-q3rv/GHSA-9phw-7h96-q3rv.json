@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9phw-7h96-q3rv",
+  "modified": "2024-05-21T18:22:04Z",
+  "published": "2024-05-21T18:22:04Z",
+  "aliases": [
+
+  ],
+  "summary": "scheb/two-factor-bundle bypass two-factor authentication with remember-me option",
+  "details": "In versions prior to 3.26.0 and prior to 4.11.0 of the \"scheb/two-factor-bundle\" project, a security vulnerability allowed attackers to bypass two-factor authentication (2FA) using the remember_me cookie. When the remember_me checkbox was used during login, a \"REMEMBERME\" cookie was created. Upon redirection to the 2FA page, attackers could manipulate the SESSIONID key, granting access to the homepage \"/\" and gaining authentication without completing 2FA.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "scheb/two-factor-bundle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0"
+            },
+            {
+              "fixed": "4.11.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "scheb/two-factor-bundle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.26.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/scheb/two-factor-bundle/issues/253"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/scheb/two-factor-bundle/commit/3fbca9e821985559b444207a7c2d73b9b569b58b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/scheb/two-factor-bundle/commit/a149808d25c1553757c529b9568913ea1cec0894"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/scheb/two-factor-bundle/2019-12-19.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/scheb/two-factor-bundle"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-287"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-21T18:22:04Z",
+    "nvd_published_at": null
+  }
+}

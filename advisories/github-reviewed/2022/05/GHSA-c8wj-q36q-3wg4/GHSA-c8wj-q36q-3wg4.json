@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c8wj-q36q-3wg4",
+  "modified": "2024-04-24T18:14:13Z",
+  "published": "2022-05-13T01:22:46Z",
+  "aliases": [
+    "CVE-2019-6799"
+  ],
+  "summary": "phpMyAdmin Arbitrary file read vulnerability",
+  "details": "An issue was discovered in phpMyAdmin before 4.8.5. When the AllowArbitraryServer configuration setting is set to true, with the use of a rogue MySQL server, an attacker can read any file on the server that the web server's user can access. This is related to the mysql.allow_local_infile PHP configuration, and the inadvertent ignoring of \"options(MYSQLI_OPT_LOCAL_INFILE\" calls.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "phpmyadmin/phpmyadmin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.8"
+            },
+            {
+              "fixed": "4.8.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-6799"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/phpmyadmin/composer"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.debian.org/debian-lts-announce/2019/02/msg00039.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.phpmyadmin.net/security/PMASA-2019-1"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/106736"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-24T18:14:13Z",
+    "nvd_published_at": "2019-01-26T17:29:00Z"
+  }
+}

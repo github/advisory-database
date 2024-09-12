@@ -1,0 +1,131 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xw73-rw38-6vjc",
+  "modified": "2024-07-05T18:59:04Z",
+  "published": "2024-02-01T20:51:19Z",
+  "aliases": [
+    "CVE-2024-24557"
+  ],
+  "summary": "Classic builder cache poisoning",
+  "details": "The classic builder cache system is prone to cache poisoning if the image is built `FROM scratch`.\nAlso, changes to some instructions (most important being `HEALTHCHECK` and `ONBUILD`) would not cause a cache miss.\n\n\nAn attacker with the knowledge of the Dockerfile someone is using could poison their cache by making them pull a specially crafted image that would be considered as a valid cache candidate for some build steps.\n\nFor example, an attacker could create an image that is considered as a valid cache candidate for:\n```\nFROM scratch\nMAINTAINER Pawel\n```\n\nwhen in fact the malicious image used as a cache would be an image built from a different Dockerfile.\n\nIn the second case, the attacker could for example substitute a different `HEALTCHECK` command.\n\n\n### Impact\n\n23.0+ users are only affected if they explicitly opted out of Buildkit (`DOCKER_BUILDKIT=0` environment variable) or are using the `/build` API endpoint (which uses the classic builder by default).\n\nAll users on versions older than 23.0 could be impacted. An example could be a CI with a shared cache, or just a regular Docker user pulling a malicious image due to misspelling/typosquatting.\n\nImage build API endpoint (`/build`) and `ImageBuild` function from `github.com/docker/docker/client` is also affected as it the uses classic builder by default. \n\n\n### Patches\n\nPatches are included in Moby releases:\n\n- v25.0.2\n- v24.0.9\n- v23.0.10\n\n### Workarounds\n\n- Use `--no-cache` or use Buildkit if possible (`DOCKER_BUILDKIT=1`, it's default on 23.0+ assuming that the buildx plugin is installed).\n- Use `Version = types.BuilderBuildKit` or `NoCache = true` in `ImageBuildOptions` for `ImageBuild` call.\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:H/PR:N/UI:R/S:C/C:L/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/docker/docker"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "24.0.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/moby/moby"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "24.0.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/moby/moby"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "25.0.0"
+            },
+            {
+              "fixed": "25.0.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/docker/docker"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "25.0.0"
+            },
+            {
+              "fixed": "25.0.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/moby/security/advisories/GHSA-xw73-rw38-6vjc"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-24557"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/moby/commit/3e230cfdcc989dc524882f6579f9e0dac77400ae"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/moby/commit/fca702de7f71362c8d103073c7e4a1d0a467fadd"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/moby/commit/fce6e0ca9bc000888de3daa157af14fa41fcd0ff"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/moby/moby"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-345",
+      "CWE-346"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-01T20:51:19Z",
+    "nvd_published_at": "2024-02-01T17:15:10Z"
+  }
+}

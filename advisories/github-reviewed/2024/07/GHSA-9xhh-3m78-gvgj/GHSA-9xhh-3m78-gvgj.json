@@ -1,0 +1,133 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9xhh-3m78-gvgj",
+  "modified": "2024-08-15T12:23:00Z",
+  "published": "2024-07-22T18:31:48Z",
+  "aliases": [
+    "CVE-2024-28698"
+  ],
+  "summary": "CLSA Directory Traversal vulnerability",
+  "details": "Directory Traversal vulnerability in Marimer LLC CSLA .Net before 8.0 allows a remote attacker to execute arbitrary code via a crafted script to the MobileFormatter component.\n\nFixes for this issue have been backported to the 5.x, 6.x, and 7.x branches of CSLA. CSLA version 5.5.4 contains a fix. As of time of publication, 6.x and 7.x do not have numbered versions containing the fix but do have fix commits available.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Csla"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.5.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Csla"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.0.0"
+            },
+            {
+              "fixed": "8.0.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 6.2.2"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "NuGet",
+        "name": "Csla"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.0.0"
+            },
+            {
+              "fixed": "8.0.0"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 7.0.5"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28698"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/MarimerLLC/csla/pull/3552"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/MarimerLLC/csla/commit/2c32a5748a0a4bb0159285dfad61d4050e890080"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/MarimerLLC/csla/commit/445bc609bc117f62cabf49e1462f7a43b0f8f9a2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/MarimerLLC/csla/commit/8fbdd8c773bfeb9ba3e52d91b5a664848629b13a"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/MarimerLLC/csla/commit/f3a5c3474974f60ce3c8ffbd5d91c23a1e397ea4"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/MarimerLLC/csla"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/MarimerLLC/csla/releases/tag/v5.5.4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.intruder.io/research/path-traversal-and-code-execution-in-csla-net-cve-2024-28698"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-02T16:02:37Z",
+    "nvd_published_at": "2024-07-22T18:15:03Z"
+  }
+}

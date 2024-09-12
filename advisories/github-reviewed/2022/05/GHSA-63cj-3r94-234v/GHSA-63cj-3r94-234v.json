@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-63cj-3r94-234v",
+  "modified": "2024-01-30T22:36:03Z",
+  "published": "2022-05-17T00:29:01Z",
+  "aliases": [
+    "CVE-2017-1000103"
+  ],
+  "summary": "Persistent XSS vulnerability in Jenkins DRY Plugin",
+  "details": "The custom Details view of the Static Analysis Utilities based DRY Plugin, was vulnerable to a persisted cross-site scripting vulnerability: Malicious users able to influence the input to this plugin could insert arbitrary HTML into this view.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jvnet.hudson.plugins:dry"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.49"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.48"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-1000103"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2017-08-07"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/101061"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-30T22:36:03Z",
+    "nvd_published_at": "2017-10-05T01:29:00Z"
+  }
+}

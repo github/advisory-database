@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cc65-xxvf-f7r9",
+  "modified": "2024-04-16T16:10:57Z",
+  "published": "2024-02-15T15:22:02Z",
+  "aliases": [
+    "CVE-2024-1892"
+  ],
+  "summary": "Scrapy vulnerable to ReDoS via XMLFeedSpider",
+  "details": "### Impact\n\nThe following parts of the Scrapy API were found to be vulnerable to a [ReDoS attack](https://owasp.org/www-community/attacks/Regular_expression_Denial_of_Service_-_ReDoS):\n\n- The [`XMLFeedSpider`](https://docs.scrapy.org/en/latest/topics/spiders.html#scrapy.spiders.XMLFeedSpider) class or any subclass that uses the default node iterator: `iternodes`, as well as direct uses of the `scrapy.utils.iterators.xmliter` function.\n\n- **Scrapy 2.6.0 to 2.11.0**: The [`open_in_browser`](https://docs.scrapy.org/en/latest/topics/debug.html#scrapy.utils.response.open_in_browser) function for a response without a [base tag](https://www.w3schools.com/tags/tag_base.asp). \n\nHandling a malicious response could cause extreme CPU and memory usage during the parsing of its content, due to the use of vulnerable regular expressions for that parsing.\n\n### Patches\n\nUpgrade to Scrapy 2.11.1.\n\nIf you are using Scrapy 1.8 or a lower version, and upgrading to Scrapy 2.11.1 is not an option, you may upgrade to Scrapy 1.8.4 instead.\n\n### Workarounds\n\nFor `XMLFeedSpider`, switch the node iterator to ``xml`` or ``html``.\n\nFor `open_in_browser`, before using the function, either manually review the response content to discard a ReDos attack or manually define the base tag to avoid its automatic definition by `open_in_browser` later.\n\n### Acknowledgements\n\nThis security issue was reported by @nicecatch2000  [through huntr.com](https://huntr.com/bounties/271f94f2-1e05-4616-ac43-41752389e26b/).\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "scrapy"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2"
+            },
+            {
+              "fixed": "2.11.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "scrapy"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.8.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/scrapy/scrapy/security/advisories/GHSA-cc65-xxvf-f7r9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/scrapy/scrapy/commit/479619b340f197a8f24c5db45bc068fb8755f2c5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/scrapy/scrapy/commit/73e7c0ed011a0565a1584b8052ec757b54e5270b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.scrapy.org/en/latest/news.html#scrapy-1-8-4-2024-02-14"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.scrapy.org/en/latest/news.html#scrapy-2-11-1-2024-02-14"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/scrapy/scrapy"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1333"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-15T15:22:02Z",
+    "nvd_published_at": null
+  }
+}

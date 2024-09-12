@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vgh3-mwxq-rcp8",
+  "modified": "2024-02-23T19:48:21Z",
+  "published": "2024-02-01T03:30:22Z",
+  "aliases": [
+    "CVE-2024-0831"
+  ],
+  "summary": "Hashicorp Vault may expose sensitive log information",
+  "details": "Vault and Vault Enterprise (“Vault”) may expose sensitive information when enabling an audit device which specifies the `log_raw` option, which may log sensitive information to other audit devices, regardless of whether they are configured to use `log_raw`",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/hashicorp/vault"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.15.0"
+            },
+            {
+              "fixed": "1.15.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-0831"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/hashicorp/vault/commit/2a72f2a8a5b57de88c22a2a94c4a5f08c6f3770b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://developer.hashicorp.com/vault/docs/upgrading/upgrade-to-1.15.x#audit-devices-could-log-raw-data-despite-configuration"
+    },
+    {
+      "type": "WEB",
+      "url": "https://discuss.hashicorp.com/t/hcsec-2024-01-vault-may-expose-sensitive-information-when-configuring-an-audit-log-device/62311"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/hashicorp/vault"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.netapp.com/advisory/ntap-20240223-0005"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-532"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-01T20:52:34Z",
+    "nvd_published_at": "2024-02-01T02:15:46Z"
+  }
+}

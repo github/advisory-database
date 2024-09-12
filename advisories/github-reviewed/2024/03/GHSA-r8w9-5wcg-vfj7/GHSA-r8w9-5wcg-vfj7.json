@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r8w9-5wcg-vfj7",
+  "modified": "2024-03-06T21:37:37Z",
+  "published": "2024-03-04T20:44:35Z",
+  "aliases": [
+    "CVE-2024-27308"
+  ],
+  "summary": "Mio's tokens for named pipes may be delivered after deregistration",
+  "details": "### Impact\n\nWhen using named pipes on Windows, mio will under some circumstances return invalid tokens that correspond to named pipes that have already been deregistered from the mio registry. The impact of this vulnerability depends on how mio is used. For some applications, invalid tokens may be ignored or cause a warning or a crash. On the other hand, for applications that store pointers in the tokens, this vulnerability may result in a use-after-free.\n\nFor users of Tokio, this vulnerability is serious and can result in a use-after-free in Tokio.\n\nThe vulnerability is Windows-specific, and can only happen if you are using named pipes. Other IO resources are not affected.\n\n### Affected versions\nThis vulnerability has been fixed in mio v0.8.11.\n\nAll versions of mio between v0.7.2 and v0.8.10 are vulnerable.\n\nTokio is vulnerable when you are using a vulnerable version of mio AND you are using at least Tokio v1.30.0. Versions of Tokio prior to v1.30.0 will ignore invalid tokens, so they are not vulnerable.\n\n### Workarounds\nVulnerable libraries that use mio can work around this issue by detecting and ignoring invalid tokens.\n\n### Technical details\n\nWhen an IO resource registered with mio has a readiness event, mio delivers that readiness event to the user using a user-specified token. Mio guarantees that when an IO resource is [deregistered](https://docs.rs/mio/latest/mio/struct.Registry.html#method.deregister), then it will never return the token for that IO resource again. However, for named pipes on windows, mio may sometimes deliver the token for a named pipe even though the named pipe has been previously deregistered.\n\nThis vulnerability was originally reported in the Tokio issue tracker: [tokio-rs/tokio#6369](https://github.com/tokio-rs/tokio/issues/6369)\nThis vulnerability was fixed in: [tokio-rs/mio#1760](https://github.com/tokio-rs/mio/pull/1760)\nThis vulnerability is also known as [RUSTSEC-2024-0019](https://rustsec.org/advisories/RUSTSEC-2024-0019.html).\n\nThank you to @rofoun and @radekvit for discovering and reporting this issue.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "mio"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.7.2"
+            },
+            {
+              "fixed": "0.8.11"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.8.10"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/tokio-rs/mio/security/advisories/GHSA-r8w9-5wcg-vfj7"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-27308"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tokio-rs/tokio/issues/6369"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tokio-rs/mio/pull/1760"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/tokio-rs/mio/commit/90d4fe00df870acd3d38f3dc4face9aacab8fbb9"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/tokio-rs/mio"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-416",
+      "CWE-672"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-04T20:44:35Z",
+    "nvd_published_at": "2024-03-06T20:15:47Z"
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7336-ghhp-f2qj",
+  "modified": "2024-05-21T20:54:03Z",
+  "published": "2024-05-21T20:52:57Z",
+  "aliases": [
+
+  ],
+  "summary": "Shopware Remote Code Execution Vulnerability",
+  "details": "Under certain circumstances, it’s possible to execute an unauthorized foreign code in Shopware in versions prior to 5.2.16. One possible threat is if a template that doesn’t derive from the Shopware standard has been completely copied. Themes or plugins that execute or overwrite the following template code are vulnerable.\n\n- Affected file: emotion.tpl\n\nPath template file \"Emotion template\": templates / _default / frontend / forms / elements.tpl\nPath template file \"Responsive template\": themes/Frontend/Bare/frontend/forms/elements.tpl\n\nThe complete line beginning with: `{eval var=$sSupport.sFields[$sKey]...` should be exchanged with the following:\n\n```\n{$sSupport.sFields[$sKey]|replace:'{literal}':''|replace:'{/literal}':''|replace:'%*%':\"{s name='RequiredField' namespace='frontend/register/index'}{/s}\"}\n```",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "shopware/shopware"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.2.15"
+            },
+            {
+              "fixed": "5.2.16"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "5.2.15"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/shopware5/shopware/commit/6113d30a90e626154e438aa896e656c0f38694f3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://community.shopware.com/_detail_1989.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.shopware.com/en/shopware-5-en/security-updates/security-update-01-2017?category=shopware-5-en/security-updates"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/shopware/shopware/2017-01-25.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/shopware5/shopware"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-21T20:52:57Z",
+    "nvd_published_at": null
+  }
+}

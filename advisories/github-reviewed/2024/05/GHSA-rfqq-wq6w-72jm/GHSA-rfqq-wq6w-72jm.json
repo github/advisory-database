@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rfqq-wq6w-72jm",
+  "modified": "2024-05-16T17:47:00Z",
+  "published": "2024-05-16T09:33:08Z",
+  "aliases": [
+    "CVE-2024-3848"
+  ],
+  "summary": "MLflow has a Local File Read/Path Traversal bypass",
+  "details": "A path traversal vulnerability exists in mlflow/mlflow version 2.11.0, identified as a bypass for the previously addressed CVE-2023-6909. The vulnerability arises from the application's handling of artifact URLs, where a '#' character can be used to insert a path into the fragment, effectively skipping validation. This allows an attacker to construct a URL that, when processed, ignores the protocol scheme and uses the provided path for filesystem access. As a result, an attacker can read arbitrary files, including sensitive information such as SSH and cloud keys, by exploiting the way the application converts the URL into a filesystem path. The issue stems from insufficient validation of the fragment portion of the URL, leading to arbitrary file read through path traversal.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "mlflow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.9.2"
+            },
+            {
+              "fixed": "2.12.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-3848"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mlflow/mlflow/commit/f8d51e21523238280ebcfdb378612afd7844eca8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mlflow/mlflow"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.com/bounties/8d5aadaa-522f-4839-b41b-d7da362dd610"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-29"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-16T17:47:00Z",
+    "nvd_published_at": "2024-05-16T09:15:14Z"
+  }
+}

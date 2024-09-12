@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6mh2-98gr-wv76",
+  "modified": "2024-04-24T17:45:06Z",
+  "published": "2022-05-24T16:56:59Z",
+  "aliases": [
+    "CVE-2019-13376"
+  ],
+  "summary": "phpBB Cross-Site Request Forgery (CSRF)",
+  "details": "phpBB version 3.2.7 allows the stealing of an Administration Control Panel session id by leveraging CSRF in the Remote Avatar feature. The CSRF Token Hijacking leads to stored XSS",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "phpbb/phpbb"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.2.8"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 3.2.7"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-13376"
+    },
+    {
+      "type": "WEB",
+      "url": "https://blog.phpbb.com/category/security"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/phpbb/phpbb-app"
+    },
+    {
+      "type": "WEB",
+      "url": "https://ssd-disclosure.com/archives/4007/ssd-advisory-phpbb-csrf-token-hijacking-leading-to-stored-xss"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352",
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-24T17:45:06Z",
+    "nvd_published_at": "2019-09-27T13:15:00Z"
+  }
+}

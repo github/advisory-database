@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-3f7w-p8vr-4v5f",
+  "modified": "2024-04-26T18:51:15Z",
+  "published": "2024-04-24T21:16:59Z",
+  "aliases": [
+    "CVE-2024-32880"
+  ],
+  "summary": "pyLoad allows upload to arbitrary folder lead to RCE",
+  "details": "### Summary\nAn authenticated user can change the download folder and upload a crafted template to the specified folder lead to remote code execution\n\n### Details\nexample version: 0.5\nfile:src/pyload/webui/app/blueprints/app_blueprint.py\n```python\n@bp.route(\"/render/<path:filename>\", endpoint=\"render\")\ndef render(filename):\n    mimetype = mimetypes.guess_type(filename)[0] or \"text/html\"\n    data = render_template(filename)\n    return flask.Response(data, mimetype=mimetype)\n```\nSo, if we can control file in the path \"pyload/webui/app/templates\" in latest version and path in \"module/web/media/js\"(the difference is the older version0.4.20 only renders file with  extension name \".js\"), the render_template func will works like SSTI(server-side template injection) when render the evil file we control.\n\nin /settings page and the choose option general/general, where we can change the download folder. \n![image](https://github.com/pyload/pyload/assets/48705773/0b239138-9aaa-45c4-bf84-c1c3103c452a)\n\nAlso, we can find the pyLoad install folder in /info page\n![image](https://github.com/pyload/pyload/assets/48705773/6e9d363a-f0e0-4d25-92b3-b1587188a235)\nSo, we can change the  value of Download folder to the template path. Then through /json/add_package we can upload a crafted template file to RCE.\n```python\n@bp.route(\"/json/add_package\", methods=[\"POST\"], endpoint=\"add_package\")\n# @apiver_check\n@login_required(\"ADD\")\ndef add_package():\n    api = flask.current_app.config[\"PYLOAD_API\"]\n\n    package_name = flask.request.form.get(\"add_name\", \"New Package\").strip()\n    queue = int(flask.request.form[\"add_dest\"])\n    links = [l.strip() for l in flask.request.form[\"add_links\"].splitlines()]\n    pw = flask.request.form.get(\"add_password\", \"\").strip(\"\\n\\r\")\n\n    try:\n        file = flask.request.files[\"add_file\"]\n\n        if file.filename:\n            if not package_name or package_name == \"New Package\":\n                package_name = file.filename\n\n            file_path = os.path.join(\n                api.get_config_value(\"general\", \"storage_folder\"), \"tmp_\" + file.filename\n            )\n            file.save(file_path)\n            links.insert(0, file_path)\n\n    except Exception:\n        pass\n\n    urls = [url for url in links if url.strip()]\n    pack = api.add_package(package_name, urls, queue)\n    if pw:\n        data = {\"password\": pw}\n        api.set_package_data(pack, data)\n\n    return jsonify(True)\n```\n### PoC\nFirst login into the admin page, then visit the info page to get the path of pyload installation folder.\nSecond, change the download folder to PYLOAD_INSTALL_DIR/ webui/app/templates/\nThird, upload crafted template file through /json/add_package through parameter add_file\nthe content of crafted template file and its filename is \"341.html\":\n```\n{{x.__init__.__globals__['__builtins__']['eval'](\"__import__('os').popen('whoami').read()\")}}\n```\n![image](https://github.com/pyload/pyload/assets/48705773/a933a95b-bb18-4e2e-a442-973585e7d1fc)\nLast, visit http://TARGET/render/tmp_341.html to trigger the RCE\n![image](https://github.com/pyload/pyload/assets/48705773/80a1ba00-2774-4ce5-bc9e-dd32f189634e)\n![image](https://github.com/pyload/pyload/assets/48705773/136236f2-9b00-4506-a8ac-29a14a537bbe)\n\n### Impact\nIt is a RCE vulnerability and I think it affects all versions. In earlier version 0.4.20, the trigger difference is the pyload installation folder path difference and the upload file must with extension \".js\"  .\nThe render js code in version 0.4.20:\n```python\n@route(\"/media/js/<path:re:.+\\.js>\")\ndef js_dynamic(path):\n    response.headers['Expires'] = time.strftime(\"%a, %d %b %Y %H:%M:%S GMT\",\n                                                time.gmtime(time.time() + 60 * 60 * 24 * 2))\n    response.headers['Cache-control'] = \"public\"\n    response.headers['Content-Type'] = \"text/javascript; charset=UTF-8\"\n\n    try:\n        # static files are not rendered\n        if \"static\" not in path and \"mootools\" not in path:\n            t = env.get_template(\"js/%s\" % path)\n            return t.render()\n        else:\n            return static_file(path, root=join(PROJECT_DIR, \"media\", \"js\"))\n    except:\n        return HTTPError(404, \"Not Found\")\n```",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "pyload-ng"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.5.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/pyload/pyload/security/advisories/GHSA-3f7w-p8vr-4v5f"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-32880"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/pyload/pyload"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-434"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-24T21:16:59Z",
+    "nvd_published_at": "2024-04-26T18:15:45Z"
+  }
+}

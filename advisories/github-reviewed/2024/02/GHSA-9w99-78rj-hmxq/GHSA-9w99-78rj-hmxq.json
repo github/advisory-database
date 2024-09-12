@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9w99-78rj-hmxq",
+  "modified": "2024-02-20T23:42:47Z",
+  "published": "2024-02-20T23:42:47Z",
+  "aliases": [
+    "CVE-2023-51447"
+  ],
+  "summary": "Cross-site scripting (XSS) in the dynamic file uploads",
+  "details": "### Impact\nThe dynamic file upload feature is subject to potential XSS attach in case the attacker manages to modify the file names of the records being uploaded to the server.\n\nThis appears in sections where the user controls the file upload dialogs themselves and has the technical knowledge to change the file names through the dynamic upload endpoint. Therefore I believe it would require the attacker to control the whole session of the particular user but in any case, this needs to be fixed.\n\nSuccessful exploit of this vulneratibility would require the user to have successfully uploaded a file blob to the server with a malicious file name and then have the possibility to direct the other user to the edit page of the record where the attachment is attached.\n\nThe users are able to craft the direct upload requests themselves controlling the file name that gets stored to the database as shown here:\nhttps://github.com/rails/rails/blob/a967d355c6fee9ad9b8bd115d43bc8b0fc207e7e/activestorage/app/controllers/active_storage/direct_uploads_controller.rb#L14\n\nThe attacker is able to change the filename e.g. to `<svg onload=alert('XSS')>` if they know how to craft these requests themselves. And then enter the returned blob ID to the form inputs manually by modifying the edit page source.\n\nTherefore, anywhere we display these strings, we should properly escape them.\n\n### Patches\nPR #11612 fixes this problem both for 0.28.dev and 0.27.x.\n\n### Workarounds\nDisable dynamic uploads for the instance, e.g. from proposals.\n\n### References\nOWASP ASVS v4.0.3-5.1.3\n\n### Credits\nThis issue was discovered in City of Helsinki's security audit against Decidim 0.27 done during September 2023. The security audit was implemented by [Deloitte Finland](https://www2.deloitte.com/fi/fi.html).\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "decidim"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.27.0"
+            },
+            {
+              "fixed": "0.27.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "decidim-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.27.0"
+            },
+            {
+              "fixed": "0.27.5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/decidim/decidim/security/advisories/GHSA-9w99-78rj-hmxq"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-51447"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/decidim/decidim/pull/11612"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/decidim/decidim/commit/aaf72787cf18beeeb6a771c1f7cbb7654b073423"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/decidim/decidim"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/decidim/decidim/releases/tag/v0.27.5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/decidim/decidim/releases/tag/v0.28.0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rails/rails/blob/a967d355c6fee9ad9b8bd115d43bc8b0fc207e7e/activestorage/app/controllers/active_storage/direct_uploads_controller.rb#L14"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-20T23:42:47Z",
+    "nvd_published_at": "2024-02-20T18:15:50Z"
+  }
+}

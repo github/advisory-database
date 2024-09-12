@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-chgw-36xv-47cw",
+  "modified": "2024-04-29T10:23:44Z",
+  "published": "2022-05-24T17:17:22Z",
+  "aliases": [
+    "CVE-2020-12689"
+  ],
+  "summary": "OpenStack Keystone EC2 and/or credential endpoints are not protected from a scoped context ",
+  "details": "An issue was discovered in OpenStack Keystone before 15.0.1, and 16.0.0. Any user authenticated within a limited scope (trust/oauth/application credential) can create an EC2 credential with an escalated permission, such as obtaining admin while the user is on a limited viewer role. This potentially allows a malicious user to act as the admin on a project another user has the admin role on, which can effectively grant that user global admin privileges.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "keystone"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "15.0.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "keystone"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "16.0.0"
+            },
+            {
+              "fixed": "16.0.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "16.0.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-12689"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/keystone/commit/37e9907a176dad6843819b1bec4946c3aecc4548"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.launchpad.net/keystone/+bug/1872735"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openstack/keystone"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread.html/re4ffc55cd2f1b55a26e07c83b3c22c3fe4bae6054d000a57fb48d8c2@%3Ccommits.druid.apache.org%3E"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.openstack.org/ossa/OSSA-2020-004.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://usn.ubuntu.com/4480-1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.openwall.com/lists/oss-security/2020/05/06/5"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2020/05/07/2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-269"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-29T10:23:44Z",
+    "nvd_published_at": "2020-05-07T00:15:00Z"
+  }
+}

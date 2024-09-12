@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2jxw-4hm4-6w87",
+  "modified": "2024-01-29T16:31:48Z",
+  "published": "2024-01-22T03:30:26Z",
+  "aliases": [
+    "CVE-2024-23751"
+  ],
+  "summary": "SQL injection in llama-index",
+  "details": "LlamaIndex (aka llama_index) through 0.9.35 allows SQL injection via the Text-to-SQL feature in NLSQLTableQueryEngine, SQLTableRetrieverQueryEngine, NLSQLRetriever, RetrieverQueryEngine, and PGVectorSQLQueryEngine. For example, an attacker might be able to delete this year's student records via \"Drop the Students table\" within English language input.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "llama-index"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.9.35"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23751"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/run-llama/llama_index/issues/9957"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/llama-index/PYSEC-2024-12.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/run-llama/llama_index"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-89"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-23T20:10:02Z",
+    "nvd_published_at": "2024-01-22T01:15:08Z"
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vhr5-g3pm-49fm",
+  "modified": "2024-08-20T18:35:28Z",
+  "published": "2024-08-20T18:35:27Z",
+  "aliases": [
+    "CVE-2024-42369"
+  ],
+  "summary": "matrix-js-sdk will freeze when a user sets a room with itself as a its predecessor",
+  "details": "### Impact\nA malicious homeserver can craft a room or room structure such that the predecessors form a cycle. The matrix-js-sdk's `getRoomUpgradeHistory` function will infinitely recurse in this case, causing the code to hang. This method is public but also called by the 'leaveRoomChain()' method, so leaving a room will also trigger the bug.\n\nEven if the CVSS score would be 4.1 ([AV:N/AC:L/PR:L/UI:R/S:C/C:N/I:N/A:L](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:L/UI:R/S:C/C:N/I:N/A:L&version=3.1)) we classify this as High severity issue.\n\n### Patches\nThis was patched in matrix-js-sdk 34.3.1.\n\n### Workarounds\nSanity check rooms before passing them to the matrix-js-sdk or avoid calling either `getRoomUpgradeHistory` or `leaveRoomChain`.\n\n### References\nN/A.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:N/I:N/A:L"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:P/VC:N/VI:N/VA:L/SC:N/SI:N/SA:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "matrix-js-sdk"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "34.3.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/matrix-org/matrix-js-sdk/security/advisories/GHSA-vhr5-g3pm-49fm"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-42369"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/matrix-org/matrix-js-sdk/commit/a0efed8b881b3db6c9f2c71d6a6e74c2828978c6"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/matrix-org/matrix-js-sdk"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-674"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-20T18:35:27Z",
+    "nvd_published_at": "2024-08-20T15:15:21Z"
+  }
+}

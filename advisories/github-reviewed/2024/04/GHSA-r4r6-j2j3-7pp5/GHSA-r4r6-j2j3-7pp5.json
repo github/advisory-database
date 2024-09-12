@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r4r6-j2j3-7pp5",
+  "modified": "2024-04-09T21:12:19Z",
+  "published": "2024-04-09T16:15:06Z",
+  "aliases": [
+    "CVE-2024-30262"
+  ],
+  "summary": "Contao: Remember-me tokens will not be cleared after a password change",
+  "details": "### Impact\n\nWhen a front end member changes their password, the corresponding remember-me tokens are not removed.\n\n### Patches\n\nUpdate to Contao 4.13.40.\n\n### Workarounds\n\nDisable \"Allow auto login\" in the login module.\n\n### References\n\nhttps://contao.org/en/security-advisories/remember-me-tokens-are-not-cleared-after-a-password-change\n\n### For more information\n\nIf you have any questions or comments about this advisory, open an issue in [contao/contao](https://github.com/contao/contao/issues/new/choose).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "contao/core-bundle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.13.40"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/contao/contao/security/advisories/GHSA-r4r6-j2j3-7pp5"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-30262"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/contao/contao/commit/3032baa456f607169ffae82a8920354adb338fe9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://contao.org/en/security-advisories/remember-me-tokens-are-not-cleared-after-a-password-change"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/contao/contao"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-384",
+      "CWE-613"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-09T16:15:06Z",
+    "nvd_published_at": "2024-04-09T17:16:02Z"
+  }
+}

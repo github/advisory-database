@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-pqwc-3vhw-qcvq",
+  "modified": "2024-02-01T21:00:24Z",
+  "published": "2022-05-24T17:37:25Z",
+  "aliases": [
+    "CVE-2020-28278"
+  ],
+  "summary": "shvl vulnerable to prototype pollution",
+  "details": "### Overview\nPrototype pollution vulnerability in 'shvl' versions 1.0.0 through 2.0.1 allows an attacker to cause a denial of service and may lead to remote code execution.\n\n### Details\nThe NPM module 'shvl' can be abused by Prototype Pollution vulnerability since the function 'set()' did not check for the type of object before assigning value to the property. Due to this flaw an attacker could create a non-existent property or able to manipulate the property which leads to Denial of Service or potentially Remote code execution.\n\n### PoC Details\nThe 'set()' function accepts four arguments `object, path, val, obj`. Due to the absence of validation, at values passed into `path, val` arguments, an attacker can supply a malicious value by adjusting the `path` value to include the `__proto__` property. Since there is no validation before assigning property to check whether the assigned `path` is the Object's own property or not, the property `isAdmin` will be directly be assigned to the empty obj({}) thereby polluting the Object prototype. Later in the code, if there is a check to validate `isAdmin` the valued would be substituted as \"true\" as it had been polluted.\n\n```js\nconst shvl = require('shvl');\nvar obj = {}\nconsole.log(\"Before : \" + obj.isAdmin);\nshvl.set(obj, '__proto__.isAdmin', true);\nconsole.log(\"After : \" + obj.isAdmin);\n```\n\n### Affected Environments\n1.0.0-2.0.1\n\n### Remediation\nThere are a couple of ways to mitigate prototype pollution vulnerabilities, for example: Most of the cases can be solved by freezing an object which doesn’t allow to add, remove, or change its properties. Validating the JSON input with schema validation, this guarantees that the JSON input contains only predefined attributes. We can change the objects, so they won’t have any prototype association by using “Object.create”.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "shvl"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "(shvl).set"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.0"
+            },
+            {
+              "fixed": "2.0.2"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.0.1"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-28278"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/robinvdvleuten/shvl/issues/34"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/robinvdvleuten/shvl/pull/36"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/robinvdvleuten/shvl/commit/513c0848774dfb114ad0d0554abf7927cfdd569e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20210320222933/https://www.whitesourcesoftware.com/vulnerability-database/CVE-2020-28278"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1321"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-01T21:00:24Z",
+    "nvd_published_at": "2020-12-29T18:15:00Z"
+  }
+}

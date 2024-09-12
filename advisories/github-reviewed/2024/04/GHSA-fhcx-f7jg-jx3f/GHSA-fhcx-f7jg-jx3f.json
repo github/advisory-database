@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fhcx-f7jg-jx3f",
+  "modified": "2024-04-12T13:52:54Z",
+  "published": "2024-04-12T13:52:54Z",
+  "aliases": [
+    "CVE-2022-25774"
+  ],
+  "summary": "Mautic vulnerable to cross-site scripting in notifications via saving Dashboards",
+  "details": "### Impact\nPrior to the patched version, logged in users of Mautic are vulnerable to a self XSS vulnerability in the notifications within Mautic.\n\nUsers could inject malicious code into the notification when saving Dashboards.\n\n### Patches\nUpdate to Mautic 4.4.12. \n\n### Workarounds\nNone\n\n### References\n- https://owasp.org/www-project-top-ten/2017/A7_2017-Cross-Site_Scripting_(XSS)\n\nIf you have any questions or comments about this advisory:\n\nEmail us at [security@mautic.org](mailto:security@mautic.org)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "mautic/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.4.12"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/mautic/mautic/security/advisories/GHSA-fhcx-f7jg-jx3f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mautic/mautic/commit/e6d58de241b8c34126042dcb314d60eb5fc7b151"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mautic/mautic"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79",
+      "CWE-80"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-12T13:52:54Z",
+    "nvd_published_at": null
+  }
+}

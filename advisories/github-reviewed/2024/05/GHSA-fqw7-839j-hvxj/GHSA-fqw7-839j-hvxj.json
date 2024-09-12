@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fqw7-839j-hvxj",
+  "modified": "2024-05-14T21:49:09Z",
+  "published": "2024-05-14T18:31:02Z",
+  "aliases": [
+    "CVE-2024-34914"
+  ],
+  "summary": "PHP Censor uses a weak hashing algorithm for the remember me key",
+  "details": "php-censor v2.1.4 and fixed in v.2.1.5 was discovered to utilize a weak hashing algorithm for its remember_key value. This allows attackers to bruteforce to bruteforce the remember_key value to gain access to accounts that have checked \"remember me\" when logging in.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "php-censor/php-censor"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.1.0"
+            },
+            {
+              "fixed": "2.1.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "php-censor/php-censor"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.13"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-34914"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/php-censor/php-censor/commit/7b011d1b60f543e6ed814315a285cc80074d12e5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://chmod744.super.site/redacted-vulnerability"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/php-censor/php-censor"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-327"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-14T21:49:09Z",
+    "nvd_published_at": "2024-05-14T16:17:30Z"
+  }
+}

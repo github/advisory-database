@@ -1,0 +1,126 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v9xq-vh72-chr4",
+  "modified": "2024-04-23T23:41:24Z",
+  "published": "2022-05-13T01:17:55Z",
+  "aliases": [
+    "CVE-2018-1081"
+  ],
+  "summary": "Moodle Unauthenticated users can trigger custom messages to admin via paypal enrol script",
+  "details": "A flaw was found in Moodle 3.4 to 3.4.1, 3.3 to 3.3.4, 3.2 to 3.2.7, 3.1 to 3.1.10 and earlier unsupported versions. Unauthenticated users can trigger custom messages to admin via paypal enrol script. Paypal IPN callback script should only send error emails to admin after request origin was verified, otherwise admin email can be spammed.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "moodle/moodle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.1"
+            },
+            {
+              "fixed": "3.1.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "moodle/moodle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.2"
+            },
+            {
+              "fixed": "3.2.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "moodle/moodle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.3"
+            },
+            {
+              "fixed": "3.3.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "moodle/moodle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.4"
+            },
+            {
+              "fixed": "3.4.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-1081"
+    },
+    {
+      "type": "WEB",
+      "url": "https://git.moodle.org/gw?p=moodle.git&a=search&h=HEAD&st=commit&s=MDL-61392"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/moodle/moodle"
+    },
+    {
+      "type": "WEB",
+      "url": "https://moodle.org/mod/forum/discuss.php?d=367938"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/103728"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-23T23:41:24Z",
+    "nvd_published_at": "2018-04-04T21:29:00Z"
+  }
+}

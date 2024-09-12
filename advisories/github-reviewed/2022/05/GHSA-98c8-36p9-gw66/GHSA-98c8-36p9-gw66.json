@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-98c8-36p9-gw66",
+  "modified": "2024-05-14T21:19:05Z",
+  "published": "2022-05-17T01:57:31Z",
+  "aliases": [
+    "CVE-2015-3156"
+  ],
+  "summary": "Openstack DBaaS (Trove) Improper Link Resolution Before File Access ",
+  "details": "The `_write_config` function in `trove/guestagent/datastore/experimental/mongodb/service.py`, `reset_configuration` function in `trove/guestagent/datastore/experimental/postgresql/service/config.py`, `write_config` function in `trove/guestagent/datastore/experimental/redis/service.py`, `_write_mycnf` function in `trove/guestagent/datastore/mysql/service.py`, `InnoBackupEx::_run_prepare` function in `trove/guestagent/strategies/restore/mysql_impl.py`, `InnoBackupEx::cmd` function in `trove/guestagent/strategies/backup/mysql_impl.py`,`MySQLDump::cmd` in `trove/guestagent/strategies/backup/mysql_impl.py`, `InnoBackupExIncremental::cmd` function in `trove/guestagent/strategies/backup/mysql_impl.py`, `_get_actual_db_status` function in `trove/guestagent/datastore/experimental/cassandra/system.py` and `trove/guestagent/datastore/experimental/cassandra/service.py`, and multiple class CbBackup methods in `trove/guestagent/strategies/backup/experimental/couchbase_impl.py` in Openstack DBaaS (aka Trove) as packaged in Openstack before 2015.1.0 (aka Kilo) allows local users to write to configuration files via a symlink attack on a temporary file.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "trove"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.0.0a0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2015-3156"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/trove/commit/61774984aa2bacfe89867fc39a402a6a4cfb8f33"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.launchpad.net/trove/+bug/1398195"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1216073"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openstack/trove"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/trove/blob/master/trove/guestagent/datastore/experimental/cassandra/service.py#L230"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/trove/blob/master/trove/guestagent/datastore/experimental/mongodb/service.py#L176"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/trove/blob/master/trove/guestagent/datastore/experimental/redis/service.py#L236"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/trove/blob/master/trove/guestagent/datastore/mysql/service.py#L790"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/trove/blob/master/trove/guestagent/strategies/backup/experimental/couchbase_impl.py#L30"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/trove/blob/master/trove/guestagent/strategies/backup/mysql_impl.py#L110"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/trove/blob/master/trove/guestagent/strategies/backup/mysql_impl.py#L36"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/trove/blob/master/trove/guestagent/strategies/backup/mysql_impl.py#L55"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/trove/blob/master/trove/guestagent/strategies/restore/mysql_impl.py#L194"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-59"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-14T21:19:05Z",
+    "nvd_published_at": "2017-08-11T21:29:00Z"
+  }
+}

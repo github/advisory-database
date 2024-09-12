@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cxf7-m5g2-v594",
+  "modified": "2024-06-07T21:20:03Z",
+  "published": "2024-06-07T21:19:22Z",
+  "aliases": [
+
+  ],
+  "summary": "Zend-Mail remote code execution in zend-mail via Sendmail adapter",
+  "details": "When using the zend-mail component to send email via the `Zend\\Mail\\Transport\\Sendmail` transport, a malicious user may be able to inject arbitrary parameters to the system sendmail program. The attack is performed by providing additional quote characters within an address; when unsanitized, they can be interpreted as additional command line arguments, leading to the vulnerability.\n\nThe following example demonstrates injecting additional parameters to the sendmail binary via the From address:\n```\nuse Zend\\Mail;\n\n$mail = new Mail\\Message();\n$mail->setBody('This is the text of the email.');\n\n// inject additional parameters to sendmail command line\n$mail->setFrom('\"AAA\\\" params injection\"@domain', 'Sender\\'s name');\n\n$mail->addTo('hacker@localhost', 'Name of recipient');\n$mail->setSubject('TestSubject');\n\n$transport = new Mail\\Transport\\Sendmail();\n$transport->send($mail);\n```\nThe attack works because zend-mail filters the email addresses using the RFC 3696 specification, where the string \"AAA\\\" params injection\"@domain is considered a valid address. This validation is provided using the zend-validator component with the following parameters:\n```\nZend\\Validator\\EmailAddress(\n    Zend\\Validator\\Hostname::ALLOW_DNS | Zend\\Validator\\Hostname::ALLOW_LOCAL\n)\n```\nThe above accepts local domain with any string specified by double quotes as the local part. While this is valid per RFC 3696, due to the fact that sender email addresses are provided to the sendmail binary via the command line, they create the vulnerability described above.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "zendframework/zend-mail"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.4.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "zendframework/zend-mail"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.5.0"
+            },
+            {
+              "fixed": "2.7.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/zendframework/zend-mail/commit/0a92d0b3a8b7d7c7659aa569f1a66a23d4ad51af"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zendframework/zend-mail/commit/7260c9768bf27c84f994c48698493fd1fa62fca3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zendframework/zend-mail/commit/8d18478b40fdeef7239fb7ea203e072edcadbe54"
+    },
+    {
+      "type": "WEB",
+      "url": "https://framework.zend.com/security/advisory/ZF2016-04"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/zendframework/zend-mail/ZF2016-04.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/zendframework/zend-mail"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-07T21:19:22Z",
+    "nvd_published_at": null
+  }
+}

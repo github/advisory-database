@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8pfj-w89w-m24x",
+  "modified": "2024-05-28T20:18:43Z",
+  "published": "2024-04-11T09:30:56Z",
+  "aliases": [
+    "CVE-2024-31861"
+  ],
+  "summary": "Code injection in Apache Zeppelin Shell",
+  "details": "Improper Control of Generation of Code ('Code Injection') vulnerability in Apache Zeppelin.\n\nThe attackers can use Shell interpreter as a code generation gateway, and execute the generated code as a normal way.\nThis issue affects Apache Zeppelin: from 0.10.1 before 0.11.1.\n\nUsers are recommended to upgrade to version 0.11.1, which doesn't have Shell interpreter by default.\n\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.zeppelin:zeppelin-shell"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.10.1"
+            },
+            {
+              "fixed": "0.11.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-31861"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/zeppelin/pull/4708"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/zeppelin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/99clvqrht5l5r6kzjzwg2kj94boc9sfh"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/04/10/8"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-94"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-28T20:18:43Z",
+    "nvd_published_at": "2024-04-11T09:15:08Z"
+  }
+}

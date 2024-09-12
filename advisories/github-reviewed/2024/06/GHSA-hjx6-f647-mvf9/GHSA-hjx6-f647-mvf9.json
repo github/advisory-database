@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hjx6-f647-mvf9",
+  "modified": "2024-06-12T19:43:04Z",
+  "published": "2024-06-12T19:43:04Z",
+  "aliases": [
+
+  ],
+  "summary": "Invenio-Communities has a Cross-Site Scripting (XSS) vulnerability in React components",
+  "details": "# Impact\n\nWe have identified a Cross-Site Scripting (XSS) vulnerability within certain React components related to community members in the Invenio-Communities module. This vulnerability enables a user to inject a script tag into the Affiliations field during the account registration process. The malicious script is executed when the user creates a new community and is listed as a public member.\n\nThe script is triggered whenever any user visits the Members section of any community that includes the compromised user. This can potentially allow the attacker to access personal information, such as cookies, of the visiting user.\n\n# Patches\nThe problem has been patched in [v7.8.0](https://github.com/inveniosoftware/invenio-communities/releases/tag/v7.8.0). Patches also have been backported in versions [v4.2.2](https://github.com/inveniosoftware/invenio-communities/tree/v4.2.2) and [v2.8.11](https://github.com/inveniosoftware/invenio-communities/tree/v2.8.11).\n\n# Credits\n\nThanks to [Twitter.com/AliGoodLuck11](https://x.com/AliGoodLuck11)  for reporting the vulnerability with a detailed description on how to reproduce it!\n\n# For more information\nIf you have any questions or comments about this advisory:\n\nEmail us at [info@inveniosoftware.org](mailto:info@inveniosoftware.org)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "invenio-communities"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0"
+            },
+            {
+              "fixed": "7.8.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "invenio-communities"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "4.2.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "invenio-communities"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.8.11"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/inveniosoftware/invenio-communities/security/advisories/GHSA-hjx6-f647-mvf9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/inveniosoftware/invenio-communities/commit/4424dd5112818992b82ae42d4c4f89089502b35f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/inveniosoftware/invenio-communities/commit/6a47db9404c51134634b3905f62f612b4a976698"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/inveniosoftware/invenio-communities/commit/817b8208f5ce262f45eab32832d90b80dc7d3fce"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/inveniosoftware/invenio-communities/commit/b89442c9d57421a88dd0aa89a404ba89d1a22cac"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/inveniosoftware/invenio-communities"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-12T19:43:04Z",
+    "nvd_published_at": null
+  }
+}

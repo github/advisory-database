@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-gg7w-pw2r-x2cq",
+  "modified": "2024-01-22T21:32:38Z",
+  "published": "2024-01-15T12:30:19Z",
+  "aliases": [
+    "CVE-2023-50290"
+  ],
+  "summary": "Apache Solr allows read access to host environmet variables",
+  "details": "Exposure of Sensitive Information to an Unauthorized Actor vulnerability in Apache Solr.\n\nThe Solr Metrics API publishes all unprotected environment variables available to each Apache Solr instance. Users are able to specify which environment variables to hide, however, the default list is designed to work for known secret Java system properties. Environment variables cannot be strictly defined in Solr, like Java system properties can be, and may be set for the entire host, unlike Java system properties which are set per-Java-proccess.\n\nThe Solr Metrics API is protected by the \"metrics-read\" permission. Therefore, Solr Clouds with Authorization setup will only be vulnerable via users with the \"metrics-read\" permission.\n\nThis issue affects Apache Solr: from 9.0.0 before 9.3.0.\n\nUsers are recommended to upgrade to version 9.3.0 or later, in which environment variables are not published via the Metrics API.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.solr:solr-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.0.0"
+            },
+            {
+              "fixed": "9.3.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-50290"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/solr/commit/35fc4bdc48171d9a64251c54a1e76deb558cf9d8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/lucene-solr"
+    },
+    {
+      "type": "WEB",
+      "url": "https://issues.apache.org/jira/browse/SOLR-16808"
+    },
+    {
+      "type": "WEB",
+      "url": "https://solr.apache.org/security.html#cve-2023-50290-apache-solr-allows-read-access-to-host-environment-variables"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-16T20:36:50Z",
+    "nvd_published_at": "2024-01-15T10:15:26Z"
+  }
+}

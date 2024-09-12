@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rqg8-xjp2-pg9w",
+  "modified": "2024-04-29T09:47:34Z",
+  "published": "2022-05-24T16:48:44Z",
+  "aliases": [
+    "CVE-2019-12887"
+  ],
+  "summary": "LinOTP replay vulnerability with auto resynchronization enabled for TOTP token",
+  "details": "LinOTP is prone to a replay attack with activated automatic resynchronization. This vulnerability may allow an attacker to successfully log in with OTP values recorded at a previous point in time.\n\nThis attack is only possible if automatic resynchronization is enabled for the TOTP token type. The automatic resynchronization  is deactivated by default. All other tokens are unaffected.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "LinOTP"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.10.5.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-12887"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/LinOTP/LinOTP/commit/6d28d93af59d2ce0d844a6a3282148064efc6ad8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/LinOTP/LinOTP"
+    },
+    {
+      "type": "WEB",
+      "url": "https://linotp.org/linotp-hotfix-autoresync.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.linotp.org/CVE-2019-12887.txt"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-294"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-29T09:47:34Z",
+    "nvd_published_at": "2019-06-27T14:15:00Z"
+  }
+}

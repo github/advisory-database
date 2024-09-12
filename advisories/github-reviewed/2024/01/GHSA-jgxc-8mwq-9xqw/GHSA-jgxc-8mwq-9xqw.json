@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jgxc-8mwq-9xqw",
+  "modified": "2024-01-31T14:55:29Z",
+  "published": "2024-01-22T06:30:32Z",
+  "aliases": [
+    "CVE-2017-20189"
+  ],
+  "summary": "Clojure classes can be used to craft a serialized object that runs arbitrary code on deserialization",
+  "details": "In Clojure before 1.9.0, classes can be used to construct a serialized object that executes arbitrary code upon deserialization. This is relevant if a server deserializes untrusted objects.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.clojure:clojure"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.9.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-20189"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/frohoff/ysoserial/pull/68/files"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/clojure/clojure/commit/271674c9b484d798484d134a5ac40a6df15d3ac3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://clojure.atlassian.net/browse/CLJ-2204"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/clojure/clojure"
+    },
+    {
+      "type": "WEB",
+      "url": "https://groups.google.com/d/msg/clojure/WaL3hHzsevI/7zHU-L7LBQAJ"
+    },
+    {
+      "type": "WEB",
+      "url": "https://hackmd.io/%40fe1w0/HyefvRQKp"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-JAVA-ORGCLOJURE-5740378"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-502"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-22T21:25:51Z",
+    "nvd_published_at": "2024-01-22T06:15:07Z"
+  }
+}

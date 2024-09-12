@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8h95-jcp5-pjpr",
+  "modified": "2024-02-20T23:47:20Z",
+  "published": "2024-02-17T06:30:34Z",
+  "aliases": [
+    "CVE-2024-21493"
+  ],
+  "summary": "Improper Validation of Array Index in github.com/greenpau/caddy-security",
+  "details": "All versions of the package github.com/greenpau/caddy-security are vulnerable to Improper Validation of Array Index when parsing a Caddyfile. Multiple parsing functions in the affected library do not validate whether their input values are nil before attempting to access elements, which can lead to a panic (index out of range). Panics during the parsing of a configuration file may introduce ambiguity and vulnerabilities, hindering the correct interpretation and configuration of the web server.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/greenpau/caddy-security"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.1.23"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-21493"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/greenpau/caddy-security/issues/263"
+    },
+    {
+      "type": "WEB",
+      "url": "https://blog.trailofbits.com/2023/09/18/security-flaws-in-an-sso-plugin-for-caddy"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.snyk.io/vuln/SNYK-GOLANG-GITHUBCOMGREENPAUCADDYSECURITY-5961078"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "github.com/greenpau/caddy-security"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-129"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-20T23:47:20Z",
+    "nvd_published_at": "2024-02-17T05:15:08Z"
+  }
+}

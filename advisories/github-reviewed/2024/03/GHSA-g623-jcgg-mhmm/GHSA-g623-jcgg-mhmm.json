@@ -1,0 +1,126 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g623-jcgg-mhmm",
+  "modified": "2024-03-22T20:03:29Z",
+  "published": "2024-03-15T16:33:19Z",
+  "aliases": [
+    "CVE-2023-50726"
+  ],
+  "summary": "Users with `create` but not `override` privileges can perform local sync",
+  "details": "### Impact\n\n\"Local sync\" is an Argo CD feature that allows developers to temporarily override an Application's manifests with locally-defined manifests. Use of the feature should generally be limited to highly-trusted users, since it allows the user to bypass any merge protections in git.\n\nAn improper validation bug allows users who have `create` privileges but not `override` privileges to sync local manifests on app creation. All other restrictions, including AppProject restrictions are still enforced. The only restriction which is _not_ enforced is that the manifests come from some approved git/Helm/OCI source.\n\nThe bug was introduced in 1.2.0-rc1 when the local manifest sync feature was added.\n\n### Patches\n\nThe bug has been patched in the following versions:\n\n* 2.10.3\n* 2.9.8\n* 2.8.12\n\n### Workarounds\n\nTo immediately mitigate the risk of branch protection bypass, remove `applications, create` RBAC access. The only way to eliminate the issue without removing RBAC access is to upgrade to a patched version.\n\nBranch protection rules and review requirements are a great way to enforce security constraints in a GitOps environment, but they should be just one layer in a multi-layered approach. Make sure your AppProject and RBAC restrictions are as thorough as possible to prevent a review bypass vulnerability from permitting excessive damage.\n\n### References\n\n* [Argo CD RBAC documentation](https://argo-cd.readthedocs.io/en/latest/operator-manual/rbac/)\n\n### For more information\n\n* Open an issue in [the Argo CD issue tracker](https://github.com/argoproj/argo-cd/issues) or [discussions](https://github.com/argoproj/argo-cd/discussions)\n* Join us on [Slack](https://argoproj.github.io/community/join-slack) in channel #argo-cd",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:N/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/argoproj/argo-cd"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.2.0-rc1"
+            },
+            {
+              "last_affected": "1.8.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/argoproj/argo-cd/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.9.0"
+            },
+            {
+              "fixed": "2.9.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/argoproj/argo-cd/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.10.0"
+            },
+            {
+              "fixed": "2.10.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/argoproj/argo-cd/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0-rc3"
+            },
+            {
+              "fixed": "2.8.12"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/security/advisories/GHSA-g623-jcgg-mhmm"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-50726"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/commit/3b8f673f06c2d228e01cbc830e5cb57cef008978"
+    },
+    {
+      "type": "WEB",
+      "url": "https://argo-cd.readthedocs.io/en/latest/operator-manual/rbac"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/argoproj/argo-cd"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-269"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-15T16:33:19Z",
+    "nvd_published_at": "2024-03-13T21:15:54Z"
+  }
+}

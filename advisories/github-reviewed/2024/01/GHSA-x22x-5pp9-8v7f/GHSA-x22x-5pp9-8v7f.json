@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-x22x-5pp9-8v7f",
+  "modified": "2024-01-29T21:54:26Z",
+  "published": "2024-01-24T18:31:02Z",
+  "aliases": [
+    "CVE-2024-23905"
+  ],
+  "summary": "Content-Security-Policy disabled by Red Hat Dependency Analytics Jenkins Plugin",
+  "details": "Jenkins sets the Content-Security-Policy header to static files served by Jenkins (specifically DirectoryBrowserSupport), such as workspaces, /userContent, or archived artifacts, unless a Resource Root URL is specified.\n\nRed Hat Dependency Analytics Plugin 0.7.1 and earlier globally disables the Content-Security-Policy header for static files served by Jenkins whenever the 'Invoke Red Hat Dependency Analytics (RHDA)' build step is executed. This allows cross-site scripting (XSS) attacks by users with the ability to control files in workspaces, archived artifacts, etc.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.jenkins.plugins:redhat-dependency-analytics"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.9.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23905"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jenkinsci/redhat-dependency-analytics-plugin/commit/123e37795eb69f533a1cd8bd74113ebb1fdbdcda"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/redhat-dependency-analytics-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2024-01-24/#SECURITY-3322"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/01/24/6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-24T21:51:55Z",
+    "nvd_published_at": "2024-01-24T18:15:09Z"
+  }
+}

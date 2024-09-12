@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-997g-27x8-43rf",
+  "modified": "2024-01-30T21:34:04Z",
+  "published": "2024-01-30T20:57:22Z",
+  "aliases": [
+    "CVE-2024-24558"
+  ],
+  "summary": "react-query-streamed-hydration Cross-site Scripting vulnerability",
+  "details": "### Impact\n\nThe `@tanstack/react-query-next-experimental` NPM package is vulnerable to a cross-site scripting vulnerability. To exploit this, an attacker would need to either inject malicious input or arrange to have malicious input be returned from an endpoint.\n\nThis vulnerability arises from improper handling of untrusted input when `@tanstack/react-query-next-experimental` performs server-side rendering of HTML pages. To fix this vulnerability, we implemented appropriate escaping to prevent javascript injection into rendered pages.\n\n### Patches\n\nTo fix this issue, please update to version 5.18.0 or later.\n\n### Workarounds\n\nThere are no known workarounds for this issue. Please update to version 5.18.0 or later.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@tanstack/react-query-next-experimental"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0.0"
+            },
+            {
+              "fixed": "5.18.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/TanStack/query/security/advisories/GHSA-997g-27x8-43rf"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-24558"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/TanStack/query/commit/f2ddaf2536e8b71d2da88a9310ac9a48c13512a1"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/TanStack/query"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-30T20:57:22Z",
+    "nvd_published_at": "2024-01-30T20:15:45Z"
+  }
+}

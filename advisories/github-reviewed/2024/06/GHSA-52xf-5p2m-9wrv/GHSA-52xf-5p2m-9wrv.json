@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-52xf-5p2m-9wrv",
+  "modified": "2024-06-06T14:26:18Z",
+  "published": "2024-06-06T14:26:18Z",
+  "aliases": [
+
+  ],
+  "summary": "s2n-tls has a potentially observable differences in RSA premaster secret handling",
+  "details": "When receiving a message from a client that sent an invalid RSA premaster secret, an issue in s2n-tls results in the server performing additional processing when the premaster secret contains an incorrect client hello version. While no practical attack on s2n-tls has been demonstrated, this causes a small timing difference which could theoretically be used as described in the Marvin Attack [1].\n\nWe would like to thank Hubert Kario [2] for reporting this issue.\n\n\n### Impact\n\nThe extent of this issue is a timing difference. No practical attack on s2n-tls has been demonstrated.\n\nThis issue affects server applications that permit RSA key exchange. Applications that use the default, built-in blinding feature or properly implement self-service blinding are not affected.\n\nImpacted versions: <= v1.4.15.\n\n\n### Patches\n\nThe patch is included in v1.4.16 [3].\n\n### Workarounds\n\nApplications can work around this issue by using an s2n-tls security policy that disallows RSA key exchange.\n\nIf you have any questions or comments about this advisory we ask that you contact AWS/Amazon Security via our vulnerability reporting page [4] or directly via email to [aws-security@amazon.com](mailto:aws-security@amazon.com). Please do not create a public GitHub issue.\n\n[1] https://people.redhat.com/~hkario/marvin/\n[2] https://github.com/tomato42\n[3] https://github.com/aws/s2n-tls/releases/tag/v1.4.16\n[4] https://aws.amazon.com/security/vulnerability-reporting",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "s2n-tls"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.2.7"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.2.6"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/aws/s2n-tls/security/advisories/GHSA-52xf-5p2m-9wrv"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/aws/s2n-tls/commit/114ccab0ff2cde491203ac841837d0d39b767412"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/aws/s2n-tls"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/aws/s2n-tls/releases/tag/v1.4.16"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-203"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-06T14:26:18Z",
+    "nvd_published_at": null
+  }
+}

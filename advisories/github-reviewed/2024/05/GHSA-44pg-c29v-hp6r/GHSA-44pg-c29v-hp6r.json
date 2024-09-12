@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-44pg-c29v-hp6r",
+  "modified": "2024-05-15T22:18:33Z",
+  "published": "2024-05-15T22:18:33Z",
+  "aliases": [
+
+  ],
+  "summary": "Laravel Guard bypass in Eloquent models",
+  "details": "In laravel releases before 6.18.34 and 7.23.2. It was possible to mass assign Eloquent attributes that included the model's table name:\n```\n$model->fill(['users.name' => 'Taylor']);\n```\nWhen doing so, Eloquent would remove the table name from the attribute for you. This was a \"convenience\" feature of Eloquent and was not documented.\n\nHowever, when paired with validation, this can lead to unexpected and unvalidated values being saved to the database. For this reason, we have removed the automatic stripping of table names from mass-asignment operations so that the attributes go through the typical \"fillable\" / \"guarded\" logic. Any attributes containing table names that are not explicitly declared as fillable will be discarded.\n\nThis security release will be a breaking change for applications that were relying on the undocumented table name stripping during mass assignment. Since this feature was relatively unknown and undocumented, we expect the vast majority of Laravel applications to be able to upgrade without issues.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "laravel/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.5.0"
+            },
+            {
+              "last_affected": "5.5.49"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "laravel/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.0.0"
+            },
+            {
+              "fixed": "6.18.34"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "laravel/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.0.0"
+            },
+            {
+              "fixed": "7.23.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://blog.laravel.com/security-release-laravel-61834-7232"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/laravel/framework/2020-08-06-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/laravel/framework"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-15T22:18:33Z",
+    "nvd_published_at": null
+  }
+}

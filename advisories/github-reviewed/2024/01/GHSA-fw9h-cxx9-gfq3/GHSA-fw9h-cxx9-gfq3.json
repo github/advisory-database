@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fw9h-cxx9-gfq3",
+  "modified": "2024-01-31T20:24:13Z",
+  "published": "2024-01-24T18:31:02Z",
+  "aliases": [
+    "CVE-2024-23901"
+  ],
+  "summary": "Shared projects are unconditionally discovered by Jenkins GitLab Branch Source Plugin",
+  "details": "GitLab allows sharing a project with another group.\n\nJenkins GitLab Branch Source Plugin 684.vea_fa_7c1e2fe3 and earlier unconditionally discovers projects that are shared with the configured owner group.\n\nThis allows attackers to configure and share a project, resulting in a crafted Pipeline being built by Jenkins after the next scan of the group’s projects.\n\nIn GitLab Branch Source Plugin 688.v5fa_356ee8520, the default strategy for discovering projects does not discover projects shared with the configured owner group. To discover projects shared with the configured owner group, use the new trait \"Discover shared projects\".",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.jenkins.plugins:gitlab-branch-source"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "688.v5fa"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23901"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jenkinsci/gitlab-branch-source-plugin/commit/969ccece8e2185ecdb7c342b27173af1ab17045c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/gitlab-branch-source-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2024-01-24/#SECURITY-3040"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/01/24/6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-24T21:49:51Z",
+    "nvd_published_at": "2024-01-24T18:15:09Z"
+  }
+}

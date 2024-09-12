@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r7q4-cw9r-vhp4",
+  "modified": "2024-04-03T21:54:05Z",
+  "published": "2024-04-03T21:31:41Z",
+  "aliases": [
+    "CVE-2024-3179"
+  ],
+  "summary": "Concrete CMS Stored XSS in the Custom Class page editing",
+  "details": "Concrete CMS version 9 before 9.2.8 and previous versions before 8.5.16 are vulnerable to Stored XSS in the Custom Class page editing. Prior to the fix, a rogue administrator could insert malicious code in the custom class field due to insufficient validation of administrator provided data. The Concrete CMS security team gave this vulnerability a CVSS v3.1 score of 3.1 with a vector of  AV:N/AC:H/PR:H/UI:R/S:U/C:N/I:L/A:L https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator . Thanks Alexey Solovyev for reporting. \n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:U/C:N/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "concrete5/concrete5"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.0.0RC1"
+            },
+            {
+              "fixed": "9.2.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "concrete5/concrete5"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "8.5.16"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-3179"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/concretecms/concretecms/pull/11988"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/concretecms/concretecms/pull/11989"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/concretecms/concretecms/commit/822e689cefe1eb876e9de31dad9ce660f3b5c295"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/concretecms/concretecms/commit/f2ea49b3cdbac3cbfdf5d3c862de7b7097bbe904"
+    },
+    {
+      "type": "WEB",
+      "url": "https://documentation.concretecms.org/9-x/developers/introduction/version-history/928-release-notes?_gl=1*1bcxp5s*_ga*MTc1NDc0Njk2Mi4xNzA2ODI4MDU1*_ga_HFB3HPNNLS*MTcxMjE2NjYyNi4xMy4xLjE3MTIxNjY2ODEuMC4wLjA."
+    },
+    {
+      "type": "WEB",
+      "url": "https://documentation.concretecms.org/developers/introduction/version-history/8516-release-notes?_gl=1*1oa3zn1*_ga*MTc1NDc0Njk2Mi4xNzA2ODI4MDU1*_ga_HFB3HPNNLS*MTcxMjE2NjYyNi4xMy4xLjE3MTIxNjY3MDcuMC4wLjA."
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/concretecms/concretecms"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20",
+      "CWE-79"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-03T21:54:05Z",
+    "nvd_published_at": "2024-04-03T19:15:44Z"
+  }
+}

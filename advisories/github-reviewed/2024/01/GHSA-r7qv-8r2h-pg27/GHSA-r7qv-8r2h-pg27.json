@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r7qv-8r2h-pg27",
+  "modified": "2024-01-22T21:21:30Z",
+  "published": "2024-01-22T21:21:30Z",
+  "aliases": [
+
+  ],
+  "summary": "Multiple issues involving quote API in shlex",
+  "details": "## Issue 1: Failure to quote characters\n\nAffected versions of this crate allowed the bytes `{` and `\\xa0` to appear\nunquoted and unescaped in command arguments.\n\nIf the output of `quote` or `join` is passed to a shell, then what should be a\nsingle command argument could be interpreted as multiple arguments.\n\nThis does not *directly* allow arbitrary command execution (you can't inject a\ncommand substitution or similar).  But depending on the command you're running,\nbeing able to inject multiple arguments where only one is expected could lead\nto undesired consequences, potentially including arbitrary command execution.\n\nThe flaw was corrected in version 1.2.1 by escaping additional characters.\nUpdating to 1.3.0 is recommended, but 1.2.1 offers a more minimal fix if\ndesired.\n\nWorkaround: Check for the bytes `{` and `\\xa0` in `quote`/`join` input or\noutput.\n\n(Note: `{` is problematic because it is used for glob expansion.  `\\xa0` is\nproblematic because it's treated as a word separator in [specific\nenvironments][solved-xa0].)\n\n## Issue 2: Dangerous API w.r.t. nul bytes\n\nVersion 1.3.0 deprecates the `quote` and `join` APIs in favor of `try_quote`\nand `try_join`, which behave the same except that they have `Result` return\ntype, returning `Err` if the input contains nul bytes.\n\nStrings containing nul bytes generally cannot be used in Unix command arguments\nor environment variables, and most shells cannot handle nul bytes even\ninternally.  If you try to pass one anyway, then the results might be\nsecurity-sensitive in uncommon scenarios.  [More details here.][nul-bytes]\n\nDue to the low severity, the behavior of the original `quote` and `join` APIs\nhas not changed; they continue to allow nuls.\n\nWorkaround: Manually check for nul bytes in `quote`/`join` input or output.\n\n## Issue 3: Lack of documentation for interactive shell risks\n\nThe `quote` family of functions does not and cannot escape control characters.\nWith non-interactive shells this is perfectly safe, as control characters have\nno special effect.  But if you writing directly to the standard input of an\ninteractive shell (or through a pty), then control characters [can cause\nmisbehavior including arbitrary command injection.][control-characters]\n\nThis is essentially unfixable, and has not been patched.  But as of version\n1.3.0, documentation has been added.\n\nFuture versions of `shlex` may add API variants that avoid the issue at the\ncost of reduced portability.\n\n[solved-xa0]: https://docs.rs/shlex/latest/shlex/quoting_warning/index.html#solved-xa0\n[nul-bytes]: https://docs.rs/shlex/latest/shlex/quoting_warning/index.html#nul-bytes\n[control-characters]: https://docs.rs/shlex/latest/shlex/quoting_warning/index.html#control-characters-interactive-contexts-only",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "shlex"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "shlex::bytes::join",
+          "shlex::bytes::quote",
+          "shlex::join",
+          "shlex::quote"
+        ]
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.3.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/comex/rust-shlex/security/advisories/GHSA-r7qv-8r2h-pg27"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/comex/rust-shlex"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2024-0006.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-22T21:21:30Z",
+    "nvd_published_at": null
+  }
+}

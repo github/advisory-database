@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w9mh-5x8j-9754",
+  "modified": "2024-07-05T21:37:31Z",
+  "published": "2024-07-05T20:06:06Z",
+  "aliases": [
+    "CVE-2024-39691"
+  ],
+  "summary": "Malicious Matrix homeserver can leak truncated message content of messages it shouldn't have access to",
+  "details": "### Impact\n\nThe fix for GHSA-wm4w-7h2q-3pf7 / [CVE-2024-32000](https://www.cve.org/CVERecord?id=CVE-2024-32000) included in matrix-appservice-irc 2.0.0 relied on the Matrix homeserver-provided timestamp to determine whether a user has access to the event they're replying to when determining whether or not to include a truncated version of the original event in the IRC message. Since this value is controlled by external entities, a malicious Matrix homeserver joined to a room in which a matrix-appservice-irc bridge instance (before version 2.0.1) is present can fabricate the timestamp with the intent of tricking the bridge into leaking room messages the homeserver should not have access to.\n\n### Patches\n\nmatrix-appservice-irc 2.0.1 [drops the reliance](https://github.com/matrix-org/matrix-appservice-irc/pull/1804) on `origin_server_ts` when determining whether or not an event should be visible to a user, instead tracking the event timestamps internally.\n\n### Workarounds\n\nIt's possible to limit the amount of information leaked by setting a reply template that doesn't contain the original message. See [these lines](https://github.com/matrix-org/matrix-appservice-irc/blob/d5d67d1d3ea3f0f6962a0af2cc57b56af3ad2129/config.sample.yaml#L601-L604) in the configuration file.\n\n### References\n\n- Patch: https://github.com/matrix-org/matrix-appservice-irc/pull/1804\n\n### For more information\n\nIf you have any questions or comments about this advisory, please email us at [security at matrix.org](mailto:security@matrix.org).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "matrix-appservice-irc"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.0.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/matrix-org/matrix-appservice-irc/security/advisories/GHSA-w9mh-5x8j-9754"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-39691"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/matrix-org/matrix-appservice-irc/pull/1804"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/matrix-org/matrix-appservice-irc/commit/1835e047f269001054be4c68867797aa12372a0f"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/matrix-org/matrix-appservice-irc"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/matrix-org/matrix-appservice-irc/blob/d5d67d1d3ea3f0f6962a0af2cc57b56af3ad2129/config.sample.yaml#L601-L604"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-280",
+      "CWE-755"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-05T20:06:06Z",
+    "nvd_published_at": "2024-07-05T19:15:10Z"
+  }
+}

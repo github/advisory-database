@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4c2g-hx49-7h25",
+  "modified": "2024-01-23T14:43:13Z",
+  "published": "2024-01-23T14:43:13Z",
+  "aliases": [
+    "CVE-2024-23339"
+  ],
+  "summary": "Prototype pollution not blocked by object-path related utilities in hoolock",
+  "details": "### Impact\nUtility functions related to object paths (`get`, `set` and `update`) did not block attempts to access or alter object prototypes.\n\n### Patches\nThe `get`, `set` and `update` functions will throw a `TypeError` when a user attempts to access or alter inherited properties in versions >=2.2.1.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "hoolock"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.2.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/elijahharry/hoolock/security/advisories/GHSA-4c2g-hx49-7h25"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23339"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/elijahharry/hoolock/commit/97ae80e856774335d92743c635ffeae2f652b982"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/elijahharry/hoolock"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1321"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-23T14:43:13Z",
+    "nvd_published_at": "2024-01-22T23:15:08Z"
+  }
+}

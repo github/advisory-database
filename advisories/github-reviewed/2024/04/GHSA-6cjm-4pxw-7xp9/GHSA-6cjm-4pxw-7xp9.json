@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6cjm-4pxw-7xp9",
+  "modified": "2024-04-19T21:43:14Z",
+  "published": "2024-04-18T18:22:42Z",
+  "aliases": [
+    "CVE-2024-32474"
+  ],
+  "summary": "Sentry vulnerable to leaking superuser cleartext password in logs",
+  "details": "### Impact\nWhen authenticating as a superuser to a self-hosted Sentry instance with a username and password, the password is leaked as cleartext in logs under the _event_: `auth-index.validate_superuser`. An attacker with access to the log data could use these leaked credentials to login to the Sentry system as superuser.\n\n### Patches\n- Self-hosted users on affected versions should upgrade to 24.4.1 or later.\n- Sentry SaaS users do not need to take any action. This vulnerability is not applicable to SaaS.\n\n### Workarounds\nUsers can configure the logging level to exclude logs of the `INFO` level and only generate logs for levels at `WARNING` or higher. For details on configuring self-hosted Sentry's logging level see our documentation at: https://develop.sentry.dev/config/#logging\n\n### References\n- Bug introduced in https://github.com/getsentry/sentry/pull/66393\n- Security fix in https://github.com/getsentry/sentry/pull/69148",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "sentry"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "24.3.0"
+            },
+            {
+              "fixed": "24.4.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/getsentry/sentry/security/advisories/GHSA-6cjm-4pxw-7xp9"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-32474"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getsentry/sentry/pull/66393"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getsentry/sentry/pull/69148"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/getsentry/sentry/commit/d5b34568d9f1c41362ccb62141532a0a2169512f"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/getsentry/sentry"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-117",
+      "CWE-312"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-18T18:22:42Z",
+    "nvd_published_at": "2024-04-18T20:15:17Z"
+  }
+}

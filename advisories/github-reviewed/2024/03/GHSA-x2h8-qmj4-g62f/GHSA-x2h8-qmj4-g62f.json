@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-x2h8-qmj4-g62f",
+  "modified": "2024-03-19T18:29:23Z",
+  "published": "2024-03-18T17:21:46Z",
+  "aliases": [
+    "CVE-2024-28862"
+  ],
+  "summary": "ROTP 6.2.2 and 6.2.1 has 0666 permissions for the .rb files.",
+  "details": "The Ruby One Time Password library (ROTP) is an open source library for generating and validating one time passwords. Affected versions had overly permissive default permissions. Users should patch to version 6.3.0. Users unable to patch may correct file permissions after installation.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "rotp"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.2.1"
+            },
+            {
+              "fixed": "6.3.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/mdp/rotp/security/advisories/GHSA-x2h8-qmj4-g62f"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28862"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mdp/rotp"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/rotp/CVE-2024-28862.yml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-276"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-18T17:21:46Z",
+    "nvd_published_at": "2024-03-16T00:15:07Z"
+  }
+}

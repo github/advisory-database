@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-gwxm-wqpq-w539",
+  "modified": "2024-01-30T22:35:37Z",
+  "published": "2022-05-14T03:18:39Z",
+  "aliases": [
+    "CVE-2018-1000176"
+  ],
+  "summary": "Jenkins Email Extension Plugin showed plain text SMTP password in configuration form field",
+  "details": "An exposure of sensitive information vulnerability exists in Jenkins Email Extension Plugin 2.61 and older in src/main/resources/hudson/plugins/emailext/ExtendedEmailPublisher/global.groovy and ExtendedEmailPublisherDescriptor.java that allows attackers with control of a Jenkins administrator's web browser (e.g. malicious extension) to retrieve the configured SMTP password.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:email-ext"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.62"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.61"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-1000176"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2018-04-16"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-30T22:35:37Z",
+    "nvd_published_at": "2018-05-08T15:29:00Z"
+  }
+}

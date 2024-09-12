@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rqvj-fc2x-99q6",
+  "modified": "2024-05-17T21:56:33Z",
+  "published": "2022-05-24T17:29:42Z",
+  "aliases": [
+    "CVE-2020-25827"
+  ],
+  "summary": "OATHAuth extension in MediaWiki is not implementing rate limit",
+  "details": "An issue was discovered in the OATHAuth extension in MediaWiki before 1.31.9 and 1.32.x through 1.34.x before 1.34.3. For Wikis using OATHAuth on a farm/cluster (such as via CentralAuth), rate limiting of OATH tokens is only done on a single site level. Thus, multiple requests can be made across many wikis/sites concurrently.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "mediawiki/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.31.0"
+            },
+            {
+              "fixed": "1.31.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "mediawiki/core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.32.0"
+            },
+            {
+              "fixed": "1.34.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-25827"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/mediawiki/core/CVE-2020-25827.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/wikimedia/mediawiki"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/RTTPZ7XMDS66I442OLLHXBDNP2LCBJU6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/RTTPZ7XMDS66I442OLLHXBDNP2LCBJU6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.wikimedia.org/pipermail/mediawiki-l/2020-September/048480.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.wikimedia.org/pipermail/mediawiki-l/2020-September/048488.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://phabricator.wikimedia.org/T251661"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-307"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-17T21:56:33Z",
+    "nvd_published_at": "2020-09-27T21:15:00Z"
+  }
+}

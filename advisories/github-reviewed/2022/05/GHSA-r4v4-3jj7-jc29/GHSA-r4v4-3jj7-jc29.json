@@ -1,0 +1,151 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-r4v4-3jj7-jc29",
+  "modified": "2024-05-02T13:13:03Z",
+  "published": "2022-05-24T16:58:03Z",
+  "aliases": [
+    "CVE-2019-17134"
+  ],
+  "summary": "OpenStack Octavia Amphora-Agent not requiring Client-Certificate",
+  "details": "Amphora Images in OpenStack Octavia >=0.10.0 <2.1.2, >=3.0.0 <3.2.0, >=4.0.0 <4.1.0 allows anyone with access to the management network to bypass client-certificate based authentication and retrieve information or issue configuration commands via simple HTTP requests to the Agent on port https/9443, because the `cmd/agent.py` gunicorn cert_reqs option is True but is supposed to be ssl.CERT_REQUIRED.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "octavia"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.10.0"
+            },
+            {
+              "fixed": "2.1.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "octavia"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.2.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "octavia"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0"
+            },
+            {
+              "fixed": "4.1.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-17134"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/octavia/commit/1725517d1d209f26b2275306d83e49c099dcbe1a"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/octavia/commit/2976a7f0f109e17930db8a61136526ead44ea7e5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/octavia/commit/624ff08f27bcb73788663cbe6d35cbe29c537844"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/octavia/commit/89a2f6e0136ad49d928eb65b4cf555af2a2b8ab1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/octavia/commit/b0c2cd7b4c835c391cfedf12cf9f9ff8a0aabd17"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/octavia/commit/c2fdffc3b748f8007c72e52df257e38756923b40"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openstack/octavia"
+    },
+    {
+      "type": "WEB",
+      "url": "https://review.opendev.org/686541"
+    },
+    {
+      "type": "WEB",
+      "url": "https://review.opendev.org/686543"
+    },
+    {
+      "type": "WEB",
+      "url": "https://review.opendev.org/686544"
+    },
+    {
+      "type": "WEB",
+      "url": "https://review.opendev.org/686545"
+    },
+    {
+      "type": "WEB",
+      "url": "https://review.opendev.org/686546"
+    },
+    {
+      "type": "WEB",
+      "url": "https://review.opendev.org/686547"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.openstack.org/ossa/OSSA-2019-005.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://storyboard.openstack.org/#!/story/2006660"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-287"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-02T13:13:02Z",
+    "nvd_published_at": "2019-10-08T18:15:00Z"
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cpx3-696p-3cw9",
+  "modified": "2024-02-23T21:39:51Z",
+  "published": "2022-05-24T19:13:19Z",
+  "aliases": [
+    "CVE-2021-40797"
+  ],
+  "summary": "OpenStack Neutron Denial of Service vulnerability",
+  "details": "An issue was discovered in the routes middleware in OpenStack Neutron before 16.4.1, 17.x before 17.2.1, and 18.x before 18.1.1. By making API requests involving nonexistent controllers, an authenticated user may cause the API worker to consume increasing amounts of memory, resulting in API performance degradation or denial of service.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "neutron"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "16.4.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "neutron"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "17.0.0"
+            },
+            {
+              "fixed": "17.2.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "neutron"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "18.0.0"
+            },
+            {
+              "fixed": "18.1.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-40797"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/neutron/commit/e610a5eb9e71aa2549fb11e2139370d227787da2"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openstack/neutron"
+    },
+    {
+      "type": "WEB",
+      "url": "https://launchpad.net/bugs/1942179"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.openstack.org/ossa/OSSA-2021-006.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2021/09/09/2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-772"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-23T21:39:51Z",
+    "nvd_published_at": "2021-09-08T20:15:00Z"
+  }
+}

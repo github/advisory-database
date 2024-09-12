@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-j85q-46hg-36p2",
+  "modified": "2024-04-11T14:33:36Z",
+  "published": "2024-04-10T22:25:17Z",
+  "aliases": [
+    "CVE-2024-32001"
+  ],
+  "summary": "SpiceDB: LookupSubjects may return partial results if a specific kind of relation is used",
+  "details": "### Background\n\nUse of a relation of the form: `relation folder: folder | folder#parent` with an arrow such as `folder->view` can cause LookupSubjects to only return the subjects found under subjects for *either* `folder` or `folder#parent`.\n\nThis bug *only* manifests if the *same* subject type is used multiple types in a relation, relationships exist for both subject types *and* an arrow is used over the relation.\n\n### Impact\n\nAny user making a negative authorization decision based on the results of a LookupSubjects request with version before v1.30.1 is affected.\n\n### Workarounds\nAvoid using LookupSubjects for negative authorization decisions and/or avoid using the broken schema.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/authzed/spicedb"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.30.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/authzed/spicedb/security/advisories/GHSA-j85q-46hg-36p2"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-32001"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/authzed/spicedb/commit/a244ed1edfaf2382711dccdb699971ec97190c7b"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/authzed/spicedb"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/authzed/spicedb/releases/tag/v1.30.1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-755"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-10T22:25:17Z",
+    "nvd_published_at": "2024-04-10T23:15:07Z"
+  }
+}

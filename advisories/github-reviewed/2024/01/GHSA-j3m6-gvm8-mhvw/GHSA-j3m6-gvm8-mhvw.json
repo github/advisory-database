@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-j3m6-gvm8-mhvw",
+  "modified": "2024-01-29T14:21:39Z",
+  "published": "2024-01-23T20:09:52Z",
+  "aliases": [
+    "CVE-2023-49783"
+  ],
+  "summary": "No permission checks for editing/deleting records with CSV import form",
+  "details": "### Impact\nUsers who don't have edit or delete permissions for records exposed in a `ModelAdmin` can still edit or delete records using the CSV import form, provided they have create permissions.\n\nThe likelyhood of a user having create permissions but _not_ having edit or delete permissions is low, but it _is_ possible.\n\nNote that this doesn't affect any `ModelAdmin` which has had the import form disabled via the [`showImportForm` public property](https://api.silverstripe.org/4/SilverStripe/Admin/ModelAdmin.html#property_showImportForm), nor does it impact the `SecurityAdmin` section.\n\n#### Action may be required\n\nIf you have a custom implementation of [`BulkLoader`](https://api.silverstripe.org/4/SilverStripe/Dev/BulkLoader.html), you should update your implementation to respect permissions when the return value of [`getCheckPermissions()`](https://api.silverstripe.org/4/SilverStripe/Dev/BulkLoader.html#method_getCheckPermissions) is true.\n\nIf you are using any `BulkLoader` in your own project logic, or maintain a module which uses it, you should consider passing `true` to [`setCheckPermissions()`](https://api.silverstripe.org/4/SilverStripe/Dev/BulkLoader.html#method_setCheckPermissions) if the data is provided by users.\n\n**Base CVSS:** [4.3](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:N/E:F/RL:O/RC:C&version=3.1)\n**Reported by:** Guy Sartorelli from Silverstripe\n\n### References\n- https://www.silverstripe.org/download/security-releases/CVE-2023-49783\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/admin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.0"
+            },
+            {
+              "fixed": "1.13.19"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/admin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.1.8"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-admin/security/advisories/GHSA-j3m6-gvm8-mhvw"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-49783"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe-security/security-issues/issues/177"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripeltd/product-issues/issues/832"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-admin/commit/9693130a0a637cdf512277cf5f07e83250b191db"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/silverstripe/admin/CVE-2023-49783.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/silverstripe/silverstripe-admin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.silverstripe.org/download/security-releases/CVE-2023-49783"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-863"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-23T20:09:52Z",
+    "nvd_published_at": "2024-01-23T14:15:37Z"
+  }
+}

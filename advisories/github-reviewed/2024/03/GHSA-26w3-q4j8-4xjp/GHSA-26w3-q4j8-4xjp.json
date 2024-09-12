@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-26w3-q4j8-4xjp",
+  "modified": "2024-03-14T21:44:29Z",
+  "published": "2024-03-06T15:29:11Z",
+  "aliases": [
+    "CVE-2024-27288"
+  ],
+  "summary": "1Panel open source panel project has an unauthorized vulnerability.",
+  "details": "### Impact\n\nThe steps are as follows:\n\n1. Access https://IP:PORT/ in the browser, which prompts the user to access with a secure entry point.\n![image](https://github.com/1Panel-dev/1Panel/assets/46734380/8dc7d81c-6cc3-4b5d-a1d4-d3c5ed2de005)\n\n2. Use Burp to intercept:\n![image](https://github.com/1Panel-dev/1Panel/assets/46734380/f8e93d08-1b66-4434-8923-2e8e3dedebe3)\n\nWhen opening the browser and entering the URL (allowing the first intercepted packet through Burp), the following is displayed:\n![image](https://github.com/1Panel-dev/1Panel/assets/46734380/118c0102-7c89-404d-834a-88a644482afc)\n\nIt is found that in this situation, we can access the console page (although no data is returned and no modification operations can be performed).\"\n\nAffected versions: <= 1.10.0-lts\n\n### Patches\n\nThe vulnerability has been fixed in v1.10.1-lts.\n\n### Workarounds\n\nIt is recommended to upgrade the version to 1.10.1-lts.\n\n### References\n\nIf you have any questions or comments about this advisory:\n\nOpen an issue in https://github.com/1Panel-dev/1Panel\nEmail us at wanghe@fit2cloud.com\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/1Panel-dev/1Panel"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.10.1-lts"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.10.0-lts"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/1Panel-dev/1Panel/security/advisories/GHSA-26w3-q4j8-4xjp"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-27288"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/1Panel-dev/1Panel/pull/4014"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/1Panel-dev/1Panel"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/1Panel-dev/1Panel/releases/tag/v1.10.1-lts"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-863"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-06T15:29:11Z",
+    "nvd_published_at": "2024-03-06T19:15:07Z"
+  }
+}

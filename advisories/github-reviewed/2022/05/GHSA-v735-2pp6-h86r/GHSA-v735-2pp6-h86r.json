@@ -1,0 +1,159 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v735-2pp6-h86r",
+  "modified": "2024-09-04T19:38:45Z",
+  "published": "2022-05-14T01:14:00Z",
+  "aliases": [
+    "CVE-2018-16859"
+  ],
+  "summary": "Ansible Logs Passwords If PowerShell ScriptBlock is Enabled",
+  "details": "Execution of Ansible playbooks on Windows platforms with PowerShell ScriptBlock logging and Module logging enabled can allow for 'become' passwords to appear in EventLogs in plaintext. A local user with administrator privileges on the machine can view these logs and discover the plaintext password. Ansible Engine 2.8 and older are believed to be vulnerable.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:L/AC:L/PR:H/UI:N/S:U/C:H/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:H/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ansible"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.7.0a1"
+            },
+            {
+              "fixed": "2.7.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ansible"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.5.12"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "ansible"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.6.0a1"
+            },
+            {
+              "fixed": "2.6.9"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-16859"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ansible/ansible/pull/49142"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ansible/ansible/commit/0d746b4198abf84290a093b83cf02b4203d73d9f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ansible/ansible/commit/2f8d3fcf41107efafc14d51ab6e14531ca8f8c87"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ansible/ansible/commit/4d748d34f9392aa469da00a85c8e2d5fe6cec52b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2018:3770"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2018:3771"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2018:3772"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2018:3773"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2018-16859"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/ansible/ansible"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ansible/ansible/blob/v2.5.13/changelogs/CHANGELOG-v2.5.rst"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/ansible/PYSEC-2018-60.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20200227102121/http://www.securityfocus.com/bid/106004"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.opensuse.org/opensuse-security-announce/2019-04/msg00021.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.opensuse.org/opensuse-security-announce/2019-06/msg00077.html"
+    },
+    {
+      "type": "WEB",
+      "url": "http://lists.opensuse.org/opensuse-security-announce/2019-08/msg00020.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-532"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-22T22:07:45Z",
+    "nvd_published_at": "2018-11-29T18:29:00Z"
+  }
+}

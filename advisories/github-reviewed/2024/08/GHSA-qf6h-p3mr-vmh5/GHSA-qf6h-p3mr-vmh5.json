@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qf6h-p3mr-vmh5",
+  "modified": "2024-08-19T21:03:10Z",
+  "published": "2024-08-15T03:30:28Z",
+  "aliases": [
+    "CVE-2024-6533"
+  ],
+  "summary": "Code injection in Directus",
+  "details": "Directus v10.13.0 allows an authenticated external attacker to execute arbitrary JavaScript on the client. This is possible because the application injects an attacker-controlled parameter that will be stored in the server and used by the client into an unsanitized DOM element. When chained with CVE-2024-6534, it could result in account takeover.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:N/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:L/VA:N/SC:N/SI:L/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "directus"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "10.13.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-6533"
+    },
+    {
+      "type": "WEB",
+      "url": "https://directus.io"
+    },
+    {
+      "type": "WEB",
+      "url": "https://fluidattacks.com/advisories/bocelli"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/directus/directus"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-15T21:55:24Z",
+    "nvd_published_at": "2024-08-15T03:15:04Z"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w59h-378f-2frm",
+  "modified": "2024-01-23T14:43:35Z",
+  "published": "2024-01-23T14:43:35Z",
+  "aliases": [
+
+  ],
+  "summary": "Unsound sending of non-Send types across threads in threadalone",
+  "details": "Affected versions can run the `Drop` impl of a non-Send type on a different\nthread than it was created on.\n\nThe flaw occurs when a stderr write performed by the `threadalone` crate fails,\nfor example because stderr is redirected to a location on a filesystem that is\nfull, or because stderr is a pipe that has been closed by the reader.\n\nDropping a non-Send type on the wrong thread is unsound. If used with a type\nsuch as a pthread-based `MutexGuard`, [the consequence is undefined\nbehavior][mutexguard]. If used with `Rc`, there would be a data race on the\nreference count, which is likewise undefined behavior.\n\n[mutexguard]: https://github.com/rust-lang/rust/issues/23465#issuecomment-82730326\n\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "threadalone"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.2.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/cr0sh/threadalone/issues/1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2024-0005.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-23T14:43:35Z",
+    "nvd_published_at": null
+  }
+}

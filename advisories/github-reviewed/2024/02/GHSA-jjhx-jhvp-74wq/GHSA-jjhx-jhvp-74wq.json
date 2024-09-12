@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jjhx-jhvp-74wq",
+  "modified": "2024-03-01T23:30:38Z",
+  "published": "2024-02-27T21:41:09Z",
+  "aliases": [
+    "CVE-2024-26142"
+  ],
+  "summary": "Rails has possible ReDoS vulnerability in Accept header parsing in Action Dispatch",
+  "details": "# Possible ReDoS vulnerability in Accept header parsing in Action Dispatch\n\nThere is a possible ReDoS vulnerability in the Accept header parsing routines\nof Action Dispatch. This vulnerability has been assigned the CVE identifier\nCVE-2024-26142.\n\nVersions Affected:  >= 7.1.0, < 7.1.3.1\nNot affected:       < 7.1.0\nFixed Versions:     7.1.3.1\n\nImpact\n------\nCarefully crafted Accept headers can cause Accept header parsing in Action\nDispatch to take an unexpected amount of time, possibly resulting in a DoS\nvulnerability.  All users running an affected release should either upgrade or\nuse one of the workarounds immediately.\n\nRuby 3.2 has mitigations for this problem, so Rails applications using Ruby\n3.2 or newer are unaffected.\n\nReleases\n--------\nThe fixed releases are available at the normal locations.\n\nWorkarounds\n-----------\nThere are no feasible workarounds for this issue.\n\nPatches\n-------\nTo aid users who aren't able to upgrade immediately we have provided patches for\nthe two supported release series. They are in git-am format and consist of a\nsingle changeset.\n\n* 7-1-accept-redox.patch - Patch for 7.1 series\n\nCredits\n-------\nThanks [svalkanov](https://hackerone.com/svalkanov) for the report and patch!",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "RubyGems",
+        "name": "actionpack"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.1.0"
+            },
+            {
+              "fixed": "7.1.3.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/rails/rails/security/advisories/GHSA-jjhx-jhvp-74wq"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-26142"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rails/rails/commit/b4d3bfb5ed8a5b5a90aad3a3b28860c7a931e272"
+    },
+    {
+      "type": "WEB",
+      "url": "https://discuss.rubyonrails.org/t/possible-redos-vulnerability-in-accept-header-parsing-in-action-dispatch/84946"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/rails/rails"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/rubysec/ruby-advisory-db/blob/master/gems/actionpack/CVE-2024-26142.yml"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1333"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-27T21:41:09Z",
+    "nvd_published_at": "2024-02-27T16:15:46Z"
+  }
+}

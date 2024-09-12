@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hw28-333w-qxp3",
+  "modified": "2024-08-07T15:17:44Z",
+  "published": "2024-07-31T16:53:13Z",
+  "aliases": [
+    "CVE-2024-22278"
+  ],
+  "summary": "Harbor fails to validate the user permissions when updating project configurations",
+  "details": "### Impact\nHarbor fails to validate the maintainer role permissions when creating/updating/deleting project configurations - API call:\n\n- PUT /projects/{project_name_or_id}/metadatas/{meta_name}\n- POST /projects/{project_name_or_id}/metadatas/{meta_name}\n- DELETE /projects/{project_name_or_id}/metadatas/{meta_name}\n\nBy sending a request to create/update/delete a metadata with an name that belongs to a project that the currently authenticated and granted to the maintainer role user doesn’t have access to, the attacker could modify configurations in the current project.\n\nBTW: the maintainer role in Harbor was intended for individuals who closely support the project admin in maintaining the project but lack configuration management permissions. However, the maintainer role can utilize the metadata API to circumvent this limitation. It's important to note that any potential attacker must be authenticated and granted a specific project maintainer role to modify configurations, limiting their scope to only that project.\n\n\n### Patches\nWill be fixed in v2.9.5, v2.10.3 and v2.11.0\n\n### Workarounds\nThere are no workarounds available.\n\n### Credit\nThanks to Ravid Mazon(rmazon@paloaltonetworks.com), Jay Chen (jaychen@paloaltonetworks.com) Palo Alto Networks for reporting this issue.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:L/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:H/UI:N/VC:L/VI:L/VA:H/SC:L/SI:L/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/goharbor/harbor"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.9.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/goharbor/harbor"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.10.0"
+            },
+            {
+              "fixed": "2.10.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/goharbor/harbor/security/advisories/GHSA-hw28-333w-qxp3"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-22278"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/goharbor/harbor"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/vuln/GO-2024-3013"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-269"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-31T16:53:13Z",
+    "nvd_published_at": "2024-08-02T01:15:23Z"
+  }
+}

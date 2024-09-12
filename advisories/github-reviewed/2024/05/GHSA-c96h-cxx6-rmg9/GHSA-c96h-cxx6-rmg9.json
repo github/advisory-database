@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-c96h-cxx6-rmg9",
+  "modified": "2024-05-21T12:26:10Z",
+  "published": "2024-05-18T00:30:42Z",
+  "aliases": [
+    "CVE-2024-35313"
+  ],
+  "summary": "Tor path lengths too short when \"full Vanguards\" configured",
+  "details": "In Tor Arti before 1.2.3, circuits sometimes incorrectly have a length of 3 (with full vanguards), aka TROVE-2024-004.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "tor-circmgr"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.18.0"
+            },
+            {
+              "fixed": "0.18.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "0.18.0"
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "arti"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.2.2"
+            },
+            {
+              "fixed": "1.2.3"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "1.2.2"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-35313"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://gitlab.torproject.org/tpo/core/arti"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gitlab.torproject.org/tpo/core/arti/-/blob/main/CHANGELOG.md#arti-123-15-may-2024"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gitlab.torproject.org/tpo/core/arti/-/commit/1a89d5c9659d799a84dd3ff00fae530f5c8ba280"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gitlab.torproject.org/tpo/core/arti/-/issues/1400"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gitlab.torproject.org/tpo/core/arti/-/issues/1409"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gitlab.torproject.org/tpo/core/team/-/wikis/NetworkTeam/TROVE"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2024-0339.html"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2024-0340.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-754"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-20T16:37:19Z",
+    "nvd_published_at": "2024-05-17T22:15:07Z"
+  }
+}

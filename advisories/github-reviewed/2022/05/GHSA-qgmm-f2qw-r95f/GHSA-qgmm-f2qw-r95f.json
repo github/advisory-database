@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qgmm-f2qw-r95f",
+  "modified": "2024-04-22T23:11:33Z",
+  "published": "2022-05-24T17:17:37Z",
+  "aliases": [
+    "CVE-2020-1698"
+  ],
+  "summary": "Keycloak leaks sensitive information in logged exceptions",
+  "details": "A flaw was found in keycloak in versions before 9.0.0. A logged exception in the HttpMethod class may leak the password given as parameter. The highest threat from this vulnerability is to data confidentiality.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.keycloak:keycloak-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "9.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-1698"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/keycloak/keycloak/pull/6751"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/keycloak/keycloak/commit/62c9e1577618470832ede22dcedd46cba15b1836"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2020-1698"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200",
+      "CWE-532"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-22T23:11:33Z",
+    "nvd_published_at": "2020-05-11T14:15:00Z"
+  }
+}

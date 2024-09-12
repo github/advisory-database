@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hxhc-wmg8-xrqf",
+  "modified": "2024-05-17T22:31:42Z",
+  "published": "2024-05-17T22:31:42Z",
+  "aliases": [
+
+  ],
+  "summary": "namshi/jose insecure JSON Web Signatures (JWS)",
+  "details": "namshi/jose allows the acceptance of unsecure JSON Web Signatures (JWS) by default. The vulnerability arises from the $allowUnsecure flag, which, when set to true during the loading of JWSes, permits tokens signed with 'none' algorithms to be processed. This behavior poses a significant security risk as it could allow an attacker to impersonate users by crafting a valid jwt token.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "namshi/jose"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.1.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "namshi/jose"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.2.0"
+            },
+            {
+              "fixed": "1.2.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "namshi/jose"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.0.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "namshi/jose"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.1.0"
+            },
+            {
+              "fixed": "2.1.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/namshi/jose/commit/009f86d6ced000b806b2f602c0b7393060ebb34e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/namshi/jose/2015-02-19.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/namshi/jose"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-17T22:31:42Z",
+    "nvd_published_at": null
+  }
+}

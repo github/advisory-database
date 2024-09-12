@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h997-3fxj-p5j8",
+  "modified": "2024-08-05T21:29:27Z",
+  "published": "2024-08-05T21:29:27Z",
+  "aliases": [
+    "CVE-2024-36420"
+  ],
+  "summary": "Flowise Path Injection at /api/v1/openai-assistants-file",
+  "details": "Flowise is a drag & drop user interface to build a customized large language model flow. In version 1.4.3 of Flowise, the `/api/v1/openai-assistants-file` endpoint in `index.ts` is vulnerable to arbitrary file read due to lack of sanitization of the `fileName` body parameter. No known patches for this issue are available.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "flowise"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.4.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-36420"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/FlowiseAI/Flowise"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FlowiseAI/Flowise/blob/e93ce07851cdc0fcde12374f301b8070f2043687/packages/server/src/index.ts#L982"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://securitylab.github.com/advisories/GHSL-2023-232_GHSL-2023-234_Flowise"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-05T21:29:27Z",
+    "nvd_published_at": "2024-07-01T16:15:04Z"
+  }
+}

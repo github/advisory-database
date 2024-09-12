@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-x84c-p2g9-rqv9",
+  "modified": "2024-04-19T16:19:42Z",
+  "published": "2024-04-18T21:52:08Z",
+  "aliases": [
+    "CVE-2024-32473"
+  ],
+  "summary": "IPv6 enabled on IPv4-only network interfaces",
+  "details": "In 26.0.0 and 26.0.1, IPv6 is not disabled on network interfaces, including those belonging to networks where `--ipv6=false`.\n\n### Impact\n\nA container with an `ipvlan` or `macvlan` interface will normally be configured to share an external network link with the host machine. Because of this direct access, with IPv6 enabled:\n\n- Containers may be able to communicate with other hosts on the local network over link-local IPv6 addresses.\n- If router advertisements are being broadcast over the local network, containers may get SLAAC-assigned addresses.\n- The interface  will be a member of IPv6 multicast groups.\n\nThis means interfaces in IPv4-only networks present an unexpectedly and unnecessarily increased attack surface.\n\nA container with an unexpected IPv6 address can do anything a container configured with an IPv6 address can do. That is, listen for connections on its IPv6 address, open connections to other nodes on the network over IPv6, or attempt a DoS attack by flooding packets from its IPv6 address. This has CVSS score AV:L/AC:H/PR:N/UI:R/S:C/C:N/I:N/A:L (2.7).\n\nBecause the container may not be constrained by an IPv6 firewall, there is increased potential for data exfiltration from the container. This has CVSS score AV:L/AC:H/PR:N/UI:R/S:U/C:H/I:N/A:N (4.7).\n\nA remote attacker could send malicious Router Advertisements to divert traffic to itself, a black-hole, or another device. The same attack is possible today for IPv4 macvlan/ipvlan endpoints with ARP spoofing, TLS is commonly used by Internet APIs to mitigate this risk. The presence of an IPv6 route could impact the container's availability by indirectly abusing the behaviour of software which behaves poorly in a dual-stack environment. For example, it could resolve a name to a DNS AAAA record and keep trying to connect over IPv6 without ever falling back to IPv4, potentially denying service to the container. This has CVSS score AV:A/AC:L/PR:H/UI:N/S:U/C:N/I:N/A:H (4.5).\n\n### Patches\n\nThe issue is patched in 26.0.2.\n\n### Workarounds\n\nTo completely disable IPv6 in a container, use `--sysctl=net.ipv6.conf.all.disable_ipv6=1` in the `docker create` or `docker run` command. Or, in the service configuration of a `compose` file, the equivalent:\n\n```\n        sysctls:\n            - net.ipv6.conf.all.disable_ipv6=1\n```\n\n### References\n\n- sysctl configuration using `docker run`:\n  - https://docs.docker.com/reference/cli/docker/container/run/#sysctl\n- sysctl configuration using `docker compose`:\n  - https://docs.docker.com/compose/compose-file/compose-file-v3/#sysctls",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:H/PR:N/UI:R/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/docker/docker"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "26.0.0"
+            },
+            {
+              "fixed": "26.0.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/moby/security/advisories/GHSA-x84c-p2g9-rqv9"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-32473"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moby/moby/commit/7cef0d9cd1cf221d8c0b7b7aeda69552649e0642"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/moby/moby"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-668"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-18T21:52:08Z",
+    "nvd_published_at": "2024-04-18T22:15:10Z"
+  }
+}

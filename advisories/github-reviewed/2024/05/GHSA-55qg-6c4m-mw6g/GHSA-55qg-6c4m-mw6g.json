@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-55qg-6c4m-mw6g",
+  "modified": "2024-05-27T22:02:02Z",
+  "published": "2024-05-27T22:02:02Z",
+  "aliases": [
+
+  ],
+  "summary": "silverstripe/framework's URL parameters `isDev` and `isTest` unguarded",
+  "details": "The URL parameters `isDev` and `isTest` are accessible to unauthenticated users who access a SilverStripe website or application. This allows unauthorised users to expose information that is usually hidden on production environments such as verbose errors (including backtraces) and other debugging tools only available to sites running in \"dev mode\". Core functionality does not expose user data through these methods. Depending on your website configuration, community modules might have added more specific functionality which can be used to either access or alter user data.\n\nWe have fixed the usage of isDev and isTest in SilverStripe 4.x, and removed the URL parameters in the next major release of SilverStripe.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0-rc1"
+            },
+            {
+              "fixed": "4.0.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "silverstripe/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.1.0rc1"
+            },
+            {
+              "fixed": "4.1.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/silverstripe/silverstripe-framework/commit/d935140a9528a3a42323b51d84fb2bcd3da065a7"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/silverstripe/framework/SS-2018-005-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/silverstripe/silverstripe-framework"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.silverstripe.org/download/security-releases/ss-2018-005"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-27T22:02:02Z",
+    "nvd_published_at": null
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fq4p-86hh-42v9",
+  "modified": "2024-06-07T22:07:30Z",
+  "published": "2024-06-07T22:07:30Z",
+  "aliases": [
+
+  ],
+  "summary": "Zend-Diactoros URL Rewrite vulnerability",
+  "details": "zend-diactoros (and, by extension, Expressive), zend-http (and, by extension, Zend Framework MVC projects), and zend-feed (specifically, its PubSubHubbub sub-component) each contain a potential URL rewrite exploit. In each case, marshaling a request URI includes logic that introspects HTTP request headers that are specific to a given server-side URL rewrite mechanism.\n\nWhen these headers are present on systems not running the specific URL rewriting mechanism, the logic would still trigger, allowing a malicious client or proxy to emulate the headers to request arbitrary content.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "zendframework/zend-diactoros"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.0"
+            },
+            {
+              "fixed": "1.8.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/zendframework/zend-diactoros/commit/3a4f44f7f89f7007f3c3e4ca69ac23874f8a4093"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/zendframework/zend-diactoros/commit/736ffa7c2bfa4a60e8a10acb316fa2ac456c5fba"
+    },
+    {
+      "type": "WEB",
+      "url": "https://framework.zend.com/security/advisory/ZF2018-01"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/zendframework/zend-diactoros/ZF2018-01.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/zendframework/zend-diactoros"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-07T22:07:30Z",
+    "nvd_published_at": null
+  }
+}

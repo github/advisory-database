@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jwrc-3v3f-5cq5",
+  "modified": "2024-03-25T19:37:34Z",
+  "published": "2024-03-23T21:30:39Z",
+  "aliases": [
+    "CVE-2024-1603"
+  ],
+  "summary": "PaddlePaddle allows arbitrary file read via paddle.vision.ops.read_file",
+  "details": "paddlepaddle/paddle 2.6.0 allows arbitrary file read via paddle.vision.ops.read_file.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "paddlepaddle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "2.6.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-1603"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/PaddlePaddle/Paddle"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/PaddlePaddle/Paddle/blob/release/2.6/python/paddle/vision/ops.py#L1262"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/PaddlePaddle/Paddle/blob/release/2.6/python/paddle/vision/ops.py#L1295-L1334"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.com/bounties/7739eced-73a3-4a96-afcd-9c753c55929e"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-73"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-25T19:37:34Z",
+    "nvd_published_at": "2024-03-23T19:15:07Z"
+  }
+}

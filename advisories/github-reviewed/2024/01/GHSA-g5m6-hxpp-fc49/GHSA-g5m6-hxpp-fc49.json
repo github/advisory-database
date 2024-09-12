@@ -1,0 +1,125 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g5m6-hxpp-fc49",
+  "modified": "2024-01-24T19:13:36Z",
+  "published": "2024-01-24T14:22:22Z",
+  "aliases": [
+    "CVE-2024-23641"
+  ],
+  "summary": "Sending a GET or HEAD request with a body crashes SvelteKit",
+  "details": "### Summary\nIn SvelteKit 2 sending a GET request with a body eg `{}` to a SvelteKit app in preview or with `adapter-node` throws `Request with GET/HEAD method cannot have body.` and crashes the app.\n\n```\nnode:internal/deps/undici/undici:6066\n          throw new TypeError(\"Request with GET/HEAD method cannot have body.\");\n                ^\n\nTypeError: Request with GET/HEAD method cannot have body.\n    at new Request (node:internal/deps/undici/undici:6066:17)\n    at getRequest (file:///C:/Users/admin/Desktop/reproduction/node_modules/@sveltejs/kit/src/exports/node/index.js:107:9)\n    at file:///C:/Users/admin/Desktop/reproduction/node_modules/@sveltejs/kit/src/exports/vite/preview/index.js:181:26\n    at call (file:///C:/Users/admin/Desktop/reproduction/node_modules/vite/dist/node/chunks/dep-9A4-l-43.js:44795:7)\n    at next (file:///C:/Users/admin/Desktop/reproduction/node_modules/vite/dist/node/chunks/dep-9A4-l-43.js:44739:5)\n    at file:///C:/Users/admin/Desktop/reproduction/node_modules/@sveltejs/kit/src/exports/vite/preview/index.js:172:6\n    at call (file:///C:/Users/admin/Desktop/reproduction/node_modules/vite/dist/node/chunks/dep-9A4-l-43.js:44795:7)\n    at next (file:///C:/Users/admin/Desktop/reproduction/node_modules/vite/dist/node/chunks/dep-9A4-l-43.js:44739:5)\n    at file:///C:/Users/admin/Desktop/reproduction/node_modules/@sveltejs/kit/src/exports/vite/preview/index.js:211:27\n    at call (file:///C:/Users/admin/Desktop/reproduction/node_modules/vite/dist/node/chunks/dep-9A4-l-43.js:44795:7)\n\nNode.js v20.11.0\n```\n\n`TRACE` requests will also cause the app to crash. Prerendered pages and SvelteKit 1 apps are not affected.\n\n<!--\n### Details\n_Give all details on the vulnerability. Pointing to the incriminated source code is very helpful for the maintainer._\n-->\n### PoC\n<!-- _Complete instructions, including specific configuration details, to reproduce the vulnerability._ -->\nFirst do a fresh install of SvelteKit 2 with the example app. Typescript.\n\n1. `npm run build`\n2. `npm run preview`\n3. Go to http://localhost:4173 (works)\n4. curl -X GET -d \"{}\" http://localhost:4173/bye\n5. Application crashes and http://localhost:4173 is down\n\n### Impact\n<!-- _What kind of vulnerability is it? Who is impacted?_ -->\nDenial of Service for apps using `adapter-node`",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@sveltejs/kit"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.4.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@sveltejs/adapter-node"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.1.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@sveltejs/adapter-node"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.0.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@sveltejs/adapter-node"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0"
+            },
+            {
+              "fixed": "4.0.1"
+            }
+          ]
+        }
+      ],
+      "versions": [
+        "4.0.0"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/sveltejs/kit/security/advisories/GHSA-g5m6-hxpp-fc49"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23641"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sveltejs/kit/commit/af34142631c876a7eb62ff81f71e8a3f90dafee9"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/sveltejs/kit"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-24T14:22:22Z",
+    "nvd_published_at": "2024-01-24T17:15:08Z"
+  }
+}

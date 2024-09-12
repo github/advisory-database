@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-j2pw-vp55-fqqj",
+  "modified": "2024-03-01T14:54:36Z",
+  "published": "2024-02-28T18:37:06Z",
+  "aliases": [
+    "CVE-2024-25128"
+  ],
+  "summary": "Flask-AppBuilder vulnerable to incorrect authentication when using auth type OpenID ",
+  "details": "### Impact\nWhen Flask-AppBuilder is set to AUTH_TYPE AUTH_OID, allows an attacker to forge an HTTP request, that could deceive the backend into using any requested OpenID service. This vulnerability could grant an attacker unauthorised privilege access if a custom OpenID service is deployed by the attacker and accessible by the backend. \n\nThis vulnerability is only exploitable when the application is using the old (deprecated 10 years ago) OpenID 2.0 authorization protocol (which is very different from the popular OIDC - Open ID Connect - popular protocol used today). Currently, this protocol is regarded as legacy, with significantly reduced usage and not supported for several years by major authorization providers.\n\n### Patches\nUpgrade to Flask-AppBuilder 4.3.11\n\n### Workarounds\nIf upgrade is not possible add the following to your config:\n\n```\nfrom flask import flash, redirect\nfrom flask_appbuilder import expose\nfrom flask_appbuilder.security.sqla.manager import SecurityManager\nfrom flask_appbuilder.security.views import AuthOIDView\nfrom flask_appbuilder.security.forms import LoginForm_oid\n\nbasedir = os.path.abspath(os.path.dirname(__file__))\n\n\nclass FixedOIDView(AuthOIDView):\n    @expose(\"/login/\", methods=[\"GET\", \"POST\"])\n    def login(self, flag=True):\n        form = LoginForm_oid()\n        if form.validate_on_submit():\n            identity_url = None\n            for provider in self.appbuilder.sm.openid_providers:\n                if provider.get(\"url\") == form.openid.data:\n                    identity_url = form.openid.data\n            if identity_url is None:\n                flash(self.invalid_login_message, \"warning\")\n                return redirect(self.appbuilder.get_url_for_login)\n        return super().login(flag=flag)\n\nclass FixedSecurityManager(SecurityManager):\n    authoidview = FixedOIDView\n\n\nFAB_SECURITY_MANAGER_CLASS = \"config.FixedSecurityManager\"\n```",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "Flask-AppBuilder"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.3.11"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/dpgaspar/Flask-AppBuilder/security/advisories/GHSA-j2pw-vp55-fqqj"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-25128"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dpgaspar/Flask-AppBuilder/commit/6336456d83f8f111c842b2b53d1e89627f2502c8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/dpgaspar/Flask-AppBuilder"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-287"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-28T18:37:06Z",
+    "nvd_published_at": "2024-02-29T01:44:14Z"
+  }
+}

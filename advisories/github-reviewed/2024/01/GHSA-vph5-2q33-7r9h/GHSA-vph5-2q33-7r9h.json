@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-vph5-2q33-7r9h",
+  "modified": "2024-01-31T21:45:31Z",
+  "published": "2024-01-24T18:31:02Z",
+  "aliases": [
+    "CVE-2024-23899"
+  ],
+  "summary": "Arbitrary file read vulnerability in Git server Plugin can lead to RCE",
+  "details": "Jenkins Git server Plugin uses the [args4j](https://github.com/kohsuke/args4j) library to parse command arguments and options on the Jenkins controller when processing Git commands received via SSH. This command parser has a feature that replaces an @ character followed by a file path in an argument with the file’s contents (`expandAtFiles`). This feature is enabled by default and Git server Plugin 99.va_0826a_b_cdfa_d and earlier does not disable it.\n\nThis allows attackers with Overall/Read permission to read the first two lines of arbitrary files on the Jenkins controller file system using the default character encoding of the Jenkins controller process.\n\nSee [SECURITY-3314](https://www.jenkins.io/security/advisory/2024-01-24/#SECURITY-3314) for further information about the potential impact of being able to read files on the Jenkins controller, as well as the [limitations for reading binary files](https://www.jenkins.io/security/advisory/2024-01-24/#binary-files-note). Note that for this issue, unlike SECURITY-3314, attackers need Overall/Read permission.\n\n## Fix Description\nGit server Plugin 99.101.v720e86326c09 disables the command parser feature that replaces an @ character followed by a file path in an argument with the file’s contents for CLI commands.\n\n## Workaround\nNavigate to Manage Jenkins » Security and ensure that the SSHD Port setting in the SSH Server section is set to Disable. This disables access to Git repositories hosted by Jenkins (and the Jenkins CLI) via SSH.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:git-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "99.101.v720e86326c09"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23899"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jenkinsci/git-server-plugin/commit/068ac7cc2574882ef9f5a486e001228a71d881ad"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/git-server-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2024-01-24/#SECURITY-3319"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/01/24/6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-24T21:45:58Z",
+    "nvd_published_at": "2024-01-24T18:15:09Z"
+  }
+}

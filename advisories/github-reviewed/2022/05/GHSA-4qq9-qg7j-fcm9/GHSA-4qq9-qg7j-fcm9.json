@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-4qq9-qg7j-fcm9",
+  "modified": "2024-04-24T20:40:10Z",
+  "published": "2022-05-24T16:53:44Z",
+  "aliases": [
+    "CVE-2019-15062"
+  ],
+  "summary": "Dolibarr Cross-Site Request Forgery (CSRF) ",
+  "details": "An issue was discovered in Dolibarr. A user can store an IFRAME element (containing a user/card.php CSRF request) in his Linked Files settings page. When visited by the admin, this could completely take over the admin account. (The protection mechanism for CSRF is to check the Referer header; however, because the attack is from one of the application's own settings pages, this mechanism is bypassed.)",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "dolibarr/dolibarr"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "10.0"
+            },
+            {
+              "fixed": "10.0.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-15062"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Dolibarr/dolibarr/issues/11671"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Dolibarr/dolibarr/commit/18eb2a83fe7c2d01bdb34cceec389a6f9541e1f6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Dolibarr/dolibarr/commit/d21e5571007d2052a6b5f80a67b6f4cac693584a"
+    },
+    {
+      "type": "WEB",
+      "url": "https://gauravnarwani.com/publications/CVE-2019-15062"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Dolibarr/dolibarr"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-24T20:40:10Z",
+    "nvd_published_at": "2019-08-14T23:15:00Z"
+  }
+}

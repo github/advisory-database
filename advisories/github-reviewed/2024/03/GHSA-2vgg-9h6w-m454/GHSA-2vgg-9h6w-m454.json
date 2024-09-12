@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2vgg-9h6w-m454",
+  "modified": "2024-03-22T20:05:14Z",
+  "published": "2024-03-18T20:29:05Z",
+  "aliases": [
+    "CVE-2024-21662"
+  ],
+  "summary": "Bypassing Rate Limit and Brute Force Protection Using Cache Overflow",
+  "details": "### Summary\nAn attacker can effectively bypass the rate limit and brute force protections by exploiting the application's weak cache-based mechanism. This loophole in security can be combined with other vulnerabilities to attack the default admin account. This flaw undermines a previously [patched CVE](https://argo-cd.readthedocs.io/en/stable/security_considerations/#cve-2020-8827-insufficient-anti-automationanti-brute-force) intended to protect against brute-force attacks.\n\n### Details\nThe application's brute force protection relies on a cache mechanism that tracks login attempts for each user. This cache is limited to a `defaultMaxCacheSize` of 1000 entries. An attacker can overflow this cache by bombarding it with login attempts for different users, thereby pushing out the admin account's failed attempts and effectively resetting the rate limit for that account.\n\nThe brute force protection mechanism's code:\n```go\n   if failed && len(failures) >= getMaximumCacheSize() {\n       log.Warnf(\"Session cache size exceeds %d entries, removing random entry\",\n\ngetMaximumCacheSize())\n       idx := rand.Intn(len(failures) - 1)\n       var rmUser string\n       i := 0\n       for key := range failures {\n\n           if i == idx {\n               rmUser = key\n\n               delete(failures, key)\n\nbreak\n\n}\n\ni++ }\n\n       log.Infof(\"Deleted entry for user %s from cache\", rmUser)\n   }\n```\n\n### PoC\n1. Set up the application environment and identify the login page.\n2. Execute 4 failed login attempts for the admin account.\n3. Run a Burp Intruder attack to populate the cache with login attempts for usernames ranging from 1 to 10000.\n4. After 1000 attempts, start monitoring to see if the admin entries in the cache have been cleared.\n5. At this point, brute-force the admin account.\n\nIn just 15 minutes, the PoC was able to perform 230 brute force attempts on the admin account. This rate allows for approximately 1000 requests per hour, effectively rendering the [older CVE](https://argo-cd.readthedocs.io/en/stable/security_considerations/#cve-2020-8827-insufficient-anti-automationanti-brute-force) rate limit patches useless.\n\n### Impact\nThis is a severe vulnerability that enables attackers to perform brute force attacks at an accelerated rate, especially targeting the default admin account.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/argoproj/argo-cd/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.8.13"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/argoproj/argo-cd/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.9.0"
+            },
+            {
+              "fixed": "2.9.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/argoproj/argo-cd/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.10.0"
+            },
+            {
+              "fixed": "2.10.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/security/advisories/GHSA-2vgg-9h6w-m454"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-21662"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/commit/17b0df1168a4c535f6f37e95f25ed7cd81e1fa4d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/commit/6e181d72b31522f886a2afa029d5b26d7912ec7b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/argoproj/argo-cd/commit/cebb6538f7944c87ca2fecb5d17f8baacc431456"
+    },
+    {
+      "type": "WEB",
+      "url": "https://argo-cd.readthedocs.io/en/stable/security_considerations/#cve-2020-8827-insufficient-anti-automationanti-brute-force"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/argoproj/argo-cd"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-307"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-18T20:29:05Z",
+    "nvd_published_at": "2024-03-18T19:15:06Z"
+  }
+}

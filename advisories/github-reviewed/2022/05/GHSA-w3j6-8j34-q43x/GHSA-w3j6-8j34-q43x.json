@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w3j6-8j34-q43x",
+  "modified": "2024-02-23T20:59:34Z",
+  "published": "2022-05-17T05:39:24Z",
+  "aliases": [
+    "CVE-2010-4340"
+  ],
+  "summary": "Apache Libcloud does not verify SSL certificates for HTTPS connections",
+  "details": "libcloud before 0.4.1 does not verify SSL certificates for HTTPS connections, which allows remote attackers to spoof certificates and bypass intended access restrictions via a man-in-the-middle (MITM) attack. This is due to an upstream issue with python's SSL module rather than directly with libcloud.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "apache-libcloud"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.4.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.4.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2010-4340"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/libcloud/commit/87ee61e6ba03a43dcefea2ce180988bec066b6fd"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.python.org/issue1589"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/libcloud"
+    },
+    {
+      "type": "WEB",
+      "url": "https://issues.apache.org/jira/browse/LIBCLOUD-55"
+    },
+    {
+      "type": "WEB",
+      "url": "http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=598463"
+    },
+    {
+      "type": "WEB",
+      "url": "http://mail-archives.apache.org/mod_mbox/incubator-libcloud/201009.mbox/%3C5860913.463891285776633273.JavaMail.jira@thor%3E"
+    },
+    {
+      "type": "WEB",
+      "url": "http://mail-archives.apache.org/mod_mbox/incubator-libcloud/201011.mbox/browser"
+    },
+    {
+      "type": "WEB",
+      "url": "http://wiki.apache.org/incubator/LibcloudSSL"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-295"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-23T20:59:34Z",
+    "nvd_published_at": "2011-09-12T12:41:00Z"
+  }
+}

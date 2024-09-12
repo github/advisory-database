@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qcj3-wpgm-qpxh",
+  "modified": "2024-06-24T21:27:57Z",
+  "published": "2024-06-24T18:00:16Z",
+  "aliases": [
+    "CVE-2024-38369"
+  ],
+  "summary": "XWiki programming rights may be inherited by inclusion",
+  "details": "### Impact\n\nThe content of a document included using `{{include reference=\"targetdocument\"/}}` is executed with the right of the includer and not with the right of its author.\n\nThis means that any user able to modify the target document can impersonate the author of the content which used the `include` macro.\n\n### Patches\n\nThis has been patched in XWiki 15.0 RC1 by making the default behavior safe.\n\n### Workarounds\n\nMake sure to protect any included document to make sure only allowed users can modify it.\n\nA workaround have been provided in 14.10.2 to allow forcing to execute the included content with the target content author instead of the default behavior. See https://extensions.xwiki.org/xwiki/bin/view/Extension/Include%20Macro#HAuthor for more details.\n\n### References\n\nhttps://jira.xwiki.org/browse/XWIKI-5027\nhttps://jira.xwiki.org/browse/XWIKI-20471\n\n### For more information\nIf you have any questions or comments about this advisory:\n*    Open an issue in [Jira XWiki.org](https://jira.xwiki.org/)\n*    Email us at [Security Mailing List](mailto:security@xwiki.org)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.xwiki.platform:xwiki-platform-rendering-macro-include"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "15.0-rc-1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/security/advisories/GHSA-qcj3-wpgm-qpxh"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-38369"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/0a4f9b026ba9931516b4e9b3019da8da838c7ac6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/b48116a3ebe9ce928c401b5d068d4db7e7239575"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/c1fb14402ce2ee569c5a8e3f1f8e64ae45dfbfb0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/d1a84a3eea38305ff8e10ba411910c0675ac157c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/xwiki/xwiki-platform/commit/f627abe2dc39b07ff75fe68398cc8a1bbc743ef7"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/xwiki/xwiki-platform"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-20471"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jira.xwiki.org/browse/XWIKI-5027"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-863"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-24T18:00:16Z",
+    "nvd_published_at": "2024-06-24T17:15:10Z"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-774g-r3fm-4v85",
+  "modified": "2024-01-30T22:39:23Z",
+  "published": "2022-05-17T00:29:02Z",
+  "aliases": [
+    "CVE-2017-1000090"
+  ],
+  "summary": "CSRF vulnerability in Jenkins Role-based Authorization Strategy Plugin configuration",
+  "details": "Role-based Authorization Strategy Plugin was not requiring requests to its API be sent via POST, thereby opening itself to Cross-Site Request Forgery attacks. This allowed attackers to add administrator role to any user, or to remove the authorization configuration, preventing legitimate access to Jenkins.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.plugins:role-strategy"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.5.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-1000090"
+    },
+    {
+      "type": "WEB",
+      "url": "https://jenkins.io/security/advisory/2017-07-10"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-30T22:39:23Z",
+    "nvd_published_at": "2017-10-05T01:29:00Z"
+  }
+}

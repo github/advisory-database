@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-342q-2mc2-5gmp",
+  "modified": "2024-07-15T21:38:46Z",
+  "published": "2024-07-15T17:47:00Z",
+  "aliases": [
+    "CVE-2024-39919"
+  ],
+  "summary": "@jmondi/url-to-png enables capture screenshot of localhost web services (unauthenticated pages)",
+  "details": "### Summary\n\nThe maintainer been contemplating whether FTP or other protocols could serve as useful functionalities, but there may not be a practical reason for it since we are utilizing headless Chrome to capture screenshots. The argument is based on the assumption that this package can function as a service.\n\nThe package includes an `ALLOW_LIST` where the host can specify which services the user is permitted to capture screenshots of. By default, capturing screenshots of web services running on localhost, 127.0.0.1, or the [::] is allowed.\n\nThe maintainer is of the opinion that the package should also have a blacklist due to a potential vulnerability (or rather design oversight). If someone hosts this on a server, users could then capture screenshots of other web services running locally.\n\nUnless this is strictly for web pages. Something similar here: https://github.com/follow-redirects/follow-redirects/issues/235 (localhost is intended for end users or hosts to deny, and the package is for HTTP/HTTPS.)\n\nThis is marked as a `LOW` since the maintainer is not sure if this is a vulnerability, but it's still best to highlight it. :) \n\n### PoC\n\nHave a service like so running locally:\n\n```js\nconst http = require(\"http\")\n\nconst server = http.createServer((req, res) => {\n  console.log(\"Received headers:\", req.headers)\n  res.writeHead(200, { \"Content-Type\": \"text/plain\" })\n  res.end(\"Something private! But Hello from Server 2 :)\")\n})\n\nserver.listen(3001, () => {\n  console.log(\"Server two running on http://localhost:3001\")\n})\n```\n\nRun the package in dev mode, `pnpm dev`. Feed these URLs:\n\n```\nhttp://localhost:3089/?url=http://[::]:3001&width=4000\nhttp://localhost:3089/?url=http://localhost:3001&width=4000\nhttp://localhost:3089/?url=http://127.0.01:3001&width=4000\n```\n\n<img width=\"622\" alt=\"image\" src=\"https://github.com/jasonraimondi/url-to-png/assets/42532003/21f1c883-ba00-4a15-83b8-922484fa4c2b\">\n\n\n\n### Impact\nDisclose internal web services?\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:N/VA:N/SC:L/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@jmondi/url-to-png"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.1.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/jasonraimondi/url-to-png/security/advisories/GHSA-342q-2mc2-5gmp"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-39919"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jasonraimondi/url-to-png/commit/f62ff40403ffa1781459d6be8d97b8035888c00c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jasonraimondi/url-to-png"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-15T17:47:00Z",
+    "nvd_published_at": "2024-07-15T20:15:04Z"
+  }
+}

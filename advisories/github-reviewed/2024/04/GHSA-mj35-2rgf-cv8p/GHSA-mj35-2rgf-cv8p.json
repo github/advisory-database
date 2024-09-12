@@ -1,0 +1,119 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mj35-2rgf-cv8p",
+  "modified": "2024-04-04T20:24:41Z",
+  "published": "2024-04-03T16:46:30Z",
+  "aliases": [
+    "CVE-2024-31209"
+  ],
+  "summary": "OpenID Connect client Atom Exhaustion in provider configuration worker ets table location",
+  "details": "### Impact\n\nDOS by Atom exhaustion is possible by calling `oidcc_provider_configuration_worker:get_provider_configuration/1` or `oidcc_provider_configuration_worker:get_jwks/1`.\n\nSince the name is usually provided as a static value in the application using `oidcc`, this is unlikely to be exploited.\n\n### Details\n\nExample to illustrate the vulnerability.\n\n```erlang\n{ok, Claims} =\n  oidcc:retrieve_userinfo(\n    Token,\n    myapp_oidcc_config_provider,\n    <<\"client_id\">>,\n    <<\"client_secret\">>,\n    #{}\n  )\n```\n\nThe vulnerability is present in `oidcc_provider_configuration_worker:get_ets_table_name/1`.\nThe function `get_ets_table_name` is calling `erlang:list_to_atom/1`.\n\nhttps://github.com/erlef/oidcc/blob/018dbb53dd752cb1e331637d8e0e6a489ba1fae9/src/oidcc_provider_configuration_worker.erl#L385-L388\n\nThere might be a case (Very highly improbable) where the 2nd argument of\n`oidcc_provider_configuration_worker:get_*/1` is called with a different atom each time which eventually leads to\nthe atom table filling up and the node crashing.\n\n### Patches\n\nPatched in `3.0.2`, `3.1.2` & `3.2.0-beta.3`\n\n### Workarounds\n\nMake sure only valid provider configuration worker names are passed to the functions.\n\n### References\n\n* https://erlef.github.io/security-wg/secure_coding_and_deployment_hardening/atom_exhaustion.html\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:H/PR:H/UI:N/S:C/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Hex",
+        "name": "oidcc"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.0.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Hex",
+        "name": "oidcc"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.1.0"
+            },
+            {
+              "fixed": "3.1.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Hex",
+        "name": "oidcc"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.2.0-beta.1"
+            },
+            {
+              "fixed": "3.2.0-beta.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/erlef/oidcc/security/advisories/GHSA-mj35-2rgf-cv8p"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-31209"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/erlef/oidcc/commit/2f304d877c7e0613d6fd952d7feacbf40dbc355c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/erlef/oidcc/commit/48171fb62688fb4eec1ead0884aa501e0aa68649"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/erlef/oidcc/commit/ac458ed88dc292aad6fa7343f6a53e73c560fb1a"
+    },
+    {
+      "type": "WEB",
+      "url": "https://erlef.github.io/security-wg/secure_coding_and_deployment_hardening/atom_exhaustion.html"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/erlef/oidcc"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/erlef/oidcc/blob/018dbb53dd752cb1e331637d8e0e6a489ba1fae9/src/oidcc_provider_configuration_worker.erl#L385-L388"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-03T16:46:30Z",
+    "nvd_published_at": "2024-04-04T16:15:09Z"
+  }
+}

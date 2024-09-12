@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rv25-9wgj-xg75",
+  "modified": "2024-09-10T21:49:44Z",
+  "published": "2022-05-14T02:57:27Z",
+  "aliases": [
+    "CVE-2017-12614"
+  ],
+  "summary": "Apache Airflow Reflected Cross-site Scripting vulnerability in 404 Endpoint",
+  "details": "It was noticed an XSS in certain 404 pages that could be exploited to perform an XSS attack. Chrome will detect this as a reflected XSS attempt and prevent the page from loading. However Firefox and other browsers don't, and are vulnerable to this attack. Mitigation: The fix for this is to upgrade to Apache Airflow 1.9.0 or above.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:N/VI:N/VA:N/SC:L/SI:L/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "apache-airflow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.9.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-12614"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/airflow/commit/e1a2d74c0045c9231f7a5365c956b8e048dd6af3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://devhub.checkmarx.com/cve-details/cve-2017-12614"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/airflow"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/apache-airflow/PYSEC-2018-45.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread.html/2c72480c76619c5e7793f0d213c34082f0598eaa4d212172f068940f@%3Cdev.airflow.apache.org%3E"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-23T20:55:56Z",
+    "nvd_published_at": "2018-08-06T13:29:00Z"
+  }
+}

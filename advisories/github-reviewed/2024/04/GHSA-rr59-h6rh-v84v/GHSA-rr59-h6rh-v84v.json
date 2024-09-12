@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-rr59-h6rh-v84v",
+  "modified": "2024-05-02T14:45:20Z",
+  "published": "2024-04-09T12:30:47Z",
+  "aliases": [
+    "CVE-2022-47894"
+  ],
+  "summary": "Apache Zeppelin SAP: connecting to a malicious SAP server allowed it to perform XXE",
+  "details": "Improper Input Validation vulnerability in Apache Zeppelin SAP. This issue affects Apache Zeppelin SAP: from 0.8.0 before 0.11.0.\n\nAs this project is retired, we do not plan to release a version that fixes this issue. Users are recommended to find an alternative or restrict access to the instance to trusted users.\n\nFor more information, the fix already was merged in the source code but Zeppelin decided to retire the SAP component\nNOTE: This vulnerability only affects products that are no longer supported by the maintainer.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.zeppelin:sap"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0.8.0"
+            },
+            {
+              "fixed": "0.11.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-47894"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/zeppelin/pull/4302"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/zeppelin/commit/bea51d1467d6103bd8fd68d6a27b14f954d98ec6"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/apache/zeppelin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://issues.apache.org/jira/browse/ZEPPELIN-5665"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.apache.org/thread/csf4k73kkn3nx58pm0p2qrylbox4fvyy"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/04/09/4"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20",
+      "CWE-611"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-09T16:23:54Z",
+    "nvd_published_at": "2024-04-09T10:15:08Z"
+  }
+}

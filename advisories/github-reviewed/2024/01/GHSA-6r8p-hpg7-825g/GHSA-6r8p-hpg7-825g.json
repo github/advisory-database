@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-6r8p-hpg7-825g",
+  "modified": "2024-01-18T15:55:18Z",
+  "published": "2024-01-18T15:55:18Z",
+  "aliases": [
+
+  ],
+  "summary": "Uncontrolled Recursion in SurrealQL Parsing",
+  "details": "In some specific instances, the SurrealQL parser will attempt to recursively parse nested statements or idioms (i.e. nested `IF` and `RELATE` statements, nested basic idioms and nested access to attributes) without checking if the depth limit established by default or in the `SURREAL_MAX_COMPUTATION_DEPTH` environment variable is exceeded. This can lead to the stack overflowing when the nesting surpasses certain levels of depth.\n\n### Impact\n\nAn attacker that is authorized to run queries on a SurrealDB server may be able to run a query using the affected statements and idioms with very deep nesting in order to crash the server, leading to denial of service.\n\n### Patches\n\n- Version 1.1.0 and later are not affected by this issue.\n\n### Workarounds\n\nConcerned users unable to update may want to limit the ability of untrusted users to run arbitrary SurrealQL queries in the affected versions of SurrealDB. To limit the impact of the denial of service, SurrealDB administrators may also want to ensure that the SurrealDB process is running so that it can be automatically re-started after a crash.\n\n### References\n\n- https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=62410\n- https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=62652\n- https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=63797\n- https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=64445\n- https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=64731\n- https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=65277",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "surrealdb"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.1.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/surrealdb/surrealdb/security/advisories/GHSA-6r8p-hpg7-825g"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/surrealdb/surrealdb/pull/3232"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/surrealdb/surrealdb/commit/f838da248e3854e4250e5187a3a67507cb7efaaa"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=62410"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=62652"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=63797"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=64445"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=64731"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=65277"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/surrealdb/surrealdb"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-674"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-18T15:55:18Z",
+    "nvd_published_at": null
+  }
+}

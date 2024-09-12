@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-q9j3-4ghj-6h57",
+  "modified": "2024-05-15T18:08:27Z",
+  "published": "2024-05-15T18:08:27Z",
+  "aliases": [
+
+  ],
+  "summary": "Inadequate XSS Prevention in CodeIgniter/Framework Security Library",
+  "details": "The xss_clean() method in the Security Library of CodeIgniter/Framework, specifically in versions before 3.0.3, exhibited a vulnerability that allowed certain Cross-Site Scripting (XSS) vectors to bypass its intended protection mechanisms.\n\nThe xss_clean() method is designed to sanitize input data by removing potentially malicious content, thus preventing XSS attacks. However, in versions prior to 3.0.3, it was discovered that the method did not adequately mitigate specific XSS vectors, leaving a potential security gap.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:N/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "codeigniter/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.0.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/bcit-ci/CodeIgniter/commit/71b1b3f5b2dcc0f4b652e9494e9853b82541ac8c"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/codeigniter/framework/2015-10-31-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/bcit-ci/CodeIgniter"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.codeigniter.com/user_guide/changelog.html#version-3-0-3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-15T18:08:27Z",
+    "nvd_published_at": null
+  }
+}

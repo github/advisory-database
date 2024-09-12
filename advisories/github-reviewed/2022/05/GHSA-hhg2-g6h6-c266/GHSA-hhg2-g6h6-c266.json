@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hhg2-g6h6-c266",
+  "modified": "2024-04-24T18:41:53Z",
+  "published": "2022-05-24T16:59:28Z",
+  "aliases": [
+    "CVE-2018-7269"
+  ],
+  "summary": "Yii SQL injection vulnerability",
+  "details": "The findByCondition function in `framework/db/ActiveRecord.php` in Yii 2.x before 2.0.15 allows remote attackers to conduct SQL injection attacks via a findOne() or findAll() call, unless a developer recognizes an undocumented need to sanitize array input.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "yiisoft/yii2-dev"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.12.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "yiisoft/yii2-dev"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.13"
+            },
+            {
+              "fixed": "2.0.13.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "yiisoft/yii2-dev"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.14"
+            },
+            {
+              "fixed": "2.0.15"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-7269"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/yiisoft/yii2-dev/CVE-2018-7269.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/yiisoft/yii2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.yiiframework.com/news/168/releasing-yii-2-0-15-and-database-extensions-with-security-fixes"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-89"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-24T18:41:52Z",
+    "nvd_published_at": null
+  }
+}

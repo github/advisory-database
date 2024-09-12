@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-hvgf-2rf7-wrx9",
+  "modified": "2024-04-25T21:32:48Z",
+  "published": "2022-05-24T17:10:26Z",
+  "aliases": [
+    "CVE-2020-10236"
+  ],
+  "summary": "Froxlor Information Disclosure",
+  "details": "An issue was discovered in Froxlor before 0.10.14. It created files with static names in /tmp during installation if the installation directory was not writable. This allowed local attackers to cause DoS or disclose information out of the config files, because of _createUserdataConf in install/lib/class.FroxlorInstall.php.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "froxlor/froxlor"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.10.14"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-10236"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Froxlor/Froxlor/commit/6b09720ef8a1cc008751dd0ca0140a0597fedce5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.suse.com/show_bug.cgi?id=1165718"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Froxlor/Froxlor"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Froxlor/Froxlor/compare/0.10.13...0.10.14"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-20"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-25T21:32:48Z",
+    "nvd_published_at": "2020-03-09T16:15:00Z"
+  }
+}

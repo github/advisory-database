@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mcqj-7p29-9528",
+  "modified": "2024-02-21T00:36:54Z",
+  "published": "2024-02-20T23:43:17Z",
+  "aliases": [
+    "CVE-2024-23830"
+  ],
+  "summary": "MantisBT Host Header Injection vulnerability",
+  "details": "### Impact\nKnowing a user's email address and username, an unauthenticated attacker can hijack the user's account by poisoning the link in the password reset notification message.\n\n### Patches\nhttps://github.com/mantisbt/mantisbt/commit/7055731d09ff12b2781410a372f790172e279744\n\n### Workarounds\nDefine `$g_path` as appropriate in config_inc.php.\n\n### References\nhttps://mantisbt.org/bugs/view.php?id=19381\n\n### Credits\n\nThanks to the following security researchers for responsibly reporting and helping resolve this vulnerability.\n\n- Pier-Luc Maltais (https://twitter.com/plmaltais) \n- Hlib Yavorskyi (https://github.com/Kerkroups)\n- Jingshao Chen (https://github.com/shaozi)\n- Brandon Roldan\n- nhchoudhary\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "mantisbt/mantisbt"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.26.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/mantisbt/mantisbt/security/advisories/GHSA-mcqj-7p29-9528"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23830"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/mantisbt/mantisbt/commit/7055731d09ff12b2781410a372f790172e279744"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/mantisbt/mantisbt"
+    },
+    {
+      "type": "WEB",
+      "url": "https://mantisbt.org/bugs/view.php?id=19381"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-20T23:43:17Z",
+    "nvd_published_at": "2024-02-20T22:15:08Z"
+  }
+}

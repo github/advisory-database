@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cq38-jh5f-37mq",
+  "modified": "2024-09-04T21:34:54Z",
+  "published": "2024-09-04T20:18:18Z",
+  "aliases": [
+    "CVE-2024-45395"
+  ],
+  "summary": "sigstore-go has an unbounded loop over untrusted input can lead to endless data attack",
+  "details": "### Impact\n\nsigstore-go is susceptible to a denial of service attack when a verifier is provided a maliciously crafted Sigstore Bundle containing large amounts of verifiable data, in the form of signed transparency log entries, RFC 3161 timestamps, and attestation subjects. The verification of these data structures is computationally expensive. This can be used to consume excessive CPU resources, leading to a denial of service attack. TUF's security model labels this type of vulnerability an \"Endless data attack,\" and can lead to verification failing to complete and disrupting services that rely on sigstore-go for verification.\n\nThe vulnerable loops are in the verification functions in the package `github.com/sigstore/sigstore-go/pkg/verify`. The first is the DSSE envelope verification loop in `verifyEnvelopeWithArtifact`, which decodes all the digests in an attestation can be found here:\n\nhttps://github.com/sigstore/sigstore-go/blob/725e508ed4933e6f5b5206e32af4bbe76f587b54/pkg/verify/signature.go#L183-L193\n\nThe next loop is in the `VerifyArtifactTransparencyLog` function, which verifies all the signed entries in a bundle:\n\nhttps://github.com/sigstore/sigstore-go/blob/725e508ed4933e6f5b5206e32af4bbe76f587b54/pkg/verify/tlog.go#L74-L178\n\nThe next loop is the `VerifyTimestampAuthority` function, which verifies all the RFC 3161 timestamps in a bundle:\n\nhttps://github.com/sigstore/sigstore-go/blob/725e508ed4933e6f5b5206e32af4bbe76f587b54/pkg/verify/tsa.go#L59-L68\n\n### Patches\n\nThis vulnerability is addressed with sigstore-go 0.6.1, which adds hard limits to the number of verifiable data structures that can be processed in a bundle. Verification will fail if a bundle has data that exceeds these limits. The limits are:\n\n- 32 signed transparency log entries\n- 32 RFC 3161 timestamps\n- 1024 attestation subjects\n- 32 digests per attestation subject\n\nThese limits are intended to be high enough to accommodate the vast majority of use cases, while preventing the verification of maliciously crafted bundles that contain large amounts of verifiable data.\n\n### Workarounds\n\nThe best way to mitigate the risk is to upgrade to sigstore-go 0.6.1 or later. Users who are vulnerable but unable to quickly upgrade may consider adding manual bundle validation to enforce limits similar to those in the referenced patch prior to calling sigstore-go's verification functions.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:N/I:N/A:L"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:P/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/sigstore/sigstore-go"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.6.1"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.6.0"
+      }
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/sigstore/sigstore-go/security/advisories/GHSA-cq38-jh5f-37mq"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-45395"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sigstore/sigstore-go/commit/01e70e89e58226286d7977b4dba43b6be472b12c"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/sigstore/sigstore-go"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sigstore/sigstore-go/blob/725e508ed4933e6f5b5206e32af4bbe76f587b54/pkg/verify/signature.go#L183-L193"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sigstore/sigstore-go/blob/725e508ed4933e6f5b5206e32af4bbe76f587b54/pkg/verify/tlog.go#L74-L178"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/sigstore/sigstore-go/blob/725e508ed4933e6f5b5206e32af4bbe76f587b54/pkg/verify/tsa.go#L59-L68"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-835"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-09-04T20:18:18Z",
+    "nvd_published_at": "2024-09-04T21:15:14Z"
+  }
+}

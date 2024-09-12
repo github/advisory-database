@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-j6mr-cm6x-h6jg",
+  "modified": "2024-05-14T21:32:12Z",
+  "published": "2022-05-17T02:52:29Z",
+  "aliases": [
+    "CVE-2017-7200"
+  ],
+  "summary": "OpenStack Glance Server-Side Request Forgery (SSRF)",
+  "details": "An SSRF issue was discovered in OpenStack Glance before Newton. The 'copy_from' feature in the Image Service API v1 allowed an attacker to perform masked network port scans. With v1, it is possible to create images with a URL such as 'http://localhost:22'. This could then allow an attacker to enumerate internal network details while appearing masked, since the scan would appear to originate from the Glance Image service.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "glance"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "11.0.0a0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-7200"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/glance/commit/b1ac90f7914d91b25144cc4063fa994fb5019ee3"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.launchpad.net/ossn/+bug/1153614"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.launchpad.net/ossn/+bug/1606495"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openstack/glance"
+    },
+    {
+      "type": "WEB",
+      "url": "https://wiki.openstack.org/wiki/OSSN/OSSN-0078"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/96988"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-918"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-14T21:32:12Z",
+    "nvd_published_at": "2017-03-21T06:59:00Z"
+  }
+}

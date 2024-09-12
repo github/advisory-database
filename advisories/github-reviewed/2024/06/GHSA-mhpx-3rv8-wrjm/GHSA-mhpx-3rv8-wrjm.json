@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mhpx-3rv8-wrjm",
+  "modified": "2024-06-07T21:16:36Z",
+  "published": "2024-06-07T21:16:36Z",
+  "aliases": [
+
+  ],
+  "summary": "ZendFramework potential XML eXternal Entity injection vectors",
+  "details": "Numerous components utilizing PHP's `DOMDocument`, `SimpleXML`, and `xml_parse` functionality are vulnerable to two types of attacks:\n\n- XML eXternal Entity (XXE) Injection attacks. The above mentioned extensions are insecure by default, allowing external entities to be specified by adding a specific DOCTYPE element to XML documents and strings. By exploiting this vulnerability an application may be coerced to open arbitrary files and/or TCP connections.\n- XML Entity Expansion (XEE) vectors, leading to Denial of Service vectors. XEE attacks occur when the XML DOCTYPE declaration includes XML entity definitions that contain either recursive or circular references; this leads to CPU and memory consumption, making Denial of Service exploits trivial to implement.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "zendframework/zendframework1"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.12.0"
+            },
+            {
+              "fixed": "1.12.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://framework.zend.com/security/advisory/ZF2014-01"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/zendframework/zendframework1/ZF2014-01.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/zendframework/zf1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-611",
+      "CWE-776"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-07T21:16:36Z",
+    "nvd_published_at": null
+  }
+}

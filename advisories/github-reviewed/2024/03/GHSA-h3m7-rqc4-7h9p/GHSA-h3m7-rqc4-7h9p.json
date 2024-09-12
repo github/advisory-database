@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-h3m7-rqc4-7h9p",
+  "modified": "2024-03-01T23:32:10Z",
+  "published": "2024-03-01T23:32:10Z",
+  "aliases": [
+    "CVE-2024-27101"
+  ],
+  "summary": "Integer overflow in chunking helper causes dispatching to miss elements or panic",
+  "details": "Any SpiceDB cluster with any schema where a resource being checked has more than 65535 relationships for the same resource and subject type is affected by this problem.\n\nThe issue may also lead to a panic rendering the server unavailable\n\nThe following API methods are affected:\n- [CheckPermission](https://buf.build/authzed/api/docs/main:authzed.api.v1#authzed.api.v1.PermissionsService.CheckPermission)\n- [BulkCheckPermission](https://buf.build/authzed/api/docs/main:authzed.api.v1#authzed.api.v1.ExperimentalService.BulkCheckPermission)\n- [LookupSubjects](https://buf.build/authzed/api/docs/main:authzed.api.v1#authzed.api.v1.PermissionsService.LookupSubjects)\n\n#### Impact\n\nPermission checks that are expected to be allowed are instead denied, and lookup subjects will return fewer subjects than expected.\n\n#### Workarounds\n\nThere is no workaround other than making sure that the SpiceDB cluster does not have very wide relations, with the maximum value being the maximum value of an 16-bit unsigned integer\n\n#### Remediations\n\n- AuthZed Dedicated customers: No action. AuthZed has upgraded all deployments.\n- AuthZed Serverless customers: No Action. AuthZed has upgraded all deployments.\n- AuthZed Enterprise customers: Upgrade to [v1.29.2-hotfix-enterprise.v1.hotfix.v1](https://github.com/authzed-enterprise/src/pkgs/container/spicedb-enterprise/182719614?tag=v1.29.2-hotfix-enterprise.v1.hotfix.v1)\n - Open Source users: Upgrade to v1.29.2",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:C/C:N/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/authzed/spicedb"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.29.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/authzed/spicedb/security/advisories/GHSA-h3m7-rqc4-7h9p"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-27101"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/authzed/spicedb/commit/ef443c442b96909694390324a99849b0407007fe"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/authzed/spicedb"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-190"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-01T23:32:10Z",
+    "nvd_published_at": "2024-03-01T21:15:08Z"
+  }
+}

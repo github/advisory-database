@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qm5c-m76r-2hfr",
+  "modified": "2024-05-15T22:16:52Z",
+  "published": "2024-05-15T22:16:52Z",
+  "aliases": [
+
+  ],
+  "summary": "Laravel RCE vulnerability in \"cookie\" session driver",
+  "details": "Applications using the \"cookie\" session driver that were also exposing an encryption oracle via their application were vulnerable to remote code execution. An encryption oracle is a mechanism where arbitrary user input is encrypted and the encrypted string is later displayed or exposed to the user. This combination of scenarios lets the user generate valid Laravel signed encryption strings for any plain-text string, thus allowing them to craft Laravel session payloads when an application is using the \"cookie\" driver.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "laravel/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.1.0"
+            },
+            {
+              "fixed": "6.18.31"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "laravel/framework"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "7.0.0"
+            },
+            {
+              "fixed": "7.22.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://blog.laravel.com/laravel-cookie-security-releases"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/laravel/framework/2020-07-27-1.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/laravel/framework"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-15T22:16:52Z",
+    "nvd_published_at": null
+  }
+}

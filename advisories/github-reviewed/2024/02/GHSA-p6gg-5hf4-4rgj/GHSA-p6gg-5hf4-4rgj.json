@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-p6gg-5hf4-4rgj",
+  "modified": "2024-02-07T20:24:28Z",
+  "published": "2024-02-07T18:23:43Z",
+  "aliases": [
+    "CVE-2024-24824"
+  ],
+  "summary": "Graylog vulnerable to instantiation of arbitrary classes triggered by API request",
+  "details": "### Summary\n\nArbitrary classes can be loaded and instantiated using a HTTP PUT request to the `/api/system/cluster_config/` endpoint.\n\n### Details\n\nGraylog's cluster config system uses fully qualified class names as config keys. To validate the existence of the requested class before using them, Graylog loads the class using the class loader. \n\nhttps://github.com/Graylog2/graylog2-server/blob/e458db8bf4f789d4d19f1b37f0263f910c8d036c/graylog2-server/src/main/java/org/graylog2/rest/resources/system/ClusterConfigResource.java#L208-L214\n\n\n### PoC\nA request of the following form will output the content of the `/etc/passwd` file:\n\n```\ncurl -u admin:<admin-password> -X PUT http://localhost:9000/api/system/cluster_config/java.io.File \\\n    -H \"Content-Type: application/json\" \\\n    -H \"X-Requested-By: poc\" \\\n    -d '\"/etc/passwd\"'\n```\n\nTo perform the request, authorization is required. Only users posessing the `clusterconfigentry:create` and `clusterconfigentry:edit` permissions are allowed to do so. These permissions are usually only granted to `Admin` users.\n\n### Impact\n\nIf a user with the appropriate permissions performs the request, arbitrary classes with 1-arg String constructors can be instantiated. \n\nThis will execute arbitrary code that is run during class instantiation.\n\nIn the specific use case of `java.io.File`, the behaviour of the internal web-server stack will lead to information exposure by including the entire file content in the response to the REST request.\n\n### Credits\n\nAnalysis provided by Fabian Yamaguchi - Whirly Labs (Pty) Ltd",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.graylog2:graylog2-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "5.1.11"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.graylog2:graylog2-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.2.0-alpha.1"
+            },
+            {
+              "fixed": "5.2.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/Graylog2/graylog2-server/security/advisories/GHSA-p6gg-5hf4-4rgj"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-24824"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Graylog2/graylog2-server/commit/75ef2b8d60e7d67f859b79fe712c8ae7b2e861d8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Graylog2/graylog2-server/commit/7f8ef7fa8edf493106d5ef6f777d4da02c5194d9"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Graylog2/graylog2-server"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Graylog2/graylog2-server/blob/e458db8bf4f789d4d19f1b37f0263f910c8d036c/graylog2-server/src/main/java/org/graylog2/rest/resources/system/ClusterConfigResource.java#L208-L214"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-284"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-07T18:23:43Z",
+    "nvd_published_at": "2024-02-07T18:15:55Z"
+  }
+}

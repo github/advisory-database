@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w9pg-7c3h-fc8j",
+  "modified": "2024-08-06T14:41:43Z",
+  "published": "2024-08-05T14:39:09Z",
+  "aliases": [
+    "CVE-2024-41811"
+  ],
+  "summary": "ipl/web's `ipl\\Web\\Common\\CsrfCounterMeasure` is susceptible to CSRF",
+  "details": "### Impact\nSome of the recent development by Icinga is, under certain circumstances, susceptible to cross site request forgery. (CSRF)\n\nAffected products:\n\n* Icinga Web (>=2.12.0)\n* Icinga DB Web (>=1.0.0)\n* Icinga Notifications Web (>=0.1.0)\n* Icinga Web JIRA Integration (>=1.3.0)\n\nAll affected products, in any version, will be unaffected by this once `icinga-php-library` is upgraded.\n\n### Patches\nVersion 0.10.1 will include a fix for this. It will be published as part of the `icinga-php-library` v0.14.1 release.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:L/A:L"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:A/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "ipl/web"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.10.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/Icinga/ipl-web/security/advisories/GHSA-w9pg-7c3h-fc8j"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-41811"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/Icinga/ipl-web/commit/492336fdb57a5bb0881ed642ab36f5841337571e"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/Icinga/ipl-web"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-352"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-05T14:39:09Z",
+    "nvd_published_at": "2024-08-05T21:15:38Z"
+  }
+}

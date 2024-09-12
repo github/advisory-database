@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mpwp-42x6-4wmx",
+  "modified": "2024-05-14T22:10:36Z",
+  "published": "2024-05-14T22:10:36Z",
+  "aliases": [
+    "CVE-2021-41244"
+  ],
+  "summary": "Grafana Fine-grained access control vulnerability",
+  "details": "### Impact\nOn Nov. 2, during an internal security audit, we discovered that when the fine-grained access control beta feature is enabled and there is more than one organization in the Grafana instance, Grafana 8.0 introduced a mechanism which allowed users with the Organization Admin role to list, add, remove, and update users’ roles in other organizations in which they are not an admin.\n\n### Patches\nFixed in 8.2.4\n\n### Workarounds\nAll installations between v8.0 and v8.2.3 that have fine-grained access control beta enabled and more than one organization should be upgraded as soon as possible. If you cannot upgrade, you should turn off the fine-grained access control using a [feature flag](https://grafana.com/docs/grafana/latest/enterprise/access-control/#enable-fine-grained-access-control/).\n\nGrafana Cloud instances have not been affected by the vulnerability.\n\n### Reporting security issues\nIf you think you have found a security vulnerability, please send a report to security@grafana.com. This address can be used for all of Grafana Labs' open source and commercial products (including, but not limited to Grafana, Grafana Cloud, Grafana Enterprise, and grafana.com). We can accept only vulnerability reports at this address. We would prefer that you encrypt your message to us by using our PGP key. The key fingerprint is\n\nF988 7BEA 027A 049F AE8E 5CAA D125 8932 BE24 C5CA\n\nThe key is available from keyserver.ubuntu.com.\n\n### Security announcements\n\nWe maintain a [security category on our blog](https://grafana.com/tags/security/), where we will always post a summary, remediation, and mitigation details for any patch containing security fixes.\n\nYou can also subscribe to our [RSS feed](https://grafana.com/tags/security/index.xml).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/grafana/grafana"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.0.0"
+            },
+            {
+              "fixed": "8.2.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/grafana/grafana/security/advisories/GHSA-mpwp-42x6-4wmx"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-41244"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/grafana/grafana"
+    },
+    {
+      "type": "WEB",
+      "url": "https://grafana.com/blog/2021/11/15/grafana-8.2.4-released-with-security-fixes"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.netapp.com/advisory/ntap-20211223-0001"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2021/11/15/1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-610",
+      "CWE-863"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-14T22:10:36Z",
+    "nvd_published_at": "2021-11-15T20:15:00Z"
+  }
+}

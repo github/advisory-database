@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-53ph-2r2x-vqw8",
+  "modified": "2024-05-14T17:57:17Z",
+  "published": "2024-01-24T18:31:02Z",
+  "aliases": [
+    "CVE-2024-23898"
+  ],
+  "summary": "Cross-site WebSocket hijacking vulnerability in the Jenkins CLI",
+  "details": "\n\nJenkins has a built-in command line interface (CLI) to access Jenkins from a script or shell environment. Since Jenkins 2.217 and LTS 2.222.1, one of the ways to communicate with the CLI is through a WebSocket endpoint. This endpoint relies on the default Jenkins web request authentication functionality, like HTTP Basic authentication with API tokens, or session cookies. This endpoint is enabled when running on a version of Jetty for which Jenkins supports WebSockets. This is the case when using the provided native installers, packages, or the Docker containers, as well as when running Jenkins with the command java -jar jenkins.war.\n\nJenkins 2.217 through 2.441 (both inclusive), LTS 2.222.1 through 2.426.2 (both inclusive) does not perform origin validation of requests made through the CLI WebSocket endpoint, resulting in a cross-site WebSocket hijacking (CSWSH) vulnerability.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.main:jenkins-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.217"
+            },
+            {
+              "fixed": "2.426.3"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.426.2"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.main:jenkins-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.427"
+            },
+            {
+              "fixed": "2.442"
+            }
+          ]
+        }
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 2.440"
+      }
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jenkins-ci.main:jenkins-core"
+      },
+      "versions": [
+        "2.441"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23898"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jenkinsci/jenkins/commit/de450967f38398169650b55c002f1229a3fcdb1b"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/jenkins"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2024-01-24/#SECURITY-3315"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.sonarsource.com/blog/excessive-expansion-uncovering-critical-security-vulnerabilities-in-jenkins"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/01/24/6"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-346"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-26T01:57:04Z",
+    "nvd_published_at": "2024-01-24T18:15:09Z"
+  }
+}

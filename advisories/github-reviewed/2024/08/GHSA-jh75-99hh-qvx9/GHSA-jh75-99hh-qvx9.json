@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jh75-99hh-qvx9",
+  "modified": "2024-08-07T19:01:44Z",
+  "published": "2024-08-07T15:30:42Z",
+  "aliases": [
+    "CVE-2024-41989"
+  ],
+  "summary": "Django memory consumption vulnerability",
+  "details": "An issue was discovered in Django 5.0 before 5.0.8 and 4.2 before 4.2.15. The floatformat template filter is subject to significant memory consumption when given a string representation of a number in scientific notation with a large exponent.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "Django"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.0"
+            },
+            {
+              "fixed": "5.0.8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "Django"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.2"
+            },
+            {
+              "fixed": "4.2.15"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-41989"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/django/django/commit/27900fe56f3d3cabb4aeb6ccb82f92bab29073a8"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/django/django/commit/fc76660f589ac07e45e9cd34ccb8087aeb11904b"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.djangoproject.com/en/dev/releases/security"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/django/django"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/django/PYSEC-2024-67.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.djangoproject.com/weblog/2024/aug/06/security-releases"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-400"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-08-07T19:01:44Z",
+    "nvd_published_at": "2024-08-07T15:15:56Z"
+  }
+}

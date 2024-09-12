@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-p978-56hq-r492",
+  "modified": "2024-07-08T20:47:52Z",
+  "published": "2024-05-14T22:29:44Z",
+  "aliases": [
+    "CVE-2022-36062"
+  ],
+  "summary": "Grafana folders admin only permission privilege escalation",
+  "details": "Today we are releasing Grafana 9.1.6, 9.0.9, 8.5.13. This patch release includes a Moderate severity security fix for CVE-2022-36062 that affects Grafana instances which are using Grafana role-based access control (RBAC).\n\nRelease 9.1.6, latest patch, also containing security fix:\n\n- [Download Grafana 9.1.6](https://grafana.com/grafana/download/9.1.6)\n- [Release notes](https://grafana.com/docs/grafana/latest/release-notes/release-notes-9-1-6/)\n\nRelease 9.0.9, only containing security fix:\n\n- [Download Grafana 9.0.9](https://grafana.com/grafana/download/9.0.9)\n- [Release notes](https://grafana.com/docs/grafana/latest/release-notes/release-notes-9-0-9/)\n\nRelease 8.5.13, only containing security fix:\n\n- [Download Grafana 8.5.13](https://grafana.com/grafana/download/8.5.13)\n- [Release notes](https://grafana.com/docs/grafana/latest/release-notes/release-notes-8-5-13/)\n\nAppropriate patches have been applied to [Grafana Cloud](https://grafana.com/cloud) and as always, we closely coordinated with all cloud providers licensed to offer Grafana Pro. They have received early notification under embargo and confirmed that their offerings are secure at the time of this announcement. This is applicable to Amazon Managed Grafana and Azure's Grafana as a service offering.\n\n## Privilege escalation (CVE-2022-36062)\n\n### Summary \n\nOn August 29 we have received a bug report for Grafana role-based access control (RBAC) and confirmed a vulnerability in the Grafana. This vulnerability impacts folders/dashboards with Admin only permissions and where RBAC was ever enabled at least once.\n\nWhen RBAC is enabled, Grafana runs migrations which translate legacy access control permissions into RBAC permissions. The migrations contain a bug, which grants additional access to folders/dashboards which only had Admin role grant, resulting in a privilege escalation where Editors can edit and Viewers can view the folder/dashboard which they should not have access to.\n\nThe CVSS score for this vulnerability is 6.4 Moderate (CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:L/A:L).\n\n### Impacted versions\n\nAll Grafana installations where the [RBAC](https://grafana.com/docs/grafana/latest/administration/roles-and-permissions/access-control/) was at least enabled once and there are folders/dashboards with only Admin grant.\n\n### Solutions and mitigations\n\nTo fully address CVE-2022-36062 please upgrade your Grafana instances. They are only required if you have ever enabled RBAC and have dashboards/folders where Admin is the only permission..\n\nIf you can’t upgrade, as a workaround when impacted folder/dashboard is known, the additional permissions can be removed manually.\n\nAppropriate patches have been applied to [Grafana Cloud](https://grafana.com/cloud).\n\n### Timeline\n\nHere is a timeline starting from when we originally learned of the issue. \n\n* 2022-08-27: External report received about a bug in Grafana role-based access control.\n* 2022-08-30: The bug is confirmed as a vulnerability.\n* 2022-08-31: Mitigation is applied to Grafana Cloud.\n* 2022-08-31: Release timeline determined: 2022-09-06 for private customer release, 2022-09-20 for public release.\n* 2022-09-06: Private release.\n* 2022-09-20: Public release.\n\n## Reporting security issues\n\nIf you think you have found a security vulnerability, please send a report to security@grafana.com. This address can be used for all of Grafana Labs' open source and commercial products (including, but not limited to Grafana, Grafana Cloud, Grafana Enterprise, and grafana.com). We can accept only vulnerability reports at this address. We would prefer that you encrypt your message to us by using our PGP key. The key fingerprint is\n\nF988 7BEA 027A 049F AE8E 5CAA D125 8932 BE24 C5CA\n\nThe key is available from keyserver.ubuntu.com.\n\n## Security announcements\n\nWe maintain a [security category](https://community.grafana.com/c/support/security-announcements) on our blog, where we will always post a summary, remediation, and mitigation details for any patch containing security fixes.\n\nYou can also subscribe to our [RSS feed](https://grafana.com/tags/security/index.xml).",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:L/A:L"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:L/VA:L/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/grafana/grafana"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "8.5.0"
+            },
+            {
+              "fixed": "8.5.13"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/grafana/grafana"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.0.0"
+            },
+            {
+              "fixed": "9.0.9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/grafana/grafana"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.1.0"
+            },
+            {
+              "fixed": "9.1.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/grafana/grafana/security/advisories/GHSA-p978-56hq-r492"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-36062"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/grafana/grafana"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.netapp.com/advisory/ntap-20221215-0001"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-281"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-14T22:29:44Z",
+    "nvd_published_at": "2022-09-22T18:15:00Z"
+  }
+}

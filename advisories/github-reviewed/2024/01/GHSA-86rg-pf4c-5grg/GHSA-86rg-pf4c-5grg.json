@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-86rg-pf4c-5grg",
+  "modified": "2024-02-05T17:59:41Z",
+  "published": "2024-01-04T12:30:20Z",
+  "aliases": [
+    "CVE-2023-6944"
+  ],
+  "summary": "@backstage/backend-app-api leaks GitLab access tokens",
+  "details": "A flaw was found in the Red Hat Developer Hub (RHDH). The catalog-import function leaks GitLab access tokens on the frontend when the base64 encoded GitLab token includes a newline at the end of the string. The sanitized error can display on the frontend, including the raw access token. Upon gaining access to this token and depending on permissions, an attacker could push malicious code to repositories, delete resources in Git, revoke or generate new keys, and sign code illegitimately.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@backstage/backend-app-api"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.5.9-next.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-6944"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/backstage/backstage/issues/21503"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/backstage/backstage/pull/21582"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/backstage/backstage/commit/0382db60f6c8e8715a702bde6408ad10a48d8e11"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/security/cve/CVE-2023-6944"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2255204"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/backstage/backstage"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/backstage/backstage/blob/master/docs/releases/v1.21.0-next.2-changelog.md"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200",
+      "CWE-209"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-05T17:59:41Z",
+    "nvd_published_at": "2024-01-04T10:15:11Z"
+  }
+}

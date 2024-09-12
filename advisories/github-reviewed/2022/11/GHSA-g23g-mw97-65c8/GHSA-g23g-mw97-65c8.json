@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-g23g-mw97-65c8",
+  "modified": "2024-04-24T21:00:44Z",
+  "published": "2022-11-01T19:00:29Z",
+  "aliases": [
+    "CVE-2022-3802"
+  ],
+  "summary": "IBAX go-ibax vulnerable to SQL injection",
+  "details": "SQL Injection vulnerability in `/packages/api/database.go` of go-ibax via `where` parameter allows attacker to spoof identity, tamper with existing data, allow the complete disclosure of all data on the system, destroy the data or make it otherwise unavailable, and become administrators of the database server. This issue affects versions starting from commits on Jul 18, 2020.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/IBAX-io/go-ibax"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.4.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-3802"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/IBAX-io/go-ibax/issues/2063"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/IBAX-io/go-ibax/commit/b0183d8e550836dc50282ee74ff421ee41b25a37"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/IBAX-io/go-ibax"
+    },
+    {
+      "type": "WEB",
+      "url": "https://vuldb.com/?id.212638"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-89"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-24T21:00:44Z",
+    "nvd_published_at": "2022-11-01T16:15:00Z"
+  }
+}

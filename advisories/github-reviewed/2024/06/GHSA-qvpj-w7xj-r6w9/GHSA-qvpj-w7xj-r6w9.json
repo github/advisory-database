@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qvpj-w7xj-r6w9",
+  "modified": "2024-06-02T22:30:45Z",
+  "published": "2024-06-02T22:30:45Z",
+  "aliases": [
+    "CVE-2024-36119"
+  ],
+  "summary": "Password confirmation stored in plain text via registration form in statamic/cms",
+  "details": "Users registering via the `user:register_form` tag will have their password confirmation stored in plain text in their user file.\n\n### Impact\nThis only affects sites matching **all** of the following conditions:\n- Running Statamic versions between 5.3.0 and 5.6.1. (This version range represents only one calendar week)\n- Using the `user:register_form` tag.\n- Using file-based user accounts. (Does not affect users stored in a database.)\n- Has users that have registered during that time period. (Existing users are not affected.)\n\nThe password is only visible to users that have access to read user yaml files, typically developers of the application itself.\n\n### Patches\nThe issue has been patched in 5.6.2, however any users registered during that time period and using the affected version range will still have the the `password_confirmation` value in their yaml files.\n\nWe recommend that affected users have their password reset. The following query can be entered into `php artisan tinker` and will output a list of affected emails:\n\n```php\nStatamic\\Facades\\User::query()->whereNotNull('password_confirmation')->get()->map->email\n```\n\nThe following can be entered into `tinker` and will clear both password_confirmation as well as their existing password. They will be required to reset their password before their next login attempt.\n\n```php\nStatamic\\Facades\\User::query()\n  ->whereNotNull('password_confirmation')->get()\n  ->each(fn ($user) => $user->remove('password_confirmation')->passwordHash(null)->save());\n```\n\n### References\nIf you are committing user files to a public git repo, you may consider clearing the sensitive data from the git history. You can use the following links for details.\n- https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository\n- https://dev.to/balogh08/cleaning-your-git-history-safely-removing-sensitive-data-10i5",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:H/PR:H/UI:R/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "statamic/cms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "5.3.0"
+            },
+            {
+              "fixed": "5.6.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/statamic/cms/security/advisories/GHSA-qvpj-w7xj-r6w9"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-36119"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/statamic/cms/commit/0b804306c96c99b81755d5bd02df87ddf392853e"
+    },
+    {
+      "type": "WEB",
+      "url": "https://dev.to/balogh08/cleaning-your-git-history-safely-removing-sensitive-data-10i5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/statamic/cms"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-312"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-06-02T22:30:45Z",
+    "nvd_published_at": "2024-05-30T21:15:09Z"
+  }
+}

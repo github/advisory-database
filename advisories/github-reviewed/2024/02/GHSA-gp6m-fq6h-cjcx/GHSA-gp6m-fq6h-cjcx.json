@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-gp6m-fq6h-cjcx",
+  "modified": "2024-03-04T04:29:16Z",
+  "published": "2024-02-27T21:47:58Z",
+  "aliases": [
+
+  ],
+  "summary": "Magento LTS vulnerable to stored XSS in admin file form",
+  "details": "### Summary\nOpenMage is affected by a stored Cross-Site Scripting (XSS) vulnerability that could be abused by a low-privileged attacker to inject malicious scripts into vulnerable form fields.\n\n### Details\n`Mage_Adminhtml_Block_System_Config_Form_Field_File` does not escape filename value in certain situations.\nSame as: https://nvd.nist.gov/vuln/detail/CVE-2024-20717\n\n### PoC\n1. Create empty file with this filename: `<img src=x onerror=alert(1)>.crt`\n2. Go to _System_ > _Configuration_ > _Sales | Payment Methonds_.\n3. Click **Configure** on _PayPal Express Checkout_.\n4. Choose **API Certificate** from dropdown _API Authentication Methods_.\n5. Choose the XSS-file and click **Save Config**.\n6. Profit, alerts \"1\" -> XSS.\n7. Reload, alerts \"1\" -> Stored XSS.\n\n### Impact\nAffects admins that have access to any fileupload field in admin in core or custom implementations.\nMalicious JavaScript may be executed in a victim’s browser when they browse to the page containing the vulnerable field.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "openmage/magento-lts"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "20.0.0"
+            },
+            {
+              "fixed": "20.5.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "openmage/magento-lts"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "19.5.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/OpenMage/magento-lts/security/advisories/GHSA-gp6m-fq6h-cjcx"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-20717"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/OpenMage/magento-lts"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-27T21:47:58Z",
+    "nvd_published_at": null
+  }
+}

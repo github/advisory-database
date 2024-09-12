@@ -1,0 +1,137 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9cw3-j7wg-jwj8",
+  "modified": "2024-05-17T22:54:45Z",
+  "published": "2024-05-17T22:54:45Z",
+  "aliases": [
+
+  ],
+  "summary": "Neos Flow Information disclosure in entity security",
+  "details": "If you had used entity security and wanted to secure entities not just based on the user's role, but on some property of the user (like the company he belongs to), entity security did not work properly together with the doctrine query cache. This could lead to other users re-using SQL queries from the cache which were built for other users; and thus users could see entities which were not destined for them.\n\n### Am I affected?\n\n- Do you use Entity Security? if no, you are not affected.\n- You disabled the Doctrine Cache (Flow_Persistence_Doctrine)? If this is the case, you are not affected.\n- You use Entity Security in custom Flow or Neos applications. Read on.\n  - If you only used Entity Security based on roles (i.e. role A was allowed to see entities, but role B was denied): In this case, you are not affected.\n  - If you did more advanced stuff using Entity Security (like checking that a customer only sees his own orders; or a hotel only sees its own bookings), you very likely needed to register a custom global object in Neos.Flow.aop.globalObjects. In this case, you are affected by the issue; and need to implement the CacheAwareInterface in your global object for proper caching.\n\nAll Flow versions (starting in version 3.0, where Entity Security was introduced) were affected.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "neos/flow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0"
+            },
+            {
+              "fixed": "3.0.12"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "neos/flow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.1.0"
+            },
+            {
+              "fixed": "3.1.10"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "neos/flow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.2.0"
+            },
+            {
+              "fixed": "3.2.13"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "neos/flow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.3.0"
+            },
+            {
+              "fixed": "3.3.13"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "neos/flow"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.0.0"
+            },
+            {
+              "fixed": "4.0.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/neos/flow/2017-04-12.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/neos/flow"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.neos.io/blog/flow-bugfix-releases-for-entity-security.html"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-17T22:54:45Z",
+    "nvd_published_at": null
+  }
+}

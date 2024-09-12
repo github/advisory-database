@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7cvr-xhm5-x998",
+  "modified": "2024-05-30T13:42:49Z",
+  "published": "2024-05-30T13:42:49Z",
+  "aliases": [
+
+  ],
+  "summary": "Twig Path Traversal vulnerability in the filesystem loader",
+  "details": "Twig is affected by path traversal vulnerability when used with Twig_Loader_Filesystem for loading Twig templates but only if the application is using non-trusted template names (names provided by a end-user for instance).\n\nWhen affected, it is possible to go up one directory for the paths configured in the application's loader.\n\nFor instance, if the filesystem loader is configured with /path/to/templates as a path to look for templates, an attacker can force Twig to include a file stored in /path/to by prepending the path with /../ like in {% include \"/../somefile_in_path_to\" %}\n\nNote that using anything else (like ../somefile, /../../somefile, or ../../somefile) won’t work and the application will return a proper exception.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "twig/twig"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.0.0"
+            },
+            {
+              "fixed": "1.12.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/fabpot/Twig/commit/3d19a2eed53570776af313593aaeb5ad62cf4980.diff"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/twig/twig/2013-04-08.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/twigphp/Twig"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20130511111630/http://blog.twig.sensiolabs.org/post/47461911874/security-release-twig-1-12-3-released"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-22"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-30T13:42:49Z",
+    "nvd_published_at": null
+  }
+}

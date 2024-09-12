@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-cj3c-5xpm-cx94",
+  "modified": "2024-03-29T19:05:49Z",
+  "published": "2024-03-29T19:05:49Z",
+  "aliases": [
+    "CVE-2024-29200"
+  ],
+  "summary": "Kimai API returns timesheet entries a user should not be authorized to view",
+  "details": "### Summary\nThe permission `view_other_timesheet` performs differently for the Kimai UI and the API, thus returning unexpected data through the API.\n\n### Details\nWhen setting the `view_other_timesheet` permission to true, on the frontend, users can only see timesheet entries for teams they are a part of. When requesting all timesheets from the API, however, all timesheet entries are returned, regardless of whether the user shares team permissions or not.\n\nExample:\nThere are projects P1 and P2, Teams T1 and T2, users U1 and U2 and Timesheet entries E1 and E2. U1 is team leader of team T1 and has access to P1. U2 is in Team T2 and has access to both P1 and P2. U2 creates E1 for P1 and E2 for P2.\nIn the UI, U1 with `view _other_timesheet` perms sees E1 as he is a part of T1 that has access to P1.\nIn the API, however, he has access to E1 **and E2**.\n\nAdditionally, if U1 is not a team leader T1, he does not see any timesheet from a user other than himself in the UI, but still all timesheets in the API.\n\n### PoC\n- Give a user `view_other_timesheet` permission\n- The result of the UI and the API call to `/api/timesheets?user=all` differs in the data that is being returned\n\nCurl command:\n```bash\ncurl -X 'GET' \\\n  'https://kimai.instance.com/api/timesheets?user=all' \\\n  -H 'accept: application/json' \\\n  -H 'X-AUTH-USER: username' \\\n  -H 'X-AUTH-TOKEN: api_token'\n ```\n\n### Impact\nThis is at least an insufficient granularity of access control weakness. People can see timesheet entries they are not supposed to.\nThis greatly affects the confidentiality of timesheet entries. \n\nRestricting API access to administrators is also not a valid solution, as API access is needed, for example, to use the mobile app.\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "kimai/kimai"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.13.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/kimai/kimai/security/advisories/GHSA-cj3c-5xpm-cx94"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-29200"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/kimai/kimai"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/kimai/kimai/releases/tag/2.13.0"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1220"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-29T19:05:49Z",
+    "nvd_published_at": "2024-03-28T14:15:14Z"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-q7pp-wcgr-pffx",
+  "modified": "2024-03-21T18:57:46Z",
+  "published": "2023-09-05T06:30:14Z",
+  "aliases": [
+    "CVE-2023-36308"
+  ],
+  "summary": "Crash when processing crafted TIFF files",
+  "details": "Disintegration Imaging 1.6.2 allows attackers to cause a panic (because of an integer index out of range during a Grayscale call) via a crafted TIFF file to the scan function of scanner.go. NOTE: it is unclear whether there are common use cases in which this panic could have any security consequence",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/disintegration/imaging"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.6.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-36308"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/disintegration/imaging/issues/165"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/disintegration/imaging/releases/tag/v1.6.2"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "github.com/disintegration/imaging"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-129"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-21T18:57:46Z",
+    "nvd_published_at": "2023-09-05T04:15:08Z"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-mq6v-w35g-3c97",
+  "modified": "2024-05-14T22:01:12Z",
+  "published": "2024-02-03T00:37:56Z",
+  "aliases": [
+
+  ],
+  "summary": "Local File Inclusion vulnerability in zmarkdown",
+  "details": "### Impact\n\nA minor Local File Inclusion vulnerability has been found in\n`zmarkdown`, which allowed for images with a known path on\nthe host machine to be included inside a LaTeX document.\n\nTo prevent it, a new option has been created that allow to replace\ninvalid paths with a default image instead of linking the image on the\nhost directly. `zmarkdown` has been updated to make this setting the\ndefault.\n\nEvery user of `zmarkdown` is likely impacted, except if\ndisabling LaTeX generation or images download. Here\nis an example of including an image from an invalid path:\n\n```markdown\n![](/tmp/img.png)\n```\n\nWill effectively redownload and include the image\nfound at `/tmp/img.png`.\n\n### Patches\n\nThe vulnerability has been patched in version 10.1.3.\nIf impacted, you should update to this version as soon as possible.\n\n### Workarounds\n\nDisable images downloading, or sanitize paths.\n\n### For more information\n\nIf you have any questions or comments about this advisory, open an issue in [ZMarkdown](https://github.com/zestedesavoir/zmarkdown/issues).\n",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "zmarkdown"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "10.1.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/zestedesavoir/zmarkdown/security/advisories/GHSA-mq6v-w35g-3c97"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/zestedesavoir/zmarkdown"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-03T00:37:56Z",
+    "nvd_published_at": null
+  }
+}

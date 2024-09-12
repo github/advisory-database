@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-gxrv-wf35-62w9",
+  "modified": "2024-07-09T21:58:14Z",
+  "published": "2024-07-05T20:13:50Z",
+  "aliases": [
+    "CVE-2024-39321"
+  ],
+  "summary": "Bypassing IP allow-lists in traefik via HTTP/3 early data requests in QUIC 0-RTT handshakes",
+  "details": "### Impact\n\nThere is a vulnerability in Traefik that allows bypassing IP allow-lists via HTTP/3 early data requests in QUIC 0-RTT handshakes sent with spoofed IP addresses.\n\n### Patches\n\n- https://github.com/traefik/traefik/releases/tag/v2.11.6\n- https://github.com/traefik/traefik/releases/tag/v3.0.4\n- https://github.com/traefik/traefik/releases/tag/v3.1.0-rc3\n\n### Workarounds\n\nNo workaround.\n\n### For more information\n\nIf you have any questions or comments about this advisory, please [open an issue](https://github.com/traefik/traefik/issues).\n\n<details>\n<summary>Original Description</summary>\n### Summary\nBypassing IP allow-lists in traefik via HTTP/3 early data requests in QUIC 0-RTT handshakes sent with spoofed IP addresses.\n\n\n### Details\nHTTP/3 supports sending HTTP requests as early data during QUIC 0-RTT handshakes to reduce RTT overhead for connection resumptions. Early data is sent and received before the handshake is completed and the client's IP address is validated.\nThe initial packet containing the QUIC 0-RTT handshake information and the early data HTTP request are sent as a single UDP datagram. Due to UDP being used by QUIC, the source IP address can be spoofed. When HTTP/3 servers process early data requests, the application layer only sees the unvalidated - possibly spoofed - IP address.\n\nFirst, attackers have to obtain a session ticket from the HTTP/3 server. For that, attackers have to establish an HTTP/3 connection to the server - using their real IP address - and wait for the server to send a session ticket. Note that attackers do not have to send an actual HTTP request over the established connection. After obtaining the session ticket, the attacker can close the connection. In the second step, attackers need to prepare a UDP datagram containing a QUIC initial packet with a TLS ClientHello and the session ticket, a QUIC 0-RTT packet with early data encrypted with the pre-shared key from the session ticket, and an HTTP/3 request (open request stream, HEADERS frame, optionally DATA frame). This prepared UDP datagram can then be sent to the server with an arbitrarily spoofed source IP address in the IP packet header. When processing the HTTP request, the server trusts the spoofed IP address, which can be used to bypass IP-allow/block-lists.\n\nA prerequisite for this attack to succeed is that HTTP/3 servers have implemented and enabled 0-RTT early data for HTTP/3 requests (and no mitigations are in place). A caveat is that attackers are not able to receive the server's response because the response is sent to the spoofed source IP address, making it a blind attack. Another limitation is that the request has to fit in a single UDP datagram, whose size is limited by the network path's MTU (minus some bytes for headers of encapsulating protocols such as HTTP/3, QUIC, UDP, IPv4/IPv6).\n\n\n### Impact\nIP allow-lists can be bypassed. Early data in QUIC 0-RTT handshakes is enabled when HTTP/3 support is enabled.\n\n### Mitigation\n* Consider responding with HTTP status code 425 Too Early when 0-RTT early data requests match `ipAllowList.sourceRange` middleware. See RFC 8470 Section 3 for more information.\n* Alternatively, delay processing of 0-RTT early data requests until the handshake is completed and the client's IP address is validated when 0-RTT early data requests match `ipAllowList.sourceRange` middleware.\n\nAdditionally, it is recommended to implement RFC 8470 and set the `Early-Data: 1` header when forwarding early data requests to backend services. Currently, applications are not able to distinguish between 0-RTT early data requests and regular requests. When applications use the client's IP in `X-Forwarded-For` headers (e.g. for rate limiting), they are not able to detect potential IP spoofing on the application layer.\n\n\n### Proof of Concept\nTraefik is used as a HTTP/3 reverse proxy for a backend application. An IP allow list is configured to only allow access from the IP address 1.3.3.7.\n\n```yaml\n# /etc/traefik/traefik.yml\nentryPoints:\n  websecure:\n    address: \":4439\"\n    http3: {}\n    asDefault: true\n\nproviders:\n  file:\n    filename: /etc/traefik/provider.yml\n\nlog:\n  level: DEBUG\n```\n\n```yaml\n# /etc/traefik/provider.yml\nhttp:\n  routers:\n    default:\n      rule: \"PathPrefix(`/`)\"\n      tls: {}\n      middlewares:\n        - ipfilter\n      service: backend\n  \n  middlewares:\n    ipfilter:\n      ipAllowList:\n        sourceRange:\n          - \"1.3.3.7/32\"\n\n  services:\n    backend:\n      loadBalancer:\n        servers:\n          - url: \"http://127.0.0.1:8000\"\n```\n\n\nBy performing the steps described above, attackers are able to bypass the IP allow list and send requests to the backend application. The security impact depends on the application's logic.\n\nPlease find attached a proof-of-concept docker-compose setup to demonstrate the vulnerability. It consists of a traefik reverse proxy, a backend application, and an attacker container. The attack script performs following request:\n```\npython3 http3_ip_spoofing.py https://127.0.0.1:4439/cmd -X POST -d \"cmd=echo%20worked>>/tmp/spoofed\" -H \"X-Header: test\" --spoofed-ip=1.3.3.7\n```\nNote: We use a custom python script because, `curl` does not support QUIC 0-RTT requests and session resumtion yet.\n\n[proof-of-concept.zip](https://github.com/user-attachments/files/16044048/proof-of-concept.zip)\n\n\nHere are logs of a successful exploitation in the attached docker compose setup:\n```\ndocker compose up\n\n# Traefik startup logs\nh3_traefik-1         | 2024-06-29T11:52:58Z INF github.com/traefik/traefik/v3/cmd/traefik/traefik.go:100 > Traefik version 3.0.3 built on 2024-06-18T14:31:20Z version=3.0.3\nh3_traefik-1         | 2024-06-29T11:52:58Z DBG github.com/traefik/traefik/v3/cmd/traefik/traefik.go:107 > Static configuration loaded [json] staticConfiguration={\"entryPoints\":{\"websecure\":{\"address\":\":4439\",\"asDefault\":true,\"forwardedHeaders\":{},\"http\":{},\"http2\":{\"maxConcurrentStreams\":250},\"http3\":{},\"transport\":{\"lifeCycle\":{\"graceTimeOut\":\"10s\"},\"respondingTimeouts\":{\"idleTimeout\":\"3m0s\",\"readTimeout\":\"1m0s\"}},\"udp\":{\"timeout\":\"3s\"}}},\"global\":{\"checkNewVersion\":true},\"log\":{\"format\":\"common\",\"level\":\"DEBUG\"},\"providers\":{\"file\":{\"filename\":\"/etc/traefik/provider.yml\",\"watch\":true},\"providersThrottleDuration\":\"2s\"},\"serversTransport\":{\"maxIdleConnsPerHost\":200},\"tcpServersTransport\":{\"dialKeepAlive\":\"15s\",\"dialTimeout\":\"30s\"}}\nh3_traefik-1         | 2024-06-29T11:52:58Z INF github.com/traefik/traefik/v3/cmd/traefik/traefik.go:605 > \nh3_traefik-1         | Stats collection is disabled.\nh3_traefik-1         | Help us improve Traefik by turning this feature on :)\nh3_traefik-1         | More details on: https://doc.traefik.io/traefik/contributing/data-collection/\nh3_traefik-1         | \nh3_traefik-1         | 2024-06-29T11:52:58Z INF github.com/traefik/traefik/v3/pkg/server/configurationwatcher.go:73 > Starting provider aggregator aggregator.ProviderAggregator\nh3_traefik-1         | 2024-06-29T11:52:58Z DBG github.com/traefik/traefik/v3/pkg/server/server_entrypoint_tcp.go:220 > Starting TCP Server entryPointName=websecure\nh3_traefik-1         | 2024-06-29T11:52:58Z DBG log/log.go:245 > 2024/06/29 11:52:58 sys_conn.go:36: failed to sufficiently increase receive buffer size (was: 208 kiB, wanted: 2048 kiB, got: 416 kiB). See https://github.com/quic-go/quic-go/wiki/UDP-Buffer-Sizes for details.\nh3_traefik-1         | 2024-06-29T11:52:58Z INF github.com/traefik/traefik/v3/pkg/provider/aggregator/aggregator.go:202 > Starting provider *file.Provider\nh3_traefik-1         | 2024-06-29T11:52:58Z DBG github.com/traefik/traefik/v3/pkg/provider/aggregator/aggregator.go:203 > *file.Provider provider configuration config={\"filename\":\"/etc/traefik/provider.yml\",\"watch\":true}\nh3_traefik-1         | 2024-06-29T11:52:58Z DBG github.com/traefik/traefik/v3/pkg/provider/file/file.go:122 > add watcher on: /etc/traefik\nh3_traefik-1         | 2024-06-29T11:52:58Z DBG github.com/traefik/traefik/v3/pkg/provider/file/file.go:122 > add watcher on: /etc/traefik/provider.yml\nh3_traefik-1         | 2024-06-29T11:52:58Z INF github.com/traefik/traefik/v3/pkg/provider/aggregator/aggregator.go:202 > Starting provider *traefik.Provider\nh3_traefik-1         | 2024-06-29T11:52:58Z DBG github.com/traefik/traefik/v3/pkg/provider/aggregator/aggregator.go:203 > *traefik.Provider provider configuration config={}\nh3_traefik-1         | 2024-06-29T11:52:58Z INF github.com/traefik/traefik/v3/pkg/provider/aggregator/aggregator.go:202 > Starting provider *acme.ChallengeTLSALPN\nh3_traefik-1         | 2024-06-29T11:52:58Z DBG github.com/traefik/traefik/v3/pkg/provider/aggregator/aggregator.go:203 > *acme.ChallengeTLSALPN provider configuration config={}\nh3_traefik-1         | 2024-06-29T11:52:58Z DBG github.com/traefik/traefik/v3/pkg/server/configurationwatcher.go:227 > Configuration received config={\"http\":{\"middlewares\":{\"ipfilter\":{\"ipAllowList\":{\"sourceRange\":[\"1.3.3.7/32\"]}}},\"routers\":{\"default\":{\"middlewares\":[\"ipfilter\"],\"rule\":\"PathPrefix(`/`)\",\"service\":\"backend\",\"tls\":{}}},\"services\":{\"backend\":{\"loadBalancer\":{\"passHostHeader\":true,\"responseForwarding\":{\"flushInterval\":\"100ms\"},\"servers\":[{\"url\":\"http://127.0.0.1:8000\"}]}}}},\"tcp\":{},\"tls\":{},\"udp\":{}} providerName=file\nh3_traefik-1         | 2024-06-29T11:52:58Z DBG github.com/traefik/traefik/v3/pkg/server/configurationwatcher.go:227 > Configuration received config={\"http\":{\"serversTransports\":{\"default\":{\"maxIdleConnsPerHost\":200}},\"services\":{\"noop\":{}}},\"tcp\":{\"serversTransports\":{\"default\":{\"dialKeepAlive\":\"15s\",\"dialTimeout\":\"30s\"}}},\"tls\":{},\"udp\":{}} providerName=internal\nh3_traefik-1         | 2024-06-29T11:52:58Z DBG github.com/traefik/traefik/v3/pkg/server/aggregator.go:51 > No entryPoint defined for this router, using the default one(s) instead entryPointName=[\"websecure\"] routerName=default\nh3_traefik-1         | 2024-06-29T11:52:58Z DBG github.com/traefik/traefik/v3/pkg/tls/tlsmanager.go:321 > No default certificate, fallback to the internal generated certificate tlsStoreName=default\nh3_traefik-1         | 2024-06-29T11:52:58Z DBG github.com/traefik/traefik/v3/pkg/server/service/service.go:259 > Creating load-balancer entryPointName=websecure routerName=default@file serviceName=backend@file\nh3_traefik-1         | 2024-06-29T11:52:58Z DBG github.com/traefik/traefik/v3/pkg/server/service/service.go:301 > Creating server entryPointName=websecure routerName=default@file serverName=754e0da3b063885a serviceName=backend@file target=http://127.0.0.1:8000\nh3_traefik-1         | 2024-06-29T11:52:58Z DBG github.com/traefik/traefik/v3/pkg/middlewares/ipallowlist/ip_allowlist.go:33 > Creating middleware entryPointName=websecure middlewareName=ipfilter@file middlewareType=IPAllowLister routerName=default@file\nh3_traefik-1         | 2024-06-29T11:52:58Z DBG github.com/traefik/traefik/v3/pkg/middlewares/ipallowlist/ip_allowlist.go:57 > Setting up IPAllowLister with sourceRange: [1.3.3.7/32] entryPointName=websecure middlewareName=ipfilter@file middlewareType=IPAllowLister routerName=default@file\nh3_traefik-1         | 2024-06-29T11:52:58Z DBG github.com/traefik/traefik/v3/pkg/middlewares/observability/middleware.go:33 > Adding tracing to middleware entryPointName=websecure middlewareName=ipfilter@file routerName=default@file\nh3_traefik-1         | 2024-06-29T11:52:58Z DBG github.com/traefik/traefik/v3/pkg/middlewares/recovery/recovery.go:22 > Creating middleware entryPointName=websecure middlewareName=traefik-internal-recovery middlewareType=Recover\n\n# Attack script establishes an HTTP/3 connection to traefik to obtain a session ticket\nattack-ipspoofing-1  | INFO:client:Initially connecting to server to get a session ticket\nattack-ipspoofing-1  | INFO:quic:[e29b2e2fd9a76162] ALPN negotiated protocol h3\nattack-ipspoofing-1  | INFO:quic:[e29b2e2fd9a76162] Connection close sent (code 0x0, reason )\nattack-ipspoofing-1  | INFO:client:Initial connection done\n\n# Traefik accepts the HTTP/3 connection and issues as session ticket \nh3_traefik-1         | 2024-06-29T11:53:03Z DBG github.com/traefik/traefik/v3/pkg/tls/tlsmanager.go:228 > Serving default certificate for request: \"\"\n\n# Attack script sends a 0-RTT early data request in a UDP datagram with a spoofed source IP\nattack-ipspoofing-1  | INFO:client:Building 0-RTT QUIC packet\nattack-ipspoofing-1  | INFO:client:Setting up iptables rule for source IP spoofing\nattack-ipspoofing-1  | INFO:client:Sending 0-RTT packet\n\n# Traefik accepts and forwards the request to the backend service, bypassing the IP allow list\nh3_traefik-1         | 2024-06-29T11:53:05Z DBG github.com/traefik/traefik/v3/pkg/middlewares/ipallowlist/ip_allowlist.go:85 > Accepting IP 1.3.3.7 middlewareName=ipfilter@file middlewareType=IPAllowLister\nh3_traefik-1         | 2024-06-29T11:53:05Z DBG github.com/traefik/traefik/v3/pkg/server/service/loadbalancer/wrr/wrr.go:196 > Service selected by WRR: 754e0da3b063885a\n\n# Backend service receives and processes the request\nbackend-1            | INFO:root:Request: {\"ip\": \"1.3.3.7\", \"method\": \"POST\", \"path\": \"/cmd\", \"data\": \"cmd=echo%20worked>>/tmp/spoofed\", \"headers\": {\"Host\": \"127.0.0.1:4439\", \"Content-Length\": \"31\", \"Content-Type\": \"application/x-www-form-urlencoded\", \"X-Forwarded-For\": \"1.3.3.7\", \"X-Forwarded-Host\": \"127.0.0.1:4439\", \"X-Forwarded-Port\": \"4439\", \"X-Forwarded-Proto\": \"https\", \"X-Forwarded-Server\": \"work\", \"X-Header\": \"test\", \"X-Real-Ip\": \"1.3.3.7\", \"Accept-Encoding\": \"gzip\"}}\nbackend-1            | INFO:root:Executing command: echo worked>>/tmp/spoofed\n```\n</details>",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/traefik/traefik/v2"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.11.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/traefik/traefik/v3"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0.0-beta3"
+            },
+            {
+              "fixed": "3.0.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/traefik/traefik/v3"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.1.0-rc1"
+            },
+            {
+              "fixed": "3.1.0-rc3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/traefik/traefik/security/advisories/GHSA-gxrv-wf35-62w9"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-39321"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/traefik/traefik"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/traefik/traefik/releases/tag/v2.11.6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/traefik/traefik/releases/tag/v3.0.4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/traefik/traefik/releases/tag/v3.1.0-rc3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-639"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-05T20:13:50Z",
+    "nvd_published_at": "2024-07-05T18:15:32Z"
+  }
+}

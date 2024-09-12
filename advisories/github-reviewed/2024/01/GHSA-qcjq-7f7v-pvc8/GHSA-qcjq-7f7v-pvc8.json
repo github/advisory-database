@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-qcjq-7f7v-pvc8",
+  "modified": "2024-07-08T20:05:51Z",
+  "published": "2024-01-29T22:30:24Z",
+  "aliases": [
+    "CVE-2024-23828"
+  ],
+  "summary": "Nginx-UI vulnerable to authenticated RCE through injecting into the application config via CRLF",
+  "details": "### Summary\n\nFix bypass to the following bugs\n\n- https://github.com/0xJacky/nginx-ui/security/advisories/GHSA-pxmr-q2x3-9x9m\n- https://github.com/0xJacky/nginx-ui/security/advisories/GHSA-8r25-68wm-jw35\n\nAllowing to inject directly in the `app.ini` via CRLF to change the value of `test_config_cmd` and `start_cmd` resulting in an Authenticated RCE\n\n### Impact\nAuthenticated Remote execution on the host",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/0xJacky/Nginx-UI"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.0-beta.12"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/0xJacky/nginx-ui/security/advisories/GHSA-qcjq-7f7v-pvc8"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-23828"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/0xJacky/nginx-ui/commit/d70e37c8575e25b3da7203ff06da5e16c77a42d1"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/0xJacky/nginx-ui"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-29T22:30:24Z",
+    "nvd_published_at": "2024-01-29T17:15:10Z"
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-p3f3-5ccg-83xq",
+  "modified": "2024-07-19T19:38:51Z",
+  "published": "2024-07-17T15:52:57Z",
+  "aliases": [
+    "CVE-2024-40637"
+  ],
+  "summary": "dbt has an implicit override for built-in materializations from installed packages",
+  "details": "### Impact\n_What kind of vulnerability is it? Who is impacted?_\n\nWhen a user installs a [package](https://docs.getdbt.com/docs/build/packages) in dbt, it has the ability to override macros, materializations, and other core components of dbt. This is by design, as it allows packages to extend and customize dbt's functionality. However, this also means that a malicious package could potentially override these components with harmful code.\n\n### Patches\n_Has the problem been patched? What versions should users upgrade to?_\n\nFixed on 1.8.0, and patched for 1.6.14 and 1.7.14 releases.\n\n### Workarounds\n_Is there a way for users to fix or remediate the vulnerability without upgrading?_\n\nPreviously, a materialization defined in a package that shared a name with one of the built-in materializations would be preferred by default, without user action which is surprising and makes it more difficult to detect the insecure behaviour. We've changed the default behaviour to require explicit overrides by users in `1.8.0`, and provided the ability to opt-out of built-in materialization overrides in 1.6 and 1.7 via the `flags.require_explicit_package_overrides_for_builtin_materializations: False` configuration in `dbt_project.yml`\n\nVersions older than 1.6 are EOL.\n\n### References\n_Are there any links users can visit to find out more?_\n* dbt documentation: https://docs.getdbt.com/reference/global-configs/legacy-behaviors#behavior-change-flags\n* https://www.elementary-data.com/post/are-dbt-packages-secure-the-answer-lies-in-your-dwh-policies\n* https://www.equalexperts.com/blog/tech-focus/are-you-at-risk-from-this-critical-dbt-vulnerability/\n* https://tempered.works/posts/2024/07/06/preventing-data-theft-with-gcp-service-controls/",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:H/PR:L/UI:R/S:U/C:L/I:L/A:L"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:A/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "dbt-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.6.0"
+            },
+            {
+              "fixed": "1.6.14"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "dbt-core"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.7.0"
+            },
+            {
+              "fixed": "1.7.14"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/dbt-labs/dbt-core/security/advisories/GHSA-p3f3-5ccg-83xq"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-40637"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dbt-labs/dbt-core/commit/3c82a0296d227cb1be295356df314c11716f4ff6"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/dbt-labs/dbt-core/commit/87ac4deb00cc9fe334706e42a365903a1d581624"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.getdbt.com/docs/build/packages"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.getdbt.com/reference/global-configs/legacy-behaviors#behavior-change-flags"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/dbt-labs/dbt-core"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/dbt-core/PYSEC-2024-66.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://tempered.works/posts/2024/07/06/preventing-data-theft-with-gcp-service-controls"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.elementary-data.com/post/are-dbt-packages-secure-the-answer-lies-in-your-dwh-policies"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.equalexperts.com/blog/tech-focus/are-you-at-risk-from-this-critical-dbt-vulnerability"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74",
+      "CWE-89",
+      "CWE-913"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-17T15:52:57Z",
+    "nvd_published_at": "2024-07-16T23:15:24Z"
+  }
+}

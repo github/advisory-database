@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-xxv9-w5hm-328j",
+  "modified": "2024-05-02T14:04:11Z",
+  "published": "2024-03-06T18:30:38Z",
+  "aliases": [
+    "CVE-2024-28155"
+  ],
+  "summary": "Jenkins AppSpider Plugin  missing permission checks",
+  "details": "Jenkins AppSpider Plugin 1.0.16 and earlier does not perform permission checks in several HTTP endpoints, allowing attackers with Overall/Read permission to obtain information about available scan config names, engine group names, and client names.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.rapid7:jenkinsci-appspider-plugin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.0.17"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28155"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jenkinsci/appspider-build-scanner-plugin/commit/1677f098fbe4c71d782fc4c7bab5f972c575a86d"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jenkinsci/appspider-build-scanner-plugin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.jenkins.io/security/advisory/2024-03-06/#SECURITY-3144"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.openwall.com/lists/oss-security/2024/03/06/3"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-06T19:28:32Z",
+    "nvd_published_at": "2024-03-06T17:15:10Z"
+  }
+}

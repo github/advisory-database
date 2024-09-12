@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-x525-54hf-xr53",
+  "modified": "2024-05-14T20:00:57Z",
+  "published": "2024-05-10T15:29:59Z",
+  "aliases": [
+    "CVE-2024-34070"
+  ],
+  "summary": "Blind XSS Leading to Froxlor Application Compromise",
+  "details": "### Description:\n\nA Stored Blind Cross-Site Scripting (XSS) vulnerability has been identified in the Failed Login Attempts Logging Feature of the Froxlor Application. Stored Blind XSS occurs when user input is not properly sanitized and is stored on the server, allowing an attacker to inject malicious scripts that will be executed when other users access the affected page. In this case, an unauthenticated User can inject malicious scripts in the loginname parameter on the Login attempt, which will then be executed when viewed by the Administrator in the System Logs.\n\nThe application protects users against XSS attacks by utilizing an xss sanitization library. But the checks of the library were bypassed by crafting an XSS Payload using data binding and interpolation of Vue.js\n\nA working XSS payload was crafted which forces an administrator to add a new malicious attacker-controlled Administrator User. The Payload is:\n[payload.txt](https://github.com/froxlor/Froxlor/files/15142616/payload.txt)\n\n\nBy exploiting this vulnerability, an unauthenticated attacker can force the Administrator to perform actions without the administrator even noticing anything suspicious. In one scenario, I made an exploit that forced the administrator to add an attacker-controlled Administrator into the Froxlor Application, resulting in a compromise of the Froxlor Application.\n\n### Impact:\nThe impact of this vulnerability is severe as it allows an attacker to compromise the Froxlor Application. By exploiting this vulnerability, the attacker can perform various malicious actions such as forcing the Administrator to execute actions without their knowledge or consent. For instance, the attacker can force the Administrator to add a new administrator controlled by the attacker, thereby giving the attacker full control over the application.\n\nAttackers can steal sensitive information such as login credentials, session tokens, and personally identifiable information (PII).\n\nThe vulnerability can lead to defacement of the Application.\n\n\n### Mitigation:\nImplement thorough input validation and sanitization mechanisms on all user inputs. This will help prevent malicious scripts from being stored and executed. sanitize {{ and }} to prevent data binding and interpolation of Vue.js.\nSanitize malicious Javascript functions. Etc.\n\n### Steps to Reproduce:\n\n**Attacker Steps:**\n1. Provide an invalid username in Login.\n2. Turn on intercept in Burp Suite.\n3. In the intercepted request, add the following XSS payload as the value of loginname parameter (Copy from below file):\n[payload.txt](https://github.com/froxlor/Froxlor/files/15142616/payload.txt)\n4. Turn off the intercept.\n\n**Victim Steps:**\n5. Login as admin.\n6. Go to System Logs, XSS payload will be executed and a popup will appear showing that the Application has been compromised.\n\n**Attacker Step:**\n7. Back at the Attacker's side, log in to the newly created attacker-controlled admin account having all the privileges. The credentials will be username: `abcd` & Password: `abcd@@1234`\n\n### Evidence:\n\n![image](https://github.com/froxlor/Froxlor/assets/59286712/31cf0cb8-b0e4-46d0-a6b8-a0e22fda64b8)\n_Figure 1: Code of Logging Invalid login attempts_\n\n![image](https://github.com/froxlor/Froxlor/assets/59286712/6acef52a-d5ba-477d-b502-a7fe27fd5085)\n_Figure 2: Code of saving Logs._\n\n![image](https://github.com/froxlor/Froxlor/assets/59286712/2adf8ae5-66be-4e22-938b-c9e5dcb764c0)\n_Figure 3: Attacker injecting XSS payload._\n\n![image](https://github.com/froxlor/Froxlor/assets/59286712/d3ccf6f9-2a23-40a4-97fc-e9585553ac52)\n_Figure 4: XSS payload Executed._\n\n![image](https://github.com/froxlor/Froxlor/assets/59286712/3c7f24f6-4049-49d3-978b-d83800fe8a80)\n_Figure 5: XSS payload Reflection._\n\n### Video POC\n\nhttps://github.com/froxlor/Froxlor/assets/59286712/7ba7d3e7-9ee9-4e64-988c-33fd4ebbca27\n\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "froxlor/froxlor"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.1.9"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/froxlor/Froxlor/security/advisories/GHSA-x525-54hf-xr53"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-34070"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/froxlor/Froxlor/commit/a862307bce5cdfb1c208b835f3e8faddd23046e6"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/froxlor/Froxlor"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79",
+      "CWE-80"
+    ],
+    "severity": "CRITICAL",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-10T15:29:59Z",
+    "nvd_published_at": "2024-05-14T15:38:26Z"
+  }
+}

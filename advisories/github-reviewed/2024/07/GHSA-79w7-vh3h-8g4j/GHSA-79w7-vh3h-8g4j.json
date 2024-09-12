@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-79w7-vh3h-8g4j",
+  "modified": "2024-07-05T17:54:51Z",
+  "published": "2024-07-02T15:58:35Z",
+  "aliases": [
+    "CVE-2024-38519"
+  ],
+  "summary": "yt-dlp File system modification and RCE through improper file-extension sanitization",
+  "details": "### Summary\n`yt-dlp` does not limit the extensions of downloaded files, which could lead to arbitrary filenames being created in the download folder (and path traversal on Windows). Since `yt-dlp` also reads config from the working directory (and on Windows executables will be executed from the yt-dlp directory) this could lead to arbitrary code being executed.\n\n### Patches\n`yt-dlp` version 2024.07.01 fixes this issue by whitelisting the allowed extensions.\nThis means some very uncommon extensions might not get downloaded; however, it will also limit the possible exploitation surface.\n\n### Workarounds\nIt is recommended to upgrade yt-dlp to version 2024.07.01 as soon as possible, **always** have `.%(ext)s` at the end of the output template, and make sure you trust the websites that you are downloading from. Also, make sure to never download to a directory within PATH or other sensitive locations like your user directory, `system32`, or other binaries locations.\n\nFor users not able to upgrade:\n- Make sure the extension of the media to download is a common video/audio/sub/... one\n- Try to avoid the generic extractor (`--ies default,-generic`)\n- Keep the default output template (`-o \"%(title)s [%(id)s].%(ext)s`)\n- Omit any of the subtitle options (`--write-subs`, `--write-auto-subs`, `--all-subs`, `--write-srt`)\n- Use `--ignore-config --config-location ...` to not load config from common locations\n\n### Details\nOne potential exploitation might look like this:\n\nFrom a mimetype we do not know, we default to trimming the leading bit and using the remainder. Given a webpage that contains\n```html\n<script type=\"application/ld+json\">\n{\n    \"@context\": \"https://schema.org\",\n    \"@type\": \"VideoObject\",\n    \"name\": \"ffmpeg\",\n    \"encodingFormat\": \"video/exe\",\n    \"contentUrl\": \"https://example.com/video.mp4\"\n}\n</script>\n```\nthis will try and download a file called `ffmpeg.exe` (`-o \"%(title)s.%(ext)s`).\n`ffmpeg.exe` will be searched for in the current directory, and so upon the next run arbitrary code can be executed.\n\nAlternatively, when engineering a file called `yt-dlp.conf` to be created, the config file could contain `--exec ...` and so would also execute arbitrary code.\n\n### Acknowledgement\nA big thanks to @JarLob for independently finding a new application of the same underlying issue.\nMore can be read about on the dedicated GitHub Security Lab disclosure here: [Path traversal saving subtitles (GHSL-2024-090)](<https://securitylab.github.com/advisories/GHSL-2024-090_yt-dlp>)\n\n### References\n- https://github.com/yt-dlp/yt-dlp/security/advisories/GHSA-79w7-vh3h-8g4j\n- https://nvd.nist.gov/vuln/detail/CVE-2024-38519\n- https://github.com/yt-dlp/yt-dlp/releases/tag/2024.07.01\n- https://github.com/yt-dlp/yt-dlp/commit/5ce582448ececb8d9c30c8c31f58330090ced03a\n- https://securitylab.github.com/advisories/GHSL-2024-090_yt-dlp\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "yt-dlp"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2024.07.01"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/dirkf/youtube-dl/security/advisories/GHSA-22fp-mf44-f2mq"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/yt-dlp/yt-dlp/security/advisories/GHSA-79w7-vh3h-8g4j"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-38519"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ytdl-org/youtube-dl/pull/32830"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/yt-dlp/yt-dlp/commit/5ce582448ececb8d9c30c8c31f58330090ced03a"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/ytdl-org/youtube-dl/commit/d42a222ed541b96649396ef00e19552aef0f09ec"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/yt-dlp/yt-dlp"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/yt-dlp/yt-dlp/releases/tag/2024.07.01"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://securitylab.github.com/advisories/GHSL-2024-089_youtube-dl"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://securitylab.github.com/advisories/GHSL-2024-090_yt-dlp"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-434",
+      "CWE-669"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-07-02T15:58:35Z",
+    "nvd_published_at": "2024-07-02T14:15:13Z"
+  }
+}

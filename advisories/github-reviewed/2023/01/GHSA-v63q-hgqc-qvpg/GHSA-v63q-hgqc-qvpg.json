@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-v63q-hgqc-qvpg",
+  "modified": "2024-04-02T14:07:06Z",
+  "published": "2023-01-03T18:30:25Z",
+  "aliases": [
+    "CVE-2021-32821"
+  ],
+  "summary": "MooTools Regular Expression Denial of Service",
+  "details": "MooTools is a collection of JavaScript utilities for JavaScript developers. All known versions include a CSS selector parser that is vulnerable to Regular Expression Denial of Service (ReDoS). An attack requires that an attacker can inject a string into a CSS selector at runtime, which is quite common with e.g. jQuery CSS selectors. No patches are available for this issue.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "mootools"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "1.5.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-32821"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/vsviridov/mootools-node"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://securitylab.github.com/advisories/GHSL-2020-345-redos-mootools"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1333",
+      "CWE-400"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-02T14:06:51Z",
+    "nvd_published_at": "2023-01-03T17:15:00Z"
+  }
+}

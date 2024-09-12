@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-55m3-44xf-hg4h",
+  "modified": "2024-03-20T21:37:47Z",
+  "published": "2024-03-20T18:02:07Z",
+  "aliases": [
+    "CVE-2024-29033"
+  ],
+  "summary": "GoogleOAuthenticator.hosted_domain incorrectly verifies membership of an Google organization/workspace",
+  "details": "## Summary and impact\n\n[`GoogleOAuthenticator.hosted_domain`] is used to restrict what Google accounts can be authorized to access a JupyterHub. The restriction _is intended_ to ensure Google accounts are part of one or more Google organizations/workspaces verified to control specified domain(s).\n\nThe vulnerability is that the actual restriction has been to Google accounts with emails ending with the domain. Such accounts could have been created by anyone which at one time was able to read an email associated with the domain. This was described by Dylan Ayrey (@dxa4481) in this [blog post] from 15th December 2023.\n\n## Remediation\n\nUpgrade to `oauthenticator>=16.3.0` or restrict who can login another way, such as [`allowed_users`] or [`allowed_google_groups`].\n\n[`GoogleOAuthenticator.hosted_domain`]: https://oauthenticator.readthedocs.io/en/latest/reference/api/gen/oauthenticator.google.html#oauthenticator.google.GoogleOAuthenticator.hosted_domain\n[`allowed_users`]: https://oauthenticator.readthedocs.io/en/latest/reference/api/gen/oauthenticator.google.html#oauthenticator.google.GoogleOAuthenticator.allowed_users\n[`allowed_google_groups`]: https://oauthenticator.readthedocs.io/en/latest/reference/api/gen/oauthenticator.google.html#oauthenticator.google.GoogleOAuthenticator.allowed_google_groups\n[blog post]: https://trufflesecurity.com/blog/google-oauth-is-broken-sort-of/",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "oauthenticator"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "16.3.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/jupyterhub/oauthenticator/security/advisories/GHSA-55m3-44xf-hg4h"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-29033"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jupyterhub/oauthenticator/commit/5246b09675501b09fb6ed64022099b7644812f60"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/jupyterhub/oauthenticator"
+    },
+    {
+      "type": "WEB",
+      "url": "https://trufflesecurity.com/blog/google-oauth-is-broken-sort-of"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-285"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-03-20T18:02:07Z",
+    "nvd_published_at": "2024-03-20T21:15:31Z"
+  }
+}

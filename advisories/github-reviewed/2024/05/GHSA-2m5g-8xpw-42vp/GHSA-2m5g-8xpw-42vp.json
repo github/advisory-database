@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-2m5g-8xpw-42vp",
+  "modified": "2024-05-15T18:07:44Z",
+  "published": "2024-05-15T18:07:44Z",
+  "aliases": [
+
+  ],
+  "summary": "OpenCFP Framework (Sentry) Account takeover via null password reset codes",
+  "details": "OpenCFP, an open-source conference talk submission system written in PHP, contains a security vulnerability in its third-party authentication framework, Sentry, developed by Cartalyst. The vulnerability stems from how Sentry handles password reset checks. Users lacking a password reset token stored in the database default to having NULL in the reset_password_code column. Exploiting this flaw could allow unauthorized manipulation of any OpenCFP user's password, particularly those without an unused password reset token. Although successful login still requires correlating the numeric user ID with an email address, the identification of likely organizers (users 1-5) may facilitate this process.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:H/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "cartalyst/sentry"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "2.1.6"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/cartalyst/sentry/2016-09-05.yaml"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/cartalyst/sentry"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20180119075946/https://haxx.ml/post/149975211631/how-i-hacked-your-cfp-and-probably-some-other"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-05-15T18:07:44Z",
+    "nvd_published_at": null
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-393x-fr59-r8fg",
+  "modified": "2024-04-22T23:08:32Z",
+  "published": "2022-05-13T01:32:20Z",
+  "aliases": [
+    "CVE-2018-3771"
+  ],
+  "summary": "statics-server Cross-site Scripting vulnerability",
+  "details": "An XSS in statics-server <= 0.0.9 can be used via injected iframe in the filename when statics-server displays directory index in the browser. Statics-server does not implement any HTML escaping when displays directory index in the browser. Variable `v` is used in `<a href>` element without escaping, which allows to embed HTML `<iframe>` tag with `src` attribute points to another HTML file in the directory. This file can contain malicious JavaScript code, which will be executed:\n\n```js\n// ./node_modules/statics-server/index.js, line 18:\n\n    if(fs.lstatSync(staticPath).isDirectory()){\n        var files=fs.readdirSync(staticPath);\n        var lis='';\n        files.forEach((v,i)=>{\n            if(fs.lstatSync(path.resolve(staticPath,v)).isDirectory()){\n                lis+=`<li><a href=\"${req.url}${v}/\">${v}/</a></li>`;\n            }else {\n                lis+=`<li><a href=\"${req.url}${v}\">${v}</a></li>`\n            }\n        });\n\n        (...)\n```",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "statics-server"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "last_affected": "0.0.9"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-3771"
+    },
+    {
+      "type": "WEB",
+      "url": "https://hackerone.com/reports/355458"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-22T23:08:32Z",
+    "nvd_published_at": "2018-07-20T22:29:00Z"
+  }
+}

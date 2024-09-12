@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jfmj-27fp-qp67",
+  "modified": "2024-04-24T18:10:27Z",
+  "published": "2022-05-17T02:37:28Z",
+  "aliases": [
+    "CVE-2016-6608"
+  ],
+  "summary": "phpMyAdmin Cross-site Scripting (XSS)",
+  "details": "XSS issues were discovered in phpMyAdmin. This affects the database privilege check and the \"Remove partitioning\" functionality. Specially crafted database names can trigger the XSS attack. All 4.6.x versions (prior to 4.6.4) are affected.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "phpmyadmin/phpmyadmin"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "4.6"
+            },
+            {
+              "fixed": "4.6.4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2016-6608"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/phpmyadmin/composer"
+    },
+    {
+      "type": "WEB",
+      "url": "https://security.gentoo.org/glsa/201701-32"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.phpmyadmin.net/security/PMASA-2016-31"
+    },
+    {
+      "type": "WEB",
+      "url": "http://www.securityfocus.com/bid/93258"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-04-24T18:10:27Z",
+    "nvd_published_at": "2016-12-11T02:59:00Z"
+  }
+}

@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-frhc-9hwc-x7j3",
+  "modified": "2024-01-25T20:33:31Z",
+  "published": "2022-05-13T01:12:43Z",
+  "aliases": [
+    "CVE-2015-0211"
+  ],
+  "summary": "Moodle allows attackers to obtain sensitive information",
+  "details": "mod/lti/ajax.php in Moodle through 2.5.9, 2.6.x before 2.6.7, 2.7.x before 2.7.4, and 2.8.x before 2.8.2 does not consider the moodle/course:manageactivities and mod/lti:addinstance capabilities before proceeding with registered-tool list searches, which allows remote authenticated users to obtain sensitive information via requests to the LTI Ajax service.",
+  "severity": [
+
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "moodle/moodle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.6.7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "moodle/moodle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.7.0"
+            },
+            {
+              "fixed": "2.7.4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "moodle/moodle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "2.8.0"
+            },
+            {
+              "fixed": "2.8.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2015-0211"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moodle/moodle/commit/52555c36989b6704550ed0b3c6e832f5e7e150b7"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moodle/moodle/commit/da4c33f510aabc0d7443c29a7c097cfd54b6c4a4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moodle/moodle/commit/faf0cd9098517cd6274219b58f6f4a278d26455d"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/moodle/moodle/commit/fc6619d5c0bb297e6736880ff5353bb668048002"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/moodle/moodle"
+    },
+    {
+      "type": "WEB",
+      "url": "https://moodle.org/mod/forum/discuss.php?d=278611"
+    },
+    {
+      "type": "WEB",
+      "url": "http://git.moodle.org/gw?p=moodle.git&a=search&h=HEAD&st=commit&s=MDL-47920"
+    },
+    {
+      "type": "WEB",
+      "url": "http://openwall.com/lists/oss-security/2015/01/19/1"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-200"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-01-25T20:33:31Z",
+    "nvd_published_at": "2015-06-01T19:59:00Z"
+  }
+}

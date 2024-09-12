@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-jjgh-m322-fjx6",
+  "modified": "2024-02-23T20:36:33Z",
+  "published": "2022-05-24T16:47:03Z",
+  "aliases": [
+    "CVE-2019-3895"
+  ],
+  "summary": "Openstack Octavia Access Control Vulnerability",
+  "details": "### Description\nAn access-control flaw was found in the Octavia service when the cloud platform was deployed using Red Hat OpenStack Platform Director. An attacker could cause new amphorae to run based on any arbitrary image. This meant that a remote attacker could upload a new amphorae image and, if requested to spawn new amphorae, Octavia would then pick up the compromised image.\n\n### Mitigation\nTo prevent this vulnerability:\n1. Update Octavia's configuration setting (octavia.conf) to `amp_image_owner_id = $UUID_OF_SERVICE_PROJECT` on all Octavia nodes.\n2. Enable the new configuration by restarting both `octavia_worker` and `octavia_health_manager`.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:R/S:U/C:L/I:L/A:L"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "octavia"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "0.9.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-3895"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/octavia/commit/d7d062a47ab54a540d81f13a0e5f3085ebfaa0d2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/tripleo-common/commit/e7c5eab712e0f70ecbc6d225d4766e0fe0f3f884"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2019:1683"
+    },
+    {
+      "type": "WEB",
+      "url": "https://access.redhat.com/errata/RHSA-2019:1742"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.launchpad.net/octavia/+bug/1620629"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugs.launchpad.net/tripleo/+bug/1830607"
+    },
+    {
+      "type": "WEB",
+      "url": "https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2019-3895"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/openstack/octavia"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/openstack/octavia/blob/08570831754d9671fbd1756d668f55f191e47ca4/octavia/compute/drivers/nova_driver.py#L35"
+    },
+    {
+      "type": "WEB",
+      "url": "https://opendev.org/openstack/octavia/commit/d7d062a47ab54a540d81f13a0e5f3085ebfaa0d2"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-284"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-02-23T20:36:33Z",
+    "nvd_published_at": "2019-06-03T19:29:00Z"
+  }
+}
