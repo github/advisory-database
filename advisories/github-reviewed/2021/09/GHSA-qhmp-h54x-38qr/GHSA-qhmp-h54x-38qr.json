@@ -1,17 +1,21 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-qhmp-h54x-38qr",
-  "modified": "2021-10-06T20:37:36Z",
+  "modified": "2024-09-12T20:54:36Z",
   "published": "2021-09-20T20:57:02Z",
   "aliases": [
     "CVE-2021-39229"
   ],
-  "summary": "CWE-730 Regex injection with IFTTT Plugin",
+  "summary": "Apprise vulnerable to regex injection with IFTTT Plugin",
   "details": "### Impact\nAnyone _publicly_ hosting the Apprise library and granting them access to the IFTTT notification service.\n\n### Patches\nUpdate to Apprise v0.9.5.1\n   ```bash\n   # Install Apprise v0.9.5.1 from PyPI\n   pip install apprise==0.9.5.1\n   ```\n\nThe patch to the problem was performed [here](https://github.com/caronc/apprise/pull/436/files).\n\n### Workarounds\nAlternatively, if upgrading is not an option, you can safely remove the following file:\n- `apprise/plugins/NotifyIFTTT.py` \n\nThe above will eliminate the ability to use IFTTT, but everything else will work smoothly.\n\n### For more information\nIf you have any questions or comments about this advisory:\n* Open an issue in [Apprise](https://github.com/caronc/apprise/issues)\n* Email me at [lead2gold@gmail.com](mailto:lead2gold@gmail.com)\n\n### Additional Credit\nGithub would not allow me to additionally credit **Rasmus Petersen**, but I would like to put that here at the very least - thank you for finding and reporting this issue along with those already credited\n\n## Additional Notes:\n- Github would not allow me to add/tag the 2 CWE's this issue is applicable to (only CWE-400).  The other is: CWE-730 (placed in the title)\n",
   "severity": [
     {
       "type": "CVSS_V3",
       "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N"
     }
   ],
   "affected": [
@@ -66,6 +70,10 @@
     {
       "type": "WEB",
       "url": "https://github.com/caronc/apprise/releases/tag/v0.9.5.1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/apprise/PYSEC-2021-327.yaml"
     }
   ],
   "database_specific": {
