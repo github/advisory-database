@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-76x8-gg39-5jjg",
-  "modified": "2024-04-01T19:52:43Z",
+  "modified": "2024-09-13T18:02:56Z",
   "published": "2022-05-01T23:28:42Z",
   "aliases": [
     "CVE-2008-0252"
@@ -9,7 +9,14 @@
   "summary": "CherryPy Malicious cookies allow access to files outside the session directory",
   "details": "Directory traversal vulnerability in the _get_file_path function in (1) `lib/sessions.py` in CherryPy 3.0.x up to 3.0.2, (2) `filter/sessionfilter.py` in CherryPy 2.1, and (3) `filter/sessionfilter.py` in CherryPy 2.x allows remote attackers to create or delete arbitrary files, and possibly read and write portions of arbitrary files, via a crafted session id in a cookie.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N"
+    }
   ],
   "affected": [
     {
@@ -25,14 +32,30 @@
               "introduced": "0"
             },
             {
-              "fixed": "3.0.3"
+              "fixed": "2.1.1"
             }
           ]
         }
-      ],
-      "database_specific": {
-        "last_known_affected_version_range": "<= 3.0.2"
-      }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "cherrypy"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "3.0"
+            },
+            {
+              "fixed": "3.0.2"
+            }
+          ]
+        }
+      ]
     }
   ],
   "references": [
@@ -49,8 +72,44 @@
       "url": "https://bugs.gentoo.org/show_bug.cgi?id=204829"
     },
     {
+      "type": "PACKAGE",
+      "url": "https://github.com/cherrypy/cherrypy"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/cherrypy/PYSEC-2008-3.yaml"
+    },
+    {
       "type": "WEB",
       "url": "https://issues.rpath.com/browse/RPL-2127"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20080129011723/http://secunia.com/advisories/28354"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20080312130713/http://secunia.com/advisories/28353"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20080328003510/http://secunia.com/advisories/28611"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20100122080212/http://www.vupen.com/english/advisories/2008/0039"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20110513223620/http://secunia.com/advisories/28769"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20111224161644/http://secunia.com/advisories/28620"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20151108024505/http://www.securityfocus.com/bid/27181"
     },
     {
       "type": "WEB",
@@ -59,26 +118,6 @@
     {
       "type": "WEB",
       "url": "https://www.redhat.com/archives/fedora-package-announce/2008-January/msg00297.html"
-    },
-    {
-      "type": "WEB",
-      "url": "http://secunia.com/advisories/28353"
-    },
-    {
-      "type": "WEB",
-      "url": "http://secunia.com/advisories/28354"
-    },
-    {
-      "type": "WEB",
-      "url": "http://secunia.com/advisories/28611"
-    },
-    {
-      "type": "WEB",
-      "url": "http://secunia.com/advisories/28620"
-    },
-    {
-      "type": "WEB",
-      "url": "http://secunia.com/advisories/28769"
     },
     {
       "type": "WEB",
@@ -103,18 +142,6 @@
     {
       "type": "WEB",
       "url": "http://www.debian.org/security/2008/dsa-1481"
-    },
-    {
-      "type": "WEB",
-      "url": "http://www.securityfocus.com/archive/1/487001/100/0/threaded"
-    },
-    {
-      "type": "WEB",
-      "url": "http://www.securityfocus.com/bid/27181"
-    },
-    {
-      "type": "WEB",
-      "url": "http://www.vupen.com/english/advisories/2008/0039"
     }
   ],
   "database_specific": {
