@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-cf7p-gm2m-833m",
-  "modified": "2023-08-15T20:39:56Z",
+  "modified": "2024-09-13T20:06:10Z",
   "published": "2023-07-14T21:31:08Z",
   "aliases": [
     "CVE-2023-38325"
@@ -12,6 +12,10 @@
     {
       "type": "CVSS_V3",
       "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N"
     }
   ],
   "affected": [
@@ -19,6 +23,11 @@
       "package": {
         "ecosystem": "PyPI",
         "name": "cryptography"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "cryptography.hazmat.primitives.serialization.ssh.SSHCertificateBuilder.sign"
+        ]
       },
       "ranges": [
         {
@@ -67,6 +76,10 @@
     {
       "type": "WEB",
       "url": "https://github.com/pypa/advisory-database/tree/main/vulns/cryptography/PYSEC-2023-112.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/NMCCTYY3CSNQBFFYYC5DAV6KATHWCUZK"
     },
     {
       "type": "WEB",
