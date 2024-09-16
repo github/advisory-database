@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-fxpg-gg9g-76gj",
-  "modified": "2024-03-07T21:50:30Z",
+  "modified": "2024-09-16T22:57:31Z",
   "published": "2018-07-23T19:52:42Z",
   "aliases": [
     "CVE-2010-3082"
@@ -9,20 +9,27 @@
   "summary": "Cross-site scripting in django",
   "details": "Cross-site scripting (XSS) vulnerability in Django 1.2.x before 1.2.2 allows remote attackers to inject arbitrary web script or HTML via a csrfmiddlewaretoken (aka csrf_token) cookie.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:N/VI:N/VA:N/SC:L/SI:L/SA:N"
+    }
   ],
   "affected": [
     {
       "package": {
         "ecosystem": "PyPI",
-        "name": "django"
+        "name": "Django"
       },
       "ranges": [
         {
           "type": "ECOSYSTEM",
           "events": [
             {
-              "introduced": "1.2.0"
+              "introduced": "1.2"
             },
             {
               "fixed": "1.2.2"
@@ -59,15 +66,15 @@
     },
     {
       "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/django/PYSEC-2010-12.yaml"
+    },
+    {
+      "type": "WEB",
       "url": "http://marc.info/?l=oss-security&m=128403961700444&w=2"
     },
     {
       "type": "WEB",
       "url": "http://www.djangoproject.com/weblog/2010/sep/08/security-release"
-    },
-    {
-      "type": "WEB",
-      "url": "http://www.securityfocus.com/bid/43116"
     },
     {
       "type": "WEB",
