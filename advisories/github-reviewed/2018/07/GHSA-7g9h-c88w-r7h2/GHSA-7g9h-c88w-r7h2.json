@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-7g9h-c88w-r7h2",
-  "modified": "2024-05-16T18:42:40Z",
+  "modified": "2024-09-16T21:55:42Z",
   "published": "2018-07-23T19:52:31Z",
   "aliases": [
     "CVE-2011-0698"
@@ -9,7 +9,14 @@
   "summary": "Directory traversal in Django",
   "details": "Directory traversal vulnerability in Django 1.1.x before 1.1.4 and 1.2.x before 1.2.5 on Windows might allow remote attackers to read or execute files via a / (slash) character in a key in a session cookie, related to session replays.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N"
+    }
   ],
   "affected": [
     {
@@ -22,7 +29,7 @@
           "type": "ECOSYSTEM",
           "events": [
             {
-              "introduced": "1.1.0"
+              "introduced": "1.1"
             },
             {
               "fixed": "1.1.4"
@@ -41,7 +48,7 @@
           "type": "ECOSYSTEM",
           "events": [
             {
-              "introduced": "1.2.0"
+              "introduced": "1.2"
             },
             {
               "fixed": "1.2.5"
@@ -74,11 +81,19 @@
     },
     {
       "type": "WEB",
-      "url": "http://openwall.com/lists/oss-security/2011/02/09/6"
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/django/PYSEC-2011-12.yaml"
     },
     {
       "type": "WEB",
-      "url": "http://secunia.com/advisories/43230"
+      "url": "https://web.archive.org/web/20110521033259/http://secunia.com/advisories/43230"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20130616104703/http://www.securityfocus.com/bid/46296"
+    },
+    {
+      "type": "WEB",
+      "url": "http://openwall.com/lists/oss-security/2011/02/09/6"
     },
     {
       "type": "WEB",
@@ -87,25 +102,13 @@
     {
       "type": "WEB",
       "url": "http://www.mandriva.com/security/advisories?name=MDVSA-2011:031"
-    },
-    {
-      "type": "WEB",
-      "url": "http://www.securityfocus.com/bid/46296"
-    },
-    {
-      "type": "WEB",
-      "url": "http://www.vupen.com/english/advisories/2011/0372"
-    },
-    {
-      "type": "WEB",
-      "url": "http://www.vupen.com/english/advisories/2011/0439"
     }
   ],
   "database_specific": {
     "cwe_ids": [
       "CWE-22"
     ],
-    "severity": "HIGH",
+    "severity": "CRITICAL",
     "github_reviewed": true,
     "github_reviewed_at": "2020-06-16T21:22:48Z",
     "nvd_published_at": null
