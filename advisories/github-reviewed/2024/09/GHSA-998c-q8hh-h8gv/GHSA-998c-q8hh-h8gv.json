@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-998c-q8hh-h8gv",
+  "modified": "2024-09-17T22:02:26Z",
+  "published": "2024-09-17T21:30:32Z",
+  "aliases": [
+    "CVE-2024-8660"
+  ],
+  "summary": "Concrete CMS stored XSS vulnerability in the \"Top Navigator Bar\" block",
+  "details": "Concrete CMS versions 9.0.0 through 9.3.3 are affected by a stored XSS vulnerability in the \"Top Navigator Bar\" block. Since the \"Top Navigator Bar\" output was not sufficiently sanitized, a rogue administrator could add a malicious payload that could be executed when targeted users visited the home page. This does not affect versions below 9.0.0  since they do not have the Top\nNavigator Bar Block. Thanks, Chu Quoc Khanh for reporting.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:H/UI:A/VC:N/VI:L/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Packagist",
+        "name": "concrete5/concrete5"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "9.0.0"
+            },
+            {
+              "fixed": "9.3.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-8660"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/concretecms/concretecms/pull/12128"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/concretecms/concretecms/commit/f5a01c88fb2630db96e58dcd7f52ea41e516d4e9"
+    },
+    {
+      "type": "WEB",
+      "url": "https://documentation.concretecms.org/9-x/developers/introduction/version-history/934-release-notes"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/concretecms/concretecms"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-09-17T22:02:26Z",
+    "nvd_published_at": "2024-09-17T19:15:28Z"
+  }
+}
