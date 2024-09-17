@@ -1,15 +1,22 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-5h2q-4hrp-v9rr",
-  "modified": "2024-03-07T21:58:37Z",
+  "modified": "2024-09-16T21:41:20Z",
   "published": "2022-05-17T05:12:01Z",
   "aliases": [
     "CVE-2012-3444"
   ],
   "summary": "Django vulnerable to Improper Restriction of Operations within the Bounds of a Memory Buffer",
-  "details": "The get_image_dimensions function in the image-handling functionality in Django before 1.3.2 and 1.4.x before 1.4.1 uses a constant chunk size in all attempts to determine dimensions, which allows remote attackers to cause a denial of service (process or thread consumption) via a large TIFF image.",
+  "details": "The `get_image_dimensions` function in the image-handling functionality in Django before 1.3.2 and 1.4.x before 1.4.1 uses a constant chunk size in all attempts to determine dimensions, which allows remote attackers to cause a denial of service (process or thread consumption) via a large TIFF image.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N"
+    }
   ],
   "affected": [
     {
@@ -82,6 +89,10 @@
     },
     {
       "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/django/PYSEC-2012-4.yaml"
+    },
+    {
+      "type": "WEB",
       "url": "https://www.djangoproject.com/weblog/2012/jul/30/security-releases-issued"
     },
     {
@@ -109,7 +120,7 @@
     "cwe_ids": [
       "CWE-119"
     ],
-    "severity": "MODERATE",
+    "severity": "HIGH",
     "github_reviewed": true,
     "github_reviewed_at": "2023-04-21T20:17:54Z",
     "nvd_published_at": "2012-07-31T17:55:00Z"

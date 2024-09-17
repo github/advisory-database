@@ -1,15 +1,22 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-w3j6-8j34-q43x",
-  "modified": "2024-02-23T20:59:34Z",
+  "modified": "2024-09-13T14:18:40Z",
   "published": "2022-05-17T05:39:24Z",
   "aliases": [
     "CVE-2010-4340"
   ],
   "summary": "Apache Libcloud does not verify SSL certificates for HTTPS connections",
-  "details": "libcloud before 0.4.1 does not verify SSL certificates for HTTPS connections, which allows remote attackers to spoof certificates and bypass intended access restrictions via a man-in-the-middle (MITM) attack. This is due to an upstream issue with python's SSL module rather than directly with libcloud.",
+  "details": "libcloud before 0.4.0 does not verify SSL certificates for HTTPS connections, which allows remote attackers to spoof certificates and bypass intended access restrictions via a man-in-the-middle (MITM) attack. This is due to an upstream issue with python's SSL module rather than directly with libcloud.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N"
+    }
   ],
   "affected": [
     {
@@ -25,14 +32,11 @@
               "introduced": "0"
             },
             {
-              "fixed": "0.4.1"
+              "fixed": "0.4.0"
             }
           ]
         }
-      ],
-      "database_specific": {
-        "last_known_affected_version_range": "<= 0.4.0"
-      }
+      ]
     }
   ],
   "references": [
@@ -51,6 +55,10 @@
     {
       "type": "PACKAGE",
       "url": "https://github.com/apache/libcloud"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/apache-libcloud/PYSEC-2011-24.yaml"
     },
     {
       "type": "WEB",
@@ -77,7 +85,7 @@
     "cwe_ids": [
       "CWE-295"
     ],
-    "severity": "MODERATE",
+    "severity": "HIGH",
     "github_reviewed": true,
     "github_reviewed_at": "2024-02-23T20:59:34Z",
     "nvd_published_at": "2011-09-12T12:41:00Z"

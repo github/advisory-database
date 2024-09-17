@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-pghf-347x-c2gj",
-  "modified": "2021-04-14T22:22:37Z",
+  "modified": "2024-09-13T20:10:20Z",
   "published": "2021-04-16T19:53:28Z",
   "aliases": [
     "CVE-2021-30459"
@@ -9,7 +9,14 @@
   "summary": "SQL Injection via in django-debug-toolbar",
   "details": "### Impact\nWith Django Debug Toolbar attackers are able to execute SQL by changing the `raw_sql` input of the SQL explain, analyze or select forms and submitting the form.\n\n**NOTE:** This is a high severity issue for anyone using the toolbar in a **production environment**.\n\nGenerally the Django Debug Toolbar team only maintains the latest version of django-debug-toolbar, but an exception was made because of the high severity of this issue.\n\n### Patches\nPlease upgrade to one of the following versions, depending on the major version you're using:\n\n- Version 1.x: [django-debug-toolbar 1.11.1](https://pypi.org/project/django-debug-toolbar/1.11.1/)\n- Version 2.x: [django-debug-toolbar 2.2.1](https://pypi.org/project/django-debug-toolbar/2.2.1/)\n- Version 3.x: [django-debug-toolbar 3.2.1](https://pypi.org/project/django-debug-toolbar/3.2.1/)\n\n### For more information\nIf you have any questions or comments about this advisory:\n* Open an issue in the [django-debug-toolbar repo](https://github.com/jazzband/django-debug-toolbar/issues/new)  (Please NO SENSITIVE INFORMATION, send an email instead!)\n* Email us at [security@jazzband.co](mailto:security@jazzband.co)",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:U"
+    }
   ],
   "affected": [
     {
@@ -41,7 +48,7 @@
           "type": "ECOSYSTEM",
           "events": [
             {
-              "introduced": "2.0.0"
+              "introduced": "2.0a1"
             },
             {
               "fixed": "2.2.1"
@@ -60,7 +67,7 @@
           "type": "ECOSYSTEM",
           "events": [
             {
-              "introduced": "3.0.0"
+              "introduced": "3.0a1"
             },
             {
               "fixed": "3.2.1"
@@ -84,8 +91,16 @@
       "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-30459"
     },
     {
+      "type": "PACKAGE",
+      "url": "https://github.com/jazzband/django-debug-toolbar"
+    },
+    {
       "type": "WEB",
       "url": "https://github.com/jazzband/django-debug-toolbar/releases"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/django-debug-toolbar/PYSEC-2021-10.yaml"
     },
     {
       "type": "WEB",

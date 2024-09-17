@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-r5cj-wv24-92p5",
-  "modified": "2024-05-21T20:28:50Z",
+  "modified": "2024-09-16T22:32:44Z",
   "published": "2022-05-02T00:05:00Z",
   "aliases": [
     "CVE-2008-3909"
@@ -9,13 +9,20 @@
   "summary": "Django cross-site request forgery (CSRF) vulnerability",
   "details": "The administration application in Django 0.91.x, 0.95.x, and 0.96.x stores unauthenticated HTTP POST requests and processes them after successful authentication occurs, which allows remote attackers to conduct cross-site request forgery (CSRF) attacks and delete or modify data via unspecified requests.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N"
+    }
   ],
   "affected": [
     {
       "package": {
         "ecosystem": "PyPI",
-        "name": "django"
+        "name": "Django"
       },
       "ranges": [
         {
@@ -34,7 +41,7 @@
     {
       "package": {
         "ecosystem": "PyPI",
-        "name": "django"
+        "name": "Django"
       },
       "ranges": [
         {
@@ -53,7 +60,7 @@
     {
       "package": {
         "ecosystem": "PyPI",
-        "name": "django"
+        "name": "Django"
       },
       "ranges": [
         {
@@ -97,23 +104,15 @@
     },
     {
       "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/django/PYSEC-2008-2.yaml"
+    },
+    {
+      "type": "WEB",
       "url": "https://www.redhat.com/archives/fedora-package-announce/2008-September/msg00091.html"
     },
     {
       "type": "WEB",
       "url": "https://www.redhat.com/archives/fedora-package-announce/2008-September/msg00131.html"
-    },
-    {
-      "type": "WEB",
-      "url": "http://osvdb.org/47906"
-    },
-    {
-      "type": "WEB",
-      "url": "http://secunia.com/advisories/31837"
-    },
-    {
-      "type": "WEB",
-      "url": "http://secunia.com/advisories/31961"
     },
     {
       "type": "WEB",
@@ -126,17 +125,13 @@
     {
       "type": "WEB",
       "url": "http://www.openwall.com/lists/oss-security/2008/09/03/4"
-    },
-    {
-      "type": "WEB",
-      "url": "http://www.vupen.com/english/advisories/2008/2533"
     }
   ],
   "database_specific": {
     "cwe_ids": [
       "CWE-352"
     ],
-    "severity": "MODERATE",
+    "severity": "HIGH",
     "github_reviewed": true,
     "github_reviewed_at": "2023-09-22T23:12:22Z",
     "nvd_published_at": "2008-09-04T17:41:00Z"

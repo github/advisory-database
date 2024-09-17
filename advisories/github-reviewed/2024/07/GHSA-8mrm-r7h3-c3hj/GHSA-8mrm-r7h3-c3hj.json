@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-8mrm-r7h3-c3hj",
+  "modified": "2024-09-13T19:34:25Z",
+  "published": "2024-07-20T06:30:35Z",
+  "aliases": [
+    "CVE-2024-6281"
+  ],
+  "summary": "LoLLMS vulnerable to Expected Behavior Violation",
+  "details": "A path traversal vulnerability exists in the `apply_settings` function of parisneo/lollms versions prior to 9.5.1. The `sanitize_path` function does not adequately secure the `discussion_db_name` parameter, allowing attackers to manipulate the path and potentially write to important system folders.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:L/VI:L/VA:H/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "lollms"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "9.5.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-6281"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/parisneo/lollms/commit/26a3ff35acf152b49e1087d5698ad4864c7b6092"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/parisneo/lollms"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.com/bounties/0a62f2fb-4e62-4128-9dc4-e8f1d959ac61"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-440"
+    ],
+    "severity": "HIGH",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-09-13T19:34:25Z",
+    "nvd_published_at": "2024-07-20T04:15:05Z"
+  }
+}

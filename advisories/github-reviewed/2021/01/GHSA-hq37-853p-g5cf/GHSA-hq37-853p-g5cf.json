@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-hq37-853p-g5cf",
-  "modified": "2021-01-06T19:12:20Z",
+  "modified": "2024-09-13T17:42:15Z",
   "published": "2021-01-06T16:57:50Z",
   "aliases": [
     "CVE-2021-21236"
@@ -9,7 +9,14 @@
   "summary": "Regular Expression Denial of Service in CairoSVG",
   "details": "# Doyensec Vulnerability Advisory \n\n* Regular Expression Denial of Service (REDoS) in cairosvg\n* Affected Product: CairoSVG v2.0.0+\n* Vendor: https://github.com/Kozea\n* Severity: Medium\n* Vulnerability Class: Denial of Service\n* Author(s): Ben Caller ([Doyensec](https://doyensec.com))\n\n## Summary\n\nWhen processing SVG files, the python package CairoSVG uses two regular expressions which are vulnerable to Regular Expression Denial of Service (REDoS).\nIf an attacker provides a malicious SVG, it can make cairosvg get stuck processing the file for a very long time.\n\n## Technical description\n\nThe vulnerable regular expressions are\n\nhttps://github.com/Kozea/CairoSVG/blob/9c4a982b9a021280ad90e89707eacc1d114e4ac4/cairosvg/colors.py#L190-L191\n\nThe section between 'rgb(' and the final ')' contains multiple overlapping groups.\n\nSince all three infinitely repeating groups accept spaces, a long string of spaces causes catastrophic backtracking when it is not followed by a closing parenthesis.\n\nThe complexity is cubic, so doubling the length of the malicious string of spaces makes processing take 8 times as long.\n\n## Reproduction steps\n\nCreate a malicious SVG of the form:\n\n    <svg width=\"1\" height=\"1\"><rect fill=\"rgb(                     ;\"/></svg>\n\nwith the following code:\n\n    '<svg width=\"1\" height=\"1\"><rect fill=\"rgb(' + (' ' * 3456) + ';\"/></svg>'\n\nNote that there is no closing parenthesis before the semi-colon.\n\nRun cairosvg e.g.:\n\n    cairosvg cairo-redos.svg -o x.png\n\nand notice that it hangs at 100% CPU. Increasing the number of spaces increases the processing time with cubic complexity.\n\n## Remediation\n\nFix the regexes to avoid overlapping parts. Perhaps remove the [ \\n\\r\\t]* groups from the regex, and use .strip() on the returned capture group.\n\n## Disclosure timeline\n\n- 2020-12-30: Vulnerability disclosed via email to CourtBouillon",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:P"
+    }
   ],
   "affected": [
     {
@@ -46,8 +53,16 @@
       "url": "https://github.com/Kozea/CairoSVG/commit/cfc9175e590531d90384aa88845052de53d94bf3"
     },
     {
+      "type": "PACKAGE",
+      "url": "https://github.com/Kozea/CairoSVG"
+    },
+    {
       "type": "WEB",
       "url": "https://github.com/Kozea/CairoSVG/releases/tag/2.5.1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/cairosvg/PYSEC-2021-5.yaml"
     },
     {
       "type": "WEB",
@@ -58,7 +73,7 @@
     "cwe_ids": [
       "CWE-400"
     ],
-    "severity": "MODERATE",
+    "severity": "HIGH",
     "github_reviewed": true,
     "github_reviewed_at": "2021-01-06T16:57:38Z",
     "nvd_published_at": "2021-01-06T17:15:00Z"

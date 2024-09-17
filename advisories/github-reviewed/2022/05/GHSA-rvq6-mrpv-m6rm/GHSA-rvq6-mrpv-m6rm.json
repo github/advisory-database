@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-rvq6-mrpv-m6rm",
-  "modified": "2024-05-16T18:28:00Z",
+  "modified": "2024-09-16T22:13:37Z",
   "published": "2022-05-17T03:07:04Z",
   "aliases": [
     "CVE-2014-0472"
@@ -9,7 +9,14 @@
   "summary": "Code Injection in Django",
   "details": "The django.core.urlresolvers.reverse function in Django before 1.4.11, 1.5.x before 1.5.6, 1.6.x before 1.6.3, and 1.7.x before 1.7 beta 2 allows remote attackers to import and execute arbitrary Python modules by leveraging a view that constructs URLs using user input and a \"dotted Python path.\"",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
+    }
   ],
   "affected": [
     {
@@ -51,7 +58,7 @@
           "type": "ECOSYSTEM",
           "events": [
             {
-              "introduced": "1.5.0"
+              "introduced": "1.5"
             },
             {
               "fixed": "1.5.6"
@@ -75,7 +82,7 @@
           "type": "ECOSYSTEM",
           "events": [
             {
-              "introduced": "1.6.0"
+              "introduced": "1.6"
             },
             {
               "fixed": "1.6.3"
@@ -108,6 +115,10 @@
     },
     {
       "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/django/PYSEC-2014-1.yaml"
+    },
+    {
+      "type": "WEB",
       "url": "https://www.djangoproject.com/weblog/2014/apr/21/security"
     },
     {
@@ -124,10 +135,6 @@
     },
     {
       "type": "WEB",
-      "url": "http://secunia.com/advisories/61281"
-    },
-    {
-      "type": "WEB",
       "url": "http://www.debian.org/security/2014/dsa-2934"
     },
     {
@@ -139,7 +146,7 @@
     "cwe_ids": [
       "CWE-94"
     ],
-    "severity": "MODERATE",
+    "severity": "CRITICAL",
     "github_reviewed": true,
     "github_reviewed_at": "2023-02-23T23:29:51Z",
     "nvd_published_at": "2014-04-23T15:55:00Z"

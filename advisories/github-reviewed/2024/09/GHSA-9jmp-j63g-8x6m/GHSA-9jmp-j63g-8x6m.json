@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-9jmp-j63g-8x6m",
+  "modified": "2024-09-13T19:34:16Z",
+  "published": "2024-09-13T18:31:48Z",
+  "aliases": [
+    "CVE-2024-6867"
+  ],
+  "summary": "Lunary information disclosure vulnerability",
+  "details": "An information disclosure vulnerability exists in the lunary-ai/lunary, specifically in the `runs/{run_id}/related` endpoint. This endpoint does not verify that the user has the necessary access rights to the run(s) they are accessing. As a result, it returns not only the specified run but also all runs that have the `run_id` listed as their parent run. This issue affects the main branch, commit a761d833. The vulnerability allows unauthorized users to obtain information about non-public runs and their related runs, given the `run_id` of a public or non-public run.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "lunary"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.4.10"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-6867"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/lunary-ai/lunary/commit/35afd4439464571eb016318cd7b6f85a162225ca"
+    },
+    {
+      "type": "WEB",
+      "url": "https://huntr.com/bounties/460df515-164c-4435-954b-0233a181545f"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-1220"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-09-13T19:34:16Z",
+    "nvd_published_at": "2024-09-13T17:15:13Z"
+  }
+}
