@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-5j94-f3mf-8685",
+  "modified": "2024-09-17T21:31:28Z",
+  "published": "2024-09-17T21:31:28Z",
+  "aliases": [
+    "CVE-2024-46976"
+  ],
+  "summary": "@backstage/plugin-techdocs-backend vulnerable to circumvention of cross site scripting protection",
+  "details": "### Impact\n\nAn attacker with control of the contents of the TechDocs storage buckets is able to inject executable scripts in the TechDocs content that will be executed in the victim's browser when browsing documentation or navigating to an attacker provided link.\n\n### Patches\n\nThis has been fixed in the 1.10.13 release of the `@backstage/plugin-techdocs-backend` package.\n\n### References\n\nIf you have any questions or comments about this advisory:\n\nOpen an issue in the [Backstage repository](https://github.com/backstage/backstage)\nVisit our Discord, linked to in [Backstage README](https://github.com/backstage/backstage)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:L"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:A/VC:N/VI:N/VA:N/SC:L/SI:L/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@backstage/plugin-techdocs-backend"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.10.13"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/backstage/backstage/security/advisories/GHSA-5j94-f3mf-8685"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-46976"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/backstage/backstage"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-693",
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-09-17T21:31:28Z",
+    "nvd_published_at": "2024-09-17T21:15:12Z"
+  }
+}
