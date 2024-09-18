@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-j3j3-jrfh-cm2w",
-  "modified": "2024-05-07T14:42:51Z",
+  "modified": "2024-09-18T16:03:03Z",
   "published": "2022-05-14T02:06:52Z",
   "aliases": [
     "CVE-2015-2316"
@@ -9,7 +9,14 @@
   "summary": "Django Denial-of-service possibility with strip_tags",
   "details": "The `utils.html.strip_tags` function in Django 1.6.x before 1.6.11, 1.7.x before 1.7.7, and 1.8.x before 1.8c1, when using certain versions of Python, allows remote attackers to cause a denial of service (infinite loop) by increasing the length of the input string.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N"
+    }
   ],
   "affected": [
     {
@@ -93,6 +100,10 @@
     },
     {
       "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/django/PYSEC-2015-18.yaml"
+    },
+    {
+      "type": "WEB",
       "url": "https://web.archive.org/web/20200229033201/http://www.securityfocus.com/bid/73322"
     },
     {
@@ -118,9 +129,9 @@
   ],
   "database_specific": {
     "cwe_ids": [
-
+      "CWE-770"
     ],
-    "severity": "MODERATE",
+    "severity": "HIGH",
     "github_reviewed": true,
     "github_reviewed_at": "2024-04-29T11:21:09Z",
     "nvd_published_at": "2015-03-25T14:59:00Z"
