@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-6g95-x6cj-mg4v",
-  "modified": "2024-05-16T17:43:13Z",
+  "modified": "2024-09-18T19:57:21Z",
   "published": "2022-05-17T03:20:50Z",
   "aliases": [
     "CVE-2015-0222"
@@ -9,7 +9,10 @@
   "summary": "Django database denial-of-service with ModelMultipleChoiceField",
   "details": "ModelMultipleChoiceField in Django 1.6.x before 1.6.10 and 1.7.x before 1.7.3, when show_hidden_initial is set to True, allows remote attackers to cause a denial of service by submitting duplicate values, which triggers a large number of SQL queries.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    }
   ],
   "affected": [
     {
@@ -70,6 +73,10 @@
     },
     {
       "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/django/PYSEC-2015-7.yaml"
+    },
+    {
+      "type": "WEB",
       "url": "https://web.archive.org/web/20161201073154/http://secunia.com/advisories/62285"
     },
     {
@@ -115,9 +122,9 @@
   ],
   "database_specific": {
     "cwe_ids": [
-
+      "CWE-770"
     ],
-    "severity": "MODERATE",
+    "severity": "HIGH",
     "github_reviewed": true,
     "github_reviewed_at": "2024-04-29T16:34:17Z",
     "nvd_published_at": "2015-01-16T16:59:00Z"
