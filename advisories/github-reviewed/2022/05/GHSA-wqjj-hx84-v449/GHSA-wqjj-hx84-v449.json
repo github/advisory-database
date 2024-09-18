@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-wqjj-hx84-v449",
-  "modified": "2023-09-05T13:57:24Z",
+  "modified": "2024-09-18T20:04:05Z",
   "published": "2022-05-17T03:07:04Z",
   "aliases": [
     "CVE-2014-0474"
@@ -9,13 +9,20 @@
   "summary": "Django Vulnerable to MySQL Injection",
   "details": "The (1) FilePathField, (2) GenericIPAddressField, and (3) IPAddressField model field classes in Django before 1.4.11, 1.5.x before 1.5.6, 1.6.x before 1.6.3, and 1.7.x before 1.7 beta 2 do not properly perform type conversion, which allows remote attackers to have unspecified impact and vectors, related to \"MySQL typecasting.\"",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:U"
+    }
   ],
   "affected": [
     {
       "package": {
         "ecosystem": "PyPI",
-        "name": "django"
+        "name": "Django"
       },
       "ranges": [
         {
@@ -34,14 +41,14 @@
     {
       "package": {
         "ecosystem": "PyPI",
-        "name": "django"
+        "name": "Django"
       },
       "ranges": [
         {
           "type": "ECOSYSTEM",
           "events": [
             {
-              "introduced": "1.5.0"
+              "introduced": "1.5"
             },
             {
               "fixed": "1.5.6"
@@ -53,14 +60,14 @@
     {
       "package": {
         "ecosystem": "PyPI",
-        "name": "django"
+        "name": "Django"
       },
       "ranges": [
         {
           "type": "ECOSYSTEM",
           "events": [
             {
-              "introduced": "1.6.0"
+              "introduced": "1.6"
             },
             {
               "fixed": "1.6.3"
@@ -90,6 +97,10 @@
     {
       "type": "PACKAGE",
       "url": "https://github.com/django/django"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/django/PYSEC-2014-3.yaml"
     },
     {
       "type": "WEB",
