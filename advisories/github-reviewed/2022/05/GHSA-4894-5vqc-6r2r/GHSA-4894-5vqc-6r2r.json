@@ -1,15 +1,22 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-4894-5vqc-6r2r",
-  "modified": "2023-08-17T23:51:22Z",
+  "modified": "2024-09-18T19:49:05Z",
   "published": "2022-05-17T01:33:07Z",
   "aliases": [
     "CVE-2013-4249"
   ],
-  "summary": "Django Cross-site scripting (XSS) vulnerability in the AdminURLFieldWidget widget",
+  "summary": "Django cross-site scripting (XSS) vulnerability in the AdminURLFieldWidget widget",
   "details": "Cross-site scripting (XSS) vulnerability in the AdminURLFieldWidget widget in contrib/admin/widgets.py in Django 1.5.x before 1.5.2 and 1.6.x before 1.6 beta 2 allows remote attackers to inject arbitrary web script or HTML via a URLField.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:N/VI:N/VA:N/SC:L/SI:L/SA:N"
+    }
   ],
   "affected": [
     {
@@ -17,12 +24,17 @@
         "ecosystem": "PyPI",
         "name": "django"
       },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "django.contrib.admin.widgets.AdminURLFieldWidget.render"
+        ]
+      },
       "ranges": [
         {
           "type": "ECOSYSTEM",
           "events": [
             {
-              "introduced": "1.5.0"
+              "introduced": "1.5"
             },
             {
               "fixed": "1.5.2"
@@ -55,6 +67,14 @@
     },
     {
       "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/django/PYSEC-2013-19.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20201208180405/http://www.securitytracker.com/id/1028915"
+    },
+    {
+      "type": "WEB",
       "url": "https://www.djangoproject.com/weblog/2013/aug/13/security-releases-issued"
     },
     {
@@ -64,14 +84,6 @@
     {
       "type": "WEB",
       "url": "http://seclists.org/oss-sec/2013/q3/411"
-    },
-    {
-      "type": "WEB",
-      "url": "http://secunia.com/advisories/54476"
-    },
-    {
-      "type": "WEB",
-      "url": "http://www.securitytracker.com/id/1028915"
     }
   ],
   "database_specific": {
