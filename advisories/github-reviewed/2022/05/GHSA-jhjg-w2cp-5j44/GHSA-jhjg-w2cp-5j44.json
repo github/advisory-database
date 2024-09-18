@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-jhjg-w2cp-5j44",
-  "modified": "2024-03-07T22:23:39Z",
+  "modified": "2024-09-18T19:53:58Z",
   "published": "2022-05-17T03:20:50Z",
   "aliases": [
     "CVE-2015-0221"
@@ -9,13 +9,20 @@
   "summary": "Django DoS in django.views.static.serve",
   "details": "The `django.views.static.serve` view in Django before 1.4.18, 1.6.x before 1.6.10, and 1.7.x before 1.7.3 reads files an entire line at a time, which allows remote attackers to cause a denial of service (memory consumption) via a long line in a file.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N"
+    }
   ],
   "affected": [
     {
       "package": {
         "ecosystem": "PyPI",
-        "name": "django"
+        "name": "Django"
       },
       "ecosystem_specific": {
         "affected_functions": [
@@ -39,7 +46,7 @@
     {
       "package": {
         "ecosystem": "PyPI",
-        "name": "django"
+        "name": "Django"
       },
       "ecosystem_specific": {
         "affected_functions": [
@@ -51,7 +58,7 @@
           "type": "ECOSYSTEM",
           "events": [
             {
-              "introduced": "1.6.0"
+              "introduced": "1.6"
             },
             {
               "fixed": "1.6.10"
@@ -63,7 +70,7 @@
     {
       "package": {
         "ecosystem": "PyPI",
-        "name": "django"
+        "name": "Django"
       },
       "ecosystem_specific": {
         "affected_functions": [
@@ -75,7 +82,7 @@
           "type": "ECOSYSTEM",
           "events": [
             {
-              "introduced": "1.7.0"
+              "introduced": "1.7"
             },
             {
               "fixed": "1.7.3"
@@ -109,6 +116,10 @@
     {
       "type": "WEB",
       "url": "https://github.com/django/django/blob/9b9c805cedb08621bd5dc58a01a6478eb7cc49a9/docs/releases/1.4.18.txt#L48C1-L49C1"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/django/PYSEC-2015-6.yaml"
     },
     {
       "type": "WEB",
@@ -167,7 +178,7 @@
     "cwe_ids": [
       "CWE-400"
     ],
-    "severity": "MODERATE",
+    "severity": "HIGH",
     "github_reviewed": true,
     "github_reviewed_at": "2023-08-03T19:57:13Z",
     "nvd_published_at": "2015-01-16T16:59:00Z"
