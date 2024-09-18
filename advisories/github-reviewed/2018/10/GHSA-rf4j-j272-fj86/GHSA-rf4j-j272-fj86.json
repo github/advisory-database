@@ -1,31 +1,35 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-rf4j-j272-fj86",
-  "modified": "2024-05-07T20:54:54Z",
+  "modified": "2024-09-18T19:46:34Z",
   "published": "2018-10-03T21:13:54Z",
   "aliases": [
     "CVE-2018-6188"
   ],
-  "summary": "Django Information leakage in AuthenticationForm",
+  "summary": "Django vulnerable to information leakage in AuthenticationForm",
   "details": "`django.contrib.auth.forms.AuthenticationForm` in Django 2.0 before 2.0.2, and 1.11.8 and 1.11.9, allows remote attackers to obtain potentially sensitive information by leveraging data exposure from the `confirm_login_allowed()` method, as demonstrated by discovering whether a user account is inactive.",
   "severity": [
     {
       "type": "CVSS_V3",
       "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N"
     }
   ],
   "affected": [
     {
       "package": {
         "ecosystem": "PyPI",
-        "name": "django"
+        "name": "Django"
       },
       "ranges": [
         {
           "type": "ECOSYSTEM",
           "events": [
             {
-              "introduced": "2.0.0"
+              "introduced": "2.0a1"
             },
             {
               "fixed": "2.0.2"
@@ -37,7 +41,7 @@
     {
       "package": {
         "ecosystem": "PyPI",
-        "name": "django"
+        "name": "Django"
       },
       "ranges": [
         {
@@ -77,15 +81,19 @@
     },
     {
       "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/django/PYSEC-2018-4.yaml"
+    },
+    {
+      "type": "WEB",
       "url": "https://usn.ubuntu.com/3559-1"
     },
     {
       "type": "WEB",
-      "url": "https://www.djangoproject.com/weblog/2018/feb/01/security-releases"
+      "url": "https://web.archive.org/web/20200517143909/http://www.securitytracker.com/id/1040422"
     },
     {
       "type": "WEB",
-      "url": "http://www.securitytracker.com/id/1040422"
+      "url": "https://www.djangoproject.com/weblog/2018/feb/01/security-releases"
     }
   ],
   "database_specific": {
