@@ -1,17 +1,21 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-r478-c2pc-m7gx",
-  "modified": "2022-01-19T19:58:19Z",
+  "modified": "2024-09-18T20:06:40Z",
   "published": "2022-01-12T20:07:10Z",
   "aliases": [
     "CVE-2022-22846"
   ],
-  "summary": "DNS reply verification issue in dnslinb",
+  "summary": "dnslib has DNS reply verification issue",
   "details": "The dnslib package through 0.9.16 for Python does not verify that the ID value in a DNS reply matches an ID value in a query.",
   "severity": [
     {
       "type": "CVSS_V3",
       "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N"
     }
   ],
   "affected": [
@@ -49,13 +53,21 @@
       "url": "https://github.com/paulc/dnslib/commit/76e8677699ed098387d502c57980f58da642aeba"
     },
     {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-r478-c2pc-m7gx"
+    },
+    {
       "type": "WEB",
       "url": "https://github.com/paulc/dnslib"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/dnslib/PYSEC-2022-4.yaml"
     }
   ],
   "database_specific": {
     "cwe_ids": [
-
+      "CWE-345"
     ],
     "severity": "HIGH",
     "github_reviewed": true,
