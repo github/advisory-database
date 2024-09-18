@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-625g-gx8c-xcmg",
-  "modified": "2023-08-16T21:44:35Z",
+  "modified": "2024-09-18T16:06:40Z",
   "published": "2022-05-14T02:09:22Z",
   "aliases": [
     "CVE-2014-0482"
@@ -9,13 +9,25 @@
   "summary": "Django Middleware Enables Session Hijacking",
   "details": "The `contrib.auth.middleware.RemoteUserMiddleware` middleware in Django before 1.4.14, 1.5.x before 1.5.9, 1.6.x before 1.6.6, and 1.7 before release candidate 3, when using the `contrib.auth.backends.RemoteUserBackend` backend, allows remote authenticated users to hijack web sessions via vectors related to the `REMOTE_USER` header.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:N/VI:L/VA:N/SC:N/SI:N/SA:N"
+    }
   ],
   "affected": [
     {
       "package": {
         "ecosystem": "PyPI",
-        "name": "django"
+        "name": "Django"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "django.contrib.auth.middleware.RemoteUserMiddleware.process_request"
+        ]
       },
       "ranges": [
         {
@@ -34,14 +46,19 @@
     {
       "package": {
         "ecosystem": "PyPI",
-        "name": "django"
+        "name": "Django"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "django.contrib.auth.middleware.RemoteUserMiddleware.process_request"
+        ]
       },
       "ranges": [
         {
           "type": "ECOSYSTEM",
           "events": [
             {
-              "introduced": "1.5.0"
+              "introduced": "1.5"
             },
             {
               "fixed": "1.5.9"
@@ -53,17 +70,41 @@
     {
       "package": {
         "ecosystem": "PyPI",
-        "name": "django"
+        "name": "Django"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "django.contrib.auth.middleware.RemoteUserMiddleware.process_request"
+        ]
       },
       "ranges": [
         {
           "type": "ECOSYSTEM",
           "events": [
             {
-              "introduced": "1.6.0"
+              "introduced": "1.6"
             },
             {
               "fixed": "1.6.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "Django"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "1.7a1"
+            },
+            {
+              "fixed": "1.7c3"
             }
           ]
         }
@@ -92,8 +133,16 @@
       "url": "https://github.com/django/django/commit/dd68f319b365f6cb38c5a6c106faf4f6142d7d88"
     },
     {
+      "type": "PACKAGE",
+      "url": "https://github.com/django/django"
+    },
+    {
       "type": "WEB",
       "url": "https://github.com/django/django/blob/aa3cb3f37265be37d892e2b391ff023e9caee2a4/docs/releases/1.5.9.txt#L42"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/django/PYSEC-2014-6.yaml"
     },
     {
       "type": "WEB",
