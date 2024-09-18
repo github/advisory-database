@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-rw75-m7gp-92m3",
-  "modified": "2024-05-16T18:02:28Z",
+  "modified": "2024-09-18T16:07:33Z",
   "published": "2022-05-14T02:09:22Z",
   "aliases": [
     "CVE-2014-0483"
@@ -9,7 +9,14 @@
   "summary": "Django data leakage via querystring manipulation in admin",
   "details": "The administrative interface (contrib.admin) in Django before 1.4.14, 1.5.x before 1.5.9, 1.6.x before 1.6.6, and 1.7 before release candidate 3 does not check if a field represents a relationship between models, which allows remote authenticated users to obtain sensitive information via a to_field parameter in a popup action to an admin change form page, as demonstrated by a `/admin/auth/user/?pop=1&t=password` URI.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N"
+    }
   ],
   "affected": [
     {
@@ -116,6 +123,10 @@
     },
     {
       "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/django/PYSEC-2014-7.yaml"
+    },
+    {
+      "type": "WEB",
       "url": "https://web.archive.org/web/20151016194735/http://secunia.com/advisories/61276"
     },
     {
@@ -143,7 +154,7 @@
     "cwe_ids": [
       "CWE-200"
     ],
-    "severity": "LOW",
+    "severity": "MODERATE",
     "github_reviewed": true,
     "github_reviewed_at": "2024-04-29T14:46:27Z",
     "nvd_published_at": "2014-08-26T14:55:00Z"
