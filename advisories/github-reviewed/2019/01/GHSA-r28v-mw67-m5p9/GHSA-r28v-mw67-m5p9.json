@@ -1,31 +1,35 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-r28v-mw67-m5p9",
-  "modified": "2023-09-05T12:37:34Z",
+  "modified": "2024-09-18T19:45:18Z",
   "published": "2019-01-04T17:50:07Z",
   "aliases": [
     "CVE-2018-7536"
   ],
-  "summary": "Django Denial-of-service possibility in urlize and urlizetrunc template filters",
+  "summary": "Django denial-of-service possibility in urlize and urlizetrunc template filters",
   "details": "An issue was discovered in Django 2.0 before 2.0.3, 1.11 before 1.11.11, and 1.8 before 1.8.19. The `django.utils.html.urlize()` function was extremely slow to evaluate certain inputs due to catastrophic backtracking vulnerabilities in two regular expressions (only one regular expression for Django 1.8.x). The `urlize()` function is used to implement the urlize and urlizetrunc template filters, which were thus vulnerable.",
   "severity": [
     {
       "type": "CVSS_V3",
       "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:L/VA:N/SC:N/SI:N/SA:N"
     }
   ],
   "affected": [
     {
       "package": {
         "ecosystem": "PyPI",
-        "name": "django"
+        "name": "Django"
       },
       "ranges": [
         {
           "type": "ECOSYSTEM",
           "events": [
             {
-              "introduced": "2.0"
+              "introduced": "2.0a1"
             },
             {
               "fixed": "2.0.3"
@@ -37,14 +41,14 @@
     {
       "package": {
         "ecosystem": "PyPI",
-        "name": "django"
+        "name": "Django"
       },
       "ranges": [
         {
           "type": "ECOSYSTEM",
           "events": [
             {
-              "introduced": "1.11"
+              "introduced": "1.11a1"
             },
             {
               "fixed": "1.11.11"
@@ -56,14 +60,14 @@
     {
       "package": {
         "ecosystem": "PyPI",
-        "name": "django"
+        "name": "Django"
       },
       "ranges": [
         {
           "type": "ECOSYSTEM",
           "events": [
             {
-              "introduced": "1.8"
+              "introduced": "1.8a1"
             },
             {
               "fixed": "1.8.19"
@@ -116,6 +120,10 @@
     },
     {
       "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/django/PYSEC-2018-5.yaml"
+    },
+    {
+      "type": "WEB",
       "url": "https://lists.debian.org/debian-lts-announce/2018/03/msg00006.html"
     },
     {
@@ -124,15 +132,15 @@
     },
     {
       "type": "WEB",
+      "url": "https://web.archive.org/web/20200227131019/http://www.securityfocus.com/bid/103361"
+    },
+    {
+      "type": "WEB",
       "url": "https://www.debian.org/security/2018/dsa-4161"
     },
     {
       "type": "WEB",
       "url": "https://www.djangoproject.com/weblog/2018/mar/06/security-releases"
-    },
-    {
-      "type": "WEB",
-      "url": "http://www.securityfocus.com/bid/103361"
     }
   ],
   "database_specific": {
