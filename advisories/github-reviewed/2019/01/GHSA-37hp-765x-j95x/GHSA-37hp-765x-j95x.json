@@ -1,31 +1,35 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-37hp-765x-j95x",
-  "modified": "2024-03-07T22:55:42Z",
+  "modified": "2024-09-18T16:08:51Z",
   "published": "2019-01-04T17:50:26Z",
   "aliases": [
     "CVE-2017-7233"
   ],
-  "summary": "Django Open redirect and possible XSS attack via user-supplied numeric redirect URLs",
+  "summary": "Django open redirect and possible XSS attack via user-supplied numeric redirect URLs",
   "details": "Django 1.10 before 1.10.7, 1.9 before 1.9.13, and 1.8 before 1.8.18 relies on user input in some cases to redirect the user to an \"on success\" URL. The security check for these redirects (namely ``django.utils.http.is_safe_url()``) considered some numeric URLs \"safe\" when they shouldn't be, aka an open redirect vulnerability. Also, if a developer relies on ``is_safe_url()`` to provide safe redirect targets and puts such a URL into a link, they could suffer from an XSS attack.",
   "severity": [
     {
       "type": "CVSS_V3",
       "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:N/VI:N/VA:N/SC:L/SI:L/SA:N"
     }
   ],
   "affected": [
     {
       "package": {
         "ecosystem": "PyPI",
-        "name": "django"
+        "name": "Django"
       },
       "ranges": [
         {
           "type": "ECOSYSTEM",
           "events": [
             {
-              "introduced": "1.10"
+              "introduced": "1.10a1"
             },
             {
               "fixed": "1.10.7"
@@ -37,14 +41,14 @@
     {
       "package": {
         "ecosystem": "PyPI",
-        "name": "django"
+        "name": "Django"
       },
       "ranges": [
         {
           "type": "ECOSYSTEM",
           "events": [
             {
-              "introduced": "1.9"
+              "introduced": "1.9a1"
             },
             {
               "fixed": "1.9.13"
@@ -56,14 +60,14 @@
     {
       "package": {
         "ecosystem": "PyPI",
-        "name": "django"
+        "name": "Django"
       },
       "ranges": [
         {
           "type": "ECOSYSTEM",
           "events": [
             {
-              "introduced": "1.8"
+              "introduced": "1.8a1"
             },
             {
               "fixed": "1.8.18"
@@ -128,19 +132,15 @@
     },
     {
       "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/django/PYSEC-2017-9.yaml"
+    },
+    {
+      "type": "WEB",
       "url": "https://www.djangoproject.com/weblog/2017/apr/04/security-releases"
     },
     {
       "type": "WEB",
       "url": "http://www.debian.org/security/2017/dsa-3835"
-    },
-    {
-      "type": "WEB",
-      "url": "http://www.securityfocus.com/bid/97406"
-    },
-    {
-      "type": "WEB",
-      "url": "http://www.securitytracker.com/id/1038177"
     }
   ],
   "database_specific": {

@@ -1,28 +1,40 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-9cwg-mhxf-hh59",
-  "modified": "2023-08-17T23:09:26Z",
+  "modified": "2024-09-18T16:09:42Z",
   "published": "2022-05-17T00:23:23Z",
   "aliases": [
     "CVE-2013-6044"
   ],
-  "summary": "Django Cross-site scripting (XSS) vulnerability via is_safe_url function ",
+  "summary": "Django cross-site scripting (XSS) vulnerability via is_safe_url function ",
   "details": "The is_safe_url function in utils/http.py in Django 1.4.x before 1.4.6, 1.5.x before 1.5.2, and 1.6 before beta 2 treats a URL's scheme as safe even if it is not HTTP or HTTPS, which might introduce cross-site scripting (XSS) or other vulnerabilities into Django applications that use this function, as demonstrated by \"the login view in django.contrib.auth.views\" and the javascript: scheme.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:N/VI:N/VA:N/SC:L/SI:L/SA:N"
+    }
   ],
   "affected": [
     {
       "package": {
         "ecosystem": "PyPI",
-        "name": "django"
+        "name": "Django"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "django.utils.http.is_safe_url"
+        ]
       },
       "ranges": [
         {
           "type": "ECOSYSTEM",
           "events": [
             {
-              "introduced": "1.4.0"
+              "introduced": "1.4"
             },
             {
               "fixed": "1.4.6"
@@ -34,14 +46,19 @@
     {
       "package": {
         "ecosystem": "PyPI",
-        "name": "django"
+        "name": "Django"
+      },
+      "ecosystem_specific": {
+        "affected_functions": [
+          "django.utils.http.is_safe_url"
+        ]
       },
       "ranges": [
         {
           "type": "ECOSYSTEM",
           "events": [
             {
-              "introduced": "1.5.0"
+              "introduced": "1.5"
             },
             {
               "fixed": "1.5.2"
@@ -78,6 +95,10 @@
     },
     {
       "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/django/PYSEC-2013-21.yaml"
+    },
+    {
+      "type": "WEB",
       "url": "https://www.djangoproject.com/weblog/2013/aug/13/security-releases-issued"
     },
     {
@@ -98,19 +119,7 @@
     },
     {
       "type": "WEB",
-      "url": "http://secunia.com/advisories/54476"
-    },
-    {
-      "type": "WEB",
       "url": "http://www.debian.org/security/2013/dsa-2740"
-    },
-    {
-      "type": "WEB",
-      "url": "http://www.securityfocus.com/bid/61777"
-    },
-    {
-      "type": "WEB",
-      "url": "http://www.securitytracker.com/id/1028915"
     }
   ],
   "database_specific": {
