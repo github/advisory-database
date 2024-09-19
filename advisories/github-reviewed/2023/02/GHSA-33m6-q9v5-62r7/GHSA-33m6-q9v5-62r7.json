@@ -1,17 +1,21 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-33m6-q9v5-62r7",
-  "modified": "2024-05-20T20:30:41Z",
+  "modified": "2024-09-19T13:39:25Z",
   "published": "2023-02-07T22:57:53Z",
   "aliases": [
     "CVE-2021-3538"
   ],
-  "summary": "Predictable SIF UUID Identifiers",
-  "details": "### Impact\n\nThe siftool new command produces predictable UUID identifiers due to insecure randomness in the version of the `github.com/satori/go.uuid` module used as a dependency.\n\n### Patches\n\nA patch is available in version >= v1.2.1-0.20180404165556-75cca531ea76 of the module. Users are encouraged to upgrade.\n\nFixed by https://github.com/hpcng/sif/pull/90\n\n### Workarounds\n\nUsers passing CreateInfo struct should ensure the ID field is generated using a version of github.com/satori/go.uuid that is not vulnerable to this issue. Unfortunately, the latest tagged release is vulnerable to this issue. One way to obtain a non-vulnerable version is:\n\n`go get -u github.com/satori/go.uuid@v1.2.1-0.20180404165556-75cca531ea76`\n\n### References\n\nhttps://github.com/satori/go.uuid/issues/73\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n\nOpen an issue in https://github.com/hpcng/sif/issues",
+  "summary": "go.uuid has Predictable UUID Identifiers",
+  "details": "### CVE Description for go.uuid\nA flaw was found in github.com/satori/go.uuid in versions from commit 0ef6afb2f6cdd6cdaeee3885a95099c63f18fc8c to d91630c8510268e75203009fe7daf2b8e1d60c45. Due to insecure randomness in the g.rand.Read function the generated UUIDs are predictable for an attacker.\n\n### Update on 19 September 2024 -- This vulnerability never existed in sif\n\nThe [official NIST CVE-2021-3538 record](https://nvd.nist.gov/vuln/detail/CVE-2021-3538) says:\n\n> A flaw was found in github.com/satori/go.uuid in versions from commit 0ef6afb2f6cdd6cdaeee3885a95099c63f18fc8c to d91630c8510268e75203009fe7daf2b8e1d60c45. \n\nThat commit and that fix were never in a tagged release of satori/go.uuid, and prior to this announcement sif had used the last tag, 1.2.0.  The NIST record says version 1.2.0 was vulnerable, but that's not true.   So sif was never vulnerable to this.  Also, beginning with version 2.0.0, sif does not use satori/go.uuid anymore.\n\nThis update was made in response to issue #243 which has more details.\n\nThe original, incorrect sif vulnerability description is below.\n\n-------------\n\n### Impact\n\nThe siftool new command produces predictable UUID identifiers due to insecure randomness in the version of the `github.com/satori/go.uuid` module used as a dependency.\n\n### Patches\n\nA patch is available in version >= v1.2.2 of the module. Users are encouraged to upgrade.\n\nFixed by https://github.com/hpcng/sif/pull/90\n\n### Workarounds\n\nUsers passing CreateInfo struct should ensure the ID field is generated using a version of github.com/satori/go.uuid that is not vulnerable to this issue. Unfortunately, the latest tagged release is vulnerable to this issue. One way to obtain a non-vulnerable version is:\n\n`go get -u github.com/satori/go.uuid@v1.2.1-0.20180404165556-75cca531ea76`\n\n### References\n\nhttps://github.com/satori/go.uuid/issues/73\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n\nOpen an issue in https://github.com/hpcng/sif/issues",
   "severity": [
     {
       "type": "CVSS_V3",
       "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
     }
   ],
   "affected": [
@@ -33,28 +37,13 @@
           ]
         }
       ]
-    },
-    {
-      "package": {
-        "ecosystem": "Go",
-        "name": "github.com/apptainer/sif"
-      },
-      "ranges": [
-        {
-          "type": "ECOSYSTEM",
-          "events": [
-            {
-              "introduced": "0"
-            },
-            {
-              "fixed": "1.2.2"
-            }
-          ]
-        }
-      ]
     }
   ],
   "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/apptainer/sif/security/advisories/GHSA-33m6-q9v5-62r7"
+    },
     {
       "type": "WEB",
       "url": "https://github.com/hpcng/sif/security/advisories/GHSA-33m6-q9v5-62r7"
