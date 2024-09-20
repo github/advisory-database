@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-vfcg-5ggc-3rxx",
-  "modified": "2024-05-01T11:17:51Z",
+  "modified": "2024-09-20T16:51:45Z",
   "published": "2022-05-17T05:25:05Z",
   "aliases": [
     "CVE-2012-2146"
@@ -9,7 +9,14 @@
   "summary": "Elixir can leak information due to weak use of crypto",
   "details": "Elixir prior to and including 0.7.1 uses Blowfish in CFB mode without constructing a unique initialization vector (IV), which makes it easier for context-dependent users to obtain sensitive information and decrypt the database. A patch has been [attached](https://sochotni.fedorapeople.org/python-elixir-aes-encryption-addition.patch) to the initial advisory to mitigate this vulnerability.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N"
+    }
   ],
   "affected": [
     {
@@ -43,6 +50,10 @@
     },
     {
       "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/elixir/PYSEC-2012-13.yaml"
+    },
+    {
+      "type": "WEB",
       "url": "http://elixir.ematia.de/trac/ticket/119"
     },
     {
@@ -64,9 +75,9 @@
   ],
   "database_specific": {
     "cwe_ids": [
-
+      "CWE-327"
     ],
-    "severity": "MODERATE",
+    "severity": "HIGH",
     "github_reviewed": true,
     "github_reviewed_at": "2024-05-01T11:17:51Z",
     "nvd_published_at": "2012-08-26T21:55:00Z"
