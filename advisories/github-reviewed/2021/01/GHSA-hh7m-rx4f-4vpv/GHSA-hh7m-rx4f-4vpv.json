@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-hh7m-rx4f-4vpv",
-  "modified": "2021-01-11T20:32:44Z",
+  "modified": "2024-09-20T17:48:13Z",
   "published": "2021-01-11T20:38:28Z",
   "aliases": [
     "CVE-2021-21241"
@@ -9,7 +9,14 @@
   "summary": "CSRF can expose users authentication token",
   "details": "### Issue\nThe  /login and /change endpoints can return the authenticated user's authentication token in response to a GET request. Since GET requests aren't protected with a CSRF token, this could lead to a malicious 3rd party site acquiring the authentication token.\n\n### Patches\nVersion 3.4.5 and soon to be released 4.0.0 are patched.\n\n### Workarounds\nIf you aren't using authentication tokens - you can set the SECURITY_TOKEN_MAX_AGE to \"0\" (seconds) which should make the token unusable.\n\n### References\nNone",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:H/VI:N/VA:N/SC:H/SI:N/SA:N"
+    }
   ],
   "affected": [
     {
@@ -34,32 +41,36 @@
   ],
   "references": [
     {
-      "type": "WEB",
-      "url": "https://github.com/Flask-Middleware/flask-security/security/advisories/GHSA-hh7m-rx4f-4vpv"
-    },
-    {
       "type": "ADVISORY",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-21241"
     },
     {
       "type": "WEB",
-      "url": "https://github.com/Flask-Middleware/flask-security/pull/422"
-    },
-    {
-      "type": "WEB",
-      "url": "https://github.com/Flask-Middleware/flask-security/commit/61d313150b5f620d0b800896c4f2199005e84b1f"
-    },
-    {
-      "type": "WEB",
-      "url": "https://github.com/Flask-Middleware/flask-security/commit/6d50ee9169acf813257c37b75babe9c28e83542a"
-    },
-    {
-      "type": "WEB",
-      "url": "https://github.com/Flask-Middleware/flask-security/releases/tag/3.4.5"
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/flask-security-too/PYSEC-2021-91.yaml"
     },
     {
       "type": "WEB",
       "url": "https://pypi.org/project/Flask-Security-Too"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20210118165844/https://github.com/Flask-Middleware/flask-security/releases/tag/3.4.5"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20210118165958/https://github.com/Flask-Middleware/flask-security/commit/6d50ee9169acf813257c37b75babe9c28e83542a"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20210118170445/https://github.com/Flask-Middleware/flask-security/commit/61d313150b5f620d0b800896c4f2199005e84b1f"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20210118170502/https://github.com/Flask-Middleware/flask-security/security/advisories/GHSA-hh7m-rx4f-4vpv"
+    },
+    {
+      "type": "WEB",
+      "url": "https://web.archive.org/web/20211207005640/https://github.com/Flask-Middleware/flask-security/pull/422"
     }
   ],
   "database_specific": {
