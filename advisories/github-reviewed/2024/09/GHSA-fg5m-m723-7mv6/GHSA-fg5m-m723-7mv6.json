@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-fg5m-m723-7mv6",
+  "modified": "2024-09-20T19:50:07Z",
+  "published": "2024-09-16T14:37:27Z",
+  "aliases": [
+    "CVE-2024-8862"
+  ],
+  "summary": "D-Tale Command Execution Vulnerability",
+  "details": "D-Tale is the combination of a Flask back-end and a React front-end to bring you an easy way to view & analyze Pandas data structures. In dtale\\views.py, under the route @dtale.route(\"/chart-data/<data_id>\"), the query parameters from the request are directly passed into run_query for execution. And the run_query function calls proceed without performing any processing or sanitization of the query parameter. As a result, the query is directly used in the df.query method for data retrieval. Tthe engine used is `python`, which allows executing the query expression ans leading to a command execution vulnerability. ",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "dtale"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.14.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-8862"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/man-group/dtale/commit/b6e30969390520d1400b55acbb13e5487b8472e8"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/man-group/dtale"
+    },
+    {
+      "type": "WEB",
+      "url": "https://rumbling-slice-eb0.notion.site/Unauthenticated-Remote-Command-Execution-via-Panda-df-query-9dc40f0477ee4b65806de7921876c222?pvs=4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://vuldb.com/?ctiid.277499"
+    },
+    {
+      "type": "WEB",
+      "url": "https://vuldb.com/?id.277499"
+    },
+    {
+      "type": "WEB",
+      "url": "https://vuldb.com/?submit.403200"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-74"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-09-20T19:50:07Z",
+    "nvd_published_at": "2024-09-14T20:15:11Z"
+  }
+}
