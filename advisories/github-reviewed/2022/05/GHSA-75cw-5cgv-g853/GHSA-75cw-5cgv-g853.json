@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-75cw-5cgv-g853",
-  "modified": "2024-04-29T11:32:35Z",
+  "modified": "2024-09-23T16:59:56Z",
   "published": "2022-05-14T02:05:20Z",
   "aliases": [
     "CVE-2014-3429"
@@ -9,7 +9,14 @@
   "summary": "IPython Notebook vulnerable to improper validation of the origin of websocket requests ",
   "details": "IPython Notebook 0.12 through 1.x before 1.2.0 does not validate the origin of websocket requests, which allows remote attackers to execute arbitrary code by leveraging knowledge of the kernel id and a crafted page.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:U"
+    }
   ],
   "affected": [
     {
@@ -63,6 +70,10 @@
     },
     {
       "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/ipython/PYSEC-2014-21.yaml"
+    },
+    {
+      "type": "WEB",
       "url": "http://advisories.mageia.org/MGASA-2014-0320.html"
     },
     {
@@ -80,17 +91,13 @@
     {
       "type": "WEB",
       "url": "http://seclists.org/oss-sec/2014/q3/152"
-    },
-    {
-      "type": "WEB",
-      "url": "http://www.mandriva.com/security/advisories?name=MDVSA-2015:160"
     }
   ],
   "database_specific": {
     "cwe_ids": [
       "CWE-94"
     ],
-    "severity": "MODERATE",
+    "severity": "HIGH",
     "github_reviewed": true,
     "github_reviewed_at": "2024-04-29T11:32:00Z",
     "nvd_published_at": "2014-08-07T11:13:00Z"
