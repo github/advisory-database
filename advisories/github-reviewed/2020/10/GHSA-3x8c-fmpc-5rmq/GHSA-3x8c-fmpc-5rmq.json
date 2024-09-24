@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-3x8c-fmpc-5rmq",
-  "modified": "2022-11-22T17:43:33Z",
+  "modified": "2024-09-24T17:41:06Z",
   "published": "2020-10-16T16:56:04Z",
   "aliases": [
     "CVE-2020-26891"
@@ -9,7 +9,14 @@
   "summary": "Cross-site scripting (XSS) vulnerability in the fallback authentication endpoint",
   "details": "### Impact\nThe fallback authentication endpoint served via Synapse was vulnerable to cross-site scripting (XSS) attacks. The impact depends on the configuration of the domain that Synapse is deployed on, but may allow access to cookies and other browser data, CSRF vulnerabilities, and access to other resources served on the same domain or parent domains.\n\n### Patches\nThis is fixed by #8444, which is included in Synapse v1.21.0.\n\n### Workarounds\nIf the homeserver is not configured to use reCAPTCHA, consent (terms of service), or single sign-on then the affected endpoint can be blocked at a reverse proxy:\n\n* `/_matrix/client/r0/auth/.*/fallback/web`\n* `/_matrix/client/unstable/auth/.*/fallback/web`",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:A/VC:N/VI:N/VA:N/SC:L/SI:L/SA:N"
+    }
   ],
   "affected": [
     {
@@ -56,6 +63,10 @@
     {
       "type": "WEB",
       "url": "https://github.com/matrix-org/synapse/releases/tag/v1.21.2"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/matrix-synapse/PYSEC-2020-238.yaml"
     },
     {
       "type": "WEB",
