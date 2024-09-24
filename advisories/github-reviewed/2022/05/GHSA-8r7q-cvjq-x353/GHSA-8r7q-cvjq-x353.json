@@ -1,15 +1,22 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-8r7q-cvjq-x353",
-  "modified": "2024-02-23T21:00:15Z",
+  "modified": "2024-09-24T18:41:55Z",
   "published": "2022-05-14T04:04:14Z",
   "aliases": [
     "CVE-2014-1402"
   ],
   "summary": "Incorrect Privilege Assignment in Jinja2",
-  "details": "The default configuration for bccache.FileSystemBytecodeCache in Jinja2 before 2.7.2 does not properly create temporary files, which allows local users to gain privileges via a crafted .cache file with a name starting with __jinja2_ in /tmp.",
+  "details": "The default configuration for `bccache.FileSystemBytecodeCache` in Jinja2 before 2.7.2 does not properly create temporary files, which allows local users to gain privileges via a crafted .cache file with a name starting with `__jinja2_` in `/tmp`.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
+    }
   ],
   "affected": [
     {
@@ -94,7 +101,7 @@
     "cwe_ids": [
       "CWE-266"
     ],
-    "severity": "MODERATE",
+    "severity": "HIGH",
     "github_reviewed": true,
     "github_reviewed_at": "2022-07-07T22:50:31Z",
     "nvd_published_at": "2014-05-19T14:55:00Z"
