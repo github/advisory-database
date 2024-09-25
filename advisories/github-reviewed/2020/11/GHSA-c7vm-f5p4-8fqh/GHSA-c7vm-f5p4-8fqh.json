@@ -1,17 +1,21 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-c7vm-f5p4-8fqh",
-  "modified": "2021-01-07T22:41:59Z",
+  "modified": "2024-09-25T17:58:43Z",
   "published": "2020-11-18T21:06:36Z",
   "aliases": [
     "CVE-2020-26215"
   ],
   "summary": "Open redirect in Jupyter Notebook",
-  "details": "[localhost](http://localhost:8888)\n\n### Impact\n_What kind of vulnerability is it? Who is impacted?_\n\nOpen redirect vulnerability - a maliciously crafted link to a notebook server could redirect the browser to a different website.\n\nAll notebook servers are technically affected, however, these maliciously crafted links can only be reasonably made for known notebook server hosts. A link to your notebook server may *appear* safe, but ultimately redirect to a spoofed server on the public internet.\n\n### Patches\n\n_Has the problem been patched? What versions should users upgrade to?_\n\nPatched in notebook 6.1.5\n\n\n### References\n\n[OWASP page on open redirects](https://cheatsheetseries.owasp.org/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html)\n\n### For more information\n\nIf you have any questions or comments about this advisory, or vulnerabilities to report, please email our security list [security@ipython.org](mailto:security@ipython.org).\n\nCredit: zhuonan li of Alibaba Application Security Team",
+  "details": "### Impact\n_What kind of vulnerability is it? Who is impacted?_\n\nOpen redirect vulnerability - a maliciously crafted link to a notebook server could redirect the browser to a different website.\n\nAll notebook servers are technically affected, however, these maliciously crafted links can only be reasonably made for known notebook server hosts. A link to your notebook server may *appear* safe, but ultimately redirect to a spoofed server on the public internet.\n\n### Patches\n\n_Has the problem been patched? What versions should users upgrade to?_\n\nPatched in notebook 6.1.5\n\n\n### References\n\n[OWASP page on open redirects](https://cheatsheetseries.owasp.org/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html)\n\n### For more information\n\nIf you have any questions or comments about this advisory, or vulnerabilities to report, please email our security list [security@ipython.org](mailto:security@ipython.org).\n\nCredit: zhuonan li of Alibaba Application Security Team",
   "severity": [
     {
       "type": "CVSS_V3",
       "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:R/S:C/C:N/I:L/A:L"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:H/AT:N/PR:L/UI:A/VC:N/VI:N/VA:N/SC:N/SI:L/SA:L"
     }
   ],
   "affected": [
@@ -52,6 +56,14 @@
       "url": "https://github.com/jupyter/notebook/commit/3cec4bbe21756de9f0c4bccf18cf61d840314d74"
     },
     {
+      "type": "PACKAGE",
+      "url": "https://github.com/jupyter/notebook"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/notebook/PYSEC-2020-215.yaml"
+    },
+    {
       "type": "WEB",
       "url": "https://lists.debian.org/debian-lts-announce/2020/12/msg00004.html"
     }
@@ -60,7 +72,7 @@
     "cwe_ids": [
       "CWE-601"
     ],
-    "severity": "MODERATE",
+    "severity": "LOW",
     "github_reviewed": true,
     "github_reviewed_at": "2020-11-18T21:05:41Z",
     "nvd_published_at": null
