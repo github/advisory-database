@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-m2c4-jgmm-fvq3",
-  "modified": "2024-04-29T16:40:56Z",
+  "modified": "2024-09-26T15:06:35Z",
   "published": "2022-05-17T04:56:26Z",
   "aliases": [
     "CVE-2012-6081"
@@ -9,7 +9,14 @@
   "summary": "MoinMoin Multiple unrestricted file upload vulnerabilities",
   "details": "Multiple unrestricted file upload vulnerabilities in the (1) twikidraw (`action/twikidraw.py`) and (2) anywikidraw (`action/anywikidraw.py`) actions in MoinMoin before 1.9.6 allow remote authenticated users with write permissions to execute arbitrary code by uploading a file with an executable extension, then accessing it via a direct request to the file in an unspecified directory, as exploited in the wild in July 2012.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L/E:F"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N/E:A"
+    }
   ],
   "affected": [
     {
@@ -42,6 +49,14 @@
       "url": "https://bugs.launchpad.net/ubuntu/+source/moin/+bug/1094599"
     },
     {
+      "type": "PACKAGE",
+      "url": "https://github.com/moinwiki/moin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/moin/PYSEC-2013-6.yaml"
+    },
+    {
       "type": "WEB",
       "url": "https://web.archive.org/web/20200228165146/http://www.securityfocus.com/bid/57082"
     },
@@ -56,18 +71,6 @@
     {
       "type": "WEB",
       "url": "http://moinmo.in/SecurityFixes"
-    },
-    {
-      "type": "WEB",
-      "url": "http://secunia.com/advisories/51663"
-    },
-    {
-      "type": "WEB",
-      "url": "http://secunia.com/advisories/51676"
-    },
-    {
-      "type": "WEB",
-      "url": "http://secunia.com/advisories/51696"
     },
     {
       "type": "WEB",
@@ -92,7 +95,7 @@
   ],
   "database_specific": {
     "cwe_ids": [
-
+      "CWE-434"
     ],
     "severity": "MODERATE",
     "github_reviewed": true,
