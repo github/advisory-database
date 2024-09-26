@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-m9j7-xcj7-42j9",
-  "modified": "2024-05-01T10:56:06Z",
+  "modified": "2024-09-26T16:22:53Z",
   "published": "2022-05-17T02:01:10Z",
   "aliases": [
     "CVE-2011-1058"
@@ -9,7 +9,14 @@
   "summary": "MoinMoin Cross-site Scripting (XSS) vulnerability",
   "details": "Cross-site scripting (XSS) vulnerability in the reStructuredText (rst) parser in `parser/text_rst.py` in MoinMoin before 1.9.3, when docutils is installed or when \"format rst\" is set, allows remote attackers to inject arbitrary web script or HTML via a javascript: URL in the refuri attribute.  NOTE: some of these details are obtained from third party information.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:A/VC:N/VI:N/VA:N/SC:L/SI:L/SA:N"
+    }
   ],
   "affected": [
     {
@@ -40,6 +47,14 @@
     {
       "type": "WEB",
       "url": "https://exchange.xforce.ibmcloud.com/vulnerabilities/65545"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/moinwiki/moin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/moin/PYSEC-2011-6.yaml"
     },
     {
       "type": "WEB",
@@ -90,7 +105,7 @@
     "cwe_ids": [
       "CWE-79"
     ],
-    "severity": "LOW",
+    "severity": "MODERATE",
     "github_reviewed": true,
     "github_reviewed_at": "2024-05-01T10:56:06Z",
     "nvd_published_at": "2011-02-22T18:00:00Z"
