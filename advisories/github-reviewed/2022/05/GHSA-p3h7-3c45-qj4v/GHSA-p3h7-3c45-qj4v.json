@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-p3h7-3c45-qj4v",
-  "modified": "2023-08-29T21:40:04Z",
+  "modified": "2024-09-27T17:28:09Z",
   "published": "2022-05-17T05:18:21Z",
   "aliases": [
     "CVE-2012-4571"
@@ -9,7 +9,14 @@
   "summary": "Python Keyring does not securely initialize encryption cipher",
   "details": "Python Keyring 0.9.1 does not securely initialize the cipher when encrypting passwords for `CryptedFileKeyring` files, which makes it easier for local users to obtain passwords via a brute-force attack.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:H/SI:H/SA:H/E:P"
+    }
   ],
   "affected": [
     {
@@ -25,11 +32,14 @@
               "introduced": "0"
             },
             {
-              "last_affected": "0.9.1"
+              "fixed": "0.9.2"
             }
           ]
         }
-      ]
+      ],
+      "database_specific": {
+        "last_known_affected_version_range": "<= 0.9.1"
+      }
     }
   ],
   "references": [
@@ -43,11 +53,35 @@
     },
     {
       "type": "WEB",
+      "url": "https://github.com/jaraco/keyring/commit/56272d908ba7a3fe4ebb6d6e87a7cc569f4726ac"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jaraco/keyring/commit/a76942672f6ac85a88bd9b9ed31fd133119b7702"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jaraco/keyring/commit/cbf509b0386c3063d8b2879ce72d78ac18023f72"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/jaraco/keyring/commit/cc1ead78d1e3fab9fa8bb0b4bb334cb82d35db52"
+    },
+    {
+      "type": "WEB",
       "url": "https://bugs.launchpad.net/ubuntu/+source/python-keyring/+bug/1004845"
     },
     {
       "type": "PACKAGE",
       "url": "https://github.com/jaraco/keyring"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/keyring/PYSEC-2012-8.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "http://pypi.python.org/pypi/keyring"
     },
     {
       "type": "WEB",
@@ -62,7 +96,7 @@
     "cwe_ids": [
       "CWE-326"
     ],
-    "severity": "LOW",
+    "severity": "HIGH",
     "github_reviewed": true,
     "github_reviewed_at": "2023-08-29T21:40:04Z",
     "nvd_published_at": "2012-11-30T22:55:00Z"
