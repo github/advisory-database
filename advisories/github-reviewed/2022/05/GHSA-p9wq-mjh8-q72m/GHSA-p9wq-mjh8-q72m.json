@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-p9wq-mjh8-q72m",
-  "modified": "2023-02-08T18:13:02Z",
+  "modified": "2024-09-27T17:46:37Z",
   "published": "2022-05-17T03:17:26Z",
   "aliases": [
     "CVE-2015-1852"
@@ -9,7 +9,14 @@
   "summary": "OpenStack keystonemiddleware and python-keystoneclient vulnerable to man-in-the-middle attacks",
   "details": "The s3_token middleware in OpenStack keystonemiddleware before 1.6.0 and python-keystoneclient before 1.4.0 disables certification verification when the \"insecure\" option is set in a paste configuration (paste.ini) file regardless of the value, which allows remote attackers to conduct man-in-the-middle attacks via a crafted certificate, a different vulnerability than CVE-2014-7144.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N"
+    }
   ],
   "affected": [
     {
@@ -78,6 +85,14 @@
     },
     {
       "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/keystonemiddleware/PYSEC-2015-30.yaml"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/python-keystoneclient/PYSEC-2015-31.yaml"
+    },
+    {
+      "type": "WEB",
       "url": "https://web.archive.org/web/20200228060649/http://www.securityfocus.com/bid/74187"
     },
     {
@@ -98,18 +113,14 @@
     },
     {
       "type": "WEB",
-      "url": "http://www.securityfocus.com/bid/74187"
-    },
-    {
-      "type": "WEB",
       "url": "http://www.ubuntu.com/usn/USN-2705-1"
     }
   ],
   "database_specific": {
     "cwe_ids": [
-
+      "CWE-295"
     ],
-    "severity": "MODERATE",
+    "severity": "HIGH",
     "github_reviewed": true,
     "github_reviewed_at": "2023-02-08T18:13:02Z",
     "nvd_published_at": "2015-04-17T17:59:00Z"
