@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-w66p-78g4-mr7g",
-  "modified": "2023-08-15T19:35:52Z",
+  "modified": "2024-09-27T18:07:52Z",
   "published": "2022-05-17T01:39:21Z",
   "aliases": [
     "CVE-2012-5563"
@@ -9,7 +9,14 @@
   "summary": "OpenStack Keystone Insufficient token expiration",
   "details": "OpenStack Keystone, as used in OpenStack Folsom 2012.2, does not properly implement token expiration, which allows remote authenticated users to bypass intended authorization restrictions by creating new tokens through token chaining.  NOTE: this issue exists because of a CVE-2012-3426 regression.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N"
+    }
   ],
   "affected": [
     {
@@ -92,9 +99,10 @@
   ],
   "database_specific": {
     "cwe_ids": [
-
+      "CWE-324",
+      "CWE-863"
     ],
-    "severity": "MODERATE",
+    "severity": "HIGH",
     "github_reviewed": true,
     "github_reviewed_at": "2023-02-14T00:53:23Z",
     "nvd_published_at": "2012-12-18T01:55:00Z"
