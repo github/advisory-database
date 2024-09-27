@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-vfg9-phjp-9frw",
-  "modified": "2023-08-02T21:07:28Z",
+  "modified": "2024-09-27T15:42:07Z",
   "published": "2022-05-13T01:26:14Z",
   "aliases": [
     "CVE-2015-5285"
@@ -9,7 +9,14 @@
   "summary": "Kallithea CRLF injection vulnerability",
   "details": "CRLF injection vulnerability in Kallithea before 0.3 allows remote attackers to inject arbitrary HTTP headers and conduct HTTP response splitting attacks via the `came_from` parameter to `_admin/login`.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:P"
+    }
   ],
   "affected": [
     {
@@ -43,6 +50,10 @@
     },
     {
       "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/kallithea/PYSEC-2015-13.yaml"
+    },
+    {
+      "type": "WEB",
       "url": "https://kallithea-scm.org/security/cve-2015-5285.html"
     },
     {
@@ -62,7 +73,7 @@
     "cwe_ids": [
       "CWE-93"
     ],
-    "severity": "MODERATE",
+    "severity": "HIGH",
     "github_reviewed": true,
     "github_reviewed_at": "2023-08-02T21:07:28Z",
     "nvd_published_at": "2015-10-29T20:59:00Z"
