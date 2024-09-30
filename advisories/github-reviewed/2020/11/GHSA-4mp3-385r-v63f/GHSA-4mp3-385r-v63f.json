@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-4mp3-385r-v63f",
-  "modified": "2020-11-24T21:47:35Z",
+  "modified": "2024-09-30T20:31:47Z",
   "published": "2020-11-24T22:58:58Z",
   "aliases": [
     "CVE-2020-26890"
@@ -9,7 +9,14 @@
   "summary": "Denial of service attack due to invalid JSON",
   "details": "### Impact\nA denial of service attack against Matrix clients can be exploited by sending an event including invalid JSON data to Synapse. Synapse would relay the data to clients which could crash or hang. Impact is long-lasting if the event is made part of the room state.\n\n### Patches\nAt a minimum #8106 and #8291 must be applied. #7372 and #8124 include additional checks.\n\n### Workarounds\nThere are no known workarounds.\n\n### Upgrading notes\nIf an invalid event is accepted by an earlier Synapse it can become part of the room state and will not be fixed by upgrading Synapse. Redacting the invalid event should avoid clients receiving the invalid event.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N"
+    }
   ],
   "affected": [
     {
@@ -40,6 +47,14 @@
     {
       "type": "ADVISORY",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-26890"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/matrix-org/synapse"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/matrix-synapse/PYSEC-2020-237.yaml"
     },
     {
       "type": "WEB",
