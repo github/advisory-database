@@ -1,15 +1,22 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-f33p-9287-h552",
-  "modified": "2022-07-20T16:51:10Z",
+  "modified": "2024-09-30T16:59:01Z",
   "published": "2022-07-12T18:15:29Z",
   "aliases": [
     "CVE-2022-35410"
   ],
   "summary": "mat2 before 0.13.0 allows directory traversal during the ZIP archive cleaning process.",
-  "details": "mat2 (aka metadata anonymisation toolkit) before 0.13.0 allows ../ directory traversal during the ZIP archive cleaning process. This primarily affects mat2 web instances, in which clients could obtain sensitive information via a crafted archive.",
+  "details": "mat2 (aka metadata anonymisation toolkit) before 0.13.0 allows `../` directory traversal during the ZIP archive cleaning process. This primarily affects mat2 web instances, in which clients could obtain sensitive information via a crafted archive.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N"
+    }
   ],
   "affected": [
     {
@@ -70,7 +77,7 @@
     "cwe_ids": [
       "CWE-22"
     ],
-    "severity": "MODERATE",
+    "severity": "HIGH",
     "github_reviewed": true,
     "github_reviewed_at": "2022-07-12T18:15:29Z",
     "nvd_published_at": "2022-07-08T18:15:00Z"
