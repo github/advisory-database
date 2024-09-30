@@ -1,17 +1,21 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-22x7-vwh9-5w4g",
-  "modified": "2024-02-01T21:22:04Z",
+  "modified": "2024-09-30T16:43:57Z",
   "published": "2022-05-24T19:15:12Z",
   "aliases": [
     "CVE-2021-32297"
   ],
   "summary": "LIEF heap-buffer-overflow",
-  "details": "An issue was discovered in LIEF through 0.11.0. A heap-buffer-overflow exists in the function main located in `pe_reader.c`. It allows an attacker to cause code Execution.",
+  "details": "An issue was discovered in LIEF prior to version 0.11.0. A heap-buffer-overflow exists in the function main located in `pe_reader.c`. It allows an attacker to cause code Execution.",
   "severity": [
     {
       "type": "CVSS_V3",
       "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:A/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
     }
   ],
   "affected": [
@@ -47,6 +51,14 @@
     {
       "type": "WEB",
       "url": "https://github.com/lief-project/LIEF/commit/19e06755e8ce1ecf136360a5c36cded3701ac253"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/lief-project/LIEF"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/lief/PYSEC-2021-324.yaml"
     }
   ],
   "database_specific": {
