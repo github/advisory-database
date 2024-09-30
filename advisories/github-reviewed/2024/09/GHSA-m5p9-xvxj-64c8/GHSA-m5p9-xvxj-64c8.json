@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-m5p9-xvxj-64c8",
+  "modified": "2024-09-30T20:56:48Z",
+  "published": "2024-09-25T03:30:36Z",
+  "aliases": [
+    "CVE-2024-9148"
+  ],
+  "summary": "Flowise and Flowise Chat Embed vulnerable to Stored Cross-site Scripting",
+  "details": "Flowise < 2.1.1 suffers from a Stored Cross-Site vulnerability due to a lack of input sanitization in Flowise Chat Embed < 2.0.0.",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:N/VI:N/VA:N/SC:H/SI:H/SA:H/E:P"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "flowise-embed"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.0.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "flowise"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.1.1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-9148"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FlowiseAI/Flowise/commit/8375ebb4ec1ebb2b1295561cc0f63486a29f3fde"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FlowiseAI/FlowiseChatEmbed/commit/6a9645df41371cb69f251038d501ec87b1304c84"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FlowiseAI/Flowise/releases/tag/flowise%402.1.1"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/FlowiseAI/FlowiseChatEmbed"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/FlowiseAI/FlowiseChatEmbed/releases/tag/flowise-embed%402.0.0"
+    },
+    {
+      "type": "WEB",
+      "url": "https://www.tenable.com/security/research/tra-2024-40"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-79"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-09-30T20:56:48Z",
+    "nvd_published_at": "2024-09-25T01:15:49Z"
+  }
+}
