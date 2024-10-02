@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-pq67-9jf9-hc3c",
-  "modified": "2023-07-26T17:15:13Z",
+  "modified": "2024-10-02T21:39:49Z",
   "published": "2023-07-25T09:30:18Z",
   "aliases": [
     "CVE-2023-34434"
@@ -9,7 +9,14 @@
   "summary": "JDBC URL bypassing by allowLoadLocalInfileInPath param",
   "details": "Deserialization of Untrusted Data Vulnerability in Apache Software Foundation Apache InLong.This issue affects Apache InLong: from 1.4.0 through 1.7.0. \n\nThe attacker could bypass the current logic and achieve arbitrary file reading. To solve it, users are advised to upgrade to Apache InLong's 1.8.0 or cherry-pick  https://github.com/apache/inlong/pull/8130 .\n\n",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N"
+    }
   ],
   "affected": [
     {
@@ -40,6 +47,10 @@
     {
       "type": "WEB",
       "url": "https://github.com/apache/inlong/pull/8130"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/apache/inlong/commit/34835f827771074345f42a9b1658d018f202516e"
     },
     {
       "type": "PACKAGE",
