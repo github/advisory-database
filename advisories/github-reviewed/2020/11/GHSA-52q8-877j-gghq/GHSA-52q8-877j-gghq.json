@@ -1,26 +1,28 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-52q8-877j-gghq",
-  "modified": "2020-11-11T15:51:56Z",
+  "modified": "2024-10-07T14:54:33Z",
   "published": "2020-11-11T15:54:51Z",
   "aliases": [
     "CVE-2020-25074"
   ],
-  "summary": "remote code execution via cache action in MoinMoin",
-  "details": "### Impact\nThe cache action in action/cache.py allows directory traversal through a crafted HTTP request. An attacker who can upload attachments to\nthe wiki can use this to achieve remote code execution.\n\n### Patches\nUsers are strongly advised to upgrade to a patched version.\n\nMoinMoin Wiki 1.9.11 has the necessary fixes and also contains other important fixes.\n\n### Workarounds\nIt is not advised to work around this, but to upgrade MoinMoin to a patched version.\n\nThat said, a work around via disabling the `cache` or the `AttachFile` action might be possible.\n\nAlso, it is of course helpful if you give `write` permissions (which include uploading attachments) only to trusted users.\n\n### Credits\n\nThis vulnerability was discovered by Michael Chapman.\n\n### For more information\nIf you have any questions or comments about this advisory, email me at [twaldmann@thinkmo.de](mailto:twaldmann@thinkmo.de).",
+  "summary": "MoinMoin vulnerable to remote code execution via cache action",
+  "details": "### Impact\nThe cache action in action/cache.py allows directory traversal through a crafted HTTP request. An attacker who can upload attachments to the wiki can use this to achieve remote code execution.\n\n### Patches\nUsers are strongly advised to upgrade to a patched version.\n\nMoinMoin Wiki 1.9.11 has the necessary fixes and also contains other important fixes.\n\n### Workarounds\nIt is not advised to work around this, but to upgrade MoinMoin to a patched version.\n\nThat said, a work around via disabling the `cache` or the `AttachFile` action might be possible.\n\nAlso, it is of course helpful if you give `write` permissions (which include uploading attachments) only to trusted users.\n\n### Credits\n\nThis vulnerability was discovered by Michael Chapman.\n\n### For more information\nIf you have any questions or comments about this advisory, email me at [twaldmann@thinkmo.de](mailto:twaldmann@thinkmo.de).",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
+    }
   ],
   "affected": [
     {
       "package": {
         "ecosystem": "PyPI",
         "name": "moin"
-      },
-      "ecosystem_specific": {
-        "affected_functions": [
-          "moin.action.cache.execute"
-        ]
       },
       "ranges": [
         {
@@ -51,6 +53,14 @@
       "url": "https://github.com/moinwiki/moin-1.9/commit/6b96a9060069302996b5af47fd4a388fc80172b7"
     },
     {
+      "type": "PACKAGE",
+      "url": "https://github.com/moinwiki/moin"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/moin/PYSEC-2020-67.yaml"
+    },
+    {
       "type": "WEB",
       "url": "https://lists.debian.org/debian-lts-announce/2020/11/msg00020.html"
     },
@@ -71,7 +81,7 @@
     "cwe_ids": [
       "CWE-22"
     ],
-    "severity": "CRITICAL",
+    "severity": "HIGH",
     "github_reviewed": true,
     "github_reviewed_at": "2020-11-11T15:51:56Z",
     "nvd_published_at": null
