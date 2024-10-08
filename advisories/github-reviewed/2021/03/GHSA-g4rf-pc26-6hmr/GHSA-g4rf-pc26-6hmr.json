@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-g4rf-pc26-6hmr",
-  "modified": "2021-03-29T17:37:02Z",
+  "modified": "2024-10-08T12:43:19Z",
   "published": "2021-03-23T15:26:49Z",
   "aliases": [
     "CVE-2021-21377"
@@ -9,7 +9,14 @@
   "summary": "OMERO webclient does not validate URL redirects on login or switching group.",
   "details": "### Background\nOMERO.web supports redirection to a given URL after performing login or switching the group context. These URLs are not validated, allowing redirection to untrusted sites. OMERO.web 5.9.0 adds URL validation before redirecting. External URLs are not considered valid, unless specified in the ``omero.web.redirect_allowed_hosts`` setting.\n\n### Impact\nOMERO.web before 5.9.0\n\n### Patches\n5.9.0\n\n### Workarounds\nNo workaround\n\n### References\n\n### For more information\nIf you have any questions or comments about this advisory:\n* Open an issue in [omero-web](https://github.com/ome/omero-web)\n* Email us at [security](mailto:security@openmicroscopy.org.uk)",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:R/S:U/C:H/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:P/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N"
+    }
   ],
   "affected": [
     {
@@ -46,8 +53,16 @@
       "url": "https://github.com/ome/omero-web/commit/952f8e5d28532fbb14fb665982211329d137908c"
     },
     {
+      "type": "PACKAGE",
+      "url": "https://github.com/ome/omero-web"
+    },
+    {
       "type": "WEB",
       "url": "https://github.com/ome/omero-web/blob/master/CHANGELOG.md#590-march-2021"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/omero-web/PYSEC-2021-32.yaml"
     },
     {
       "type": "WEB",
