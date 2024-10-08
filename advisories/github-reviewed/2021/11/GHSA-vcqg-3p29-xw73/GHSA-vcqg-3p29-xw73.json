@@ -1,24 +1,28 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-vcqg-3p29-xw73",
-  "modified": "2023-01-24T18:07:16Z",
+  "modified": "2024-10-08T13:03:45Z",
   "published": "2021-11-03T18:04:41Z",
   "aliases": [
     "CVE-2020-5310"
   ],
   "summary": "Integer overflow in Pillow",
-  "details": "libImaging/TiffDecode.c in Pillow before 6.2.2 has a TIFF decoding integer overflow, related to realloc.",
+  "details": "`libImaging/TiffDecode.c` in Pillow before 6.2.2 has a TIFF decoding integer overflow, related to realloc.",
   "severity": [
     {
       "type": "CVSS_V3",
       "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
     }
   ],
   "affected": [
     {
       "package": {
         "ecosystem": "PyPI",
-        "name": "Pillow"
+        "name": "pillow"
       },
       "ranges": [
         {
@@ -43,6 +47,14 @@
     {
       "type": "WEB",
       "url": "https://github.com/python-pillow/Pillow/commit/4e2def2539ec13e53a82e06c4b3daf00454100c4"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-vcqg-3p29-xw73"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/pillow/PYSEC-2020-81.yaml"
     },
     {
       "type": "WEB",
@@ -73,7 +85,7 @@
     "cwe_ids": [
       "CWE-190"
     ],
-    "severity": "HIGH",
+    "severity": "CRITICAL",
     "github_reviewed": true,
     "github_reviewed_at": "2021-11-03T17:23:34Z",
     "nvd_published_at": "2020-01-03T01:15:00Z"
