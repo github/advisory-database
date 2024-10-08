@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-wqmm-q65g-2hqr",
-  "modified": "2024-02-09T19:42:59Z",
+  "modified": "2024-10-08T13:10:26Z",
   "published": "2022-05-01T23:28:57Z",
   "aliases": [
     "CVE-2008-0299"
@@ -9,7 +9,14 @@
   "summary": "Paramiko Unsafe randomness usage may allow access to sensitive information",
   "details": "common.py in Paramiko 1.7.1 and earlier, when using threads or forked processes, does not properly use RandomPool, which allows one session to obtain sensitive information from another session by predicting the state of the pool.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N"
+    }
   ],
   "affected": [
     {
@@ -51,6 +58,10 @@
     {
       "type": "PACKAGE",
       "url": "https://github.com/paramiko/paramiko"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/paramiko/PYSEC-2008-8.yaml"
     },
     {
       "type": "WEB",
@@ -97,7 +108,7 @@
     "cwe_ids": [
       "CWE-200"
     ],
-    "severity": "MODERATE",
+    "severity": "HIGH",
     "github_reviewed": true,
     "github_reviewed_at": "2024-02-09T19:42:59Z",
     "nvd_published_at": "2008-01-16T23:00:00Z"
