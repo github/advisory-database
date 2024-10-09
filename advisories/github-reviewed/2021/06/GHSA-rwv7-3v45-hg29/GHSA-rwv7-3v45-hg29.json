@@ -1,29 +1,28 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-rwv7-3v45-hg29",
-  "modified": "2021-12-02T15:30:22Z",
+  "modified": "2024-10-09T21:04:37Z",
   "published": "2021-06-08T18:49:28Z",
   "aliases": [
     "CVE-2021-25288"
   ],
-  "summary": "Out-of-bounds Read",
+  "summary": "Pillow Out-of-bounds Read vulnerability",
   "details": "An issue was discovered in Pillow before 8.2.0. There is an out-of-bounds read in J2kDecode, in j2ku_gray_i. This dates to Pillow 2.4.0.",
   "severity": [
     {
       "type": "CVSS_V3",
       "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:H/SC:N/SI:N/SA:N"
     }
   ],
   "affected": [
     {
       "package": {
         "ecosystem": "PyPI",
-        "name": "Pillow"
-      },
-      "ecosystem_specific": {
-        "affected_functions": [
-          "PIL.Image.open"
-        ]
+        "name": "pillow"
       },
       "ranges": [
         {
@@ -54,6 +53,14 @@
       "url": "https://github.com/python-pillow/Pillow/commit/3bf5eddb89afdf690eceaa52bc4d3546ba9a5f87"
     },
     {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-rwv7-3v45-hg29"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/pillow/PYSEC-2021-138.yaml"
+    },
+    {
       "type": "PACKAGE",
       "url": "https://github.com/python-pillow/Pillow"
     },
@@ -74,7 +81,7 @@
     "cwe_ids": [
       "CWE-125"
     ],
-    "severity": "CRITICAL",
+    "severity": "HIGH",
     "github_reviewed": true,
     "github_reviewed_at": "2021-06-03T21:36:38Z",
     "nvd_published_at": "2021-06-02T16:15:00Z"
