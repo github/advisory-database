@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-w7qr-q9fh-fj35",
+  "modified": "2024-10-09T21:46:22Z",
+  "published": "2024-10-09T21:46:22Z",
+  "aliases": [
+    "CVE-2024-47182"
+  ],
+  "summary": "Dozzle uses unsafe hash for passwords",
+  "details": "### Summary\nThe app uses sha-256 as the hash for passwords. The app should switch to bcrypt.\n\n### Details\nSHA-256 is a message digest hash, and not classified as secure for password hashing. Message digest hashes are designed to be fast, while password hashing mechanisms are designed with certain cryptographic properties (e.g. slow) to protect against vulnerabilities. Refer to the links below for more information:\n- https://security.stackexchange.com/questions/195563/why-is-sha-256-not-good-for-passwords\n- https://stackoverflow.com/questions/11624372/best-practice-for-hashing-passwords-sha256-or-sha512\n- https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html#pre-hashing-passwords-with-bcrypt\n\n### PoC\nN/A\n\n### Impact\nIt leaves users susceptible to rainbow table attacks\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:L/VI:L/VA:N/SC:N/SI:N/SA:N/E:U"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "Go",
+        "name": "github.com/amir20/dozzle"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "8.5.3"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/amir20/dozzle/security/advisories/GHSA-w7qr-q9fh-fj35"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-47182"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/amir20/dozzle/commit/de79f03aa3dbe5bb1e154a7e8d3dccbd229f3ea3"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/amir20/dozzle"
+    },
+    {
+      "type": "WEB",
+      "url": "https://pkg.go.dev/vuln/GO-2024-3163"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-326",
+      "CWE-328"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-10-09T21:46:22Z",
+    "nvd_published_at": "2024-09-27T14:15:04Z"
+  }
+}
