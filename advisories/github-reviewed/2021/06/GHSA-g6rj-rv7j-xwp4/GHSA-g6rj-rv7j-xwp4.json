@@ -1,24 +1,28 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-g6rj-rv7j-xwp4",
-  "modified": "2023-09-04T16:32:28Z",
+  "modified": "2024-10-09T20:06:42Z",
   "published": "2021-06-08T18:49:11Z",
   "aliases": [
     "CVE-2021-28675"
   ],
-  "summary": "Pillow Denial of service",
+  "summary": "Pillow denial of service",
   "details": "An issue was discovered in Pillow before 8.2.0. `PSDImagePlugin.PsdImageFile` lacked a sanity check on the number of input layers relative to the size of the data block. This could lead to a DoS on `Image.open` prior to `Image.load`.",
   "severity": [
     {
       "type": "CVSS_V3",
       "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N"
     }
   ],
   "affected": [
     {
       "package": {
         "ecosystem": "PyPI",
-        "name": "Pillow"
+        "name": "pillow"
       },
       "ranges": [
         {
@@ -45,6 +49,14 @@
       "url": "https://github.com/python-pillow/Pillow/pull/5377/commits/22e9bee4ef225c0edbb9323f94c26cee0c623497"
     },
     {
+      "type": "ADVISORY",
+      "url": "https://github.com/advisories/GHSA-g6rj-rv7j-xwp4"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/pillow/PYSEC-2021-139.yaml"
+    },
+    {
       "type": "PACKAGE",
       "url": "https://github.com/python-pillow/Pillow"
     },
@@ -66,7 +78,7 @@
       "CWE-233",
       "CWE-252"
     ],
-    "severity": "MODERATE",
+    "severity": "HIGH",
     "github_reviewed": true,
     "github_reviewed_at": "2021-06-03T21:41:46Z",
     "nvd_published_at": "2021-06-02T15:15:00Z"
