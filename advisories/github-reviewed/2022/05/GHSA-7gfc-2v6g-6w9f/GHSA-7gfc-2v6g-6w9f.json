@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-7gfc-2v6g-6w9f",
-  "modified": "2024-02-08T15:52:06Z",
+  "modified": "2024-10-09T20:31:24Z",
   "published": "2022-05-17T05:45:29Z",
   "aliases": [
     "CVE-2010-2477"
@@ -9,7 +9,14 @@
   "summary": "Paste is vulnerable to Cross-site Scripting via vectors involving a 404 status code",
   "details": "Multiple cross-site scripting (XSS) vulnerabilities in the paste.httpexceptions implementation in Paste before 1.7.4 allow remote attackers to inject arbitrary web script or HTML via vectors involving a 404 status code, related to (1) paste.urlparser.StaticURLParser, (2) paste.urlparser.PkgResourcesParser, (3) paste.urlmap.URLMap, and (4) HTTPNotFound.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:N/VI:N/VA:N/SC:L/SI:L/SA:N"
+    }
   ],
   "affected": [
     {
@@ -44,6 +51,10 @@
     {
       "type": "PACKAGE",
       "url": "https://github.com/cdent/paste"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/paste/PYSEC-2010-29.yaml"
     },
     {
       "type": "WEB",
