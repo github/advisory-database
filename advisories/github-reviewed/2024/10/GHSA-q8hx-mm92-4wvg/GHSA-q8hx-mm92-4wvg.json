@@ -1,0 +1,170 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-q8hx-mm92-4wvg",
+  "modified": "2024-10-09T19:14:03Z",
+  "published": "2024-10-09T19:14:03Z",
+  "aliases": [
+    "CVE-2024-47763"
+  ],
+  "summary": "wasmtime has a runtime crash when combining tail calls with trapping imports",
+  "details": "### Impact\n\nWasmtime's implementation of WebAssembly tail calls combined with stack traces can result in a runtime crash in certain WebAssembly modules. The runtime crash may be undefined behavior if Wasmtime was compiled with Rust 1.80 or prior. The runtime crash is a deterministic process abort when Wasmtime is compiled with Rust 1.81 and later.\n\n[WebAssembly tail calls](https://github.com/webassembly/tail-call) are a proposal which relatively recently reached stage 4 in the [standardization process](https://github.com/WebAssembly/proposals/). Wasmtime first enabled support for tail calls by default [in Wasmtime 21.0.0](https://github.com/bytecodealliance/wasmtime/pull/8540), although that release contained a bug where it was only on-by-default for some configurations. In [Wasmtime 22.0.0](https://github.com/bytecodealliance/wasmtime/pull/8682) tail calls were enabled by default for all configurations.\n\nThe specific crash happens when an exported function in a WebAssembly module (or component) performs a `return_call` (or `return_call_indirect` or `return_call_ref`) to an imported host function which captures a stack trace (for example, the host function raises a trap). In this situation, the stack-walking code previously assumed there was always at least one WebAssembly frame on the stack but with tail calls that is no longer true. With the tail-call proposal it's possible to have an entry trampoline appear as if it directly called the exit trampoline. This situation triggers an internal assert in the stack-walking code which raises a Rust `panic!()`.\n\nWhen Wasmtime is compiled with Rust versions 1.80 and prior this means that an `extern \"C\"` function in Rust is raising a `panic!()`. This is technically undefined behavior and typically manifests as a process abort when the unwinder fails to unwind Cranelift-generated frames. When Wasmtime is compiled with Rust versions 1.81 and later this panic becomes a deterministic process abort.\n\nOverall the impact of this issue is that this is a denial-of-service vector where a malicious WebAssembly module or component can cause the host to crash. There is no other impact at this time other than availability of a service as the result of the crash is always a crash and no more.\n\nThis issue was discovered by routine fuzzing performed by the Wasmtime project via Google's OSS-Fuzz infrastructure. We have no evidence that it has ever been exploited by an attacker in the wild.\n\n### Patches\n\nAll versions of Wasmtime which have tail calls enabled by default have been patched:\n\n* 21.0.x - patched in 21.0.2\n* 22.0.x - patched in 22.0.1\n* 23.0.x - patched in 23.0.3 \n* 24.0.x - patched in 24.0.1\n* 25.0.x - patched in 25.0.2\n\nWasmtime versions from 12.0.x (the first release with experimental tail call support) to 20.0.x (the last release with tail-calls off-by-default) have support for tail calls but the support is disabled by default. These versions are not affected in their default configurations, but users who explicitly enabled tail call support will need to either disable tail call support or upgrade to a patched version of Wasmtime.\n\n### Workarounds\n\nThe main workaround for this issue is to disable tail support for tail calls in Wasmtime, for example with [`Config::wasm_tail_call(false)`](https://docs.rs/wasmtime/latest/wasmtime/struct.Config.html#method.wasm_tail_call). Users are otherwise encouraged to upgrade to patched versions.\n\n### References\n\n* [Wasmtime's initial implementation of tail calls](https://github.com/bytecodealliance/wasmtime/pull/6774)\n* [Enabling of tail calls in 21.0.0](https://github.com/bytecodealliance/wasmtime/pull/8540)\n* [Fully enabling tail calls in 22.0.0](https://github.com/bytecodealliance/wasmtime/pull/8682)\n* [The WebAssembly's `tail-call` proposal](https://github.com/webassembly/tail-call)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "wasmtime"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "12.0.0"
+            },
+            {
+              "fixed": "21.0.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "wasmtime"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "22.0.0"
+            },
+            {
+              "fixed": "22.0.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "wasmtime"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "23.0.0"
+            },
+            {
+              "fixed": "23.0.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "wasmtime"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "24.0.0"
+            },
+            {
+              "fixed": "24.0.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "wasmtime"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "25.0.0"
+            },
+            {
+              "fixed": "25.0.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/bytecodealliance/wasmtime/security/advisories/GHSA-q8hx-mm92-4wvg"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-47763"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/bytecodealliance/wasmtime/pull/6774"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/bytecodealliance/wasmtime/pull/8540"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/bytecodealliance/wasmtime/pull/8682"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/bytecodealliance/wasmtime/commit/0ebe54d05f0e1f6c64b7c8bb48c9e9f6c95cacba"
+    },
+    {
+      "type": "WEB",
+      "url": "https://docs.rs/wasmtime/latest/wasmtime/struct.Config.html#method.wasm_tail_call"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/WebAssembly/proposals"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/bytecodealliance/wasmtime"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/webassembly/tail-call"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-617",
+      "CWE-670"
+    ],
+    "severity": "MODERATE",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-10-09T19:14:03Z",
+    "nvd_published_at": "2024-10-09T18:15:08Z"
+  }
+}
