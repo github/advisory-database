@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-25jh-5h5r-h33m",
-  "modified": "2023-08-29T21:37:11Z",
+  "modified": "2024-10-09T21:34:03Z",
   "published": "2022-05-17T04:32:23Z",
   "aliases": [
     "CVE-2012-5493"
@@ -9,13 +9,20 @@
   "summary": "Plone Sandbox Bypass",
   "details": "`gtbn.py` in Plone before 4.2.3 and 4.3 before beta 1 allows remote authenticated users with certain permissions to bypass the Python sandbox and execute arbitrary Python code via unspecified vectors.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:N/VI:N/VA:N/SC:H/SI:H/SA:H"
+    }
   ],
   "affected": [
     {
       "package": {
         "ecosystem": "PyPI",
-        "name": "plone"
+        "name": "Plone"
       },
       "ranges": [
         {
@@ -34,14 +41,14 @@
     {
       "package": {
         "ecosystem": "PyPI",
-        "name": "plone"
+        "name": "Plone"
       },
       "ranges": [
         {
           "type": "ECOSYSTEM",
           "events": [
             {
-              "introduced": "4.3a1"
+              "introduced": "4.3a0"
             },
             {
               "fixed": "4.3b1"
@@ -57,8 +64,16 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2012-5493"
     },
     {
+      "type": "PACKAGE",
+      "url": "https://github.com/plone/Plone"
+    },
+    {
       "type": "WEB",
       "url": "https://github.com/plone/Products.CMFPlone/blob/4.2.3/docs/CHANGES.txt"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/plone/PYSEC-2014-35.yaml"
     },
     {
       "type": "WEB",
@@ -78,7 +93,7 @@
       "CWE-693",
       "CWE-94"
     ],
-    "severity": "HIGH",
+    "severity": "MODERATE",
     "github_reviewed": true,
     "github_reviewed_at": "2023-08-29T21:37:11Z",
     "nvd_published_at": "2014-09-30T14:55:00Z"
