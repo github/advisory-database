@@ -1,7 +1,7 @@
 {
   "schema_version": "1.4.0",
   "id": "GHSA-cxw7-85xm-3xrc",
-  "modified": "2023-02-08T17:56:42Z",
+  "modified": "2024-10-09T21:11:13Z",
   "published": "2022-05-17T04:31:32Z",
   "aliases": [
     "CVE-2012-5488"
@@ -9,7 +9,14 @@
   "summary": "Plone Code Injection vulnerability",
   "details": "python_scripts.py in Plone before 4.2.3 and 4.3 before beta 1 allows remote attackers to execute Python code via a crafted URL, related to createObject.",
   "severity": [
-
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:U"
+    }
   ],
   "affected": [
     {
@@ -41,7 +48,7 @@
           "type": "ECOSYSTEM",
           "events": [
             {
-              "introduced": "4.3a1"
+              "introduced": "4.3a0"
             },
             {
               "fixed": "4.3b1"
@@ -77,8 +84,16 @@
       "url": "https://bugzilla.redhat.com/show_bug.cgi?id=878945"
     },
     {
+      "type": "PACKAGE",
+      "url": "https://github.com/plone/Products.CMFPlone"
+    },
+    {
       "type": "WEB",
       "url": "https://github.com/plone/Products.CMFPlone/blob/4.2.3/docs/CHANGES.txt"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/pypa/advisory-database/tree/main/vulns/plone/PYSEC-2014-30.yaml"
     },
     {
       "type": "WEB",
