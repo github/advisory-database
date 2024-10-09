@@ -1,0 +1,149 @@
+{
+  "schema_version": "1.4.0",
+  "id": "GHSA-7qmx-3fpx-r45m",
+  "modified": "2024-10-09T19:14:35Z",
+  "published": "2024-10-09T19:14:35Z",
+  "aliases": [
+    "CVE-2024-47813"
+  ],
+  "summary": "Wasmtime race condition could lead to WebAssembly control-flow integrity and type safety violations",
+  "details": "### Impact\n\nUnder certain concurrent event orderings, a `wasmtime::Engine`'s internal type registry was susceptible to double-unregistration bugs due to a race condition, leading to panics and potentially type registry corruption. That registry corruption could, following an additional and particular sequence of concurrent events, lead to violations of WebAssembly's control-flow integrity (CFI) and type safety. Users that do not use `wasmtime::Engine` across multiple threads are not affected. Users that only create new modules across threads over time are additionally not affected.\n\nReproducing this bug requires creating and dropping multiple type instances (such as `wasmtime::FuncType` or `wasmtime::ArrayType`) concurrently on multiple threads, where all types are associated with the same `wasmtime::Engine`. **Wasm guests cannot trigger this bug.** See the \"References\" section below for a list of Wasmtime types-related APIs that are affected.\n\nWasmtime maintains an internal registry of types within a `wasmtime::Engine` and an engine is shareable across threads. Types can be created and referenced through creation of a `wasmtime::Module`, creation of `wasmtime::FuncType`, or a number of other APIs where the host creates a function (see \"References\" below). Each of these cases interacts with an engine to deduplicate type information and manage type indices that are used to implement type checks in WebAssembly's `call_indirect` function, for example. This bug is a race condition in this management where the internal type registry could be corrupted to trigger an assert or contain invalid state.\n\nWasmtime's internal representation of a type has individual types (e.g. one-per-host-function) maintain a registration count of how many time it's been used. Types additionally have state within an engine behind a read-write lock such as lookup/deduplication information. The race here is a time-of-check versus time-of-use (TOCTOU) bug where one thread atomically decrements a type entry's registration count, observes zero registrations, and then acquires a lock in order to unregister that entry. However, between when this first thread observed the zero-registration count and when it acquires that lock, another thread could perform the following sequence of events: re-register another copy of the type, which deduplicates to that same entry, resurrecting it and incrementing its registration count; then drop the type and decrement its registration count; observe that the registration count is now zero; acquire the type registry lock; and finally unregister the type. Now, when the original thread finally acquires the lock and unregisters the entry, it is the second time this entry has been unregistered.\n\n| Thread A                          | Thread B                       |\n|-----------------------------------|--------------------------------|\n| `acquire(type registry lock)`     |                                |\n|                                   | `decref(E) --> 0`              |\n|                                   | `block_on(type registry lock)` |\n| `register(E') == incref(E) --> 1` |                                |\n| `release(type registry lock)`     |                                |\n| `decref(E) --> 0`                 |                                |\n| `acquire(type registry lock)`     |                                |\n| `unregister(E)`                   |                                |\n| `release(type registry lock)`     |                                |\n|                                   | `acquire(type registry lock)`  |\n|                                   | `unregister(E)`          |\n\n\nThis double-unregistration could then lead to a WebAssembly CFI violation under the following conditions: a new WebAssembly module `X` was loaded into the engine before the second, buggy unregistration occurs; `X` defined a function type `F` that was allocated in the same type registry slot where the original entry was allocated; the second, buggy unregistration incorrectly unregistered `F`; another new WebAssembly module `Y` was loaded into the engine; `Y` defined a function type `G`, different from `F`, but which is also allocated in the same type registry slot; a `funcref` of type `G` is created, either by the host or by Wasm; that `funcref` is passed to a WebAssembly instance of module `X`; that instance performs a `call_indirect` to that `funcref`; the `call_indirect`'s dynamic type check, which preserves CFI, could incorrectly pass in this case, because `F` and `G` were assigned the same type registry slot. This would, ultimately, allow calling a function with too many, too few, or wrongly-typed arguments, violating CFI and type safety.\n\nWe were not able to reproduce this CFI violation in a vanilla Wasmtime build, although it remains theoretically possible. However, by modifying Wasmtime's source code to make losing the races described above more likely (by disabling certain assertions, inserting panic catches, and adding retry loops in a few places if we did *not* lose the race) we were able to incorrectly get a `funcref` to pass a type check that it should have failed, which would allow the CFI violation.\n\n### Patches\n\nThis bug was originally introduced in Wasmtime 19's development of the WebAssembly GC proposal. This bug affects users who are not using the GC proposal, however, and affects Wasmtime in its default configuration even when the GC proposal is disabled. Wasmtime users using 19.0.0 and after are all affected by this issue. We have released the following Wasmtime versions, all of which have a fix for this bug:\n\n* 21.0.2\n* 22.0.1\n* 23.0.3\n* 24.0.1\n* 25.0.2\n\n### Workarounds\n\nIf your application creates and drops Wasmtime types on multiple threads concurrently, there are no known workarounds. Users are encouraged to upgrade to a patched release. \n\n### References\n\nThe following APIs create or drop types, and therefore are affected by this race condition if performed on multiple threads concurrently and are all associated with the same `wasmtime::Engine`:\n\n* [`wasmtime::FuncType::new`](https://docs.rs/wasmtime/latest/wasmtime/struct.FuncType.html#method.new)\n  * Also reachable from creation of [`wasmtime::Func`](https://docs.rs/wasmtime/latest/wasmtime/struct.Func.html)\n  * Also reachable from [`wasmtime::Linker::func_*`](https://docs.rs/wasmtime/latest/wasmtime/struct.Linker.html#method.func_new)\n* [`wasmtime::ArrayType::new`](https://docs.rs/wasmtime/latest/wasmtime/struct.ArrayType.html#method.new)\n* [`wasmtime::StructType::new`](https://docs.rs/wasmtime/latest/wasmtime/struct.StructType.html#method.new)\n* [`wasmtime::Func::ty`](https://docs.rs/wasmtime/latest/wasmtime/struct.Func.html#method.ty)\n* [`wasmtime::Global::ty`](https://docs.rs/wasmtime/latest/wasmtime/struct.Global.html#method.ty)\n* [`wasmtime::Table::ty`](https://docs.rs/wasmtime/latest/wasmtime/struct.Table.html#method.ty)\n* [`wasmtime::Extern::ty`](https://docs.rs/wasmtime/latest/wasmtime/struct.Extern.html#method.ty)\n* [`wasmtime::Export::ty`](https://docs.rs/wasmtime/latest/wasmtime/struct.Export.html#method.ty)\n* [`wasmtime::UnknownImportError::ty`](https://docs.rs/wasmtime/latest/wasmtime/struct.UnknownImportError.html#method.ty)\n* [`wasmtime::ImportType::ty`](https://docs.rs/wasmtime/latest/wasmtime/struct.ImportType.html#method.ty)\n* [`wasmtime::ExportType::ty`](https://docs.rs/wasmtime/latest/wasmtime/struct.ExportType.html#method.ty)\n* [`wasmtime::Val::ty`](https://docs.rs/wasmtime/latest/wasmtime/struct.Val.html#method.ty)\n* [`wasmtime::Ref::ty`](https://docs.rs/wasmtime/latest/wasmtime/struct.Ref.html#method.ty)\n* [`wasmtime::AnyRef::ty`](https://docs.rs/wasmtime/latest/wasmtime/struct.AnyRef.html#method.ty)\n* [`wasmtime::EqRef::ty`](https://docs.rs/wasmtime/latest/wasmtime/struct.EqRef.html#method.ty)\n* [`wasmtime::ArrayRef::ty`](https://docs.rs/wasmtime/latest/wasmtime/struct.ArrayRef.html#method.ty)\n* [`wasmtime::StructRef::ty`](https://docs.rs/wasmtime/latest/wasmtime/struct.StructRef.html#method.ty)\n* Dropping a [`wasmtime::FuncType`](https://docs.rs/wasmtime/latest/wasmtime/struct.FuncType.html)\n* Dropping a [`wasmtime::ArrayType`](https://docs.rs/wasmtime/latest/wasmtime/struct.ArrayType.html)\n* Dropping a [`wasmtime::StructType`](https://docs.rs/wasmtime/latest/wasmtime/struct.StructType.html)\n* Dropping a [`wasmtime::ExternType`](https://docs.rs/wasmtime/latest/wasmtime/struct.ExternType.html)\n* Dropping a [`wasmtime::GlobalType`](https://docs.rs/wasmtime/latest/wasmtime/struct.GlobalType.html)\n* Dropping a [`wasmtime::TableType`](https://docs.rs/wasmtime/latest/wasmtime/struct.TableType.html)\n* Dropping a [`wasmtime::ValType`](https://docs.rs/wasmtime/latest/wasmtime/struct.ValType.html)\n* Dropping a [`wasmtime::RefType`](https://docs.rs/wasmtime/latest/wasmtime/struct.RefType.html)\n* Dropping a [`wasmtime::HeapType`](https://docs.rs/wasmtime/latest/wasmtime/struct.HeapType.html)\n* Dropping a [`wasmtime::UnknownImportError`](https://docs.rs/wasmtime/latest/wasmtime/struct.UnknownImportError.html)\n* Dropping a [`wasmtime::Linker`](https://docs.rs/wasmtime/latest/wasmtime/struct.Linker.html)\n\nThe change which introduced this bug was [#7969](https://github.com/bytecodealliance/wasmtime/pull/7969)\n",
+  "severity": [
+    {
+      "type": "CVSS_V3",
+      "score": "CVSS:3.1/AV:L/AC:H/PR:H/UI:R/S:U/C:N/I:L/A:L"
+    },
+    {
+      "type": "CVSS_V4",
+      "score": "CVSS:4.0/AV:L/AC:L/AT:P/PR:H/UI:A/VC:N/VI:L/VA:L/SC:N/SI:N/SA:N"
+    }
+  ],
+  "affected": [
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "wasmtime"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "19.0.0"
+            },
+            {
+              "fixed": "21.0.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "wasmtime"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "22.0.0"
+            },
+            {
+              "fixed": "22.0.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "wasmtime"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "23.0.0"
+            },
+            {
+              "fixed": "23.0.3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "wasmtime"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "24.0.0"
+            },
+            {
+              "fixed": "24.0.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "wasmtime"
+      },
+      "ranges": [
+        {
+          "type": "ECOSYSTEM",
+          "events": [
+            {
+              "introduced": "25.0.0"
+            },
+            {
+              "fixed": "25.0.2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "type": "WEB",
+      "url": "https://github.com/bytecodealliance/wasmtime/security/advisories/GHSA-7qmx-3fpx-r45m"
+    },
+    {
+      "type": "ADVISORY",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-47813"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/bytecodealliance/wasmtime/pull/7969"
+    },
+    {
+      "type": "WEB",
+      "url": "https://github.com/bytecodealliance/wasmtime/commit/0ebe54d05f0e1f6c64b7c8bb48c9e9f6c95cacba"
+    },
+    {
+      "type": "PACKAGE",
+      "url": "https://github.com/bytecodealliance/wasmtime"
+    }
+  ],
+  "database_specific": {
+    "cwe_ids": [
+      "CWE-367"
+    ],
+    "severity": "LOW",
+    "github_reviewed": true,
+    "github_reviewed_at": "2024-10-09T19:14:35Z",
+    "nvd_published_at": "2024-10-09T18:15:09Z"
+  }
+}
